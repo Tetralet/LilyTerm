@@ -1,0 +1,1305 @@
+# Flemish/Dutch translation of LilyTerm. 
+# Copyright (C) 2010 Adrian Buyssens <howitzer@archlinux.us>
+# This file is distributed under the same license as the LilyTerm package.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: LilyTerm 0.9.9\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2011-12-06 23:47+0800\n"
+"PO-Revision-Date: 2010-11-19 17:08+0100\n"
+"Last-Translator: Adrian Buyssens <howitzer@archlinux.us>\n"
+"Language-Team: Adrian Buyssens <howitzer@archlinux.us>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: console.c:116 dialog.c:835
+msgid ""
+"Default shortcut key: (It may custom or disable by right click menu [Set "
+"function key value])"
+msgstr ""
+
+#: console.c:124
+#, c-format
+msgid ""
+"\n"
+"Please report bug to %s. Thank you for using %s!"
+msgstr ""
+"\n"
+"Rapporteer bugs aan %s. Bedankt dat u %s gebruikt!"
+
+#: console.c:143
+#, c-format
+msgid ""
+"%s is a libvte based X Terminal Emulator.\n"
+"\n"
+msgstr "%s is een op libvte gebaseerde X Terminal Emulator\n"
+
+#: console.c:144
+msgid ""
+"Use -e/-x/--execute {Command} to run a command when starting up. (Must be "
+"the final option).\n"
+msgstr ""
+"Gebruik -e/-x/--execute {commando} om een commando uit te voeren bij het "
+"starten. (Dit moet de laatste optie zijn.)\n"
+
+#: console.c:146
+msgid "Use -T/--title {title} to specify the window title.\n"
+msgstr "Gebruik -T/--title {titel} om het venster te benoemen.\n"
+
+#: console.c:147
+msgid "Use -t/--tab {number} to open multi tabs when starting up.\n"
+msgstr "Gebruik -t/--tab {getal} om meerdere tabs te openen bij het starten.\n"
+
+#: console.c:148
+msgid ""
+"Use -d/--directory {directory} to specify the init directory when starting "
+"up.\n"
+msgstr "Gebruik -d/--directory {map} om in een specifieke map te starten.\n"
+
+#: console.c:149
+#, fuzzy
+#| msgid "Use -g/--geometry {geometry} to specify the geometry of window.\n"
+msgid ""
+"Use -g/--geometry {WIDTHxHEIGHT[+-]XOFFSET[+-]YOFFSET} to specify the "
+"geometry of window.\n"
+msgstr "Gebruik -g/--geometry {coördinaten} om de venstergrootte te bepalen.\n"
+
+#: console.c:150
+msgid "Use -l/-ls/--login to make the shell invoked as a login shell.\n"
+msgstr "Gebruik -l/-ls/--login om de terminal te starten als inlog shell.\n"
+
+#: console.c:152
+msgid "Use -s/--separate to run in separate process.\n"
+msgstr "Gebruik -s/--separate om de terminal in een ander proces te starten.\n"
+
+#: console.c:153
+msgid "Use -v/--version to show the version information.\n"
+msgstr "Gebruik -v/--version om de versie te zien.\n"
+
+#: console.c:154
+msgid "Use -p/--profile to got a profile sample.\n"
+msgstr "Gebruik -p/--profile om een voorbeeld profiel te krijgen.\n"
+
+# MSGID of 154 should read as following:
+# "Use -p/--profile to GET a profile sample.\n"
+#: console.c:156
+#, c-format
+msgid ""
+"Use -u/--user_profile {%s} to use a specified profile.\n"
+"\n"
+msgstr ""
+"Gebruik -u/--user_profile {%s} om een specifiek profiel te laden.\n"
+"\n"
+
+#: console.c:162
+#, fuzzy, c-format
+#| msgid "The %s system config is: %s/%s\n"
+msgid "The %s system configure file is: %s/%s\n"
+msgstr "Het %s systeem configuratiebestand is: %s/%s\n"
+
+#: console.c:199
+#, c-format
+msgid "And your %s profile is: "
+msgstr "En uw %s profiel is: "
+
+#: console.c:201
+#, c-format
+msgid "Your %s profile is: "
+msgstr "Uw %s profiel is:"
+
+#: console.c:234
+msgid ""
+"  * <Ctrl><`>\t\tDisable/Enable hyperlinks, function keys and right click "
+"menu.\n"
+msgstr ""
+"  * <Ctrl><`>\t\tActiveer/Desactiveer hyperlinks, functie toetsenen het "
+"rechterklikmenu.\n"
+
+#: console.c:235
+msgid "  * <Ctrl><T/Q>\t\tAdd a New tab/Close current tab.\n"
+msgstr "  * <Ctrl><T/Q>\t\tOpen een nieuwe tab/Sluit de huidige tab.\n"
+
+#: console.c:236
+msgid "\t\t\t(Using <Ctrl><D> or 'exit' to close tabs is recommended)\n"
+msgstr ""
+"\t\t\t(<Ctrl><D> of 'exit' gebruiken om tabs te sluiten is aangeraden)\n"
+
+#: console.c:237
+msgid "  * <Ctrl><E>\t\tRename current tab.\n"
+msgstr "  * <Ctrl><E>\t\tHernoem huidige tab.\n"
+
+#: console.c:238
+msgid "  * <Ctrl><PgUp/PgDn>\tSwitch to Prev/Next tab.\n"
+msgstr "  * <Ctrl><PgUp/PgDn>\tVerander naar vorige/volgende tab.\n"
+
+#: console.c:239
+msgid "  * <Ctrl><Home/End>\tSwitch to First/Last tab.\n"
+msgstr "  * <Ctrl><Home/End>\tVerander naar eerste/laatste tab.\n"
+
+#: console.c:240
+msgid "  * <Ctrl><[/]>\t\tMove current tab Forward/Backward.\n"
+msgstr "  * <Ctrl><[/]>\t\tVerplaats huidige tab voorwaarts/achterwaarts.\n"
+
+#: console.c:241
+msgid "  * <Ctrl><Up/Down>\tMove current tab to First/Last.\n"
+msgstr ""
+"  * <Ctrl><Up/Down>\tVerplaats huidige tab naar eerste/laatsteplaats.\n"
+
+#: console.c:242
+msgid "  * <Ctrl><F1~F12>\tSwitch to 1st ~ 12th tab.\n"
+msgstr "  * <Ctrl><F1~F12>\tVerander naar eerste ~ twaalfde tab.\n"
+
+#: console.c:243
+msgid "  * <Ctrl><O>\t\tSelect all the text in the Vte Terminal box.\n"
+msgstr "  * <Ctrl><O>\t\tSelecteer alle tekst in de Vte Terminal.\n"
+
+#: console.c:244
+#, fuzzy
+#| msgid ""
+#| "  * <Ctrl><X/V>\t\tCopy the text to clipboard / Paste the text in "
+#| "clipboard.\n"
+msgid ""
+"  * <Ctrl><Del/Ins>\tCopy the text to clipboard / Paste the text in "
+"clipboard.\n"
+msgstr "  * <Ctrl><X/V>\t\tKopieer/knip de tekst naar klembord.\n"
+
+#: console.c:245
+msgid ""
+"  * <Ctrl><+/-/Enter>\tIncrease/Decrease/Reset the font size of current "
+"tab.\n"
+msgstr ""
+"  * <Ctrl><+/-/Enter>\tVergroot/verklein/reset de lettertypegroottevan "
+"huidige tab.\n"
+
+#: console.c:246
+msgid ""
+"  * <Shift><Left/Right>\tEmulate a mouse Scroll Up/Down event on Vte "
+"Terminal box.\n"
+msgstr ""
+"  * <Shift><Left/Right>\tEmuleer omhoog/omlaag scrollen met de muisin Vte "
+"Terminalvenster.\n"
+
+#: console.c:247
+msgid ""
+"  * <Shift><Up/Down>\tAsks to Scroll Up/Down 1 line on Vte Terminal box.\n"
+msgstr "  * <Shift><Up/Down>\tVraag om een lijn omhoog/omlaag te scrollen.\n"
+
+#: console.c:248
+msgid ""
+"  * <Shift><PgUp/PgDn>\tGtk+ default behavior, Scroll Up/Down on Vte "
+"Terminal box.\n"
+msgstr ""
+
+#: console.c:249
+msgid ""
+"  * <Shift><Home/End>\tGtk+ default behavior, Scroll the Terminal box to to "
+"Top/Bottom.\n"
+msgstr ""
+"  * <Shift><Home/End>\tStandaard Gtk+ gedrag; scroll helemaal naarboven/"
+"beneden.\n"
+
+#: console.c:250
+msgid ""
+"  * <Alt><F11/Enter>\tSwitch between fullwindow/unfullwindow and fullscreen/"
+"unfullscreen state.\n"
+msgstr ""
+"  * <Alt><F11/Enter>\tVerander tussen wel/niet schermvullend venster.\n"
+
+#: console.c:251
+msgid ""
+"  * <Shift><Insert>\tVte default behavior, Paste the text in primary "
+"clipboard.\n"
+msgstr ""
+"  * <Shift><Insert>\tStandaard Vte gedrag; plaats tekst in "
+"primaireklembord.\n"
+
+#: console.c:252
+msgid "\t\t\t(i.e. Emulate a middle button mouse click to paste the text)"
+msgstr "\t\t\t(wat betekent: emuleer de middelmuisklik om tekst te plakken)"
+
+#: dialog.c:99 dialog.c:2627 menu.c:2418
+msgid "The following error is occurred:"
+msgstr "De volgende fout is gebeurd:"
+
+#: dialog.c:164 menu.c:330
+msgid "Rename this tab"
+msgstr "Hernoem deze tab"
+
+#: dialog.c:187
+msgid "Please input the Label Name of this tab:"
+msgstr "Vul de labelnaam in van deze tab:"
+
+#: dialog.c:188
+msgid "Label Name:"
+msgstr "Labelnaam:"
+
+#: dialog.c:195 profile.c:712
+msgid "Find string"
+msgstr "Zoek string"
+
+#: dialog.c:214
+msgid "Find: "
+msgstr "Zoek: "
+
+#: dialog.c:231
+msgid "Find previous string"
+msgstr "Zoek vorige string"
+
+#: dialog.c:237
+msgid "Find next string"
+msgstr "Zoek volgende string"
+
+#: dialog.c:248
+msgid "Case sensitive"
+msgstr "Hoofdlettergevoelig"
+
+#: dialog.c:256
+msgid "Use Perl compatible regular expressions"
+msgstr "Gebruik Perlcompatibele reguliere expressies"
+
+#: dialog.c:300 dialog.c:377
+#, fuzzy
+#| msgid "Select all the text in the Vte Terminal box."
+msgid "Paste texts to every Vte Terminal"
+msgstr "Selecteer alle tekst in het Vte Terminal venster."
+
+#: dialog.c:318
+#, fuzzy
+#| msgid "Please input the Label Name of this tab:"
+msgid "Please input the texts that will be paste to the Vte Terminals:"
+msgstr "Vul de labelnaam in van deze tab:"
+
+#: dialog.c:319
+msgid "Text:"
+msgstr ""
+
+#: dialog.c:328
+msgid "Append a <NewLine> to the end of the text."
+msgstr ""
+
+#: dialog.c:359
+msgid "Grab keys"
+msgstr ""
+
+#: dialog.c:374
+msgid ""
+"Paste the grabbed key to the Vte Terminals.\n"
+"It will be useful if you want to paste combined keys, like <Ctrl><C>."
+msgstr ""
+
+#: dialog.c:397 dialog.c:776
+msgid "Key Value:"
+msgstr "Toetswaarde: "
+
+#: dialog.c:404
+msgid "Entry"
+msgstr ""
+
+#: dialog.c:418
+msgid "Add new locales and set the default locale"
+msgstr "Voeg nieuwe locales toe en stel de standaard locale in"
+
+#. TRANSLATE NOTE: You may replace the following locales with the locale name of your country.
+#. TRANSLATE NOTE: For example, replace "zh_TW" with "ru_RU", replace "zh_TW.Big5" with "ru_RU.KOI8-R",
+#. TRANSLATE NOTE: or replace "zh_TW.UTF-8" with "ru_RU.UTF-8".
+#: dialog.c:437
+#, fuzzy
+#| msgid ""
+#| "The default locale used when initing a vte terminal.\n"
+#| "You may use \"zh_TW\", \"zh_TW.Big5\", or \"zh_TW.UTF-8\" here."
+msgid ""
+"The default locale used when initing a Vte Terminal.\n"
+"You may use \"zh_TW\", \"zh_TW.Big5\", or \"zh_TW.UTF-8\" here."
+msgstr ""
+"De standaard locale die gebruikt wordt bij het starten.\n"
+"U mag hier \"nl_NL.ISO8859-15\", \"nl_NL.UTF-8\", \"nl_BE.ISO8859-15\" of "
+"\"nl_BE.UTF8\" gebruiken."
+
+#: dialog.c:441
+msgid "Default locale:"
+msgstr "Standaard locale:"
+
+#. TRANSLATE NOTE: You may replace the following locales with the locale name of your country.
+#. TRANSLATE NOTE: For example, replace "zh_TW" with "ja_JP", replace "zh_TW.Big5" with "ja_JP.EUC-JP",
+#. TRANSLATE NOTE: and replace "zh_TW.UTF-8" with "ja_JP.UTF-8".
+#: dialog.c:448
+msgid ""
+"The locales list on right click menu, separate with <space>.\n"
+"You may use \"zh_TW\", \"zh_TW.Big5\", or \"zh_TW.UTF-8\" here.\n"
+"You may want to use \"UTF-8\" here if you have no locale data installed."
+msgstr ""
+"The lijst met locales in rechterklikmenu, scheid met <space>.\n"
+"U mag hier \"nl_NL@euro\", \"nl_NL.UTF-8\", \"nl_BE@euro\"of \"nl_BE.UTF8\" "
+"gebruiken.\n"
+"U kunt hier best \"UTF-8\" gebruiken indien u geen locales hebt "
+"geïnstalleerd."
+
+#: dialog.c:453
+msgid "Locales list:"
+msgstr "Lijst met locales:"
+
+#: dialog.c:460
+msgid "Change the saturation of background"
+msgstr "Wijzig de kleurverzadiging van de achtergrond"
+
+#: dialog.c:469
+msgid "Change the Saturation of background:"
+msgstr "Wijzig de Kleurverzadiging van de achtergrond"
+
+#: dialog.c:492
+msgid "Change the foreground color in terminal"
+msgstr "Wijzig de voorgrondkleur van de terminal"
+
+#: dialog.c:528 menu.c:109
+#, c-format
+msgid "Change the %s color on tab"
+msgstr "Wijzig de %s kleur in tab"
+
+#: dialog.c:616 dialog.c:2445
+msgid "Bold Demo Text"
+msgstr "Voorbeeld vette tekst"
+
+#: dialog.c:667
+msgid "Confirm to close multi tabs"
+msgstr "Bevestig het sluiten van meerdere tabs"
+
+#: dialog.c:676
+msgid "You are about to close multi tabs. Continue anyway?"
+msgstr "U gaat meer dan een tab sluiten. Wilt u doorgaan?"
+
+#: dialog.c:683 dialog.c:1164
+msgid "those tabs"
+msgstr "die tabs"
+
+#: dialog.c:689
+msgid ""
+"You may press <Ctrl + Alt + Shift> + <any key> here\n"
+"to get the key value used for the function key."
+msgstr ""
+"U kan hier <Ctrl + Alt + Shift> + <eenderwelke toets> hier\n"
+"om de waarde van de toetscode te krijgen voor de functietoets."
+
+#: dialog.c:691
+msgid "Get the key value for function key"
+msgstr "Krijg de waarde van de toetscode voor de functietoets"
+
+#: dialog.c:744
+msgid "Function Key Name"
+msgstr "Functietoets naam"
+
+#: dialog.c:748
+msgid "Shortcut Key"
+msgstr "Sneltoets"
+
+#: dialog.c:756
+msgid "Key Group: "
+msgstr "Groep van toetsen: "
+
+#: dialog.c:765
+msgid "Note: "
+msgstr "Nota: "
+
+#: dialog.c:786
+msgid "Disable all the function keys."
+msgstr "Desactiveer alle functietoetsen."
+
+#: dialog.c:813
+#, c-format
+msgid "Usage for %s %s"
+msgstr "Gebruik voor %s %s"
+
+#: dialog.c:869
+msgid "Don't forget to save your settings after making any change!\n"
+msgstr "Vergeet je instellingen niet te saven na wijzigingen te maken!\n"
+
+#: dialog.c:873
+#, c-format
+msgid "Please report bug to %s. Thank you for using %s!"
+msgstr "Rapporteer bugs aan %s. Bedankt om %s te gebruiken!"
+
+#: dialog.c:900
+#, c-format
+msgid "There is still a running foreground program on #%d tab:"
+msgstr "Er loopt nog steeds een programma in de voorgrond in tab #%d: "
+
+#: dialog.c:902
+#, c-format
+msgid "Terminate it by using `kill -9 %d' is recommend if it is non-response."
+msgstr ""
+"Beëindig het door 'kill -9 %d' te gebruiken, aangeraden wanneer het niet "
+"meer reageerd."
+
+#: dialog.c:908 dialog.c:1079 dialog.c:1110 dialog.c:1145 dialog.c:1177
+#: dialog.c:1201
+msgid "Continue anyway?"
+msgstr "Ga toch door?"
+
+#: dialog.c:910 dialog.c:1112
+msgid "Tip:"
+msgstr "Tip:"
+
+#: dialog.c:919
+msgid "Confirm to close running foreground program"
+msgstr "Bevestig om het lopende programma af te sluiten"
+
+#: dialog.c:936 dialog.c:1136
+msgid "this tab"
+msgstr "deze tab"
+
+#: dialog.c:943
+msgid "Change the opacity of window"
+msgstr "Wijzig de doorzichtigheid van het venster"
+
+#: dialog.c:945
+#, fuzzy
+#| msgid "Change the opacity of window"
+msgid "Change the opacity of window:"
+msgstr "Wijzig de doorzichtigheid van het venster"
+
+#: dialog.c:955
+#, fuzzy
+#| msgid "Change the opacity of window"
+msgid "Change the opacity of window when inactive"
+msgstr "Wijzig de doorzichtigheid van het venster"
+
+#: dialog.c:957
+#, fuzzy
+#| msgid "Change the opacity of window"
+msgid "Change the opacity of window when inactive:"
+msgstr "Wijzig de doorzichtigheid van het venster"
+
+#: dialog.c:995
+msgid "Change the background color in terminal"
+msgstr "Wijzig de achtergrondkleur in terminal"
+
+#: dialog.c:1028
+msgid "Adjust the brightness of ANSI colors used in terminal"
+msgstr "Wijzig de helderheid van de ANSI kleuren gebruikt in de terminal"
+
+#: dialog.c:1034
+msgid "Adjust the brightness of ANSI colors when inactive"
+msgstr "Wijzig de helderheid van ANSI kleuren bij inactiviteit"
+
+#: dialog.c:1073
+msgid " is trying to execute the following command:"
+msgstr " wilt het volgende commando uitvoeren: "
+
+#: dialog.c:1082
+msgid "Confirm to execute -e/-x/--execute command"
+msgstr "Bevestig om uit te voeren -e/-x/--execute commando"
+
+#: dialog.c:1101
+#, c-format
+msgid "The following programs are still running under #%d tab:"
+msgstr "De volgende programma's lopen nog onder tab #%d:"
+
+#: dialog.c:1103
+msgid "Using <Ctrl><D> or 'exit' to close tabs is recommended"
+msgstr "Het is aangeraden om <Ctrl><D> of 'exit' gebruiken om tabs te sluiten"
+
+#: dialog.c:1118
+#, fuzzy
+#| msgid "Confirm to close a tab with child proccess"
+msgid "Confirm to close a tab with child process"
+msgstr "Bevestig om een tab te sluiten met een child proces"
+
+#: dialog.c:1141
+msgid "The following programs are still running under this window:"
+msgstr "De volgende programma's lopen nog in dit venster: "
+
+#: dialog.c:1147
+#, fuzzy
+#| msgid "Confirm to close a window with child proccess"
+msgid "Confirm to close a window with child process"
+msgstr "Bevestig om het venster met child proces te sluiten"
+
+#: dialog.c:1167
+#, c-format
+msgid "Confirm to close %s"
+msgstr "Bestig om %s te sluiten"
+
+#: dialog.c:1170
+#, c-format
+msgid "The following programs are still running under %s:"
+msgstr "De volgende programma's lopen nog onder %s:"
+
+#: dialog.c:1198
+#, fuzzy
+#| msgid "Select all the text in the Vte Terminal box."
+msgid ""
+"Trying to paste the following texts to the Vte Terminal:\n"
+"\n"
+msgstr "Selecteer alle tekst in het Vte Terminal venster."
+
+#: dialog.c:1203
+#, fuzzy
+#| msgid "Select all the text in the Vte Terminal box."
+msgid "Confirm to paste texts to the Vte Terminal"
+msgstr "Selecteer alle tekst in het Vte Terminal venster."
+
+#: dialog.c:1221 menu.c:212
+#, fuzzy
+#| msgid "Copy to clipboard."
+msgid "Clipboard"
+msgstr "Kopieer naar klembord."
+
+#: dialog.c:2174
+#, c-format
+msgid ""
+"Try to kill %s with SIGKILL() to avoid terminate those programs!\n"
+"(MAY CAUSE DATA LOSS!!)"
+msgstr ""
+"Probeer %s af te sluiten met SIGKILL() om het sluiten van die programma's te "
+"vermijden!\n"
+"(KAN DATAVERLIES VEROORZAKEN!!)"
+
+#: dialog.c:2189
+#, c-format
+msgid "Force to close all the tabs and windows, and exit %s!"
+msgstr "Forceer het sluiten van alle tabs en vensters en %s te sluiten!"
+
+#: dialog.c:2312
+#, c-format
+msgid "(Disabled, duplicated with [%s])"
+msgstr "(Niet geactiveerd, gekopieerd met [%s])"
+
+#: dialog.c:2321 dialog.c:2784 dialog.c:2835
+msgid "(Disabled)"
+msgstr "(Niet geactiveerd)"
+
+#: dialog.c:2564
+#, c-format
+msgid ""
+"The locale \"%s\" seems NOT supported by your system!\n"
+"If you just added the locale datas recently,\n"
+"Please close all the windows of %s and try again."
+msgstr ""
+"De locale \"%s\" blijkt NIET te worden ondersteund door uw installatie!\n"
+"Als u de locales data zonet heeft toegevoegd,\n"
+"Gelieve eerst alle %s vensters te sluiten en opnieuw te proberen."
+
+#: dialog.c:2568
+msgid "Not supported locale!"
+msgstr "Locale wordt niet ondersteund!"
+
+#: dialog.c:2640
+#, fuzzy, c-format
+#| msgid "You should upgrade to %s to support this feature."
+msgid "You should upgrade to %s and recompile %s to support this feature."
+msgstr "Om deze functie te gebruiken moet u upgraden naar %s."
+
+#: dialog.c:2641
+msgid "Not supported feature!"
+msgstr "Functie wordt niet ondersteund!"
+
+#: dialog.c:2792
+#, fuzzy, c-format
+#| msgid "Disable all the function keys."
+msgid "Disable all the function keys of [%s] group."
+msgstr "Desactiveer alle functietoetsen."
+
+#: main.c:578
+#, fuzzy, c-format
+#| msgid ""
+#| "The data got from socket seems incorrect.\n"
+#| "If you just updated %s recently,\n"
+#| "Please close all the windows of %s and try again."
+msgid ""
+"The data got from socket seems incorrect.\n"
+"\n"
+"\tRecieved socket version: %s\n"
+"\tExpected socket version: %s\n"
+"\n"
+"If you just updated %s recently,\n"
+"Please close all the windows of %s and try again."
+msgstr ""
+"De van socket verkregen data lijkt foutief.\n"
+"Als u zonet %s heeft geüpdate, sluit eerst alle %s vensters,\n"
+"en probeer opnieuw."
+
+#: main.c:586
+msgid "The format of socket data is out of date"
+msgstr "De stijl van de socket data is outdatet"
+
+#: menu.c:56
+msgid "Change text encoding"
+msgstr "Verander de tekst encodering"
+
+#: menu.c:57
+msgid "New tab"
+msgstr "Nieuwe tab"
+
+#: menu.c:58
+msgid "New tab with specified locale"
+msgstr "Nieuwe tab met specifieke locale"
+
+#: menu.c:67 menu.c:1983
+msgid "New window with specified profile"
+msgstr "Nieuw venster met specifiek profiel"
+
+#: menu.c:77
+msgid "Change the font"
+msgstr "Wijzig het lettertype"
+
+#: menu.c:84
+msgid "Change colors"
+msgstr "Wijzig de kleuren"
+
+#: menu.c:87
+msgid "Change the foreground color"
+msgstr "Wijzig de voorgrondkleur"
+
+#: menu.c:91
+msgid "Change the background color"
+msgstr "Wijzig de achtergrondkleur"
+
+#: menu.c:95
+msgid "Adjust the brightness of ANSI colors"
+msgstr "Wijzig de helderheid van de ANSI kleuren"
+
+#: menu.c:97
+msgid "Adjust the brightness when inactive"
+msgstr "Wijzig de helderheid bij inactiviteit"
+
+#: menu.c:122
+msgid "Change ANSI color theme"
+msgstr "Wijzig het ANSI kleurthema"
+
+#. TRANSLATE NOTE: Please translate the "System default (SCHEME)" into "System default" (in your language).
+#. TRANSLATE NOTE: Some language will have trouble if here is "System default" only.
+#. TRANSLATE NOTE: Contrast it with "System default (PROFILE)" (See below)
+#: menu.c:148 menu.c:149
+msgid "System default (SCHEME)"
+msgstr "Systeem standaard"
+
+#: menu.c:155
+msgid "grayscale"
+msgstr ""
+
+#: menu.c:159
+msgid "User custom"
+msgstr "Gebruikers eigen"
+
+#: menu.c:171 menu.c:173
+#, fuzzy
+#| msgid "Background saturation"
+msgid "Background"
+msgstr "Kleurverzadiging achtergrond"
+
+#: menu.c:180
+msgid "Transparent window"
+msgstr "Transparant venster"
+
+#: menu.c:185
+msgid "Window opacity"
+msgstr "Doorzichtigheid van venster"
+
+#: menu.c:188
+#, fuzzy
+#| msgid "Dim text when inactive"
+msgid "Window opacity when inactive"
+msgstr "Schemer tekst bij inactiviteit"
+
+#: menu.c:197
+msgid "Transparent background"
+msgstr "Transparante achtergrond"
+
+#: menu.c:200
+msgid "Background saturation"
+msgstr "Kleurverzadiging achtergrond"
+
+#: menu.c:204
+msgid "Set background image"
+msgstr "Kies achtergrondafbeelding"
+
+#: menu.c:216
+msgid "Copy URL"
+msgstr "Kopieer URI"
+
+#: menu.c:221
+msgid "Copy"
+msgstr "Kopieer"
+
+#: menu.c:225
+#, fuzzy
+#| msgid "Copy to clipboard."
+msgid "View clipboard"
+msgstr "Kopieer naar klembord."
+
+#: menu.c:229
+msgid "Paste"
+msgstr "Plak"
+
+#: menu.c:236
+#, fuzzy
+#| msgid "Copy to clipboard."
+msgid "View primary clipboard"
+msgstr "Kopieer naar klembord."
+
+#: menu.c:247
+msgid "Scrollback lines"
+msgstr "Terugscroll lijnen"
+
+#: menu.c:256
+msgid "Clean scrollback lines"
+msgstr "Verwijder terugscroll lijnen"
+
+#: menu.c:262 profile.c:684
+msgid "Misc"
+msgstr "Varia"
+
+#: menu.c:264
+#, fuzzy
+#| msgid "Select all the text in the Vte Terminal box."
+msgid "Paste to every Vte Terminal"
+msgstr "Selecteer alle tekst in het Vte Terminal venster."
+
+#: menu.c:267
+msgid "Launch file manager"
+msgstr ""
+
+#: menu.c:273
+msgid "Erase Binding"
+msgstr "Wis binding"
+
+#: menu.c:289
+#, fuzzy
+#| msgid "Dim text when inactive"
+msgid "Dim text when inactive"
+msgstr "Schemer tekst bij inactiviteit"
+
+#: menu.c:294
+#, fuzzy
+#| msgid "Dim text when inactive"
+msgid "Dim window when inactive"
+msgstr "Schemer tekst bij inactiviteit"
+
+#: menu.c:299
+msgid "Cursor blinks"
+msgstr "Cursor blinkt"
+
+#: menu.c:306
+msgid "Audible bell"
+msgstr "Geluidssignaal"
+
+#: menu.c:310
+#, fuzzy
+#| msgid "Audible bell"
+msgid "Visible bell"
+msgstr "Geluidssignaal"
+
+#: menu.c:314
+msgid "Urgent bell"
+msgstr ""
+
+#: menu.c:324
+msgid "Switch input methods"
+msgstr "Verander invoermethode"
+
+#: menu.c:339
+msgid "Show the tabs bar"
+msgstr "Toon de tabbalk"
+
+#: menu.c:345
+msgid "Hide the tabs bar"
+msgstr "Verberg de tabbalk"
+
+#: menu.c:352
+#, fuzzy
+#| msgid "Show the tabs bar"
+msgid "Always show the tabs bar"
+msgstr "Toon de tabbalk"
+
+#: menu.c:359
+#, fuzzy
+#| msgid "Hide the tabs bar"
+msgid "Always hide the tabs bar"
+msgstr "Verberg de tabbalk"
+
+#: menu.c:369
+msgid "Increase window size"
+msgstr "Vergroot venster"
+
+#: menu.c:372
+msgid "Decrease window size"
+msgstr "Verklein venster"
+
+#: menu.c:379
+msgid "Reset to user custom font/size"
+msgstr "Herstel naar gebruikers eigen lettertype en -grootte"
+
+#: menu.c:382
+msgid "Reset to system font/size"
+msgstr "Herstel naar standaard lettertype en -grootte"
+
+#: menu.c:387
+msgid "Reset the content"
+msgstr "Herstel de inhoud"
+
+#: menu.c:394
+msgid "Usage"
+msgstr "Gebruik"
+
+#: menu.c:398
+msgid "Set function key value"
+msgstr "Geef functietoetswaarde"
+
+#: menu.c:402
+msgid "User profile"
+msgstr "Gebruikersprofiel"
+
+#: menu.c:410
+#, c-format
+msgid "Quit %s"
+msgstr "Sluit %s af"
+
+#: menu.c:895
+msgid " (Wide)"
+msgstr " (Breed)"
+
+#: menu.c:1235
+msgid "Font Selection"
+msgstr "Lettertypekeuze"
+
+#: menu.c:1498 menu.c:1505
+msgid "Add other locales..."
+msgstr "Voeg andere locales toe..."
+
+#: menu.c:1586 menu.c:1628
+msgid "Other settings..."
+msgstr "Andere instellingen..."
+
+#: menu.c:1598
+msgid "Save settings"
+msgstr "Sla instellingen op"
+
+#: menu.c:1601
+msgid "Save settings as..."
+msgstr "Sla instellingen op als..."
+
+#: menu.c:1607
+#, fuzzy
+#| msgid "Save settings"
+msgid "Reload settings"
+msgstr "Sla instellingen op"
+
+#: menu.c:1642
+#, c-format
+msgid "%s default"
+msgstr "%s standaard"
+
+#. TRANSLATE NOTE: Please translate the "System default (PROFILE)" into "System default" (in your language).
+#. TRANSLATE NOTE: Some language will have trouble if here is "System default" only.
+#. TRANSLATE NOTE: Contrast it with "System default (SCHEME)" (See above).
+#: menu.c:1674 menu.c:1675
+msgid "System default (PROFILE)"
+msgstr "Systeem standaard"
+
+#: menu.c:1979
+#, c-format
+msgid ""
+"The following settings:\n"
+"\n"
+"%s\n"
+"Can NOT be applied to the terminal boxes of current window.\n"
+"Please use [%s] instead."
+msgstr ""
+"De volgende instellingen:\n"
+"\n"
+"%s\n"
+"Kunnen NIET toegepast worden op terminals van het huidige venster.\n"
+"Gebruik a.u.b. [%s] in de plaats."
+
+#: menu.c:1985
+msgid "The following settings can NOT be applied"
+msgstr "De volgende instellingen kunnen NIET toegepast worden"
+
+#: menu.c:2064
+msgid "Disable: Trying to use [Transparent Background] instead."
+msgstr ""
+"Desactiveer: Nu aan het proberen om [Transparante Achtergrond] tegebruiken."
+
+#: menu.c:2070
+msgid "Scroll the background image along with the text"
+msgstr "Scroll de achtergrondafbeelding tesamen met de tekst"
+
+#. TRANSLATE NOTE: The "↲" is a replace character for <Enter> (<CR>, or <New Line>).
+#. TRANSLATE NOTE: You may translate it into something like "¶", "↵" or "↩".
+#: misc.c:555
+msgid "↲"
+msgstr ""
+
+#: notebook.c:640
+msgid "Error while creating the child process:"
+msgstr "Error bij het creëren van hetn child proces:"
+
+#: notebook.c:648
+msgid ""
+"Error while creating the child process!\n"
+"Please make sure the /dev/pts is mounted as a devpts file system!"
+msgstr ""
+"Error bij het creëren van het child proces!\n"
+"Bent u zeker dat /dev/pts is gemount als een devpts file systeem?"
+
+#: notebook.c:660
+msgid "Error when creating child process"
+msgstr "Error wanneer child proces gecreëerd wordt"
+
+#: profile.c:685
+msgid "Tab operation"
+msgstr "Tab operatie"
+
+#: profile.c:686
+msgid "Switch tab"
+msgstr "Verander tab"
+
+#: profile.c:687
+msgid "Move tab"
+msgstr "Verplaats tab"
+
+#: profile.c:688
+msgid "Switch to #? tab"
+msgstr "Verander naar #? tab"
+
+#: profile.c:689
+msgid "Text operation"
+msgstr "Text operatie"
+
+#: profile.c:690
+msgid "Scroll up/down"
+msgstr "Scroll naar boven/beneden"
+
+#: profile.c:691
+msgid "Font"
+msgstr "Lettertype"
+
+#: profile.c:696
+msgid "Disable/Enable functions"
+msgstr "Des-/Activeer functies"
+
+#: profile.c:698
+msgid "Disable/Enable hyperlinks, function keys and right click menu."
+msgstr "Des-/Activeer hyperlinks, functietoetsen en rechterklikmenu."
+
+#: profile.c:700
+msgid "Add new tab"
+msgstr "Maak nieuwe tab"
+
+#: profile.c:702
+msgid "Add a new tab."
+msgstr "Maak een nieuwe tab"
+
+#: profile.c:704
+msgid "Close tab"
+msgstr "Sluit tab"
+
+#: profile.c:706
+msgid "Close current tab."
+msgstr "Sluit huidige tab"
+
+#: profile.c:708
+msgid "Rename page name"
+msgstr "Hernoem paginanaam"
+
+#: profile.c:710
+msgid "Rename the page name of current tab."
+msgstr "Hernoem paginanaam van huidige tab."
+
+#: profile.c:714
+msgid "Find the strings matching the search regex."
+msgstr "Vind string gelijk aan de zoekterm"
+
+#: profile.c:715
+msgid "Find previous"
+msgstr "Vind vorige"
+
+#: profile.c:717
+msgid "Find the previous string matching the search regex."
+msgstr "Vind vorige string gelijk aan de zoekterm"
+
+#: profile.c:718
+msgid "Find next"
+msgstr "Vind volgende"
+
+#: profile.c:720
+msgid "Find the next string matching the search regex."
+msgstr "Vind de volgende string gelijk aan de zoekterm"
+
+#: profile.c:722
+msgid "Switch to prev tab"
+msgstr "Verander naar vorige tab"
+
+#: profile.c:724
+msgid "Switch to prev tab."
+msgstr "Verander naar vorige tab."
+
+#: profile.c:726
+msgid "Switch to next tab"
+msgstr "Verander naar volgende tab"
+
+#: profile.c:728
+msgid "Switch to next tab."
+msgstr "Verander naar volgende tab."
+
+#: profile.c:730
+msgid "Switch to first tab"
+msgstr "Verander naar eerste tab"
+
+#: profile.c:732
+msgid "Switch to first tab."
+msgstr "Verander naar eerste tab."
+
+#: profile.c:734
+msgid "Switch to last tab"
+msgstr "Verander naar laatste tab"
+
+#: profile.c:736
+msgid "Switch to last tab."
+msgstr "Verander naar laatste tab."
+
+#: profile.c:738
+msgid "Move page forward"
+msgstr "Ga pagina vooruit"
+
+#: profile.c:740
+msgid "Move current page forward."
+msgstr "Verplaats huidige pagina voorwaarts."
+
+#: profile.c:742
+msgid "Move page backward"
+msgstr "Ga pagina achterwaarts"
+
+#: profile.c:744
+msgid "Move current page backward."
+msgstr "Verplaats huidge pagina achterwaarts."
+
+#: profile.c:746
+msgid "Move page to first"
+msgstr "Plaats pagina als eerste"
+
+#: profile.c:748
+msgid "Move current page to first."
+msgstr "Plaats huidige pagina als eerste. "
+
+#: profile.c:750
+msgid "Move page to last"
+msgstr "Plaats pagina als laatste"
+
+#: profile.c:752
+msgid "Move current page to last."
+msgstr "Plaats huidige pagina als laatste."
+
+#: profile.c:757
+#, c-format
+msgid "Switch to #%d tab"
+msgstr "Verander naar #%d tab"
+
+#: profile.c:759
+#, c-format
+msgid "Switch #%d tab directly."
+msgstr "Verander direct naar #%d tab."
+
+#: profile.c:763
+msgid "Select all"
+msgstr "Selecteer alles"
+
+#: profile.c:765
+msgid "Select all the text in the Vte Terminal box."
+msgstr "Selecteer alle tekst in het Vte Terminal venster."
+
+#: profile.c:767
+msgid "Copy to clipboard."
+msgstr "Kopieer naar klembord."
+
+#: profile.c:769
+msgid "Copy the text to clipboard."
+msgstr "Kopieer de tekst naar het klembord."
+
+#: profile.c:771
+msgid "Paste the text"
+msgstr "Plak de tekst"
+
+#: profile.c:773
+msgid "Paste the text in clipboard."
+msgstr "Plak de tekst in het klembord."
+
+#: profile.c:775
+msgid "Increase font size"
+msgstr "Vergroot lettergrootte"
+
+#: profile.c:777
+msgid "Increase the font size of current tab."
+msgstr "Vergroot lettergrootte in huidige tab."
+
+#: profile.c:779
+msgid "Decrease font size"
+msgstr "Verklein lettergrootte"
+
+#: profile.c:781
+msgid "Decrease the font size of current tab."
+msgstr "Verklein lettergroote in huidige tab."
+
+#: profile.c:783
+msgid "Reset font size"
+msgstr "Reset lettergrootte"
+
+#: profile.c:785
+msgid "Reset the font of current tab to original size."
+msgstr "Reset lettergrootte in huidige tab naar oorspronkelijke grootte."
+
+#: profile.c:787
+msgid "Maximum the window"
+msgstr "Maximaliseer venster"
+
+#: profile.c:789
+msgid "Try to maximum the window to use all available space on your display."
+msgstr ""
+"Probeer het venster zo te maximaliseren om alle schermruimte te benutten."
+
+#: profile.c:791
+msgid "Full screen"
+msgstr "Volledig scherm"
+
+#: profile.c:793
+msgid "Asks to place window in the fullscreen/unfullscreen state."
+msgstr "Vraagt om het venster in on-/volledig scherm te tonen"
+
+#: profile.c:795
+msgid "Scroll up"
+msgstr "Scroll naar boven"
+
+#: profile.c:797
+msgid "Emulate a mouse scroll up event on Vte Terminal box."
+msgstr "Emuleer een muisscroll naar boven in Vte Terminal venster."
+
+#: profile.c:799
+msgid "Scroll down"
+msgstr "Scroll naar beneden"
+
+#: profile.c:801
+msgid "Emulate a mouse scroll down event on Vte Terminal box."
+msgstr "Emuleer een muisscroll naar beneden in Vte Terminal venster."
+
+#: profile.c:803
+msgid "Scroll up 1 line"
+msgstr "Ga een lijn naar boven"
+
+#: profile.c:805
+msgid "Asks to scroll up 1 line on Vte Terminal box."
+msgstr "Vraagt om een lijn naar boven te scrollen in Vte Terminal venster."
+
+#: profile.c:807
+msgid "Scroll down 1 line"
+msgstr "Ga een lijn naar beneden"
+
+#: profile.c:809
+msgid "Asks to scroll down 1 line on Vte Terminal box."
+msgstr "Vraagt om een lijn naar onder te scrollen in Vte Terminal venster."
+
+#: profile.c:815
+msgid "Dump runtime debug data"
+msgstr "Dump de lopende debug data"
+
+#: profile.c:817
+msgid "Dump the runtime data of LilyTerm for debug."
+msgstr "Dump alle lopende data van LilyTerm voor debuggen."
+
+#: profile.c:845
+msgid "Window Title"
+msgstr "Venstertitel"
+
+#: profile.c:846
+msgid "Running Command"
+msgstr "Commando aan het uitvoeren"
+
+#: profile.c:847
+msgid "Current Dir"
+msgstr "Huidige Map"
+
+#: profile.c:848
+msgid "Custom Tab Name"
+msgstr "Aangepaste Tabnaam"
+
+#: profile.c:849
+msgid "Root Privileges"
+msgstr "Root Privileges"
+
+#: profile.c:850
+msgid "Normal Text"
+msgstr "Normale Tekst"
+
+#: profile.c:2492
+msgid "The target file does NOT exist"
+msgstr "Het doelbestand bestaat NIET"
+
+#: profile.c:2503
+msgid "The target file is a directory"
+msgstr "Het doelbestand is een map"
+
+#: profile.c:2551
+#, c-format
+msgid "Error while writing profile '%s':"
+msgstr "Error bij saven van profiel '%s':"
+
+#: profile.c:2556
+msgid "Error when writing profile"
+msgstr "Error bij saven profiel"
+
+#: profile.c:2687
+msgid ""
+"Some entry in profile is added, removed, or changed in this version.\n"
+"Please use [Save settings] on the right click menu to save your settings,\n"
+"and edit it manually if necessary.\n"
+msgstr ""
+"Er is iets toegevoegd, verwijderd of veranderd van het profiel.\n"
+"Gebruik [Save instellingen] in het rechterklikmenu om uw instellingen\n"
+"te saven en bewerk het manueel indien nodig.\n"
+
+#: profile.c:2693
+#, c-format
+msgid ""
+"%s\n"
+"Your profile is %s."
+msgstr ""
+"%s\n"
+"Uw profiel is %s."
+
+#: profile.c:2696
+msgid "The format of your profile is out of date"
+msgstr "Het formaat van uw profiel is outdatet"
+
+#: profile.c:2724 profile.c:2727
+#, c-format
+msgid ""
+"The profile \"%s\" is invalid:\n"
+"\n"
+"\t%s"
+msgstr ""
+"Het profiel \"%s\" is ongeldig:\n"
+"\n"
+"\t%s"
+
+#: profile.c:2735
+msgid "The profile is invalid!"
+msgstr "Het profiel is ongeldig!"
+
+#: window.c:688
+#, c-format
+msgid "\tWindow #%d, Page #%d: (%d) %s\n"
+msgstr "\tVenster #%d, Pagina #%d: (%d) %s\n"
+
+#: window.c:692
+#, c-format
+msgid "\tPage #%d: (%d) %s\n"
+msgstr "\tPagina #%d: (%d) %s\n"
+
+#, fuzzy
+#~| msgid "Paste the text"
+#~ msgid "Paste to every vte"
+#~ msgstr "Plak de tekst"
+
+#~ msgid "Change the Opacity of window:"
+#~ msgstr "Wijzig de Doorzichtigheid van het venster"

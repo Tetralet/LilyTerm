@@ -1,0 +1,54 @@
+BUG:
+
+[Open new tab with locale] -> [Set as default locale]
+
+check window_resizable
+
+add a new tab, and increase the font size of 1st tab, close 2nd tab, the window size is incorrect. 
+check every externs...
+the environ won't copy from last tab <- very hard to fix it.
+** antialias don't work in new libvte
+
+TODO:
+
+** reload settings (Window Title may cause problems)
+apply to every window
+response from unix sockets
+check vte_data->column
+confirm to save settings before exit
+
+double click to select more...
+
+sort menu via profile
+a scroll bar menu
+Save settings that diff and full
+** replace sleep with time_out
+
+Deprecated:
+
+ENABLE_TAB_REORDER		// Since GTK 2.10
+ENABLE_PAGE_ADDED		// Since GTK 2.10
+ENABLE_GDKCOLOR_TO_STRING	// Since GTK 2.12
+ENABLE_RGBA			// Since GTK 2.12
+ENABLE_SET_TOOLTIP_TEXT		// Since GTK 2.12
+ENABLE_DRAG_AND_DROP		// Since GTK 2.12
+ENABLE_MOUSE_SCROLL		// Since GTK 2.14
+USE_GTK_MENU_ITEM_SET_LABEL	// Since GTK 2.16
+USE_GTK_WIDGET_SET_CAN_FOCUS	// Since GTK 2.18
+
+USE_OLD_GTK_WIDGET_MAPPED       // Deprecated since GTK 2.20
+USE_OLD_GTK_LABEL_PACKING       // Deprecated since GTK 2.20
+
+USE_TIMEOUT_SECONDS		// Since GLIB 2.14
+ENABLE_MOUSE_SCROLL		// Since GLIB 2.14
+
+ENABLE_VTE_SELECT_ALL		// Since VTE 0.16
+USE_NEW_VTE_CURSOR_BLINKS_MODE	// Since VTE 0.17.1
+USE_NEW_VTE_MATCH_ADD_GREGEX	// Since VTE 0.17.1
+ENABLE_VTE_ERASE_TTY		// Since VTE 0.20.4
+ENABLE_UNLIMITED_SCROLL_HISTORY // Since VTE 0.22.3
+
+USE_OLD_VTE_SET_FONT		// Deprecated since VTE 0.20
+USE_OLD_VTE_GET_PADDING		// Deprecated since VTE 0.24.1
+USE_OLD_VTE_FORK_COMMAND	// Deprecated since VTE 0.25.1
+

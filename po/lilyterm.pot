@@ -1,0 +1,1181 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2011-12-06 23:47+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: console.c:116 dialog.c:835
+msgid ""
+"Default shortcut key: (It may custom or disable by right click menu [Set "
+"function key value])"
+msgstr ""
+
+#: console.c:124
+#, c-format
+msgid ""
+"\n"
+"Please report bug to %s. Thank you for using %s!"
+msgstr ""
+
+#: console.c:143
+#, c-format
+msgid ""
+"%s is a libvte based X Terminal Emulator.\n"
+"\n"
+msgstr ""
+
+#: console.c:144
+msgid ""
+"Use -e/-x/--execute {Command} to run a command when starting up. (Must be "
+"the final option).\n"
+msgstr ""
+
+#: console.c:146
+msgid "Use -T/--title {title} to specify the window title.\n"
+msgstr ""
+
+#: console.c:147
+msgid "Use -t/--tab {number} to open multi tabs when starting up.\n"
+msgstr ""
+
+#: console.c:148
+msgid ""
+"Use -d/--directory {directory} to specify the init directory when starting "
+"up.\n"
+msgstr ""
+
+#: console.c:149
+msgid ""
+"Use -g/--geometry {WIDTHxHEIGHT[+-]XOFFSET[+-]YOFFSET} to specify the "
+"geometry of window.\n"
+msgstr ""
+
+#: console.c:150
+msgid "Use -l/-ls/--login to make the shell invoked as a login shell.\n"
+msgstr ""
+
+#: console.c:152
+msgid "Use -s/--separate to run in separate process.\n"
+msgstr ""
+
+#: console.c:153
+msgid "Use -v/--version to show the version information.\n"
+msgstr ""
+
+#: console.c:154
+msgid "Use -p/--profile to got a profile sample.\n"
+msgstr ""
+
+#: console.c:156
+#, c-format
+msgid ""
+"Use -u/--user_profile {%s} to use a specified profile.\n"
+"\n"
+msgstr ""
+
+#: console.c:162
+#, c-format
+msgid "The %s system configure file is: %s/%s\n"
+msgstr ""
+
+#: console.c:199
+#, c-format
+msgid "And your %s profile is: "
+msgstr ""
+
+#: console.c:201
+#, c-format
+msgid "Your %s profile is: "
+msgstr ""
+
+#: console.c:234
+msgid ""
+"  * <Ctrl><`>\t\tDisable/Enable hyperlinks, function keys and right click "
+"menu.\n"
+msgstr ""
+
+#: console.c:235
+msgid "  * <Ctrl><T/Q>\t\tAdd a New tab/Close current tab.\n"
+msgstr ""
+
+#: console.c:236
+msgid "\t\t\t(Using <Ctrl><D> or 'exit' to close tabs is recommended)\n"
+msgstr ""
+
+#: console.c:237
+msgid "  * <Ctrl><E>\t\tRename current tab.\n"
+msgstr ""
+
+#: console.c:238
+msgid "  * <Ctrl><PgUp/PgDn>\tSwitch to Prev/Next tab.\n"
+msgstr ""
+
+#: console.c:239
+msgid "  * <Ctrl><Home/End>\tSwitch to First/Last tab.\n"
+msgstr ""
+
+#: console.c:240
+msgid "  * <Ctrl><[/]>\t\tMove current tab Forward/Backward.\n"
+msgstr ""
+
+#: console.c:241
+msgid "  * <Ctrl><Up/Down>\tMove current tab to First/Last.\n"
+msgstr ""
+
+#: console.c:242
+msgid "  * <Ctrl><F1~F12>\tSwitch to 1st ~ 12th tab.\n"
+msgstr ""
+
+#: console.c:243
+msgid "  * <Ctrl><O>\t\tSelect all the text in the Vte Terminal box.\n"
+msgstr ""
+
+#: console.c:244
+msgid ""
+"  * <Ctrl><Del/Ins>\tCopy the text to clipboard / Paste the text in "
+"clipboard.\n"
+msgstr ""
+
+#: console.c:245
+msgid ""
+"  * <Ctrl><+/-/Enter>\tIncrease/Decrease/Reset the font size of current "
+"tab.\n"
+msgstr ""
+
+#: console.c:246
+msgid ""
+"  * <Shift><Left/Right>\tEmulate a mouse Scroll Up/Down event on Vte "
+"Terminal box.\n"
+msgstr ""
+
+#: console.c:247
+msgid ""
+"  * <Shift><Up/Down>\tAsks to Scroll Up/Down 1 line on Vte Terminal box.\n"
+msgstr ""
+
+#: console.c:248
+msgid ""
+"  * <Shift><PgUp/PgDn>\tGtk+ default behavior, Scroll Up/Down on Vte "
+"Terminal box.\n"
+msgstr ""
+
+#: console.c:249
+msgid ""
+"  * <Shift><Home/End>\tGtk+ default behavior, Scroll the Terminal box to to "
+"Top/Bottom.\n"
+msgstr ""
+
+#: console.c:250
+msgid ""
+"  * <Alt><F11/Enter>\tSwitch between fullwindow/unfullwindow and fullscreen/"
+"unfullscreen state.\n"
+msgstr ""
+
+#: console.c:251
+msgid ""
+"  * <Shift><Insert>\tVte default behavior, Paste the text in primary "
+"clipboard.\n"
+msgstr ""
+
+#: console.c:252
+msgid "\t\t\t(i.e. Emulate a middle button mouse click to paste the text)"
+msgstr ""
+
+#: dialog.c:99 dialog.c:2627 menu.c:2418
+msgid "The following error is occurred:"
+msgstr ""
+
+#: dialog.c:164 menu.c:330
+msgid "Rename this tab"
+msgstr ""
+
+#: dialog.c:187
+msgid "Please input the Label Name of this tab:"
+msgstr ""
+
+#: dialog.c:188
+msgid "Label Name:"
+msgstr ""
+
+#: dialog.c:195 profile.c:712
+msgid "Find string"
+msgstr ""
+
+#: dialog.c:214
+msgid "Find: "
+msgstr ""
+
+#: dialog.c:231
+msgid "Find previous string"
+msgstr ""
+
+#: dialog.c:237
+msgid "Find next string"
+msgstr ""
+
+#: dialog.c:248
+msgid "Case sensitive"
+msgstr ""
+
+#: dialog.c:256
+msgid "Use Perl compatible regular expressions"
+msgstr ""
+
+#: dialog.c:300 dialog.c:377
+msgid "Paste texts to every Vte Terminal"
+msgstr ""
+
+#: dialog.c:318
+msgid "Please input the texts that will be paste to the Vte Terminals:"
+msgstr ""
+
+#: dialog.c:319
+msgid "Text:"
+msgstr ""
+
+#: dialog.c:328
+msgid "Append a <NewLine> to the end of the text."
+msgstr ""
+
+#: dialog.c:359
+msgid "Grab keys"
+msgstr ""
+
+#: dialog.c:374
+msgid ""
+"Paste the grabbed key to the Vte Terminals.\n"
+"It will be useful if you want to paste combined keys, like <Ctrl><C>."
+msgstr ""
+
+#: dialog.c:397 dialog.c:776
+msgid "Key Value:"
+msgstr ""
+
+#: dialog.c:404
+msgid "Entry"
+msgstr ""
+
+#: dialog.c:418
+msgid "Add new locales and set the default locale"
+msgstr ""
+
+#. TRANSLATE NOTE: You may replace the following locales with the locale name of your country.
+#. TRANSLATE NOTE: For example, replace "zh_TW" with "ru_RU", replace "zh_TW.Big5" with "ru_RU.KOI8-R",
+#. TRANSLATE NOTE: or replace "zh_TW.UTF-8" with "ru_RU.UTF-8".
+#: dialog.c:437
+msgid ""
+"The default locale used when initing a Vte Terminal.\n"
+"You may use \"zh_TW\", \"zh_TW.Big5\", or \"zh_TW.UTF-8\" here."
+msgstr ""
+
+#: dialog.c:441
+msgid "Default locale:"
+msgstr ""
+
+#. TRANSLATE NOTE: You may replace the following locales with the locale name of your country.
+#. TRANSLATE NOTE: For example, replace "zh_TW" with "ja_JP", replace "zh_TW.Big5" with "ja_JP.EUC-JP",
+#. TRANSLATE NOTE: and replace "zh_TW.UTF-8" with "ja_JP.UTF-8".
+#: dialog.c:448
+msgid ""
+"The locales list on right click menu, separate with <space>.\n"
+"You may use \"zh_TW\", \"zh_TW.Big5\", or \"zh_TW.UTF-8\" here.\n"
+"You may want to use \"UTF-8\" here if you have no locale data installed."
+msgstr ""
+
+#: dialog.c:453
+msgid "Locales list:"
+msgstr ""
+
+#: dialog.c:460
+msgid "Change the saturation of background"
+msgstr ""
+
+#: dialog.c:469
+msgid "Change the Saturation of background:"
+msgstr ""
+
+#: dialog.c:492
+msgid "Change the foreground color in terminal"
+msgstr ""
+
+#: dialog.c:528 menu.c:109
+#, c-format
+msgid "Change the %s color on tab"
+msgstr ""
+
+#: dialog.c:616 dialog.c:2445
+msgid "Bold Demo Text"
+msgstr ""
+
+#: dialog.c:667
+msgid "Confirm to close multi tabs"
+msgstr ""
+
+#: dialog.c:676
+msgid "You are about to close multi tabs. Continue anyway?"
+msgstr ""
+
+#: dialog.c:683 dialog.c:1164
+msgid "those tabs"
+msgstr ""
+
+#: dialog.c:689
+msgid ""
+"You may press <Ctrl + Alt + Shift> + <any key> here\n"
+"to get the key value used for the function key."
+msgstr ""
+
+#: dialog.c:691
+msgid "Get the key value for function key"
+msgstr ""
+
+#: dialog.c:744
+msgid "Function Key Name"
+msgstr ""
+
+#: dialog.c:748
+msgid "Shortcut Key"
+msgstr ""
+
+#: dialog.c:756
+msgid "Key Group: "
+msgstr ""
+
+#: dialog.c:765
+msgid "Note: "
+msgstr ""
+
+#: dialog.c:786
+msgid "Disable all the function keys."
+msgstr ""
+
+#: dialog.c:813
+#, c-format
+msgid "Usage for %s %s"
+msgstr ""
+
+#: dialog.c:869
+msgid "Don't forget to save your settings after making any change!\n"
+msgstr ""
+
+#: dialog.c:873
+#, c-format
+msgid "Please report bug to %s. Thank you for using %s!"
+msgstr ""
+
+#: dialog.c:900
+#, c-format
+msgid "There is still a running foreground program on #%d tab:"
+msgstr ""
+
+#: dialog.c:902
+#, c-format
+msgid "Terminate it by using `kill -9 %d' is recommend if it is non-response."
+msgstr ""
+
+#: dialog.c:908 dialog.c:1079 dialog.c:1110 dialog.c:1145 dialog.c:1177
+#: dialog.c:1201
+msgid "Continue anyway?"
+msgstr ""
+
+#: dialog.c:910 dialog.c:1112
+msgid "Tip:"
+msgstr ""
+
+#: dialog.c:919
+msgid "Confirm to close running foreground program"
+msgstr ""
+
+#: dialog.c:936 dialog.c:1136
+msgid "this tab"
+msgstr ""
+
+#: dialog.c:943
+msgid "Change the opacity of window"
+msgstr ""
+
+#: dialog.c:945
+msgid "Change the opacity of window:"
+msgstr ""
+
+#: dialog.c:955
+msgid "Change the opacity of window when inactive"
+msgstr ""
+
+#: dialog.c:957
+msgid "Change the opacity of window when inactive:"
+msgstr ""
+
+#: dialog.c:995
+msgid "Change the background color in terminal"
+msgstr ""
+
+#: dialog.c:1028
+msgid "Adjust the brightness of ANSI colors used in terminal"
+msgstr ""
+
+#: dialog.c:1034
+msgid "Adjust the brightness of ANSI colors when inactive"
+msgstr ""
+
+#: dialog.c:1073
+msgid " is trying to execute the following command:"
+msgstr ""
+
+#: dialog.c:1082
+msgid "Confirm to execute -e/-x/--execute command"
+msgstr ""
+
+#: dialog.c:1101
+#, c-format
+msgid "The following programs are still running under #%d tab:"
+msgstr ""
+
+#: dialog.c:1103
+msgid "Using <Ctrl><D> or 'exit' to close tabs is recommended"
+msgstr ""
+
+#: dialog.c:1118
+msgid "Confirm to close a tab with child process"
+msgstr ""
+
+#: dialog.c:1141
+msgid "The following programs are still running under this window:"
+msgstr ""
+
+#: dialog.c:1147
+msgid "Confirm to close a window with child process"
+msgstr ""
+
+#: dialog.c:1167
+#, c-format
+msgid "Confirm to close %s"
+msgstr ""
+
+#: dialog.c:1170
+#, c-format
+msgid "The following programs are still running under %s:"
+msgstr ""
+
+#: dialog.c:1198
+msgid ""
+"Trying to paste the following texts to the Vte Terminal:\n"
+"\n"
+msgstr ""
+
+#: dialog.c:1203
+msgid "Confirm to paste texts to the Vte Terminal"
+msgstr ""
+
+#: dialog.c:1221 menu.c:212
+msgid "Clipboard"
+msgstr ""
+
+#: dialog.c:2174
+#, c-format
+msgid ""
+"Try to kill %s with SIGKILL() to avoid terminate those programs!\n"
+"(MAY CAUSE DATA LOSS!!)"
+msgstr ""
+
+#: dialog.c:2189
+#, c-format
+msgid "Force to close all the tabs and windows, and exit %s!"
+msgstr ""
+
+#: dialog.c:2312
+#, c-format
+msgid "(Disabled, duplicated with [%s])"
+msgstr ""
+
+#: dialog.c:2321 dialog.c:2784 dialog.c:2835
+msgid "(Disabled)"
+msgstr ""
+
+#: dialog.c:2564
+#, c-format
+msgid ""
+"The locale \"%s\" seems NOT supported by your system!\n"
+"If you just added the locale datas recently,\n"
+"Please close all the windows of %s and try again."
+msgstr ""
+
+#: dialog.c:2568
+msgid "Not supported locale!"
+msgstr ""
+
+#: dialog.c:2640
+#, c-format
+msgid "You should upgrade to %s and recompile %s to support this feature."
+msgstr ""
+
+#: dialog.c:2641
+msgid "Not supported feature!"
+msgstr ""
+
+#: dialog.c:2792
+#, c-format
+msgid "Disable all the function keys of [%s] group."
+msgstr ""
+
+#: main.c:578
+#, c-format
+msgid ""
+"The data got from socket seems incorrect.\n"
+"\n"
+"\tRecieved socket version: %s\n"
+"\tExpected socket version: %s\n"
+"\n"
+"If you just updated %s recently,\n"
+"Please close all the windows of %s and try again."
+msgstr ""
+
+#: main.c:586
+msgid "The format of socket data is out of date"
+msgstr ""
+
+#: menu.c:56
+msgid "Change text encoding"
+msgstr ""
+
+#: menu.c:57
+msgid "New tab"
+msgstr ""
+
+#: menu.c:58
+msgid "New tab with specified locale"
+msgstr ""
+
+#: menu.c:67 menu.c:1983
+msgid "New window with specified profile"
+msgstr ""
+
+#: menu.c:77
+msgid "Change the font"
+msgstr ""
+
+#: menu.c:84
+msgid "Change colors"
+msgstr ""
+
+#: menu.c:87
+msgid "Change the foreground color"
+msgstr ""
+
+#: menu.c:91
+msgid "Change the background color"
+msgstr ""
+
+#: menu.c:95
+msgid "Adjust the brightness of ANSI colors"
+msgstr ""
+
+#: menu.c:97
+msgid "Adjust the brightness when inactive"
+msgstr ""
+
+#: menu.c:122
+msgid "Change ANSI color theme"
+msgstr ""
+
+#. TRANSLATE NOTE: Please translate the "System default (SCHEME)" into "System default" (in your language).
+#. TRANSLATE NOTE: Some language will have trouble if here is "System default" only.
+#. TRANSLATE NOTE: Contrast it with "System default (PROFILE)" (See below)
+#: menu.c:148 menu.c:149
+msgid "System default (SCHEME)"
+msgstr ""
+
+#: menu.c:155
+msgid "grayscale"
+msgstr ""
+
+#: menu.c:159
+msgid "User custom"
+msgstr ""
+
+#: menu.c:171 menu.c:173
+msgid "Background"
+msgstr ""
+
+#: menu.c:180
+msgid "Transparent window"
+msgstr ""
+
+#: menu.c:185
+msgid "Window opacity"
+msgstr ""
+
+#: menu.c:188
+msgid "Window opacity when inactive"
+msgstr ""
+
+#: menu.c:197
+msgid "Transparent background"
+msgstr ""
+
+#: menu.c:200
+msgid "Background saturation"
+msgstr ""
+
+#: menu.c:204
+msgid "Set background image"
+msgstr ""
+
+#: menu.c:216
+msgid "Copy URL"
+msgstr ""
+
+#: menu.c:221
+msgid "Copy"
+msgstr ""
+
+#: menu.c:225
+msgid "View clipboard"
+msgstr ""
+
+#: menu.c:229
+msgid "Paste"
+msgstr ""
+
+#: menu.c:236
+msgid "View primary clipboard"
+msgstr ""
+
+#: menu.c:247
+msgid "Scrollback lines"
+msgstr ""
+
+#: menu.c:256
+msgid "Clean scrollback lines"
+msgstr ""
+
+#: menu.c:262 profile.c:684
+msgid "Misc"
+msgstr ""
+
+#: menu.c:264
+msgid "Paste to every Vte Terminal"
+msgstr ""
+
+#: menu.c:267
+msgid "Launch file manager"
+msgstr ""
+
+#: menu.c:273
+msgid "Erase Binding"
+msgstr ""
+
+#: menu.c:289
+msgid "Dim text when inactive"
+msgstr ""
+
+#: menu.c:294
+msgid "Dim window when inactive"
+msgstr ""
+
+#: menu.c:299
+msgid "Cursor blinks"
+msgstr ""
+
+#: menu.c:306
+msgid "Audible bell"
+msgstr ""
+
+#: menu.c:310
+msgid "Visible bell"
+msgstr ""
+
+#: menu.c:314
+msgid "Urgent bell"
+msgstr ""
+
+#: menu.c:324
+msgid "Switch input methods"
+msgstr ""
+
+#: menu.c:339
+msgid "Show the tabs bar"
+msgstr ""
+
+#: menu.c:345
+msgid "Hide the tabs bar"
+msgstr ""
+
+#: menu.c:352
+msgid "Always show the tabs bar"
+msgstr ""
+
+#: menu.c:359
+msgid "Always hide the tabs bar"
+msgstr ""
+
+#: menu.c:369
+msgid "Increase window size"
+msgstr ""
+
+#: menu.c:372
+msgid "Decrease window size"
+msgstr ""
+
+#: menu.c:379
+msgid "Reset to user custom font/size"
+msgstr ""
+
+#: menu.c:382
+msgid "Reset to system font/size"
+msgstr ""
+
+#: menu.c:387
+msgid "Reset the content"
+msgstr ""
+
+#: menu.c:394
+msgid "Usage"
+msgstr ""
+
+#: menu.c:398
+msgid "Set function key value"
+msgstr ""
+
+#: menu.c:402
+msgid "User profile"
+msgstr ""
+
+#: menu.c:410
+#, c-format
+msgid "Quit %s"
+msgstr ""
+
+#: menu.c:895
+msgid " (Wide)"
+msgstr ""
+
+#: menu.c:1235
+msgid "Font Selection"
+msgstr ""
+
+#: menu.c:1498 menu.c:1505
+msgid "Add other locales..."
+msgstr ""
+
+#: menu.c:1586 menu.c:1628
+msgid "Other settings..."
+msgstr ""
+
+#: menu.c:1598
+msgid "Save settings"
+msgstr ""
+
+#: menu.c:1601
+msgid "Save settings as..."
+msgstr ""
+
+#: menu.c:1607
+msgid "Reload settings"
+msgstr ""
+
+#: menu.c:1642
+#, c-format
+msgid "%s default"
+msgstr ""
+
+#. TRANSLATE NOTE: Please translate the "System default (PROFILE)" into "System default" (in your language).
+#. TRANSLATE NOTE: Some language will have trouble if here is "System default" only.
+#. TRANSLATE NOTE: Contrast it with "System default (SCHEME)" (See above).
+#: menu.c:1674 menu.c:1675
+msgid "System default (PROFILE)"
+msgstr ""
+
+#: menu.c:1979
+#, c-format
+msgid ""
+"The following settings:\n"
+"\n"
+"%s\n"
+"Can NOT be applied to the terminal boxes of current window.\n"
+"Please use [%s] instead."
+msgstr ""
+
+#: menu.c:1985
+msgid "The following settings can NOT be applied"
+msgstr ""
+
+#: menu.c:2064
+msgid "Disable: Trying to use [Transparent Background] instead."
+msgstr ""
+
+#: menu.c:2070
+msgid "Scroll the background image along with the text"
+msgstr ""
+
+#. TRANSLATE NOTE: The "↲" is a replace character for <Enter> (<CR>, or <New Line>).
+#. TRANSLATE NOTE: You may translate it into something like "¶", "↵" or "↩".
+#: misc.c:555
+msgid "↲"
+msgstr ""
+
+#: notebook.c:640
+msgid "Error while creating the child process:"
+msgstr ""
+
+#: notebook.c:648
+msgid ""
+"Error while creating the child process!\n"
+"Please make sure the /dev/pts is mounted as a devpts file system!"
+msgstr ""
+
+#: notebook.c:660
+msgid "Error when creating child process"
+msgstr ""
+
+#: profile.c:685
+msgid "Tab operation"
+msgstr ""
+
+#: profile.c:686
+msgid "Switch tab"
+msgstr ""
+
+#: profile.c:687
+msgid "Move tab"
+msgstr ""
+
+#: profile.c:688
+msgid "Switch to #? tab"
+msgstr ""
+
+#: profile.c:689
+msgid "Text operation"
+msgstr ""
+
+#: profile.c:690
+msgid "Scroll up/down"
+msgstr ""
+
+#: profile.c:691
+msgid "Font"
+msgstr ""
+
+#: profile.c:696
+msgid "Disable/Enable functions"
+msgstr ""
+
+#: profile.c:698
+msgid "Disable/Enable hyperlinks, function keys and right click menu."
+msgstr ""
+
+#: profile.c:700
+msgid "Add new tab"
+msgstr ""
+
+#: profile.c:702
+msgid "Add a new tab."
+msgstr ""
+
+#: profile.c:704
+msgid "Close tab"
+msgstr ""
+
+#: profile.c:706
+msgid "Close current tab."
+msgstr ""
+
+#: profile.c:708
+msgid "Rename page name"
+msgstr ""
+
+#: profile.c:710
+msgid "Rename the page name of current tab."
+msgstr ""
+
+#: profile.c:714
+msgid "Find the strings matching the search regex."
+msgstr ""
+
+#: profile.c:715
+msgid "Find previous"
+msgstr ""
+
+#: profile.c:717
+msgid "Find the previous string matching the search regex."
+msgstr ""
+
+#: profile.c:718
+msgid "Find next"
+msgstr ""
+
+#: profile.c:720
+msgid "Find the next string matching the search regex."
+msgstr ""
+
+#: profile.c:722
+msgid "Switch to prev tab"
+msgstr ""
+
+#: profile.c:724
+msgid "Switch to prev tab."
+msgstr ""
+
+#: profile.c:726
+msgid "Switch to next tab"
+msgstr ""
+
+#: profile.c:728
+msgid "Switch to next tab."
+msgstr ""
+
+#: profile.c:730
+msgid "Switch to first tab"
+msgstr ""
+
+#: profile.c:732
+msgid "Switch to first tab."
+msgstr ""
+
+#: profile.c:734
+msgid "Switch to last tab"
+msgstr ""
+
+#: profile.c:736
+msgid "Switch to last tab."
+msgstr ""
+
+#: profile.c:738
+msgid "Move page forward"
+msgstr ""
+
+#: profile.c:740
+msgid "Move current page forward."
+msgstr ""
+
+#: profile.c:742
+msgid "Move page backward"
+msgstr ""
+
+#: profile.c:744
+msgid "Move current page backward."
+msgstr ""
+
+#: profile.c:746
+msgid "Move page to first"
+msgstr ""
+
+#: profile.c:748
+msgid "Move current page to first."
+msgstr ""
+
+#: profile.c:750
+msgid "Move page to last"
+msgstr ""
+
+#: profile.c:752
+msgid "Move current page to last."
+msgstr ""
+
+#: profile.c:757
+#, c-format
+msgid "Switch to #%d tab"
+msgstr ""
+
+#: profile.c:759
+#, c-format
+msgid "Switch #%d tab directly."
+msgstr ""
+
+#: profile.c:763
+msgid "Select all"
+msgstr ""
+
+#: profile.c:765
+msgid "Select all the text in the Vte Terminal box."
+msgstr ""
+
+#: profile.c:767
+msgid "Copy to clipboard."
+msgstr ""
+
+#: profile.c:769
+msgid "Copy the text to clipboard."
+msgstr ""
+
+#: profile.c:771
+msgid "Paste the text"
+msgstr ""
+
+#: profile.c:773
+msgid "Paste the text in clipboard."
+msgstr ""
+
+#: profile.c:775
+msgid "Increase font size"
+msgstr ""
+
+#: profile.c:777
+msgid "Increase the font size of current tab."
+msgstr ""
+
+#: profile.c:779
+msgid "Decrease font size"
+msgstr ""
+
+#: profile.c:781
+msgid "Decrease the font size of current tab."
+msgstr ""
+
+#: profile.c:783
+msgid "Reset font size"
+msgstr ""
+
+#: profile.c:785
+msgid "Reset the font of current tab to original size."
+msgstr ""
+
+#: profile.c:787
+msgid "Maximum the window"
+msgstr ""
+
+#: profile.c:789
+msgid "Try to maximum the window to use all available space on your display."
+msgstr ""
+
+#: profile.c:791
+msgid "Full screen"
+msgstr ""
+
+#: profile.c:793
+msgid "Asks to place window in the fullscreen/unfullscreen state."
+msgstr ""
+
+#: profile.c:795
+msgid "Scroll up"
+msgstr ""
+
+#: profile.c:797
+msgid "Emulate a mouse scroll up event on Vte Terminal box."
+msgstr ""
+
+#: profile.c:799
+msgid "Scroll down"
+msgstr ""
+
+#: profile.c:801
+msgid "Emulate a mouse scroll down event on Vte Terminal box."
+msgstr ""
+
+#: profile.c:803
+msgid "Scroll up 1 line"
+msgstr ""
+
+#: profile.c:805
+msgid "Asks to scroll up 1 line on Vte Terminal box."
+msgstr ""
+
+#: profile.c:807
+msgid "Scroll down 1 line"
+msgstr ""
+
+#: profile.c:809
+msgid "Asks to scroll down 1 line on Vte Terminal box."
+msgstr ""
+
+#: profile.c:815
+msgid "Dump runtime debug data"
+msgstr ""
+
+#: profile.c:817
+msgid "Dump the runtime data of LilyTerm for debug."
+msgstr ""
+
+#: profile.c:845
+msgid "Window Title"
+msgstr ""
+
+#: profile.c:846
+msgid "Running Command"
+msgstr ""
+
+#: profile.c:847
+msgid "Current Dir"
+msgstr ""
+
+#: profile.c:848
+msgid "Custom Tab Name"
+msgstr ""
+
+#: profile.c:849
+msgid "Root Privileges"
+msgstr ""
+
+#: profile.c:850
+msgid "Normal Text"
+msgstr ""
+
+#: profile.c:2492
+msgid "The target file does NOT exist"
+msgstr ""
+
+#: profile.c:2503
+msgid "The target file is a directory"
+msgstr ""
+
+#: profile.c:2551
+#, c-format
+msgid "Error while writing profile '%s':"
+msgstr ""
+
+#: profile.c:2556
+msgid "Error when writing profile"
+msgstr ""
+
+#: profile.c:2687
+msgid ""
+"Some entry in profile is added, removed, or changed in this version.\n"
+"Please use [Save settings] on the right click menu to save your settings,\n"
+"and edit it manually if necessary.\n"
+msgstr ""
+
+#: profile.c:2693
+#, c-format
+msgid ""
+"%s\n"
+"Your profile is %s."
+msgstr ""
+
+#: profile.c:2696
+msgid "The format of your profile is out of date"
+msgstr ""
+
+#: profile.c:2724 profile.c:2727
+#, c-format
+msgid ""
+"The profile \"%s\" is invalid:\n"
+"\n"
+"\t%s"
+msgstr ""
+
+#: profile.c:2735
+msgid "The profile is invalid!"
+msgstr ""
+
+#: window.c:688
+#, c-format
+msgid "\tWindow #%d, Page #%d: (%d) %s\n"
+msgstr ""
+
+#: window.c:692
+#, c-format
+msgid "\tPage #%d: (%d) %s\n"
+msgstr ""

@@ -1,0 +1,1330 @@
+# Ukrainian translation of LilyTerm.
+# Copyright (C) 2010 Vladimir Smolyar <v_2e@ukr.net>
+# This file is distributed under the same license as the LilyTerm package.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: LilyTerm 0.9.9\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2011-12-06 23:47+0800\n"
+"PO-Revision-Date: 2011-07-04 20:15+0300\n"
+"Last-Translator: Vladimir Smolyar <v_2e@ukr.net>\n"
+"Language-Team: Ukrainian\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: Ukrainian\n"
+
+#: console.c:116 dialog.c:835
+msgid ""
+"Default shortcut key: (It may custom or disable by right click menu [Set "
+"function key value])"
+msgstr ""
+"Сполучення клавіш за замовчуванням: (Їх можна змінити та вимкнути у пункті "
+"меню\n"
+"правої кнопки миші [Встановити сполучення клавіш])"
+
+#: console.c:124
+#, c-format
+msgid ""
+"\n"
+"Please report bug to %s. Thank you for using %s!"
+msgstr ""
+"\n"
+"Будь ласка, повідомляйте про помилки на %s.\n"
+"Дякуємо за використання %s!"
+
+#: console.c:143
+#, c-format
+msgid ""
+"%s is a libvte based X Terminal Emulator.\n"
+"\n"
+msgstr ""
+"%s - це емулятор терміналу, заснований на libvte.\n"
+"\n"
+
+#: console.c:144
+msgid ""
+"Use -e/-x/--execute {Command} to run a command when starting up. (Must be "
+"the final option).\n"
+msgstr ""
+"Використовуйте -e/-x/--execute {команда} для виконання команди під час "
+"запуску програми.\n"
+"  (Має бути останнім параметром).\n"
+
+#: console.c:146
+msgid "Use -T/--title {title} to specify the window title.\n"
+msgstr "Використовуйте -T/--title {заголовок} для вказання заголовка вікна.\n"
+
+#: console.c:147
+msgid "Use -t/--tab {number} to open multi tabs when starting up.\n"
+msgstr ""
+"Використовуйте -t/--tab {кількість} для відкриття кількох вкладок під час "
+"запуску програми.\n"
+
+#: console.c:148
+msgid ""
+"Use -d/--directory {directory} to specify the init directory when starting "
+"up.\n"
+msgstr ""
+"Використовуйте -d/--directory {каталог} для вказання початкового каталогу "
+"під час запуску.\n"
+
+#: console.c:149
+#, fuzzy
+#| msgid "Use -g/--geometry {geometry} to specify the geometry of window.\n"
+msgid ""
+"Use -g/--geometry {WIDTHxHEIGHT[+-]XOFFSET[+-]YOFFSET} to specify the "
+"geometry of window.\n"
+msgstr ""
+"Використовуйте -g/--geometry {геометрія} для вказання геометрії вікна.\n"
+
+#: console.c:150
+msgid "Use -l/-ls/--login to make the shell invoked as a login shell.\n"
+msgstr ""
+"Використовуйте -l/-ls/--login для відкриття оболонки входу до системи (вводу "
+"логіна).\n"
+
+#: console.c:152
+msgid "Use -s/--separate to run in separate process.\n"
+msgstr "Використовуйте -s/--separate для запуску окремого процесу.\n"
+
+#: console.c:153
+msgid "Use -v/--version to show the version information.\n"
+msgstr ""
+"Використовуйте -v/--version для відображення інформації про версію "
+"програми.\n"
+
+#: console.c:154
+msgid "Use -p/--profile to got a profile sample.\n"
+msgstr "Використовуйте -p/--profile для отримання зразка профілю.\n"
+
+#: console.c:156
+#, c-format
+msgid ""
+"Use -u/--user_profile {%s} to use a specified profile.\n"
+"\n"
+msgstr ""
+"Використовуйте -u/--user_profile {%s} для вибору певного профілю.\n"
+"\n"
+
+#: console.c:162
+#, fuzzy, c-format
+#| msgid "The %s system config is: %s/%s\n"
+msgid "The %s system configure file is: %s/%s\n"
+msgstr "Системна конфігурація %s: %s/%s\n"
+
+#: console.c:199
+#, c-format
+msgid "And your %s profile is: "
+msgstr "Ваш профіль %s:"
+
+#: console.c:201
+#, c-format
+msgid "Your %s profile is: "
+msgstr "Ваш профіль %s:"
+
+#: console.c:234
+msgid ""
+"  * <Ctrl><`>\t\tDisable/Enable hyperlinks, function keys and right click "
+"menu.\n"
+msgstr ""
+"  * <Ctrl><`>\t\tЗаборонити/Дозволити гіперпосилання, сполучення клавіш та "
+"меню правої кнопки миші\n"
+
+#: console.c:235
+msgid "  * <Ctrl><T/Q>\t\tAdd a New tab/Close current tab.\n"
+msgstr "  * <Ctrl><T/Q>\t\tДодати нову вкладку/Закрити поточну вкладку\n"
+
+#: console.c:236
+msgid "\t\t\t(Using <Ctrl><D> or 'exit' to close tabs is recommended)\n"
+msgstr ""
+"\t\t\t(Рекомендується закривати вкладки за допомогою <Ctrl><D> або команди "
+"'exit')\n"
+
+#: console.c:237
+msgid "  * <Ctrl><E>\t\tRename current tab.\n"
+msgstr "  * <Ctrl><E>\t\tПерейменувати поточну вкладку\n"
+
+#: console.c:238
+msgid "  * <Ctrl><PgUp/PgDn>\tSwitch to Prev/Next tab.\n"
+msgstr "  * <Ctrl><PgUp/PgDn>\tПерейти на попередню/наступну вкладку\n"
+
+#: console.c:239
+msgid "  * <Ctrl><Home/End>\tSwitch to First/Last tab.\n"
+msgstr "  * <Ctrl><Home/End>\tПерейти на першу/останню вкладку\n"
+
+#: console.c:240
+msgid "  * <Ctrl><[/]>\t\tMove current tab Forward/Backward.\n"
+msgstr "  * <Ctrl><[/]>\t\tПремістити поточну вкладку вперед/назад\n"
+
+#: console.c:241
+msgid "  * <Ctrl><Up/Down>\tMove current tab to First/Last.\n"
+msgstr "  * <Ctrl><Up/Down>\tПеремістити поточну вкладку на початок/кінець\n"
+
+#: console.c:242
+msgid "  * <Ctrl><F1~F12>\tSwitch to 1st ~ 12th tab.\n"
+msgstr "  * <Ctrl><F1~F12>\tПерейти на 1-у ÷ 12-у вкладку\n"
+
+#: console.c:243
+msgid "  * <Ctrl><O>\t\tSelect all the text in the Vte Terminal box.\n"
+msgstr "  * <Ctrl><O>\t\tВиділити увесь текст у вікні терміналу Vte\n"
+
+#: console.c:244
+msgid ""
+"  * <Ctrl><Del/Ins>\tCopy the text to clipboard / Paste the text in "
+"clipboard.\n"
+msgstr ""
+"  * <Ctrl><Del/Ins>\tСкопіювати текст до буферу обміну / Вставити текст з "
+"буферу обміну.\n"
+
+#: console.c:245
+msgid ""
+"  * <Ctrl><+/-/Enter>\tIncrease/Decrease/Reset the font size of current "
+"tab.\n"
+msgstr ""
+"  * <Ctrl><+/-/Enter>\tЗбільшити/зменшити/скинути розмір шрифту на поточній "
+"вкладці\n"
+
+#: console.c:246
+msgid ""
+"  * <Shift><Left/Right>\tEmulate a mouse Scroll Up/Down event on Vte "
+"Terminal box.\n"
+msgstr ""
+"  * <Shift><Left/Right>\tЕмулювати прокрутку миші вгору/вниз у вікні "
+"терміналу Vte.\n"
+
+#: console.c:247
+msgid ""
+"  * <Shift><Up/Down>\tAsks to Scroll Up/Down 1 line on Vte Terminal box.\n"
+msgstr ""
+"  * <Shift><Up/Down>\tЗапитує прокрутку вгору/вниз на 1 рядок у вікні "
+"терміналу Vte.\n"
+
+#: console.c:248
+msgid ""
+"  * <Shift><PgUp/PgDn>\tGtk+ default behavior, Scroll Up/Down on Vte "
+"Terminal box.\n"
+msgstr ""
+"  * <Shift><PgUp/PgDn>\tПоведінка Gtk+ за замовчуванням, прокрутка вгору/"
+"вниз у вікні терміналу Vte.\n"
+
+#: console.c:249
+msgid ""
+"  * <Shift><Home/End>\tGtk+ default behavior, Scroll the Terminal box to to "
+"Top/Bottom.\n"
+msgstr ""
+"  * <Shift><Home/End>\tПоведінка Gtk+ за замовчуванням, прокрутка на початок/"
+"кінець вікна терміналу Vte.\n"
+
+#: console.c:250
+msgid ""
+"  * <Alt><F11/Enter>\tSwitch between fullwindow/unfullwindow and fullscreen/"
+"unfullscreen state.\n"
+msgstr ""
+"  * <Alt><F11/Enter>\tРозгорнути/згорнути вікно та перемикання "
+"повноекранного режиму\n"
+
+#: console.c:251
+msgid ""
+"  * <Shift><Insert>\tVte default behavior, Paste the text in primary "
+"clipboard.\n"
+msgstr ""
+"  * <Shift><Insert>\tПоведінка Vte за замовчуванням, вставити текст з "
+"основного буферу обміну\n"
+
+#: console.c:252
+msgid "\t\t\t(i.e. Emulate a middle button mouse click to paste the text)"
+msgstr ""
+"\t\t\t(тобто емулювати натиснення середньої клавіші миші для вставки тексту)"
+
+#: dialog.c:99 dialog.c:2627 menu.c:2418
+msgid "The following error is occurred:"
+msgstr "Виникла наступна помилка:"
+
+#: dialog.c:164 menu.c:330
+msgid "Rename this tab"
+msgstr "Перейменування поточної вкладки"
+
+#: dialog.c:187
+msgid "Please input the Label Name of this tab:"
+msgstr "Будь ласка, уведіть назву для цієї вкладки:"
+
+#: dialog.c:188
+msgid "Label Name:"
+msgstr "Назва:"
+
+#: dialog.c:195 profile.c:712
+msgid "Find string"
+msgstr "Знайти рядок"
+
+#: dialog.c:214
+msgid "Find: "
+msgstr "Знайти:"
+
+#: dialog.c:231
+msgid "Find previous string"
+msgstr "Знайти попередній рядок"
+
+#: dialog.c:237
+msgid "Find next string"
+msgstr "Знайти наступний рядок"
+
+#: dialog.c:248
+msgid "Case sensitive"
+msgstr "З урахуванням регістру"
+
+#: dialog.c:256
+msgid "Use Perl compatible regular expressions"
+msgstr "Використовувати регулярні вирази Perl"
+
+#: dialog.c:300 dialog.c:377
+#, fuzzy
+#| msgid "Select all the text in the Vte Terminal box."
+msgid "Paste texts to every Vte Terminal"
+msgstr "Вибрати увесь текст у вікні терміналу Vte."
+
+#: dialog.c:318
+#, fuzzy
+#| msgid "Please input the Label Name of this tab:"
+msgid "Please input the texts that will be paste to the Vte Terminals:"
+msgstr "Будь ласка, уведіть назву для цієї вкладки:"
+
+#: dialog.c:319
+msgid "Text:"
+msgstr ""
+
+#: dialog.c:328
+msgid "Append a <NewLine> to the end of the text."
+msgstr ""
+
+#: dialog.c:359
+msgid "Grab keys"
+msgstr ""
+
+#: dialog.c:374
+msgid ""
+"Paste the grabbed key to the Vte Terminals.\n"
+"It will be useful if you want to paste combined keys, like <Ctrl><C>."
+msgstr ""
+
+#: dialog.c:397 dialog.c:776
+msgid "Key Value:"
+msgstr " Значення сполучення клавіш: "
+
+#: dialog.c:404
+msgid "Entry"
+msgstr ""
+
+#: dialog.c:418
+msgid "Add new locales and set the default locale"
+msgstr ""
+"Додавання нових локалізацій та встановлення локалізації за замовчуванням"
+
+#. TRANSLATE NOTE: You may replace the following locales with the locale name of your country.
+#. TRANSLATE NOTE: For example, replace "zh_TW" with "ru_RU", replace "zh_TW.Big5" with "ru_RU.KOI8-R",
+#. TRANSLATE NOTE: or replace "zh_TW.UTF-8" with "ru_RU.UTF-8".
+#: dialog.c:437
+#, fuzzy
+#| msgid ""
+#| "The default locale used when initing a vte terminal.\n"
+#| "You may use \"zh_TW\", \"zh_TW.Big5\", or \"zh_TW.UTF-8\" here."
+msgid ""
+"The default locale used when initing a Vte Terminal.\n"
+"You may use \"zh_TW\", \"zh_TW.Big5\", or \"zh_TW.UTF-8\" here."
+msgstr ""
+"Локалізація, встановлювана за замовчуванням під час ініціалізації терміналу "
+"Vte.\n"
+"Наприклад, можна використати \"uk_UA\", \"uk_UA.KOI8-U\", або \"uk_UA."
+"UTF-8\"."
+
+#: dialog.c:441
+msgid "Default locale:"
+msgstr "Локалізація за замовчуванням:"
+
+#. TRANSLATE NOTE: You may replace the following locales with the locale name of your country.
+#. TRANSLATE NOTE: For example, replace "zh_TW" with "ja_JP", replace "zh_TW.Big5" with "ja_JP.EUC-JP",
+#. TRANSLATE NOTE: and replace "zh_TW.UTF-8" with "ja_JP.UTF-8".
+#: dialog.c:448
+msgid ""
+"The locales list on right click menu, separate with <space>.\n"
+"You may use \"zh_TW\", \"zh_TW.Big5\", or \"zh_TW.UTF-8\" here.\n"
+"You may want to use \"UTF-8\" here if you have no locale data installed."
+msgstr ""
+"Список локалізацій у меню правої клавіші миші, розділених пробілами.\n"
+"Наприклад, можна використати \"uk_UA\", \"uk_UA.KOI8-U\", або \"uk_UA."
+"UTF-8\".\n"
+"Якщо дані про локалізації не встановлено, можна використати \"UTF-8\"."
+
+#: dialog.c:453
+msgid "Locales list:"
+msgstr "Список локалізацій:"
+
+#: dialog.c:460
+msgid "Change the saturation of background"
+msgstr "Зміна насиченості тла"
+
+#: dialog.c:469
+msgid "Change the Saturation of background:"
+msgstr "Змінити насиченість тла:"
+
+#: dialog.c:492
+msgid "Change the foreground color in terminal"
+msgstr "Змінити колір тексту у терміналі"
+
+#: dialog.c:528 menu.c:109
+#, c-format
+msgid "Change the %s color on tab"
+msgstr "Змінити колір %s на вкладці"
+
+#: dialog.c:616 dialog.c:2445
+msgid "Bold Demo Text"
+msgstr "Жирний текст"
+
+#: dialog.c:667
+msgid "Confirm to close multi tabs"
+msgstr "Підтвердження закриття кількох вкладок"
+
+#: dialog.c:676
+msgid "You are about to close multi tabs. Continue anyway?"
+msgstr "Ви збираєтеся закрити одразу кілька вкладок. Продовжити?"
+
+#: dialog.c:683 dialog.c:1164
+msgid "those tabs"
+msgstr "ці вкладки"
+
+#: dialog.c:689
+msgid ""
+"You may press <Ctrl + Alt + Shift> + <any key> here\n"
+"to get the key value used for the function key."
+msgstr ""
+"Ви можете натиснути <Ctrl + Alt + Shift> + <клавіша> тут,\n"
+"щоб отримати значення сполучення клавіш."
+
+#: dialog.c:691
+msgid "Get the key value for function key"
+msgstr "Отримання значення сполучення клавіш"
+
+#: dialog.c:744
+msgid "Function Key Name"
+msgstr "Назва сполучення клавіш"
+
+#: dialog.c:748
+msgid "Shortcut Key"
+msgstr "Сполучення клавіш"
+
+#: dialog.c:756
+msgid "Key Group: "
+msgstr " Група клавіш: "
+
+#: dialog.c:765
+msgid "Note: "
+msgstr "Примітка: "
+
+#: dialog.c:786
+msgid "Disable all the function keys."
+msgstr "Заборонити усі сполучення клавіш."
+
+#: dialog.c:813
+#, c-format
+msgid "Usage for %s %s"
+msgstr "Використання для %s %s"
+
+#: dialog.c:869
+msgid "Don't forget to save your settings after making any change!\n"
+msgstr "Не забувайте зберігати налаштування після їх зміни!\n"
+
+#: dialog.c:873
+#, c-format
+msgid "Please report bug to %s. Thank you for using %s!"
+msgstr ""
+"Будь ласка, повідомляйте про помилки на %s.\n"
+"Дякуємо за використання %s!"
+
+#: dialog.c:900
+#, c-format
+msgid "There is still a running foreground program on #%d tab:"
+msgstr "У вкладці №%d все ще виконується програма:"
+
+#: dialog.c:902
+#, c-format
+msgid "Terminate it by using `kill -9 %d' is recommend if it is non-response."
+msgstr ""
+"Рекомендується перервати виконання командою\n"
+"`kill -9 %d', якщо процес не відповідає."
+
+#: dialog.c:908 dialog.c:1079 dialog.c:1110 dialog.c:1145 dialog.c:1177
+#: dialog.c:1201
+msgid "Continue anyway?"
+msgstr "Все одно продовжити?"
+
+#: dialog.c:910 dialog.c:1112
+msgid "Tip:"
+msgstr "Підказка:"
+
+#: dialog.c:919
+msgid "Confirm to close running foreground program"
+msgstr "Підтвердження закриття програми, що виконується"
+
+#: dialog.c:936 dialog.c:1136
+msgid "this tab"
+msgstr "цю вкладку"
+
+#: dialog.c:943
+msgid "Change the opacity of window"
+msgstr "Змінити прозорість вікна"
+
+#: dialog.c:945
+msgid "Change the opacity of window:"
+msgstr "Змінити прозорість вікна:"
+
+#: dialog.c:955
+msgid "Change the opacity of window when inactive"
+msgstr "Змінити прозорість неактивного вікна"
+
+#: dialog.c:957
+msgid "Change the opacity of window when inactive:"
+msgstr "Змінити прозорість неактивного вікна:"
+
+#: dialog.c:995
+msgid "Change the background color in terminal"
+msgstr "Змінити колір тла терміналу"
+
+#: dialog.c:1028
+msgid "Adjust the brightness of ANSI colors used in terminal"
+msgstr "Налаштувати яскравість кольорів ANSI у терміналі"
+
+#: dialog.c:1034
+msgid "Adjust the brightness of ANSI colors when inactive"
+msgstr "Налаштувати яскравість кольорів ANSI у неактивному стані"
+
+#: dialog.c:1073
+msgid " is trying to execute the following command:"
+msgstr " намагається виконати наступну команду:"
+
+#: dialog.c:1082
+msgid "Confirm to execute -e/-x/--execute command"
+msgstr "Підтвердження виконання -e/-x/--execute команди"
+
+#: dialog.c:1101
+#, c-format
+msgid "The following programs are still running under #%d tab:"
+msgstr "На вкладці №%d все ще працюють наступні програми:"
+
+#: dialog.c:1103
+msgid "Using <Ctrl><D> or 'exit' to close tabs is recommended"
+msgstr "Рекомендується закривати вкладки за допомогою <Ctrl><D> або 'exit'"
+
+#: dialog.c:1118
+#, fuzzy
+#| msgid "Confirm to close a tab with child proccess"
+msgid "Confirm to close a tab with child process"
+msgstr "Підтвердження закриття вкладки із дочірнім процесом"
+
+#: dialog.c:1141
+msgid "The following programs are still running under this window:"
+msgstr "У цьому вікні все ще виконуються наступні команди:"
+
+#: dialog.c:1147
+#, fuzzy
+#| msgid "Confirm to close a window with child proccess"
+msgid "Confirm to close a window with child process"
+msgstr "Підтвердіть закриття вікна із дочірніми процесами"
+
+#: dialog.c:1167
+#, c-format
+msgid "Confirm to close %s"
+msgstr "Підтвердіть закриття %s"
+
+#: dialog.c:1170
+#, c-format
+msgid "The following programs are still running under %s:"
+msgstr "У %s все ще виконуються наступні програми:"
+
+#: dialog.c:1198
+#, fuzzy
+#| msgid "Select all the text in the Vte Terminal box."
+msgid ""
+"Trying to paste the following texts to the Vte Terminal:\n"
+"\n"
+msgstr "Вибрати увесь текст у вікні терміналу Vte."
+
+#: dialog.c:1203
+#, fuzzy
+#| msgid "Select all the text in the Vte Terminal box."
+msgid "Confirm to paste texts to the Vte Terminal"
+msgstr "Вибрати увесь текст у вікні терміналу Vte."
+
+#: dialog.c:1221 menu.c:212
+#, fuzzy
+#| msgid "Copy to clipboard."
+msgid "Clipboard"
+msgstr "Скопіювати до буферу обміну"
+
+#: dialog.c:2174
+#, c-format
+msgid ""
+"Try to kill %s with SIGKILL() to avoid terminate those programs!\n"
+"(MAY CAUSE DATA LOSS!!)"
+msgstr ""
+"Спробувати вбити %s сигналом SIGKILL(), щоб запобігти\n"
+"перериванню цих програм! (МОЖЕ ПРИЗВЕСТИ ДО ВТРАТИ ДАНИХ!!)"
+
+#: dialog.c:2189
+#, c-format
+msgid "Force to close all the tabs and windows, and exit %s!"
+msgstr "Примусово закрити усі вкладки й вікна та вийти з %s!"
+
+#: dialog.c:2312
+#, c-format
+msgid "(Disabled, duplicated with [%s])"
+msgstr "(Заборонено, співпадає з [%s])"
+
+#: dialog.c:2321 dialog.c:2784 dialog.c:2835
+msgid "(Disabled)"
+msgstr "(Заборонено)"
+
+#: dialog.c:2564
+#, c-format
+msgid ""
+"The locale \"%s\" seems NOT supported by your system!\n"
+"If you just added the locale datas recently,\n"
+"Please close all the windows of %s and try again."
+msgstr ""
+"Схоже, локалізація \"%s\" НЕ підтримується вашою системою!\n"
+"Якщо ви нещодавно оновили дані локалізацій,\n"
+"будь ласка, закрийте усі вікна %s і спробуйте знову."
+
+#: dialog.c:2568
+msgid "Not supported locale!"
+msgstr "Непідтримувана локалізація!"
+
+#: dialog.c:2640
+#, c-format
+msgid "You should upgrade to %s and recompile %s to support this feature."
+msgstr ""
+"Вам необхідно оновити до %s та перекомпілювати %s, щоб отримати підтримку "
+"цієї можливості."
+
+#: dialog.c:2641
+msgid "Not supported feature!"
+msgstr "Непідтримувана функція!"
+
+#: dialog.c:2792
+#, c-format
+msgid "Disable all the function keys of [%s] group."
+msgstr "Заборонити усі сполучення клавіш групи [%s]."
+
+#: main.c:578
+#, fuzzy, c-format
+#| msgid ""
+#| "The data got from socket seems incorrect.\n"
+#| "If you just updated %s recently,\n"
+#| "Please close all the windows of %s and try again."
+msgid ""
+"The data got from socket seems incorrect.\n"
+"\n"
+"\tRecieved socket version: %s\n"
+"\tExpected socket version: %s\n"
+"\n"
+"If you just updated %s recently,\n"
+"Please close all the windows of %s and try again."
+msgstr ""
+"Дані, отримані з сокета, схоже, неправильні.\n"
+"Якщо ви нещодавно оновили %s,\n"
+"будь ласка, закрийте усі вікна %s і спробуйте знову."
+
+#: main.c:586
+msgid "The format of socket data is out of date"
+msgstr "Формат даних сокета застарів"
+
+#: menu.c:56
+msgid "Change text encoding"
+msgstr "Змінити кодування тексту"
+
+#: menu.c:57
+msgid "New tab"
+msgstr "Нова вкладка"
+
+#: menu.c:58
+msgid "New tab with specified locale"
+msgstr "Нова вкладка із вказаною локалізацією"
+
+#: menu.c:67 menu.c:1983
+msgid "New window with specified profile"
+msgstr "Нове вікно із вказаним профілем"
+
+#: menu.c:77
+msgid "Change the font"
+msgstr "Змінити шрифт"
+
+#: menu.c:84
+msgid "Change colors"
+msgstr "Змінити кольори"
+
+#: menu.c:87
+msgid "Change the foreground color"
+msgstr "Змінити колір тексту"
+
+#: menu.c:91
+msgid "Change the background color"
+msgstr "Змінити колір тла"
+
+#: menu.c:95
+msgid "Adjust the brightness of ANSI colors"
+msgstr "Налаштувати яскравість кольорів ANSI"
+
+#: menu.c:97
+msgid "Adjust the brightness when inactive"
+msgstr "Налаштувати яскравість у неактивному стані"
+
+#: menu.c:122
+msgid "Change ANSI color theme"
+msgstr "Змінити схему кольорів ANSI"
+
+#. TRANSLATE NOTE: Please translate the "System default (SCHEME)" into "System default" (in your language).
+#. TRANSLATE NOTE: Some language will have trouble if here is "System default" only.
+#. TRANSLATE NOTE: Contrast it with "System default (PROFILE)" (See below)
+#: menu.c:148 menu.c:149
+msgid "System default (SCHEME)"
+msgstr "Системна за замовчуванням"
+
+#: menu.c:155
+msgid "grayscale"
+msgstr "градації сірого"
+
+#: menu.c:159
+msgid "User custom"
+msgstr "Власна"
+
+#: menu.c:171 menu.c:173
+#, fuzzy
+#| msgid "Background saturation"
+msgid "Background"
+msgstr "Насиченість тла"
+
+#: menu.c:180
+msgid "Transparent window"
+msgstr "Прозоре вікно"
+
+#: menu.c:185
+msgid "Window opacity"
+msgstr "Прозорість вікна"
+
+#: menu.c:188
+msgid "Window opacity when inactive"
+msgstr "Прозорість неактивного вікна"
+
+#: menu.c:197
+msgid "Transparent background"
+msgstr "Прозоре тло"
+
+#: menu.c:200
+msgid "Background saturation"
+msgstr "Насиченість тла"
+
+#: menu.c:204
+msgid "Set background image"
+msgstr "Встановити фонове зображення"
+
+#: menu.c:216
+msgid "Copy URL"
+msgstr "Скопіювати URL"
+
+#: menu.c:221
+msgid "Copy"
+msgstr "Копіювати"
+
+#: menu.c:225
+#, fuzzy
+#| msgid "Copy to clipboard."
+msgid "View clipboard"
+msgstr "Скопіювати до буферу обміну"
+
+#: menu.c:229
+msgid "Paste"
+msgstr "Вставити"
+
+#: menu.c:236
+#, fuzzy
+#| msgid "Copy to clipboard."
+msgid "View primary clipboard"
+msgstr "Скопіювати до буферу обміну"
+
+#: menu.c:247
+msgid "Scrollback lines"
+msgstr "Зворотна прокрутка рядків"
+
+#: menu.c:256
+msgid "Clean scrollback lines"
+msgstr "Очистити рядки зворотної прокрутки"
+
+#: menu.c:262 profile.c:684
+msgid "Misc"
+msgstr "Різне "
+
+#: menu.c:264
+#, fuzzy
+#| msgid "Select all the text in the Vte Terminal box."
+msgid "Paste to every Vte Terminal"
+msgstr "Вибрати увесь текст у вікні терміналу Vte."
+
+#: menu.c:267
+msgid "Launch file manager"
+msgstr ""
+
+#: menu.c:273
+msgid "Erase Binding"
+msgstr "Прив'язування для стирання"
+
+#: menu.c:289
+msgid "Dim text when inactive"
+msgstr "Потьмарення тексту у неактивному стані"
+
+#: menu.c:294
+msgid "Dim window when inactive"
+msgstr "Потьмарення неактивного вікна"
+
+#: menu.c:299
+msgid "Cursor blinks"
+msgstr "Блимання курсора"
+
+#: menu.c:306
+msgid "Audible bell"
+msgstr "Звуковий сигнал"
+
+#: menu.c:310
+#, fuzzy
+#| msgid "Audible bell"
+msgid "Visible bell"
+msgstr "Звуковий сигнал"
+
+#: menu.c:314
+msgid "Urgent bell"
+msgstr ""
+
+#: menu.c:324
+msgid "Switch input methods"
+msgstr "Перемикання методів вводу"
+
+#: menu.c:339
+msgid "Show the tabs bar"
+msgstr "Показати панель вкладок"
+
+#: menu.c:345
+msgid "Hide the tabs bar"
+msgstr "Сховати панель вкладок"
+
+#: menu.c:352
+#, fuzzy
+#| msgid "Show the tabs bar"
+msgid "Always show the tabs bar"
+msgstr "Показати панель вкладок"
+
+#: menu.c:359
+#, fuzzy
+#| msgid "Hide the tabs bar"
+msgid "Always hide the tabs bar"
+msgstr "Сховати панель вкладок"
+
+#: menu.c:369
+msgid "Increase window size"
+msgstr "Збільшити розмір вікна"
+
+#: menu.c:372
+msgid "Decrease window size"
+msgstr "Зменшити розмір вікна"
+
+#: menu.c:379
+msgid "Reset to user custom font/size"
+msgstr "Скинути шрифт на власний"
+
+#: menu.c:382
+msgid "Reset to system font/size"
+msgstr "Скинути шрифт на системний"
+
+#: menu.c:387
+msgid "Reset the content"
+msgstr "Скинути вміст"
+
+#: menu.c:394
+msgid "Usage"
+msgstr "Використання"
+
+#: menu.c:398
+msgid "Set function key value"
+msgstr "Встановити сполучення клавіш"
+
+#: menu.c:402
+msgid "User profile"
+msgstr "Профіль користувача"
+
+#: menu.c:410
+#, c-format
+msgid "Quit %s"
+msgstr "Вийти з %s"
+
+#: menu.c:895
+msgid " (Wide)"
+msgstr "(широкий)"
+
+#: menu.c:1235
+msgid "Font Selection"
+msgstr "Вибір шрифту"
+
+#: menu.c:1498 menu.c:1505
+msgid "Add other locales..."
+msgstr "Додати інші локалізації..."
+
+#: menu.c:1586 menu.c:1628
+msgid "Other settings..."
+msgstr "Інші налаштування..."
+
+#: menu.c:1598
+msgid "Save settings"
+msgstr "Зберегти налаштування"
+
+#: menu.c:1601
+msgid "Save settings as..."
+msgstr "Зберегти налаштування як..."
+
+#: menu.c:1607
+#, fuzzy
+#| msgid "Save settings"
+msgid "Reload settings"
+msgstr "Зберегти налаштування"
+
+#: menu.c:1642
+#, c-format
+msgid "%s default"
+msgstr "%s за замовчуванням"
+
+#. TRANSLATE NOTE: Please translate the "System default (PROFILE)" into "System default" (in your language).
+#. TRANSLATE NOTE: Some language will have trouble if here is "System default" only.
+#. TRANSLATE NOTE: Contrast it with "System default (SCHEME)" (See above).
+#: menu.c:1674 menu.c:1675
+msgid "System default (PROFILE)"
+msgstr "Системний за замовчуванням"
+
+#: menu.c:1979
+#, c-format
+msgid ""
+"The following settings:\n"
+"\n"
+"%s\n"
+"Can NOT be applied to the terminal boxes of current window.\n"
+"Please use [%s] instead."
+msgstr ""
+"Наступні параметри:\n"
+"\n"
+"%s\n"
+"НЕ можуть бути застосовані до терміналів у поточному вікні.\n"
+"Скористайтеся замість цього [%s]."
+
+#: menu.c:1985
+msgid "The following settings can NOT be applied"
+msgstr "Наступні параметри НЕ можуть бути застосовані "
+
+#: menu.c:2064
+msgid "Disable: Trying to use [Transparent Background] instead."
+msgstr "Заборонено: Спробуйте використати [Прозоре тло] замість цього."
+
+#: menu.c:2070
+msgid "Scroll the background image along with the text"
+msgstr "Прокручувати фонове зображення разом із текстом"
+
+#. TRANSLATE NOTE: The "↲" is a replace character for <Enter> (<CR>, or <New Line>).
+#. TRANSLATE NOTE: You may translate it into something like "¶", "↵" or "↩".
+#: misc.c:555
+msgid "↲"
+msgstr ""
+
+#: notebook.c:640
+msgid "Error while creating the child process:"
+msgstr "Помилка під час створення дочірнього процесу:"
+
+#: notebook.c:648
+msgid ""
+"Error while creating the child process!\n"
+"Please make sure the /dev/pts is mounted as a devpts file system!"
+msgstr ""
+"Помилка створення дочірнього процесу!\n"
+"Переконайтеся, що /dev/pts підмонтовано як файлову систему devpts!"
+
+#: notebook.c:660
+msgid "Error when creating child process"
+msgstr "Помилка створення дочірнього процесу"
+
+#: profile.c:685
+msgid "Tab operation"
+msgstr "Управлінння вкладками "
+
+#: profile.c:686
+msgid "Switch tab"
+msgstr "Перемикання вкладок "
+
+#: profile.c:687
+msgid "Move tab"
+msgstr "Переміщення вкладок "
+
+#: profile.c:688
+msgid "Switch to #? tab"
+msgstr "Перехід на вкладку №? "
+
+#: profile.c:689
+msgid "Text operation"
+msgstr "Операції з текстом "
+
+#: profile.c:690
+msgid "Scroll up/down"
+msgstr "Прокрутка вгору/вниз "
+
+#: profile.c:691
+msgid "Font"
+msgstr "Шрифт "
+
+#: profile.c:696
+msgid "Disable/Enable functions"
+msgstr "Заборонити/Дозволити функції"
+
+#: profile.c:698
+msgid "Disable/Enable hyperlinks, function keys and right click menu."
+msgstr ""
+"Заборонити/Дозволити гіперпосилання, сполучення\n"
+"клавіш та меню правої кнопки миші."
+
+#: profile.c:700
+msgid "Add new tab"
+msgstr "Додати нову вкладку"
+
+#: profile.c:702
+msgid "Add a new tab."
+msgstr "Додати нову вкладку."
+
+#: profile.c:704
+msgid "Close tab"
+msgstr "Закрити вкладку"
+
+#: profile.c:706
+msgid "Close current tab."
+msgstr "Закрити поточну вкладку."
+
+#: profile.c:708
+msgid "Rename page name"
+msgstr "Перейменувати сторінку"
+
+#: profile.c:710
+msgid "Rename the page name of current tab."
+msgstr "Змінити ім'я сторінки для поточної вкладки."
+
+#: profile.c:714
+msgid "Find the strings matching the search regex."
+msgstr "Знайти рядки за шаблоном."
+
+#: profile.c:715
+msgid "Find previous"
+msgstr "Знайти попереднє"
+
+#: profile.c:717
+msgid "Find the previous string matching the search regex."
+msgstr "Знайти попередній рядок за шаблоном пошуку."
+
+#: profile.c:718
+msgid "Find next"
+msgstr "Знайти наступне"
+
+#: profile.c:720
+msgid "Find the next string matching the search regex."
+msgstr "Знайти наступний рядок за шаблоном пошуку."
+
+#: profile.c:722
+msgid "Switch to prev tab"
+msgstr "Перейти на попередню вкладку"
+
+#: profile.c:724
+msgid "Switch to prev tab."
+msgstr "Перейти на попередню вкладку."
+
+#: profile.c:726
+msgid "Switch to next tab"
+msgstr "Перейти на наступну вкладку"
+
+#: profile.c:728
+msgid "Switch to next tab."
+msgstr "Перейти на наступну вкладку."
+
+#: profile.c:730
+msgid "Switch to first tab"
+msgstr "Перейти на перушу вкладку"
+
+#: profile.c:732
+msgid "Switch to first tab."
+msgstr "Перейти на першу вкладку."
+
+#: profile.c:734
+msgid "Switch to last tab"
+msgstr "Перейти на останню вкладку"
+
+#: profile.c:736
+msgid "Switch to last tab."
+msgstr "Перейти на останню вкладку."
+
+#: profile.c:738
+msgid "Move page forward"
+msgstr "Перемістити сторінку вперед"
+
+#: profile.c:740
+msgid "Move current page forward."
+msgstr "Перемістити поточну сторінку вперед."
+
+#: profile.c:742
+msgid "Move page backward"
+msgstr "Перемістити сторінку назад"
+
+#: profile.c:744
+msgid "Move current page backward."
+msgstr "Перемістити поточну сторінку назад."
+
+#: profile.c:746
+msgid "Move page to first"
+msgstr "Зробити сторінку першою"
+
+#: profile.c:748
+msgid "Move current page to first."
+msgstr "Зробити сторінку першою."
+
+#: profile.c:750
+msgid "Move page to last"
+msgstr "Зробити сторінку останньою"
+
+#: profile.c:752
+msgid "Move current page to last."
+msgstr "Зробити поточну сторінку останньою."
+
+#: profile.c:757
+#, c-format
+msgid "Switch to #%d tab"
+msgstr "Перейти на вкладку №%d"
+
+#: profile.c:759
+#, c-format
+msgid "Switch #%d tab directly."
+msgstr "Перейти прямо на вкладку №%d."
+
+#: profile.c:763
+msgid "Select all"
+msgstr "Вибрати все"
+
+#: profile.c:765
+msgid "Select all the text in the Vte Terminal box."
+msgstr "Вибрати увесь текст у вікні терміналу Vte."
+
+#: profile.c:767
+msgid "Copy to clipboard."
+msgstr "Скопіювати до буферу обміну"
+
+#: profile.c:769
+msgid "Copy the text to clipboard."
+msgstr "Скопіювати текст до буферу обміну."
+
+#: profile.c:771
+msgid "Paste the text"
+msgstr "Вставити текст"
+
+#: profile.c:773
+msgid "Paste the text in clipboard."
+msgstr "Вставити текст з буферу обміну."
+
+#: profile.c:775
+msgid "Increase font size"
+msgstr "Збільшити розмір шрифту"
+
+#: profile.c:777
+msgid "Increase the font size of current tab."
+msgstr "Збільшити розмір шрифту на поточній вкладці."
+
+#: profile.c:779
+msgid "Decrease font size"
+msgstr "Зменшити розмір шрифту"
+
+#: profile.c:781
+msgid "Decrease the font size of current tab."
+msgstr "Зменшити розмір шрифту на поточній вкладці."
+
+#: profile.c:783
+msgid "Reset font size"
+msgstr "Скинути розмір шрифту"
+
+#: profile.c:785
+msgid "Reset the font of current tab to original size."
+msgstr ""
+"Скинути розмір шрифту на поточній вкладці\n"
+"до початкового значення."
+
+#: profile.c:787
+msgid "Maximum the window"
+msgstr "Максимізувати вікно"
+
+#: profile.c:789
+msgid "Try to maximum the window to use all available space on your display."
+msgstr ""
+"Спробувати максимізувати вікно для використання\n"
+"усього простору вашого екрану."
+
+#: profile.c:791
+msgid "Full screen"
+msgstr "Повноекранний режим"
+
+#: profile.c:793
+msgid "Asks to place window in the fullscreen/unfullscreen state."
+msgstr "Запит переведення вікна до повноекранного/звичайного режиму"
+
+#: profile.c:795
+msgid "Scroll up"
+msgstr "Прокрутка вгору"
+
+#: profile.c:797
+msgid "Emulate a mouse scroll up event on Vte Terminal box."
+msgstr ""
+"Емулювати прокрутку миші вгору\n"
+"у вікні терміналу Vte."
+
+#: profile.c:799
+msgid "Scroll down"
+msgstr "Прокрутка вниз"
+
+#: profile.c:801
+msgid "Emulate a mouse scroll down event on Vte Terminal box."
+msgstr ""
+"Емулювати прокрутку миші вниз\n"
+"у вікні терміналу Vte."
+
+#: profile.c:803
+msgid "Scroll up 1 line"
+msgstr "Прокрутка вгору на 1 рядок"
+
+#: profile.c:805
+msgid "Asks to scroll up 1 line on Vte Terminal box."
+msgstr ""
+"Запит прокрутки на 1 рядок вгору\n"
+"у вікні терміналу Vte."
+
+#: profile.c:807
+msgid "Scroll down 1 line"
+msgstr "Прокрутка вниз на 1 рядок"
+
+#: profile.c:809
+msgid "Asks to scroll down 1 line on Vte Terminal box."
+msgstr ""
+"Запит прокрутки вниз на 1 рядок\n"
+"у вікні терміналу Vte."
+
+#: profile.c:815
+msgid "Dump runtime debug data"
+msgstr "Дамп даних відлагодження"
+
+#: profile.c:817
+msgid "Dump the runtime data of LilyTerm for debug."
+msgstr "Дамп даних для відлагодження LilyTerm."
+
+#: profile.c:845
+msgid "Window Title"
+msgstr "заголовка вікна"
+
+#: profile.c:846
+msgid "Running Command"
+msgstr "команди, що виконується"
+
+#: profile.c:847
+msgid "Current Dir"
+msgstr "поточного каталогу"
+
+#: profile.c:848
+msgid "Custom Tab Name"
+msgstr "своєї назви вкладки"
+
+#: profile.c:849
+msgid "Root Privileges"
+msgstr "привілеїв адміністратора"
+
+#: profile.c:850
+msgid "Normal Text"
+msgstr "звичайного тексту"
+
+#: profile.c:2492
+msgid "The target file does NOT exist"
+msgstr "Файл призначення НЕ існує"
+
+#: profile.c:2503
+msgid "The target file is a directory"
+msgstr "Файл призначення є каталогом"
+
+#: profile.c:2551
+#, c-format
+msgid "Error while writing profile '%s':"
+msgstr "Помилка запису профілю '%s':"
+
+#: profile.c:2556
+msgid "Error when writing profile"
+msgstr "Помилка запису профілю"
+
+#: profile.c:2687
+msgid ""
+"Some entry in profile is added, removed, or changed in this version.\n"
+"Please use [Save settings] on the right click menu to save your settings,\n"
+"and edit it manually if necessary.\n"
+msgstr ""
+"У цій версії додано, видалено чи змінено деякі параметри профілю.\n"
+"Будь ласка, використовуйте [Зберегти налаштування] у меню правої кнопки "
+"миші,\n"
+"щоб зберегти ваші налаштування, і відредагуйте його вручну за необхідності.\n"
+
+#: profile.c:2693
+#, c-format
+msgid ""
+"%s\n"
+"Your profile is %s."
+msgstr ""
+"%s\n"
+"Ваш профіль - %s."
+
+#: profile.c:2696
+msgid "The format of your profile is out of date"
+msgstr "Формат вашого профілю застарів"
+
+#: profile.c:2724 profile.c:2727
+#, c-format
+msgid ""
+"The profile \"%s\" is invalid:\n"
+"\n"
+"\t%s"
+msgstr ""
+"Профіль \"%s\" некоректний:\n"
+"\n"
+"\t%s"
+
+#: profile.c:2735
+msgid "The profile is invalid!"
+msgstr "Профіль некоректний!"
+
+#: window.c:688
+#, c-format
+msgid "\tWindow #%d, Page #%d: (%d) %s\n"
+msgstr "\tВікно №%d, Сторінка №%d: (%d) %s\n"
+
+#: window.c:692
+#, c-format
+msgid "\tPage #%d: (%d) %s\n"
+msgstr "\tСторінка №%d: (%d) %s\n"
+
+#, fuzzy
+#~| msgid "Paste the text"
+#~ msgid "Paste to every vte"
+#~ msgstr "Вставити текст"
+
+#~ msgid "Change the Opacity of window:"
+#~ msgstr "Змінити прозорість вікна:"
+
+#~ msgid "The locale \"%s\" seems NOT supported by your system!"
+#~ msgstr "Локалізація \"%s\", схоже, НЕ підтримується вашою системою!"

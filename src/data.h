@@ -1,0 +1,1093 @@
+/*
+ * Copyright (c) 2008-2010 Lu, Chao-Ming (Tetralet).  All rights reserved.
+ *
+ * This file is part of LilyTerm.
+ *
+ * LilyTerm is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * LilyTerm is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with LilyTerm.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+
+#ifndef DATA_H
+#define DATA_H
+
+
+#include <gtk/gtk.h>
+#include <vte/vte.h>
+
+#ifdef OUT_OF_MEMORY
+// GString *g_string_append()
+// GString *g_string_prepend()
+	#define g_get_system_config_dirs() NULL
+// 	#define g_dir_read_name(x) NULL
+	#define g_get_tmp_dir() NULL
+// 	#define g_get_user_config_dir() NULL
+	#define g_get_user_name() NULL
+	#define g_getenv(x) NULL
+/* 	#define g_new0(x,y) NULL */
+	#define g_strerror(x) NULL
+	#define gtk_entry_get_text(x) NULL
+	#define gtk_widget_get_name(x) NULL
+	#define gtk_file_chooser_get_preview_filename(x) NULL
+	#define pango_font_description_to_string(x) NULL
+	#define vte_terminal_match_check(a,b,c,d) NULL
+	#define vte_terminal_get_encoding(x) NULL
+	#define vte_terminal_get_window_title(x) NULL
+/* 	#define g_strsplit(x,y,z) NULL */
+	#define g_strsplit fake_g_strsplit
+	#define g_strsplit_set(x,y,z) NULL
+	#define g_convert_with_fallback(a,b,c,d,e,f,g,h) NULL
+	#define g_file_read_link(x,y) NULL
+	#define g_get_current_dir() NULL
+	#define g_key_file_get_value(a,b,c,d) NULL
+	#define g_markup_escape_text(x,y) NULL
+	#define g_path_get_basename(x) NULL
+	#define g_path_get_dirname(x) NULL
+	#define g_strconcat(...) NULL
+/* 	#define g_strdup(x) NULL */
+	#define g_strdup fake_g_strdup
+/* 	#define g_strdup_printf fake_g_strdup_printf */
+	#define g_strdup_printf(...) NULL
+	#define gdk_color_to_string(x) NULL
+	#define gdk_keyval_name(x) NULL
+	#define gtk_clipboard_wait_for_text(x) NULL
+	#define gtk_file_chooser_get_filename(x) NULL
+	#define gtk_font_selection_dialog_get_font_name(x) NULL
+	#define gtk_tree_path_to_string(x) NULL
+#endif
+
+//	define get_pid_stat(x,y) NULL
+//	define split_string(x,y,z) NULL
+//	define check_string_value(a, b, c, d) NULL
+//	define convert_array_to_string(x,y) NULL
+//	define convert_str_to_utf8(x,y) NULL
+//	define convert_text_to_html(a, b, c, d, ...) NULL
+//	define dialog_key_press_join_string(x,y,z) NULL
+//	define get_VTE_CJK_WIDTH_str(x) NULL
+//	define get_cmdline(x) NULL
+//	define get_colorful_profile(x) NULL
+//	define get_current_pwd_by_pid(x) NULL
+//	define get_default_LC_DATA(x) NULL
+//	define get_encoding_from_locale(x) NULL
+//	define get_help_message(x) NULL
+//	define get_help_message_function_key(x) NULL
+//	define get_help_message_usage(x,y) NULL
+//	define get_local_list(x) NULL
+//	define get_proc_data(x,y,z) NULL
+//	define get_profile(x) NULL
+//	define get_resize_font(x,y) NULL
+//	define get_tab_name_with_cmdline(x) NULL
+//	define get_tab_name_with_current_dir(x) NULL
+//	define get_tab_name_with_page_names(x) NULL
+//	define get_url (x,y,z) NULL
+//	define get_user_profile_path(x,y,z) NULL
+//	define join_strings_to_string(x,y,z,...) NULL
+//	define load_profile_from_dir(x,y) NULL
+
+//
+// **************************** data.h ****************************
+//
+
+#ifdef HAVE_CONFIG_H
+#	include "config.h"
+#endif
+
+
+// for key value
+#include <gdk/gdkkeysyms.h>
+
+#define SYS_PROFILE PACKAGE ".conf"
+#define USER_PROFILE "default.conf"
+#define SOCKET_DATA_VERSION PACKAGE_NAME "-0.9.9~rc6"
+#define PROFILE_FORMAT_VERSION "0.9.9"
+#define NOTEBOOK_GROUP 8
+#define ICON_PATH ICONDIR G_DIR_SEPARATOR_S PACKAGE ".png"
+#define NULL_DEVICE "/dev/null"
+#define SYSTEM_FONT_NAME "Monospace 12"
+#define SYSTEM_COLUMN 80
+#define SYSTEM_ROW 24
+
+#if GTK_CHECK_VERSION(2,10,0)
+	#define ENABLE_TAB_REORDER
+	#define ENABLE_PAGE_ADDED
+#else
+	#define DISABLE_TAB_REORDER
+	#define DISABLE_PAGE_ADDED
+#endif
+#if GTK_CHECK_VERSION(2,12,0)
+	#define ENABLE_RGBA
+	#define ENABLE_GDKCOLOR_TO_STRING
+	#define ENABLE_SET_TOOLTIP_TEXT
+	#define ENABLE_DRAG_AND_DROP
+#endif
+#if GTK_CHECK_VERSION(2,13,0)
+	#define EXIST_GTK_STOCK_PAGE_SETUP
+#endif
+#if GTK_CHECK_VERSION(2,14,0)
+	#define ENABLE_MOUSE_SCROLL
+	#define ENABLE_DIALOG_GET_CONTENT_AREA
+	#define ENABLE_DIALOG_GET_ACTION_AREA
+#endif
+#if GTK_CHECK_VERSION(2,16,0)
+	#define USE_GTK_MENU_ITEM_SET_LABEL
+	#define USE_GTK_ALLOCATION
+#endif
+#if GTK_CHECK_VERSION(2,18,0)
+	#define USE_GTK_WIDGET_SET_CAN_FOCUS
+#endif
+#if GTK_CHECK_VERSION(2,91,0)
+	#define USE_GTK_NOTEBOOK_SET_GROUP_NAME
+	#define USE_GDK_SCREEN_GET_RGBA_VISUAL
+#endif
+#if GTK_CHECK_VERSION(2,91,1)
+	#define NO_RESIZE_GRIP
+	#define USE_XPARSEGEOMETRY
+#endif
+#if GTK_CHECK_VERSION(2,91,7)
+	#define GTK3_LAME_GDK_SCREEN_IS_COMPOSITED
+	#define GTK3_LAME_GDK_SCREEN_GET_RGBA_VISUAL
+#endif
+#if GTK_CHECK_VERSION(2,99,0)
+	#define USE_G_ATEXIT
+#endif
+#if GTK_CHECK_VERSION(2,91,5)
+	#define USE_NEW_GEOMETRY_METHOD
+#else
+	#define USE_OLD_GEOMETRY_METHOD
+#endif
+
+#if ! GTK_CHECK_VERSION(2,9,0)
+    #ifndef GDK_SUPER_MASK
+	#define GDK_SUPER_MASK 1<<26
+    #endif
+#endif
+
+#if ! GTK_CHECK_VERSION(2,20,0)
+	#define USE_OLD_GTK_WIDGET_MAPPED
+	#define USE_OLD_GTK_LABEL_PACKING
+#endif
+#if ! GTK_CHECK_VERSION(2,21,8)
+	#define USE_OLD_GDK_KEY
+#endif
+#if ! GTK_CHECK_VERSION(2,24,0)
+	#define USE_OLD_GTK_WIDGET_HIDE_ALL
+	#define USE_OLD_GDK_SPAWN_ON_SCREEN_WITH_PIPES
+#endif
+#if ! GTK_CHECK_VERSION(2,90,7)
+	#define EXIST_GTK_DIALOG_NO_SEPARATOR
+#endif
+
+#if GLIB_CHECK_VERSION(2,14,0)
+	#define USE_TIMEOUT_SECONDS
+#endif
+
+#if defined VTE_CHECK_VERSION
+    #if VTE_CHECK_VERSION(0,16,0)
+	#define ENABLE_VTE_SELECT_ALL
+    #endif
+    #if VTE_CHECK_VERSION(0,17,1)
+	#define USE_NEW_VTE_CURSOR_BLINKS_MODE
+	#define USE_NEW_VTE_MATCH_ADD_GREGEX
+    #endif
+    #if VTE_CHECK_VERSION(0,20,4)
+	#define ENABLE_VTE_ERASE_TTY
+    #endif
+    #if VTE_CHECK_VERSION(0,22,3)
+	#define ENABLE_UNLIMITED_SCROLL_HISTORY
+    #endif
+    #if VTE_CHECK_VERSION(0,25,1)
+	#define ENABLE_FIND_STRING
+    #endif
+
+    #if ! VTE_CHECK_VERSION(0,20,0)
+	#define USE_OLD_VTE_SET_FONT
+    #endif
+    #if ! VTE_CHECK_VERSION(0,24,1)
+	#define USE_OLD_VTE_GET_PADDING
+    #endif
+    #if ! VTE_CHECK_VERSION(0,25,1)
+	#define USE_OLD_VTE_FORK_COMMAND
+    #endif
+#else
+    #if defined vte_terminal_select_all
+	#define ENABLE_VTE_SELECT_ALL
+    #endif
+	#define USE_OLD_VTE_SET_FONT
+	#define USE_OLD_VTE_GET_PADDING
+	#define USE_OLD_VTE_FORK_COMMAND
+#endif
+
+#define ENABLE_GDKCOLOR_TO_STRING_VER "GTK 2.12"
+#define ENABLE_MOUSE_SCROLL_VER "GTK 2.14"
+#define ENABLE_RGBA_VER "GTK 2.12"
+#define ENABLE_VTE_SELECT_ALL_VER "VTE 0.16"
+#define ENABLE_FIND_STRING_VER "VTE 0.25.1"
+
+#ifdef USE_OLD_GDK_KEY
+	#define GDK_KEY_VoidSymbol	GDK_VoidSymbol
+	#define GDK_KEY_asciitilde	GDK_asciitilde
+	#define GDK_KEY_Shift_L		GDK_Shift_L
+	#define GDK_KEY_Hyper_R		GDK_Hyper_R
+	#define GDK_KEY_F1		GDK_F1
+	#define GDK_KEY_F12		GDK_F12
+	#define GDK_KEY_Menu		GDK_Menu
+	#define GDK_KEY_Super_R		GDK_Super_R
+	#define GDK_KEY_Super_L		GDK_Super_L
+	#define GDK_KEY_a		GDK_a
+	#define GDK_KEY_z		GDK_z
+	#define GDK_KEY_A		GDK_A
+	#define GDK_KEY_Z		GDK_Z
+#endif
+
+#define ALL_ACCELS_MASK (GDK_CONTROL_MASK | GDK_SHIFT_MASK | GDK_MOD1_MASK | GDK_MOD4_MASK | GDK_SUPER_MASK)
+#define SHIFT_ONLY_MASK (GDK_CONTROL_MASK | GDK_MOD1_MASK | GDK_MOD4_MASK | GDK_SUPER_MASK)
+// mods = (event->state | GDK_LOCK_MASK | GDK_MOD2_MASK) & GDK_MODIFIER_MASK;
+#define DUD_MASK (GDK_LOCK_MASK | GDK_MOD2_MASK | ( ~GDK_MODIFIER_MASK))
+
+
+#ifdef USE_OLD_GTK_WIDGET_MAPPED
+	#define gtk_widget_get_mapped(x) GTK_WIDGET_MAPPED(x)
+#endif
+
+
+#define KEY_GROUP 9
+typedef enum {
+	KEY_GROUP_MISC,						// 0
+	KEY_GROUP_TAB_OPERATION,				// 1
+	KEY_GROUP_SWITCH_TAB,					// 2
+	KEY_GROUP_MOVE_TAB,					// 3
+	KEY_GROUP_SWITCH_TO_TAB,				// 4
+	KEY_GROUP_TEXT,						// 5
+	KEY_GROUP_SCROLL,					// 6
+	KEY_GROUP_FONT,						// 7
+	KEY_GROUP_NONE,						// 8, MUST BE THE LAST ONE!!
+} Function_Key_Groups;
+
+#ifdef FATAL
+	#define KEYS 41
+#else
+	#define KEYS 40
+#endif
+
+typedef enum {
+	KEY_DISABLE_FUNCTION,					// 0
+	KEY_NEW_TAB,						// 1
+	KEY_CLOSE_TAB,						// 2
+	KEY_EDIT_LABEL,						// 3
+	KEY_FIND,						// 4
+	KEY_FIND_PREV,						// 5
+	KEY_FIND_NEXT,						// 6
+	KEY_PREV_TAB,						// 7
+	KEY_NEXT_TAB,						// 8
+	KEY_FIRST_TAB,						// 9
+	KEY_LAST_TAB,						// 10
+	KEY_MOVE_TAB_FORWARD,					// 11
+	KEY_MOVE_TAB_BACKWARD,					// 12
+	KEY_MOVE_TAB_FIRST,					// 13
+	KEY_MOVE_TAB_LAST,					// 14
+	KEY_SWITCH_TO_TAB_1,					// 15
+	KEY_SWITCH_TO_TAB_2,					// 16
+	KEY_SWITCH_TO_TAB_3,					// 17
+	KEY_SWITCH_TO_TAB_4,					// 18
+	KEY_SWITCH_TO_TAB_5,					// 19
+	KEY_SWITCH_TO_TAB_6,					// 20
+	KEY_SWITCH_TO_TAB_7,					// 21
+	KEY_SWITCH_TO_TAB_8,					// 22
+	KEY_SWITCH_TO_TAB_9,					// 23
+	KEY_SWITCH_TO_TAB_10,					// 24
+	KEY_SWITCH_TO_TAB_11,					// 25
+	KEY_SWITCH_TO_TAB_12,					// 26
+	KEY_SELECT_ALL,						// 27
+	KEY_COPY_CLIPBOARD,					// 28
+	KEY_PASTE_CLIPBOARD,					// 29
+	KEY_INCREASE_FONT_SIZE,					// 30
+	KEY_DECREASE_FONT_SIZE,					// 31
+	KEY_RESET_FONT_SIZE,					// 32
+	KEY_MAX_WINDOW,						// 33
+	KEY_FULL_SCREEN,					// 34
+	KEY_SCROLL_UP,						// 35
+	KEY_SCROLL_DOWN,					// 36
+	KEY_SCROLL_UP_1_LINE,					// 37
+	KEY_SCROLL_DOWN_1_LINE,					// 38
+	KEY_PASTE_PRIMARY,					// 39
+#ifdef FATAL
+	KEY_DUMP_DATA,						// 40
+#endif
+} Function_Keys;
+
+
+typedef enum {
+	FONT_RESET,
+	FONT_INCREASE,
+	FONT_DECREASE,
+	FONT_ZOOM_OUT,
+	FONT_ZOOM_IN,
+	FONT_RESET_DEFAULT,
+	FONT_RESET_SYSTEM,
+	FONT_SET_TO_SELECTED,
+} Font_Set_Type;
+
+typedef enum {
+	FONT_NAME_DEFAULT,
+	FONT_NAME_SYSTEM,
+	FONT_NAME_RESTORE,
+	FONT_NAME_UPDATE,
+	FONT_NAME_ZOOM_OUT,
+	FONT_NAME_ZOOM_IN,
+	FONT_NAME_INCREASE,
+	FONT_NAME_DECREASE,
+} Font_Name_Type;
+
+typedef enum {
+	RESET_CURRENT_TAB_FONT,
+	RESET_ALL_TO_CURRENT_TAB,
+	RESET_ALL_TO_DEFAULT,
+	RESET_ALL_TO_SYSTEM,
+} Font_Reset_Type;
+
+typedef enum {
+	FIND_PREV,
+	FIND_NEXT,
+} Dialog_Find_Type;
+
+typedef enum {
+	AUTOMATIC,	// 0
+	ON,		// 1
+	OFF,		// 2
+	TEMPORARY_ON,	// 3
+	TEMPORARY_OFF,	// 4
+	FORCE_ON,	// 5
+	FORCE_OFF,	// 6
+	UNSURE,		// 7
+} Switch_Type;
+
+typedef enum {
+	TAG_WWW,
+	TAG_FTP,
+	TAG_FILE,
+	TAG_MAIL,
+} Command_Tag;
+
+// KeyValue: only need to init once when LilyTerm starts.
+// so that we don't need to free them.
+struct KeyValue
+{
+	gchar *name;
+	gchar *topic;
+	gchar *comment;
+	gchar *translation;
+	gint group;
+};
+
+// User_KeyValue: can be custom by profile.
+// Every LilyTerm window has it's own User_KeyValue
+struct User_KeyValue
+{
+	gchar *value;
+	guint key;
+	guint mods;
+};
+
+#define COMMAND 4
+
+struct Command
+{
+	gchar *name;
+	gchar *match;
+	gchar *comment;
+	gchar *method_name;
+	gchar *environ_name;
+	gchar *VTE_CJK_WIDTH_name;
+	gchar *locale_name;
+	gchar *encoding_name;
+};
+
+struct User_Command
+{
+	gchar *command;
+	gint method;
+	gchar *environ;
+	gchar **environments;
+	gint VTE_CJK_WIDTH;
+	gchar *locale;
+};
+
+
+#define COLOR 16
+
+struct Color
+{
+	gchar *name;
+	gchar *comment;
+};
+
+#define THEME 7
+#define DEFAULT_THEME 0
+struct Color_Theme
+{
+	gchar *name;
+	GdkColor color[COLOR];
+};
+
+#ifdef ENABLE_VTE_ERASE_TTY
+	#define ERASE_BINDING 5
+#else
+	#define ERASE_BINDING 4
+#endif
+#define DEFAULT_ERASE_BINDING 2
+struct Erase_Binding
+{
+	gchar *name;
+	gint value;
+};
+
+// 1: WinTitle
+// 2: CmdLine
+// 3: PWD
+// 4: Custom
+// 5: Root
+// 6: Normal
+
+#define PAGE_COLOR 6
+struct Page_Color
+{
+	gchar *name;
+	gchar *comment;
+	gchar *comment_eng;
+};
+
+
+// see /usr/include/linux/threads.h for more details.
+#define PID_MAX_DEFAULT 0x8000
+struct Process_Data
+{
+	GtkWidget *window;
+	gint page_no;
+	gint ppid;
+	gchar* cmd;
+};
+
+
+struct Window
+{
+
+// ---- environ and command line option ---- //
+
+	// environments: the environ for every lilyterm window, separated with <\t>
+	gchar *environment;
+
+
+	// Try to avoid the warning "The locale xx_XX seems NOT supported by your system!" too many times.
+	GString *warned_locale_list;
+
+	GtkWidget *encoding_locale_menuitems[3];
+	// the runtime_encoding is got from get_encoding_from_locale()
+	gchar *runtime_encoding;
+	// the default_encoding is got from 'default locale' in profile
+	gchar *default_encoding;
+	// the encodings_list is generated from locale_list
+	// gchar *encodings_list;
+	// OLD: supported_encodings = g_strsplit_set(default_encoding + encodings_list +
+	//					     custom_encoding + vte_terminal_get_encoding())
+	// FIX: supported_encodings = g_strsplit_set(encodings_list)
+	// gchar **supported_encodings;
+	// GtkWidget *encoding_menuitem;
+	GtkWidget *encoding_sub_menu;
+	// GSList *encoding_group;
+	// 1st item, System Default.
+	// If the encoding of a vte is different with the default_encoding,
+	// The encoding will be shown on the tab name.
+	GtkWidget *default_menuitem_encoding;
+
+	// the default_locale is got from profile
+	gchar *default_locale;
+	gchar *runtime_LC_MESSAGES;
+	// the runtime_locale_list is got from environment
+	gchar *runtime_locale_list;
+	// the locales_list is got from profile
+	gchar *locales_list;
+	// supported_locales = g_strsplit_set(default_locale + locales_list + custom_locale + LC_CTYPE)
+	// gchar **supported_locales;
+	// GtkWidget *locale_menuitem_utf8;
+	// GtkWidget *locale_menuitem_full;
+	GtkWidget *locale_sub_menu;
+	// GSList *locale_group;
+	// GtkWidget *default_locale;
+
+	// emulate_term = xterm, don't change it
+	gchar *emulate_term;
+
+	// for env VTE_CJK_WIDTH.
+	// VTE_CJK_WIDTH is got from profile
+	gint VTE_CJK_WIDTH;
+	// VTE_CJK_WIDTH_STR is got from environment
+	gchar *VTE_CJK_WIDTH_STR;
+
+	gchar *wmclass_name;
+	gchar *wmclass_class;
+	gchar *shell;
+	gchar *home;
+
+	// example: lilyterm -e vim /tmp/foo.txt
+	// the argc after -e option
+	// Will set to 0 after used.
+	gint argc;
+	// The argv[] after -e option, like '/tmp/foo.txt' in the example
+	// Will set to NULL after used.
+	gchar **argv;
+	// The first command in -e option, like 'vim' in the example
+	// Will set to NULL after used.
+	// * Do NOT free it *
+	gchar *command;
+	// For -t option
+	gint init_tab_number;
+	// For -d option
+	gchar *init_dir;
+	// For -l option
+	//  0: uninited
+	//  1: should be TURE
+	//  2: should be FALSE
+	// -1: TRUE, inited
+	// -2: FALSE, inited
+	gint login_shell;
+	gchar *geometry;
+
+	// If the profile is specify with -u option.
+	GtkWidget *subitem_new_window_from_list;
+	GtkWidget *menuitem_new_window_from_list;
+	GtkWidget *subitem_load_profile_from_list;
+	GtkWidget *menuitem_load_profile_from_list;
+	gboolean use_custom_profile;
+	gchar *profile;
+	gchar *specified_profile;
+	glong profile_dir_modtime;
+
+// ---- the component of a single window ---- //
+
+	// Startup with fullscreen
+	gboolean startup_fullscreen;
+	gboolean fullscreen;
+	// true_fullscreen = <Alt><Enter>
+	gboolean true_fullscreen;
+	// 0: No work
+	// 1: Normal
+	// 2: Force ON
+	// 3: Force OFF
+	// gboolean fullscreen_show_scroll_bar;
+	//  0: Normal
+	// >0: unfullscreening
+	// <0: fullscreening
+	gint unfullscreen;
+	Switch_Type show_tabs_bar;
+
+	// the component of a single window
+	GtkWidget *window;
+	GtkWidget *notebook;
+	gboolean show_close_button_on_tab;
+	gboolean show_close_button_on_all_tabs;
+	GtkWidget *current_vte;
+
+	// When The window is lost-focus, update the window title only.
+	// Or, The geometry of vte will be incorrect when add a new teb with [Menu]
+	gboolean window_title_shows_current_page;
+	gboolean window_title_append_package_name;
+	// The title specified by -T option.
+	// Please see http://www.debian.org/doc/debian-policy/ch-customized-programs.html#s11.8.3 for more details
+	gchar *custom_window_title;
+	// Only used to change the color of tab when launch the adjesting color dialog
+	// gboolean update_window_title_only;
+	// the pid of showing on the Window title
+	pid_t window_title_tpgid;
+
+	// -1: rgba is inited already
+	//  0: do NOT use rgba
+	//  1: force to use rgba
+	//  2: decide by gdk_screen_is_composited()
+	gint use_rgba;
+	gint use_rgba_orig;
+#ifdef ENABLE_RGBA
+	gint transparent_window;
+	gdouble window_opacity;
+
+	gboolean dim_window;
+	gint transparent_window_inactive;
+	gdouble window_opacity_inactive;
+	gboolean window_is_inactivated;
+	gboolean dim_window_expect;
+	GtkWidget *menuitem_dim_window;
+#endif
+
+	gboolean enable_function_key;
+	struct User_KeyValue user_keys[KEYS];
+
+	// 0: Do nothing
+	// 1: Update the hints with base size = font char size
+	// 2: Update the hints with base size = 1
+	gint update_hints;
+
+	gboolean lost_focus;
+
+	// Trying to keep the vte size:
+	//  1, When the page bar was hidden.
+	//  2, When the page bar was shown.
+	//  3, When the font was changed by right click menu.
+	//  4, Increase/decrease window size.
+	//  5, Resotre to system/default font.
+	//  6, Theme has been changed.
+	//  7, Using Dir/Cmdline on pagename.
+	//  8, When clicking and dragging a tab
+	//  9, Hide/Show scroll_bar
+	// 10, Fullscreen/Unfullscreen
+
+	// x: Trying to resize 'twice'. setted to 0 after resized.
+	// y: Trying to resize 'once'. setted to 0 after resized.
+	// 1: Means that the Window is resizing.
+	//
+	// 0000 0000 0000 00x1 (0x0003): Updating Page Name.
+	// 0000 0000 000y x100 (0x001C): Showing/Hiding tabs bar, It should only run window_size_request() once.
+	// 0000 0000 0x10 0000 (0x0060): Changing Themes.
+	// 0000 00yx 1000 0000 (0x0380): Change the vte font, It should only run window_size_request() once.
+	// 0000 x100 0000 0000 (0x0C00): Hide/Show scroll_bar
+	// 00x1 0000 0000 0000 (0x3000): Changing the "Window Title" of foreground program. <- useless
+	// x100 0000 0000 0000 (0xC000): Using in Fullscreen/Unfullscreen. <- useless
+
+	// 1010 1001 0100 1010 (0xA94A): Check for x, Make y only run window_size_request() once.
+	// 0101 0100 1010 0101 (0x54A5): Clean x and y, Means that it is resized.
+
+	// 1111 1101 1110 1111 (0xFDEF): The mask result after check for x, but skip [Updating Page Name].
+	// 0101 0110 1011 0101 (0x56B5): The mask result after check for y, but skip [Updating Page Name].
+
+	guint keep_vte_size;
+
+// ---- the component of a single menu ---- //
+
+	GtkWidget *menu;
+	gboolean menu_activated;
+
+#ifdef ENABLE_RGBA
+	GtkWidget *menuitem_trans_win;
+#endif
+	GtkWidget *menuitem_trans_bg;
+//	GtkWidget *menuitem_scrollback_lines;
+
+	gboolean show_color_selection_menu;
+
+	gboolean show_resize_menu;
+	gdouble font_resize_ratio;
+	gdouble window_resize_ratio;
+
+	gboolean show_background_menu;
+	gboolean show_input_method_menu;
+	gboolean show_change_page_name_menu;
+	gboolean show_exit_menu;
+
+	// FIXME: May cause segfault
+	// enable_hyperlink will enable [Copy URL] menuitem.
+	// It can't copy to page_data
+	gboolean enable_hyperlink;
+	struct User_Command user_command[COMMAND];
+	GtkWidget *menuitem_copy_url;
+
+	GtkWidget *menuitem_dim_text;
+	GtkWidget *menuitem_cursor_blinks;
+	GtkWidget *menuitem_audible_bell;
+	GtkWidget *menuitem_visible_bell;
+	GtkWidget *menuitem_urgent_bell;
+	GtkWidget *menuitem_show_tabs_bar;
+	GtkWidget *menuitem_hide_tabs_bar;
+	GtkWidget *menuitem_always_show_tabs_bar;
+	GtkWidget *menuitem_always_hide_tabs_bar;
+	// the menuitem_hide_scroll_bar->active stores the boolean value of hide/show scroll_bar.
+	GtkWidget *menuitem_hide_scroll_bar;
+
+	gboolean show_copy_paste_menu;
+	GtkWidget *menuitem_copy;
+	GtkWidget *menuitem_paste;
+	GtkWidget *menuitem_clipboard;
+	GtkWidget *menuitem_primary;
+
+// ---- the color used in vte ---- //
+
+	gchar *foreground_color;
+	gchar *background_color;
+	GdkColor fg_color;
+	GdkColor fg_color_inactive;
+	GdkColor bg_color;
+
+	// color datas
+	gchar *color_theme_str;
+	gchar *color_value[COLOR];
+	GtkWidget *menuitem_theme[THEME];
+	GtkWidget *current_menuitem_theme;
+
+	// using_custom_color = TRUE: use vte_terminal_set_colors() to set the color of vte.
+	// using_custom_color = FALSE: use vte_terminal_set_color_foreground/background().
+	gboolean using_custom_color;
+	// color[] and color_orig[] will always be initd when creating a window.
+	GdkColor color[COLOR];
+	GdkColor color_inactive[COLOR];
+	GdkColor color_orig[COLOR];
+	gdouble color_brightness;
+	gdouble color_brightness_inactive;
+
+// ---- tabs on notebook ---- //
+
+	gint page_width;				/* Should be take care when drag to another window */
+	gboolean fill_tabs_bar;
+	gboolean tabs_bar_position;
+
+	// page name
+	gchar *page_name;				/* Should be take care when drag to another window */
+	gboolean reuse_page_names;
+	gchar *page_names;
+	gchar **splited_page_names;
+	gint page_names_no;
+	gint max_page_names_no;
+
+	gboolean page_shows_number;			/* Should be take care when drag to another window */
+	gboolean page_shows_encoding;			/* Should be take care when drag to another window */
+
+	gboolean page_shows_current_cmdline;
+	gboolean page_shows_window_title;
+	gboolean page_shows_current_dir;
+
+	// page color and bold
+	gboolean use_color_page;
+	gboolean check_root_privileges;
+	gboolean bold_current_page_name;
+	gboolean bold_action_page_name;
+	// We will NOT copy the following data to page_data for performance
+	// but trying to keep them to sync with win_data
+	gchar *user_page_color[PAGE_COLOR];		/* Should be take care when drag to another window */
+
+// ---- font ---- //
+#ifdef USE_OLD_VTE_SET_FONT
+	gboolean font_anti_alias;			/* Should be take care when drag to another window */
+#endif
+	gchar *default_font_name;			/* Should be take care when drag to another window */
+	// Only using in <Ctrl><Enter>
+	gchar *restore_font_name;
+
+// ---- other settings for init a vte ---- //
+
+	long default_column;
+	long default_row;
+	gchar *word_chars;				/* Should be take care when drag to another window */
+	Switch_Type show_scroll_bar;			/* Should be take care when drag to another window */
+	// 0: left
+	// 1: right
+	gboolean scroll_bar_position;			/* Should be take care when drag to another window */
+
+	gint transparent_background;
+	gdouble background_saturation;
+	gboolean scroll_background;
+	gchar *background_image;
+
+//	gboolean use_scrollback_lines;
+	gint scrollback_lines;
+	gboolean dim_text;
+#ifdef USE_NEW_VTE_CURSOR_BLINKS_MODE
+	gint cursor_blinks;
+#else
+	gboolean cursor_blinks;
+#endif
+	gboolean audible_bell;
+	gboolean visible_bell;
+	// urgent_bell will stores the currect setting
+	gboolean urgent_bell;
+	// urgent_bell will stores the currect status
+	gboolean urgent_bell_status;
+	gulong urgent_bell_focus_in_event_id;
+	gint erase_binding;
+	GtkWidget *menuitem_erase_binding[ERASE_BINDING];
+	GtkWidget *current_menuitem_erase_binding;
+
+// ---- other ---- //
+
+	gboolean prime_user_datas_inited;
+
+	gboolean confirm_to_close_multi_tabs;
+	gboolean confirm_to_execute_command;
+	gchar *execute_command_whitelist;
+	gchar **execute_command_whitelists;
+	gboolean execute_command_in_new_tab;
+	gchar *foreground_program_whitelist;
+	gchar **foreground_program_whitelists;
+	gchar *background_program_whitelist;
+	gchar **background_program_whitelists;
+	gboolean confirm_to_paste;
+	gchar *paste_texts_whitelist;
+	gchar **paste_texts_whitelists;
+
+	gchar *find_string;
+	gboolean find_case_sensitive;
+	gboolean find_use_perl_regular_expressions;
+	GdkColor find_entry_bg_color;
+	GdkColor find_entry_current_bg_color;
+
+	gboolean checking_menu_item;
+	gboolean kill_color_demo_vte;
+	gboolean adding_page;
+	// gboolean checked_profile_version;
+	gboolean confirmed_profile_is_invalid;
+
+	gchar *temp_data;
+};
+
+
+struct Page
+{
+
+// ---- Some data from win_data ---- //
+
+	GtkWidget *window;
+	GtkWidget *notebook;
+	// current page no on notebook. *for performance*
+	guint page_no;
+#ifdef USE_NEW_GEOMETRY_METHOD
+	long column;
+	long row;
+#endif
+// ---- the component of a single vte ---- //
+
+	GtkWidget *label;
+	GtkWidget *label_text;
+	GtkWidget *label_button;
+	GtkWidget *hbox;
+	GtkWidget *vte;
+	GtkAdjustment *adjustment;
+	GtkWidget *scroll_bar;
+
+// ---- environ and encoding ---- //
+
+	// for drag&drop, or it will shows unnecessary "(UTF-8)" on the tab
+	gchar *encoding_str;
+	// locale: a string like "zh_TW.Big5". The locale of new tab.
+	gchar *locale;
+	// environ: The environ that user specify in profile
+	gchar *environ;
+	// for env VTE_CJK_WIDTH
+	gchar *VTE_CJK_WIDTH_STR;
+
+// ---- for the text shown on the tab of notebook ---- //
+
+	// the page_name of this page.
+	gchar *page_name;
+	// the pid of vte
+	pid_t pid;
+	// the pid of foreground program
+	pid_t new_tpgid;
+	// the pid of showing on the tab name
+	pid_t displayed_tpgid;
+	// the original cmdline for pid
+	gchar *pid_cmdline;
+	// The custom page name which inputed by user
+	gchar *custom_page_name;
+	// [!] The color for this tab. *DON'T FREE IT*
+	// It is a point for win_data->colors.
+	gchar *tab_color;
+	// Current Directory
+	gchar *pwd;
+	// The running command is root privileges or not
+	gboolean is_root;
+	// The text of current page is bold or not
+	gboolean is_bold;
+	gboolean should_be_bold;
+	// The text of current vte is 'inactivated' or not, for performance.
+	gboolean vte_is_inactivated;
+	// The text of current vte is dimmed or not. for auto-detect.
+	gboolean dim_text_expect;
+
+	// 'sleep': a program that is not using window-title.
+	// 'vim': a program that is using window-title.
+	//
+	// 'dash': a shell that is not using window-title.
+	// 'bash'a; a shell that is using window-title.
+	//
+	// record "window-title-changed" signal
+	// situation: (*: the pid and tpgid is NOT the same)
+	//
+	//   1: use 'dash' as 'shell'
+	//	set shell_use_win_title = NO, USE PWD
+	//  *2: run 'sleep' on 'dash'
+	//	-> if win_data->window_title and new_window_title are both NULL
+	//	use CMDLINE
+	//   3: exit from 'sleep' on 'dash'
+	//	-> if win_data->window_title and new_window_title are both NULL, and shell_use_win_title = NO
+	//	use PWD
+	//  *4: run 'vim' on 'dash'
+	//	-> if win_data->window_title=NULL and new_window_title!=NULL
+	//	use WINTITLE
+	//   5: exit from 'vim' on 'dash'
+	//	-> if win_data->window_title != new_window_title
+	//	clean win_data->window_title, use PWD
+	//   6: exit from 'vim' on 'dash', but it don't update the win-title when exiting
+	//	-> if win_data->window_title = new_window_title, and shell_use_win_title = NO
+	//	clean win_data->window_title, use PWD
+	//   7: use 'bash' as 'shell'
+	//	set shell_use_win_title = YES, USE WINTITLE
+	//  *8: run 'sleep' on 'bash'
+	//	-> if win_data->window_title and new_window_title are the same
+	//	use CMDLINE
+	//   9: exit from 'sleep' on 'bash'
+	//	-> if win_data->window_title and new_window_title are the same, and shell_use_win_title = YES
+	//	use WINTITLE
+	// *10: run 'vim' on 'bash'
+	//	-> if win_data->window_title != new_window_title
+	//	use WINTITLE
+	//  11: exit from 'vim' on 'bash'
+	//	-> if win_data->window_title != new_window_title
+	//	use WINTITLE
+	//  12: exit from 'vim' on 'bash', but it don't update the win-title when exiting
+	//	-> if win_data->window_title != new_window_title
+	//	use WINTITLE
+	//  13: the 'shell' is starting to use window-title.
+	//	-> if win_data->window_title != new_window_title
+	//	use WINTITLE, shell_use_win_title = YES
+	//  14: the 'shell' stop to use window-title.
+	//	-> if PWD is changed and window-title is not changed
+	//	clean win_data->window_title, set shell_use_win_title = NO, use PWD
+	//  15: the running commsnd cleaned the winw-title <- impossiable?
+	//  16: the shell cleaned the winw-title <- impossiable?
+
+	//  1: updated
+	//  0: nothing happened
+	// -1: "window-title-changed" stop working
+	gboolean window_title_updated;
+	// 0: auto (default)
+	// 1: window title
+	// 2: command line
+	// 3: pwd
+	// 4: common
+	gint page_update_method;
+	gulong window_title_signal;
+
+	// the id of g_timeout_add_seconds()
+	guint timeout_id;
+	// the id of urgent_bell g_signal
+	gulong urgent_bell_handler_id;
+
+// ---- font ---- //
+
+	// for resize font
+	gchar *font_name;
+	// font_size = 0: use the data in font_name.
+	gint font_size;
+
+// ---- some data came from window---- //
+
+	gboolean check_root_privileges;
+	gboolean page_shows_window_title;
+	gboolean page_shows_current_dir;
+	gboolean page_shows_current_cmdline;
+	gboolean bold_action_page_name;
+
+	// some data came from window. for the performance of monitor_cmdline
+	pid_t *window_title_tpgid;
+	gboolean *lost_focus;
+	guint *keep_vte_size;
+	GtkWidget **current_vte;
+	// gboolean *update_window_title_only;
+	// a "path" string shown on window_title
+	gchar *window_title_pwd;
+	gboolean custom_window_title;
+
+// ---- other---- //
+
+	gint tag[COMMAND];
+};
+
+
+//
+// **************************** profile.c ****************************
+//
+
+
+#define MOD 4
+struct ModKey
+{
+	gchar *name;
+	guint mod;
+};
+
+
+//
+// **************************** dialog.c ****************************
+//
+
+typedef enum {
+	EDIT_LABEL,
+	FIND_STRING,
+	ADD_NEW_LOCALES,
+	CHANGE_THE_FOREGROUND_COLOR,
+	ADJUST_THE_BRIGHTNESS_OF_ANSI_COLORS_USED_IN_TERMINAL,
+	ADJUST_THE_BRIGHTNESS_OF_ANSI_COLORS_WHEN_INACTIVE,
+	CHANGE_THE_BACKGROUND_COLOR,
+	CHANGE_BACKGROUND_SATURATION,
+	CHANGE_THE_OPACITY_OF_WINDOW,
+	CHANGE_THE_OPACITY_OF_WINDOW_WHEN_INACTIVE,
+	CHANGE_THE_TEXT_COLOR_OF_WINDOW_TITLE,
+	CHANGE_THE_TEXT_COLOR_OF_CMDLINE,
+	CHANGE_THE_TEXT_COLOR_OF_CURRENT_DIR,
+	CHANGE_THE_TEXT_COLOR_OF_CUSTOM_PAGE_NAME,
+	CHANGE_THE_TEXT_COLOR_OF_ROOT_PRIVILEGES_CMDLINE,
+	CHANGE_THE_TEXT_COLOR_OF_NORMAL_TEXT,
+	CONFIRM_TO_EXECUTE_COMMAND,
+	CONFIRM_TO_CLOSE_MULTI_PAGES,
+	CONFIRM_TO_CLOSE_RUNNING_APPLICATION,
+	CONFIRM_TO_CLOSE_A_TAB_WITH_CHILD_PROCESS,
+	CONFIRM_TO_CLOSE_A_WINDOW_WITH_CHILD_PROCESS,
+	CONFIRM_TO_EXIT_WITH_CHILD_PROCESS,
+	CONFIRM_TO_PASTE_TEXTS_TO_VTE_TERMINAL,
+	VIEW_THE_CLIPBOARD,
+	PASTE_TEXTS_TO_EVERY_VTE_TERMINAL,
+	PASTE_GRABBED_KEY_TO_EVERY_VTE_TERMINAL,
+	SET_FUNCTION_KEY_VALUE,
+	USAGE_MESSAGE,
+} Dialog_Type_Flags;
+
+struct Dialog
+{
+	GtkWidget *window;
+	GtkWidget *operate[4];
+	GtkWidget *box;
+	GtkWidget *title_label;
+
+#ifdef ENABLE_RGBA
+	gboolean original_transparent_window;
+	gdouble original_window_opacity;
+	gdouble original_window_opacity_inactive;
+	gboolean original_dim_window;
+#endif
+	gboolean original_transparent_background;
+	gboolean original_using_custom_color;
+	gdouble original_color_brightness;
+	gboolean original_dim_text;
+	GdkColor original_fg_color;
+	gint original_update_method[PAGE_COLOR+1];
+
+	// For restore to original count of tabs when change the color of tab names.
+	gint total_page;
+	gint current_page_no;
+
+	gboolean tab_1_is_bold;
+
+	GtkWidget *treeview;
+	gint KeyTree[KEYS][KEYS];
+	gint current_key_index;
+
+	gchar *user_key_value[KEYS];
+};
+
+
+#endif

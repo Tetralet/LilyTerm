@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE default-apps SYSTEM "gnome-da-list.dtd">
+<default-apps>
+  <terminals>
+    <terminal>
+      <name>LilyTerm</name>
+      <executable>lilyterm</executable>
+      <command>lilyterm %s</command>
+      <icon-name>terminal</icon-name>
+      <exec-flag>-e</exec-flag>
+    </terminal>
+  </terminals>
+</default-apps>

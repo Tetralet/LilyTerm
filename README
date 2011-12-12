@@ -1,0 +1,120 @@
+NAME
+       LilyTerm - A light and eazy-to-use terminal emulator for X.
+
+SYNOPSIS
+       lilyterm [-? | -h | --help] [-v | --version] [-p | --profile] [-s | --separate] [-l | -ls | --login] [-T TITLE | --title TITLE] [-t NUMBER | --tab NUMBER] [-d DIRECTORY | --directory DIRECTORY] [-u PROFILE | --user_profile PROFILE] [-e COMMAND | -x COMMAND | --execute COMMAND]
+
+DESCRIPTION
+       LilyTerm is a terminal emulator for the X Window System, based on the libvte library, and aims to be fast and lightweight.
+
+OPTIONS
+       -? | -h | --help
+           Display a brief help message.
+
+       -v | --version
+           Show the version information.
+
+       -p | --profile
+           Got a profile sample.
+
+       -s | --separate
+           Run in separate process.
+
+       -l | -ls | --login
+           Make the shell invoked as a login shell.
+
+       -T TITLE | --title TITLE
+           Specify the window title.
+
+       -t NUMBER | --tab NUMBER
+           Open multi tabs when starting up.
+
+       -d DIRECTORY | --directory DIRECTORY
+           Specify the init directory when starting up.
+
+       -u PROFILE | --user_profile PROFILE
+           Use a specified profile.
+
+       -e COMMAND | -x COMMAND | --execute COMMAND
+           Run a command when starting up. Must be the final option.
+
+KEYBOARD CONTROL
+       The following shortcut keys may custom or disable by editing user's profile. Use [Get function value] in the right click menu to get the function key value for used in profile.
+
+       <Ctrl><`>          Disable/Enable hyperlinks, function keys and right click menu for temporary.
+
+       <Ctrl><T/Q>        Add a New tab/Close current tab.
+                          Using <Ctrl><D> or 'exit' to close tabs is recommended.
+
+       <Ctrl><E>          Rename current tab.
+
+       <Ctrl><PgUp/PgDn>  Switch to Prev/Next tab.
+
+       <Ctrl><Home/End>   Switch to First/Last tab.
+
+       <Ctrl><Left/Right> Move current page Forward/Backward.
+
+       <Ctrl><Up/Down>    Move current page to First/Last.
+
+       <Ctrl><F1~F12>     Switch to 1st ~ 12th tab.
+
+       <Ctrl><O>          Select all the text in the Vte Terminal box.
+
+       <Ctrl><X/V>        Copy the text to clipboard / Paste the text in clipboard.
+
+       <Ctrl><+/-/Enter>  Increase/Decrease/Reset the font size of current tab.
+
+       <Alt><F11/Enter>   Switch between fullwindow/unfullwindow and fullscreen/unfullscreen state.
+
+       <Shift><Insert>    Paste the text in primary clipboard.
+                          i.e. Emulate a middle button mouse click to paste the text.
+
+FILE
+       /etc/xdg/lilyterm.conf  System configure file
+
+       ~/.config/lilyterm.conf User's profile.
+
+       Use [Save settings] in the right click menu to save the current tab's settings as default to the specified profile.
+
+TIPS
+       Display UTF-8 character under C locale
+
+           Execute the following command under LilyTerm:
+
+               bind "set convert-meta off"
+               bind "set output-meta on"
+
+           And use the right click menu to set the text encoding to "UTF-8".
+
+       Launch LilyTerm under a chroot jail
+
+           Extract xauth info to a file (under X):
+
+               xauth extract /PathToChroot/tmp/display $DISPLAY
+
+           Mount the devpts device before chroot into a chroot jail:
+
+               mount /dev/pts /PathToChroot/dev/pts -t devpts
+
+           Merge the extracted xauth info and set the DISPLAY environ after chroot into the chroot jail:
+
+               xauth merge /tmp/display
+               export DISPLAY=:0
+
+           Launch LilyTerm directly, or run it under Xnest:
+
+               xinit ~/.xinitrc -- /usr/bin/Xnest :1 -ac
+
+ENVIRONMENT
+       TERM           Sets what type of terminal attempts to emulate. Please always set to "xterm" under LilyTerm.
+
+       VTE_CJK_WIDTH  Controls the width of some ideographs should be "single width" or "double width" in a vte teminal.
+
+       PROMPT_COMMAND Customs the "Window Title" for bash.
+                      Please visit http://tldp.org/HOWTO/Xterm-Title.html for more details.
+
+AUTHOR
+       Lu, Chao-Ming (Tetralet) <tetralet@gmail.com>
+
+SEE ALSO
+       xterm(1)

@@ -1,0 +1,19 @@
+[Desktop Entry]
+Name=LilyTerm
+GenericName=Terminal
+Comment=A light and easy to use libvte based X Terminal Emulator
+Comment[zh_TW]=輕巧人性化、基於 libvte 的 X 終端機模擬程式
+Comment[de]=Leichtgewichtiger und benutzerfreundlicher, libvte-basierter Terminal emulator
+Comment[it]=Un emulatore di terminale per X basato su libvte, leggero e facile da usare                          
+Comment[ru]=Лёгкий и простой эмулятор терминала, основанный на libvte
+Comment[uk]=Легкий та простий емулятор терміналу, заснований на libvte
+Comment[nl]=Een lichte, eenvoudige en makkelijk te gebruiken X Terminal Emulator met als basis libvte
+Comment[tr]=libvte tabanlı hafif ve kolay kullanımlı bir X Terminal Öykünücüsü
+Comment[sk]=Odľahčený a ľahko použiteľný emulátor terminálu pre X, založený na libvte
+
+TryExec=lilyterm
+Exec=lilyterm
+Icon=lilyterm
+Type=Application
+Terminal=false
+Categories=GTK;Utility;TerminalEmulator;
