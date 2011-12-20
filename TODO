@@ -8,6 +8,7 @@ add a new tab, and increase the font size of 1st tab, close 2nd tab, the window 
 check every externs...
 the environ won't copy from last tab <- very hard to fix it.
 ** antialias don't work in new libvte
+[LilyTerm Default & System Default] don't behave the same?
 
 TODO:
 
@@ -23,6 +24,7 @@ sort menu via profile
 a scroll bar menu
 Save settings that diff and full
 ** replace sleep with time_out
+
 
 Deprecated:
 

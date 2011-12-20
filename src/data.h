@@ -149,8 +149,12 @@
 	#define USE_GTK_NOTEBOOK_SET_GROUP_NAME
 	#define USE_GDK_SCREEN_GET_RGBA_VISUAL
 #endif
+
+#ifndef gtk_window_set_has_resize_grip
+#define gtk_window_set_has_resize_grip(x,y);
+#endif
+
 #if GTK_CHECK_VERSION(2,91,1)
-	#define NO_RESIZE_GRIP
 	#define USE_XPARSEGEOMETRY
 #endif
 #if GTK_CHECK_VERSION(2,91,7)

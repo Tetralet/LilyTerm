@@ -76,9 +76,7 @@ GtkNotebook *new_window(int argc,
 // ---- create main window ---- //
 
 	win_data->window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-#ifdef NO_RESIZE_GRIP
-	gtk_window_set_has_resize_grip(GTK_WINDOW(win_data->window), 0);
-#endif
+	gtk_window_set_has_resize_grip(GTK_WINDOW(win_data->window), FALSE);
 	gtk_window_set_title(GTK_WINDOW(win_data->window), PACKAGE_NAME);
 	set_window_icon(win_data->window);
 
