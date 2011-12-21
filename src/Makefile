@@ -17,24 +17,25 @@ PACKAGE_NAME = LilyTerm
 VER = 0.9.9
 YEAR = $(shell date +%Y)
 
-PKGCONFIG := $(shell whereis pkg-config | tr -d '\n' | sed 's/^pkg-config://g')
+PKGCONFIG := $(shell whereis -b pkg-config | tr -d '\n' | sed 's/^pkg-config: //g')
+ECHO := $(shell whereis -b echo | tr -d '\n' | sed 's/^echo: //g')
 VTE ?= ""
 
 ifneq ($(PKGCONFIG), )
 
 ifeq ($(VTE), "vte")
-GTK := $(shell pkg-config --exists 'gtk+-2.0' && echo 'gtk+-2.0')
+GTK := $(shell pkg-config --exists 'gtk+-2.0' && $(ECHO) 'gtk+-2.0')
 endif
 ifeq ($(VTE), "vte-2.90")
-GTK := $(shell pkg-config --exists 'gtk+-3.0' && echo 'gtk+-3.0')
+GTK := $(shell pkg-config --exists 'gtk+-3.0' && $(ECHO) 'gtk+-3.0')
 endif
 ifeq ($(VTE), "")
-VTE := $(shell pkg-config --exists 'vte' && echo 'vte')
-GTK := $(shell pkg-config --exists 'gtk+-2.0' && echo 'gtk+-2.0')
+VTE := $(shell pkg-config --exists 'vte' && $(ECHO) 'vte')
+GTK := $(shell pkg-config --exists 'gtk+-2.0' && $(ECHO) 'gtk+-2.0')
 endif
 ifeq ($(VTE), )
-VTE := $(shell pkg-config --exists 'vte-2.90' && echo 'vte-2.90')
-GTK := $(shell pkg-config --exists 'gtk+-3.0' && echo 'gtk+-3.0')
+VTE := $(shell pkg-config --exists 'vte-2.90' && $(ECHO) 'vte-2.90')
+GTK := $(shell pkg-config --exists 'gtk+-3.0' && $(ECHO) 'gtk+-3.0')
 endif
 
 endif
@@ -142,14 +143,14 @@ clean:
 	-@ for FileName in $(BINARY) $(BINARY)_dev $(BINARY)_dbg *.o unit_test.c ../po/*.mo; \
 	do \
 		if [ -f "$$FileName" ]; then \
-			echo -e "\x1b[1;31m** "deleting $$FileName..."\x1b[0m"; \
+			$(ECHO) -e "\x1b[1;31m** "deleting $$FileName..."\x1b[0m"; \
 			rm "$$FileName"; \
 		fi; \
 	done
 
 .PHONY: data
 data: debug
-	@ echo -e "\x1b[1;36m** Creating $(BINARY).pot...\x1b[0m"
+	@ $(ECHO) -e "\x1b[1;36m** Creating $(BINARY).pot...\x1b[0m"
 	@ xgettext --from-code=UTF-8 -k_ \
 		   --copyright-holder="$(YEAR) FULL NAME <EMAIL@ADDRESS>" \
 		   --package-name=$(PACKAGE_NAME) \
@@ -157,67 +158,67 @@ data: debug
 		   --add-comments='TRANSLATE NOTE:' -o ../po/$(BINARY).pot *.c
 	@ for FileName in $(PO_LIST); \
 	do \
-		echo -e "\x1b[1;33m** msgmerge $$FileName.po...\x1b[0m"; \
+		$(ECHO) -e "\x1b[1;33m** msgmerge $$FileName.po...\x1b[0m"; \
 		msgmerge --previous ../po/$$FileName.po ../po/$(BINARY).pot -o ../po/$$FileName.po; \
 		msgfmt --check --statistics ../po/$$FileName.po -o ../po/$$FileName.mo; \
 	done
-	@ echo -e "\x1b[1;36m** Creating $(BINARY).conf...\x1b[0m"
+	@ $(ECHO) -e "\x1b[1;36m** Creating $(BINARY).conf...\x1b[0m"
 	@ ./$(BINARY)_dbg -p > ../data/$(BINARY).conf
 	@ cd ../po && /usr/bin/intltool-update -m && cd - > /dev/null
 
 menu.o: data.h $(BINARY).h menu.h menu.c
-	@ echo -e "\x1b[1;33m** Compiling menu.o...\x1b[0m"
+	@ $(ECHO) -e "\x1b[1;33m** Compiling menu.o...\x1b[0m"
 	@ $(CC) $(CFLAGS) $(INCLUDES) -c menu.c `$(OBJ_PKG_CMD)`
 
 font.o: data.h $(BINARY).h font.h font.c
-	@ echo -e "\x1b[1;33m** Compiling font.o...\x1b[0m"
+	@ $(ECHO) -e "\x1b[1;33m** Compiling font.o...\x1b[0m"
 	@ $(CC) $(CFLAGS) $(INCLUDES) -c font.c `$(OBJ_PKG_CMD)`
 
 dialog.o: data.h $(BINARY).h dialog.h dialog.c
-	@ echo -e "\x1b[1;33m** Compiling dialog.o...\x1b[0m"
+	@ $(ECHO) -e "\x1b[1;33m** Compiling dialog.o...\x1b[0m"
 	@ $(CC) $(CFLAGS) $(INCLUDES) -c dialog.c `$(OBJ_PKG_CMD)`
 
 profile.o: data.h $(BINARY).h profile.h profile.c
-	@ echo -e "\x1b[1;33m** Compiling profile.o...\x1b[0m"
+	@ $(ECHO) -e "\x1b[1;33m** Compiling profile.o...\x1b[0m"
 	@ $(CC) $(CFLAGS) $(INCLUDES) -c profile.c `$(OBJ_PKG_CMD)`
 
 pagename.o: data.h $(BINARY).h pagename.h pagename.c
-	@ echo -e "\x1b[1;33m** Compiling pagename.o...\x1b[0m"
+	@ $(ECHO) -e "\x1b[1;33m** Compiling pagename.o...\x1b[0m"
 	@ $(CC) $(CFLAGS) $(INCLUDES) -c pagename.c `$(OBJ_PKG_CMD)`
 
 property.o: data.h $(BINARY).h property.h property.c
-	@ echo -e "\x1b[1;33m** Compiling property.o...\x1b[0m"
+	@ $(ECHO) -e "\x1b[1;33m** Compiling property.o...\x1b[0m"
 	@ $(CC) $(CFLAGS) $(INCLUDES) -c property.c `$(OBJ_PKG_CMD)`
 
 notebook.o: data.h $(BINARY).h notebook.h notebook.c
-	@ echo -e "\x1b[1;33m** Compiling notebook.o...\x1b[0m"
+	@ $(ECHO) -e "\x1b[1;33m** Compiling notebook.o...\x1b[0m"
 	@ $(CC) $(CFLAGS) $(INCLUDES) -c notebook.c `$(OBJ_PKG_CMD)`
 
 window.o: data.h $(BINARY).h window.h window.c
-	@ echo -e "\x1b[1;33m** Compiling window.o...\x1b[0m"
+	@ $(ECHO) -e "\x1b[1;33m** Compiling window.o...\x1b[0m"
 	@ $(CC) $(CFLAGS) $(INCLUDES) -c window.c `$(OBJ_PKG_CMD)`
 
 misc.o: data.h $(BINARY).h misc.h misc.c
-	@ echo -e "\x1b[1;33m** Compiling misc.o...\x1b[0m"
+	@ $(ECHO) -e "\x1b[1;33m** Compiling misc.o...\x1b[0m"
 	@ $(CC) $(CFLAGS) $(INCLUDES) -c misc.c `$(OBJ_PKG_CMD)`
 
 console.o: data.h $(BINARY).h console.h console.c
-	@ echo -e "\x1b[1;33m** Compiling console.o...\x1b[0m"
+	@ $(ECHO) -e "\x1b[1;33m** Compiling console.o...\x1b[0m"
 	@ $(CC) $(CFLAGS) $(INCLUDES) -c console.c `$(OBJ_PKG_CMD)`
 
 main.o: data.h $(BINARY).h main.h main.c
-	@ echo -e "\x1b[1;33m** Compiling main.o...\x1b[0m"
+	@ $(ECHO) -e "\x1b[1;33m** Compiling main.o...\x1b[0m"
 	@ $(CC) $(CFLAGS) $(INCLUDES) -c main.c `$(OBJ_PKG_CMD)`
 
 unit_test.c : unit_test.sh
-	@ echo -e "\x1b[1;33m** Creating unit_test.c...\x1b[0m"
+	@ $(ECHO) -e "\x1b[1;33m** Creating unit_test.c...\x1b[0m"
 	@ sh unit_test.sh > unit_test.c
 
 unit_test.o: console.h data.h dialog.h font.h $(BINARY).h main.h menu.h misc.h notebook.h pagename.h profile.h property.h window.h unit_test.c
-	@ echo -e "\x1b[1;33m** Compiling .o...\x1b[0m"
+	@ $(ECHO) -e "\x1b[1;33m** Compiling .o...\x1b[0m"
 	@ $(CC) $(CFLAGS) $(INCLUDES) -c unit_test.c `$(OBJ_PKG_CMD)`
 
 .PHONY: compile
 compile: $(OBJ)
-	@ echo -e "\x1b[1;36m** Compiling $(BINARY)...\x1b[0m"
+	@ $(ECHO) -e "\x1b[1;36m** Compiling $(BINARY)...\x1b[0m"
 	@ $(CC) $(LDFLAGS) $(CFLAGS) -o $(BINARY) $(OBJ) `$(BINARY_PKG_CMD)`
