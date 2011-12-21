@@ -150,10 +150,6 @@
 	#define USE_GDK_SCREEN_GET_RGBA_VISUAL
 #endif
 
-#ifndef gtk_window_set_has_resize_grip
-#define gtk_window_set_has_resize_grip(x,y);
-#endif
-
 #if GTK_CHECK_VERSION(2,91,1)
 	#define USE_XPARSEGEOMETRY
 #endif
@@ -174,6 +170,10 @@
     #ifndef GDK_SUPER_MASK
 	#define GDK_SUPER_MASK 1<<26
     #endif
+#endif
+
+#if (! defined GTK_STYLE_CLASS_GRIP) && (! GTK_CHECK_VERSION(2,91,1))
+#define gtk_window_set_has_resize_grip(x,y);
 #endif
 
 #if ! GTK_CHECK_VERSION(2,20,0)
