@@ -1952,9 +1952,9 @@ void create_dialog(gchar *dialog_title_translation, gchar *dialog_title,  Dialog
 		case DIALOG_NONE:
 			dialog_data->window = gtk_dialog_new();
 			gtk_window_set_title(GTK_WINDOW(dialog_data->window), dialog_title_translation);
-			gtk_window_set_transient_for (GTK_WINDOW (dialog_data->window), GTK_WINDOW(window));
+			gtk_window_set_transient_for (GTK_WINDOW(dialog_data->window), GTK_WINDOW(window));
 #ifdef EXIST_GTK_DIALOG_NO_SEPARATOR
-			gtk_dialog_set_has_separator(dialog_data->window, FALSE);
+			gtk_dialog_set_has_separator(GTK_DIALOG(dialog_data->window), FALSE);
 #endif
 			gtk_window_set_destroy_with_parent (GTK_WINDOW (dialog_data->window), TRUE);
 			break;
