@@ -47,7 +47,7 @@ etcdir = /etc/xdg
 datadir = $(prefix)/share
 date = `date +%Y-%m-%d`
 CC ?= gcc
-CFLAGS = $$CFLAGS -Wall -Werror -Wformat -Wformat-security -Werror=format-security -O2
+CFLAGS ?= -Wall -Werror -Wformat -Wformat-security -Werror=format-security -O2
 #CFLAGS = $$CFLAGS -Wall -Wextra -Os -std=c99 \
 #	 -DG_DISABLE_DEPRECATED \
 #	 -DG_DISABLE_SINGLE_INCLUDES -DGDK_DISABLE_DEPRECATED \
