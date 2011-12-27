@@ -17,25 +17,26 @@ PACKAGE_NAME = LilyTerm
 VER = 0.9.9
 YEAR = $(shell date +%Y)
 
-PKGCONFIG := $(shell whereis -b pkg-config | tr -d '\n' | sed 's/^pkg-config: //g')
-ECHO := $(shell whereis -b echo | tr -d '\n' | sed 's/^echo: //g')
+PKGCONFIG := $(shell whereis -b pkg-config | awk '{print $$2}')
+ECHO = $(shell whereis -b echo | awk '{print $$2}')
+
 VTE ?= ""
 
 ifneq ($(PKGCONFIG), )
 
 ifeq ($(VTE), "vte")
-GTK := $(shell pkg-config --exists 'gtk+-2.0' && $(ECHO) 'gtk+-2.0')
+GTK := $(shell $(PKGCONFIG) --exists 'gtk+-2.0' && $(ECHO) 'gtk+-2.0')
 endif
 ifeq ($(VTE), "vte-2.90")
-GTK := $(shell pkg-config --exists 'gtk+-3.0' && $(ECHO) 'gtk+-3.0')
+GTK := $(shell $(PKGCONFIG) --exists 'gtk+-3.0' && $(ECHO) 'gtk+-3.0')
 endif
 ifeq ($(VTE), "")
-VTE := $(shell pkg-config --exists 'vte' && $(ECHO) 'vte')
-GTK := $(shell pkg-config --exists 'gtk+-2.0' && $(ECHO) 'gtk+-2.0')
+VTE := $(shell $(PKGCONFIG) --exists 'vte' && $(ECHO) 'vte')
+GTK := $(shell $(PKGCONFIG) --exists 'gtk+-2.0' && $(ECHO) 'gtk+-2.0')
 endif
 ifeq ($(VTE), )
-VTE := $(shell pkg-config --exists 'vte-2.90' && $(ECHO) 'vte-2.90')
-GTK := $(shell pkg-config --exists 'gtk+-3.0' && $(ECHO) 'gtk+-3.0')
+VTE := $(shell $(PKGCONFIG) --exists 'vte-2.90' && $(ECHO) 'vte-2.90')
+GTK := $(shell $(PKGCONFIG) --exists 'gtk+-3.0' && $(ECHO) 'gtk+-3.0')
 endif
 
 endif
@@ -53,8 +54,8 @@ CFLAGS = $$CFLAGS -Wall -Werror -Wformat -Wformat-security -Werror=format-securi
 #	 -DGDK_DISABLE_SINGLE_INCLUDES -DGTK_DISABLE_DEPRECATED \
 #	 -DGTK_DISABLE_SINGLE_INCLUDES -DGSEAL_ENABLE
 LDFLAGS = -L$(prefix)/local/lib
-OBJ_PKG_CMD = pkg-config --cflags $(GTK) $(VTE)
-BINARY_PKG_CMD = pkg-config --cflags --libs $(GTK) $(VTE)
+OBJ_PKG_CMD = $(PKGCONFIG) --cflags $(GTK) $(VTE)
+BINARY_PKG_CMD = $(PKGCONFIG) --cflags --libs $(GTK) $(VTE)
 PO_LIST = zh_TW de fr es it nl pl ru sk tr uk zh_CN
 OBJ = menu.o profile.o dialog.o pagename.o notebook.o font.o \
       property.o window.o misc.o console.o main.o
