@@ -100,7 +100,7 @@ defensive-develop: compile
 .PHONY: ut
 ut: unit_test
 .PHONY: unit_test
-unit_test: CFLAGS := $(CFLAGS) -g
+unit_test: CFLAGS := -Wall -O2 -g
 unit_test: INCLUDES := $(INCLUDES) -DDEFENSIVE -DDEBUG -DFATAL -DDEVELOP -DUNIT_TEST -DVERSION=\"$(VER)\ Develop\ Version\ \($(date)\)\"
 unit_test: BINARY := $(BINARY)_dev
 unit_test: OBJ := $(OBJ) unit_test.o
@@ -151,7 +151,7 @@ clean:
 
 .PHONY: data
 data: debug
-	@ $(ECHO) -e "\x1b[1;36m** Creating $(BINARY).pot...\x1b[0m"
+	@ $(ECHO) -e "\x1b[1;36m** creating $(BINARY).pot...\x1b[0m"
 	@ xgettext --from-code=UTF-8 -k_ \
 		   --copyright-holder="$(YEAR) FULL NAME <EMAIL@ADDRESS>" \
 		   --package-name=$(PACKAGE_NAME) \
@@ -163,52 +163,52 @@ data: debug
 		msgmerge --previous ../po/$$FileName.po ../po/$(BINARY).pot -o ../po/$$FileName.po; \
 		msgfmt --check --statistics ../po/$$FileName.po -o ../po/$$FileName.mo; \
 	done
-	@ $(ECHO) -e "\x1b[1;36m** Creating $(BINARY).conf...\x1b[0m"
+	@ $(ECHO) -e "\x1b[1;36m** creating $(BINARY).conf...\x1b[0m"
 	@ ./$(BINARY)_dbg -p > ../data/$(BINARY).conf
 	@ cd ../po && /usr/bin/intltool-update -m && cd - > /dev/null
 
 menu.o: data.h $(BINARY).h menu.h menu.c
-	@ $(ECHO) -e "\x1b[1;33m** Compiling menu.o...\x1b[0m"
+	@ $(ECHO) -e "\x1b[1;33m** compiling menu.o...\x1b[0m"
 	@ $(CC) $(CFLAGS) $(INCLUDES) -c menu.c `$(OBJ_PKG_CMD)`
 
 font.o: data.h $(BINARY).h font.h font.c
-	@ $(ECHO) -e "\x1b[1;33m** Compiling font.o...\x1b[0m"
+	@ $(ECHO) -e "\x1b[1;33m** compiling font.o...\x1b[0m"
 	@ $(CC) $(CFLAGS) $(INCLUDES) -c font.c `$(OBJ_PKG_CMD)`
 
 dialog.o: data.h $(BINARY).h dialog.h dialog.c
-	@ $(ECHO) -e "\x1b[1;33m** Compiling dialog.o...\x1b[0m"
+	@ $(ECHO) -e "\x1b[1;33m** compiling dialog.o...\x1b[0m"
 	@ $(CC) $(CFLAGS) $(INCLUDES) -c dialog.c `$(OBJ_PKG_CMD)`
 
 profile.o: data.h $(BINARY).h profile.h profile.c
-	@ $(ECHO) -e "\x1b[1;33m** Compiling profile.o...\x1b[0m"
+	@ $(ECHO) -e "\x1b[1;33m** compiling profile.o...\x1b[0m"
 	@ $(CC) $(CFLAGS) $(INCLUDES) -c profile.c `$(OBJ_PKG_CMD)`
 
 pagename.o: data.h $(BINARY).h pagename.h pagename.c
-	@ $(ECHO) -e "\x1b[1;33m** Compiling pagename.o...\x1b[0m"
+	@ $(ECHO) -e "\x1b[1;33m** compiling pagename.o...\x1b[0m"
 	@ $(CC) $(CFLAGS) $(INCLUDES) -c pagename.c `$(OBJ_PKG_CMD)`
 
 property.o: data.h $(BINARY).h property.h property.c
-	@ $(ECHO) -e "\x1b[1;33m** Compiling property.o...\x1b[0m"
+	@ $(ECHO) -e "\x1b[1;33m** compiling property.o...\x1b[0m"
 	@ $(CC) $(CFLAGS) $(INCLUDES) -c property.c `$(OBJ_PKG_CMD)`
 
 notebook.o: data.h $(BINARY).h notebook.h notebook.c
-	@ $(ECHO) -e "\x1b[1;33m** Compiling notebook.o...\x1b[0m"
+	@ $(ECHO) -e "\x1b[1;33m** compiling notebook.o...\x1b[0m"
 	@ $(CC) $(CFLAGS) $(INCLUDES) -c notebook.c `$(OBJ_PKG_CMD)`
 
 window.o: data.h $(BINARY).h window.h window.c
-	@ $(ECHO) -e "\x1b[1;33m** Compiling window.o...\x1b[0m"
+	@ $(ECHO) -e "\x1b[1;33m** compiling window.o...\x1b[0m"
 	@ $(CC) $(CFLAGS) $(INCLUDES) -c window.c `$(OBJ_PKG_CMD)`
 
 misc.o: data.h $(BINARY).h misc.h misc.c
-	@ $(ECHO) -e "\x1b[1;33m** Compiling misc.o...\x1b[0m"
+	@ $(ECHO) -e "\x1b[1;33m** compiling misc.o...\x1b[0m"
 	@ $(CC) $(CFLAGS) $(INCLUDES) -c misc.c `$(OBJ_PKG_CMD)`
 
 console.o: data.h $(BINARY).h console.h console.c
-	@ $(ECHO) -e "\x1b[1;33m** Compiling console.o...\x1b[0m"
+	@ $(ECHO) -e "\x1b[1;33m** compiling console.o...\x1b[0m"
 	@ $(CC) $(CFLAGS) $(INCLUDES) -c console.c `$(OBJ_PKG_CMD)`
 
 main.o: data.h $(BINARY).h main.h main.c
-	@ $(ECHO) -e "\x1b[1;33m** Compiling main.o...\x1b[0m"
+	@ $(ECHO) -e "\x1b[1;33m** compiling main.o...\x1b[0m"
 	@ $(CC) $(CFLAGS) $(INCLUDES) -c main.c `$(OBJ_PKG_CMD)`
 
 unit_test.c : unit_test.sh
@@ -216,10 +216,10 @@ unit_test.c : unit_test.sh
 	@ sh unit_test.sh > unit_test.c
 
 unit_test.o: console.h data.h dialog.h font.h $(BINARY).h main.h menu.h misc.h notebook.h pagename.h profile.h property.h window.h unit_test.c
-	@ $(ECHO) -e "\x1b[1;33m** Compiling .o...\x1b[0m"
+	@ $(ECHO) -e "\x1b[1;33m** compiling unit_test.o...\x1b[0m"
 	@ $(CC) $(CFLAGS) $(INCLUDES) -c unit_test.c `$(OBJ_PKG_CMD)`
 
 .PHONY: compile
 compile: $(OBJ)
-	@ $(ECHO) -e "\x1b[1;36m** Compiling $(BINARY)...\x1b[0m"
+	@ $(ECHO) -e "\x1b[1;36m** compiling $(BINARY)...\x1b[0m"
 	@ $(CC) $(LDFLAGS) $(CFLAGS) -o $(BINARY) $(OBJ) `$(BINARY_PKG_CMD)`
