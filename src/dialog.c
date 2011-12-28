@@ -277,19 +277,19 @@ gboolean dialog(GtkWidget *widget, gsize style)
 			// refresh_regex(win_data, dialog_data);
 
 			// Dirty Hack
-			gchar *temp_str = NULL;
+			gchar *clipboard_str = NULL;
 			if (vte_terminal_get_has_selection(VTE_TERMINAL(win_data->current_vte)))
 			{
 				extern GtkClipboard *selection_primary;
-				temp_str = gtk_clipboard_wait_for_text (selection_primary);
-				if (temp_str && (temp_str[0]!='\0'))
+				clipboard_str = gtk_clipboard_wait_for_text (selection_primary);
+				if (clipboard_str && (clipboard_str[0]!='\0'))
 					gtk_entry_set_text(GTK_ENTRY(dialog_data->operate[0]),
-							   strtok(temp_str, "\n\r"));
+							   strtok(clipboard_str, "\n\r"));
 			}
-			if (((temp_str==NULL) || (temp_str[0]=='\0')) &&
+			if (((clipboard_str==NULL) || (clipboard_str[0]=='\0')) &&
 			    (win_data->find_string && (win_data->find_string[0]!='\0')))
 				gtk_entry_set_text(GTK_ENTRY(dialog_data->operate[0]), win_data->find_string);
-			g_free(temp_str);
+			g_free(clipboard_str);
 #else
 			upgrade_dialog(ENABLE_FIND_STRING_VER);
 #endif
