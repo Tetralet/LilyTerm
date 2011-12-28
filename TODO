@@ -13,6 +13,7 @@ the environ won't copy from last tab <- very hard to fix it.
 TODO:
 
 ** reload settings (Window Title may cause problems)
+paste may not work?
 apply to every window
 response from unix sockets
 check vte_data->column
