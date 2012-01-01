@@ -100,7 +100,7 @@ defensive-develop: compile
 .PHONY: ut
 ut: unit_test
 .PHONY: unit_test
-unit_test: CFLAGS := -Wall -O2 -g
+unit_test: CFLAGS := $(CFLAGS) -g
 unit_test: INCLUDES := $(INCLUDES) -DDEFENSIVE -DDEBUG -DFATAL -DDEVELOP -DUNIT_TEST -DVERSION=\"$(VER)\ Develop\ Version\ \($(date)\)\"
 unit_test: BINARY := $(BINARY)_dev
 unit_test: OBJ := $(OBJ) unit_test.o
