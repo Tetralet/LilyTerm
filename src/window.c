@@ -367,7 +367,10 @@ GtkNotebook *new_window(int argc,
 	{
 		// It is for the new window which dragged the vte tab to the root window
 		// for create_menu()
-		win_data->current_vte = win_data_orig->current_vte;
+#ifdef DEFENSIVE
+		if ((win_data != NULL) && (win_data_orig != NULL))
+#endif
+			win_data->current_vte = win_data_orig->current_vte;
 	}
 
 	// gtk_window_set_gravity(GTK_WINDOW(win_data->window), GDK_GRAVITY_NORTH);
