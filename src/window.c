@@ -929,8 +929,8 @@ gboolean window_option(struct Window *win_data, gchar *encoding, int argc, char 
 gboolean window_key_press(GtkWidget *window, GdkEventKey *event, struct Window *win_data)
 {
 #ifdef FULL
-	g_debug("! Launch window_key_press() with key = %s, state = %X, win_data = %p",
-		 gdk_keyval_name(event->keyval), event->state, win_data);
+	g_debug("! Launch window_key_press() with key = %X (%s), state = %X, win_data = %p",
+		 event->keyval, gdk_keyval_name(event->keyval), event->state, win_data);
 #endif
 #ifdef DEFENSIVE
 	if ((win_data==NULL) || (event==NULL)) return FALSE;

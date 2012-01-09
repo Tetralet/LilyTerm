@@ -101,10 +101,9 @@ defensive-develop: compile
 ut: unit_test
 .PHONY: unit_test
 unit_test: CFLAGS := $(CFLAGS) -g
-unit_test: INCLUDES := $(INCLUDES) -DDEFENSIVE -DDEBUG -DFATAL -DDEVELOP -DUNIT_TEST -DVERSION=\"$(VER)\ Develop\ Version\ \($(date)\)\"
-unit_test: BINARY := $(BINARY)_dev
-unit_test: OBJ := $(OBJ) unit_test.o
-unit_test: unit_test.o compile
+unit_test: INCLUDES := $(INCLUDES) -DDEFENSIVE -DDEBUG -DFATAL -DDEVELOP -DUNIT_TEST -DVERSION=\"$(VER)_UNIT_TEST_$(date)\"
+unit_test: $(OBJ)
+	@ bash unit_test.sh "$(INCLUDES)"
 
 .PHONY: utd
 utd: unit_test_detail
@@ -141,7 +140,7 @@ memory: compile
 
 .PHONY: clean
 clean:
-	-@ for FileName in $(BINARY) $(BINARY)_dev $(BINARY)_dbg *.o unit_test.c ../po/*.mo; \
+	-@ for FileName in $(BINARY) $(BINARY)_dev $(BINARY)_dbg *.o unit_test unit_test.c lilyterm.gdb *.log ../po/*.mo; \
 	do \
 		if [ -f "$$FileName" ]; then \
 			$(ECHO) -e "\x1b[1;31m** "deleting $$FileName..."\x1b[0m"; \
@@ -210,14 +209,6 @@ console.o: data.h $(BINARY).h console.h console.c
 main.o: data.h $(BINARY).h main.h main.c
 	@ $(ECHO) -e "\x1b[1;33m** compiling main.o...\x1b[0m"
 	@ $(CC) $(CFLAGS) $(INCLUDES) -c main.c `$(OBJ_PKG_CMD)`
-
-unit_test.c : unit_test.sh
-	@ $(ECHO) -e "\x1b[1;33m** Creating unit_test.c...\x1b[0m"
-	@ sh unit_test.sh > unit_test.c
-
-unit_test.o: console.h data.h dialog.h font.h $(BINARY).h main.h menu.h misc.h notebook.h pagename.h profile.h property.h window.h unit_test.c
-	@ $(ECHO) -e "\x1b[1;33m** compiling unit_test.o...\x1b[0m"
-	@ $(CC) $(CFLAGS) $(INCLUDES) -c unit_test.c `$(OBJ_PKG_CMD)`
 
 .PHONY: compile
 compile: $(OBJ)

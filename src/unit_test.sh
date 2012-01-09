@@ -1,4 +1,4 @@
-#															  
+#
 # Copyright (c) 2008-2010 Lu, Chao-Ming (Tetralet).  All rights reserved.
 #
 # This file is part of LilyTerm.
@@ -17,12 +17,53 @@
 # along with LilyTerm.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-
 #!/bin/bash
 
-MAX_STR=0
-MAX_VAR=0
-unset FULL_FUNCTION
+INCLUDES="$1"
+
+ECHO=`whereis -b echo | awk '{print $2}'`
+
+PKGCONFIG=`whereis -b pkg-config | awk '{print $2}'`
+if [ -z "$PKGCONFIG" ]; then
+	$ECHO -e "\x1b[1;31m** Command pkg-config is not found!\x1b[0m"
+	exit 1
+fi
+
+VTE=`$PKGCONFIG --exists 'vte' && $ECHO 'vte'`
+if [ $VTE = "vte" ]; then
+  GTK=`$PKGCONFIG --exists 'gtk+-2.0' && $ECHO 'gtk+-2.0'`
+  if [ "$GTK" != "gtk+-2.0" ]; then
+    $ECHO -e "\x1b[1;31m** You need GTK+2 to run this unit test program!\x1b[0m"
+    exit 1
+  fi
+else
+  VTE=`$PKGCONFIG --exists 'vte-2.90' && $ECHO 'vte-2.90'`
+  if [ $VTE = "vte-2.90" ]; then
+    GTK=`$PKGCONFIG --exists 'gtk+-3.0' && $ECHO 'gtk+-3.0'`
+    if [ "$GTK" != "gtk+-3.0" ]; then
+      $ECHO -e "\x1b[1;31m** You need GTK+3 to run this unit test program!\x1b[0m"
+      exit 1
+    fi
+  else
+    $ECHO -e "\x1b[1;31m** You need VTE to run this unit test program!\x1b[0m"
+    exit 1
+  fi
+fi
+
+if [ -z "$CC" ]; then
+  CC=gcc
+fi
+
+if [ -z "$CFLAGS" ]; then
+  CFLAGS="-Wall -Werror -Wformat -Wformat-security -Werror=format-security -O2 -g"
+fi
+
+OBJ="menu.o profile.o dialog.o pagename.o notebook.o font.o property.o window.o misc.o console.o main.o"
+
+echo > lilyterm.gdb << EOF
+run --g-fatal-warnings
+bt full
+EOF
 
 # sed '/^\/\*/,/ \*\/$/d': Delete [ /* blah ... blah */ ] (multi lines)
 # sed -e 's/[ \t]*\/\*[ \t]*.*[ \t]*\*\///g': Delete [ /* blah ... blah */ ] (single line)
@@ -40,6 +81,11 @@ unset FULL_FUNCTION
 # sed -e '/_SPACE_(_SPACE_)_SPACE_/d': clear something like [ blah ( )  ]
 
 for DATA in `cat *.h | sed '/^\/\*/,/ \*\/$/d' | sed -e 's/[ \t]*\/\*[ \t]*.*[ \t]*\*\///g' | sed -e 's/[ \t]*\/\/.*//g' | sed -e '/[ \t]*#[ \t]*ifdef[ \t]*USE_NEW_GEOMETRY_METHOD/,/#[ \t]*endif[ \t]*/d' | sed -e '/^[ \t]*#.*/d' | sed '/^[ \t]*typedef.*;[ \t]*$/d' | sed '/^[ \t]*typedef enum/,/}.*;[ \t]*$/d' | tr -d '\n' | sed -e 's/[\t ][\t ]*/_SPACE_/g' | sed -e 's/;/;\n/g' | sed -e 's/_SPACE_/ /g' | sed -e '/[ \t]*struct.*{/,/.*}[ \t]*;/d' | sed -e 's/ *\([)(,]\) */ \1 /g' | sed -e 's/[\t ][\t ]*/_SPACE_/g' | sed -e '/_SPACE_(_SPACE_)_SPACE_/d'`; do
+
+	MAX_STR=0
+	MAX_VAR=-1
+	unset FULL_FUNCTION
+
 	# echo "Got original data = $DATA"
 	# sed -e 's/_SPACE_\([)(,]\)_SPACE_/ \1 /g': convert _SPACE_)(,_SPACE_ to " ) " " ( " or " , "
 	# sed -e 's/ , / /g': convert " , " to " "
@@ -264,65 +310,51 @@ for DATA in `cat *.h | sed '/^\/\*/,/ \*\/$/d' | sed -e 's/[ \t]*\/\*[ \t]*.*[ \
 	# echo "GOT FUNC_END = $FUNC_END" 1>&2
 	FUNCTION=`echo $FUNCTION | sed -e 's/^( /(/g'`
 	FUNCTION="$SPACE""_SPACE_""$FUNC_NAME$FUNCTION"
-	case $FUNC_NAME in
-		'main_quit')
-			FINISH="\n  g_debug(\"UNIT TEST: testing $FUNC_NAME()...\");""$FUNC_STAR\n$FUNCTION\n$FUNC_END"
-			;;
-		*)
-			FULL_FUNCTION="$FULL_FUNCTION\n  g_debug(\"UNIT TEST: testing $FUNC_NAME()...\");"
-			FULL_FUNCTION="$FULL_FUNCTION$FUNC_STAR\n$FUNCTION\n$FUNC_END"
-			;;
-	esac
-done
+	FULL_FUNCTION="$FULL_FUNCTION\n  g_debug(\"UNIT TEST: testing $FUNC_NAME()...\");"
+	FULL_FUNCTION="$FULL_FUNCTION$FUNC_STAR\n$FUNCTION\n$FUNC_END"
 
+	MAX_VAR=`expr $MAX_VAR + 1`
 
-MAX_VAR=`expr $MAX_VAR + 1`
-
-cat << EOF
-/*															  
- * Copyright (c) 2008-2010 Lu, Chao-Ming (Tetralet).  All rights reserved.
- *
- * This file is part of LilyTerm.
- *
- * LilyTerm is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * LilyTerm is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with LilyTerm.  If not, see <http://www.gnu.org/licenses/>.
- */
-
-EOF
-
-grep "include <.*>" *.h | cut -f 2 -d : | sed -e 's/^[ \t]//g' | sort | uniq
-
-echo ""
-
-for FILE in *.h; do
-	echo "#include \"$FILE\""
-done
-
-cat << EOF
-
+	grep "include <.*>" *.h | cut -f 2 -d : | sed -e 's/^[ \t]//g' | sort | uniq > unit_test.c
+	for FILE in *.h; do
+		echo "#include \"$FILE\"" >> unit_test.c
+	done
+	
+	cat >> unit_test.c << EOF
+	
 int main(int argc, char *argv[])
 {
-  gint V[$MAX_VAR];
-
-  gtk_init(&argc, &argv);                                                                                                   
-  fake_main(0, NULL);
 EOF
-
-# echo "GOT FULL_FUNCTION = $FULL_FUNCTION"
-echo "$FULL_FUNCTION$FINISH" | sed -e 's/\\n/\n/g' | sed -e 's/_SPACE_/  /g'
-
-cat << EOF
+	if [ $MAX_VAR -gt 0 ]; then
+		cat >> unit_test.c << EOF
+  gint V[$MAX_VAR];
+EOF
+fi
+	echo >> unit_test.c << EOF
+  gtk_init(&argc, &argv);
+EOF
+	
+	# echo "GOT FULL_FUNCTION = $FULL_FUNCTION"
+	echo "$FULL_FUNCTION$FINISH" | sed -e 's/\\n/\n/g' | sed -e 's/_SPACE_/  /g' >> unit_test.c
+	
+	cat >> unit_test.c << EOF
   return 0;
 }
 EOF
+	echo -e "\x1b[1;36m$FUNC_NAME(): \x1b[1;33m** Compiling \x1b[1;32munit_test\x1b[0m\x1b[1;33m...\x1b[0m"
+	$CC $CFLAGS $INCLUDES -o unit_test unit_test.c $OBJ `$PKGCONFIG --cflags --libs $GTK $VTE` || exit 1
 
+	echo -e "\x1b[1;36m$FUNC_NAME(): \x1b[1;33m** Testing with gdb...\x1b[0m"
+	echo "Testing $FUNC_NAME() with gdb..." >> lilyterm_gdb.log
+	gdb -batch -x ./lilyterm.gdb ./unit_test >> lilyterm_gdb.log 2>&1
+	echo "" >> lilyterm_gdb.log
+
+#	echo -e "\x1b[1;36m$FUNC_NAME(): \x1b[1;33m** Testing with valgrind...\x1b[0m"
+#	echo "Testing $FUNC_NAME() with valgrind..." >> lilyterm_valgrind.log
+#	valgrind --leak-check=full ./unit_test >> lilyterm_valgrind.log 2>&1
+#	echo "" >> lilyterm_valgrind.log
+done
+
+if [ -f ./lilyterm.gdb ]; then
+	rm ./lilyterm.gdb
+fi
