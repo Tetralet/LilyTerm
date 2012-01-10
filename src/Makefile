@@ -103,7 +103,7 @@ ut: unit_test
 unit_test: CFLAGS := $(CFLAGS) -g
 unit_test: INCLUDES := $(INCLUDES) -DDEFENSIVE -DDEBUG -DFATAL -DDEVELOP -DUNIT_TEST -DVERSION=\"$(VER)_UNIT_TEST_$(date)\"
 unit_test: $(OBJ)
-	@ bash unit_test.sh "$(INCLUDES)"
+	@ G_DEBUG=fatal_warnings sh unit_test.sh "$(INCLUDES)"
 
 .PHONY: utd
 utd: unit_test_detail
