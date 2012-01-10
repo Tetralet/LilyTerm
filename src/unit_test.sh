@@ -60,7 +60,7 @@ fi
 
 OBJ="menu.o profile.o dialog.o pagename.o notebook.o font.o property.o window.o misc.o console.o main.o"
 
-echo > lilyterm.gdb << EOF
+cat > lilyterm.gdb << EOF
 run --g-fatal-warnings
 bt full
 EOF
