@@ -20,6 +20,26 @@
 #!/bin/bash
 
 INCLUDES="$1"
+GDB=0
+VALGRIND=0
+
+for opt do
+	case "$opt" in
+		--enable-glib-debugger)
+			export G_DEBUG=fatal_warnings
+			;;
+		--enable-gtk-debugger)
+			GTK_DEBUG="--g-fatal-warnings"
+			;;
+		--enable-gdb)
+			GDB=1
+			;;
+		--enable-valgrind)
+			VALGRIND=1
+			;;
+	esac
+done
+
 
 ECHO=`whereis -b echo | awk '{print $2}'`
 
@@ -61,7 +81,7 @@ fi
 OBJ="menu.o profile.o dialog.o pagename.o notebook.o font.o property.o window.o misc.o console.o main.o"
 
 cat > lilyterm.gdb << EOF
-run --g-fatal-warnings
+run $GTK_DEBUG
 bt full
 EOF
 
@@ -344,15 +364,19 @@ EOF
 	echo -e "\x1b[1;36m$FUNC_NAME(): \x1b[1;33m** Compiling \x1b[1;32munit_test\x1b[0m\x1b[1;33m...\x1b[0m"
 	$CC $CFLAGS $INCLUDES -o unit_test unit_test.c $OBJ `$PKGCONFIG --cflags --libs $GTK $VTE` || exit 1
 
-	echo -e "\x1b[1;36m$FUNC_NAME(): \x1b[1;33m** Testing with gdb...\x1b[0m"
-	echo "Testing $FUNC_NAME() with gdb..." >> lilyterm_gdb.log
-	gdb -batch -x ./lilyterm.gdb ./unit_test >> lilyterm_gdb.log 2>&1
-	echo "" >> lilyterm_gdb.log
+	if [ $GDB -eq 1 ]; then
+		echo -e "\x1b[1;36m$FUNC_NAME(): \x1b[1;33m** Testing with gdb...\x1b[0m"
+		echo "Testing $FUNC_NAME() with gdb..." >> lilyterm_gdb.log
+		gdb -batch -x ./lilyterm.gdb ./unit_test >> lilyterm_gdb.log 2>&1
+		echo "" >> lilyterm_gdb.log
+	fi
 
-#	echo -e "\x1b[1;36m$FUNC_NAME(): \x1b[1;33m** Testing with valgrind...\x1b[0m"
-#	echo "Testing $FUNC_NAME() with valgrind..." >> lilyterm_valgrind.log
-#	valgrind --leak-check=full ./unit_test >> lilyterm_valgrind.log 2>&1
-#	echo "" >> lilyterm_valgrind.log
+	if [ $VALGRIND -eq 1 ]; then
+		echo -e "\x1b[1;36m$FUNC_NAME(): \x1b[1;33m** Testing with valgrind...\x1b[0m"
+		echo "Testing $FUNC_NAME() with valgrind..." >> lilyterm_valgrind.log
+		valgrind --leak-check=full ./unit_test >> lilyterm_valgrind.log 2>&1
+		echo "" >> lilyterm_valgrind.log
+	fi
 done
 
 if [ -f ./lilyterm.gdb ]; then
