@@ -463,6 +463,9 @@ gboolean send_socket( int   argc,
 		g_free(argv_str);
 
 	// write data!
+#ifdef DEFENSIVE
+	if (fcntl(socket_fd, F_GETFL) < 0) return FALSE;
+#endif
 	GIOChannel *channel = g_io_channel_unix_new(socket_fd);
 	// main_channel is NULL, so that we don't need to launch clear_channel()
 	if (!channel) return socket_fault(12, NULL, NULL, FALSE);
