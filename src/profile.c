@@ -1028,6 +1028,9 @@ gchar *get_user_profile_path(struct Window *win_data, int argc, char *argv[])
 #endif
 		for (i=0; i<argc; i++)
 		{
+#ifdef DEFENSIVE
+			if (argv[i] == NULL) continue;
+#endif
 			if ((!strcmp(argv[i], "-u")) || (!strcmp(argv[i], "--user_profile")))
 			{
 				if (++i==argc)
