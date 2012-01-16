@@ -22,20 +22,24 @@
 INCLUDES="$1"
 GDB=0
 VALGRIND=0
+LIB_LISTS="*.h"
 
 for opt do
 	case "$opt" in
 		--enable-glib-debugger)
 			export G_DEBUG=fatal_warnings
+			LIB_LISTS=lilyterm.h
 			;;
 		--enable-gtk-debugger)
 			GTK_DEBUG="--g-fatal-warnings"
+			LIB_LISTS=lilyterm.h
 			;;
 		--enable-gdb)
 			GDB=1
 			;;
 		--enable-valgrind)
 			VALGRIND=1
+			LIB_LISTS=lilyterm.h
 			;;
 	esac
 done
@@ -100,7 +104,7 @@ EOF
 # sed -e 's/[\t ][\t ]*/_SPACE_/g': convert <Tab> and <Space> to "_SAPCE_" again
 # sed -e '/_SPACE_(_SPACE_)_SPACE_/d': clear something like [ blah ( )  ]
 
-for DATA in `cat *.h | sed '/^\/\*/,/ \*\/$/d' | sed -e 's/[ \t]*\/\*[ \t]*.*[ \t]*\*\///g' | sed -e 's/[ \t]*\/\/.*//g' | sed -e '/[ \t]*#[ \t]*ifdef[ \t]*USE_NEW_GEOMETRY_METHOD/,/#[ \t]*endif[ \t]*/d' | sed -e '/^[ \t]*#.*/d' | sed '/^[ \t]*typedef.*;[ \t]*$/d' | sed '/^[ \t]*typedef enum/,/}.*;[ \t]*$/d' | tr -d '\n' | sed -e 's/[\t ][\t ]*/_SPACE_/g' | sed -e 's/;/;\n/g' | sed -e 's/_SPACE_/ /g' | sed -e '/[ \t]*struct.*{/,/.*}[ \t]*;/d' | sed -e 's/ *\([)(,]\) */ \1 /g' | sed -e 's/[\t ][\t ]*/_SPACE_/g' | sed -e '/_SPACE_(_SPACE_)_SPACE_/d'`; do
+for DATA in `cat $LIB_LISTS | sed '/^\/\*/,/ \*\/$/d' | sed -e 's/[ \t]*\/\*[ \t]*.*[ \t]*\*\///g' | sed -e 's/[ \t]*\/\/.*//g' | sed -e '/[ \t]*#[ \t]*ifdef[ \t]*USE_NEW_GEOMETRY_METHOD/,/#[ \t]*endif[ \t]*/d' | sed -e '/^[ \t]*#.*/d' | sed '/^[ \t]*typedef.*;[ \t]*$/d' | sed '/^[ \t]*typedef enum/,/}.*;[ \t]*$/d' | tr -d '\n' | sed -e 's/[\t ][\t ]*/_SPACE_/g' | sed -e 's/;/;\n/g' | sed -e 's/_SPACE_/ /g' | sed -e '/[ \t]*struct.*{/,/.*}[ \t]*;/d' | sed -e 's/ *\([)(,]\) */ \1 /g' | sed -e 's/[\t ][\t ]*/_SPACE_/g' | sed -e '/_SPACE_(_SPACE_)_SPACE_/d'`; do
 
 	MAX_STR=0
 	MAX_VAR=-1
@@ -350,7 +354,7 @@ EOF
   gint V[$MAX_VAR];
 EOF
 fi
-	echo >> unit_test.c << EOF
+	cat >> unit_test.c << EOF
   gtk_init(&argc, &argv);
 EOF
 	

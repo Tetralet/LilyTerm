@@ -4,8 +4,8 @@
 #	make debug: compile lilyeterm_dbg with CLAGS -g.
 #	make dev: compile lilyeterm_dev with CLAGS -g.
 #	make ddev: compile lilyeterm_dev with -DDEFENSIVE compile option.
-#	make ut: compile lilyeterm_dev for unit testing.
-#	make utd: compile lilyeterm_dev for unit testing with detail runtime debug information.
+#	make ut: run a tiny unit testing script with gdb debug information.
+#	make utf: run a tiny unit testing script with glib, gtk, gdb and valgrind debug information.
 #	make geometry: compile lilyeterm_dev with geometry debug information.
 #	make detail: compile lilyeterm_dev with detail runtime debug information.
 #	make full: compile lilyeterm_dev with full runtime debug information.
@@ -103,16 +103,15 @@ ut: unit_test
 unit_test: CFLAGS := $(CFLAGS) -g
 unit_test: INCLUDES := $(INCLUDES) -DDEFENSIVE -DDEBUG -DFATAL -DDEVELOP -DUNIT_TEST -DVERSION=\"$(VER)_UNIT_TEST_$(date)\"
 unit_test: $(OBJ)
-	@ sh unit_test.sh "$(INCLUDES)" --enable-glib-debugger --enable-gtk-debugger --enable-gdb --enable-valgrind
+	@ sh unit_test.sh "$(INCLUDES)" --enable-gdb
 
-.PHONY: utd
-utd: unit_test_detail
-.PHONY: unit_test_detail
-unit_test_detail: CFLAGS := $(CFLAGS) -g
-unit_test_detail: INCLUDES := $(INCLUDES) -DDEFENSIVE -DDEBUG -DFATAL -DDEVELOP -DGEOMETRY -DDETAIL -DUNIT_TEST -DVERSION=\"$(VER)\ Develop\ Version\ \($(date)\)\"
-unit_test_detail: BINARY := $(BINARY)_dev
-unit_test_detail: OBJ := $(OBJ) unit_test.o
-unit_test_detail: unit_test.o compile
+.PHONY: utf
+utf: unit_test_full
+.PHONY: unit_test_full
+unit_test_full: CFLAGS := $(CFLAGS) -g
+unit_test_full: INCLUDES := $(INCLUDES) -DDEFENSIVE -DDEBUG -DFATAL -DDEVELOP -DUNIT_TEST -DVERSION=\"$(VER)_UNIT_TEST_$(date)\"
+unit_test_full: $(OBJ)
+	@ sh unit_test.sh "$(INCLUDES)" --enable-glib-debugger --enable-gtk-debugger --enable-gdb --enable-valgrind
 
 .PHONY: geometry
 geometry: CFLAGS := $(CFLAGS) -g
