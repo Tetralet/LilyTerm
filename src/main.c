@@ -318,7 +318,6 @@ gboolean init_socket_data()
 	bzero(&address, sizeof(address));
 	// init the address of socket
 	address.sun_family = AF_UNIX;
-	// the max size of saddr.sun_path in Linux is 108!
 
 	const gchar *tmp_dir = g_get_tmp_dir();
 #ifdef DEFENSIVE
@@ -327,13 +326,13 @@ gboolean init_socket_data()
 #endif
 		gchar *display = gdk_get_display();
 #ifdef DEVELOP
-		g_snprintf(address.sun_path, 108, "%s/.%s_dev_%s%s",
+		g_snprintf(address.sun_path, UNIX_PATH_MAX, "%s/.%s_dev_%s%s",
 			   tmp_dir ,PACKAGE, g_get_user_name(), display);
 #elif defined DEBUG
-		g_snprintf(address.sun_path, 108, "%s/.%s_dbg_%s%s",
+		g_snprintf(address.sun_path, UNIX_PATH_MAX, "%s/.%s_dbg_%s%s",
 			   tmp_dir ,PACKAGE, g_get_user_name(), display);
 #else
-		g_snprintf(address.sun_path, 108, "%s/.%s_%s%s",
+		g_snprintf(address.sun_path, UNIX_PATH_MAX, "%s/.%s_%s%s",
 			   tmp_dir ,PACKAGE, g_get_user_name(), display);
 #endif
 		g_free(display);

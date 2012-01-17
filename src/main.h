@@ -34,6 +34,9 @@
 
 #include "lilyterm.h"
 
+// the max size of saddr.sun_path in Linux is 108!
+#define UNIX_PATH_MAX 108
+
 #ifdef UNIT_TEST 
 int fake_main(int argc, char *argv[]);
 #endif
