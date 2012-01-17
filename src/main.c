@@ -339,6 +339,7 @@ gboolean init_socket_data()
 #ifdef DEFENSIVE
 	}
 #endif
+	address.sun_path[UNIX_PATH_MAX-1] = address.sun_path[UNIX_PATH_MAX-2] = '\0';
 	// g_debug("The socket file is %s", address.sun_path);
 	address_len = sizeof(address);
 
