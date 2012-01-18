@@ -1,4 +1,7 @@
 # This is a sample Makefile for debuging LilyTerm.
+#
+# This Makefile is nothing to do with sh autogen.sh && ./configure && make && make install, and can be deleted safely.
+#
 # Usage:
 #	make clean: delete lilyterm binary files.
 #	make debug: compile lilyeterm_dbg with CLAGS -g.
@@ -11,6 +14,7 @@
 #	make full: compile lilyeterm_dev with full runtime debug information.
 #	make memory: compile lilyeterm_dev for memory lack testing.
 #	make data: compile po and $(BINARY).conf files.
+#
 
 BINARY = lilyterm
 PACKAGE_NAME = LilyTerm
