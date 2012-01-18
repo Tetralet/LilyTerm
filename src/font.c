@@ -453,7 +453,7 @@ gboolean check_if_every_vte_is_using_restore_font_name(struct Window *win_data)
 	g_debug("! Launch check_if_every_vte_is_using_restore_font_name() with win_data = %p", win_data);
 #endif
 #ifdef DEFENSIVE
-	if (win_data==NULL) return FALSE;
+	if ((win_data==NULL) || (win_data->notebook==NULL)) return FALSE;
 #endif
 	if (win_data->restore_font_name == NULL)
 	//	win_data->restore_font_name = g_strdup(page_data->font_name);

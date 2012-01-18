@@ -1797,6 +1797,9 @@ gboolean find_str_in_vte(GtkWidget *vte, Dialog_Find_Type type)
 #ifdef DETAIL
 	g_debug("! Launch find_str_in_vte() with type = %d", type);
 #endif
+#ifdef DEFENSIVE
+		if (vte==NULL) return FALSE;
+#endif
 	gboolean response = FALSE;
 
 	switch (type)

@@ -125,7 +125,8 @@ gboolean monitor_cmdline(struct Page *page_data)
 	g_debug("! Launch monitor_cmdline() with page_data = %p", page_data);
 #endif
 #ifdef DEFENSIVE
-	if (page_data==NULL) return FALSE;
+	if ((page_data==NULL) || (page_data->lost_focus==NULL) || (page_data->keep_vte_size==NULL) || 
+	    (page_data->current_vte==NULL) || (page_data->window_title_tpgid==NULL)) return FALSE;
 #endif
 	gboolean lost_focus = *(page_data->lost_focus);
 
@@ -291,7 +292,7 @@ gboolean check_pwd(struct Page *page_data, gchar *pwd, gchar *new_pwd, gint page
 		page_data, pwd, new_pwd, page_update_method);
 #endif
 #ifdef DEFENSIVE
-	if (page_data==NULL) return FALSE;
+	if ((page_data==NULL) || (page_data->window_title_tpgid==NULL)) return FALSE;
 #endif
 	// g_debug("pwd = %s", pwd);
 	// g_debug("new_pwd = %s", new_pwd);
@@ -332,7 +333,7 @@ gboolean get_and_update_page_name(struct Page *page_data, gboolean lost_focus)
 	g_debug("! Launch get_and_update_page_name() with page_data = %p, lost_focus = %d", page_data, lost_focus);
 #endif
 #ifdef DEFENSIVE
-	if (page_data==NULL) return FALSE;
+	if ((page_data==NULL) || (page_data->window==NULL)) return FALSE;
 #endif
 	struct Window *win_data = (struct Window *)g_object_get_data(G_OBJECT(page_data->window), "Win_Data");
 	// g_debug("Get win_data = %p (page_data->window = %p) when update tab name!", win_data, page_data->window);
@@ -436,7 +437,10 @@ gboolean get_and_update_page_name(struct Page *page_data, gboolean lost_focus)
 			g_free(page_data->window_title_pwd);
 			page_data->window_title_pwd = g_strdup(page_data->pwd);
 		}
-		*(page_data->window_title_tpgid) = page_data->new_tpgid;
+#ifdef DEFENSIVE
+		if (page_data->window_title_tpgid)
+#endif
+			*(page_data->window_title_tpgid) = page_data->new_tpgid;
 
 		return_value = TRUE;
 	}
@@ -610,6 +614,9 @@ gboolean update_page_name(GtkWidget *window, GtkWidget *vte, gchar *page_name, G
 		vte, page_name, page_no, custom_page_name, tab_color, is_root, is_bold,
 		show_encoding, encoding_str);
 #endif
+#ifdef DEFENSIVE
+		if (vte==NULL) return FALSE;
+#endif
 	// page_name = NULL when initing a new page.
 	if (page_name == NULL)
 	{
@@ -729,7 +736,7 @@ void check_and_update_window_title(struct Window *win_data, gboolean custom_wind
 		win_data, custom_window_title, page_no, custom_page_name, page_name);
 #endif
 #ifdef DEFENSIVE
-	if (win_data==NULL) return;
+	if ((win_data==NULL) || (win_data->notebook==NULL)) return;
 #endif
 	gint current_page_no = gtk_notebook_get_current_page(GTK_NOTEBOOK(win_data->notebook));
 

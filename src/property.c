@@ -27,6 +27,9 @@ void adjust_ansi_color(GdkColor color[COLOR], GdkColor color_orig[COLOR], gdoubl
 #ifdef DETAIL
 	g_debug("! Launch adjust_ansi_color() with color_brightness = %f",  color_brightness);
 #endif
+#ifdef DEFENSIVE
+	if ((color==NULL) || (color_orig==NULL)) return;
+#endif
 	// g_debug("Get win_data = %d when set background saturation!", win_data);
 	color_brightness = CLAMP(color_brightness, -1, 1);
 
@@ -124,7 +127,10 @@ void init_new_page(struct Window *win_data,
 
 	// set terminal size
 	// g_debug("Set the vte size to: %dx%d", column, row);
-	vte_terminal_set_size(VTE_TERMINAL(page_data->vte), column, row);
+#ifdef DEFENSIVE
+	if (page_data->vte)
+#endif
+		vte_terminal_set_size(VTE_TERMINAL(page_data->vte), column, row);
 
 #  ifdef GEOMETRY
 	g_debug("@ init_new_page(for %p, vte = %p): Set win_data->keep_vte_size to %d, and column = %ld, row = %ld",
@@ -168,9 +174,10 @@ void set_cursor_blink(struct Window *win_data, struct Page *page_data)
 	g_debug("! Launch set_cursor_blink() with win_data = %p, page_data = %p", win_data, page_data);
 #endif
 #ifdef DEFENSIVE
-	if ((win_data==NULL) || (page_data==NULL)) return;
+	if ((win_data==NULL) || (page_data==NULL) || (page_data->vte==NULL)) return;
 #endif
 	// g_debug("set_cursor_blink(): win_data->cursor_blinks = %d", win_data->cursor_blinks);
+
 
 #ifdef USE_NEW_VTE_CURSOR_BLINKS_MODE
 	vte_terminal_set_cursor_blink_mode (VTE_TERMINAL(page_data->vte), win_data->cursor_blinks);
@@ -185,7 +192,7 @@ void set_hyprelink(struct Window *win_data, struct Page *page_data)
 	g_debug("! Launch set_hyprelink() with win_data = %p, page_data = %p", win_data, page_data);
 #endif
 #ifdef DEFENSIVE
-	if ((win_data==NULL) || (page_data==NULL)) return;
+	if ((win_data==NULL) || (page_data==NULL) || (page_data->vte==NULL)) return;
 #endif
 	if (win_data->enable_hyperlink && win_data->enable_function_key)
 	{
@@ -217,7 +224,7 @@ void set_vte_color(struct Window *win_data, struct Page *page_data)
 	g_debug("! Launch set_vte_color() with win_data = %p, page_data = %p", win_data, page_data);
 #endif
 #ifdef DEFENSIVE
-	if ((win_data==NULL) || (page_data==NULL)) return;
+	if ((win_data==NULL) || (page_data==NULL) || (page_data->vte==NULL)) return;
 #endif
 	// set font/background colors
 	vte_terminal_set_default_colors(VTE_TERMINAL(page_data->vte));
@@ -244,7 +251,7 @@ void set_page_width(struct Window *win_data, struct Page *page_data)
 	g_debug("! Launch set_page_width() with win_data = %p, page_data = %p", win_data, page_data);
 #endif
 #ifdef DEFENSIVE
-	if ((win_data==NULL) || (page_data==NULL)) return;
+	if ((win_data==NULL) || (page_data==NULL) || (page_data->label_text==NULL)) return;
 #endif
 	gtk_label_set_width_chars(GTK_LABEL(page_data->label_text), win_data->page_width);
 }
@@ -255,7 +262,7 @@ void pack_vte_and_scroll_bar_to_hbox(struct Window *win_data, struct Page *page_
 	g_debug("! Launch pack_vte_and_scroll_bar_to_hbox() with win_data = %p, page_data = %p", win_data, page_data);
 #endif
 #ifdef DEFENSIVE
-	if ((win_data==NULL) || (page_data==NULL)) return;
+	if ((win_data==NULL) || (page_data==NULL) || (page_data->hbox==NULL)) return;
 #endif
 	if (win_data->scroll_bar_position)
 	{
@@ -304,7 +311,7 @@ void show_and_hide_scroll_bar(struct Page *page_data, gboolean show_scroll_bar)
 	g_debug("! Launch hide_scroll_bar() with page_data = %p", page_data);
 #endif
 #ifdef DEFENSIVE
-	if (page_data==NULL) return;
+	if ((page_data==NULL) || (page_data->scroll_bar==NULL)) return;
 #endif
 	if (show_scroll_bar)
 		gtk_widget_show (page_data->scroll_bar);
@@ -729,6 +736,13 @@ gboolean compare_color(GdkColor *a, GdkColor *b)
 
 void set_widget_thickness(GtkWidget *widget, gint thickness)
 {
+#ifdef DETAIL
+	g_debug("! Launch set_widget_thickness() with widget = %p, thickness = %d!", widget, thickness);
+#endif
+
+#ifdef DEFENSIVE
+	if (widget==NULL) return;
+#endif
         GtkRcStyle *rc_style = gtk_rc_style_new();
 #ifdef DEFENSIVE
         if (rc_style)

@@ -1271,10 +1271,17 @@ gboolean refresh_locale_and_encoding_list(struct Window *win_data)
 
 	for (i=0; i<3; i++)
 	{
-		gtk_widget_hide(win_data->encoding_locale_menuitems[i]);
-		// g_debug("Set not show win_data->encoding_locale_menuitems[%d] (%p)!",
-		//	i, win_data->encoding_locale_menuitems[i]);
-		gtk_widget_set_no_show_all(win_data->encoding_locale_menuitems[i], TRUE);
+#ifdef DEFENSIVE
+		if (win_data->encoding_locale_menuitems[i])
+		{
+#endif
+			gtk_widget_hide(win_data->encoding_locale_menuitems[i]);
+			// g_debug("Set not show win_data->encoding_locale_menuitems[%d] (%p)!",
+			//	i, win_data->encoding_locale_menuitems[i]);
+			gtk_widget_set_no_show_all(win_data->encoding_locale_menuitems[i], TRUE);
+#ifdef DEFENSIVE
+		}
+#endif
 	}
 
 	// g_debug("Got locales_list = '%s' ( %d bytes)",win_data->locales_list, strlen(win_data->locales_list));
@@ -1578,7 +1585,7 @@ GtkWidget *recreate_profile_menu_item(GtkWidget *menuitem, GtkWidget *subitem,
 		"type = %d", menuitem, subitem, win_data, type);
 #endif
 #ifdef DEFENSIVE
-	if (win_data==NULL) return NULL;
+	if ((win_data==NULL) || (menuitem==NULL)) return NULL;
 #endif
 	// g_debug("Trying to destroy subitem (%p)!!", subitem);
 	if (subitem) gtk_widget_destroy(subitem);

@@ -75,6 +75,10 @@ struct Page *add_page(struct Window *win_data,
 			locale, user_environ, VTE_CJK_WIDTH_STR);
 #endif
 
+#ifdef DEFENSIVE
+	if (win_data==NULL) return NULL;
+#endif
+
 // ---- Clone the page_data ---- //
 
 	struct Page *page_data = g_new0(struct Page, 1);
@@ -1365,11 +1369,23 @@ gboolean vte_button_press(GtkWidget *vte, GdkEventButton *event, gpointer user_d
 
 gboolean open_url_with_external_command (gchar *url, gint tag, struct Window *win_data, struct Page *page_data)
 {
+#ifdef DETAIL
+	g_debug("! Launch open_url_with_external_command() with url = %s, tag = %d, win_data = %p, page_data = %p",
+		url, tag, win_data, page_datavte);
+#endif
+#ifdef DEFENSIVE
+	if ((win_data==NULL) || (page_data==NULL)) return FALSE;
+#endif
+
 	gchar *full_command = g_strdup_printf("%s\t%s", win_data->user_command[tag].command, url);
 	// g_debug ("full_command = %s", full_command);
 	gchar **argv = split_string(full_command, "\t", -1);
 #ifdef DEFENSIVE
-	if (argv==NULL) return FALSE;
+	if (argv==NULL)
+	{
+		g_free(full_command);
+		return FALSE;
+	}
 #endif
 	gint argc = 0;
 	while (argv[argc])

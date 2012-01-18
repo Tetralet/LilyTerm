@@ -2599,7 +2599,7 @@ void init_rgba(struct Window *win_data)
 		win_data, win_data->window, win_data->use_rgba);
 #endif
 #ifdef DEFENSIVE
-	if (win_data==NULL) return;
+	if ((win_data==NULL) || (win_data->window==NULL)) return;
 #endif
 	if (win_data->use_rgba < 0) return;
 
@@ -2774,8 +2774,13 @@ void convert_string_to_user_key(gint i, gchar *value, struct Window *win_data)
 		}
 		else
 		{
-			g_critical("\"%s = %s\" is not a valid key! Please check!",
+#ifdef UNIT_TEST
+			g_debug("\"%s = %s\" is not a valid key! Please check!",
 				system_keys[i].name, value);
+#else
+			g_critical("\"%s = %s\" is not a valid key! Please check!",
+				   system_keys[i].name, value);
+#endif
 			g_free(value);
 		}
 		// if (pagekeys[i].key)
