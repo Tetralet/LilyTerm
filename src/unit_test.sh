@@ -41,6 +41,9 @@ for opt do
 			VALGRIND=1
 			LIB_LISTS=lilyterm.h
 			;;
+		--specific_program=*)
+			SPECIFIC_PROGRAM=`echo $opt | cut -d '=' -f 2`
+			;;
 	esac
 done
 
@@ -106,6 +109,13 @@ EOF
 
 for DATA in `cat $LIB_LISTS | sed '/^\/\*/,/ \*\/$/d' | sed -e 's/[ \t]*\/\*[ \t]*.*[ \t]*\*\///g' | sed -e 's/[ \t]*\/\/.*//g' | sed -e '/[ \t]*#[ \t]*ifdef[ \t]*USE_NEW_GEOMETRY_METHOD/,/#[ \t]*endif[ \t]*/d' | sed -e '/^[ \t]*#.*/d' | sed '/^[ \t]*typedef.*;[ \t]*$/d' | sed '/^[ \t]*typedef enum/,/}.*;[ \t]*$/d' | tr -d '\n' | sed -e 's/[\t ][\t ]*/_SPACE_/g' | sed -e 's/;/;\n/g' | sed -e 's/_SPACE_/ /g' | sed -e '/[ \t]*struct.*{/,/.*}[ \t]*;/d' | sed -e 's/ *\([)(,]\) */ \1 /g' | sed -e 's/[\t ][\t ]*/_SPACE_/g' | sed -e '/_SPACE_(_SPACE_)_SPACE_/d'`; do
 
+	if [ -n "$SPECIFIC_PROGRAM" ]; then
+		CHECK_STR="_SPACE_\**"$SPECIFIC_PROGRAM"_SPACE_"
+		CHECK_PROGRAM=`echo "$DATA" | grep "$CHECK_STR"`
+		if [ -z "$CHECK_PROGRAM" ]; then
+			continue
+		fi
+	fi
 	MAX_STR=0
 	MAX_VAR=-1
 	unset FULL_FUNCTION
@@ -163,7 +173,21 @@ for DATA in `cat $LIB_LISTS | sed '/^\/\*/,/ \*\/$/d' | sed -e 's/[ \t]*\/\*[ \t
 					'GtkWidget*' | 'GSourceFunc' | 'gpointer' | 'GtkColorSelection*' | 'GtkTreePath*' | 'GtkTreeModel*' | 'GtkTreeIter*' | 'GdkEvent*' | 'GdkEventKey*' | 'GtkCellLayout*' | 'GtkTreeSelection*' | 'GtkClipboard*' | 'GError*' | 'GSList*' | 'GIOChannel*' | 'GtkFileChooser*' | 'GtkRequisition*' | 'GdkEventButton*' | 'GtkStyle*' | 'GtkAllocation*' | 'GdkEventFocus*' | 'GdkEventWindowState*')
 						FUNCTION="$FUNCTION NULL,"
 						;;
-					'gboolean' | 'gchar' | 'guint' | 'GtkScrollType' | 'gint' | 'pid_t' | 'int' | 'gsize' | 'glong' | 'GdkColor' | 'Dialog_Button_Type' | 'Dialog_Find_Type' | 'Dialog_Type_Flags' | 'Font_Name_Type' | 'Font_Reset_Type' | 'Switch_Type' | 'Font_Set_Type' | 'GtkFileChooserAction' | 'GIOCondition' | 'Check_Zero' | 'Check_Max' | 'Check_Min' | 'Check_Empty' | 'Menu_Itemn_Type' | 'Apply_Profile_Type' | 'gchar*' | 'char*' | 'StrLists*' | 'StrAddr**' | 'gdouble' | 'struct Dialog*' | 'struct Window*' | 'struct Page*' | 'struct Color_Data*' | 'struct Preview*' | 'GtkButton*' | 'GtkCellRenderer*' | 'GtkRange*' | 'gchar**' | 'char*[]' | 'char**' | 'gsize*' | 'GString*' | 'GtkNotebook*' | 'GKeyFile*' | 'GdkColor*' | 'GdkColor []' | 'VteTerminal*'  | 'gboolean*' | 'gint*' | 'guint*')
+					'GKeyFile*')
+						OLD_SPACE="$SPACE"
+						SPACE="$SPACE""_SPACE_"
+						VAR=`expr $VAR + 1`
+						if [ $MAX_VAR -le $VAR ]; then
+							MAX_VAR=$VAR
+						fi
+						FUNC_STAR="$FUNC_STAR\n$SPACE""GKeyFile *V$VAR = g_key_file_new();"
+						FUNCTION="$FUNCTION V$VAR,"
+						FUN_DATA="$SPACE""g_key_file_free(V$VAR);\n"
+						FUNC_END="$FUN_DATA\n$FUNC_END"
+						unset FUN_DATA
+						SPACE=$OLD_SPACE
+						;;
+					'gboolean' | 'gchar' | 'guint' | 'GtkScrollType' | 'gint' | 'pid_t' | 'int' | 'gsize' | 'glong' | 'GdkColor' | 'Dialog_Button_Type' | 'Dialog_Find_Type' | 'Dialog_Type_Flags' | 'Font_Name_Type' | 'Font_Reset_Type' | 'Switch_Type' | 'Font_Set_Type' | 'GtkFileChooserAction' | 'GIOCondition' | 'Check_Zero' | 'Check_Max' | 'Check_Min' | 'Check_Empty' | 'Menu_Itemn_Type' | 'Apply_Profile_Type' | 'gchar*' | 'char*' | 'StrLists*' | 'StrAddr**' | 'gdouble' | 'struct Dialog*' | 'struct Window*' | 'struct Page*' | 'struct Color_Data*' | 'struct Preview*' | 'GtkButton*' | 'GtkCellRenderer*' | 'GtkRange*' | 'gchar**' | 'char*[]' | 'char**' | 'gsize*' | 'GString*' | 'GtkNotebook*' | 'GdkColor*' | 'GdkColor []' | 'VteTerminal*'  | 'gboolean*' | 'gint*' | 'guint*')
 						SPACE="$SPACE""_SPACE_"
 						VAR=`expr $VAR + 1`
 						if [ $MAX_VAR -le $VAR ]; then
@@ -271,16 +295,9 @@ for DATA in `cat $LIB_LISTS | sed '/^\/\*/,/ \*\/$/d' | sed -e 's/[ \t]*\/\*[ \t
 								FUNCTION="$FUNCTION GTK_NOTEBOOK(V$VAR),"
 								FUN_DATA="$SPACE""_SPACE_""if (V$VAR) gtk_widget_destroy(V$VAR);\n"
 								;;
-							'GKeyFile*')
-								FUNC_STAR="$FUNC_STAR\n$SPACE""for (V[$VAR]=0; V[$VAR]<2; V[$VAR]++) {"
-								FUNC_STAR="$FUNC_STAR\n$SPACE""_SPACE_""GKeyFile *V$VAR = NULL;\n""$SPACE""_SPACE_""if (V[$VAR]) V$VAR = g_key_file_new();"
-								FUNCTION="$FUNCTION V$VAR,"
-								FUN_DATA="$SPACE""_SPACE_""g_key_file_free(V$VAR);\n"
-								;;
 							'GdkColor')
-								FUNC_STAR="$FUNC_STAR\n$SPACE""for (V[$VAR]=0; V[$VAR]<2; V[$VAR]++) {"
-								FUNC_STAR="$FUNC_STAR\n$SPACE""_SPACE_""GdkColor *V$VAR = NULL;\n""$SPACE""_SPACE_""if (V[$VAR]) {\n$SPACE""_SPACE__SPACE_""GdkColor dark;\n$SPACE""_SPACE__SPACE_""gdk_color_parse (\"dark\", &dark);\n$SPACE""_SPACE__SPACE_""V$VAR = &dark;\n""$SPACE""_SPACE_""}"
-								FUNCTION="$FUNCTION *V$VAR,"
+								FUNC_STAR="$FUNC_STAR\n$SPACE""_SPACE_""GdkColor V$VAR;\n$SPACE""_SPACE_""gdk_color_parse (\"dark\", &V$VAR);"
+								FUNCTION="$FUNCTION V$VAR,"
 								;;
 							'GdkColor*' | 'GdkColor []')
 								FUNC_STAR="$FUNC_STAR\n$SPACE""for (V[$VAR]=0; V[$VAR]<2; V[$VAR]++) {"
