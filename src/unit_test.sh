@@ -22,10 +22,15 @@
 INCLUDES="$1"
 GDB=0
 VALGRIND=0
+NO_TEST=0
 LIB_LISTS="*.h"
 
 for opt do
 	case "$opt" in
+		--help)
+			echo "Usage: sh $0 INCLUDES --enable-glib-debugger --enable-gtk-debugger --enable-gdb --enable-valgrind --specific_function=FUNCTION_NAME --create_program_only"
+			exit 0
+			;;
 		--enable-glib-debugger)
 			export G_DEBUG=fatal_warnings
 			LIB_LISTS=lilyterm.h
@@ -41,8 +46,11 @@ for opt do
 			VALGRIND=1
 			LIB_LISTS=lilyterm.h
 			;;
-		--specific_program=*)
-			SPECIFIC_PROGRAM=`echo $opt | cut -d '=' -f 2`
+		--specific_function=*)
+			SPECIFIC_FUNCTION=`echo $opt | cut -d '=' -f 2`
+			;;
+		--create_program_only)
+			NO_TEST=1
 			;;
 	esac
 done
@@ -52,7 +60,7 @@ ECHO=`whereis -b echo | awk '{print $2}'`
 
 PKGCONFIG=`whereis -b pkg-config | awk '{print $2}'`
 if [ -z "$PKGCONFIG" ]; then
-	$ECHO -e "\x1b[1;31m** Command pkg-config is not found!\x1b[0m"
+	$ECHO -e "\x1b[1;31m** ERROR: Command pkg-config is not found!\x1b[0m"
 	exit 1
 fi
 
@@ -60,7 +68,7 @@ VTE=`$PKGCONFIG --exists 'vte' && $ECHO 'vte'`
 if [ $VTE = "vte" ]; then
   GTK=`$PKGCONFIG --exists 'gtk+-2.0' && $ECHO 'gtk+-2.0'`
   if [ "$GTK" != "gtk+-2.0" ]; then
-    $ECHO -e "\x1b[1;31m** You need GTK+2 to run this unit test program!\x1b[0m"
+    $ECHO -e "\x1b[1;31m** ERROR: You need GTK+2 to run this unit test program!\x1b[0m"
     exit 1
   fi
 else
@@ -68,11 +76,11 @@ else
   if [ $VTE = "vte-2.90" ]; then
     GTK=`$PKGCONFIG --exists 'gtk+-3.0' && $ECHO 'gtk+-3.0'`
     if [ "$GTK" != "gtk+-3.0" ]; then
-      $ECHO -e "\x1b[1;31m** You need GTK+3 to run this unit test program!\x1b[0m"
+      $ECHO -e "\x1b[1;31m** ERROR: You need GTK+3 to run this unit test program!\x1b[0m"
       exit 1
     fi
   else
-    $ECHO -e "\x1b[1;31m** You need VTE to run this unit test program!\x1b[0m"
+    $ECHO -e "\x1b[1;31m** ERROR: You need VTE to run this unit test program!\x1b[0m"
     exit 1
   fi
 fi
@@ -109,8 +117,8 @@ EOF
 
 for DATA in `cat $LIB_LISTS | sed '/^\/\*/,/ \*\/$/d' | sed -e 's/[ \t]*\/\*[ \t]*.*[ \t]*\*\///g' | sed -e 's/[ \t]*\/\/.*//g' | sed -e '/[ \t]*#[ \t]*ifdef[ \t]*USE_NEW_GEOMETRY_METHOD/,/#[ \t]*endif[ \t]*/d' | sed -e '/^[ \t]*#.*/d' | sed '/^[ \t]*typedef.*;[ \t]*$/d' | sed '/^[ \t]*typedef enum/,/}.*;[ \t]*$/d' | tr -d '\n' | sed -e 's/[\t ][\t ]*/_SPACE_/g' | sed -e 's/;/;\n/g' | sed -e 's/_SPACE_/ /g' | sed -e '/[ \t]*struct.*{/,/.*}[ \t]*;/d' | sed -e 's/ *\([)(,]\) */ \1 /g' | sed -e 's/[\t ][\t ]*/_SPACE_/g' | sed -e '/_SPACE_(_SPACE_)_SPACE_/d'`; do
 
-	if [ -n "$SPECIFIC_PROGRAM" ]; then
-		CHECK_STR="_SPACE_\**"$SPECIFIC_PROGRAM"_SPACE_"
+	if [ -n "$SPECIFIC_FUNCTION" ]; then
+		CHECK_STR="_SPACE_\**"$SPECIFIC_FUNCTION"_SPACE_"
 		CHECK_PROGRAM=`echo "$DATA" | grep "$CHECK_STR"`
 		if [ -z "$CHECK_PROGRAM" ]; then
 			continue
@@ -173,17 +181,28 @@ for DATA in `cat $LIB_LISTS | sed '/^\/\*/,/ \*\/$/d' | sed -e 's/[ \t]*\/\*[ \t
 					'GtkWidget*' | 'GSourceFunc' | 'gpointer' | 'GtkColorSelection*' | 'GtkTreePath*' | 'GtkTreeModel*' | 'GtkTreeIter*' | 'GdkEvent*' | 'GdkEventKey*' | 'GtkCellLayout*' | 'GtkTreeSelection*' | 'GtkClipboard*' | 'GError*' | 'GSList*' | 'GIOChannel*' | 'GtkFileChooser*' | 'GtkRequisition*' | 'GdkEventButton*' | 'GtkStyle*' | 'GtkAllocation*' | 'GdkEventFocus*' | 'GdkEventWindowState*')
 						FUNCTION="$FUNCTION NULL,"
 						;;
-					'GKeyFile*')
+					'GKeyFile*'|'GdkColor')
 						OLD_SPACE="$SPACE"
 						SPACE="$SPACE""_SPACE_"
 						VAR=`expr $VAR + 1`
 						if [ $MAX_VAR -le $VAR ]; then
 							MAX_VAR=$VAR
 						fi
-						FUNC_STAR="$FUNC_STAR\n$SPACE""GKeyFile *V$VAR = g_key_file_new();"
-						FUNCTION="$FUNCTION V$VAR,"
-						FUN_DATA="$SPACE""g_key_file_free(V$VAR);\n"
-						FUNC_END="$FUN_DATA\n$FUNC_END"
+						case $STR in
+							'GKeyFile*')
+								FUNC_STAR="$FUNC_STAR\n$SPACE""GKeyFile *V$VAR = g_key_file_new();"
+								FUNCTION="$FUNCTION V$VAR,"
+								FUN_DATA="$SPACE""g_key_file_free(V$VAR);\n"
+								;;
+							'GdkColor')
+								FUNC_STAR="$FUNC_STAR\n$SPACE""GdkColor V$VAR;\n$SPACE""gdk_color_parse (\"dark\", &V$VAR);"
+								FUNCTION="$FUNCTION V$VAR,"
+								;;
+						esac
+						if [ -n "$FUNC_END" ]; then
+							FUNC_END="\n$FUNC_END"
+						fi
+						FUNC_END="$FUN_DATA$FUNC_END"
 						unset FUN_DATA
 						SPACE=$OLD_SPACE
 						;;
@@ -295,10 +314,6 @@ for DATA in `cat $LIB_LISTS | sed '/^\/\*/,/ \*\/$/d' | sed -e 's/[ \t]*\/\*[ \t
 								FUNCTION="$FUNCTION GTK_NOTEBOOK(V$VAR),"
 								FUN_DATA="$SPACE""_SPACE_""if (V$VAR) gtk_widget_destroy(V$VAR);\n"
 								;;
-							'GdkColor')
-								FUNC_STAR="$FUNC_STAR\n$SPACE""_SPACE_""GdkColor V$VAR;\n$SPACE""_SPACE_""gdk_color_parse (\"dark\", &V$VAR);"
-								FUNCTION="$FUNCTION V$VAR,"
-								;;
 							'GdkColor*' | 'GdkColor []')
 								FUNC_STAR="$FUNC_STAR\n$SPACE""for (V[$VAR]=0; V[$VAR]<2; V[$VAR]++) {"
 								FUNC_STAR="$FUNC_STAR\n$SPACE""_SPACE_""GdkColor *V$VAR = NULL;\n""$SPACE""_SPACE_""if (V[$VAR]) {\n$SPACE""_SPACE__SPACE_""GdkColor dark;\n$SPACE""_SPACE__SPACE_""gdk_color_parse (\"dark\", &dark);\n$SPACE""_SPACE__SPACE_""V$VAR = &dark;\n""$SPACE""_SPACE_""}"
@@ -376,27 +391,29 @@ fi
 EOF
 	
 	# echo "GOT FULL_FUNCTION = $FULL_FUNCTION"
-	echo "$FULL_FUNCTION$FINISH" | sed -e 's/\\n/\n/g' | sed -e 's/_SPACE_/  /g' >> unit_test.c
+	echo "$FULL_FUNCTION" | sed -e 's/\\n/\n/g' | sed -e 's/_SPACE_/  /g' >> unit_test.c
 	
 	cat >> unit_test.c << EOF
   return 0;
 }
 EOF
-	echo -e "\x1b[1;36m$FUNC_NAME(): \x1b[1;33m** Compiling \x1b[1;32munit_test\x1b[0m\x1b[1;33m...\x1b[0m"
-	$CC $CFLAGS $INCLUDES -o unit_test unit_test.c $OBJ `$PKGCONFIG --cflags --libs $GTK $VTE` || exit 1
-
-	if [ $GDB -eq 1 ]; then
-		echo -e "\x1b[1;36m$FUNC_NAME(): \x1b[1;33m** Testing with gdb...\x1b[0m"
-		echo "Testing $FUNC_NAME() with gdb..." >> lilyterm_gdb.log
-		gdb -batch -x ./lilyterm.gdb ./unit_test >> lilyterm_gdb.log 2>&1
-		echo "" >> lilyterm_gdb.log
-	fi
-
-	if [ $VALGRIND -eq 1 ]; then
-		echo -e "\x1b[1;36m$FUNC_NAME(): \x1b[1;33m** Testing with valgrind...\x1b[0m"
-		echo "Testing $FUNC_NAME() with valgrind..." >> lilyterm_valgrind.log
-		valgrind --leak-check=full ./unit_test >> lilyterm_valgrind.log 2>&1
-		echo "" >> lilyterm_valgrind.log
+	if [ $NO_TEST -eq 0 ]; then
+		echo -e "\x1b[1;36m$FUNC_NAME(): \x1b[1;33m** Compiling \x1b[1;32munit_test\x1b[0m\x1b[1;33m...\x1b[0m"
+		$CC $CFLAGS $INCLUDES -o unit_test unit_test.c $OBJ `$PKGCONFIG --cflags --libs $GTK $VTE` || exit 1
+	
+		if [ $GDB -eq 1 ]; then
+			echo -e "\x1b[1;36m$FUNC_NAME(): \x1b[1;33m** Testing with gdb...\x1b[0m"
+			echo "Testing $FUNC_NAME() with gdb..." >> lilyterm_gdb.log
+			time gdb -batch -x ./lilyterm.gdb ./unit_test >> lilyterm_gdb.log 2>&1
+			echo "" >> lilyterm_gdb.log
+		fi
+	
+		if [ $VALGRIND -eq 1 ]; then
+			echo -e "\x1b[1;36m$FUNC_NAME(): \x1b[1;33m** Testing with valgrind...\x1b[0m"
+			echo "Testing $FUNC_NAME() with valgrind..." >> lilyterm_valgrind.log
+			time valgrind --leak-check=full ./unit_test >> lilyterm_valgrind.log 2>&1
+			echo "" >> lilyterm_valgrind.log
+		fi
 	fi
 done
 
