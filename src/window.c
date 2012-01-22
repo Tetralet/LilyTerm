@@ -1176,19 +1176,15 @@ gboolean deal_key_press(GtkWidget *window, gint type, struct Window *win_data)
 			break;
 		case KEY_PASTE_CLIPBOARD:
 		{
-			extern GtkClipboard *selection_clipboard;
 			if ( (win_data->confirm_to_paste == FALSE) ||
-			     ( ! confirm_to_paste_form_clipboard(selection_clipboard, win_data, page_data)))
+			     ( ! confirm_to_paste_form_clipboard(SELECTION_CLIPBOARD, win_data, page_data)))
 				vte_terminal_paste_clipboard(VTE_TERMINAL(win_data->current_vte));
 			break;
 		}
 		case KEY_PASTE_PRIMARY:
 		{
 			if (win_data->confirm_to_paste)
-			{
-				extern GtkClipboard *selection_primary;
-				return confirm_to_paste_form_clipboard(selection_primary, win_data, page_data);
-			}
+				return confirm_to_paste_form_clipboard(SELECTION_PRIMARY, win_data, page_data);
 			else
 				return FALSE;
 			break;
@@ -3185,11 +3181,11 @@ gboolean fullscreen_show_hide_scroll_bar (struct Window *win_data)
 	return TRUE;
 }
 
-gboolean confirm_to_paste_form_clipboard(GtkClipboard* clipboard, struct Window *win_data, struct Page *page_data)
+gboolean confirm_to_paste_form_clipboard(Clipboard_Type type, struct Window *win_data, struct Page *page_data)
 {
 #ifdef DETAIL
-	g_debug("! Launch confirm_to_paste_form_clipboard() with clipboard = %p, win_data = %p, page_data = %p",
-		clipboard, win_data, page_data);
+	g_debug("! Launch confirm_to_paste_form_clipboard() with type = %d, win_data = %p, page_data = %p",
+		type, win_data, page_data);
 #endif
 #ifdef DEFENSIVE
 	if (page_data==NULL) return FALSE;
@@ -3199,19 +3195,47 @@ gboolean confirm_to_paste_form_clipboard(GtkClipboard* clipboard, struct Window 
 	gboolean pasted = FALSE;
 	if ((stats) &&
 	    (check_string_in_array(stats[2], win_data->paste_texts_whitelists) == FALSE))
-		pasted = show_clipboard_dialog(clipboard, win_data, page_data, CONFIRM_TO_PASTE_TEXTS_TO_VTE_TERMINAL);
+		pasted = show_clipboard_dialog(type, win_data, page_data, CONFIRM_TO_PASTE_TEXTS_TO_VTE_TERMINAL);
 
 	g_strfreev(stats);
 	return pasted;
 }
 
-gboolean show_clipboard_dialog(GtkClipboard* clipboard, struct Window *win_data,
+gboolean show_clipboard_dialog(Clipboard_Type type, struct Window *win_data,
 			       struct Page *page_data, Dialog_Type_Flags dialog_type)
 {
+#ifdef DETAIL
+	g_debug("! Launch show_clipboard_dialog() with type = %d, win_data = %p, page_data = %p, dialog_type = %d",
+		type, win_data, page_data, dialog_type);
+#endif
 #ifdef DEFENSIVE
-	if ((win_data==NULL) || (clipboard==NULL)) return FALSE;
+	if (win_data==NULL) return FALSE;
 #endif
 	gboolean pasted = FALSE;
+	GtkClipboard *clipboard = NULL;
+	switch (type)
+	{
+		case SELECTION_CLIPBOARD:
+		{
+			extern GtkClipboard *selection_clipboard;
+			clipboard = selection_clipboard;
+			break;
+		}
+		case SELECTION_PRIMARY:
+		{
+			extern GtkClipboard *selection_primary;
+			clipboard = selection_primary;
+			break;
+		}
+		default:
+#ifdef FATAL
+                        print_switch_out_of_range_error_dialog("show_clipboard_dialog", "type", type);
+#endif
+			break;
+	}
+#ifdef DEFENSIVE
+        if (clipboard==NULL) return FALSE;
+#endif
 	gchar *clipboard_str = g_strdup(gtk_clipboard_wait_for_text(clipboard));
 	gchar *old_temp_data = win_data->temp_data;
 	switch (dialog_type)
@@ -3236,12 +3260,29 @@ gboolean show_clipboard_dialog(GtkClipboard* clipboard, struct Window *win_data,
 		if (dialog(NULL, dialog_type))
 		{
 			if (dialog_type == CONFIRM_TO_PASTE_TEXTS_TO_VTE_TERMINAL)
-{
+			{
 #ifdef DEFENSIVE
 				if (page_data!=NULL)
+				{
 #endif
-					vte_terminal_feed_child(VTE_TERMINAL(page_data->vte), clipboard_str, -1);
-}
+					switch (type)
+					{
+						case SELECTION_CLIPBOARD:
+							vte_terminal_paste_clipboard(VTE_TERMINAL(page_data->vte));
+							break;
+						case SELECTION_PRIMARY:
+							vte_terminal_paste_primary(VTE_TERMINAL(page_data->vte));
+							break;
+						default:
+#ifdef FATAL
+				                        print_switch_out_of_range_error_dialog("show_clipboard_dialog", "type", type);
+#endif
+							break;
+					}
+#ifdef DEFENSIVE
+				}
+#endif
+			}
 		}
 		pasted = TRUE;
 	}

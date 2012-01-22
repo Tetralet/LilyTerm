@@ -120,8 +120,8 @@ gboolean hide_scrollback_lines(GtkWidget *widget, struct Window *win_data);
 void print_array(gchar *name, gchar **data);
 #endif
 void clear_win_data(struct Window *win_data);
-gboolean confirm_to_paste_form_clipboard(GtkClipboard* clipboard, struct Window *win_data, struct Page *page_data);
-gboolean show_clipboard_dialog(GtkClipboard* clipboard, struct Window *win_data,
+gboolean confirm_to_paste_form_clipboard(Clipboard_Type type, struct Window *win_data, struct Page *page_data);
+gboolean show_clipboard_dialog(Clipboard_Type type, struct Window *win_data,
                                struct Page *page_data, Dialog_Type_Flags dialog_type);
 
 //

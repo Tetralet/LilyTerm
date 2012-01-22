@@ -1136,9 +1136,8 @@ gboolean vte_button_press(GtkWidget *vte, GdkEventButton *event, gpointer user_d
 
 	if (event->button == 2)
 	{
-		extern GtkClipboard *selection_primary;
 		if (win_data->confirm_to_paste)
-			return confirm_to_paste_form_clipboard(selection_primary, win_data, page_data);
+			return confirm_to_paste_form_clipboard(SELECTION_PRIMARY, win_data, page_data);
 		else
 			return FALSE;
 	}

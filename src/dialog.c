@@ -1253,7 +1253,7 @@ gboolean dialog(GtkWidget *widget, gsize style)
 	// g_debug("! The final window size is %d x %d",
 	//	requisition.width, requisition.height);
 
-	// Due to a bug in the GTK+2(?), we should set the ellipsize after the dialog is shown.
+	// FIXME: Due to a bug in the GTK+2(?), we should set the ellipsize after the dialog is shown.
 	// Or, the vertical size of title label may be cut, and some text may not shown.
 	if ((dialog_data->title_label) && (gtk_label_get_max_width_chars(GTK_LABEL(dialog_data->title_label)) > 0))
 		gtk_label_set_ellipsize(GTK_LABEL(dialog_data->title_label), PANGO_ELLIPSIZE_MIDDLE);

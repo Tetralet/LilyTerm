@@ -513,8 +513,7 @@ void view_clipboard(GtkWidget *widget, struct Window *win_data)
 #ifdef DEFENSIVE
 	if (win_data==NULL) return;
 #endif
-	extern GtkClipboard *selection_clipboard;
-	show_clipboard_dialog(selection_clipboard, win_data, NULL, VIEW_THE_CLIPBOARD);
+	show_clipboard_dialog(SELECTION_CLIPBOARD, win_data, NULL, VIEW_THE_CLIPBOARD);
 }
 
 void view_primary(GtkWidget *widget, struct Window *win_data)
@@ -525,8 +524,7 @@ void view_primary(GtkWidget *widget, struct Window *win_data)
 #ifdef DEFENSIVE
 	if (win_data==NULL) return;
 #endif
-	extern GtkClipboard *selection_primary;
-	show_clipboard_dialog(selection_primary, win_data, NULL, VIEW_THE_CLIPBOARD);
+	show_clipboard_dialog(SELECTION_PRIMARY, win_data, NULL, VIEW_THE_CLIPBOARD);
 }
 
 void set_dim_text(GtkWidget *menuitem_dim_text, struct Window *win_data)

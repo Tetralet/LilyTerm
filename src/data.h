@@ -379,6 +379,11 @@ typedef enum {
 	TAG_MAIL,
 } Command_Tag;
 
+typedef enum {
+	SELECTION_CLIPBOARD,
+	SELECTION_PRIMARY,
+} Clipboard_Type;
+
 // KeyValue: only need to init once when LilyTerm starts.
 // so that we don't need to free them.
 struct KeyValue
