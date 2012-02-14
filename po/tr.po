@@ -6,14 +6,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LilyTerm 0.9.6\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-12-06 23:47+0800\n"
+"POT-Creation-Date: 2012-02-14 14:29+0800\n"
 "PO-Revision-Date: 2010-12-14 19:09+0200\n"
 "Last-Translator: Samed Beyribey <ras0ir@eventualis.org>\n"
 "Language-Team: GNU-TR <tr@li.org>\n"
-"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: \n"
 
 #: console.c:116 dialog.c:835
 msgid ""
@@ -228,7 +228,7 @@ msgstr ""
 msgid "\t\t\t(i.e. Emulate a middle button mouse click to paste the text)"
 msgstr "\t\t\t(ör. Yapıştırmak için farenin orta tuşunun yaptığı işlemi yapar)"
 
-#: dialog.c:99 dialog.c:2627 menu.c:2418
+#: dialog.c:99 dialog.c:2702 menu.c:2449
 msgid "The following error is occurred:"
 msgstr "Hata çıktısı:"
 
@@ -366,7 +366,7 @@ msgstr "Önplan rengini değiştir"
 msgid "Change the %s color on tab"
 msgstr "Sekmedeki %s rengini değiştir"
 
-#: dialog.c:616 dialog.c:2445
+#: dialog.c:616 dialog.c:2521
 msgid "Bold Demo Text"
 msgstr "Kalın Yazı Örneği"
 
@@ -378,14 +378,18 @@ msgstr "Birden çok sekme açık olduğu için onayınız gerekiyor"
 msgid "You are about to close multi tabs. Continue anyway?"
 msgstr "Birden fazla sekme kapatılacak. Devam etmek istiyor musunuz?"
 
-#: dialog.c:683 dialog.c:1164
+#: dialog.c:683 dialog.c:1165
 msgid "those tabs"
 msgstr "bu sekmeler"
 
 #: dialog.c:689
+#, fuzzy
+#| msgid ""
+#| "You may press <Ctrl + Alt + Shift> + <any key> here\n"
+#| "to get the key value used for the function key."
 msgid ""
-"You may press <Ctrl + Alt + Shift> + <any key> here\n"
-"to get the key value used for the function key."
+"You may press <Ctrl + Alt + Shift + Win> + <any key> here\n"
+"to get the key value used for the key binding."
 msgstr ""
 "Fonksiyon tuşu için kullanılan tuş değerini almak için\n"
 "<Ctrl + Alt + Shift>+<herhangi bir tuş> kullanabilirsiniz."
@@ -419,123 +423,123 @@ msgstr "Tüm fonksiyon tuşlarını pasifleştir."
 msgid "Usage for %s %s"
 msgstr "%s %s kullanımı"
 
-#: dialog.c:869
+#: dialog.c:870
 msgid "Don't forget to save your settings after making any change!\n"
 msgstr ""
 "Herhangi bir değişiklik yaptıktan sonra ayarlarınızı kaydetmeyi unutmayın!\n"
 
-#: dialog.c:873
+#: dialog.c:874
 #, c-format
 msgid "Please report bug to %s. Thank you for using %s!"
 msgstr ""
 "Lütfen hataları %s adresine bildiriniz. %s programını kullandığınız için "
 "teşekkürler!"
 
-#: dialog.c:900
+#: dialog.c:901
 #, c-format
 msgid "There is still a running foreground program on #%d tab:"
 msgstr "#%d numaralı sekmede hala çalışmakta olan bir uygulama var:"
 
-#: dialog.c:902
+#: dialog.c:903
 #, c-format
 msgid "Terminate it by using `kill -9 %d' is recommend if it is non-response."
 msgstr "Yanıt vermiyorsa `kill -9 %d'  kullanmanız tavsiye edilir."
 
-#: dialog.c:908 dialog.c:1079 dialog.c:1110 dialog.c:1145 dialog.c:1177
-#: dialog.c:1201
+#: dialog.c:909 dialog.c:1080 dialog.c:1111 dialog.c:1146 dialog.c:1178
+#: dialog.c:1202
 msgid "Continue anyway?"
 msgstr "Devam etmek istiyor musunuz?"
 
-#: dialog.c:910 dialog.c:1112
+#: dialog.c:911 dialog.c:1113
 msgid "Tip:"
 msgstr "İpucu"
 
-#: dialog.c:919
+#: dialog.c:920
 msgid "Confirm to close running foreground program"
 msgstr "Arkaplanda çalışan programı kapatmak için onayınız gerekiyor"
 
-#: dialog.c:936 dialog.c:1136
+#: dialog.c:937 dialog.c:1137
 msgid "this tab"
 msgstr "bu sekme"
 
-#: dialog.c:943
+#: dialog.c:944
 msgid "Change the opacity of window"
 msgstr "Pencere donukluğunu değiştir"
 
-#: dialog.c:945
+#: dialog.c:946
 #, fuzzy
 #| msgid "Change the opacity of window"
 msgid "Change the opacity of window:"
 msgstr "Pencere donukluğunu değiştir"
 
-#: dialog.c:955
+#: dialog.c:956
 #, fuzzy
 #| msgid "Change the opacity of window"
 msgid "Change the opacity of window when inactive"
 msgstr "Pencere donukluğunu değiştir"
 
-#: dialog.c:957
+#: dialog.c:958
 #, fuzzy
 #| msgid "Change the opacity of window"
 msgid "Change the opacity of window when inactive:"
 msgstr "Pencere donukluğunu değiştir"
 
-#: dialog.c:995
+#: dialog.c:996
 msgid "Change the background color in terminal"
 msgstr "Arkaplan rengini değiştir"
 
-#: dialog.c:1028
+#: dialog.c:1029
 msgid "Adjust the brightness of ANSI colors used in terminal"
 msgstr "Uçbirimde kullanılacak ANSI renklerinin parlaklığını ayarla"
 
-#: dialog.c:1034
+#: dialog.c:1035
 msgid "Adjust the brightness of ANSI colors when inactive"
 msgstr "İşlem yapılmadığı zaman ANSI renklerinin parlaklığını değiştir"
 
-#: dialog.c:1073
+#: dialog.c:1074
 msgid " is trying to execute the following command:"
 msgstr "aşağıdaki komutu çalıştırmayı deniyor:"
 
-#: dialog.c:1082
+#: dialog.c:1083
 msgid "Confirm to execute -e/-x/--execute command"
 msgstr "Çalıştırma komutu -e/-x/--execute komut için onaylayın "
 
-#: dialog.c:1101
+#: dialog.c:1102
 #, c-format
 msgid "The following programs are still running under #%d tab:"
 msgstr "#%d sekmesinde hala çalışmakta olan uygulamalar var:"
 
-#: dialog.c:1103
+#: dialog.c:1104
 msgid "Using <Ctrl><D> or 'exit' to close tabs is recommended"
 msgstr "Sekmeleri 'exit' veya <Ctrl><D> kullanarak kapatmanız tavsiye edilir"
 
-#: dialog.c:1118
+#: dialog.c:1119
 #, fuzzy
 #| msgid "Confirm to close a tab with child proccess"
 msgid "Confirm to close a tab with child process"
 msgstr "Alt süreçlerin çalıştığı sekmeyi kapatmak için onayınız gerekiyor"
 
-#: dialog.c:1141
+#: dialog.c:1142
 msgid "The following programs are still running under this window:"
 msgstr "Aşağıdaki uygulamalar bu pencere altında çalışmaya devam ediyor:"
 
-#: dialog.c:1147
+#: dialog.c:1148
 #, fuzzy
 #| msgid "Confirm to close a window with child proccess"
 msgid "Confirm to close a window with child process"
 msgstr "Alt süreçlerin çalıştığı pencereyi kapatmak için onayınız gerekiyor"
 
-#: dialog.c:1167
+#: dialog.c:1168
 #, c-format
 msgid "Confirm to close %s"
 msgstr "%s kapatılması için onayınız gerekiyor"
 
-#: dialog.c:1170
+#: dialog.c:1171
 #, c-format
 msgid "The following programs are still running under %s:"
 msgstr "%s altında hala çalışmakta olan bir uygulama var:"
 
-#: dialog.c:1198
+#: dialog.c:1199
 #, fuzzy
 #| msgid "Select all the text in the Vte Terminal box."
 msgid ""
@@ -543,19 +547,19 @@ msgid ""
 "\n"
 msgstr "Vte terminalindeki tüm yazıyı seç."
 
-#: dialog.c:1203
+#: dialog.c:1204
 #, fuzzy
 #| msgid "Select all the text in the Vte Terminal box."
 msgid "Confirm to paste texts to the Vte Terminal"
 msgstr "Vte terminalindeki tüm yazıyı seç."
 
-#: dialog.c:1221 menu.c:212
+#: dialog.c:1222 menu.c:212
 #, fuzzy
 #| msgid "Copy to clipboard."
 msgid "Clipboard"
 msgstr "Panoya kopyala."
 
-#: dialog.c:2174
+#: dialog.c:2238
 #, c-format
 msgid ""
 "Try to kill %s with SIGKILL() to avoid terminate those programs!\n"
@@ -564,22 +568,22 @@ msgstr ""
 "Uygulamaları sonlandırmak için %s sürecini SIGKILL() kullanın!\n"
 "(VERİ KAYBINA YOL AÇABİLİR!)"
 
-#: dialog.c:2189
+#: dialog.c:2256
 #, c-format
 msgid "Force to close all the tabs and windows, and exit %s!"
 msgstr ""
 "Bütün sekmeleri ve pencereleri kapatmaya zorla ve %s uygulamasından çık!"
 
-#: dialog.c:2312
+#: dialog.c:2385
 #, c-format
 msgid "(Disabled, duplicated with [%s])"
 msgstr "(Pasif, [%s] ile çakışıyor)"
 
-#: dialog.c:2321 dialog.c:2784 dialog.c:2835
+#: dialog.c:2394 dialog.c:2862 dialog.c:2913
 msgid "(Disabled)"
 msgstr "(Pasif)"
 
-#: dialog.c:2564
+#: dialog.c:2640
 #, c-format
 msgid ""
 "The locale \"%s\" seems NOT supported by your system!\n"
@@ -590,21 +594,21 @@ msgstr ""
 "Eğer yereli yeni eklemişseniz,\n"
 "Lütfen %s uygulamasının tüm pencerelerini kapatıp yeniden deneyin."
 
-#: dialog.c:2568
+#: dialog.c:2644
 msgid "Not supported locale!"
 msgstr "Desteklenmeyen yerel!"
 
-#: dialog.c:2640
+#: dialog.c:2714
 #, c-format
 msgid "You should upgrade to %s and recompile %s to support this feature."
 msgstr ""
 "Bu özelliğin kullanılabilmesi için %s güncellenmeli ve %s tekrar derlenmeli."
 
-#: dialog.c:2641
+#: dialog.c:2715
 msgid "Not supported feature!"
 msgstr "Desteklenmeyen özellik!"
 
-#: dialog.c:2792
+#: dialog.c:2870
 #, fuzzy, c-format
 #| msgid "Disable all the function keys of this group."
 msgid "Disable all the function keys of [%s] group."
@@ -612,7 +616,7 @@ msgstr ""
 "  * <Ctrl><`>\t\tLinkleri, fonksiyon tuşlarını ve sağ tıklama ile açılan "
 "menüyü etkinleştirir/devredışı bırakır\n"
 
-#: main.c:578
+#: main.c:599
 #, fuzzy, c-format
 #| msgid ""
 #| "The data got from socket seems incorrect.\n"
@@ -631,7 +635,7 @@ msgstr ""
 "Eğer %s uygulamasını henüz güncellemişseniz,\n"
 "Lütfen %s uygulamasının pencerelerini kapatın ve tekrar deneyin. "
 
-#: main.c:586
+#: main.c:607
 msgid "The format of socket data is out of date"
 msgstr "Soket verisi biçimi güncel değil"
 
@@ -647,7 +651,7 @@ msgstr "Yeni sekme"
 msgid "New tab with specified locale"
 msgstr "Belirli bir yerel ile yeni sekme aç"
 
-#: menu.c:67 menu.c:1983
+#: menu.c:67 menu.c:2008
 msgid "New window with specified profile"
 msgstr "Belirtilen profil ile yeni pencere"
 
@@ -855,8 +859,8 @@ msgid "Usage"
 msgstr "Kullanım"
 
 #: menu.c:398
-msgid "Set function key value"
-msgstr "Fonksiyon tuşu değerini ata"
+msgid "Set key binding"
+msgstr ""
 
 #: menu.c:402
 msgid "User profile"
@@ -867,37 +871,37 @@ msgstr "Kullanıcı profili"
 msgid "Quit %s"
 msgstr "%s kapat"
 
-#: menu.c:895
+#: menu.c:893
 msgid " (Wide)"
 msgstr " (Geniş)"
 
-#: menu.c:1235
+#: menu.c:1233
 msgid "Font Selection"
 msgstr "Yazıtipi Seçimi"
 
-#: menu.c:1498 menu.c:1505
+#: menu.c:1523 menu.c:1530
 msgid "Add other locales..."
 msgstr "Farklı yerel ekle..."
 
-#: menu.c:1586 menu.c:1628
+#: menu.c:1611 menu.c:1653
 msgid "Other settings..."
 msgstr "Diğer ayarlar..."
 
-#: menu.c:1598
+#: menu.c:1623
 msgid "Save settings"
 msgstr "Ayarları kaydet"
 
-#: menu.c:1601
+#: menu.c:1626
 msgid "Save settings as..."
 msgstr "Ayarları farklı kaydet..."
 
-#: menu.c:1607
+#: menu.c:1632
 #, fuzzy
 #| msgid "Save settings"
 msgid "Reload settings"
 msgstr "Ayarları kaydet"
 
-#: menu.c:1642
+#: menu.c:1667
 #, c-format
 msgid "%s default"
 msgstr "%s öntanımlı"
@@ -905,11 +909,11 @@ msgstr "%s öntanımlı"
 #. TRANSLATE NOTE: Please translate the "System default (PROFILE)" into "System default" (in your language).
 #. TRANSLATE NOTE: Some language will have trouble if here is "System default" only.
 #. TRANSLATE NOTE: Contrast it with "System default (SCHEME)" (See above).
-#: menu.c:1674 menu.c:1675
+#: menu.c:1699 menu.c:1700
 msgid "System default (PROFILE)"
 msgstr "Sistem öntanımlı (PROFILE)"
 
-#: menu.c:1979
+#: menu.c:2004
 #, c-format
 msgid ""
 "The following settings:\n"
@@ -924,29 +928,35 @@ msgstr ""
 "Mevcut penceredeki terminallere uygulanamayacak.\n"
 "Bunun yerine [%s] kullanın."
 
-#: menu.c:1985
+#: menu.c:2010
 msgid "The following settings can NOT be applied"
 msgstr "Aşağıdaki ayarlar UYGULANAMAYACAK"
 
-#: menu.c:2064
+#: menu.c:2092
 msgid "Disable: Trying to use [Transparent Background] instead."
 msgstr "Pasif: [Şeffaf Arkaplan] kullanılacak."
 
-#: menu.c:2070
+#: menu.c:2098
 msgid "Scroll the background image along with the text"
 msgstr "Yazıyla birlikte arkaplan resmini de kaydır"
 
+#: menu.c:2447
+#, fuzzy, c-format
+#| msgid "The following error is occurred:"
+msgid "The following error is occurred: %s"
+msgstr "Hata çıktısı:"
+
 #. TRANSLATE NOTE: The "↲" is a replace character for <Enter> (<CR>, or <New Line>).
 #. TRANSLATE NOTE: You may translate it into something like "¶", "↵" or "↩".
-#: misc.c:555
+#: misc.c:563
 msgid "↲"
 msgstr ""
 
-#: notebook.c:640
+#: notebook.c:651
 msgid "Error while creating the child process:"
 msgstr "Alt süreç oluşturulurken hata meydana geldi:"
 
-#: notebook.c:648
+#: notebook.c:659
 msgid ""
 "Error while creating the child process!\n"
 "Please make sure the /dev/pts is mounted as a devpts file system!"
@@ -954,7 +964,7 @@ msgstr ""
 "Alt süreç oluşturulurken bir hata meydana geldi!\n"
 "/dev/pts'in devpts dosya sistemi olarak bağlı olduğundan emin olun!"
 
-#: notebook.c:660
+#: notebook.c:671
 msgid "Error when creating child process"
 msgstr "Alt işlem oluşturulurken hata meydana geldi"
 
@@ -1243,24 +1253,24 @@ msgstr "Root Yetkileri"
 msgid "Normal Text"
 msgstr "Normal Yazı"
 
-#: profile.c:2492
+#: profile.c:2499
 msgid "The target file does NOT exist"
 msgstr "Hedef dosya mevcut DEĞİL"
 
-#: profile.c:2503
+#: profile.c:2510
 msgid "The target file is a directory"
 msgstr "Hedef dosya bir dizin"
 
-#: profile.c:2551
+#: profile.c:2558
 #, c-format
 msgid "Error while writing profile '%s':"
 msgstr "'%s' profili yazılırken hata oluştu:"
 
-#: profile.c:2556
+#: profile.c:2563
 msgid "Error when writing profile"
 msgstr "Profil kaydedilirken hata oluştu"
 
-#: profile.c:2687
+#: profile.c:2694
 msgid ""
 "Some entry in profile is added, removed, or changed in this version.\n"
 "Please use [Save settings] on the right click menu to save your settings,\n"
@@ -1270,7 +1280,7 @@ msgstr ""
 "Lütfen menüye sağ tıklayarak [Ayarları kaydet] seçeneğini kullanın\n"
 "veya yapılandırma dosyasını elle düzenleyin.\n"
 
-#: profile.c:2693
+#: profile.c:2700
 #, c-format
 msgid ""
 "%s\n"
@@ -1279,11 +1289,11 @@ msgstr ""
 "%s\n"
 "Kullandığınız profil %s."
 
-#: profile.c:2696
+#: profile.c:2703
 msgid "The format of your profile is out of date"
 msgstr "Profil biçiminiz güncel değil"
 
-#: profile.c:2724 profile.c:2727
+#: profile.c:2731 profile.c:2734
 #, c-format
 msgid ""
 "The profile \"%s\" is invalid:\n"
@@ -1294,19 +1304,22 @@ msgstr ""
 "\n"
 "\t%s"
 
-#: profile.c:2735
+#: profile.c:2742
 msgid "The profile is invalid!"
 msgstr "Profil geçersiz!"
 
-#: window.c:688
+#: window.c:713
 #, c-format
 msgid "\tWindow #%d, Page #%d: (%d) %s\n"
 msgstr "\tPencere #%d, Sayfa #%d: (%d) %s\n"
 
-#: window.c:692
+#: window.c:717
 #, c-format
 msgid "\tPage #%d: (%d) %s\n"
 msgstr "\tSayfa #%d: (%d) %s\n"
+
+#~ msgid "Set function key value"
+#~ msgstr "Fonksiyon tuşu değerini ata"
 
 #, fuzzy
 #~| msgid "Paste the text"

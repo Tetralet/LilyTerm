@@ -6,14 +6,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LilyTerm 0.9.9\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-12-06 23:47+0800\n"
+"POT-Creation-Date: 2012-02-14 14:29+0800\n"
 "PO-Revision-Date: 2011-07-04 20:15+0300\n"
 "Last-Translator: Vladimir Smolyar <v_2e@ukr.net>\n"
 "Language-Team: Ukrainian\n"
-"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: \n"
 "X-Poedit-Language: Ukrainian\n"
 
 #: console.c:116 dialog.c:835
@@ -239,7 +239,7 @@ msgid "\t\t\t(i.e. Emulate a middle button mouse click to paste the text)"
 msgstr ""
 "\t\t\t(тобто емулювати натиснення середньої клавіші миші для вставки тексту)"
 
-#: dialog.c:99 dialog.c:2627 menu.c:2418
+#: dialog.c:99 dialog.c:2702 menu.c:2449
 msgid "The following error is occurred:"
 msgstr "Виникла наступна помилка:"
 
@@ -336,8 +336,8 @@ msgid ""
 msgstr ""
 "Локалізація, встановлювана за замовчуванням під час ініціалізації терміналу "
 "Vte.\n"
-"Наприклад, можна використати \"uk_UA\", \"uk_UA.KOI8-U\", або \"uk_UA."
-"UTF-8\"."
+"Наприклад, можна використати \"uk_UA\", \"uk_UA.KOI8-U\", або \"uk_UA.UTF-8"
+"\"."
 
 #: dialog.c:441
 msgid "Default locale:"
@@ -353,8 +353,8 @@ msgid ""
 "You may want to use \"UTF-8\" here if you have no locale data installed."
 msgstr ""
 "Список локалізацій у меню правої клавіші миші, розділених пробілами.\n"
-"Наприклад, можна використати \"uk_UA\", \"uk_UA.KOI8-U\", або \"uk_UA."
-"UTF-8\".\n"
+"Наприклад, можна використати \"uk_UA\", \"uk_UA.KOI8-U\", або \"uk_UA.UTF-8"
+"\".\n"
 "Якщо дані про локалізації не встановлено, можна використати \"UTF-8\"."
 
 #: dialog.c:453
@@ -378,7 +378,7 @@ msgstr "Змінити колір тексту у терміналі"
 msgid "Change the %s color on tab"
 msgstr "Змінити колір %s на вкладці"
 
-#: dialog.c:616 dialog.c:2445
+#: dialog.c:616 dialog.c:2521
 msgid "Bold Demo Text"
 msgstr "Жирний текст"
 
@@ -390,14 +390,18 @@ msgstr "Підтвердження закриття кількох вкладо�
 msgid "You are about to close multi tabs. Continue anyway?"
 msgstr "Ви збираєтеся закрити одразу кілька вкладок. Продовжити?"
 
-#: dialog.c:683 dialog.c:1164
+#: dialog.c:683 dialog.c:1165
 msgid "those tabs"
 msgstr "ці вкладки"
 
 #: dialog.c:689
+#, fuzzy
+#| msgid ""
+#| "You may press <Ctrl + Alt + Shift> + <any key> here\n"
+#| "to get the key value used for the function key."
 msgid ""
-"You may press <Ctrl + Alt + Shift> + <any key> here\n"
-"to get the key value used for the function key."
+"You may press <Ctrl + Alt + Shift + Win> + <any key> here\n"
+"to get the key value used for the key binding."
 msgstr ""
 "Ви можете натиснути <Ctrl + Alt + Shift> + <клавіша> тут,\n"
 "щоб отримати значення сполучення клавіш."
@@ -431,118 +435,118 @@ msgstr "Заборонити усі сполучення клавіш."
 msgid "Usage for %s %s"
 msgstr "Використання для %s %s"
 
-#: dialog.c:869
+#: dialog.c:870
 msgid "Don't forget to save your settings after making any change!\n"
 msgstr "Не забувайте зберігати налаштування після їх зміни!\n"
 
-#: dialog.c:873
+#: dialog.c:874
 #, c-format
 msgid "Please report bug to %s. Thank you for using %s!"
 msgstr ""
 "Будь ласка, повідомляйте про помилки на %s.\n"
 "Дякуємо за використання %s!"
 
-#: dialog.c:900
+#: dialog.c:901
 #, c-format
 msgid "There is still a running foreground program on #%d tab:"
 msgstr "У вкладці №%d все ще виконується програма:"
 
-#: dialog.c:902
+#: dialog.c:903
 #, c-format
 msgid "Terminate it by using `kill -9 %d' is recommend if it is non-response."
 msgstr ""
 "Рекомендується перервати виконання командою\n"
 "`kill -9 %d', якщо процес не відповідає."
 
-#: dialog.c:908 dialog.c:1079 dialog.c:1110 dialog.c:1145 dialog.c:1177
-#: dialog.c:1201
+#: dialog.c:909 dialog.c:1080 dialog.c:1111 dialog.c:1146 dialog.c:1178
+#: dialog.c:1202
 msgid "Continue anyway?"
 msgstr "Все одно продовжити?"
 
-#: dialog.c:910 dialog.c:1112
+#: dialog.c:911 dialog.c:1113
 msgid "Tip:"
 msgstr "Підказка:"
 
-#: dialog.c:919
+#: dialog.c:920
 msgid "Confirm to close running foreground program"
 msgstr "Підтвердження закриття програми, що виконується"
 
-#: dialog.c:936 dialog.c:1136
+#: dialog.c:937 dialog.c:1137
 msgid "this tab"
 msgstr "цю вкладку"
 
-#: dialog.c:943
+#: dialog.c:944
 msgid "Change the opacity of window"
 msgstr "Змінити прозорість вікна"
 
-#: dialog.c:945
+#: dialog.c:946
 msgid "Change the opacity of window:"
 msgstr "Змінити прозорість вікна:"
 
-#: dialog.c:955
+#: dialog.c:956
 msgid "Change the opacity of window when inactive"
 msgstr "Змінити прозорість неактивного вікна"
 
-#: dialog.c:957
+#: dialog.c:958
 msgid "Change the opacity of window when inactive:"
 msgstr "Змінити прозорість неактивного вікна:"
 
-#: dialog.c:995
+#: dialog.c:996
 msgid "Change the background color in terminal"
 msgstr "Змінити колір тла терміналу"
 
-#: dialog.c:1028
+#: dialog.c:1029
 msgid "Adjust the brightness of ANSI colors used in terminal"
 msgstr "Налаштувати яскравість кольорів ANSI у терміналі"
 
-#: dialog.c:1034
+#: dialog.c:1035
 msgid "Adjust the brightness of ANSI colors when inactive"
 msgstr "Налаштувати яскравість кольорів ANSI у неактивному стані"
 
-#: dialog.c:1073
+#: dialog.c:1074
 msgid " is trying to execute the following command:"
 msgstr " намагається виконати наступну команду:"
 
-#: dialog.c:1082
+#: dialog.c:1083
 msgid "Confirm to execute -e/-x/--execute command"
 msgstr "Підтвердження виконання -e/-x/--execute команди"
 
-#: dialog.c:1101
+#: dialog.c:1102
 #, c-format
 msgid "The following programs are still running under #%d tab:"
 msgstr "На вкладці №%d все ще працюють наступні програми:"
 
-#: dialog.c:1103
+#: dialog.c:1104
 msgid "Using <Ctrl><D> or 'exit' to close tabs is recommended"
 msgstr "Рекомендується закривати вкладки за допомогою <Ctrl><D> або 'exit'"
 
-#: dialog.c:1118
+#: dialog.c:1119
 #, fuzzy
 #| msgid "Confirm to close a tab with child proccess"
 msgid "Confirm to close a tab with child process"
 msgstr "Підтвердження закриття вкладки із дочірнім процесом"
 
-#: dialog.c:1141
+#: dialog.c:1142
 msgid "The following programs are still running under this window:"
 msgstr "У цьому вікні все ще виконуються наступні команди:"
 
-#: dialog.c:1147
+#: dialog.c:1148
 #, fuzzy
 #| msgid "Confirm to close a window with child proccess"
 msgid "Confirm to close a window with child process"
 msgstr "Підтвердіть закриття вікна із дочірніми процесами"
 
-#: dialog.c:1167
+#: dialog.c:1168
 #, c-format
 msgid "Confirm to close %s"
 msgstr "Підтвердіть закриття %s"
 
-#: dialog.c:1170
+#: dialog.c:1171
 #, c-format
 msgid "The following programs are still running under %s:"
 msgstr "У %s все ще виконуються наступні програми:"
 
-#: dialog.c:1198
+#: dialog.c:1199
 #, fuzzy
 #| msgid "Select all the text in the Vte Terminal box."
 msgid ""
@@ -550,19 +554,19 @@ msgid ""
 "\n"
 msgstr "Вибрати увесь текст у вікні терміналу Vte."
 
-#: dialog.c:1203
+#: dialog.c:1204
 #, fuzzy
 #| msgid "Select all the text in the Vte Terminal box."
 msgid "Confirm to paste texts to the Vte Terminal"
 msgstr "Вибрати увесь текст у вікні терміналу Vte."
 
-#: dialog.c:1221 menu.c:212
+#: dialog.c:1222 menu.c:212
 #, fuzzy
 #| msgid "Copy to clipboard."
 msgid "Clipboard"
 msgstr "Скопіювати до буферу обміну"
 
-#: dialog.c:2174
+#: dialog.c:2238
 #, c-format
 msgid ""
 "Try to kill %s with SIGKILL() to avoid terminate those programs!\n"
@@ -571,21 +575,21 @@ msgstr ""
 "Спробувати вбити %s сигналом SIGKILL(), щоб запобігти\n"
 "перериванню цих програм! (МОЖЕ ПРИЗВЕСТИ ДО ВТРАТИ ДАНИХ!!)"
 
-#: dialog.c:2189
+#: dialog.c:2256
 #, c-format
 msgid "Force to close all the tabs and windows, and exit %s!"
 msgstr "Примусово закрити усі вкладки й вікна та вийти з %s!"
 
-#: dialog.c:2312
+#: dialog.c:2385
 #, c-format
 msgid "(Disabled, duplicated with [%s])"
 msgstr "(Заборонено, співпадає з [%s])"
 
-#: dialog.c:2321 dialog.c:2784 dialog.c:2835
+#: dialog.c:2394 dialog.c:2862 dialog.c:2913
 msgid "(Disabled)"
 msgstr "(Заборонено)"
 
-#: dialog.c:2564
+#: dialog.c:2640
 #, c-format
 msgid ""
 "The locale \"%s\" seems NOT supported by your system!\n"
@@ -596,27 +600,27 @@ msgstr ""
 "Якщо ви нещодавно оновили дані локалізацій,\n"
 "будь ласка, закрийте усі вікна %s і спробуйте знову."
 
-#: dialog.c:2568
+#: dialog.c:2644
 msgid "Not supported locale!"
 msgstr "Непідтримувана локалізація!"
 
-#: dialog.c:2640
+#: dialog.c:2714
 #, c-format
 msgid "You should upgrade to %s and recompile %s to support this feature."
 msgstr ""
 "Вам необхідно оновити до %s та перекомпілювати %s, щоб отримати підтримку "
 "цієї можливості."
 
-#: dialog.c:2641
+#: dialog.c:2715
 msgid "Not supported feature!"
 msgstr "Непідтримувана функція!"
 
-#: dialog.c:2792
+#: dialog.c:2870
 #, c-format
 msgid "Disable all the function keys of [%s] group."
 msgstr "Заборонити усі сполучення клавіш групи [%s]."
 
-#: main.c:578
+#: main.c:599
 #, fuzzy, c-format
 #| msgid ""
 #| "The data got from socket seems incorrect.\n"
@@ -635,7 +639,7 @@ msgstr ""
 "Якщо ви нещодавно оновили %s,\n"
 "будь ласка, закрийте усі вікна %s і спробуйте знову."
 
-#: main.c:586
+#: main.c:607
 msgid "The format of socket data is out of date"
 msgstr "Формат даних сокета застарів"
 
@@ -651,7 +655,7 @@ msgstr "Нова вкладка"
 msgid "New tab with specified locale"
 msgstr "Нова вкладка із вказаною локалізацією"
 
-#: menu.c:67 menu.c:1983
+#: menu.c:67 menu.c:2008
 msgid "New window with specified profile"
 msgstr "Нове вікно із вказаним профілем"
 
@@ -853,8 +857,8 @@ msgid "Usage"
 msgstr "Використання"
 
 #: menu.c:398
-msgid "Set function key value"
-msgstr "Встановити сполучення клавіш"
+msgid "Set key binding"
+msgstr ""
 
 #: menu.c:402
 msgid "User profile"
@@ -865,37 +869,37 @@ msgstr "Профіль користувача"
 msgid "Quit %s"
 msgstr "Вийти з %s"
 
-#: menu.c:895
+#: menu.c:893
 msgid " (Wide)"
 msgstr "(широкий)"
 
-#: menu.c:1235
+#: menu.c:1233
 msgid "Font Selection"
 msgstr "Вибір шрифту"
 
-#: menu.c:1498 menu.c:1505
+#: menu.c:1523 menu.c:1530
 msgid "Add other locales..."
 msgstr "Додати інші локалізації..."
 
-#: menu.c:1586 menu.c:1628
+#: menu.c:1611 menu.c:1653
 msgid "Other settings..."
 msgstr "Інші налаштування..."
 
-#: menu.c:1598
+#: menu.c:1623
 msgid "Save settings"
 msgstr "Зберегти налаштування"
 
-#: menu.c:1601
+#: menu.c:1626
 msgid "Save settings as..."
 msgstr "Зберегти налаштування як..."
 
-#: menu.c:1607
+#: menu.c:1632
 #, fuzzy
 #| msgid "Save settings"
 msgid "Reload settings"
 msgstr "Зберегти налаштування"
 
-#: menu.c:1642
+#: menu.c:1667
 #, c-format
 msgid "%s default"
 msgstr "%s за замовчуванням"
@@ -903,11 +907,11 @@ msgstr "%s за замовчуванням"
 #. TRANSLATE NOTE: Please translate the "System default (PROFILE)" into "System default" (in your language).
 #. TRANSLATE NOTE: Some language will have trouble if here is "System default" only.
 #. TRANSLATE NOTE: Contrast it with "System default (SCHEME)" (See above).
-#: menu.c:1674 menu.c:1675
+#: menu.c:1699 menu.c:1700
 msgid "System default (PROFILE)"
 msgstr "Системний за замовчуванням"
 
-#: menu.c:1979
+#: menu.c:2004
 #, c-format
 msgid ""
 "The following settings:\n"
@@ -922,29 +926,35 @@ msgstr ""
 "НЕ можуть бути застосовані до терміналів у поточному вікні.\n"
 "Скористайтеся замість цього [%s]."
 
-#: menu.c:1985
+#: menu.c:2010
 msgid "The following settings can NOT be applied"
 msgstr "Наступні параметри НЕ можуть бути застосовані "
 
-#: menu.c:2064
+#: menu.c:2092
 msgid "Disable: Trying to use [Transparent Background] instead."
 msgstr "Заборонено: Спробуйте використати [Прозоре тло] замість цього."
 
-#: menu.c:2070
+#: menu.c:2098
 msgid "Scroll the background image along with the text"
 msgstr "Прокручувати фонове зображення разом із текстом"
 
+#: menu.c:2447
+#, fuzzy, c-format
+#| msgid "The following error is occurred:"
+msgid "The following error is occurred: %s"
+msgstr "Виникла наступна помилка:"
+
 #. TRANSLATE NOTE: The "↲" is a replace character for <Enter> (<CR>, or <New Line>).
 #. TRANSLATE NOTE: You may translate it into something like "¶", "↵" or "↩".
-#: misc.c:555
+#: misc.c:563
 msgid "↲"
 msgstr ""
 
-#: notebook.c:640
+#: notebook.c:651
 msgid "Error while creating the child process:"
 msgstr "Помилка під час створення дочірнього процесу:"
 
-#: notebook.c:648
+#: notebook.c:659
 msgid ""
 "Error while creating the child process!\n"
 "Please make sure the /dev/pts is mounted as a devpts file system!"
@@ -952,7 +962,7 @@ msgstr ""
 "Помилка створення дочірнього процесу!\n"
 "Переконайтеся, що /dev/pts підмонтовано як файлову систему devpts!"
 
-#: notebook.c:660
+#: notebook.c:671
 msgid "Error when creating child process"
 msgstr "Помилка створення дочірнього процесу"
 
@@ -1252,24 +1262,24 @@ msgstr "привілеїв адміністратора"
 msgid "Normal Text"
 msgstr "звичайного тексту"
 
-#: profile.c:2492
+#: profile.c:2499
 msgid "The target file does NOT exist"
 msgstr "Файл призначення НЕ існує"
 
-#: profile.c:2503
+#: profile.c:2510
 msgid "The target file is a directory"
 msgstr "Файл призначення є каталогом"
 
-#: profile.c:2551
+#: profile.c:2558
 #, c-format
 msgid "Error while writing profile '%s':"
 msgstr "Помилка запису профілю '%s':"
 
-#: profile.c:2556
+#: profile.c:2563
 msgid "Error when writing profile"
 msgstr "Помилка запису профілю"
 
-#: profile.c:2687
+#: profile.c:2694
 msgid ""
 "Some entry in profile is added, removed, or changed in this version.\n"
 "Please use [Save settings] on the right click menu to save your settings,\n"
@@ -1280,7 +1290,7 @@ msgstr ""
 "миші,\n"
 "щоб зберегти ваші налаштування, і відредагуйте його вручну за необхідності.\n"
 
-#: profile.c:2693
+#: profile.c:2700
 #, c-format
 msgid ""
 "%s\n"
@@ -1289,11 +1299,11 @@ msgstr ""
 "%s\n"
 "Ваш профіль - %s."
 
-#: profile.c:2696
+#: profile.c:2703
 msgid "The format of your profile is out of date"
 msgstr "Формат вашого профілю застарів"
 
-#: profile.c:2724 profile.c:2727
+#: profile.c:2731 profile.c:2734
 #, c-format
 msgid ""
 "The profile \"%s\" is invalid:\n"
@@ -1304,19 +1314,22 @@ msgstr ""
 "\n"
 "\t%s"
 
-#: profile.c:2735
+#: profile.c:2742
 msgid "The profile is invalid!"
 msgstr "Профіль некоректний!"
 
-#: window.c:688
+#: window.c:713
 #, c-format
 msgid "\tWindow #%d, Page #%d: (%d) %s\n"
 msgstr "\tВікно №%d, Сторінка №%d: (%d) %s\n"
 
-#: window.c:692
+#: window.c:717
 #, c-format
 msgid "\tPage #%d: (%d) %s\n"
 msgstr "\tСторінка №%d: (%d) %s\n"
+
+#~ msgid "Set function key value"
+#~ msgstr "Встановити сполучення клавіш"
 
 #, fuzzy
 #~| msgid "Paste the text"

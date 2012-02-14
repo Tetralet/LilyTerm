@@ -395,7 +395,7 @@ gboolean create_menu(struct Window *win_data)
 				  (GSourceFunc)dialog, GINT_TO_POINTER(USAGE_MESSAGE));
 
 	// Get the key value for using in profile
-	create_menu_item (IMAGE_MENU_ITEM, win_data->menu, _("Set function key value"), NULL, GTK_STOCK_CONVERT,
+	create_menu_item (IMAGE_MENU_ITEM, win_data->menu, _("Set key binding"), NULL, GTK_STOCK_CONVERT,
 				  (GSourceFunc)dialog, GINT_TO_POINTER(SET_FUNCTION_KEY_VALUE));
 
 

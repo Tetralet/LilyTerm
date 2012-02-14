@@ -686,8 +686,8 @@ gboolean dialog(GtkWidget *widget, gsize style)
 		case SET_FUNCTION_KEY_VALUE:					// 4
 		{
 			init_locale_restrict_data(win_data->runtime_LC_MESSAGES);
-			temp_str[0] = g_markup_escape_text(_("You may press <Ctrl + Alt + Shift> + <any key> here\n"
-							     "to get the key value used for the function key."), -1);
+			temp_str[0] = g_markup_escape_text(_("You may press <Ctrl + Alt + Shift + Win> + <any key> here\n"
+							     "to get the key value used for the key binding."), -1);
 			create_dialog(_("Get the key value for function key"),
 				      "Get the key value for function key",
 				      DIALOG_OK_CANCEL,
