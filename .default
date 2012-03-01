@@ -1,0 +1,13 @@
+PACKAGE = LilyTerm
+BINARY = lilyterm
+VERSION = 0.9.9
+BUGREPORT = tetrlet@gmail.com
+
+YEAR = $(shell date +%Y)
+ECHO = $(shell whereis -b echo | awk '{print $$2}')
+
+PREFIX = /usr/local
+DATADIR = $(PREFIX)/share
+LOCALEDIR = $(DATADIR)/locale
+ICONDIR = $(DATADIR)/pixmaps
+

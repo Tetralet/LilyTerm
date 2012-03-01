@@ -106,12 +106,12 @@
 // for key value
 #include <gdk/gdkkeysyms.h>
 
-#define SYS_PROFILE PACKAGE ".conf"
+#define SYS_PROFILE BINARY ".conf"
 #define USER_PROFILE "default.conf"
-#define SOCKET_DATA_VERSION PACKAGE_NAME "-0.9.9~rc6"
+#define SOCKET_DATA_VERSION PACKAGE "-0.9.9~rc6"
 #define PROFILE_FORMAT_VERSION "0.9.9"
 #define NOTEBOOK_GROUP 8
-#define ICON_PATH ICONDIR G_DIR_SEPARATOR_S PACKAGE ".png"
+#define ICON_PATH ICONDIR G_DIR_SEPARATOR_S BINARY ".png"
 #define NULL_DEVICE "/dev/null"
 #define SYSTEM_FONT_NAME "Monospace 12"
 #define SYSTEM_COLUMN 80

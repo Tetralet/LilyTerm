@@ -1,0 +1,336 @@
+#!/bin/bash
+
+PACKAGE=LilyTerm
+BINARY=lilyterm
+BUGREPORT=tetralet@gmail.com
+VERSION=0.9.9
+
+PREFIX=/usr/local
+ETCDIR="\$(PREFIX)/etc/xdg"
+BINDIR="\$(PREFIX)/bin"
+DATADIR="\$(PREFIX)/share"
+MANDIR="\$(DATADIR)/man"
+DOCDIR="\$(DATADIR)/doc/\$(BINARY)"
+LOCALEDIR="\$(DATADIR)/locale"
+ICONDIR="\$(DATADIR)/pixmaps"
+
+GTK=gtk+-2.0
+GTK_SPC=0
+
+DEBUG=N
+NLS=Y
+SAFEMODE=Y
+GNOME_CONTROL_CENTER=Y
+
+if [ -z "$CC" ]; then
+  CC=gcc
+fi
+
+if [ -z "$CFLAGS" ]; then
+  CFLAGS="-Wall -O -g"
+fi
+
+MAKE=`whereis -b make | awk '{print $2}'`
+ECHO=`whereis -b echo | awk '{print $2}'`
+
+ERR()
+{
+  $ECHO -e "\x1b[1;31m""$1""\x1b[0m" >&2
+}
+
+WARN()
+{
+  $ECHO -e "\x1b[1;35m""$1""\x1b[0m"
+}
+
+INFO()
+{
+  $ECHO -e "\x1b[1;36m""$1""\x1b[0m"
+}
+
+IMPORTANT()
+{
+  $ECHO -e "\x1b[1;33m""$1""\x1b[0m"
+}
+
+NORMAL()
+{
+  $ECHO -e "\x1b[1;32m""$1""\x1b[0m"
+}
+
+if [ "$1" = "-h" -o "$1" = "--help" -o "$1" = "-help" ]; then
+  WARN "Usage: $0 [OPTION]... [VAR=VALUE]..."
+  $ECHO ""
+  $ECHO "Installation directories:"
+  $ECHO -e "  `INFO '--prefix=PREFIX'`     : install in PREFIX (e.g. /usr) `NORMAL '[default: /usr/local]'`"
+  $ECHO -e "  `INFO '--sysconfdir=ETCDIR'` : system conf file install dir `NORMAL '[default: $PREFIX/etc/xdg]'`"
+  $ECHO ""
+  $ECHO "Optional Packages:"
+  $ECHO -e "  `INFO '--with-gtk=2.0|3.0'`  : which gtk+ version to compile against `NORMAL '[default: 2.0]'`"
+  $ECHO ""
+  $ECHO "Optional Features:"
+  $ECHO -e "  `INFO '--enable-debug'`      : enable debug mode `NORMAL '[default: disable]'`"
+  $ECHO -e "  `INFO '--disable-nls'`       : disable Native Language Support `NORMAL '[default: enable]'`"
+  $ECHO -e "  `INFO '--disable-safe-mode'` : disable run in safe mode `NORMAL '[default: enable]'`"
+  $ECHO ""
+  $ECHO -e "run \``IMPORTANT 'make'`' to build $PACKAGE, include binary, data and translations."
+  $ECHO -e "run \``IMPORTANT 'make src'`' to build $PACKAGE binary files."
+  $ECHO -e "run \``IMPORTANT 'make data'`' to build $PACKAGE data files."
+  $ECHO -e "run \``IMPORTANT 'make po'`' to build $PACKAGE translation files."
+  $ECHO ""
+  $ECHO -e "run \``IMPORTANT 'make clean'`' to clean $PACKAGE builded files."
+  $ECHO -e "run \``IMPORTANT 'make distclean'`' to clean $PACKAGE builded and configure files."
+  $ECHO ""
+  $ECHO -e "run \``IMPORTANT 'make install'`' to install $PACKAGE to your system."
+  $ECHO -e "run \``IMPORTANT 'make uninstall'`' to unstall $PACKAGE in `NORMAL "$PREFIX"` from your system."
+  exit 0
+fi
+
+PKGCONFIG=`whereis -b pkg-config | awk '{print $2}'`
+if [ -z "$PKGCONFIG" ]; then
+  $ECHO ""
+  ERR "ERROR: pkg-config package is needed to run this configure script. ABORT!"
+  $ECHO ""
+  exit 1
+fi
+
+for opt do
+  case "$opt" in
+    --enable-debug)
+      DEBUG=Y
+      ;;
+    --prefix=*)
+      PREFIX=`$ECHO $opt | cut -d '=' -f 2`
+      ;;
+    --sysconfdir=*)
+      ETCDIR=`$ECHO $opt | cut -d '=' -f 2`
+      ;;
+    --with-gtk=2.0)
+      GTK_SPC=1
+      ;;
+    --with-gtk=3.0)
+      GTK=gtk+-3.0
+      GTK_SPC=1
+      ;;
+    --disable-nls)
+      NLS=N
+      ;;
+    --disable-safe-mode)
+      SAFEMODE=N
+      ;;
+    --disable-gnome-control-center)
+      GNOME_CONTROL_CENTER=N
+      ;;
+  esac
+done
+
+$ECHO ""
+
+# ---- Build Requirement ---- #
+
+$PKGCONFIG --exists 'glib-2.0 >= 2.12' > /dev/null 2>&1
+if [ $? != 0 ]; then
+  ERR "ERROR: Glib > 2.12 is needed to build $PACKAGE."
+  $ECHO ""
+  exit 1
+fi
+
+# ---- GTK ---- #
+
+if [ "$GTK" = "gtk+-2.0" ]; then
+  $ECHO -n "... testing GTK+2    : "
+else
+  $ECHO -n "... testing GTK+3    : "
+fi
+
+$PKGCONFIG --cflags $GTK > /dev/null 2>&1
+if [ $? != 0 ]; then
+  if [ "$GTK" = "gtk+-2.0" -a $GTK_SPC -eq 0 ]; then
+    $ECHO "not found. Trying GTK+3..."
+    GTK=gtk+-3.0
+    $ECHO -n "... testing GTK+3    : "
+    $PKGCONFIG --cflags $GTK > /dev/null 2>&1
+    if [ $? != 0 ]; then
+      ERR "not found. Please install libgtk2.0-dev/libgtk-3-dev package. ABORT!"
+      $ECHO ""
+      exit 1
+    else
+      INFO "found."
+    fi
+  else
+    if [ "$GTK" = "gtk+-2.0" ]; then
+      ERR "not found. Please install libgtk2.0-dev package. ABORT!"
+    else
+      ERR "not found. Please install libgtk-3-dev package. ABORT!"
+    fi
+    $ECHO ""
+    exit 1
+  fi
+else
+  if [ "$GTK" = gtk+-2.0 ]; then
+    $PKGCONFIG --exists 'gtk+-2.0 >= 2.8' > /dev/null 2>&1
+    if [ $? != 0 ]; then
+      ERR "ERROR: Gtk+2 > 2.8 is needed to build $PACKAGE."
+      $ECHO ""
+      exit 1
+    fi
+
+    $PKGCONFIG --exists 'gtk+-2.0 < 2.12' > /dev/null 2>&1
+    if [ $? != 0 ]; then
+      INFO "found."
+    else
+      WARN "found. But using Gtk+2 > 2.12 is recommend to build $PACKAGE."
+    fi
+  else
+    WARN "found. But using Gtk+3 to build $PACKAGE is NOT recommend."
+  fi
+fi
+
+
+# ---- VTE ---- #
+
+if [ "$GTK" = 'gtk+-2.0' ]; then
+  $ECHO -n "... testing VTE      : "
+  VTE=vte
+else
+  $ECHO -n "... testing VTE 0.29 : "
+  VTE=vte-2.90
+fi
+
+$PKGCONFIG --cflags $VTE > /dev/null 2>&1
+if [ $? != 0 ]; then
+  if [ "$GTK" = 'gtk+-2.0' ]; then
+    ERR "not found. Please install libvte-dev package. ABORT!"
+  else
+    ERR "not found. Please install libvte-2.90-dev package. ABORT!"
+  fi
+  $ECHO ""
+  exit 1
+else
+  if [ "$GTK" = 'vte' ]; then
+    $PKGCONFIG --exists 'vte >= 0.12' > /dev/null 2>&1
+    if [ $? != 0 ]; then
+      ERR "ERROR: VTE > 0.12 is needed to build $PACKAGE."
+      $ECHO ""
+      exit 1
+    fi
+  fi
+
+  INFO "found."
+fi
+
+
+# ---- NLS ---- #
+
+if [ "$NLS" = 'Y' ]; then
+  $ECHO -n "... testing Native Language Support : "
+  GETTEST=`whereis -b gettext | awk '{print $2}'`
+  if [ $? != 0 ]; then
+    ERR "not found. Please install gettext package. ABORT!"
+  else
+    INFO "found."
+  fi
+fi
+
+
+# ---- GNOME_CONTROL_CENTER ---- #
+
+if [ "$GNOME_CONTROL_CENTER" = 'Y' ]; then
+  $ECHO -n "... testing Gnome Control Center    : "
+  GNOME_CONTROL_CENTER_DIR=`pkg-config --variable=defappsdir --define-variable=datadir='$(DATADIR)' gnome-default-applications`
+  if [ $? != 0 ]; then
+    WARN "not found."
+    GNOME_CONTROL_CENTER=N
+  else
+    INFO "found."
+  fi
+fi
+
+$ECHO ""
+
+# ---- REPORT ---- #
+
+INFO "==========================================="
+$ECHO "PACKAGE   = $PACKAGE"
+$ECHO "BINARY    = $BINARY"
+$ECHO "VERSION   = $VERSION"
+$ECHO "BUGREPORT = $BUGREPORT"
+IMPORTANT "PREFIX    = $PREFIX"
+IMPORTANT "ETCDIR    = $ETCDIR"
+$ECHO "BINDIR    = $BINDIR"
+$ECHO "DATADIR   = $DATADIR"
+$ECHO "MANDIR    = $MANDIR"
+$ECHO "DOCDIR    = $DOCDIR"
+if [ "$NLS" = 'Y' ]; then
+  $ECHO "LOCALEDIR = $LOCALEDIR"
+fi
+$ECHO "ICONDIR   = $ICONDIR"
+if [ "$DEBUG" = 'Y' ]; then
+  IMPORTANT "DEBUG     = $DEBUG"
+else
+  $ECHO "DEBUG     = $DEBUG"
+fi
+if [ "$NLS" = 'N' ]; then
+  IMPORTANT "NLS       = $NLS"
+else
+  $ECHO "NLS       = $NLS"
+fi
+if [ "$SAFEMODE" = 'N' ]; then
+  IMPORTANT "SAFEMODE  = $SAFEMODE"
+else
+  $ECHO "SAFEMODE  = $SAFEMODE"
+fi
+
+CHECK_CC=`whereis -b $CC | awk '{print $2}'`
+if [ -n "$CHECK_CC" ]; then
+  if [ "$CC" = 'gcc' ]; then
+    $ECHO "CC        = $CC"
+  else
+    IMPORTANT "CC        = $CC"
+  fi
+else
+  ERR "CC        = $CC"
+fi
+if [ "$CFLAGS" != '-Wall -O -g' ]; then
+  IMPORTANT "CFLAGS    = $CFLAGS"
+else
+  $ECHO "CFLAGS    = $CFLAGS"
+fi
+if [ -n "$MAKE" ]; then
+  $ECHO "MAKE      = $MAKE"
+else
+  ERR "MAKE      = $MAKE"
+fi
+$ECHO "GTK       = $GTK"
+$ECHO "VTE       = $VTE"
+if [ "$GNOME_CONTROL_CENTER" = 'Y' ]; then
+  IMPORTANT "GNOME_CONTROL_CENTER = $GNOME_CONTROL_CENTER"
+  IMPORTANT "GNOME_CONTROL_CENTER_DIR = $GNOME_CONTROL_CENTER_DIR"
+fi
+INFO "==========================================="
+$ECHO ""
+
+$ECHO "PACKAGE = $PACKAGE" > .config
+$ECHO "BINARY = $BINARY" >> .config
+$ECHO "VERSION = $VERSION" >> .config
+$ECHO "BUGREPORT = $BUGREPORT" >> .config
+$ECHO "PREFIX = $PREFIX" >> .config
+$ECHO "ETCDIR = $ETCDIR" >> .config
+$ECHO "BINDIR = $BINDIR" >> .config
+$ECHO "DATADIR = $DATADIR" >> .config
+$ECHO "MANDIR = $MANDIR" >> .config
+$ECHO "DOCDIR = $DOCDIR" >> .config
+$ECHO "NLS = $NLS" >> .config
+$ECHO "LOCALEDIR = $LOCALEDIR" >> .config
+$ECHO "ICONDIR = $ICONDIR" >> .config
+$ECHO "DEBUG = $DEBUG" >> .config
+$ECHO "NLS = $NLS" >> .config
+$ECHO "SAFEMODE = $SAFEMODE" >> .config
+$ECHO "CC = $CC" >> .config
+$ECHO "CFLAGS = $CFLAGS" >> .config
+$ECHO "MAKE = $MAKE" >> .config
+$ECHO "GTK = $GTK" >> .config
+$ECHO "VTE = $VTE" >> .config
+$ECHO "GNOME_CONTROL_CENTER = $GNOME_CONTROL_CENTER" >> .config
+$ECHO "GNOME_CONTROL_CENTER_DIR = $GNOME_CONTROL_CENTER_DIR" >> .config
+

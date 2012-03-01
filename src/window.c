@@ -79,7 +79,7 @@ GtkNotebook *new_window(int argc,
 #ifdef NO_RESIZE_GRIP
 	gtk_window_set_has_resize_grip(GTK_WINDOW(win_data->window), FALSE);
 #endif
-	gtk_window_set_title(GTK_WINDOW(win_data->window), PACKAGE_NAME);
+	gtk_window_set_title(GTK_WINDOW(win_data->window), PACKAGE);
 	set_window_icon(win_data->window);
 
 	// save the data first
@@ -118,8 +118,8 @@ GtkNotebook *new_window(int argc,
 		win_data->shell = g_strdup("/bin/sh");
 	}
 
-	if ((wmclass_name == NULL) || (wmclass_name[0]=='\0')) wmclass_name = PACKAGE;
-	if ((wmclass_class == NULL) || (wmclass_class[0]=='\0')) wmclass_class = PACKAGE_NAME;
+	if ((wmclass_name == NULL) || (wmclass_name[0]=='\0')) wmclass_name = BINARY;
+	if ((wmclass_class == NULL) || (wmclass_class[0]=='\0')) wmclass_class = PACKAGE;
 	win_data->wmclass_name = g_strdup(wmclass_name);
 	win_data->wmclass_class = g_strdup(wmclass_class);
 #ifdef DEFENSIVE
@@ -294,7 +294,7 @@ GtkNotebook *new_window(int argc,
 	// gtk_notebook_popup_enable(win_data->notebook);
 	// Enable drag and drog
 #ifdef USE_GTK_NOTEBOOK_SET_GROUP_NAME
-	gtk_notebook_set_group_name (GTK_NOTEBOOK(win_data->notebook), PACKAGE_NAME);
+	gtk_notebook_set_group_name (GTK_NOTEBOOK(win_data->notebook), PACKAGE);
 #else
 #  ifdef ENABLE_DRAG_AND_DROP
 	gtk_notebook_set_group (GTK_NOTEBOOK(win_data->notebook), GINT_TO_POINTER (NOTEBOOK_GROUP));

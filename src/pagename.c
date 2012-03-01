@@ -772,7 +772,7 @@ void update_window_title(GtkWidget *window, gchar *name, gboolean window_title_a
 #endif
 	if (window_title_append_package_name)
 	{
-		gchar *window_title = g_strdup_printf("%s - %s", name, PACKAGE_NAME);
+		gchar *window_title = g_strdup_printf("%s - %s", name, PACKAGE);
 		// g_debug("Update the window title to %s!", window_title);
 #ifdef DEFENSIVE
 		if (window_title)

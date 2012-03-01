@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LilyTerm 0.9.9\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-02-14 14:29+0800\n"
+"POT-Creation-Date: 2012-02-29 09:35+0800\n"
 "PO-Revision-Date: 2011-07-04 20:14+0300\n"
 "Last-Translator: Vladimir Smolyar <v_2e@ukr.net>\n"
 "Language-Team: Russian\n"
@@ -252,7 +252,7 @@ msgstr "Пожалуйста, введите название для этой в
 msgid "Label Name:"
 msgstr "Название:"
 
-#: dialog.c:195 profile.c:712
+#: dialog.c:195 profile.c:746
 msgid "Find string"
 msgstr "Найти строку"
 
@@ -759,7 +759,7 @@ msgstr "Обратная прокрутка строк"
 msgid "Clean scrollback lines"
 msgstr "Очистить строки обратной прокрутки"
 
-#: menu.c:262 profile.c:684
+#: menu.c:262 profile.c:718
 msgid "Misc"
 msgstr "Разное "
 
@@ -961,320 +961,320 @@ msgstr ""
 msgid "Error when creating child process"
 msgstr "Ошибка создания дочернего процесса"
 
-#: profile.c:685
+#: profile.c:719
 msgid "Tab operation"
 msgstr "Управление вкладками "
 
-#: profile.c:686
+#: profile.c:720
 msgid "Switch tab"
 msgstr "Переключение вкладок "
 
-#: profile.c:687
+#: profile.c:721
 msgid "Move tab"
 msgstr "Перемещение вкладок "
 
-#: profile.c:688
+#: profile.c:722
 msgid "Switch to #? tab"
 msgstr "Переход на ?-ю вкладку "
 
-#: profile.c:689
+#: profile.c:723
 msgid "Text operation"
 msgstr "Операции с текстом "
 
-#: profile.c:690
+#: profile.c:724
 msgid "Scroll up/down"
 msgstr "Прокрутка вверх/вниз "
 
-#: profile.c:691
+#: profile.c:725
 msgid "Font"
 msgstr "Шрифт "
 
-#: profile.c:696
+#: profile.c:730
 msgid "Disable/Enable functions"
 msgstr "Запретить/Разрешить функции"
 
-#: profile.c:698
+#: profile.c:732
 msgid "Disable/Enable hyperlinks, function keys and right click menu."
 msgstr ""
 "Запретить/Разрешить гиперссылки, сочетания \n"
 "клавиш и меню правой кнопки мыши."
 
-#: profile.c:700
+#: profile.c:734
 msgid "Add new tab"
 msgstr "Добавить новую вкладку"
 
-#: profile.c:702
+#: profile.c:736
 msgid "Add a new tab."
 msgstr "Добавить новую вкладку."
 
-#: profile.c:704
+#: profile.c:738
 msgid "Close tab"
 msgstr "Закрыть вкладку"
 
-#: profile.c:706
+#: profile.c:740
 msgid "Close current tab."
 msgstr "Закрыть текущую вкладку."
 
-#: profile.c:708
+#: profile.c:742
 msgid "Rename page name"
 msgstr "Переименовать страницу"
 
-#: profile.c:710
+#: profile.c:744
 msgid "Rename the page name of current tab."
 msgstr "Изменить имя страницы для данной вкладки."
 
-#: profile.c:714
+#: profile.c:748
 msgid "Find the strings matching the search regex."
 msgstr "Найти строки по шаблону."
 
-#: profile.c:715
+#: profile.c:749
 msgid "Find previous"
 msgstr "Найти предыдущее"
 
-#: profile.c:717
+#: profile.c:751
 msgid "Find the previous string matching the search regex."
 msgstr "Найти предыдущую строку по шаблону поиска."
 
-#: profile.c:718
+#: profile.c:752
 msgid "Find next"
 msgstr "Найти следующее"
 
-#: profile.c:720
+#: profile.c:754
 msgid "Find the next string matching the search regex."
 msgstr "Найти следующую строку по шаблону поиска."
 
-#: profile.c:722
+#: profile.c:756
 msgid "Switch to prev tab"
 msgstr "Перейти на предыдущую вкладку"
 
-#: profile.c:724
+#: profile.c:758
 msgid "Switch to prev tab."
 msgstr "Перейти на предыдущую вкладку."
 
-#: profile.c:726
+#: profile.c:760
 msgid "Switch to next tab"
 msgstr "Перейти на следующую вкладку"
 
-#: profile.c:728
+#: profile.c:762
 msgid "Switch to next tab."
 msgstr "Перейти на следующую вкладку."
 
-#: profile.c:730
+#: profile.c:764
 msgid "Switch to first tab"
 msgstr "Перейти на первую вкладку"
 
-#: profile.c:732
+#: profile.c:766
 msgid "Switch to first tab."
 msgstr "Перейти на первую вкладку."
 
-#: profile.c:734
+#: profile.c:768
 msgid "Switch to last tab"
 msgstr "Перейти на последнюю вкладку"
 
-#: profile.c:736
+#: profile.c:770
 msgid "Switch to last tab."
 msgstr "Перейти на последнюю вкладку."
 
-#: profile.c:738
+#: profile.c:772
 msgid "Move page forward"
 msgstr "Переместить страницу вперёд"
 
-#: profile.c:740
+#: profile.c:774
 msgid "Move current page forward."
 msgstr "Переместить текущую страницу вперёд."
 
-#: profile.c:742
+#: profile.c:776
 msgid "Move page backward"
 msgstr "Переместить страницу назад"
 
-#: profile.c:744
+#: profile.c:778
 msgid "Move current page backward."
 msgstr "Переместить текущую страницу назад."
 
-#: profile.c:746
+#: profile.c:780
 msgid "Move page to first"
 msgstr "Сделать страницу первой"
 
-#: profile.c:748
+#: profile.c:782
 msgid "Move current page to first."
 msgstr "Сделать текущую страницу первой."
 
-#: profile.c:750
+#: profile.c:784
 msgid "Move page to last"
 msgstr "Сделать страницу последней"
 
-#: profile.c:752
+#: profile.c:786
 msgid "Move current page to last."
 msgstr "Сделать текущую страницу последней."
 
-#: profile.c:757
+#: profile.c:791
 #, c-format
 msgid "Switch to #%d tab"
 msgstr "Перейти на %d-ю вкладку"
 
-#: profile.c:759
+#: profile.c:793
 #, c-format
 msgid "Switch #%d tab directly."
 msgstr "Перейти прямо на %d-ю вкладку."
 
-#: profile.c:763
+#: profile.c:797
 msgid "Select all"
 msgstr "Выбрать всё"
 
-#: profile.c:765
+#: profile.c:799
 msgid "Select all the text in the Vte Terminal box."
 msgstr "Выбрать весь текст в окне терминала Vte."
 
-#: profile.c:767
+#: profile.c:801
 msgid "Copy to clipboard."
 msgstr "Скопировать в буфер обмена"
 
-#: profile.c:769
+#: profile.c:803
 msgid "Copy the text to clipboard."
 msgstr "Скопировать текст в буфер обмена."
 
-#: profile.c:771
+#: profile.c:805
 msgid "Paste the text"
 msgstr "Вставить текст"
 
-#: profile.c:773
+#: profile.c:807
 msgid "Paste the text in clipboard."
 msgstr "Вставить текст из буфера обмена."
 
-#: profile.c:775
+#: profile.c:809
 msgid "Increase font size"
 msgstr "Увеличить размер шрифта"
 
-#: profile.c:777
+#: profile.c:811
 msgid "Increase the font size of current tab."
 msgstr "Увеличить размер шрифта на текущей вкладке."
 
-#: profile.c:779
+#: profile.c:813
 msgid "Decrease font size"
 msgstr "Уменьшить размер шрифта"
 
-#: profile.c:781
+#: profile.c:815
 msgid "Decrease the font size of current tab."
 msgstr "Уменьшить размер шрифта на текущей вкладке."
 
-#: profile.c:783
+#: profile.c:817
 msgid "Reset font size"
 msgstr "Сбросить размер шрфита"
 
-#: profile.c:785
+#: profile.c:819
 msgid "Reset the font of current tab to original size."
 msgstr ""
 "Сбросить размер шрифта текущей вкладки\n"
 "к начальному значению."
 
-#: profile.c:787
+#: profile.c:821
 msgid "Maximum the window"
 msgstr "Максимизировать окно"
 
-#: profile.c:789
+#: profile.c:823
 msgid "Try to maximum the window to use all available space on your display."
 msgstr ""
 "Попробовать максимизировать окно для использования\n"
 "всего доступного пространства вашего экрана."
 
-#: profile.c:791
+#: profile.c:825
 msgid "Full screen"
 msgstr "Полноэкранный режим"
 
-#: profile.c:793
+#: profile.c:827
 msgid "Asks to place window in the fullscreen/unfullscreen state."
 msgstr "Запросить перевод окна в полноэкранный/обычный режим"
 
-#: profile.c:795
+#: profile.c:829
 msgid "Scroll up"
 msgstr "Прокрутка вверх"
 
-#: profile.c:797
+#: profile.c:831
 msgid "Emulate a mouse scroll up event on Vte Terminal box."
 msgstr ""
 "Эмулировать прокрутку мыши вверх\n"
 "в окне терминала Vte."
 
-#: profile.c:799
+#: profile.c:833
 msgid "Scroll down"
 msgstr "Прокрутка вниз"
 
-#: profile.c:801
+#: profile.c:835
 msgid "Emulate a mouse scroll down event on Vte Terminal box."
 msgstr ""
 "Эмулировать прокрутку мыши вниз\n"
 "в окне терминала Vte."
 
-#: profile.c:803
+#: profile.c:837
 msgid "Scroll up 1 line"
 msgstr "Прокрутка вверх на 1 строку"
 
-#: profile.c:805
+#: profile.c:839
 msgid "Asks to scroll up 1 line on Vte Terminal box."
 msgstr ""
 "Запрашивает прокрутку на 1 строку вверх\n"
 "в окне терминала Vte."
 
-#: profile.c:807
+#: profile.c:841
 msgid "Scroll down 1 line"
 msgstr "Прокрутка вниз на 1 строку"
 
-#: profile.c:809
+#: profile.c:843
 msgid "Asks to scroll down 1 line on Vte Terminal box."
 msgstr ""
 "Запрашивает прокрутку вниз на 1 строку\n"
 "в окне терминала Vte."
 
-#: profile.c:815
+#: profile.c:849
 msgid "Dump runtime debug data"
 msgstr "Дамп данных отладки"
 
-#: profile.c:817
+#: profile.c:851
 msgid "Dump the runtime data of LilyTerm for debug."
 msgstr "Дамп данных для отладки LilyTerm."
 
-#: profile.c:845
+#: profile.c:879
 msgid "Window Title"
 msgstr "заголовка окна"
 
-#: profile.c:846
+#: profile.c:880
 msgid "Running Command"
 msgstr "выполняющейся команды"
 
-#: profile.c:847
+#: profile.c:881
 msgid "Current Dir"
 msgstr "текущего каталога"
 
-#: profile.c:848
+#: profile.c:882
 msgid "Custom Tab Name"
 msgstr "пользовательского имени вкладки"
 
-#: profile.c:849
+#: profile.c:883
 msgid "Root Privileges"
 msgstr "привилегий администратора"
 
-#: profile.c:850
+#: profile.c:884
 msgid "Normal Text"
 msgstr "обычного текста"
 
-#: profile.c:2499
+#: profile.c:2533
 msgid "The target file does NOT exist"
 msgstr "Файл назначения НЕ существует"
 
-#: profile.c:2510
+#: profile.c:2544
 msgid "The target file is a directory"
 msgstr "Файл назначения является каталогом"
 
-#: profile.c:2558
+#: profile.c:2592
 #, c-format
 msgid "Error while writing profile '%s':"
 msgstr "Ошибка записи профиля '%s':"
 
-#: profile.c:2563
+#: profile.c:2597
 msgid "Error when writing profile"
 msgstr "Ошибка записи профиля"
 
-#: profile.c:2694
+#: profile.c:2728
 msgid ""
 "Some entry in profile is added, removed, or changed in this version.\n"
 "Please use [Save settings] on the right click menu to save your settings,\n"
@@ -1285,7 +1285,7 @@ msgstr ""
 "чтобы сохранить ваши настройки, и отредактируйте его вручную при "
 "необходимости.\n"
 
-#: profile.c:2700
+#: profile.c:2734
 #, c-format
 msgid ""
 "%s\n"
@@ -1294,11 +1294,11 @@ msgstr ""
 "%s\n"
 "Ваш профиль - %s."
 
-#: profile.c:2703
+#: profile.c:2737
 msgid "The format of your profile is out of date"
 msgstr "Формат вашего профиля устарел"
 
-#: profile.c:2731 profile.c:2734
+#: profile.c:2765 profile.c:2768
 #, c-format
 msgid ""
 "The profile \"%s\" is invalid:\n"
@@ -1309,7 +1309,7 @@ msgstr ""
 "\n"
 "\t%s"
 
-#: profile.c:2742
+#: profile.c:2776
 msgid "The profile is invalid!"
 msgstr "Профиль неверен!"
 
@@ -1322,6 +1322,15 @@ msgstr "\tОкно №%d, Страница №%d: (%d) %s\n"
 #, c-format
 msgid "\tPage #%d: (%d) %s\n"
 msgstr "\tСтраница №%d: (%d) %s\n"
+
+#, fuzzy
+#~| msgid ""
+#~| "%s is a libvte based X Terminal Emulator.\n"
+#~| "\n"
+#~ msgid "A light and easy to use libvte based X Terminal Emulator"
+#~ msgstr ""
+#~ "%s - это эмулятор терминала, основанный на libvte.\n"
+#~ "\n"
 
 #~ msgid "Set function key value"
 #~ msgstr "Установить сочетания клавиш"

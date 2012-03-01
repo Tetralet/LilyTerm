@@ -94,16 +94,16 @@ int main( int   argc,
 	// print_array ("argv", argv);
 	// i18n support. We need to support i18n under console, too.
 	setlocale(LC_ALL, "");
-	bindtextdomain (PACKAGE, LOCALEDIR);
-	bind_textdomain_codeset (PACKAGE, "UTF-8");
-	textdomain (PACKAGE);
+	bindtextdomain (BINARY, LOCALEDIR);
+	bind_textdomain_codeset (BINARY, "UTF-8");
+	textdomain (BINARY);
 
 	const gchar *user_config_dir = g_get_user_config_dir();
 
 #ifdef OUT_OF_MEMORY
 #	undef g_strdup_printf
 #endif
-	if (user_config_dir) profile_dir = g_strdup_printf("%s/%s", user_config_dir, PACKAGE);
+	if (user_config_dir) profile_dir = g_strdup_printf("%s/%s", user_config_dir, BINARY);
 #ifdef OUT_OF_MEMORY
 	#define g_strdup_printf(...) NULL
 #endif
@@ -327,13 +327,13 @@ gboolean init_socket_data()
 		gchar *display = gdk_get_display();
 #ifdef DEVELOP
 		g_snprintf(address.sun_path, UNIX_PATH_MAX, "%s/.%s_dev_%s%s",
-			   tmp_dir ,PACKAGE, g_get_user_name(), display);
+			   tmp_dir ,BINARY, g_get_user_name(), display);
 #elif defined DEBUG
 		g_snprintf(address.sun_path, UNIX_PATH_MAX, "%s/.%s_dbg_%s%s",
-			   tmp_dir ,PACKAGE, g_get_user_name(), display);
+			   tmp_dir ,BINARY, g_get_user_name(), display);
 #else
 		g_snprintf(address.sun_path, UNIX_PATH_MAX, "%s/.%s_%s%s",
-			   tmp_dir ,PACKAGE, g_get_user_name(), display);
+			   tmp_dir ,BINARY, g_get_user_name(), display);
 #endif
 		g_free(display);
 #ifdef DEFENSIVE
@@ -602,7 +602,7 @@ gboolean read_socket(GIOChannel *channel, GIOCondition condition, gpointer user_
 							   "If you just updated %s recently,\n"
 							   "Please close all the windows of %s and try again."),
 							   recieved_socket_version, SOCKET_DATA_VERSION,
-							   PACKAGE_NAME, PACKAGE_NAME);
+							   PACKAGE, PACKAGE);
 			error_dialog(NULL,
 				     _("The format of socket data is out of date"),
 				     "The format of socket data is out of date",
@@ -694,10 +694,10 @@ gboolean socket_fault(int type, GError *error, GIOChannel *channel, gboolean unr
 	{
 		case 1:
 			G_WARNING("Error when create %s socket(%s): %s",
-				  PACKAGE_NAME, address.sun_path, g_strerror (errno));
+				  PACKAGE, address.sun_path, g_strerror (errno));
 			break;
 		case 2:
-			g_message("Can NOT connect to a existing %s socket!", PACKAGE_NAME);
+			g_message("Can NOT connect to a existing %s socket!", PACKAGE);
 			break;
 		case 3:
 			G_WARNING("Can NOT bind on the socket!");

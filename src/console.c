@@ -41,7 +41,7 @@ void command_option(int   argc,
 		// g_debug("%2d (Total %d): %s",i, argc, argv[i]);
 		if ((!strcmp(argv[i], "-v")) || (!strcmp(argv[i], "--version")))
 		{
-			g_print("%s %s\n", PACKAGE_NAME, VERSION);
+			g_print("%s %s\n", PACKAGE, VERSION);
 			exit (0);
 		}
 		else if ((!strcmp(argv[i], "-?")) || (!strcmp(argv[i], "-h")) || (!strcmp(argv[i], "--help")))
@@ -121,8 +121,8 @@ gchar *get_help_message(gchar *profile)
 		g_string_append( help_message,  function_key);
 	g_string_append( help_message, "\n");
 	g_string_append_printf( help_message,
-					_("\nPlease report bug to %s. Thank you for using %s!"),
-								PACKAGE_BUGREPORT, PACKAGE_NAME);
+				_("\nPlease report bug to %s. Thank you for using %s!"),
+				BUGREPORT, PACKAGE);
 	g_string_append( help_message, "\n");
 	g_free(usage);
 	g_free(function_key);
@@ -140,7 +140,7 @@ gchar *get_help_message_usage(gchar *profile, gboolean convert_to_html)
 	gint i;
 
 	g_string_append_printf( help_message,
-					_("%s is a libvte based X Terminal Emulator.\n\n"), PACKAGE_NAME);
+					_("%s is a libvte based X Terminal Emulator.\n\n"), PACKAGE);
 	g_string_append( help_message,  _("Use -e/-x/--execute {Command} to run a command when starting up."
 					  " (Must be the final option).\n"));
 	g_string_append( help_message,  _("Use -T/--title {title} to specify the window title.\n"));
@@ -159,7 +159,7 @@ gchar *get_help_message_usage(gchar *profile, gboolean convert_to_html)
 	{
 		for (i=0; system_dirs[i] != NULL; i++)
 			g_string_append_printf( help_message,
-					_("The %s system configure file is: %s/%s\n"), PACKAGE_NAME, system_dirs[i], SYS_PROFILE);
+					_("The %s system configure file is: %s/%s\n"), PACKAGE, system_dirs[i], SYS_PROFILE);
 	}
 
 	gchar *current_profile = NULL;
@@ -196,9 +196,9 @@ gchar *get_help_message_usage(gchar *profile, gboolean convert_to_html)
 
 		gchar *profile_message;
 		if (system_dirs)
-			profile_message = g_strdup_printf(_("And your %s profile is: "), PACKAGE_NAME);
+			profile_message = g_strdup_printf(_("And your %s profile is: "), PACKAGE);
 		else
-			profile_message = g_strdup_printf(_("Your %s profile is: "), PACKAGE_NAME);
+			profile_message = g_strdup_printf(_("Your %s profile is: "), PACKAGE);
 #ifdef DEFENSIVE
 		if (profile_message)
 #endif

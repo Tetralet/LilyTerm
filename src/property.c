@@ -645,7 +645,7 @@ void apply_new_win_data_to_page (struct Window *win_data_orig,
 						      page_data->page_name);
 		else
 			check_and_update_window_title(win_data, TRUE, page_data->page_no+1,
-						      PACKAGE_NAME, NULL);
+						      PACKAGE, NULL);
 		// g_debug("FINAL: New window title = %s", gtk_window_get_title(GTK_WINDOW(win_data->window)));
 	}
 

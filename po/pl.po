@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LilyTerm 0.9.9~rc9\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-02-14 14:29+0800\n"
+"POT-Creation-Date: 2012-02-29 09:35+0800\n"
 "PO-Revision-Date: 2011-08-05 18:00+0200\n"
 "Last-Translator: Bogusz Kowalski <boguszkowalski@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -237,7 +237,7 @@ msgstr "Wpisz Etykietę dla tej zakładki:"
 msgid "Label Name:"
 msgstr "Etykieta:"
 
-#: dialog.c:195 profile.c:712
+#: dialog.c:195 profile.c:746
 msgid "Find string"
 msgstr "Znajdź wyrażenie"
 
@@ -738,7 +738,7 @@ msgstr "Historia scrollback"
 msgid "Clean scrollback lines"
 msgstr "Wyczyść historię scrollback"
 
-#: menu.c:262 profile.c:684
+#: menu.c:262 profile.c:718
 msgid "Misc"
 msgstr "Różne"
 
@@ -940,309 +940,309 @@ msgstr ""
 msgid "Error when creating child process"
 msgstr "Błąd podczas tworzenia procesu potomnego"
 
-#: profile.c:685
+#: profile.c:719
 msgid "Tab operation"
 msgstr "Operacje na kartach"
 
-#: profile.c:686
+#: profile.c:720
 msgid "Switch tab"
 msgstr "Przełącz kartę"
 
-#: profile.c:687
+#: profile.c:721
 msgid "Move tab"
 msgstr "Przesuń kartę"
 
-#: profile.c:688
+#: profile.c:722
 msgid "Switch to #? tab"
 msgstr "Przełącz na #? kartę"
 
-#: profile.c:689
+#: profile.c:723
 msgid "Text operation"
 msgstr "Operacje tekstowe"
 
-#: profile.c:690
+#: profile.c:724
 msgid "Scroll up/down"
 msgstr "Przewiń w górę/w dół"
 
-#: profile.c:691
+#: profile.c:725
 msgid "Font"
 msgstr "Czcionka"
 
-#: profile.c:696
+#: profile.c:730
 msgid "Disable/Enable functions"
 msgstr "Wyłącz/Włącz funkcje"
 
-#: profile.c:698
+#: profile.c:732
 msgid "Disable/Enable hyperlinks, function keys and right click menu."
 msgstr ""
 "Wyłącz/Włącz odsyłacze, klawisze funkcyjne i menu prawego klawisza myszy."
 
-#: profile.c:700
+#: profile.c:734
 msgid "Add new tab"
 msgstr "Dodaj nową kartę"
 
-#: profile.c:702
+#: profile.c:736
 msgid "Add a new tab."
 msgstr "Dodaj nową kartę."
 
-#: profile.c:704
+#: profile.c:738
 msgid "Close tab"
 msgstr "Zamknij kartę"
 
-#: profile.c:706
+#: profile.c:740
 msgid "Close current tab."
 msgstr "Zamknij bieżącą kartę."
 
-#: profile.c:708
+#: profile.c:742
 msgid "Rename page name"
 msgstr "Zmień nazwę karty"
 
-#: profile.c:710
+#: profile.c:744
 msgid "Rename the page name of current tab."
 msgstr "Zmień nazwę bieżącej karty."
 
-#: profile.c:714
+#: profile.c:748
 msgid "Find the strings matching the search regex."
 msgstr "Szukaj wystąpień pasujących do kryterium wyszukiwania."
 
-#: profile.c:715
+#: profile.c:749
 msgid "Find previous"
 msgstr "Znajdź poprzednie"
 
-#: profile.c:717
+#: profile.c:751
 msgid "Find the previous string matching the search regex."
 msgstr "Znajdź poprzednie wystąpienie pasujące do kryterium wyszukiwania."
 
-#: profile.c:718
+#: profile.c:752
 msgid "Find next"
 msgstr "Znajdź następne"
 
-#: profile.c:720
+#: profile.c:754
 msgid "Find the next string matching the search regex."
 msgstr "Znajdź następne wystąpienie pasujące do kryterium wyszukiwania."
 
-#: profile.c:722
+#: profile.c:756
 msgid "Switch to prev tab"
 msgstr "Przełącz na poprzednią kartę"
 
-#: profile.c:724
+#: profile.c:758
 msgid "Switch to prev tab."
 msgstr "Przełącz na poprzednią kartę."
 
-#: profile.c:726
+#: profile.c:760
 msgid "Switch to next tab"
 msgstr "Przełącz na następną kartę"
 
-#: profile.c:728
+#: profile.c:762
 msgid "Switch to next tab."
 msgstr "Przełącz na następną kartę."
 
-#: profile.c:730
+#: profile.c:764
 msgid "Switch to first tab"
 msgstr "Przełącz na pierwszą kartę"
 
-#: profile.c:732
+#: profile.c:766
 msgid "Switch to first tab."
 msgstr "Przełącz na pierwszą kartę."
 
-#: profile.c:734
+#: profile.c:768
 msgid "Switch to last tab"
 msgstr "Przełącz na ostatnią kartę"
 
-#: profile.c:736
+#: profile.c:770
 msgid "Switch to last tab."
 msgstr "Przełącz na ostatnią kartę."
 
-#: profile.c:738
+#: profile.c:772
 msgid "Move page forward"
 msgstr "Przenieś kartę do przodu"
 
-#: profile.c:740
+#: profile.c:774
 msgid "Move current page forward."
 msgstr "Przenieś bieżącą kartę do przodu."
 
-#: profile.c:742
+#: profile.c:776
 msgid "Move page backward"
 msgstr "Przenieś kartę wstecz"
 
-#: profile.c:744
+#: profile.c:778
 msgid "Move current page backward."
 msgstr "Przenieś bieżącą kartę wstecz."
 
-#: profile.c:746
+#: profile.c:780
 msgid "Move page to first"
 msgstr "Przenieś kartę na początek"
 
-#: profile.c:748
+#: profile.c:782
 msgid "Move current page to first."
 msgstr "Przenieś bieżącą kartę na początek."
 
-#: profile.c:750
+#: profile.c:784
 msgid "Move page to last"
 msgstr "Przenieś kartę na koniec"
 
-#: profile.c:752
+#: profile.c:786
 msgid "Move current page to last."
 msgstr "Przenieś bieżącą kartę na koniec."
 
-#: profile.c:757
+#: profile.c:791
 #, c-format
 msgid "Switch to #%d tab"
 msgstr "Przełącz na #%d kartę"
 
-#: profile.c:759
+#: profile.c:793
 #, c-format
 msgid "Switch #%d tab directly."
 msgstr "Przełącz bezpośrednio na #%d kartę."
 
-#: profile.c:763
+#: profile.c:797
 msgid "Select all"
 msgstr "Zaznacz wszystko"
 
-#: profile.c:765
+#: profile.c:799
 msgid "Select all the text in the Vte Terminal box."
 msgstr "Zaznacz cały tekst w oknie terminala."
 
-#: profile.c:767
+#: profile.c:801
 msgid "Copy to clipboard."
 msgstr "Kopiuj do schowka."
 
-#: profile.c:769
+#: profile.c:803
 msgid "Copy the text to clipboard."
 msgstr "Kopiuj tekst do schowka."
 
-#: profile.c:771
+#: profile.c:805
 msgid "Paste the text"
 msgstr "Wklej"
 
-#: profile.c:773
+#: profile.c:807
 msgid "Paste the text in clipboard."
 msgstr "Wklej tekst ze schowka."
 
-#: profile.c:775
+#: profile.c:809
 msgid "Increase font size"
 msgstr "Powiększ rozmiar czcionki"
 
-#: profile.c:777
+#: profile.c:811
 msgid "Increase the font size of current tab."
 msgstr "Powiększ rozmiar czcionki w bieżącej karcie."
 
-#: profile.c:779
+#: profile.c:813
 msgid "Decrease font size"
 msgstr "Zmniejsz rozmiar czcionki"
 
-#: profile.c:781
+#: profile.c:815
 msgid "Decrease the font size of current tab."
 msgstr "Zmniejsz rozmiar czcionki w bieżącej karcie."
 
-#: profile.c:783
+#: profile.c:817
 msgid "Reset font size"
 msgstr "Zresetuj rozmiar czcionki"
 
-#: profile.c:785
+#: profile.c:819
 msgid "Reset the font of current tab to original size."
 msgstr "Zresetuj czcionkę do oryginalnego rozmiaru w bieżącej karcie."
 
-#: profile.c:787
+#: profile.c:821
 msgid "Maximum the window"
 msgstr "Maksymalizuj okno"
 
-#: profile.c:789
+#: profile.c:823
 msgid "Try to maximum the window to use all available space on your display."
 msgstr ""
 "Spróbuj zmaksymalizować okno aby zajmowało całe dostępne miejsce na twoim "
 "ekranie."
 
-#: profile.c:791
+#: profile.c:825
 msgid "Full screen"
 msgstr "Pełny ekran"
 
-#: profile.c:793
+#: profile.c:827
 msgid "Asks to place window in the fullscreen/unfullscreen state."
 msgstr "Zmienia stan okna aby zajmowało pełny ekran."
 
-#: profile.c:795
+#: profile.c:829
 msgid "Scroll up"
 msgstr "Przewiń w górę"
 
-#: profile.c:797
+#: profile.c:831
 msgid "Emulate a mouse scroll up event on Vte Terminal box."
 msgstr "Wywołuje zdarzenie przewijania w górę w terminalu."
 
-#: profile.c:799
+#: profile.c:833
 msgid "Scroll down"
 msgstr "Przewiń w dół"
 
-#: profile.c:801
+#: profile.c:835
 msgid "Emulate a mouse scroll down event on Vte Terminal box."
 msgstr "Wywołuje zdarzenie przewijania w dół w terminalu."
 
-#: profile.c:803
+#: profile.c:837
 msgid "Scroll up 1 line"
 msgstr "Przewiń o 1 linię w górę"
 
-#: profile.c:805
+#: profile.c:839
 msgid "Asks to scroll up 1 line on Vte Terminal box."
 msgstr "Przewija terminal o jedną linię w górę."
 
-#: profile.c:807
+#: profile.c:841
 msgid "Scroll down 1 line"
 msgstr "Przewiń o 1 linię w dół"
 
-#: profile.c:809
+#: profile.c:843
 msgid "Asks to scroll down 1 line on Vte Terminal box."
 msgstr "Przewija terminal o jedną linię w dół."
 
-#: profile.c:815
+#: profile.c:849
 msgid "Dump runtime debug data"
 msgstr "Zrzuć informacje do debugowania"
 
-#: profile.c:817
+#: profile.c:851
 msgid "Dump the runtime data of LilyTerm for debug."
 msgstr "Lilyterm zrzuca informacje potrzebne do debugowania."
 
-#: profile.c:845
+#: profile.c:879
 msgid "Window Title"
 msgstr "Tytuł okna"
 
-#: profile.c:846
+#: profile.c:880
 msgid "Running Command"
 msgstr "Wykonywany program"
 
-#: profile.c:847
+#: profile.c:881
 msgid "Current Dir"
 msgstr "Bieżący katalog"
 
-#: profile.c:848
+#: profile.c:882
 msgid "Custom Tab Name"
 msgstr "Własna nazwa karty"
 
-#: profile.c:849
+#: profile.c:883
 msgid "Root Privileges"
 msgstr "Prawa Roota"
 
-#: profile.c:850
+#: profile.c:884
 msgid "Normal Text"
 msgstr "Zwyczajny tekst"
 
-#: profile.c:2499
+#: profile.c:2533
 msgid "The target file does NOT exist"
 msgstr "Wskazany plik nie istnieje"
 
-#: profile.c:2510
+#: profile.c:2544
 msgid "The target file is a directory"
 msgstr "Wskazany plik jest katalogiem"
 
-#: profile.c:2558
+#: profile.c:2592
 #, c-format
 msgid "Error while writing profile '%s':"
 msgstr "Błąd podczas zapisywania profilu '%s':"
 
-#: profile.c:2563
+#: profile.c:2597
 msgid "Error when writing profile"
 msgstr "Błąd podczas zapisywania profilu"
 
-#: profile.c:2694
+#: profile.c:2728
 msgid ""
 "Some entry in profile is added, removed, or changed in this version.\n"
 "Please use [Save settings] on the right click menu to save your settings,\n"
@@ -1253,7 +1253,7 @@ msgstr ""
 "swoje ustawienia,\n"
 "i jeśli to konieczne edytuj je ręcznie.\n"
 
-#: profile.c:2700
+#: profile.c:2734
 #, c-format
 msgid ""
 "%s\n"
@@ -1262,11 +1262,11 @@ msgstr ""
 "%s\n"
 "Twój profil to %s."
 
-#: profile.c:2703
+#: profile.c:2737
 msgid "The format of your profile is out of date"
 msgstr "Format twoich ustawień profilu jest nieaktualny"
 
-#: profile.c:2731 profile.c:2734
+#: profile.c:2765 profile.c:2768
 #, c-format
 msgid ""
 "The profile \"%s\" is invalid:\n"
@@ -1277,7 +1277,7 @@ msgstr ""
 "\n"
 "\t%s"
 
-#: profile.c:2742
+#: profile.c:2776
 msgid "The profile is invalid!"
 msgstr "Profil jest nieprawidłowy!"
 
@@ -1290,6 +1290,15 @@ msgstr "\tOkno #%d, Karta #%d: (%d) %s\n"
 #, c-format
 msgid "\tPage #%d: (%d) %s\n"
 msgstr "\tKarta #%d: (%d) %s\n"
+
+#, fuzzy
+#~| msgid ""
+#~| "%s is a libvte based X Terminal Emulator.\n"
+#~| "\n"
+#~ msgid "A light and easy to use libvte based X Terminal Emulator"
+#~ msgstr ""
+#~ "%s jest emulatorem terminala opartym o libvte.\n"
+#~ "\n"
 
 #~ msgid "Set function key value"
 #~ msgstr "Ustaw przypisanie klawiszy"

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LilyTerm 0.9.9\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-02-14 14:29+0800\n"
+"POT-Creation-Date: 2012-02-29 09:35+0800\n"
 "PO-Revision-Date: 2008-03-21 00:30+0800\n"
 "Last-Translator: Tetralet <tetralet@gmail.com>\n"
 "Language-Team: Tetralet <tetralet@gmail.com>\n"
@@ -223,7 +223,7 @@ msgstr "請輸入這個分頁的名稱："
 msgid "Label Name:"
 msgstr "分頁名稱："
 
-#: dialog.c:195 profile.c:712
+#: dialog.c:195 profile.c:746
 msgid "Find string"
 msgstr "尋找字串"
 
@@ -708,7 +708,7 @@ msgstr "歷史捲軸"
 msgid "Clean scrollback lines"
 msgstr "清除歷史捲軸"
 
-#: menu.c:262 profile.c:684
+#: menu.c:262 profile.c:718
 msgid "Misc"
 msgstr "雜項"
 
@@ -904,306 +904,306 @@ msgstr ""
 msgid "Error when creating child process"
 msgstr "在建立子行程時發生錯誤"
 
-#: profile.c:685
+#: profile.c:719
 msgid "Tab operation"
 msgstr "分頁操作"
 
-#: profile.c:686
+#: profile.c:720
 msgid "Switch tab"
 msgstr "切換分頁"
 
-#: profile.c:687
+#: profile.c:721
 msgid "Move tab"
 msgstr "搬移分頁"
 
-#: profile.c:688
+#: profile.c:722
 msgid "Switch to #? tab"
 msgstr "切換至 #? 分頁"
 
-#: profile.c:689
+#: profile.c:723
 msgid "Text operation"
 msgstr "文字操作"
 
-#: profile.c:690
+#: profile.c:724
 msgid "Scroll up/down"
 msgstr "向上/下捲動"
 
-#: profile.c:691
+#: profile.c:725
 msgid "Font"
 msgstr "字型"
 
-#: profile.c:696
+#: profile.c:730
 msgid "Disable/Enable functions"
 msgstr "關閉/啟用功能"
 
-#: profile.c:698
+#: profile.c:732
 msgid "Disable/Enable hyperlinks, function keys and right click menu."
 msgstr "關閉/啟用超連結、功能鍵，及右鍵選單。"
 
-#: profile.c:700
+#: profile.c:734
 msgid "Add new tab"
 msgstr "新增分頁"
 
-#: profile.c:702
+#: profile.c:736
 msgid "Add a new tab."
 msgstr "新增一個分頁。"
 
-#: profile.c:704
+#: profile.c:738
 msgid "Close tab"
 msgstr "關閉分頁"
 
-#: profile.c:706
+#: profile.c:740
 msgid "Close current tab."
 msgstr "關閉當前的分頁。"
 
-#: profile.c:708
+#: profile.c:742
 msgid "Rename page name"
 msgstr "更改分頁名程"
 
-#: profile.c:710
+#: profile.c:744
 msgid "Rename the page name of current tab."
 msgstr "更改當前分頁的名稱。"
 
-#: profile.c:714
+#: profile.c:748
 msgid "Find the strings matching the search regex."
 msgstr "尋找符合搜尋規則的字串。"
 
-#: profile.c:715
+#: profile.c:749
 msgid "Find previous"
 msgstr "尋找上一個"
 
-#: profile.c:717
+#: profile.c:751
 msgid "Find the previous string matching the search regex."
 msgstr "尋找上一個符合搜尋規則的字串。"
 
-#: profile.c:718
+#: profile.c:752
 msgid "Find next"
 msgstr "尋找下一個"
 
-#: profile.c:720
+#: profile.c:754
 msgid "Find the next string matching the search regex."
 msgstr "尋找下一個符合搜尋規則的字串。"
 
-#: profile.c:722
+#: profile.c:756
 msgid "Switch to prev tab"
 msgstr "切換至上個分頁"
 
-#: profile.c:724
+#: profile.c:758
 msgid "Switch to prev tab."
 msgstr "切換至上個分頁。"
 
-#: profile.c:726
+#: profile.c:760
 msgid "Switch to next tab"
 msgstr "切換至下個分頁"
 
-#: profile.c:728
+#: profile.c:762
 msgid "Switch to next tab."
 msgstr "切換至下個分頁。"
 
-#: profile.c:730
+#: profile.c:764
 msgid "Switch to first tab"
 msgstr "切換至第一個分頁"
 
-#: profile.c:732
+#: profile.c:766
 msgid "Switch to first tab."
 msgstr "切換至第一個分頁。"
 
-#: profile.c:734
+#: profile.c:768
 msgid "Switch to last tab"
 msgstr "切換至最後一個分頁"
 
-#: profile.c:736
+#: profile.c:770
 msgid "Switch to last tab."
 msgstr "切換至最後一個分頁。"
 
-#: profile.c:738
+#: profile.c:772
 msgid "Move page forward"
 msgstr "往前移動分頁"
 
-#: profile.c:740
+#: profile.c:774
 msgid "Move current page forward."
 msgstr "往前移動該分頁。"
 
-#: profile.c:742
+#: profile.c:776
 msgid "Move page backward"
 msgstr "往後移動分頁"
 
-#: profile.c:744
+#: profile.c:778
 msgid "Move current page backward."
 msgstr "往後移動該分頁。"
 
-#: profile.c:746
+#: profile.c:780
 msgid "Move page to first"
 msgstr "將分頁移至第一頁"
 
-#: profile.c:748
+#: profile.c:782
 msgid "Move current page to first."
 msgstr "將該分頁移至第一頁。"
 
-#: profile.c:750
+#: profile.c:784
 msgid "Move page to last"
 msgstr "將分頁移至最後一頁"
 
-#: profile.c:752
+#: profile.c:786
 msgid "Move current page to last."
 msgstr "將該分頁移至最後一頁。"
 
-#: profile.c:757
+#: profile.c:791
 #, c-format
 msgid "Switch to #%d tab"
 msgstr "切換至第 %d 分頁"
 
-#: profile.c:759
+#: profile.c:793
 #, c-format
 msgid "Switch #%d tab directly."
 msgstr "直接切換至第 %d 分頁。"
 
-#: profile.c:763
+#: profile.c:797
 msgid "Select all"
 msgstr "全選"
 
-#: profile.c:765
+#: profile.c:799
 msgid "Select all the text in the Vte Terminal box."
 msgstr "全選 Vte 終端機視窗裡的文字。"
 
-#: profile.c:767
+#: profile.c:801
 msgid "Copy to clipboard."
 msgstr "複製至剪貼簿。"
 
-#: profile.c:769
+#: profile.c:803
 msgid "Copy the text to clipboard."
 msgstr "將文字複製至剪貼簿。"
 
-#: profile.c:771
+#: profile.c:805
 msgid "Paste the text"
 msgstr "貼上文字"
 
-#: profile.c:773
+#: profile.c:807
 msgid "Paste the text in clipboard."
 msgstr "貼上剪貼簿中的文字。"
 
-#: profile.c:775
+#: profile.c:809
 msgid "Increase font size"
 msgstr "放大字體"
 
-#: profile.c:777
+#: profile.c:811
 msgid "Increase the font size of current tab."
 msgstr "放大目前分頁的字體。"
 
-#: profile.c:779
+#: profile.c:813
 msgid "Decrease font size"
 msgstr "縮小字體"
 
-#: profile.c:781
+#: profile.c:815
 msgid "Decrease the font size of current tab."
 msgstr "縮小目前分頁的字體。"
 
-#: profile.c:783
+#: profile.c:817
 msgid "Reset font size"
 msgstr "重置字體大小"
 
-#: profile.c:785
+#: profile.c:819
 msgid "Reset the font of current tab to original size."
 msgstr "將目前分頁的字體重置為原始大小。"
 
-#: profile.c:787
+#: profile.c:821
 msgid "Maximum the window"
 msgstr "視窗放至最大"
 
-#: profile.c:789
+#: profile.c:823
 msgid "Try to maximum the window to use all available space on your display."
 msgstr "將視窗放至最大以使用您所有的顯示空間。"
 
-#: profile.c:791
+#: profile.c:825
 msgid "Full screen"
 msgstr "全螢幕"
 
-#: profile.c:793
+#: profile.c:827
 msgid "Asks to place window in the fullscreen/unfullscreen state."
 msgstr "試著讓視窗在全螢幕/正常螢幕中切換。"
 
-#: profile.c:795
+#: profile.c:829
 msgid "Scroll up"
 msgstr "向上捲動"
 
-#: profile.c:797
+#: profile.c:831
 msgid "Emulate a mouse scroll up event on Vte Terminal box."
 msgstr "在 Vte 終端機視窗裡模擬一個滑鼠滾輪向上捲動事件。"
 
-#: profile.c:799
+#: profile.c:833
 msgid "Scroll down"
 msgstr "向下捲動"
 
-#: profile.c:801
+#: profile.c:835
 msgid "Emulate a mouse scroll down event on Vte Terminal box."
 msgstr "在 Vte 終端機視窗裡模擬一個滑鼠滾輪向下捲動事件。"
 
-#: profile.c:803
+#: profile.c:837
 msgid "Scroll up 1 line"
 msgstr "向上捲動一行"
 
-#: profile.c:805
+#: profile.c:839
 msgid "Asks to scroll up 1 line on Vte Terminal box."
 msgstr "試著在 Vte 終端機視窗裡向上捲動一行。"
 
-#: profile.c:807
+#: profile.c:841
 msgid "Scroll down 1 line"
 msgstr "向下捲動一行"
 
-#: profile.c:809
+#: profile.c:843
 msgid "Asks to scroll down 1 line on Vte Terminal box."
 msgstr "試著在 Vte 終端機視窗裡向下捲動一行。"
 
-#: profile.c:815
+#: profile.c:849
 msgid "Dump runtime debug data"
 msgstr "印出即時除錯資訊"
 
-#: profile.c:817
+#: profile.c:851
 msgid "Dump the runtime data of LilyTerm for debug."
 msgstr "印出 LilyTerm 的即時資訊以利除錯。"
 
-#: profile.c:845
+#: profile.c:879
 msgid "Window Title"
 msgstr "視窗標題"
 
-#: profile.c:846
+#: profile.c:880
 msgid "Running Command"
 msgstr "正在執行的指令"
 
-#: profile.c:847
+#: profile.c:881
 msgid "Current Dir"
 msgstr "目前的目錄"
 
-#: profile.c:848
+#: profile.c:882
 msgid "Custom Tab Name"
 msgstr "自訂的分頁名稱"
 
-#: profile.c:849
+#: profile.c:883
 msgid "Root Privileges"
 msgstr "Root 權限"
 
-#: profile.c:850
+#: profile.c:884
 msgid "Normal Text"
 msgstr "一般文字"
 
-#: profile.c:2499
+#: profile.c:2533
 msgid "The target file does NOT exist"
 msgstr "目的地檔案並不存在"
 
-#: profile.c:2510
+#: profile.c:2544
 msgid "The target file is a directory"
 msgstr "目的地檔案是個目錄"
 
-#: profile.c:2558
+#: profile.c:2592
 #, c-format
 msgid "Error while writing profile '%s':"
 msgstr "在寫入設定檔 %s 時發生錯誤："
 
-#: profile.c:2563
+#: profile.c:2597
 msgid "Error when writing profile"
 msgstr "在寫入設定檔時發生錯誤"
 
-#: profile.c:2694
+#: profile.c:2728
 msgid ""
 "Some entry in profile is added, removed, or changed in this version.\n"
 "Please use [Save settings] on the right click menu to save your settings,\n"
@@ -1213,7 +1213,7 @@ msgstr ""
 "請使用右鍵選單中的【儲存設定】來儲存您的設定，\n"
 "並視形況加以修改。\n"
 
-#: profile.c:2700
+#: profile.c:2734
 #, c-format
 msgid ""
 "%s\n"
@@ -1222,11 +1222,11 @@ msgstr ""
 "%s\n"
 "您的個人設定檔為：%s。"
 
-#: profile.c:2703
+#: profile.c:2737
 msgid "The format of your profile is out of date"
 msgstr "您的設定檔格式已過舊"
 
-#: profile.c:2731 profile.c:2734
+#: profile.c:2765 profile.c:2768
 #, c-format
 msgid ""
 "The profile \"%s\" is invalid:\n"
@@ -1237,7 +1237,7 @@ msgstr ""
 "\n"
 "\t%s"
 
-#: profile.c:2742
+#: profile.c:2776
 msgid "The profile is invalid!"
 msgstr "設定檔無效！"
 
@@ -1250,6 +1250,15 @@ msgstr "\t第 #%d 視窗，第 #%d 分頁: (%d) %s\n"
 #, c-format
 msgid "\tPage #%d: (%d) %s\n"
 msgstr "\t第 #%d 分頁: (%d) %s\n"
+
+#, fuzzy
+#~| msgid ""
+#~| "%s is a libvte based X Terminal Emulator.\n"
+#~| "\n"
+#~ msgid "A light and easy to use libvte based X Terminal Emulator"
+#~ msgstr ""
+#~ "%s 是基於 libvte 的 X 終端機模擬器。\n"
+#~ "\n"
 
 #~ msgid "Set function key value"
 #~ msgstr "設定功能鍵值"

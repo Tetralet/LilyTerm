@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LilyTerm 0.9.9\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-02-14 14:29+0800\n"
+"POT-Creation-Date: 2012-02-29 09:35+0800\n"
 "PO-Revision-Date: 2010-11-19 17:08+0100\n"
 "Last-Translator: Adrian Buyssens <howitzer@archlinux.us>\n"
 "Language-Team: Adrian Buyssens <howitzer@archlinux.us>\n"
@@ -236,7 +236,7 @@ msgstr "Vul de labelnaam in van deze tab:"
 msgid "Label Name:"
 msgstr "Labelnaam:"
 
-#: dialog.c:195 profile.c:712
+#: dialog.c:195 profile.c:746
 msgid "Find string"
 msgstr "Zoek string"
 
@@ -751,7 +751,7 @@ msgstr "Terugscroll lijnen"
 msgid "Clean scrollback lines"
 msgstr "Verwijder terugscroll lijnen"
 
-#: menu.c:262 profile.c:684
+#: menu.c:262 profile.c:718
 msgid "Misc"
 msgstr "Varia"
 
@@ -958,307 +958,307 @@ msgstr ""
 msgid "Error when creating child process"
 msgstr "Error wanneer child proces gecreëerd wordt"
 
-#: profile.c:685
+#: profile.c:719
 msgid "Tab operation"
 msgstr "Tab operatie"
 
-#: profile.c:686
+#: profile.c:720
 msgid "Switch tab"
 msgstr "Verander tab"
 
-#: profile.c:687
+#: profile.c:721
 msgid "Move tab"
 msgstr "Verplaats tab"
 
-#: profile.c:688
+#: profile.c:722
 msgid "Switch to #? tab"
 msgstr "Verander naar #? tab"
 
-#: profile.c:689
+#: profile.c:723
 msgid "Text operation"
 msgstr "Text operatie"
 
-#: profile.c:690
+#: profile.c:724
 msgid "Scroll up/down"
 msgstr "Scroll naar boven/beneden"
 
-#: profile.c:691
+#: profile.c:725
 msgid "Font"
 msgstr "Lettertype"
 
-#: profile.c:696
+#: profile.c:730
 msgid "Disable/Enable functions"
 msgstr "Des-/Activeer functies"
 
-#: profile.c:698
+#: profile.c:732
 msgid "Disable/Enable hyperlinks, function keys and right click menu."
 msgstr "Des-/Activeer hyperlinks, functietoetsen en rechterklikmenu."
 
-#: profile.c:700
+#: profile.c:734
 msgid "Add new tab"
 msgstr "Maak nieuwe tab"
 
-#: profile.c:702
+#: profile.c:736
 msgid "Add a new tab."
 msgstr "Maak een nieuwe tab"
 
-#: profile.c:704
+#: profile.c:738
 msgid "Close tab"
 msgstr "Sluit tab"
 
-#: profile.c:706
+#: profile.c:740
 msgid "Close current tab."
 msgstr "Sluit huidige tab"
 
-#: profile.c:708
+#: profile.c:742
 msgid "Rename page name"
 msgstr "Hernoem paginanaam"
 
-#: profile.c:710
+#: profile.c:744
 msgid "Rename the page name of current tab."
 msgstr "Hernoem paginanaam van huidige tab."
 
-#: profile.c:714
+#: profile.c:748
 msgid "Find the strings matching the search regex."
 msgstr "Vind string gelijk aan de zoekterm"
 
-#: profile.c:715
+#: profile.c:749
 msgid "Find previous"
 msgstr "Vind vorige"
 
-#: profile.c:717
+#: profile.c:751
 msgid "Find the previous string matching the search regex."
 msgstr "Vind vorige string gelijk aan de zoekterm"
 
-#: profile.c:718
+#: profile.c:752
 msgid "Find next"
 msgstr "Vind volgende"
 
-#: profile.c:720
+#: profile.c:754
 msgid "Find the next string matching the search regex."
 msgstr "Vind de volgende string gelijk aan de zoekterm"
 
-#: profile.c:722
+#: profile.c:756
 msgid "Switch to prev tab"
 msgstr "Verander naar vorige tab"
 
-#: profile.c:724
+#: profile.c:758
 msgid "Switch to prev tab."
 msgstr "Verander naar vorige tab."
 
-#: profile.c:726
+#: profile.c:760
 msgid "Switch to next tab"
 msgstr "Verander naar volgende tab"
 
-#: profile.c:728
+#: profile.c:762
 msgid "Switch to next tab."
 msgstr "Verander naar volgende tab."
 
-#: profile.c:730
+#: profile.c:764
 msgid "Switch to first tab"
 msgstr "Verander naar eerste tab"
 
-#: profile.c:732
+#: profile.c:766
 msgid "Switch to first tab."
 msgstr "Verander naar eerste tab."
 
-#: profile.c:734
+#: profile.c:768
 msgid "Switch to last tab"
 msgstr "Verander naar laatste tab"
 
-#: profile.c:736
+#: profile.c:770
 msgid "Switch to last tab."
 msgstr "Verander naar laatste tab."
 
-#: profile.c:738
+#: profile.c:772
 msgid "Move page forward"
 msgstr "Ga pagina vooruit"
 
-#: profile.c:740
+#: profile.c:774
 msgid "Move current page forward."
 msgstr "Verplaats huidige pagina voorwaarts."
 
-#: profile.c:742
+#: profile.c:776
 msgid "Move page backward"
 msgstr "Ga pagina achterwaarts"
 
-#: profile.c:744
+#: profile.c:778
 msgid "Move current page backward."
 msgstr "Verplaats huidge pagina achterwaarts."
 
-#: profile.c:746
+#: profile.c:780
 msgid "Move page to first"
 msgstr "Plaats pagina als eerste"
 
-#: profile.c:748
+#: profile.c:782
 msgid "Move current page to first."
 msgstr "Plaats huidige pagina als eerste. "
 
-#: profile.c:750
+#: profile.c:784
 msgid "Move page to last"
 msgstr "Plaats pagina als laatste"
 
-#: profile.c:752
+#: profile.c:786
 msgid "Move current page to last."
 msgstr "Plaats huidige pagina als laatste."
 
-#: profile.c:757
+#: profile.c:791
 #, c-format
 msgid "Switch to #%d tab"
 msgstr "Verander naar #%d tab"
 
-#: profile.c:759
+#: profile.c:793
 #, c-format
 msgid "Switch #%d tab directly."
 msgstr "Verander direct naar #%d tab."
 
-#: profile.c:763
+#: profile.c:797
 msgid "Select all"
 msgstr "Selecteer alles"
 
-#: profile.c:765
+#: profile.c:799
 msgid "Select all the text in the Vte Terminal box."
 msgstr "Selecteer alle tekst in het Vte Terminal venster."
 
-#: profile.c:767
+#: profile.c:801
 msgid "Copy to clipboard."
 msgstr "Kopieer naar klembord."
 
-#: profile.c:769
+#: profile.c:803
 msgid "Copy the text to clipboard."
 msgstr "Kopieer de tekst naar het klembord."
 
-#: profile.c:771
+#: profile.c:805
 msgid "Paste the text"
 msgstr "Plak de tekst"
 
-#: profile.c:773
+#: profile.c:807
 msgid "Paste the text in clipboard."
 msgstr "Plak de tekst in het klembord."
 
-#: profile.c:775
+#: profile.c:809
 msgid "Increase font size"
 msgstr "Vergroot lettergrootte"
 
-#: profile.c:777
+#: profile.c:811
 msgid "Increase the font size of current tab."
 msgstr "Vergroot lettergrootte in huidige tab."
 
-#: profile.c:779
+#: profile.c:813
 msgid "Decrease font size"
 msgstr "Verklein lettergrootte"
 
-#: profile.c:781
+#: profile.c:815
 msgid "Decrease the font size of current tab."
 msgstr "Verklein lettergroote in huidige tab."
 
-#: profile.c:783
+#: profile.c:817
 msgid "Reset font size"
 msgstr "Reset lettergrootte"
 
-#: profile.c:785
+#: profile.c:819
 msgid "Reset the font of current tab to original size."
 msgstr "Reset lettergrootte in huidige tab naar oorspronkelijke grootte."
 
-#: profile.c:787
+#: profile.c:821
 msgid "Maximum the window"
 msgstr "Maximaliseer venster"
 
-#: profile.c:789
+#: profile.c:823
 msgid "Try to maximum the window to use all available space on your display."
 msgstr ""
 "Probeer het venster zo te maximaliseren om alle schermruimte te benutten."
 
-#: profile.c:791
+#: profile.c:825
 msgid "Full screen"
 msgstr "Volledig scherm"
 
-#: profile.c:793
+#: profile.c:827
 msgid "Asks to place window in the fullscreen/unfullscreen state."
 msgstr "Vraagt om het venster in on-/volledig scherm te tonen"
 
-#: profile.c:795
+#: profile.c:829
 msgid "Scroll up"
 msgstr "Scroll naar boven"
 
-#: profile.c:797
+#: profile.c:831
 msgid "Emulate a mouse scroll up event on Vte Terminal box."
 msgstr "Emuleer een muisscroll naar boven in Vte Terminal venster."
 
-#: profile.c:799
+#: profile.c:833
 msgid "Scroll down"
 msgstr "Scroll naar beneden"
 
-#: profile.c:801
+#: profile.c:835
 msgid "Emulate a mouse scroll down event on Vte Terminal box."
 msgstr "Emuleer een muisscroll naar beneden in Vte Terminal venster."
 
-#: profile.c:803
+#: profile.c:837
 msgid "Scroll up 1 line"
 msgstr "Ga een lijn naar boven"
 
-#: profile.c:805
+#: profile.c:839
 msgid "Asks to scroll up 1 line on Vte Terminal box."
 msgstr "Vraagt om een lijn naar boven te scrollen in Vte Terminal venster."
 
-#: profile.c:807
+#: profile.c:841
 msgid "Scroll down 1 line"
 msgstr "Ga een lijn naar beneden"
 
-#: profile.c:809
+#: profile.c:843
 msgid "Asks to scroll down 1 line on Vte Terminal box."
 msgstr "Vraagt om een lijn naar onder te scrollen in Vte Terminal venster."
 
-#: profile.c:815
+#: profile.c:849
 msgid "Dump runtime debug data"
 msgstr "Dump de lopende debug data"
 
-#: profile.c:817
+#: profile.c:851
 msgid "Dump the runtime data of LilyTerm for debug."
 msgstr "Dump alle lopende data van LilyTerm voor debuggen."
 
-#: profile.c:845
+#: profile.c:879
 msgid "Window Title"
 msgstr "Venstertitel"
 
-#: profile.c:846
+#: profile.c:880
 msgid "Running Command"
 msgstr "Commando aan het uitvoeren"
 
-#: profile.c:847
+#: profile.c:881
 msgid "Current Dir"
 msgstr "Huidige Map"
 
-#: profile.c:848
+#: profile.c:882
 msgid "Custom Tab Name"
 msgstr "Aangepaste Tabnaam"
 
-#: profile.c:849
+#: profile.c:883
 msgid "Root Privileges"
 msgstr "Root Privileges"
 
-#: profile.c:850
+#: profile.c:884
 msgid "Normal Text"
 msgstr "Normale Tekst"
 
-#: profile.c:2499
+#: profile.c:2533
 msgid "The target file does NOT exist"
 msgstr "Het doelbestand bestaat NIET"
 
-#: profile.c:2510
+#: profile.c:2544
 msgid "The target file is a directory"
 msgstr "Het doelbestand is een map"
 
-#: profile.c:2558
+#: profile.c:2592
 #, c-format
 msgid "Error while writing profile '%s':"
 msgstr "Error bij saven van profiel '%s':"
 
-#: profile.c:2563
+#: profile.c:2597
 msgid "Error when writing profile"
 msgstr "Error bij saven profiel"
 
-#: profile.c:2694
+#: profile.c:2728
 msgid ""
 "Some entry in profile is added, removed, or changed in this version.\n"
 "Please use [Save settings] on the right click menu to save your settings,\n"
@@ -1268,7 +1268,7 @@ msgstr ""
 "Gebruik [Save instellingen] in het rechterklikmenu om uw instellingen\n"
 "te saven en bewerk het manueel indien nodig.\n"
 
-#: profile.c:2700
+#: profile.c:2734
 #, c-format
 msgid ""
 "%s\n"
@@ -1277,11 +1277,11 @@ msgstr ""
 "%s\n"
 "Uw profiel is %s."
 
-#: profile.c:2703
+#: profile.c:2737
 msgid "The format of your profile is out of date"
 msgstr "Het formaat van uw profiel is outdatet"
 
-#: profile.c:2731 profile.c:2734
+#: profile.c:2765 profile.c:2768
 #, c-format
 msgid ""
 "The profile \"%s\" is invalid:\n"
@@ -1292,7 +1292,7 @@ msgstr ""
 "\n"
 "\t%s"
 
-#: profile.c:2742
+#: profile.c:2776
 msgid "The profile is invalid!"
 msgstr "Het profiel is ongeldig!"
 
@@ -1305,6 +1305,13 @@ msgstr "\tVenster #%d, Pagina #%d: (%d) %s\n"
 #, c-format
 msgid "\tPage #%d: (%d) %s\n"
 msgstr "\tPagina #%d: (%d) %s\n"
+
+#, fuzzy
+#~| msgid ""
+#~| "%s is a libvte based X Terminal Emulator.\n"
+#~| "\n"
+#~ msgid "A light and easy to use libvte based X Terminal Emulator"
+#~ msgstr "%s is een op libvte gebaseerde X Terminal Emulator\n"
 
 #~ msgid "Set function key value"
 #~ msgstr "Geef functietoetswaarde"

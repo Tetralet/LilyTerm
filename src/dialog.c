@@ -92,7 +92,7 @@ gboolean dialog(GtkWidget *widget, gsize style)
 	{
 		gchar *err_msg = g_strdup_printf("dialog(%ld): menu_active_window = NULL\n\n"
 					  "Please report bug to %s, Thanks!",
-					  (glong)style, PACKAGE_BUGREPORT);
+					  (glong)style, BUGREPORT);
 #ifdef DEFENSIVE
 		if (err_msg)
 #endif
@@ -810,8 +810,8 @@ gboolean dialog(GtkWidget *widget, gsize style)
 		}
 		case USAGE_MESSAGE:						// 5
 		{
-			temp_str[0] = g_strdup_printf(_("Usage for %s %s"),PACKAGE_NAME, VERSION);
-			temp_str[1] = g_strdup_printf("Usage for %s %s",PACKAGE_NAME, VERSION);
+			temp_str[0] = g_strdup_printf(_("Usage for %s %s"),PACKAGE, VERSION);
+			temp_str[1] = g_strdup_printf("Usage for %s %s",PACKAGE, VERSION);
 			// gchar *help_msg = get_help_message(win_data->profile);
 			temp_str[2] = get_help_message_usage(win_data->profile, TRUE);
 
@@ -872,7 +872,7 @@ gboolean dialog(GtkWidget *widget, gsize style)
 
 			gchar *str[3] = {NULL};
 			str[0] = g_strdup_printf(_("Please report bug to %s. Thank you for using %s!"),
-						 PACKAGE_BUGREPORT, PACKAGE_NAME);
+						 BUGREPORT, PACKAGE);
 			str[1] = convert_text_to_html (&str[0], FALSE, NULL, "tt", NULL);
 			str[2] = g_strdup_printf("\n%s%s", temp_str[5], str[1]);
 #ifdef DEFENSIVE
@@ -1070,7 +1070,7 @@ gboolean dialog(GtkWidget *widget, gsize style)
 			// g_debug("error_data.string = %s", error_data.string);
 			// g_debug("error_data.encoding = %s", error_data.encoding);
 			temp_str[0] = g_markup_escape_text(win_data->temp_data, -1);
-			temp_str[1] = g_strconcat(PACKAGE_NAME,
+			temp_str[1] = g_strconcat(PACKAGE,
 						  _(" is trying to execute the following command:"),
 						  "\n\n\t<b><span foreground=\"",
 						  "blue",
@@ -1165,11 +1165,11 @@ gboolean dialog(GtkWidget *widget, gsize style)
 			create_SIGKILL_and_EXIT_widget(dialog_data, TRUE, create_entry_hbox, _("those tabs"));
 			break;
 		case CONFIRM_TO_EXIT_WITH_CHILD_PROCESS:			// 25
-			temp_str[0]  = g_strdup_printf(_("Confirm to close %s"), PACKAGE_NAME);
-			temp_str[1]  = g_strdup_printf("Confirm to close %s", PACKAGE_NAME);
+			temp_str[0]  = g_strdup_printf(_("Confirm to close %s"), PACKAGE);
+			temp_str[1]  = g_strdup_printf("Confirm to close %s", PACKAGE);
 			// get the command line of running foreground program
 			temp_str[2] = g_strdup_printf(_("The following programs are still running under %s:"),
-						      PACKAGE_NAME);
+						      PACKAGE);
 			temp_str[3] = g_markup_escape_text(win_data->temp_data, -1);
 			temp_str[4] = g_strconcat(temp_str[2] ,
 						  "\n\n<b><span foreground=\"blue\">",
@@ -1193,7 +1193,7 @@ gboolean dialog(GtkWidget *widget, gsize style)
 				      BOX_VERTICALITY,
 				      5,
 				      dialog_data);
-			create_SIGKILL_and_EXIT_widget(dialog_data, TRUE, TRUE, PACKAGE_NAME);
+			create_SIGKILL_and_EXIT_widget(dialog_data, TRUE, TRUE, PACKAGE);
 			break;
 		case CONFIRM_TO_PASTE_TEXTS_TO_VTE_TERMINAL:
 			temp_str[0] = g_strconcat(_("Trying to paste the following texts to the Vte Terminal:\n\n"),
@@ -2254,7 +2254,7 @@ void create_SIGKILL_and_EXIT_widget(struct Dialog *dialog_data, gboolean create_
 	if (create_force_kill_hbox)
 	{
 		gchar *exit_str = g_strdup_printf(_("Force to close all the tabs and windows, and exit %s!"),
-						  PACKAGE_NAME);
+						  PACKAGE);
 		dialog_data->operate[0] = gtk_check_button_new_with_label(exit_str);
 		g_free(exit_str);
 #ifdef DEFENSIVE
@@ -2640,7 +2640,7 @@ void create_invalid_locale_error_message(gchar *locale)
 	gchar *err_msg = g_strdup_printf(_("The locale \"%s\" seems NOT supported by your system!\n"
 					   "If you just added the locale datas recently,\n"
 					   "Please close all the windows of %s and try again."),
-					   color_locale, PACKAGE_NAME);
+					   color_locale, PACKAGE);
 	error_dialog(NULL, _("Not supported locale!"), "Not supported locale!",
 		     GTK_STOCK_DIALOG_WARNING, err_msg, NULL);
 	g_free(color_locale);
@@ -2695,7 +2695,7 @@ void print_switch_out_of_range_error_dialog(gchar *function, gchar *var, gint va
 {
 	gchar *err_msg = g_strdup_printf("%s(): the var \"%s\" (%d) is out of range\n\n"
 					 "Please report bug to %s, Thanks!",
-					 function, var, value, PACKAGE_BUGREPORT);
+					 function, var, value, BUGREPORT);
 #ifdef DEFENSIVE
 	if (err_msg)
 #endif
@@ -2711,7 +2711,7 @@ gboolean upgrade_dialog(gchar *version_str)
 #ifdef DETAIL
 	g_debug("! Launch upgrade_dialog() with version_str = %s", version_str);
 #endif
-	gchar *err_msg = g_strdup_printf(_("You should upgrade to %s and recompile %s to support this feature."), version_str, PACKAGE_NAME);
+	gchar *err_msg = g_strdup_printf(_("You should upgrade to %s and recompile %s to support this feature."), version_str, PACKAGE);
 	error_dialog(NULL, _("Not supported feature!"), "Not supported feature!",
 		     GTK_STOCK_DIALOG_WARNING, err_msg, NULL);
 	g_free(err_msg);
@@ -2998,7 +2998,7 @@ void clear_key_group_all(GtkButton *button, struct Dialog *dialog_data)
 //	gchar *err_msg = g_strdup_printf("%s: page_data = NULL\n\n"
 //					 "Please report bug to %s, Thanks!",
 //					 function_name,
-//					 PACKAGE_BUGREPORT);
+//					 BUGREPORT);
 //	error_dialog(NULL, err_msg, NULL, ERROR_MESSAGES);
 //#ifdef DETAIL
 //	g_debug("* free err_msg %p (%s) in set_encoding()", err_msg, err_msg);

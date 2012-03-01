@@ -407,7 +407,7 @@ gboolean create_menu(struct Window *win_data)
 	if (win_data->show_exit_menu)
 	{
 		// Exit LilyTerm
-		gchar *exit_str = g_strdup_printf(_("Quit %s"), PACKAGE_NAME);
+		gchar *exit_str = g_strdup_printf(_("Quit %s"), PACKAGE);
 		create_menu_item (IMAGE_MENU_ITEM, win_data->menu, exit_str, NULL, GTK_STOCK_QUIT,
 				  (GSourceFunc)main_quit, win_data);
 		g_free(exit_str);
@@ -1632,7 +1632,7 @@ void create_load_profile_from_menu_items(GtkWidget *sub_menu, const gchar *stock
 	create_menu_item (IMAGE_MENU_ITEM, sub_menu, _("Reload settings"), NULL, GTK_STOCK_REVERT_TO_SAVED,
 			  (GSourceFunc)reload_settings, win_data);
 
-//	gchar *menu_label = g_strdup_printf(_("Apply to every %s window"), PACKAGE_NAME);
+//	gchar *menu_label = g_strdup_printf(_("Apply to every %s window"), PACKAGE);
 //#ifdef DEFENSIVE
 //	if (menu_label)
 //	{
@@ -1664,7 +1664,7 @@ gboolean create_profile_menu_list(GtkWidget *sub_menu, const gchar *stock_id, GS
 #endif
 	gboolean create_separator = FALSE;
 	// LilyTerm Buildin Configures
-	gchar *menu_label = g_strdup_printf(_("%s default"), PACKAGE_NAME);
+	gchar *menu_label = g_strdup_printf(_("%s default"), PACKAGE);
 #ifdef DEFENSIVE
 	if (menu_label)
 	{
@@ -2439,7 +2439,7 @@ void print_active_window_is_null_error_dialog(gchar *function)
 {
 	gchar *err_msg = g_strdup_printf("%s: menu_active_window = NULL\n\n"
 					 "Please report bug to %s, Thanks!",
-					 function, PACKAGE_BUGREPORT);
+					 function, BUGREPORT);
 #ifdef DEFENSIVE
 	if (err_msg)
 #endif

@@ -1,8 +1,0 @@
-src/console.c
-src/window.c
-src/profile.c
-src/dialog.c
-src/main.c
-src/menu.c
-src/notebook.c
-src/misc.c

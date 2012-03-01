@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LilyTerm 0.9.9~pre4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-02-14 14:29+0800\n"
+"POT-Creation-Date: 2012-02-29 09:35+0800\n"
 "PO-Revision-Date: 2011-07-05 00:56+0200\n"
 "Last-Translator: Marco Paolone <marcopaolone@gmail.com>\n"
 "Language-Team: Italian <IT@li.org>\n"
@@ -248,7 +248,7 @@ msgstr "Inserire il nome etichetta per questa scheda:"
 msgid "Label Name:"
 msgstr "Nome etichetta:"
 
-#: dialog.c:195 profile.c:712
+#: dialog.c:195 profile.c:746
 msgid "Find string"
 msgstr "Cerca stringa"
 
@@ -755,7 +755,7 @@ msgstr "Righe della cronologia"
 msgid "Clean scrollback lines"
 msgstr "Pulisci righe della cronologia"
 
-#: menu.c:262 profile.c:684
+#: menu.c:262 profile.c:718
 msgid "Misc"
 msgstr "Altro"
 
@@ -957,310 +957,310 @@ msgstr ""
 msgid "Error when creating child process"
 msgstr "Errore nella creazione del processo figlio"
 
-#: profile.c:685
+#: profile.c:719
 msgid "Tab operation"
 msgstr "Operazione sulla scheda"
 
-#: profile.c:686
+#: profile.c:720
 msgid "Switch tab"
 msgstr "Passaggio alla scheda"
 
-#: profile.c:687
+#: profile.c:721
 msgid "Move tab"
 msgstr "Sposta scheda"
 
-#: profile.c:688
+#: profile.c:722
 msgid "Switch to #? tab"
 msgstr "Passa alla scheda #?"
 
-#: profile.c:689
+#: profile.c:723
 msgid "Text operation"
 msgstr "Operazione sul testo"
 
-#: profile.c:690
+#: profile.c:724
 msgid "Scroll up/down"
 msgstr "Scorri in alto/basso"
 
-#: profile.c:691
+#: profile.c:725
 msgid "Font"
 msgstr "Font"
 
-#: profile.c:696
+#: profile.c:730
 msgid "Disable/Enable functions"
 msgstr "Disabilita/abilita funzioni"
 
-#: profile.c:698
+#: profile.c:732
 msgid "Disable/Enable hyperlinks, function keys and right click menu."
 msgstr ""
 "Disabilita/abilita collegamenti ipertestuali, tasti funzione e menu del "
 "tasto destro."
 
-#: profile.c:700
+#: profile.c:734
 msgid "Add new tab"
 msgstr "Aggiungi nuova scheda"
 
-#: profile.c:702
+#: profile.c:736
 msgid "Add a new tab."
 msgstr "Aggiunge una nuova scheda."
 
-#: profile.c:704
+#: profile.c:738
 msgid "Close tab"
 msgstr "Chiudi scheda"
 
-#: profile.c:706
+#: profile.c:740
 msgid "Close current tab."
 msgstr "Chiude la scheda corrente."
 
-#: profile.c:708
+#: profile.c:742
 msgid "Rename page name"
 msgstr "Rinomina scheda"
 
-#: profile.c:710
+#: profile.c:744
 msgid "Rename the page name of current tab."
 msgstr "Rinominare la pagina della scheda corrente."
 
-#: profile.c:714
+#: profile.c:748
 msgid "Find the strings matching the search regex."
 msgstr "Cerca le stringhe corrispondenti all'espressione regolare."
 
-#: profile.c:715
+#: profile.c:749
 msgid "Find previous"
 msgstr "Cerca precedente"
 
-#: profile.c:717
+#: profile.c:751
 msgid "Find the previous string matching the search regex."
 msgstr "Cerca la stringa precedente corrispondente all'espressione regolare."
 
-#: profile.c:718
+#: profile.c:752
 msgid "Find next"
 msgstr "Cerca successiva"
 
-#: profile.c:720
+#: profile.c:754
 msgid "Find the next string matching the search regex."
 msgstr "Trova la stringa successiva corrispondente all'espressione regolare."
 
-#: profile.c:722
+#: profile.c:756
 msgid "Switch to prev tab"
 msgstr "Passa alla scheda precedente"
 
-#: profile.c:724
+#: profile.c:758
 msgid "Switch to prev tab."
 msgstr "Passa alla scheda precedente."
 
-#: profile.c:726
+#: profile.c:760
 msgid "Switch to next tab"
 msgstr "Passa alla scheda successiva"
 
-#: profile.c:728
+#: profile.c:762
 msgid "Switch to next tab."
 msgstr "Passa alla scheda successiva."
 
-#: profile.c:730
+#: profile.c:764
 msgid "Switch to first tab"
 msgstr "Passa alla prima scheda"
 
-#: profile.c:732
+#: profile.c:766
 msgid "Switch to first tab."
 msgstr "Passa alla prima scheda."
 
-#: profile.c:734
+#: profile.c:768
 msgid "Switch to last tab"
 msgstr "Passa all'ultima scheda"
 
-#: profile.c:736
+#: profile.c:770
 msgid "Switch to last tab."
 msgstr "Passa all'ultima scheda."
 
-#: profile.c:738
+#: profile.c:772
 msgid "Move page forward"
 msgstr "Sposta pagina in avanti"
 
-#: profile.c:740
+#: profile.c:774
 msgid "Move current page forward."
 msgstr "Sposta la pagina corrente in avanti."
 
-#: profile.c:742
+#: profile.c:776
 msgid "Move page backward"
 msgstr "Sposta pagina indietro"
 
-#: profile.c:744
+#: profile.c:778
 msgid "Move current page backward."
 msgstr "Sposta la pagina corrente indietro"
 
-#: profile.c:746
+#: profile.c:780
 msgid "Move page to first"
 msgstr "Sposta pagina alla prima"
 
-#: profile.c:748
+#: profile.c:782
 msgid "Move current page to first."
 msgstr "Sposta la pagina corrente alla prima."
 
-#: profile.c:750
+#: profile.c:784
 msgid "Move page to last"
 msgstr "Sposta pagina all'ultima"
 
-#: profile.c:752
+#: profile.c:786
 msgid "Move current page to last."
 msgstr "Sposta la pagina corrente all'ultima."
 
-#: profile.c:757
+#: profile.c:791
 #, c-format
 msgid "Switch to #%d tab"
 msgstr "Passa alla scheda #%d"
 
-#: profile.c:759
+#: profile.c:793
 #, c-format
 msgid "Switch #%d tab directly."
 msgstr "Passa direttamente alla scheda #%d."
 
-#: profile.c:763
+#: profile.c:797
 msgid "Select all"
 msgstr "Seleziona tutto"
 
-#: profile.c:765
+#: profile.c:799
 msgid "Select all the text in the Vte Terminal box."
 msgstr "Seleziona tutto il testo nel box Terminale Vte."
 
-#: profile.c:767
+#: profile.c:801
 msgid "Copy to clipboard."
 msgstr "Copia negli appunti"
 
-#: profile.c:769
+#: profile.c:803
 msgid "Copy the text to clipboard."
 msgstr "Copia il testo negli appunti."
 
-#: profile.c:771
+#: profile.c:805
 msgid "Paste the text"
 msgstr "Incolla il testo"
 
-#: profile.c:773
+#: profile.c:807
 msgid "Paste the text in clipboard."
 msgstr "Incolla il testo negli appunti."
 
-#: profile.c:775
+#: profile.c:809
 msgid "Increase font size"
 msgstr "Aumenta dimensione font"
 
-#: profile.c:777
+#: profile.c:811
 msgid "Increase the font size of current tab."
 msgstr "Aumenta la dimensione del font nella scheda corrente."
 
-#: profile.c:779
+#: profile.c:813
 msgid "Decrease font size"
 msgstr "Diminuisci dimensione font"
 
-#: profile.c:781
+#: profile.c:815
 msgid "Decrease the font size of current tab."
 msgstr "Diminuisce la dimensione del font nella scheda corrente."
 
-#: profile.c:783
+#: profile.c:817
 msgid "Reset font size"
 msgstr "Ripristina dimensione font"
 
-#: profile.c:785
+#: profile.c:819
 msgid "Reset the font of current tab to original size."
 msgstr "Ripristina il font della scheda corrente alla dimensione originale."
 
-#: profile.c:787
+#: profile.c:821
 msgid "Maximum the window"
 msgstr "Massimizza finestra"
 
-#: profile.c:789
+#: profile.c:823
 msgid "Try to maximum the window to use all available space on your display."
 msgstr ""
 "Cerca di massimizzare la finestra per usare tutto lo spazio disponibile sul "
 "display."
 
-#: profile.c:791
+#: profile.c:825
 msgid "Full screen"
 msgstr "Schermo intero"
 
-#: profile.c:793
+#: profile.c:827
 msgid "Asks to place window in the fullscreen/unfullscreen state."
 msgstr "Chiede di posizionare la finestra nello stato schermo intero/ridotto"
 
-#: profile.c:795
+#: profile.c:829
 msgid "Scroll up"
 msgstr "Scorri in alto"
 
-#: profile.c:797
+#: profile.c:831
 msgid "Emulate a mouse scroll up event on Vte Terminal box."
 msgstr "Emula lo scorrimento del mouse verso l'alto sul box Terminale Vte."
 
-#: profile.c:799
+#: profile.c:833
 msgid "Scroll down"
 msgstr "Scorri in basso"
 
-#: profile.c:801
+#: profile.c:835
 msgid "Emulate a mouse scroll down event on Vte Terminal box."
 msgstr "Emula lo scorrimento del mouse verso il basso sul box Terminale Vte."
 
-#: profile.c:803
+#: profile.c:837
 msgid "Scroll up 1 line"
 msgstr "Scorri in alto di una riga"
 
-#: profile.c:805
+#: profile.c:839
 msgid "Asks to scroll up 1 line on Vte Terminal box."
 msgstr "Chiede di scorrere verso l'alto di una riga nel box Terminale Vte."
 
-#: profile.c:807
+#: profile.c:841
 msgid "Scroll down 1 line"
 msgstr "Scorri in basso di una riga"
 
-#: profile.c:809
+#: profile.c:843
 msgid "Asks to scroll down 1 line on Vte Terminal box."
 msgstr "Chiede di scorrere verso il basso di una riga nel box Terminale Vte."
 
-#: profile.c:815
+#: profile.c:849
 msgid "Dump runtime debug data"
 msgstr "Esegue il dump dei dati di debug in runtime"
 
-#: profile.c:817
+#: profile.c:851
 msgid "Dump the runtime data of LilyTerm for debug."
 msgstr "Esegue il dump dei dati in runtime di LilyTerm per il debug."
 
-#: profile.c:845
+#: profile.c:879
 msgid "Window Title"
 msgstr "Titolo finestra"
 
-#: profile.c:846
+#: profile.c:880
 msgid "Running Command"
 msgstr "Comando in esecuzione"
 
-#: profile.c:847
+#: profile.c:881
 msgid "Current Dir"
 msgstr "Cartella corrente"
 
-#: profile.c:848
+#: profile.c:882
 msgid "Custom Tab Name"
 msgstr "Nome scheda personalizzato"
 
-#: profile.c:849
+#: profile.c:883
 msgid "Root Privileges"
 msgstr "Privilegi di root"
 
-#: profile.c:850
+#: profile.c:884
 msgid "Normal Text"
 msgstr "Testo normale"
 
-#: profile.c:2499
+#: profile.c:2533
 msgid "The target file does NOT exist"
 msgstr "Il file di destinazione NON esiste"
 
-#: profile.c:2510
+#: profile.c:2544
 msgid "The target file is a directory"
 msgstr "Il file di destinazione è una cartella"
 
-#: profile.c:2558
+#: profile.c:2592
 #, c-format
 msgid "Error while writing profile '%s':"
 msgstr "Errore nella scrittura del profilo: '%s':"
 
-#: profile.c:2563
+#: profile.c:2597
 msgid "Error when writing profile"
 msgstr "Errore durante la scrittura del profilo"
 
-#: profile.c:2694
+#: profile.c:2728
 msgid ""
 "Some entry in profile is added, removed, or changed in this version.\n"
 "Please use [Save settings] on the right click menu to save your settings,\n"
@@ -1272,7 +1272,7 @@ msgstr ""
 "impostazioni,\n"
 "e modificarle manualmente se necessario.\n"
 
-#: profile.c:2700
+#: profile.c:2734
 #, c-format
 msgid ""
 "%s\n"
@@ -1281,11 +1281,11 @@ msgstr ""
 "%s\n"
 "Il proprio profilo è %s."
 
-#: profile.c:2703
+#: profile.c:2737
 msgid "The format of your profile is out of date"
 msgstr "Il formato del profilo non è aggiornato"
 
-#: profile.c:2731 profile.c:2734
+#: profile.c:2765 profile.c:2768
 #, c-format
 msgid ""
 "The profile \"%s\" is invalid:\n"
@@ -1296,7 +1296,7 @@ msgstr ""
 "\n"
 "\t%s"
 
-#: profile.c:2742
+#: profile.c:2776
 msgid "The profile is invalid!"
 msgstr "Profilo non valido!"
 
@@ -1309,6 +1309,15 @@ msgstr "\tFinestra #%d, Pagina #%d: (%d) %s\n"
 #, c-format
 msgid "\tPage #%d: (%d) %s\n"
 msgstr "\tPagina #%d: (%d) %s\n"
+
+#, fuzzy
+#~| msgid ""
+#~| "%s is a libvte based X Terminal Emulator.\n"
+#~| "\n"
+#~ msgid "A light and easy to use libvte based X Terminal Emulator"
+#~ msgstr ""
+#~ "%s è un emulatore di terminale per X basato su libvte.\n"
+#~ "\n"
 
 #~ msgid "Set function key value"
 #~ msgstr "Imposta il valore del tasto funzione"

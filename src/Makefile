@@ -1,7 +1,5 @@
 # This is a sample Makefile for debuging LilyTerm.
 #
-# This Makefile is nothing to do with sh autogen.sh && ./configure && make && make install, and can be deleted safely.
-#
 # Usage:
 #	make clean: delete lilyterm binary files.
 #	make debug: compile lilyeterm_dbg with CLAGS -g.
@@ -16,13 +14,10 @@
 #	make data: compile po and $(BINARY).conf files.
 #
 
-BINARY = lilyterm
-PACKAGE_NAME = LilyTerm
-VER = 0.9.9
-YEAR = $(shell date +%Y)
+include ../.default
+-include ../.config
 
 PKGCONFIG := $(shell whereis -b pkg-config | awk '{print $$2}')
-ECHO = $(shell whereis -b echo | awk '{print $$2}')
 
 VTE ?= ""
 
@@ -45,10 +40,7 @@ endif
 
 endif
 
-prefix ?= /usr
-bindir = $(prefix)/bin
-etcdir = /etc/xdg
-datadir = $(prefix)/share
+BINDIR = $(PREFIX)/bin
 date = `date +%Y-%m-%d`
 CC ?= gcc
 CFLAGS ?= -Wall -Werror -Wformat -Wformat-security -Werror=format-security -O2
@@ -60,15 +52,15 @@ CFLAGS ?= -Wall -Werror -Wformat -Wformat-security -Werror=format-security -O2
 LDFLAGS = -L$(prefix)/local/lib
 OBJ_PKG_CMD = $(PKGCONFIG) --cflags $(GTK) $(VTE)
 BINARY_PKG_CMD = $(PKGCONFIG) --cflags --libs $(GTK) $(VTE)
-PO_LIST = zh_TW de fr es it nl pl ru sk tr uk zh_CN
-OBJ = menu.o profile.o dialog.o pagename.o notebook.o font.o \
-      property.o window.o misc.o console.o main.o
+SOURCE_FILES = menu.c profile.c dialog.c pagename.c notebook.c font.c \
+	       property.c window.c misc.c console.c main.c
+OBJ = $(SOURCE_FILES:.c=.o)
 
-INCLUDES = -DPACKAGE=\"$(BINARY)\" \
-	   -DPACKAGE_NAME=\"$(PACKAGE_NAME)\" \
-	   -DPACKAGE_BUGREPORT=\"tetrlet@gmail.com\" \
-	   -DLOCALEDIR=\"$(datadir)/locale\" \
-	   -DICONDIR=\"$(datadir)/pixmaps\"
+INCLUDES = -DBINARY=\"$(BINARY)\" \
+	   -DPACKAGE=\"$(PACKAGE)\" \
+	   -DBUGREPORT=\"$(BUGREPORT)\" \
+	   -DLOCALEDIR=\"$(LOCALEDIR)\" \
+	   -DICONDIR=\"$(ICONDIR)\"
 
 .PHONY: all
 all: default
@@ -76,12 +68,15 @@ all: default
 
 .PHONY: default
 default: CFLAGS := $(CFLAGS) -DDEFENSIVE
-default: INCLUDES := $(INCLUDES) -DVERSION=\"$(VER)\ \($(date)\)\"
+default: INCLUDES := $(INCLUDES) -DVERSION=\"$(VERSION)\ \($(date)\)\"
+ifeq ($(DEBUG), Y)
+default: INCLUDES += -DDEBUG -DFATAL
+endif
 default: compile
 
 .PHONY: debug
 debug: CFLAGS := $(CFLAGS) -g
-debug: INCLUDES := $(INCLUDES) -DDEFENSIVE -DDEBUG -DFATAL -DVERSION=\"$(VER)\ Debug\ Version\ \($(date)\)\"
+debug: INCLUDES := $(INCLUDES) -DDEFENSIVE -DDEBUG -DFATAL -DVERSION=\"$(VERSION)\ Debug\ Version\ \($(date)\)\"
 debug: BINARY := $(BINARY)_dbg
 debug: compile
 
@@ -89,7 +84,7 @@ debug: compile
 dev: develop
 .PHONY: develop
 develop: CFLAGS := $(CFLAGS) -g
-develop: INCLUDES := $(INCLUDES) -DDEBUG -DFATAL -DDEVELOP -DVERSION=\"$(VER)\ Develop\ Version\ \($(date)\)\"
+develop: INCLUDES := $(INCLUDES) -DDEBUG -DFATAL -DDEVELOP -DVERSION=\"$(VERSION)\ Develop\ Version\ \($(date)\)\"
 develop: BINARY := $(BINARY)_dev
 develop: compile
 
@@ -97,15 +92,33 @@ develop: compile
 ddev: defensive-develop
 .PHONY: defensive-develop
 defensive-develop: CFLAGS := $(CFLAGS) -g
-defensive-develop: INCLUDES := $(INCLUDES) -DDEFENSIVE -DDEBUG -DFATAL -DDEVELOP -DVERSION=\"$(VER)\ Develop\ Version\ \($(date)\)\"
+defensive-develop: INCLUDES := $(INCLUDES) -DDEFENSIVE -DDEBUG -DFATAL -DDEVELOP -DVERSION=\"$(VERSION)\ Develop\ Version\ \($(date)\)\"
 defensive-develop: BINARY := $(BINARY)_dev
 defensive-develop: compile
+
+.PHONY: detail
+detail: CFLAGS := $(CFLAGS) -g
+detail: INCLUDES := $(INCLUDES) -DGEOMETRY -DDEBUG -DFATAL -DDEVELOP -DDETAIL -DVERSION=\"$(VERSION)\ Develop\ Version\ \($(date)\)\"
+detail: BINARY := $(BINARY)_dev
+detail: compile
+
+.PHONY: full
+full: CFLAGS := $(CFLAGS) -g
+full: INCLUDES := $(INCLUDES) -DGEOMETRY -DDEBUG -DFATAL -DDEVELOP -DDETAIL -DFULL -DVERSION=\"$(VERSION)\ Develop\ Version\ \($(date)\)\"
+full: BINARY := $(BINARY)_dev
+full: compile
+
+.PHONY: geometry
+geometry: CFLAGS := $(CFLAGS) -g
+geometry: INCLUDES := $(INCLUDES) -DGEOMETRY -DDEBUG -DFATAL -DDEVELOP -DVERSION=\"$(VERSION)\ Develop\ Version\ \($(date)\)\"
+geometry: BINARY := $(BINARY)_dev
+geometry: compile
 
 .PHONY: ut
 ut: unit_test
 .PHONY: unit_test
 unit_test: CFLAGS := $(CFLAGS) -g
-unit_test: INCLUDES := $(INCLUDES) -DDEFENSIVE -DDEBUG -DFATAL -DDEVELOP -DUNIT_TEST -DVERSION=\"$(VER)_UNIT_TEST_$(date)\"
+unit_test: INCLUDES := $(INCLUDES) -DDEFENSIVE -DDEBUG -DFATAL -DDEVELOP -DUNIT_TEST -DVERSION=\"$(VERSION)_UNIT_TEST_$(date)\"
 unit_test: $(OBJ)
 	@ sh unit_test.sh "$(INCLUDES)" --enable-gdb
 
@@ -113,107 +126,57 @@ unit_test: $(OBJ)
 utf: unit_test_full
 .PHONY: unit_test_full
 unit_test_full: CFLAGS := $(CFLAGS) -g
-unit_test_full: INCLUDES := $(INCLUDES) -DDEFENSIVE -DDEBUG -DFATAL -DDEVELOP -DUNIT_TEST -DVERSION=\"$(VER)_UNIT_TEST_$(date)\"
+unit_test_full: INCLUDES := $(INCLUDES) -DDEFENSIVE -DDEBUG -DFATAL -DDEVELOP -DUNIT_TEST -DVERSION=\"$(VERSION)_UNIT_TEST_$(date)\"
 unit_test_full: $(OBJ)
 	@ sh unit_test.sh "$(INCLUDES)" --enable-glib-debugger --enable-gtk-debugger --enable-gdb --enable-valgrind
 
-.PHONY: geometry
-geometry: CFLAGS := $(CFLAGS) -g
-geometry: INCLUDES := $(INCLUDES) -DGEOMETRY -DDEBUG -DFATAL -DDEVELOP -DVERSION=\"$(VER)\ Develop\ Version\ \($(date)\)\"
-geometry: BINARY := $(BINARY)_dev
-geometry: compile
-
-.PHONY: detail
-detail: CFLAGS := $(CFLAGS) -g
-detail: INCLUDES := $(INCLUDES) -DGEOMETRY -DDEBUG -DFATAL -DDEVELOP -DDETAIL -DVERSION=\"$(VER)\ Develop\ Version\ \($(date)\)\"
-detail: BINARY := $(BINARY)_dev
-detail: compile
-
-.PHONY: full
-full: CFLAGS := $(CFLAGS) -g
-full: INCLUDES := $(INCLUDES) -DGEOMETRY -DDEBUG -DFATAL -DDEVELOP -DDETAIL -DFULL -DVERSION=\"$(VER)\ Develop\ Version\ \($(date)\)\"
-full: BINARY := $(BINARY)_dev
-full: compile
-
 .PHONY: memory
 memory: CFLAGS := $(CFLAGS) -g
-memory: INCLUDES := $(INCLUDES) -DDEBUG -DFATAL -DDEVELOP -DDEFENSIVE -DOUT_OF_MEMORY -DVERSION=\"$(VER)\ Develop\ Version\ \($(date)\)\"
+memory: INCLUDES := $(INCLUDES) -DDEBUG -DFATAL -DDEVELOP -DDEFENSIVE -DOUT_OF_MEMORY -DVERSION=\"$(VERSION)\ Develop\ Version\ \($(date)\)\"
 memory: BINARY := $(BINARY)_dev
 memory: compile
 
 .PHONY: clean
 clean:
-	-@ for FileName in $(BINARY) $(BINARY)_dev $(BINARY)_dbg *.o unit_test unit_test.c lilyterm.gdb *.log ../po/*.mo; \
+	-@ for FileName in $(BINARY) $(BINARY)_dev $(BINARY)_dbg $(OBJ) unit_test unit_test.c lilyterm.gdb lilyterm_gdb.log lilyterm_valgrind.log ; \
 	do \
 		if [ -f "$$FileName" ]; then \
-			$(ECHO) -e "\x1b[1;31m** "deleting $$FileName..."\x1b[0m"; \
+			$(ECHO) -e "\x1b[1;35m** "deleting $$FileName..."\x1b[0m"; \
 			rm "$$FileName"; \
 		fi; \
 	done
 
-.PHONY: data
-data: debug
-	@ $(ECHO) -e "\x1b[1;36m** creating $(BINARY).pot...\x1b[0m"
-	@ xgettext --from-code=UTF-8 -k_ \
-		   --copyright-holder="$(YEAR) FULL NAME <EMAIL@ADDRESS>" \
-		   --package-name=$(PACKAGE_NAME) \
-		   --package-version="$(VER)" \
-		   --add-comments='TRANSLATE NOTE:' -o ../po/$(BINARY).pot *.c
-	@ for FileName in $(PO_LIST); \
-	do \
-		$(ECHO) -e "\x1b[1;33m** msgmerge $$FileName.po...\x1b[0m"; \
-		msgmerge --previous ../po/$$FileName.po ../po/$(BINARY).pot -o ../po/$$FileName.po; \
-		msgfmt --check --statistics ../po/$$FileName.po -o ../po/$$FileName.mo; \
-	done
-	@ $(ECHO) -e "\x1b[1;36m** creating $(BINARY).conf...\x1b[0m"
-	@ ./$(BINARY)_dbg -p > ../data/$(BINARY).conf
-	@ cd ../po && /usr/bin/intltool-update -m && cd - > /dev/null
-
-menu.o: data.h $(BINARY).h menu.h menu.c
-	@ $(ECHO) -e "\x1b[1;33m** compiling menu.o...\x1b[0m"
-	@ $(CC) $(CFLAGS) $(INCLUDES) -c menu.c `$(OBJ_PKG_CMD)`
-
-font.o: data.h $(BINARY).h font.h font.c
-	@ $(ECHO) -e "\x1b[1;33m** compiling font.o...\x1b[0m"
-	@ $(CC) $(CFLAGS) $(INCLUDES) -c font.c `$(OBJ_PKG_CMD)`
-
-dialog.o: data.h $(BINARY).h dialog.h dialog.c
-	@ $(ECHO) -e "\x1b[1;33m** compiling dialog.o...\x1b[0m"
-	@ $(CC) $(CFLAGS) $(INCLUDES) -c dialog.c `$(OBJ_PKG_CMD)`
-
-profile.o: data.h $(BINARY).h profile.h profile.c
-	@ $(ECHO) -e "\x1b[1;33m** compiling profile.o...\x1b[0m"
-	@ $(CC) $(CFLAGS) $(INCLUDES) -c profile.c `$(OBJ_PKG_CMD)`
-
-pagename.o: data.h $(BINARY).h pagename.h pagename.c
-	@ $(ECHO) -e "\x1b[1;33m** compiling pagename.o...\x1b[0m"
-	@ $(CC) $(CFLAGS) $(INCLUDES) -c pagename.c `$(OBJ_PKG_CMD)`
-
-property.o: data.h $(BINARY).h property.h property.c
-	@ $(ECHO) -e "\x1b[1;33m** compiling property.o...\x1b[0m"
-	@ $(CC) $(CFLAGS) $(INCLUDES) -c property.c `$(OBJ_PKG_CMD)`
-
-notebook.o: data.h $(BINARY).h notebook.h notebook.c
-	@ $(ECHO) -e "\x1b[1;33m** compiling notebook.o...\x1b[0m"
-	@ $(CC) $(CFLAGS) $(INCLUDES) -c notebook.c `$(OBJ_PKG_CMD)`
-
-window.o: data.h $(BINARY).h window.h window.c
-	@ $(ECHO) -e "\x1b[1;33m** compiling window.o...\x1b[0m"
-	@ $(CC) $(CFLAGS) $(INCLUDES) -c window.c `$(OBJ_PKG_CMD)`
-
-misc.o: data.h $(BINARY).h misc.h misc.c
-	@ $(ECHO) -e "\x1b[1;33m** compiling misc.o...\x1b[0m"
-	@ $(CC) $(CFLAGS) $(INCLUDES) -c misc.c `$(OBJ_PKG_CMD)`
-
-console.o: data.h $(BINARY).h console.h console.c
-	@ $(ECHO) -e "\x1b[1;33m** compiling console.o...\x1b[0m"
-	@ $(CC) $(CFLAGS) $(INCLUDES) -c console.c `$(OBJ_PKG_CMD)`
-
-main.o: data.h $(BINARY).h main.h main.c
-	@ $(ECHO) -e "\x1b[1;33m** compiling main.o...\x1b[0m"
-	@ $(CC) $(CFLAGS) $(INCLUDES) -c main.c `$(OBJ_PKG_CMD)`
+%.o: %.c %.h data.h $(BINARY).h
+	@ $(ECHO) -e "\x1b[1;33m** compiling $@...\x1b[0m"
+	@ $(CC) $(CFLAGS) $(INCLUDES) -c $< `$(OBJ_PKG_CMD)`
 
 .PHONY: compile
 compile: $(OBJ)
-	@ $(ECHO) -e "\x1b[1;36m** compiling $(BINARY)...\x1b[0m"
-	@ $(CC) $(LDFLAGS) $(CFLAGS) -o $(BINARY) $(OBJ) `$(BINARY_PKG_CMD)`
+	@ if [ ! -f $(BINARY) ]; then \
+		$(ECHO) -e "\x1b[1;36m** compiling $(BINARY)...\x1b[0m" ; \
+		$(CC) $(LDFLAGS) $(CFLAGS) -o $(BINARY) $(OBJ) `$(BINARY_PKG_CMD)` ; \
+	fi
+
+.PHONY: data
+data: debug
+	@ $(MAKE) -C ../po po
+
+.PHONY: install
+install: compile
+	@ echo $(PREFIX)
+	@ install -d $(DESTDIR)/$(BINDIR)
+	@ if [ -f $(BINARY) ]; then \
+		$(ECHO) -e "\x1b[1;33m** installing $(BINARY) to $(DESTDIR)/$(BINDIR)...\x1b[0m" ; \
+		install -m 755 $(BINARY) $(DESTDIR)/$(BINDIR) ; \
+	fi ; \
+
+.PHONY: uninstall
+uninstall:
+	@ - if [ -f $(DESTDIR)/$(BINDIR)/$(BINARY) ]; then \
+		$(ECHO) -e "\x1b[1;35m** deleting $(DESTDIR)/$(BINDIR)/$(BINARY)...\x1b[0m" ; \
+		rm "$(DESTDIR)/$(BINDIR)/$(BINARY)" ; \
+		$(ECHO) -e "\x1b[1;35m** deleting $(DESTDIR)/$(BINDIR)...\x1b[0m" ; \
+		rmdir -v -p --ignore-fail-on-non-empty "$(DESTDIR)/$(BINDIR)" ; \
+	else \
+		$(ECHO) -e "\x1b[1;31m** $(DESTDIR)/$(BINDIR)/$(BINARY) is NOT exist!\x1b[0m" ; \
+	fi

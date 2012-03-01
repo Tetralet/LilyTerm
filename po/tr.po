@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LilyTerm 0.9.6\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-02-14 14:29+0800\n"
+"POT-Creation-Date: 2012-02-29 09:35+0800\n"
 "PO-Revision-Date: 2010-12-14 19:09+0200\n"
 "Last-Translator: Samed Beyribey <ras0ir@eventualis.org>\n"
 "Language-Team: GNU-TR <tr@li.org>\n"
@@ -244,7 +244,7 @@ msgstr "Pencere başlığında görüntülenecek ismi giriniz:"
 msgid "Label Name:"
 msgstr "İsim:"
 
-#: dialog.c:195 profile.c:712
+#: dialog.c:195 profile.c:746
 msgid "Find string"
 msgstr "İfadeyi bul"
 
@@ -762,7 +762,7 @@ msgstr "Geçmiş Satırlar"
 msgid "Clean scrollback lines"
 msgstr "Geçmiş satırları temizle"
 
-#: menu.c:262 profile.c:684
+#: menu.c:262 profile.c:718
 msgid "Misc"
 msgstr "Çeşitli"
 
@@ -968,309 +968,309 @@ msgstr ""
 msgid "Error when creating child process"
 msgstr "Alt işlem oluşturulurken hata meydana geldi"
 
-#: profile.c:685
+#: profile.c:719
 msgid "Tab operation"
 msgstr "Sekme işlemi"
 
-#: profile.c:686
+#: profile.c:720
 msgid "Switch tab"
 msgstr "Sekme değiştir"
 
-#: profile.c:687
+#: profile.c:721
 msgid "Move tab"
 msgstr "Sekmeyi taşı"
 
-#: profile.c:688
+#: profile.c:722
 msgid "Switch to #? tab"
 msgstr "#? sekmesine geç"
 
-#: profile.c:689
+#: profile.c:723
 msgid "Text operation"
 msgstr "Yazı işlemi"
 
-#: profile.c:690
+#: profile.c:724
 msgid "Scroll up/down"
 msgstr "Yukarı/aşağı kaydır"
 
-#: profile.c:691
+#: profile.c:725
 msgid "Font"
 msgstr "Yazıtipi"
 
-#: profile.c:696
+#: profile.c:730
 msgid "Disable/Enable functions"
 msgstr "Fonksiyonları etkinleştir/pasifleştir"
 
-#: profile.c:698
+#: profile.c:732
 msgid "Disable/Enable hyperlinks, function keys and right click menu."
 msgstr ""
 "Bağlantıları, fonksiyon tuşlarını ve sağ tık menüsünü etkinleştir/"
 "pasifleştir."
 
-#: profile.c:700
+#: profile.c:734
 msgid "Add new tab"
 msgstr "Yeni sekme ekle"
 
-#: profile.c:702
+#: profile.c:736
 msgid "Add a new tab."
 msgstr "Yeni sekme ekle."
 
-#: profile.c:704
+#: profile.c:738
 msgid "Close tab"
 msgstr "Sekmeyi kapat"
 
-#: profile.c:706
+#: profile.c:740
 msgid "Close current tab."
 msgstr "Mevcut sekmeyi kapat."
 
-#: profile.c:708
+#: profile.c:742
 msgid "Rename page name"
 msgstr "Sayfa adını değiştir"
 
-#: profile.c:710
+#: profile.c:744
 msgid "Rename the page name of current tab."
 msgstr "Mevcut sekmenin sayfa adını değiştir."
 
-#: profile.c:714
+#: profile.c:748
 msgid "Find the strings matching the search regex."
 msgstr "Aranan ifadeyle eşleşen dizgileri bulur."
 
-#: profile.c:715
+#: profile.c:749
 msgid "Find previous"
 msgstr "Önceki"
 
-#: profile.c:717
+#: profile.c:751
 msgid "Find the previous string matching the search regex."
 msgstr "Eşleşen bir önceki arama ifadesine geçer."
 
-#: profile.c:718
+#: profile.c:752
 msgid "Find next"
 msgstr "Sonraki"
 
-#: profile.c:720
+#: profile.c:754
 msgid "Find the next string matching the search regex."
 msgstr "Eşleşen diğer arama ifadesine geçer."
 
-#: profile.c:722
+#: profile.c:756
 msgid "Switch to prev tab"
 msgstr "Önceki sekmeye geç"
 
-#: profile.c:724
+#: profile.c:758
 msgid "Switch to prev tab."
 msgstr "Önceki sekmeye geçiş yapar."
 
-#: profile.c:726
+#: profile.c:760
 msgid "Switch to next tab"
 msgstr "Sonraki sekmeye geç"
 
-#: profile.c:728
+#: profile.c:762
 msgid "Switch to next tab."
 msgstr "Sonraki sekmeye geçiş yapar."
 
-#: profile.c:730
+#: profile.c:764
 msgid "Switch to first tab"
 msgstr "İlk sekmeye geç"
 
-#: profile.c:732
+#: profile.c:766
 msgid "Switch to first tab."
 msgstr "İlk sekmeye geçiş yapar."
 
-#: profile.c:734
+#: profile.c:768
 msgid "Switch to last tab"
 msgstr "Son sekmeye geç"
 
-#: profile.c:736
+#: profile.c:770
 msgid "Switch to last tab."
 msgstr "Son sekmeye geçiş yapar."
 
-#: profile.c:738
+#: profile.c:772
 msgid "Move page forward"
 msgstr "Sayfayı öne taşı"
 
-#: profile.c:740
+#: profile.c:774
 msgid "Move current page forward."
 msgstr "Mevcut sayfayı öne taşır."
 
-#: profile.c:742
+#: profile.c:776
 msgid "Move page backward"
 msgstr "Sayfayı arkaya taşı"
 
-#: profile.c:744
+#: profile.c:778
 msgid "Move current page backward."
 msgstr "Mevcut sayfayı arkaya taşır."
 
-#: profile.c:746
+#: profile.c:780
 msgid "Move page to first"
 msgstr "Sayfayı başa taşı"
 
-#: profile.c:748
+#: profile.c:782
 msgid "Move current page to first."
 msgstr "Mevcut sayfayı başa taşır."
 
-#: profile.c:750
+#: profile.c:784
 msgid "Move page to last"
 msgstr "Sayfayı sona taşı"
 
-#: profile.c:752
+#: profile.c:786
 msgid "Move current page to last."
 msgstr "Mevcut sayfayı sona taşır."
 
-#: profile.c:757
+#: profile.c:791
 #, c-format
 msgid "Switch to #%d tab"
 msgstr "#%d sekmesine geç"
 
-#: profile.c:759
+#: profile.c:793
 #, c-format
 msgid "Switch #%d tab directly."
 msgstr "Doğrudan #%d sekmesine geçiş yapar."
 
-#: profile.c:763
+#: profile.c:797
 msgid "Select all"
 msgstr "Tümünü seç"
 
-#: profile.c:765
+#: profile.c:799
 msgid "Select all the text in the Vte Terminal box."
 msgstr "Vte terminalindeki tüm yazıyı seç."
 
-#: profile.c:767
+#: profile.c:801
 msgid "Copy to clipboard."
 msgstr "Panoya kopyala."
 
-#: profile.c:769
+#: profile.c:803
 msgid "Copy the text to clipboard."
 msgstr "Yazıyı panoya kopyala."
 
-#: profile.c:771
+#: profile.c:805
 msgid "Paste the text"
 msgstr "Yazıyı yapıştır"
 
-#: profile.c:773
+#: profile.c:807
 msgid "Paste the text in clipboard."
 msgstr "Panodaki yazıyı yapıştır."
 
-#: profile.c:775
+#: profile.c:809
 msgid "Increase font size"
 msgstr "Yazıtipi boyutunu büyüt"
 
-#: profile.c:777
+#: profile.c:811
 msgid "Increase the font size of current tab."
 msgstr "Mevcut sekmenin yazıtipi boyutunu büyüt."
 
-#: profile.c:779
+#: profile.c:813
 msgid "Decrease font size"
 msgstr "Yazıtipi boyutunu küçült"
 
-#: profile.c:781
+#: profile.c:815
 msgid "Decrease the font size of current tab."
 msgstr "Mevcut sekmenin yazıtipi boyutunu küçült."
 
-#: profile.c:783
+#: profile.c:817
 msgid "Reset font size"
 msgstr "Yazıtipi boyutunu sıfırla"
 
-#: profile.c:785
+#: profile.c:819
 msgid "Reset the font of current tab to original size."
 msgstr "Yazıtipini öntanımlı değere sıfırla."
 
-#: profile.c:787
+#: profile.c:821
 msgid "Maximum the window"
 msgstr "Pencereyi Büyüt"
 
-#: profile.c:789
+#: profile.c:823
 msgid "Try to maximum the window to use all available space on your display."
 msgstr "Pencereyi ekranın kullanılabilir kısmının tamamına yayar."
 
-#: profile.c:791
+#: profile.c:825
 msgid "Full screen"
 msgstr "Tam ekran"
 
-#: profile.c:793
+#: profile.c:827
 msgid "Asks to place window in the fullscreen/unfullscreen state."
 msgstr "Pencereyi normal görünümde veya tam ekranda görüntülemeyi sağlar."
 
-#: profile.c:795
+#: profile.c:829
 msgid "Scroll up"
 msgstr "Yukarı kaydır"
 
-#: profile.c:797
+#: profile.c:831
 msgid "Emulate a mouse scroll up event on Vte Terminal box."
 msgstr "Vte terminalinde farenin yukarı kaydırma tuşunu taklit et."
 
-#: profile.c:799
+#: profile.c:833
 msgid "Scroll down"
 msgstr "Aşağı kaydır"
 
-#: profile.c:801
+#: profile.c:835
 msgid "Emulate a mouse scroll down event on Vte Terminal box."
 msgstr "Vte terminalinde farenin aşağı kaydırma tuşunu taklit et."
 
-#: profile.c:803
+#: profile.c:837
 msgid "Scroll up 1 line"
 msgstr "1 satır yukarı kaydır"
 
-#: profile.c:805
+#: profile.c:839
 msgid "Asks to scroll up 1 line on Vte Terminal box."
 msgstr "Vte terminalinde 1 satır yukarıya kaydırmanızı istemektedir."
 
-#: profile.c:807
+#: profile.c:841
 msgid "Scroll down 1 line"
 msgstr "1 satır aşağı kaydır"
 
-#: profile.c:809
+#: profile.c:843
 msgid "Asks to scroll down 1 line on Vte Terminal box."
 msgstr "Vte terminalinde 1 satır aşağıya kaydırmanızı istemektedir."
 
-#: profile.c:815
+#: profile.c:849
 msgid "Dump runtime debug data"
 msgstr "Açılış hata ayıklama çıktısını bas"
 
-#: profile.c:817
+#: profile.c:851
 msgid "Dump the runtime data of LilyTerm for debug."
 msgstr ""
 "Hata ayıklama çıktısını görmek için Lilyterm'in açılış verisini gösterir."
 
-#: profile.c:845
+#: profile.c:879
 msgid "Window Title"
 msgstr "Pencere Başlığı"
 
-#: profile.c:846
+#: profile.c:880
 msgid "Running Command"
 msgstr "Çalışan Komut"
 
-#: profile.c:847
+#: profile.c:881
 msgid "Current Dir"
 msgstr "Dizin"
 
-#: profile.c:848
+#: profile.c:882
 msgid "Custom Tab Name"
 msgstr "Özel Sekme Adı"
 
-#: profile.c:849
+#: profile.c:883
 msgid "Root Privileges"
 msgstr "Root Yetkileri"
 
-#: profile.c:850
+#: profile.c:884
 msgid "Normal Text"
 msgstr "Normal Yazı"
 
-#: profile.c:2499
+#: profile.c:2533
 msgid "The target file does NOT exist"
 msgstr "Hedef dosya mevcut DEĞİL"
 
-#: profile.c:2510
+#: profile.c:2544
 msgid "The target file is a directory"
 msgstr "Hedef dosya bir dizin"
 
-#: profile.c:2558
+#: profile.c:2592
 #, c-format
 msgid "Error while writing profile '%s':"
 msgstr "'%s' profili yazılırken hata oluştu:"
 
-#: profile.c:2563
+#: profile.c:2597
 msgid "Error when writing profile"
 msgstr "Profil kaydedilirken hata oluştu"
 
-#: profile.c:2694
+#: profile.c:2728
 msgid ""
 "Some entry in profile is added, removed, or changed in this version.\n"
 "Please use [Save settings] on the right click menu to save your settings,\n"
@@ -1280,7 +1280,7 @@ msgstr ""
 "Lütfen menüye sağ tıklayarak [Ayarları kaydet] seçeneğini kullanın\n"
 "veya yapılandırma dosyasını elle düzenleyin.\n"
 
-#: profile.c:2700
+#: profile.c:2734
 #, c-format
 msgid ""
 "%s\n"
@@ -1289,11 +1289,11 @@ msgstr ""
 "%s\n"
 "Kullandığınız profil %s."
 
-#: profile.c:2703
+#: profile.c:2737
 msgid "The format of your profile is out of date"
 msgstr "Profil biçiminiz güncel değil"
 
-#: profile.c:2731 profile.c:2734
+#: profile.c:2765 profile.c:2768
 #, c-format
 msgid ""
 "The profile \"%s\" is invalid:\n"
@@ -1304,7 +1304,7 @@ msgstr ""
 "\n"
 "\t%s"
 
-#: profile.c:2742
+#: profile.c:2776
 msgid "The profile is invalid!"
 msgstr "Profil geçersiz!"
 
@@ -1317,6 +1317,15 @@ msgstr "\tPencere #%d, Sayfa #%d: (%d) %s\n"
 #, c-format
 msgid "\tPage #%d: (%d) %s\n"
 msgstr "\tSayfa #%d: (%d) %s\n"
+
+#, fuzzy
+#~| msgid ""
+#~| "%s is a libvte based X Terminal Emulator.\n"
+#~| "\n"
+#~ msgid "A light and easy to use libvte based X Terminal Emulator"
+#~ msgstr ""
+#~ "%s libvte tabanlı bir X Terminal Öykünücüsüdür.\n"
+#~ "\n"
 
 #~ msgid "Set function key value"
 #~ msgstr "Fonksiyon tuşu değerini ata"
