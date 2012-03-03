@@ -1504,7 +1504,7 @@ void get_user_settings(struct Window *win_data, const gchar *encoding)
 				//	system_keys[i].name, win_data->user_keys[i].value, win_data->user_keys[i].value);
 				value = g_key_file_get_value(keyfile, "key", system_keys[i].name, NULL);
 				// value = check_string_value(keyfile, "key", system_keys[i].name,
-				//			   g_strdup(win_data->user_keys[i].value), ENABLE_EMPTY_STR); 
+				//			   g_strdup(win_data->user_keys[i].value), ENABLE_EMPTY_STR);
 				// g_debug("Get %s (%p) from g_key_file_get_value()...", value, value);
 				if (value && (value[0]!='\0'))
 					convert_string_to_user_key(i, value, win_data);

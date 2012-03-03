@@ -48,7 +48,7 @@ $(BINARY).1.gz:
 		gzip $(BINARY).1 ; \
 	fi
 
-.PHONY: clean 
+.PHONY: clean
 clean:
 	@ if [ -f $(BINARY).conf ]; then \
 		$(ECHO) -e "\x1b[1;35m** deleteing $(BINARY).conf...\x1b[0m" ; \
@@ -58,13 +58,13 @@ clean:
 		$(ECHO) -e "\x1b[1;35m** unziping $(BINARY).1...\x1b[0m" ; \
 		gzip -d  $(BINARY).1.gz ; \
 	fi
-	
+
 .PHONY: install
 install: all
 	@ $(ECHO) -e "\x1b[1;33m** installing $(BINARY).conf to $(DESTDIR)/$(ETCDIR)...\x1b[0m"
 	@ install -d $(DESTDIR)/$(ETCDIR)
 	@ install -m 644 $(BINARY).conf $(DESTDIR)/$(ETCDIR)
-	
+
 	@ $(ECHO) -e "\x1b[1;33m** installing AUTHORS COPYING ChangeLog to $(DESTDIR)/$(DOCDIR)...\x1b[0m"
 	@ install -d $(DESTDIR)/$(DOCDIR)
 	@ install -m 644 ../AUTHORS ../COPYING ../ChangeLog $(DESTDIR)/$(DOCDIR)
@@ -72,19 +72,19 @@ install: all
 	@ $(ECHO) -e "\x1b[1;33m** installing $(BINARY).1.gz to $(DESTDIR)/$(MANDIR)...\x1b[0m"
 	@ install -d $(DESTDIR)/$(MANDIR)
 	@ install -m 644 $(BINARY).1.gz $(DESTDIR)/$(MANDIR)
-	
+
 	@ $(ECHO) -e "\x1b[1;33m** installing $(BINARY).desktop to $(DESTDIR)/$(DESKTOP_DIR)...\x1b[0m"
 	@ install -d $(DESTDIR)/$(DESKTOP_DIR)
 	@ install -m 644  $(BINARY).desktop $(DESTDIR)/$(DESKTOP_DIR)
-	
+
 	@ $(ECHO) -e "\x1b[1;33m** installing $(BINARY).png $(BINARY).xpm to $(DESTDIR)/$(ICONDIR)...\x1b[0m"
 	@ install -d $(DESTDIR)/$(ICONDIR)
 	@ install -m 644 $(BINARY).png $(BINARY).xpm $(DESTDIR)/$(ICONDIR)
-	
+
 	@ $(ECHO) -e "\x1b[1;33m** installing $(BINARY).conf to $(DESTDIR)/$(EXAMPLES_DIR)...\x1b[0m"
 	@ install -d $(DESTDIR)/$(EXAMPLES_DIR)
 	@ install -m 644 $(BINARY).conf $(DESTDIR)/$(EXAMPLES_DIR)
-	
+
 ifeq ($(GNOME_CONTROL_CENTER), Y)
     ifneq ($(GNOME_CONTROL_CENTER_DIR), )
 	@ $(ECHO) -e "\x1b[1;33m** installing $(BINARY).xml to $(DESTDIR)/$(GNOME_CONTROL_CENTER_DIR)...\x1b[0m"
@@ -100,8 +100,11 @@ uninstall:
 			$(ECHO) -e "\x1b[1;35m** "deleting $$FileName..."\x1b[0m" ; \
 			rm -f "$$FileName" ; \
 			DirName=`dirname $$FileName` ; \
-			$(ECHO) -e "\x1b[1;35m** "deleting $$DirName..."\x1b[0m" ; \
-			rmdir -p --ignore-fail-on-non-empty "$$DirName" ; \
+			until [ -n "`ls -A $$DirName`" -o "$$DirName" = "$(DESTDIR)/$(PREFIX)" ]; do \
+				$(ECHO) -e "\x1b[1;35m** deleting $$DirName...\x1b[0m" ; \
+				rmdir "$$DirName" ; \
+				DirName=`dirname $$DirName` ; \
+			done \
 		else \
 			$(ECHO) -e "\x1b[1;31m** "$$FileName is NOT exist!"\x1b[0m"; \
 		fi ; \

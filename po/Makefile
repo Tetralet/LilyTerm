@@ -28,7 +28,7 @@ pot:
 
 $(BINARY).pot: pot
 
-.PHONY: po 
+.PHONY: po
 po: $(PO_LIST)
 
 %.po: $(BINARY).pot
@@ -39,7 +39,7 @@ po: $(PO_LIST)
 	@ $(ECHO) -e "\x1b[1;33m** creating $@...\x1b[0m"
 	-msgfmt --check --statistics $< -o $@
 
-.PHONY: clean 
+.PHONY: clean
 clean:
 	@ for FILE in $(MO_LIST); do \
 		if [ -f $$FILE ]; then \
@@ -47,7 +47,7 @@ clean:
 			rm $$FILE ; \
 		fi ; \
 	done
-	
+
 .PHONY: install
 install: all
 	@ install -d $(DESTDIR)/$(LOCALEDIR)
@@ -64,8 +64,12 @@ uninstall:
 		if [ -f $(DESTDIR)/$(LOCALEDIR)/$$FILE ]; then \
 			$(ECHO) -e "\x1b[1;35m** deleting $(DESTDIR)/$(LOCALEDIR)/$$FILE...\x1b[0m" ; \
 			rm "$(DESTDIR)/$(LOCALEDIR)/$$FILE" ; \
-			$(ECHO) -e "\x1b[1;35m** deleting $(DESTDIR)/$(LOCALEDIR)...\x1b[0m" ; \
-			rmdir -p --ignore-fail-on-non-empty "$(DESTDIR)/$(LOCALEDIR)" ; \
+			DirName="$(DESTDIR)/$(LOCALEDIR)" ; \
+			until [ -n "`ls -A $$DirName`" -o "$$DirName" = "$(DESTDIR)/$(PREFIX)" ]; do \
+				$(ECHO) -e "\x1b[1;35m** deleting $$DirName...\x1b[0m" ; \
+				rmdir "$$DirName" ; \
+				DirName=`dirname $$DirName` ; \
+			done \
 		else \
 			$(ECHO) -e "\x1b[1;31m** $(DESTDIR)/$(LOCALEDIR)/$$FILE is NOT exist!\x1b[0m" ; \
 		fi ; \

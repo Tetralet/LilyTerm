@@ -522,7 +522,7 @@ gboolean dialog(GtkWidget *widget, gsize style)
 				win_data->show_tabs_bar = FORCE_ON;
 			else
 				win_data->show_tabs_bar = FORCE_OFF;
-				
+
 			init_locale_restrict_data(win_data->runtime_LC_MESSAGES);
 			gint page_color_type = style - CHANGE_THE_TEXT_COLOR_OF_WINDOW_TITLE;
 			temp_str[0] = g_strdup_printf(_("Change the %s color on tab"),
@@ -2324,7 +2324,7 @@ gboolean grab_key_press (GtkWidget *window, GdkEventKey *event, struct Dialog *d
 		if (page_data==NULL) continue;
 #endif
 		// g_debug("Send key %s to vte %p!!", key_value, page_data->vte);
-		// gtk_test_widget_send_key (page_data->vte, event->keyval, event->state); 
+		// gtk_test_widget_send_key (page_data->vte, event->keyval, event->state);
 		gtk_widget_event(page_data->vte, (GdkEvent *)event);
 	}
 	g_free(key_value);

@@ -529,7 +529,7 @@ gchar *colorful_max_new_lines(gchar *string, gint max, gint output_line)
 	gint total = 0;
 	gchar *color_str = g_strdup("");
 	gint star_start = 0;
-	
+
 	while (string[i])
 	{
 		char separate;
@@ -582,7 +582,7 @@ gchar *colorful_max_new_lines(gchar *string, gint max, gint output_line)
 				color_str = new_str;
 				string[i] = separate;
 				star_start = i+1;
-	
+
 				// g_debug("colorful_max_new_lines(): color_str = %s", color_str);
 			}
 		}

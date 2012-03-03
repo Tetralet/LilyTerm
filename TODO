@@ -4,7 +4,7 @@ BUG:
 
 check window_resizable
 
-add a new tab, and increase the font size of 1st tab, close 2nd tab, the window size is incorrect. 
+add a new tab, and increase the font size of 1st tab, close 2nd tab, the window size is incorrect.
 check every externs...
 the environ won't copy from last tab <- very hard to fix it.
 ** antialias don't work in new libvte

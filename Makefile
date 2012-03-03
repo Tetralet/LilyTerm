@@ -44,9 +44,16 @@ uninstall:
 ifeq ($(NLS), Y)
 	@ $(MAKE) -C po uninstall
 endif
-
+	@ if [ -z "`ls -A "$(DESTDIR)/$(PREFIX)"`" ]; then \
+		$(ECHO) "===========================================" ; \
+		$(ECHO) -e "\x1b[1;31m** WARNING: \"$(DESTDIR)/$(PREFIX)\" is empty. Please remove it manually if necessary.\x1b[0m" ; \
+		$(ECHO) "===========================================" ; \
+	fi
 distclean: clean
-	@ rm .config
+	@ if [ -f .config ]; then \
+		$(ECHO) -e "\x1b[1;35m** deleting .config...\x1b[0m" ; \
+		rm .config ; \
+	fi
 
 .config: configure
 	@ ./configure > /dev/null

@@ -1,4 +1,4 @@
-# Flemish/Dutch translation of LilyTerm. 
+# Flemish/Dutch translation of LilyTerm.
 # Copyright (C) 2010 Adrian Buyssens <howitzer@archlinux.us>
 # This file is distributed under the same license as the LilyTerm package.
 #

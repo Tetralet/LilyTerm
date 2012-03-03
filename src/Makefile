@@ -175,8 +175,12 @@ uninstall:
 	@ - if [ -f $(DESTDIR)/$(BINDIR)/$(BINARY) ]; then \
 		$(ECHO) -e "\x1b[1;35m** deleting $(DESTDIR)/$(BINDIR)/$(BINARY)...\x1b[0m" ; \
 		rm "$(DESTDIR)/$(BINDIR)/$(BINARY)" ; \
-		$(ECHO) -e "\x1b[1;35m** deleting $(DESTDIR)/$(BINDIR)...\x1b[0m" ; \
-		rmdir -v -p --ignore-fail-on-non-empty "$(DESTDIR)/$(BINDIR)" ; \
+		DirName="$(DESTDIR)/$(BINDIR)" ; \
+		until [ -n "`ls -A $$DirName`" -o "$$DirName" = "$(DESTDIR)/$(PREFIX)" ]; do \
+			$(ECHO) -e "\x1b[1;35m** deleting $$DirName...\x1b[0m" ; \
+			rmdir "$$DirName" ; \
+			DirName=`dirname $$DirName` ; \
+		done \
 	else \
 		$(ECHO) -e "\x1b[1;31m** $(DESTDIR)/$(BINDIR)/$(BINARY) is NOT exist!\x1b[0m" ; \
 	fi

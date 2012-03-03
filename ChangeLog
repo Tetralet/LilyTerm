@@ -79,7 +79,7 @@
 	* The profile option 'window_opacity', 'background_saturation',
 	  'font_resize_ratio', 'window_resize_ratio', 'brightness' and
 	  'inactive_brightness' won't be saved correctly under it_IT locale.
-	  VERY THANKS to Marco Paolone for report this strange bug. 
+	  VERY THANKS to Marco Paolone for report this strange bug.
 
   New Feature:
 	* Applied new Flemish/Dutch translations.
@@ -204,7 +204,7 @@
 	  Thanks nasofe for report this bug.
 	* Better behavior when there is no '/proc' or the '/proc' is empty.
 	* Better behavior if the child process has became zombie or exited
-	  immediately. 
+	  immediately.
 
   New Feature:
 	* New menuitem: [Set the function key] instead of [Get the function
@@ -283,7 +283,7 @@
 	  If a program is running on foreground, Don't need to confirm for
 	  terminating it if it's in the whitelist.
 	* New profile option: "background_program_whitelist".
-	  If a program is running in background, Don't need to confirm for 
+	  If a program is running in background, Don't need to confirm for
 	  terminating it if it's in the whitelist.
 	* New profile option: "show_close_button_on_tab".
 	  May Show a close button [X] on current tab.
@@ -411,7 +411,7 @@
 	  is launched with "zh_TW.UTF-8 lilyterm". (0.9.7~pre7)
 	* Better behavior when run with LC_ALL=zh_TW (not zh_TW.Big5).
 	  (0.9.7~pre7)
-	  Thanks to Balázs Hámorszky for reporting and testing this bug. 
+	  Thanks to Balázs Hámorszky for reporting and testing this bug.
 	* Using gdk_spawn_on_screen_with_pipes() instead of vfork()/execvp()
 	  when clicking on a hyperlink, or it will cause zombie process.
 	  (0.9.7~pre8)
@@ -558,13 +558,13 @@
 	* No warning dialog if there is no "format version" in profile.
 	  Thanks caleb for this idea. (0.9.7)
 	* The new page will be placed next to the current page. (0.9.7)
-	
+
 2008-7-25 Lu, Chao-Ming (Tetralet) <tetralet@gmail.com>
 
   version 0.9.6
 
   For GJK users:
-	
+
 	If your vte is >= 0.16.14 (Debian Lenny), and you want to enable
 	VTE_CJK_WIDTH, Please make sure that you have applied the patch on
 	http://bugzilla.gnome.org/show_bug.cgi?id=542795.
@@ -706,7 +706,7 @@
 	    page_dir_color = darkgreen
 	    page_custom_color = darkred
 	    page_normal_color = black
-	  
+
 	  in your profile, or use `use_color_page = 0' to disable it.
 	* Shows the PWD (current directory) on page name.
 	  Enable it will NOT cause performance problem. Lilyterm with 100 tabs

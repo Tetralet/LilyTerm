@@ -653,7 +653,7 @@ void set_urgent_bell(GtkWidget *menuitem_urgent_bell, struct Window *win_data)
 	//	"win_data->lost_focus = %d, menu_activated = %d, dialog_activated = %d",
 	//	win_data->urgent_bell, win_data->urgent_bell_status, win_data->lost_focus, menu_activated, dialog_activated);
 	if ((win_data->urgent_bell_status == win_data->urgent_bell) ||
-	    (win_data->urgent_bell && ((win_data->lost_focus == FALSE) || 
+	    (win_data->urgent_bell && ((win_data->lost_focus == FALSE) ||
 	    			       menu_activated || dialog_activated)))
 		return;
 
@@ -1362,7 +1362,7 @@ gboolean refresh_locale_and_encoding_list(struct Window *win_data)
 								     "UTF-8",
 								     init_encoding,
 								     win_data->runtime_encoding);
-			
+
 	}
 	else
 	{

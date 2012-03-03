@@ -125,7 +125,7 @@ gboolean monitor_cmdline(struct Page *page_data)
 	g_debug("! Launch monitor_cmdline() with page_data = %p", page_data);
 #endif
 #ifdef DEFENSIVE
-	if ((page_data==NULL) || (page_data->lost_focus==NULL) || (page_data->keep_vte_size==NULL) || 
+	if ((page_data==NULL) || (page_data->lost_focus==NULL) || (page_data->keep_vte_size==NULL) ||
 	    (page_data->current_vte==NULL) || (page_data->window_title_tpgid==NULL)) return FALSE;
 #endif
 	gboolean lost_focus = *(page_data->lost_focus);

@@ -328,7 +328,7 @@ for DATA in `cat $LIB_LISTS | sed '/^\/\*/,/ \*\/$/d' | sed -e 's/[ \t]*\/\*[ \t
 							*)
 								echo "ERROR: $STR NOT Found!" 1>&2
 								exit
-								;;	
+								;;
 						esac
 						FUNC_END="$FUN_DATA$SPACE}\n$FUNC_END"
 						unset FUN_DATA
@@ -375,9 +375,9 @@ for DATA in `cat $LIB_LISTS | sed '/^\/\*/,/ \*\/$/d' | sed -e 's/[ \t]*\/\*[ \t
 	for FILE in *.h; do
 		echo "#include \"$FILE\"" >> unit_test.c
 	done
-	
+
 	cat >> unit_test.c << EOF
-	
+
 int main(int argc, char *argv[])
 {
 EOF
@@ -389,10 +389,10 @@ fi
 	cat >> unit_test.c << EOF
   gtk_init(&argc, &argv);
 EOF
-	
+
 	# echo "GOT FULL_FUNCTION = $FULL_FUNCTION"
 	echo "$FULL_FUNCTION" | sed -e 's/\\n/\n/g' | sed -e 's/_SPACE_/  /g' >> unit_test.c
-	
+
 	cat >> unit_test.c << EOF
   return 0;
 }
@@ -400,14 +400,14 @@ EOF
 	if [ $NO_TEST -eq 0 ]; then
 		echo -e "\x1b[1;36m$FUNC_NAME(): \x1b[1;33m** Compiling \x1b[1;32munit_test\x1b[0m\x1b[1;33m...\x1b[0m"
 		$CC $CFLAGS $INCLUDES -o unit_test unit_test.c $OBJ `$PKGCONFIG --cflags --libs $GTK $VTE` || exit 1
-	
+
 		if [ $GDB -eq 1 ]; then
 			echo -e "\x1b[1;36m$FUNC_NAME(): \x1b[1;33m** Testing with gdb...\x1b[0m"
 			echo "Testing $FUNC_NAME() with gdb..." >> lilyterm_gdb.log
 			time gdb -batch -x ./lilyterm.gdb ./unit_test >> lilyterm_gdb.log 2>&1
 			echo "" >> lilyterm_gdb.log
 		fi
-	
+
 		if [ $VALGRIND -eq 1 ]; then
 			echo -e "\x1b[1;36m$FUNC_NAME(): \x1b[1;33m** Testing with valgrind...\x1b[0m"
 			echo "Testing $FUNC_NAME() with valgrind..." >> lilyterm_valgrind.log
