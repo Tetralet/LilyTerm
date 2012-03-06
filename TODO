@@ -24,7 +24,13 @@ sort menu via profile
 a scroll bar menu
 Save settings that diff and full
 ** replace sleep with time_out
-
+** better about dialog
+** custom URL match
+** custom protocal matches <- very hard to implement
+** fix solarized ansi color themes.
+** sometimes the running command shows on tab is incorrect.
+** check gettext under older build system (Debian Sarge)
+** the copy/paste key -> <ctrl><shift><c>/<ctrl><shift><v>
 
 Deprecated:
 
