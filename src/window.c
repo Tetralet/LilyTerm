@@ -1808,8 +1808,10 @@ void clear_win_data(struct Window *win_data)
 //		current_vte = NULL;
 //	}
 
+#ifndef UNIT_TEST
 	// g_debug("clear_win_data: clear win_data = %p for window = %p!", win_data, win_data->window);
 	g_free(win_data);
+#endif
 
 	// win_data=NULL;
 }
