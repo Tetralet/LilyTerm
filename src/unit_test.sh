@@ -157,6 +157,7 @@ for DATA in `cat $LIB_LISTS | sed '/^\/\*/,/ \*\/$/d' | sed -e 's/[ \t]*\/\*[ \t
 					# sed -e 's/^.* \**\([^ ]*\)/\1/g': clear the declare, like "gchar **"
 					FUNC_NAME=`echo $STR | sed -e 's/_SPACE_/ /g' | sed -e 's/^ *//g' | sed -e 's/ *$//g' | sed -e 's/^.* \**\([^ ]*\)/\1/g'`
 					# echo "GOT FUNC_NAME = $FUNC_NAME"
+					echo -e "\x1b[1;36m$FUNC_NAME(): \x1b[1;33m** Createing unit_test.c...\x1b[0m"
 				fi
 				;;
 			1)
@@ -206,7 +207,7 @@ for DATA in `cat $LIB_LISTS | sed '/^\/\*/,/ \*\/$/d' | sed -e 's/[ \t]*\/\*[ \t
 						unset FUN_DATA
 						SPACE=$OLD_SPACE
 						;;
-					'gboolean' | 'gchar' | 'guint' | 'GtkScrollType' | 'gint' | 'pid_t' | 'int' | 'gsize' | 'glong' | 'GdkColor' | 'Dialog_Button_Type' | 'Dialog_Find_Type' | 'Dialog_Type_Flags' | 'Font_Name_Type' | 'Font_Reset_Type' | 'Switch_Type' | 'Font_Set_Type' | 'GtkFileChooserAction' | 'GIOCondition' | 'Check_Zero' | 'Check_Max' | 'Check_Min' | 'Check_Empty' | 'Menu_Itemn_Type' | 'Apply_Profile_Type' | 'gchar*' | 'char*' | 'StrLists*' | 'StrAddr**' | 'gdouble' | 'struct Dialog*' | 'struct Window*' | 'struct Page*' | 'struct Color_Data*' | 'struct Preview*' | 'GtkButton*' | 'GtkCellRenderer*' | 'GtkRange*' | 'gchar**' | 'char*[]' | 'char**' | 'gsize*' | 'GString*' | 'GtkNotebook*' | 'GdkColor*' | 'GdkColor []' | 'VteTerminal*'  | 'gboolean*' | 'gint*' | 'guint*')
+					'gboolean' | 'gchar' | 'guint' | 'GtkScrollType' | 'gint' | 'pid_t' | 'int' | 'gsize' | 'glong' | 'GdkColor' | 'Dialog_Button_Type' | 'Dialog_Find_Type' | 'Dialog_Type_Flags' | 'Font_Name_Type' | 'Font_Reset_Type' | 'Switch_Type' | 'Font_Set_Type' | 'GtkFileChooserAction' | 'GIOCondition' | 'Check_Zero' | 'Check_Max' | 'Check_Min' | 'Check_Empty' | 'Menu_Itemn_Type' | 'Apply_Profile_Type' | 'Clipboard_Type' | 'gchar*' | 'char*' | 'StrLists*' | 'StrAddr**' | 'gdouble' | 'struct Dialog*' | 'struct Window*' | 'struct Page*' | 'struct Color_Data*' | 'struct Preview*' | 'GtkButton*' | 'GtkCellRenderer*' | 'GtkRange*' | 'gchar**' | 'char*[]' | 'char**' | 'gsize*' | 'GString*' | 'GtkNotebook*' | 'GdkColor*' | 'GdkColor []' | 'VteTerminal*'  | 'gboolean*' | 'gint*' | 'guint*')
 						SPACE="$SPACE""_SPACE_"
 						VAR=`expr $VAR + 1`
 						if [ $MAX_VAR -le $VAR ]; then
@@ -226,7 +227,7 @@ for DATA in `cat $LIB_LISTS | sed '/^\/\*/,/ \*\/$/d' | sed -e 's/[ \t]*\/\*[ \t
 								FUNC_STAR="$FUNC_STAR\n$SPACE""_SPACE_""if (V[$VAR]) G$VAR = ($STR)&(V$VAR);"
 								FUNCTION="$FUNCTION G$VAR,"
 								;;
-							'Dialog_Button_Type' | 'Dialog_Find_Type' | 'Dialog_Type_Flags' | 'Font_Name_Type' | 'Font_Reset_Type' | 'Switch_Type' | 'Font_Set_Type' | 'Check_Zero' | 'Check_Max' | 'Check_Min' | 'Check_Empty' | 'Menu_Itemn_Type' | 'Apply_Profile_Type')
+							'Dialog_Button_Type' | 'Dialog_Find_Type' | 'Dialog_Type_Flags' | 'Font_Name_Type' | 'Font_Reset_Type' | 'Switch_Type' | 'Font_Set_Type' | 'Check_Zero' | 'Check_Max' | 'Check_Min' | 'Check_Empty' | 'Menu_Itemn_Type' | 'Apply_Profile_Type' | 'Clipboard_Type')
 								LAST=`grep -B 1 "$STR;" *.h | head -n 1 | sed -e 's/^.*[ \t][ \t]*\([^ \t]*\),.*/\1/g'`
 								FUNC_STAR="$FUNC_STAR\n$SPACE""for (V[$VAR]=0; V[$VAR]<=$LAST; V[$VAR]++) {"
 								FUNC_STAR="$FUNC_STAR\n$SPACE""_SPACE_""$STR V$VAR = V[$VAR];"
