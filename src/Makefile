@@ -72,13 +72,13 @@ default: INCLUDES := $(INCLUDES) -DVERSION=\"$(VERSION)\ \($(date)\)\"
 ifeq ($(DEBUG), Y)
 default: INCLUDES += -DDEBUG -DFATAL
 endif
-default: compile
+default: $(BINARY)
 
 .PHONY: debug
 debug: CFLAGS := $(CFLAGS) -g
 debug: INCLUDES := $(INCLUDES) -DDEFENSIVE -DDEBUG -DFATAL -DVERSION=\"$(VERSION)\ Debug\ Version\ \($(date)\)\"
 debug: BINARY := $(BINARY)_dbg
-debug: compile
+debug: $(BINARY)
 
 .PHONY: dev
 dev: develop
@@ -87,7 +87,7 @@ dev: develop
 develop: CFLAGS := $(CFLAGS) -g
 develop: INCLUDES := $(INCLUDES) -DDEBUG -DFATAL -DDEVELOP -DVERSION=\"$(VERSION)\ Develop\ Version\ \($(date)\)\"
 develop: BINARY := $(BINARY)_dev
-develop: compile
+develop: $(BINARY)
 
 .PHONY: ddev
 ddev: defensive-develop
@@ -95,25 +95,25 @@ ddev: defensive-develop
 defensive-develop: CFLAGS := $(CFLAGS) -g
 defensive-develop: INCLUDES := $(INCLUDES) -DDEFENSIVE -DDEBUG -DFATAL -DDEVELOP -DVERSION=\"$(VERSION)\ Develop\ Version\ \($(date)\)\"
 defensive-develop: BINARY := $(BINARY)_dev
-defensive-develop: compile
+defensive-develop: $(BINARY)
 
 .PHONY: detail
 detail: CFLAGS := $(CFLAGS) -g
 detail: INCLUDES := $(INCLUDES) -DGEOMETRY -DDEBUG -DFATAL -DDEVELOP -DDETAIL -DVERSION=\"$(VERSION)\ Develop\ Version\ \($(date)\)\"
 detail: BINARY := $(BINARY)_dev
-detail: compile
+detail: $(BINARY)
 
 .PHONY: full
 full: CFLAGS := $(CFLAGS) -g
 full: INCLUDES := $(INCLUDES) -DGEOMETRY -DDEBUG -DFATAL -DDEVELOP -DDETAIL -DFULL -DVERSION=\"$(VERSION)\ Develop\ Version\ \($(date)\)\"
 full: BINARY := $(BINARY)_dev
-full: compile
+full: $(BINARY)
 
 .PHONY: geometry
 geometry: CFLAGS := $(CFLAGS) -g
 geometry: INCLUDES := $(INCLUDES) -DGEOMETRY -DDEBUG -DFATAL -DDEVELOP -DVERSION=\"$(VERSION)\ Develop\ Version\ \($(date)\)\"
 geometry: BINARY := $(BINARY)_dev
-geometry: compile
+geometry: $(BINARY)
 
 .PHONY: ut
 ut: unit_test
@@ -135,7 +135,7 @@ unit_test_full: $(OBJ)
 memory: CFLAGS := $(CFLAGS) -g
 memory: INCLUDES := $(INCLUDES) -DDEBUG -DFATAL -DDEVELOP -DDEFENSIVE -DOUT_OF_MEMORY -DVERSION=\"$(VERSION)\ Develop\ Version\ \($(date)\)\"
 memory: BINARY := $(BINARY)_dev
-memory: compile
+memory: $(BINARY)
 
 .PHONY: clean
 clean:
@@ -151,19 +151,16 @@ clean:
 	@ $(ECHO) -e "\x1b[1;33m** compiling $@...\x1b[0m"
 	@ $(CC) $(CFLAGS) $(INCLUDES) -c $< `$(OBJ_PKG_CMD)`
 
-.PHONY: compile
-compile: $(OBJ)
-	@ if [ ! -f $(BINARY) ]; then \
-		$(ECHO) -e "\x1b[1;36m** compiling $(BINARY)...\x1b[0m" ; \
-		$(CC) $(LDFLAGS) $(CFLAGS) -o $(BINARY) $(OBJ) `$(BINARY_PKG_CMD)` ; \
-	fi
+$(BINARY): $(OBJ)
+	@ $(ECHO) -e "\x1b[1;36m** compiling $(BINARY)...\x1b[0m"
+	@ $(CC) $(LDFLAGS) $(CFLAGS) -o $(BINARY) $(OBJ) `$(BINARY_PKG_CMD)`
 
 .PHONY: data
 data: debug
 	@ $(MAKE) -C ../po po
 
 .PHONY: install
-install: compile
+install: $(BINARY)
 	@ echo $(PREFIX)
 	@ install -d $(DESTDIR)/$(BINDIR)
 	@ if [ -f $(BINARY) ]; then \
