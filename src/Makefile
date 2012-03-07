@@ -6,6 +6,8 @@
 #	make dev: compile lilyeterm_dev with CLAGS -g.
 #	make ddev: compile lilyeterm_dev with -DDEFENSIVE compile option.
 #	make ut: run a tiny unit testing script with gdb debug information.
+#	make utc: check the unit testing script.
+#	make utd: run a tiny unit testing script with full runtime debug information.
 #	make utf: run a tiny unit testing script with glib, gtk, gdb and valgrind debug information.
 #	make geometry: compile lilyeterm_dev with geometry debug information.
 #	make detail: compile lilyeterm_dev with detail runtime debug information.
@@ -121,6 +123,23 @@ ut: unit_test
 unit_test: CFLAGS := $(CFLAGS) -g
 unit_test: INCLUDES := $(INCLUDES) -DDEFENSIVE -DDEBUG -DFATAL -DDEVELOP -DUNIT_TEST -DVERSION=\"$(VERSION)_UNIT_TEST_$(date)\"
 unit_test: $(OBJ)
+	@ sh unit_test.sh "$(INCLUDES)" --enable-gdb
+
+.PHONY: utc
+utc: unit_test_check
+.PHONY: unit_test_check
+unit_test_check: CFLAGS := $(CFLAGS) -g
+unit_test_check: INCLUDES := $(INCLUDES) -DDEFENSIVE -DDEBUG -DFATAL -DDEVELOP -DUNIT_TEST -DVERSION=\"$(VERSION)_UNIT_TEST_$(date)\"
+unit_test_check: $(OBJ)
+	@ sh unit_test.sh "$(INCLUDES)" --create_program_only
+
+.PHONY: utd
+utd: unit_test_debug
+.PHONY: unit_test_debug
+unit_test_debug: CFLAGS := $(CFLAGS) -g
+unit_test_debug: INCLUDES := $(INCLUDES) -DDEFENSIVE -DGEOMETRY -DDEBUG -DFATAL -DDEVELOP -DDETAIL -DFULL -DUNIT_TEST -DVERSION=\"$(VERSION)_UNIT_TEST_$(date)\"
+unit_test_debug: INCLUDES := $(INCLUDES) -DDEFENSIVE -DDEBUG -DFATAL -DDEVELOP -DUNIT_TEST -DVERSION=\"$(VERSION)_UNIT_TEST_$(date)\"
+unit_test_debug: $(OBJ)
 	@ sh unit_test.sh "$(INCLUDES)" --enable-gdb
 
 .PHONY: utf
