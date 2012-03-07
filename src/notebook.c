@@ -655,9 +655,11 @@ void create_child_process_failed_dialog(struct Window *win_data, gchar *message,
 					  temp_str[1],
 					  "</span></b>",
 					  NULL);
+#ifndef UNIT_TEST
 	else
 		temp_str[2] = _("Error while creating the child process!\n"
 				"Please make sure the /dev/pts is mounted as a devpts file system!");
+#endif
 	// g_debug("message = %s", message);
 	// for (i=0; i<3; i++)
 	//	g_debug("temp_str[%d] = %s", i, temp_str[i]);
@@ -1370,7 +1372,7 @@ gboolean open_url_with_external_command (gchar *url, gint tag, struct Window *wi
 {
 #ifdef DETAIL
 	g_debug("! Launch open_url_with_external_command() with url = %s, tag = %d, win_data = %p, page_data = %p",
-		url, tag, win_data, page_datavte);
+		url, tag, win_data, page_data);
 #endif
 #ifdef DEFENSIVE
 	if ((win_data==NULL) || (page_data==NULL)) return FALSE;
