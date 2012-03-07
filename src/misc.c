@@ -27,7 +27,7 @@ gchar *convert_array_to_string(gchar **array, gchar separator)
 	g_debug("! Launch convert_array_to_string()");
 #endif
 #ifdef DEFENSIVE
-	if ((array==NULL) || (separator=='\0')) return NULL;
+	if (array==NULL) return NULL;
 #endif
 	GString *array_str = g_string_new (NULL);
 	gint i=0;
@@ -35,7 +35,7 @@ gchar *convert_array_to_string(gchar **array, gchar separator)
 	while (array[i]!=NULL)
 	{
 		// g_debug("%d: %s", i, array[i]);
-		if (array_str->len)
+		if (array_str->len && (separator!='\0'))
 			g_string_append_printf(array_str, "%c%s", separator, array[i]);
 		else
 			g_string_append_printf(array_str, "%s", array[i]);
@@ -552,7 +552,7 @@ gchar *colorful_max_new_lines(gchar *string, gint max, gint output_line)
 				{
 					gchar *tmp_str = g_markup_escape_text(str, -1);
 					markup_str = g_strconcat("<b><span foreground=\"blue\">",
-						                 tmp_str, "</span></b>", NULL);
+								 tmp_str, "</span></b>", NULL);
 					g_free(tmp_str);
 				}
 				gchar *new_str = NULL;

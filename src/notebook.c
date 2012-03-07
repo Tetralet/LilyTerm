@@ -807,11 +807,11 @@ gboolean close_page(GtkWidget *vte, gint close_type)
 				GtkWidget *current_vte_orig = win_data->current_vte;
 				win_data->current_vte = vte;
 
-				gboolean return_value = dialog(NULL, CONFIRM_TO_CLOSE_RUNNING_APPLICATION);
+				GtkResponseType return_value = dialog(NULL, CONFIRM_TO_CLOSE_RUNNING_APPLICATION);
 				// restore win_data->current_vte
 				win_data->current_vte = current_vte_orig;
 
-				if (! return_value)
+				if (return_value != GTK_RESPONSE_OK)
 				{
 					g_string_free(child_process_list, TRUE);
 					g_strfreev(stats);

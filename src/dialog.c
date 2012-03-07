@@ -64,7 +64,7 @@ GdkColor entry_not_find_bg_color = {0, 0xffff, 0xbcbc, 0xbcbc};
 // SET_FUNCTION_KEY_VALUE,
 // USAGE_MESSAGE
 
-gboolean dialog(GtkWidget *widget, gsize style)
+GtkResponseType dialog(GtkWidget *widget, gsize style)
 {
 #ifdef DETAIL
 	g_debug("! Launch dialog() with style = %ld", (long)style);
@@ -75,7 +75,6 @@ gboolean dialog(GtkWidget *widget, gsize style)
 	struct Dialog *dialog_data = g_new0(struct Dialog, 1);
 	struct Color_Data *color_data = g_new0(struct Color_Data, 1);
 	gint dialog_response = GTK_RESPONSE_NONE;
-	gboolean response = FALSE;
 
 #ifdef DEFENSIVE
 	if ((dialog_data==NULL || color_data == NULL )) goto FINISH;
@@ -337,7 +336,7 @@ gboolean dialog(GtkWidget *widget, gsize style)
 				gtk_box_pack_end (GTK_BOX(gtk_dialog_get_action_area(GTK_DIALOG(dialog_data->window))),
 						  paste_button, FALSE, FALSE, 0);
 #else
-                                gtk_box_pack_end (GTK_BOX(GTK_DIALOG(dialog_data->window)->action_area), paste_button, FALSE, FALSE, 0);
+				gtk_box_pack_end (GTK_BOX(GTK_DIALOG(dialog_data->window)->action_area), paste_button, FALSE, FALSE, 0);
 #endif
 				gtk_dialog_add_button (GTK_DIALOG(dialog_data->window), GTK_STOCK_QUIT, GTK_RESPONSE_CANCEL);
 			}
@@ -354,7 +353,7 @@ gboolean dialog(GtkWidget *widget, gsize style)
 			g_signal_connect(G_OBJECT(paste_button), "clicked",
 					 G_CALLBACK(paste_text_to_vte_terminal), dialog_data);
 
-			// <Switch> Button
+			// <Grab keys> Button
 			GtkWidget *switch_button = gtk_dialog_add_button (GTK_DIALOG(dialog_data->window),
 									  _("Grab keys"), GTK_RESPONSE_OK);
 			gtk_button_set_image (GTK_BUTTON(switch_button),
@@ -363,8 +362,8 @@ gboolean dialog(GtkWidget *widget, gsize style)
 			gtk_button_box_set_child_secondary (GTK_BUTTON_BOX(gtk_dialog_get_action_area(GTK_DIALOG(dialog_data->window))),
 							    switch_button, TRUE);
 #else
-                        gtk_button_box_set_child_secondary (GTK_BUTTON_BOX (GTK_DIALOG(dialog_data->window)->action_area),
-                                                            switch_button, TRUE);
+			gtk_button_box_set_child_secondary (GTK_BUTTON_BOX (GTK_DIALOG(dialog_data->window)->action_area),
+							    switch_button, TRUE);
 #endif
 			break;
 		}
@@ -408,8 +407,8 @@ gboolean dialog(GtkWidget *widget, gsize style)
 			gtk_button_box_set_child_secondary (GTK_BUTTON_BOX (gtk_dialog_get_action_area(GTK_DIALOG(dialog_data->window))),
 							    switch_button, TRUE);
 #else
-                        gtk_button_box_set_child_secondary (GTK_BUTTON_BOX (GTK_DIALOG(dialog_data->window)->action_area),
-                                                            switch_button, TRUE);
+			gtk_button_box_set_child_secondary (GTK_BUTTON_BOX (GTK_DIALOG(dialog_data->window)->action_area),
+							    switch_button, TRUE);
 #endif
 			break;
 		}
@@ -833,8 +832,8 @@ gboolean dialog(GtkWidget *widget, gsize style)
 				      dialog_data);
 			/* Create the expander */
 			gchar *msg_str=_("Default shortcut key: "
-                                         "(It may custom or disable by right click menu "
-                                         "[Set function key value])");
+					 "(It may custom or disable by right click menu "
+					 "[Set function key value])");
 
 			temp_str[3] = convert_text_to_html(&msg_str, FALSE, NULL, "tt", NULL);
 			GtkWidget *label = NULL;
@@ -1199,7 +1198,7 @@ gboolean dialog(GtkWidget *widget, gsize style)
 			temp_str[0] = g_strconcat(_("Trying to paste the following texts to the Vte Terminal:\n\n"),
 						  win_data->temp_data,
 						  "\n\n",
-						  _("Continue anyway?"),
+						  _("Continue anyway?\n"),
 						  NULL);
 			create_dialog(_("Confirm to paste texts to the Vte Terminal"),
 				      "Confirm to paste texts to the Vte Terminal",
@@ -1217,6 +1216,18 @@ gboolean dialog(GtkWidget *widget, gsize style)
 				      BOX_NONE,
 				      0,
 				      dialog_data);
+			// <Join and paste> Button
+			GtkWidget *join_button = gtk_dialog_add_button (GTK_DIALOG(dialog_data->window),
+									_("Join and paste"), GTK_RESPONSE_ACCEPT);
+			gtk_button_set_image (GTK_BUTTON(join_button),
+					      gtk_image_new_from_stock(GTK_STOCK_PASTE, GTK_ICON_SIZE_BUTTON));
+#ifdef ENABLE_DIALOG_GET_ACTION_AREA
+			gtk_button_box_set_child_secondary (GTK_BUTTON_BOX(gtk_dialog_get_action_area(GTK_DIALOG(dialog_data->window))),
+							    join_button, TRUE);
+#else
+			gtk_button_box_set_child_secondary (GTK_BUTTON_BOX (GTK_DIALOG(dialog_data->window)->action_area),
+							    join_button, TRUE);
+#endif
 			break;
 		case VIEW_THE_CLIPBOARD:
 			create_dialog(_("Clipboard"),
@@ -1484,9 +1495,10 @@ gboolean dialog(GtkWidget *widget, gsize style)
 					break;
 #endif
 			}
-			response = TRUE;
 			break;
 		}
+		case GTK_RESPONSE_ACCEPT:
+			break;
 		default:
 		{
 			switch (style)
@@ -1626,7 +1638,7 @@ FINISH:
 #endif
 	}
 
-	return response;
+	return dialog_response;
 }
 
 #ifdef ENABLE_FIND_STRING
@@ -1722,7 +1734,7 @@ void refresh_regex(struct Window *win_data, struct Dialog *dialog_data)
 	}
 
 #ifdef DEFENSIVE
-        if (dialog_data->operate[0]!=NULL)
+	if (dialog_data->operate[0]!=NULL)
 	{
 #endif
 		if (update_bg_color)
@@ -1737,7 +1749,7 @@ void refresh_regex(struct Window *win_data, struct Dialog *dialog_data)
 	}
 #endif
 #ifdef DEFENSIVE
-        if (dialog_data->operate[3]!=NULL)
+	if (dialog_data->operate[3]!=NULL)
 #endif
 		gtk_widget_hide(dialog_data->operate[3]);
 }
@@ -2137,7 +2149,7 @@ GtkWidget *create_button_with_image(gchar *label_text, const gchar *stock_id, gb
 	gtk_button_set_focus_on_click(GTK_BUTTON(label), FALSE);
 	gtk_button_set_alignment(GTK_BUTTON(label), 0, 0.5);
 #ifdef DEFENSIVE
-        if (func)
+	if (func)
 #endif
 		g_signal_connect(G_OBJECT(label), "clicked", G_CALLBACK(func), func_data);
 	return label;
@@ -2169,11 +2181,11 @@ void create_color_selection_widget(struct Dialog *dialog_data, struct Color_Data
 	gtk_color_selection_set_current_color ( GTK_COLOR_SELECTION(dialog_data->operate[0]),
 						&(color_data->original_color));
 #ifdef DEFENSIVE
-        if (dialog_data->box!=NULL)
+	if (dialog_data->box!=NULL)
 #endif
 	gtk_box_pack_start (GTK_BOX(dialog_data->box), dialog_data->operate[0], TRUE, TRUE, 0);
 #ifdef DEFENSIVE
-        if (func)
+	if (func)
 #endif
 		g_signal_connect_after(dialog_data->operate[0], "color-changed",
 				       G_CALLBACK(func), func_data);
@@ -2208,7 +2220,7 @@ void create_scale_widget(struct Dialog *dialog_data, gdouble min, gdouble max, g
 	gtk_widget_set_size_request(dialog_data->operate[0], 210, -1);
 	gtk_range_set_value(GTK_RANGE(dialog_data->operate[0]), value);
 #ifdef DEFENSIVE
-        if (func)
+	if (func)
 #endif
 		g_signal_connect_after(dialog_data->operate[0], "change-value", G_CALLBACK(func), func_data);
 #ifdef DEFENSIVE
@@ -2217,7 +2229,7 @@ void create_scale_widget(struct Dialog *dialog_data, gdouble min, gdouble max, g
 		gtk_box_pack_start (GTK_BOX(dialog_data->box), dialog_data->operate[0], TRUE, TRUE, 0);
 	GtkWidget *hbox2 = gtk_hbox_new (FALSE, 0);
 #ifdef DEFENSIVE
-        if (dialog_data->box!=NULL)
+	if (dialog_data->box!=NULL)
 #endif
 		gtk_box_pack_end (GTK_BOX(dialog_data->box), hbox2, FALSE, FALSE, 0);
 }

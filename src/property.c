@@ -743,15 +743,15 @@ void set_widget_thickness(GtkWidget *widget, gint thickness)
 #ifdef DEFENSIVE
 	if (widget==NULL) return;
 #endif
-        GtkRcStyle *rc_style = gtk_rc_style_new();
+	GtkRcStyle *rc_style = gtk_rc_style_new();
 #ifdef DEFENSIVE
-        if (rc_style)
-        {
+	if (rc_style)
+	{
 #endif
-                rc_style->xthickness = rc_style->ythickness = thickness;
-                gtk_widget_modify_style(widget, rc_style);
+		rc_style->xthickness = rc_style->ythickness = thickness;
+		gtk_widget_modify_style(widget, rc_style);
 #ifdef DEFENSIVE
-        }
+	}
 #endif
-        g_object_unref(rc_style);
+	g_object_unref(rc_style);
 }

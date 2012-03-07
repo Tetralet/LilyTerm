@@ -122,7 +122,7 @@ void print_array(gchar *name, gchar **data);
 void clear_win_data(struct Window *win_data);
 gboolean confirm_to_paste_form_clipboard(Clipboard_Type type, struct Window *win_data, struct Page *page_data);
 gboolean show_clipboard_dialog(Clipboard_Type type, struct Window *win_data,
-                               struct Page *page_data, Dialog_Type_Flags dialog_type);
+			       struct Page *page_data, Dialog_Type_Flags dialog_type);
 
 //
 // **************************** profile.c ****************************
@@ -237,7 +237,7 @@ void update_page_name_normal(StrAddr **page_name,
 // **************************** dialog.c ****************************
 //
 
-gboolean dialog(GtkWidget *widget, gsize style);
+GtkResponseType dialog(GtkWidget *widget, gsize style);
 gboolean find_str_in_vte(GtkWidget *vte, Dialog_Find_Type type);
 void set_markup_key_value(gboolean bold, gchar *color, gchar *key_value, GtkWidget *label);
 gboolean check_and_add_locale_to_warned_locale_list(struct Window *win_data, gchar *new_locale);

@@ -481,7 +481,7 @@ void paste_to_every_vte(GtkWidget *widget, struct Window *win_data)
 	if (win_data==NULL) return;
 #endif
 	gint type = PASTE_TEXTS_TO_EVERY_VTE_TERMINAL;
-	while (dialog(NULL, type))
+	while (dialog(NULL, type)==GTK_RESPONSE_OK)
 	{
 		if (type == PASTE_TEXTS_TO_EVERY_VTE_TERMINAL)
 			type = PASTE_GRABBED_KEY_TO_EVERY_VTE_TERMINAL;

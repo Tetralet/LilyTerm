@@ -610,7 +610,7 @@ gboolean display_child_process_dialog (GString *child_process_list, struct Windo
 	gchar *old_temp_data = win_data->temp_data;
 	win_data->temp_data = child_process_list->str;
 
-	gboolean return_value = dialog(NULL, style);
+	gboolean return_value = (dialog(NULL, style) == GTK_RESPONSE_OK);
 
 	win_data->temp_data = old_temp_data;
 	return return_value;
@@ -862,7 +862,7 @@ gboolean window_option(struct Window *win_data, gchar *encoding, int argc, char 
 
 					GtkWidget *menu_active_window_orig = menu_active_window;
 					menu_active_window = win_data->window;
-					execute_command = dialog (NULL, CONFIRM_TO_EXECUTE_COMMAND);
+					execute_command = (dialog (NULL, CONFIRM_TO_EXECUTE_COMMAND) == GTK_RESPONSE_OK);
 					menu_active_window = menu_active_window_orig;
 
 					g_free(win_data->temp_data);
@@ -3231,12 +3231,12 @@ gboolean show_clipboard_dialog(Clipboard_Type type, struct Window *win_data,
 		}
 		default:
 #ifdef FATAL
-                        print_switch_out_of_range_error_dialog("show_clipboard_dialog", "type", type);
+			print_switch_out_of_range_error_dialog("show_clipboard_dialog", "type", type);
 #endif
 			break;
 	}
 #ifdef DEFENSIVE
-        if (clipboard==NULL) return FALSE;
+	if (clipboard==NULL) return FALSE;
 #endif
 	gchar *clipboard_str = g_strdup(gtk_clipboard_wait_for_text(clipboard));
 	gchar *old_temp_data = win_data->temp_data;
@@ -3250,16 +3250,17 @@ gboolean show_clipboard_dialog(Clipboard_Type type, struct Window *win_data,
 			break;
 		default:
 #ifdef FATAL
-                        print_switch_out_of_range_error_dialog("show_clipboard_dialog", "dialog_type", dialog_type);
+			print_switch_out_of_range_error_dialog("show_clipboard_dialog", "dialog_type", dialog_type);
 #endif
-                        break;
+			break;
 	}
 	// g_debug("Trying to paste '%s' (%s) to vte...", win_data->temp_data, clipboard_str);
 	// g_debug("show_clipboard_dialog(): win_data->temp_data = \"%s\"", win_data->temp_data);
 	if (win_data->temp_data)
 	{
 		// g_debug("'%s' have new line in it!", win_data->temp_data);
-		if (dialog(NULL, dialog_type))
+		GtkResponseType response = dialog(NULL, dialog_type);
+		if ((response==GTK_RESPONSE_OK) || (response==GTK_RESPONSE_ACCEPT))
 		{
 			if (dialog_type == CONFIRM_TO_PASTE_TEXTS_TO_VTE_TERMINAL)
 			{
@@ -3267,6 +3268,14 @@ gboolean show_clipboard_dialog(Clipboard_Type type, struct Window *win_data,
 				if (page_data!=NULL)
 				{
 #endif
+					if (response==GTK_RESPONSE_ACCEPT)
+					{
+						gchar **old_clipboard_strs = split_string(clipboard_str, "\n\r", -1);
+						gchar *new_clipboard_str = convert_array_to_string(old_clipboard_strs, '\0');
+						gtk_clipboard_set_text(clipboard, new_clipboard_str, -1);
+						g_free(new_clipboard_str);
+						g_strfreev(old_clipboard_strs);
+					}
 					switch (type)
 					{
 						case SELECTION_CLIPBOARD:
@@ -3277,10 +3286,12 @@ gboolean show_clipboard_dialog(Clipboard_Type type, struct Window *win_data,
 							break;
 						default:
 #ifdef FATAL
-				                        print_switch_out_of_range_error_dialog("show_clipboard_dialog", "type", type);
+							print_switch_out_of_range_error_dialog("show_clipboard_dialog", "type", type);
 #endif
 							break;
 					}
+					if (response==GTK_RESPONSE_ACCEPT)
+						gtk_clipboard_set_text(clipboard, clipboard_str, -1);
 #ifdef DEFENSIVE
 				}
 #endif
