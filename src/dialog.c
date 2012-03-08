@@ -74,7 +74,7 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 
 	struct Dialog *dialog_data = g_new0(struct Dialog, 1);
 	struct Color_Data *color_data = g_new0(struct Color_Data, 1);
-	gint dialog_response = GTK_RESPONSE_NONE;
+	GtkResponseType dialog_response = GTK_RESPONSE_NONE;
 
 #ifdef DEFENSIVE
 	if ((dialog_data==NULL || color_data == NULL )) goto FINISH;
