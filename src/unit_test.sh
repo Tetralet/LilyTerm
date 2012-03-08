@@ -22,13 +22,14 @@
 INCLUDES="$1"
 GDB=0
 VALGRIND=0
-NO_TEST=0
+TEST_ONLY=0
+BUILD_ONLY=0
 LIB_LISTS="*.h"
 
 for opt do
 	case "$opt" in
 		--help)
-			echo "Usage: sh $0 INCLUDES --enable-glib-debugger --enable-gtk-debugger --enable-gdb --enable-valgrind --specific_function=FUNCTION_NAME --create_program_only"
+			echo "Usage: sh $0 INCLUDES --enable-glib-debugger --enable-gtk-debugger --enable-gdb --enable-valgrind --specific_function=FUNCTION_NAME --create_program_only --build_program_only"
 			exit 0
 			;;
 		--enable-glib-debugger)
@@ -50,7 +51,10 @@ for opt do
 			SPECIFIC_FUNCTION=`echo $opt | cut -d '=' -f 2`
 			;;
 		--create_program_only)
-			NO_TEST=1
+			TEST_ONLY=1
+			;;
+		--build_program_only)
+			BUILD_ONLY=1
 			;;
 	esac
 done
@@ -398,22 +402,24 @@ EOF
   return 0;
 }
 EOF
-	if [ $NO_TEST -eq 0 ]; then
-		echo -e "\x1b[1;36m$FUNC_NAME(): \x1b[1;33m** Compiling \x1b[1;32munit_test\x1b[0m\x1b[1;33m...\x1b[0m"
+	if [ $TEST_ONLY -eq 0 ]; then
+		echo -e "\x1b[1;36m$FUNC_NAME(): \x1b[1;33m** Compiling unit_test...\x1b[0m"
 		$CC $CFLAGS $INCLUDES -o unit_test unit_test.c $OBJ `$PKGCONFIG --cflags --libs $GTK $VTE` || exit 1
 
-		if [ $GDB -eq 1 ]; then
-			echo -e "\x1b[1;36m$FUNC_NAME(): \x1b[1;33m** Testing with gdb...\x1b[0m"
-			echo "Testing $FUNC_NAME() with gdb..." >> lilyterm_gdb.log
-			time gdb -batch -x ./lilyterm.gdb ./unit_test >> lilyterm_gdb.log 2>&1
-			echo "" >> lilyterm_gdb.log
-		fi
-
-		if [ $VALGRIND -eq 1 ]; then
-			echo -e "\x1b[1;36m$FUNC_NAME(): \x1b[1;33m** Testing with valgrind...\x1b[0m"
-			echo "Testing $FUNC_NAME() with valgrind..." >> lilyterm_valgrind.log
-			time valgrind --leak-check=full ./unit_test >> lilyterm_valgrind.log 2>&1
-			echo "" >> lilyterm_valgrind.log
+		if [ $BUILD_ONLY -eq 0 ]; then
+			if [ $GDB -eq 1 ]; then
+				echo -e "\x1b[1;36m$FUNC_NAME(): \x1b[1;33m** Testing with gdb...\x1b[0m"
+				echo "Testing $FUNC_NAME() with gdb..." >> lilyterm_gdb.log
+				time gdb -batch -x ./lilyterm.gdb ./unit_test >> lilyterm_gdb.log 2>&1
+				echo "" >> lilyterm_gdb.log
+			fi
+	
+			if [ $VALGRIND -eq 1 ]; then
+				echo -e "\x1b[1;36m$FUNC_NAME(): \x1b[1;33m** Testing with valgrind...\x1b[0m"
+				echo "Testing $FUNC_NAME() with valgrind..." >> lilyterm_valgrind.log
+				time valgrind --leak-check=full ./unit_test >> lilyterm_valgrind.log 2>&1
+				echo "" >> lilyterm_valgrind.log
+			fi
 		fi
 	fi
 done

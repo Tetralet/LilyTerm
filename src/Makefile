@@ -6,6 +6,7 @@
 #	make dev: compile lilyeterm_dev with CLAGS -g.
 #	make ddev: compile lilyeterm_dev with -DDEFENSIVE compile option.
 #	make ut: run a tiny unit testing script with gdb debug information.
+#	make utb: build the the unit testing programs only.
 #	make utc: check the unit testing script.
 #	make utd: run a tiny unit testing script with full runtime debug information.
 #	make utf: run a tiny unit testing script with glib, gtk, gdb and valgrind debug information.
@@ -132,6 +133,14 @@ unit_test_check: CFLAGS := $(CFLAGS) -g
 unit_test_check: INCLUDES := $(INCLUDES) -DDEFENSIVE -DDEBUG -DFATAL -DDEVELOP -DUNIT_TEST -DVERSION=\"$(VERSION)_UNIT_TEST_$(date)\"
 unit_test_check: $(OBJ)
 	@ sh unit_test.sh "$(INCLUDES)" --create_program_only
+
+.PHONY: utb
+utb: unit_test_build
+.PHONY: unit_test_build
+unit_test_build: CFLAGS := $(CFLAGS) -g
+unit_test_build: INCLUDES := $(INCLUDES) -DDEFENSIVE -DGEOMETRY -DDEBUG -DFATAL -DDEVELOP -DDETAIL -DFULL -DUNIT_TEST -DVERSION=\"$(VERSION)_UNIT_TEST_$(date)\"
+unit_test_build: $(OBJ)
+	@ sh unit_test.sh "$(INCLUDES)" --build_program_only
 
 .PHONY: utd
 utd: unit_test_debug
