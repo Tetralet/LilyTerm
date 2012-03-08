@@ -431,7 +431,7 @@ void clean_scrollback_lines(GtkWidget *widget, struct Window *win_data)
 	g_debug("! Launch clean_scrollback_lines()!");
 #endif
 #ifdef DEFENSIVE
-	if (win_data==NULL) return;
+	if ((win_data==NULL) || (win_data->current_vte==NULL)) return;
 #endif
 	vte_terminal_set_scrollback_lines (VTE_TERMINAL(win_data->current_vte), 0);
 	vte_terminal_set_scrollback_lines (VTE_TERMINAL(win_data->current_vte), win_data->scrollback_lines);
@@ -441,6 +441,9 @@ void copy_url_clipboard(GtkWidget *widget, gpointer user_data)
 {
 #ifdef DETAIL
 	g_debug("! Launch copy_url_clipboard()!");
+#endif
+#ifdef DEFENSIVE
+	if (widget==NULL) return;
 #endif
 	if (gtk_widget_get_name(widget))
 	{
@@ -455,7 +458,7 @@ void copy_clipboard(GtkWidget *widget, struct Window *win_data)
 	g_debug("! Launch copy_clipboard()!");
 #endif
 #ifdef DEFENSIVE
-	if (win_data==NULL) return;
+	if ((win_data==NULL) || (win_data->current_vte==NULL)) return;
 #endif
 	vte_terminal_copy_clipboard(VTE_TERMINAL(win_data->current_vte));
 }
@@ -496,7 +499,7 @@ void open_current_dir_with_file_manager(GtkWidget *widget, struct Window *win_da
 	g_debug("! Launch open_current_dir_with_file_manager() with win_data = %p!", win_data);
 #endif
 #ifdef DEFENSIVE
-	if (win_data==NULL) return;
+	if ((win_data==NULL) || (win_data->current_vte==NULL)) return;
 #endif
 	struct Page *page_data = (struct Page *)g_object_get_data(G_OBJECT(win_data->current_vte), "Page_Data");
 #ifdef DEFENSIVE
@@ -533,7 +536,7 @@ void set_dim_text(GtkWidget *menuitem_dim_text, struct Window *win_data)
 	g_debug("! Launch set_dim_text() with win_data = %p", win_data);
 #endif
 #ifdef DEFENSIVE
-	if (win_data==NULL) return;
+	if ((menuitem_dim_text==NULL) || (win_data==NULL)) return;
 #endif
 	// win_data->dim_text = GTK_CHECK_MENU_ITEM(menuitem_dim_text)->active;
 	win_data->dim_text = gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(menuitem_dim_text));
@@ -562,7 +565,7 @@ void set_cursor_blinks(GtkWidget *menuitem_cursor_blinks, struct Window *win_dat
 	g_debug("! Launch set_cursor_blinks() with win_data = %p", win_data);
 #endif
 #ifdef DEFENSIVE
-	if (win_data==NULL) return;
+	if ((menuitem_cursor_blinks==NULL) || (win_data==NULL)) return;
 #endif
 #ifdef USE_NEW_VTE_CURSOR_BLINKS_MODE
 	// win_data->cursor_blinks = GTK_CHECK_MENU_ITEM(menuitem_cursor_blinks)->active ?
@@ -593,7 +596,7 @@ void set_audible_bell(GtkWidget *menuitem_audible_bell, struct Window *win_data)
 	g_debug("! Launch set_audible_bell() with win_data = %p", win_data);
 #endif
 #ifdef DEFENSIVE
-	if (win_data==NULL) return;
+	if ((menuitem_audible_bell==NULL) || (win_data==NULL)) return;
 #endif
 	// win_data->audible_bell = GTK_CHECK_MENU_ITEM(menuitem_audible_bell)->active;
 	win_data->audible_bell = gtk_check_menu_item_get_active (GTK_CHECK_MENU_ITEM(menuitem_audible_bell));
@@ -616,7 +619,7 @@ void set_visible_bell(GtkWidget *menuitem_visible_bell, struct Window *win_data)
 	g_debug("! Launch set_visible_bell() with win_data = %p", win_data);
 #endif
 #ifdef DEFENSIVE
-	if (win_data==NULL) return;
+	if ((menuitem_visible_bell==NULL) || (win_data==NULL)) return;
 #endif
 	// win_data->visible_bell = GTK_CHECK_MENU_ITEM(menuitem_visible_bell)->active;
 	win_data->visible_bell = gtk_check_menu_item_get_active (GTK_CHECK_MENU_ITEM(menuitem_visible_bell));
@@ -701,7 +704,7 @@ void urgent_beep(GtkWidget *window, struct Page *page_data)
 	g_debug("! Launch urgent_beep() with page_data = %p", page_data);
 #endif
 #ifdef DEFENSIVE
-	if (page_data==NULL) return;
+	if ((page_data==NULL) || (page_data->window==NULL)) return;
 #endif
 	struct Window *win_data = (struct Window *)g_object_get_data(G_OBJECT(page_data->window), "Win_Data");
 #ifdef DEFENSIVE
@@ -897,7 +900,10 @@ gint add_menuitem_to_locale_sub_menu(struct Window *win_data,
 		// g_debug("Set the %d locale to %s", no, item_name);
 		gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(menu_item),
 					      gtk_image_new_from_stock(GTK_STOCK_DND_MULTIPLE, GTK_ICON_SIZE_MENU));
-		gtk_menu_shell_append(GTK_MENU_SHELL(win_data->locale_sub_menu), menu_item);
+#ifdef DEFENSIVE
+		if (win_data->locale_sub_menu)
+#endif
+			gtk_menu_shell_append(GTK_MENU_SHELL(win_data->locale_sub_menu), menu_item);
 		// g_debug("win_data->locale_group = %p", win_data->locale_group);
 		// win_data->locale_group = gtk_radio_menu_item_get_group (GTK_RADIO_MENU_ITEM (menu_item));
 		g_signal_connect(menu_item, "activate", G_CALLBACK(new_tab_with_locale), (gsize *)i);
@@ -939,7 +945,7 @@ void reset_vte(GtkWidget *widget, struct Window *win_data)
 	g_debug("! Launch reset_vte()!");
 #endif
 #ifdef DEFENSIVE
-	if (win_data==NULL) return;
+	if ((win_data==NULL) || (win_data->current_vte==NULL)) return;
 #endif
 	vte_terminal_reset(VTE_TERMINAL(win_data->current_vte), TRUE, FALSE);
 }
@@ -950,11 +956,10 @@ void set_trans_bg(GtkWidget *menuitem_trans_bg, struct Window *win_data)
 	g_debug("! Launch set_trans_bg() for win_data %p", win_data);
 #endif
 #ifdef DEFENSIVE
-	if (win_data==NULL) return;
+	if ((menuitem_trans_bg==NULL) || (win_data==NULL)) return;
 #endif
 	// win_data->transparent_background = GTK_CHECK_MENU_ITEM(menuitem_trans_bg)->active;
 	win_data->transparent_background = gtk_check_menu_item_get_active (GTK_CHECK_MENU_ITEM(menuitem_trans_bg));
-
 
 	gint i;
 	struct Page *page_data = NULL;
@@ -976,7 +981,9 @@ void set_trans_win(GtkWidget *widget, GtkWidget *window)
 #ifdef DETAIL
 	g_debug("! Launch set_trans_win() for window %p!", window);
 #endif
-
+#ifdef DEFENSIVE
+	if (window==NULL) return;
+#endif
 	struct Window *win_data = (struct Window *)g_object_get_data(G_OBJECT(window), "Win_Data");
 #ifdef DEFENSIVE
 	if (win_data==NULL) return;
@@ -1224,7 +1231,7 @@ void select_font(GtkWidget *widget, struct Window *win_data)
 	g_debug("! Launch select_font() for win_data %p", win_data);
 #endif
 #ifdef DEFENSIVE
-	if (win_data==NULL) return;
+	if ((win_data==NULL) || (win_data->current_vte==NULL)) return;
 #endif
 	struct Page *page_data = (struct Page *)g_object_get_data(G_OBJECT(win_data->current_vte), "Page_Data");
 #ifdef DEFENSIVE
@@ -1802,6 +1809,9 @@ void apply_profile_from_file(GtkWidget *menu_item, Apply_Profile_Type type)
 #endif
 	// g_debug("The path of menu_item is %s", gtk_widget_get_name(menu_item));
 	gint argc = 0;
+#ifdef DEFENSIVE
+	if (menu_item==NULL) return;
+#endif
 	const gchar *path = gtk_widget_get_name(menu_item);
 
 #ifdef FATAL
@@ -2108,8 +2118,8 @@ void load_background_image_from_file(GtkWidget *widget, struct Window *win_data)
 	preview->default_filename = g_strdup(background_image_path);
 	update_preview_image (GTK_FILE_CHOOSER(dialog), preview);
 	GtkResponseType response = gtk_dialog_run (GTK_DIALOG (dialog));
-#ifdef UNIT_TEST                                                                                                                                                       
-        for (response=GTK_RESPONSE_HELP; response<=GTK_RESPONSE_NONE; response++)
+#ifdef UNIT_TEST
+	for (response=GTK_RESPONSE_HELP; response<=GTK_RESPONSE_NONE; response++)
 #else
 	if (response == GTK_RESPONSE_ACCEPT)
 #endif
@@ -2227,9 +2237,15 @@ void reload_settings(GtkWidget *menu_item, struct Window *win_data)
 #ifdef DEFENSIVE
 	if (current_profile==NULL) return;
 #endif
-	gtk_widget_set_name(menu_item, current_profile);
-	apply_profile_from_file(menu_item, LOAD_FROM_PROFILE);
-
+#ifdef DEFENSIVE
+	if (menu_item)
+	{
+#endif
+		gtk_widget_set_name(menu_item, current_profile);
+		apply_profile_from_file(menu_item, LOAD_FROM_PROFILE);
+#ifdef DEFENSIVE
+	}
+#endif
 	g_free(current_profile);
 }
 

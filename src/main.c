@@ -357,7 +357,13 @@ gboolean init_socket_data()
 gboolean set_fd_non_block(gint *fd)
 {
 #ifdef DETAIL
-	g_debug("! Launch set_fd_non_block()!");
+	if (fd)
+		g_debug("! Launch set_fd_non_block() with fd = %d!", *fd);
+	else
+		g_debug("! Launch set_fd_non_block() with fd = (%p)!", fd);
+#endif
+#ifdef DEFENSIVE
+	if (fd==NULL) return FALSE;
 #endif
 	GError *error = NULL;
 	gint flags = fcntl(*fd, F_GETFL, 0);
@@ -539,6 +545,9 @@ gboolean accept_socket(GIOChannel *source, GIOCondition condition, gpointer user
 #ifdef DETAIL
 	g_debug("! Launch accept_socket() to accept the request from client !");
 #endif
+#ifdef DEFENSIVE
+	if (source==NULL) return FALSE;
+#endif
 
 	GError *error = NULL;
 
@@ -570,6 +579,9 @@ gboolean read_socket(GIOChannel *channel, GIOCondition condition, gpointer user_
 {
 #ifdef DETAIL
 	g_debug("! Launch read_socket() to read data !");
+#endif
+#ifdef DEFENSIVE
+	if (channel==NULL) return FALSE;
 #endif
 
 	GError *error = NULL;

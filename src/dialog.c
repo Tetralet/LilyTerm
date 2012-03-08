@@ -2309,7 +2309,7 @@ gchar *get_colorful_profile(struct Window *win_data)
 gboolean grab_key_press (GtkWidget *window, GdkEventKey *event, struct Dialog *dialog_data)
 {
 #ifdef DETAIL
-	g_debug("! Launch grab_key_press() with key value = %d (%s)", event->keyval, gdk_keyval_name(event->keyval));
+	if (event) g_debug("! Launch grab_key_press() with key value = %d (%s)", event->keyval, gdk_keyval_name(event->keyval));
 #endif
 #ifdef DEFENSIVE
 	if (event==NULL) return FALSE;
@@ -2346,7 +2346,7 @@ gboolean grab_key_press (GtkWidget *window, GdkEventKey *event, struct Dialog *d
 gboolean deal_dialog_key_press(GtkWidget *window, GdkEventKey *event, struct Dialog *dialog_data)
 {
 #ifdef DETAIL
-	g_debug("! Launch deal_dialog_key_press() with key value = %s", gdk_keyval_name(event->keyval));
+	if (event) g_debug("! Launch deal_dialog_key_press() with key value = %s", gdk_keyval_name(event->keyval));
 #endif
 #ifdef DEFENSIVE
 	if ((dialog_data==NULL) || (event==NULL)) return FALSE;

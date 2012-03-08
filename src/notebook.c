@@ -592,6 +592,9 @@ gchar **get_argv(struct Window *win_data, gboolean *argv_need_be_free)
 #ifdef DETAIL
 	g_debug("! Launch get_argv()! with win_data = %p", win_data);
 #endif
+#ifdef DEFENSIVE
+	if (win_data==NULL) return NULL;
+#endif
 	gchar **argv = win_data->argv;
 	*argv_need_be_free = FALSE;
 

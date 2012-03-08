@@ -149,7 +149,7 @@ unit_test_debug: CFLAGS := $(CFLAGS) -g
 unit_test_debug: INCLUDES := $(INCLUDES) -DDEFENSIVE -DGEOMETRY -DDEBUG -DFATAL -DDEVELOP -DDETAIL -DFULL -DUNIT_TEST -DVERSION=\"$(VERSION)_UNIT_TEST_$(date)\"
 unit_test_debug: INCLUDES := $(INCLUDES) -DDEFENSIVE -DDEBUG -DFATAL -DDEVELOP -DUNIT_TEST -DVERSION=\"$(VERSION)_UNIT_TEST_$(date)\"
 unit_test_debug: $(OBJ)
-	@ sh unit_test.sh "$(INCLUDES)" --enable-gdb
+	@ sh unit_test.sh "$(INCLUDES)" --enable-glib-debugger --enable-gtk-debugger --enable-gdb
 
 .PHONY: utf
 utf: unit_test_full

@@ -1765,8 +1765,12 @@ void init_prime_user_datas(struct Window *win_data)
 void get_prime_user_settings(GKeyFile *keyfile, struct Window *win_data, gchar *encoding)
 {
 #ifdef DETAIL
-	g_debug("! Launch get_prime_user_settings() with keyfile = %p, win_data = %p, encoding = %s, win_data->login_shell = %d!",
-		keyfile, win_data, encoding, win_data->login_shell);
+	if (win_data)
+		g_debug("! Launch get_prime_user_settings() with keyfile = %p, win_data = %p, encoding = %s, win_data->login_shell = %d!",
+			keyfile, win_data, encoding, win_data->login_shell);
+	else
+		g_debug("! Launch get_prime_user_settings() with keyfile = %p, win_data = %p, encoding = %s!",
+			keyfile, win_data, encoding);
 #endif
 #ifdef DEFENSIVE
 	if ((keyfile==NULL) || (win_data==NULL)) return;
@@ -1978,7 +1982,9 @@ gchar *check_string_value(GKeyFile *keyfile, const gchar *group_name,
 	if (setting == NULL)
 		setting = g_strdup(original_value);
 
+#ifndef UNIT_TEST
 	g_free(original_value);
+#endif
 
 	// g_debug("Got key value \"%s = %s\"", key, setting);
 	return setting;
@@ -1995,8 +2001,13 @@ void check_color_value (const gchar *key_name, const gchar *color_name, GdkColor
 #endif
 	if( ! gdk_color_parse(color_name, color))
 	{
+#ifdef UNIT_TEST
+		g_message("\"%s = %s\" is not a valid color value! Please check!",
+			  key_name, color_name);
+#else
 		g_warning("\"%s = %s\" is not a valid color value! Please check!",
 			  key_name, color_name);
+#endif
 	}
 }
 
@@ -2004,8 +2015,12 @@ void check_color_value (const gchar *key_name, const gchar *color_name, GdkColor
 gboolean accelerator_parse (const gchar *key_name, const gchar *key_value, guint *key, guint *mods)
 {
 #ifdef DETAIL
-	g_debug("! Launch accelerator_parse() with key_name = %s, key_value = %s, key = %d, mods = %d",
-		key_name, key_value, *key, *mods);
+	if (key && mods)
+		g_debug("! Launch accelerator_parse() with key_name = %s, key_value = %s, key = %d, mods = %d",
+			key_name, key_value, *key, *mods);
+	else
+		g_debug("! Launch accelerator_parse() with key_name = %s, key_value = %s, key = (%p), mods = (%p)",
+			key_name, key_value, key, mods);
 #endif
 #ifdef DEFENSIVE
 	if ((key_name==NULL) || (key_value==NULL)) return FALSE;
@@ -2616,7 +2631,11 @@ gchar *get_profile()
 	if (g_mkdir_with_parents(profile_dir, 0700))
 #endif
 	{
+#ifdef DEFENSIVE
+		g_message("Can NOT create the directory: %s", profile_dir);
+#else
 		g_critical("Can NOT create the directory: %s", profile_dir);
+#endif
 		g_free(profile);
 		profile = NULL;
 	}
@@ -2629,8 +2648,11 @@ gchar *get_profile()
 void init_rgba(struct Window *win_data)
 {
 #ifdef DETAIL
-	g_debug("! Launch init_rgba() with win_data = %p, window = %p, win_data->use_rgba = %d",
-		win_data, win_data->window, win_data->use_rgba);
+	if (win_data)
+		g_debug("! Launch init_rgba() with win_data = %p, window = %p, win_data->use_rgba = %d",
+			win_data, win_data->window, win_data->use_rgba);
+	else
+		g_debug("! Launch init_rgba() with win_data = %p", win_data);
 #endif
 #ifdef DEFENSIVE
 	if ((win_data==NULL) || (win_data->window==NULL)) return;
@@ -2815,7 +2837,9 @@ void convert_string_to_user_key(gint i, gchar *value, struct Window *win_data)
 			g_critical("\"%s = %s\" is not a valid key! Please check!",
 				   system_keys[i].name, value);
 #endif
+#ifndef UNIT_TEST
 			g_free(value);
+#endif
 		}
 		// if (pagekeys[i].key)
 		//	g_debug("Got %s = key %x(%s), mods = %x.", pagekeys[i].name,

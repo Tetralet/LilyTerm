@@ -742,7 +742,10 @@ FINISH:
 char **set_process_data (pid_t entry_pid, gint *ppid, StrAddr **cmd)
 {
 #ifdef FULL
-	g_debug("! Launch set_process_data() with entry_pid = %d, ppid = %d, cmd = %s", entry_pid, *ppid, *cmd);
+	if (ppid)
+		g_debug("! Launch set_process_data() with entry_pid = %d, ppid = %d, cmd = %s", entry_pid, *ppid, *cmd);
+	else
+		g_debug("! Launch set_process_data() with entry_pid = %d, ppid = (%p), cmd = %s", entry_pid, ppid, *cmd);
 #endif
 	char **stats = get_pid_stat(entry_pid, 7);
 	if (stats)
@@ -929,8 +932,9 @@ gboolean window_option(struct Window *win_data, gchar *encoding, int argc, char 
 gboolean window_key_press(GtkWidget *window, GdkEventKey *event, struct Window *win_data)
 {
 #ifdef FULL
-	g_debug("! Launch window_key_press() with key = %X (%s), state = %X, win_data = %p",
-		 event->keyval, gdk_keyval_name(event->keyval), event->state, win_data);
+	if (event)
+		g_debug("! Launch window_key_press() with key = %X (%s), state = %X, win_data = %p",
+			 event->keyval, gdk_keyval_name(event->keyval), event->state, win_data);
 #endif
 #ifdef DEFENSIVE
 	if ((win_data==NULL) || (event==NULL)) return FALSE;
@@ -1412,8 +1416,12 @@ void window_style_set(GtkWidget *window, GtkStyle *previous_style, struct Window
 void window_size_request (GtkWidget *window, GtkRequisition *requisition, struct Window *win_data)
 {
 #  ifdef DETAIL
-	g_debug("! Launch window_size_request() with window =%p, win_data = %p, keep_vte_size = %x",
-		 window, win_data, win_data->keep_vte_size);
+	if (win_data)
+		g_debug("! Launch window_size_request() with window =%p, win_data = %p, keep_vte_size = %x",
+			window, win_data, win_data->keep_vte_size);
+	else
+		g_debug("! Launch window_size_request() with window =%p, win_data = %p",
+			window, win_data);
 #  endif
 #  ifdef DEFENSIVE
 	if (win_data==NULL) return;
@@ -1479,8 +1487,12 @@ void window_size_request (GtkWidget *window, GtkRequisition *requisition, struct
 void window_size_allocate(GtkWidget *window, GtkAllocation *allocation, struct Window *win_data)
 {
 #  ifdef DETAIL
+	if (win_data)
 	g_debug("! Launch window_size_allocate() with window =%p, win_data = %p, keep_vte_size = %x",
-		 window, win_data, win_data->keep_vte_size);
+		window, win_data, win_data->keep_vte_size);
+	else
+		g_debug("! Launch window_size_allocate() with window =%p, win_data = %p",
+			 window, win_data);
 #  endif
 #  ifdef DEFENSIVE
 	if (win_data==NULL) return;
@@ -1702,7 +1714,10 @@ void destroy_window(struct Window *win_data)
 		stop_urgency_hint(NULL, NULL, win_data);
 
 	// g_debug("destroy_window(): destroy window = %p for win_data = %p", win_data->window, win_data);
-	gtk_widget_destroy(win_data->window);
+#ifdef DEFENSIVE
+	if (win_data->window)
+#endif
+		gtk_widget_destroy(win_data->window);
 
 	clear_win_data(win_data);
 }
@@ -1986,7 +2001,7 @@ void reorder_page_after_added_removed_page(struct Window *win_data, guint page_n
 		win_data, page_num);
 #endif
 #ifdef DEFENSIVE
-	if (win_data==NULL) return;
+	if ((win_data==NULL) || (win_data->notebook==NULL)) return;
 #endif
 	// g_debug("Reordering the page and update page name!");
 	win_data->adding_page = TRUE;
@@ -2093,8 +2108,12 @@ GtkNotebook *create_window (GtkNotebook *notebook, GtkWidget *page, gint x, gint
 			    struct Window *win_data)
 {
 #ifdef DETAIL
-	g_debug("! Launch create_window() with notebook = %p, win_data = %p VTE_CJK_WIDTH_STR = %s",
-		notebook, win_data, win_data->VTE_CJK_WIDTH_STR);
+	if (win_data)
+		g_debug("! Launch create_window() with notebook = %p, win_data = %p, VTE_CJK_WIDTH_STR = %s",
+			notebook, win_data, win_data->VTE_CJK_WIDTH_STR);
+	else
+		g_debug("! Launch create_window() with notebook = %p, win_data = %p",
+			notebook, win_data);
 #endif
 #ifdef DEFENSIVE
 	if (win_data==NULL) return NULL;
@@ -2360,7 +2379,10 @@ void dump_data (struct Window *win_data, struct Page *page_data)
 // ---- win_data ---- //
 
 	g_debug("- win_data->environment = %s", win_data->environment);
-	g_debug("- win_data->warned_locale_list=>str = %s", win_data->warned_locale_list->str);
+#ifdef DEFENSIVE
+	if (win_data->warned_locale_list)
+#endif
+		g_debug("- win_data->warned_locale_list->str = %s", win_data->warned_locale_list->str);
 	g_debug("- win_data->runtime_encoding = %s", win_data->runtime_encoding);
 	g_debug("- win_data->default_encoding = %s", win_data->default_encoding);
 	g_debug("- win_data->runtime_locale_list = %s", win_data->runtime_locale_list);
@@ -3169,7 +3191,7 @@ gboolean fullscreen_show_hide_scroll_bar (struct Window *win_data)
 	g_debug("! Launch fullscreen_show_hide_scroll_bar() with win_data = %p", win_data);
 #endif
 #ifdef DEFENSIVE
-	if (win_data==NULL) return FALSE;
+	if ((win_data==NULL) || (win_data->menuitem_hide_scroll_bar==NULL)) return FALSE;
 #endif
 	gboolean show = check_show_or_hide_scroll_bar(win_data);
 	gboolean current_show = gtk_check_menu_item_get_active (GTK_CHECK_MENU_ITEM(win_data->menuitem_hide_scroll_bar));

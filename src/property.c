@@ -532,7 +532,7 @@ void apply_new_win_data_to_page (struct Window *win_data_orig,
 		win_data_orig, win_data, page_data);
 #endif
 #ifdef DEFENSIVE
-	if ((win_data_orig==NULL) || (win_data==NULL) || (page_data==NULL)) return;
+	if ((win_data_orig==NULL) || (win_data==NULL) || (page_data==NULL) || (page_data->vte==NULL)) return;
 #endif
 	// if (win_data_orig->use_rgba != win_data->use_rgba)
 	//	init_rgba(win_data);
