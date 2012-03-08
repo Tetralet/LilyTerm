@@ -2107,7 +2107,12 @@ void load_background_image_from_file(GtkWidget *widget, struct Window *win_data)
 	gtk_widget_show_all(dialog);
 	preview->default_filename = g_strdup(background_image_path);
 	update_preview_image (GTK_FILE_CHOOSER(dialog), preview);
-	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT)
+	GtkResponseType response = gtk_dialog_run (GTK_DIALOG (dialog));
+#ifdef UNIT_TEST                                                                                                                                                       
+        for (response=GTK_RESPONSE_HELP; response<=GTK_RESPONSE_NONE; response++)
+#else
+	if (response == GTK_RESPONSE_ACCEPT)
+#endif
 	{
 		// g_debug("gtk_widget_get_mapped(preview->no_image_text) = %d",
 		//	gtk_widget_get_mapped (preview->no_image_text));
