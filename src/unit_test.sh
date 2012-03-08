@@ -409,9 +409,16 @@ EOF
 		if [ $BUILD_ONLY -eq 0 ]; then
 			if [ $RUN_GDB -eq 1 ]; then
 				echo -e "\x1b[1;36m$FUNC_NAME(): \x1b[1;33m** Testing with gdb...\x1b[0m"
-				echo "Testing $FUNC_NAME() with gdb..." >> lilyterm_gdb.log
-				time gdb -batch -x ./lilyterm.gdb ./unit_test >> lilyterm_gdb.log 2>&1
-				echo "" >> lilyterm_gdb.log
+				echo "Testing $FUNC_NAME() with gdb..." > /tmp/lilyterm_$FUNC_NAME.log
+				time gdb -batch -x ./lilyterm.gdb ./unit_test >> /tmp/lilyterm_$FUNC_NAME.log 2>&1
+				CHECK_STR=`tail -n 3 /tmp/lilyterm_$FUNC_NAME.log | tr -d '\n'`
+				if [ "$CHECK_STR" != 'Program exited normally.No stack.' ]; then
+					cat /tmp/lilyterm_$FUNC_NAME.log >> lilyterm_gdb.log
+					echo "" >> lilyterm_gdb.log
+				else
+					echo -e "\x1b[1;36m$FUNC_NAME(): \x1b[1;33m** Program exited normally. Clear log...\x1b[0m"
+				fi
+				rm /tmp/lilyterm_$FUNC_NAME.log
 			fi
 	
 			if [ $RUN_VALGRIND -eq 1 ]; then
