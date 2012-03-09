@@ -101,7 +101,7 @@ void init_new_page(struct Window *win_data,
 		" column = %ld, row = %ld", win_data, page_data, column, row);
 #endif
 #ifdef DEFENSIVE
-	if ((win_data==NULL) || (page_data==NULL)) return;
+	if ((win_data==NULL) || (page_data==NULL) || (page_data->vte==NULL)) return;
 #endif
 	// g_debug("Get win_data = %d when initing new page!", win_data);
 
@@ -379,7 +379,7 @@ gboolean set_background_saturation(GtkRange *range, GtkScrollType scroll, gdoubl
 #endif
 	struct Page *page_data = (struct Page *)g_object_get_data(G_OBJECT(vte), "Page_Data");
 #ifdef DEFENSIVE
-	if (page_data==NULL) return FALSE;
+	if (page_data==NULL || (page_data->window==NULL)) return FALSE;
 #endif
 	struct Window *win_data = (struct Window *)g_object_get_data(G_OBJECT(page_data->window), "Win_Data");
 #ifdef DEFENSIVE

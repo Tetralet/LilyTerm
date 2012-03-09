@@ -1402,8 +1402,11 @@ gboolean refresh_locale_and_encoding_list(struct Window *win_data)
 #endif
 		if (win_data->encoding_sub_menu) gtk_widget_destroy(win_data->encoding_sub_menu);
 		win_data->encoding_sub_menu = gtk_menu_new ();
-		gtk_menu_item_set_submenu (GTK_MENU_ITEM (win_data->encoding_locale_menuitems[0]),
-					   win_data->encoding_sub_menu);
+#ifdef DEFENSIVE
+		if (win_data->encoding_locale_menuitems[0])
+#endif
+			gtk_menu_item_set_submenu (GTK_MENU_ITEM (win_data->encoding_locale_menuitems[0]),
+						   win_data->encoding_sub_menu);
 		GSList *encoding_group = NULL;
 		i=0;
 		while (supported_encodings[i]!=NULL)
@@ -1435,7 +1438,10 @@ gboolean refresh_locale_and_encoding_list(struct Window *win_data)
 		{
 			// g_debug("Show win_data->encoding_locale_menuitems[0] (%p)!",
 			//	win_data->encoding_locale_menuitems[0]);
-			gtk_widget_set_no_show_all(win_data->encoding_locale_menuitems[0], FALSE);
+#ifdef DEFENSIVE
+			if (win_data->encoding_locale_menuitems[0])
+#endif
+				gtk_widget_set_no_show_all(win_data->encoding_locale_menuitems[0], FALSE);
 		}
 		else
 		{
@@ -1538,7 +1544,10 @@ gboolean refresh_locale_and_encoding_list(struct Window *win_data)
 				  NULL, GTK_STOCK_ADD,  (GSourceFunc)dialog, GINT_TO_POINTER (ADD_NEW_LOCALES));
 	}
 	for (i=0; i<3; i++)
-		gtk_widget_show_all(win_data->encoding_locale_menuitems[i]);
+#ifdef DEFENSIVE
+		if (win_data->encoding_locale_menuitems[i])
+#endif
+			gtk_widget_show_all(win_data->encoding_locale_menuitems[i]);
 
 FINISH:
 	g_free(full_locales_list);

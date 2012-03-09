@@ -407,7 +407,11 @@ struct Page *add_page(struct Window *win_data,
 
 	// Get current vte size. for init a new tab.
 	glong column=SYSTEM_COLUMN, row=SYSTEM_ROW;
+#ifdef DEFENSIVE
+	if (page_data_prev && (page_data_prev->vte))
+#else
 	if (page_data_prev)
+#endif
 	{
 		column = vte_terminal_get_column_count(VTE_TERMINAL(page_data_prev->vte));
 		row = vte_terminal_get_row_count(VTE_TERMINAL(page_data_prev->vte));
