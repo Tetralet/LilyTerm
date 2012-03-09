@@ -65,10 +65,14 @@ ECHO=`whereis -b echo | awk '{print $2}'`
 
 CHECK_INCLUDES=`$ECHO "$INCLUDES" | grep -- '-DUNIT_TEST'`
 if [ -z "$CHECK_INCLUDES" ]; then
-	make clean
+	if [ -f lilyterm -o -f lilyterm-dbg -o -f lilyterm_dev ]; then
+		make clean
+	fi
 	make uto
 	INCLUDES="-DDEFENSIVE -DDEBUG -DFATAL -DDEVELOP -DUNIT_TEST"
 	RUN_GDB=1
+	export G_DEBUG=fatal_warnings
+	GTK_DEBUG="--g-fatal-warnings"
 fi
 
 
