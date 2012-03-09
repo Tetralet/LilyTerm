@@ -1463,7 +1463,7 @@ gboolean refresh_locale_and_encoding_list(struct Window *win_data)
 
 		for (j=0; j<2; j++)
 		{
-			GtkWidget *sub_menu_item;
+			GtkWidget *sub_menu_item=NULL;
 			if (j)
 				sub_menu_item = win_data->encoding_locale_menuitems[1];
 			else
@@ -1471,7 +1471,10 @@ gboolean refresh_locale_and_encoding_list(struct Window *win_data)
 			// g_debug("Set sub_menu_item = %p for win_data (%p)", sub_menu_item, win_data);
 			if (win_data->locale_sub_menu) gtk_widget_destroy(win_data->locale_sub_menu);
 			win_data->locale_sub_menu = gtk_menu_new ();
-			gtk_menu_item_set_submenu (GTK_MENU_ITEM (sub_menu_item), win_data->locale_sub_menu);
+#ifdef DEFENSIVE
+			if (sub_menu_item)
+#endif
+				gtk_menu_item_set_submenu (GTK_MENU_ITEM (sub_menu_item), win_data->locale_sub_menu);
 			i=0;
 			while (supported_locales[i]!=NULL)
 			{

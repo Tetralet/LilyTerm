@@ -487,21 +487,27 @@ struct Page *add_page(struct Window *win_data,
 	page_data->window = NULL;
 	// g_debug("page_data->vte = %p", page_data->vte);
 	// g_debug("win_data->current_vte = %p", win_data->current_vte);
-	page_data->page_no = gtk_notebook_append_page(GTK_NOTEBOOK(page_data->notebook),
+#ifdef DEFENSIVE
+	if (page_data->notebook) {
+#endif
+		page_data->page_no = gtk_notebook_append_page(GTK_NOTEBOOK(page_data->notebook),
 						      page_data->hbox, page_data->label);
-	// g_debug("Got page_data->page_no = %d", page_data->page_no);
+		// g_debug("Got page_data->page_no = %d", page_data->page_no);
 
 #ifdef DISABLE_PAGE_ADDED
-	notebook_page_added (GTK_NOTEBOOK(page_data->notebook), NULL, page_data->page_no, win_data);
+		notebook_page_added (GTK_NOTEBOOK(page_data->notebook), NULL, page_data->page_no, win_data);
 #endif
-	// g_debug("The new page no is %d", page_data->page_no);
-	// move the page to next to original page
-	if (page_data_prev && (add_to_next))
-	{
-		gtk_notebook_reorder_child(GTK_NOTEBOOK(page_data->notebook), page_data->hbox,
-							page_data_prev->page_no + 1);
-		// g_debug("New Page No after move to next to prev page = %d", page_data->page_no);
+		// g_debug("The new page no is %d", page_data->page_no);
+		// move the page to next to original page
+		if (page_data_prev && (add_to_next))
+		{
+			gtk_notebook_reorder_child(GTK_NOTEBOOK(page_data->notebook), page_data->hbox,
+								page_data_prev->page_no + 1);
+			// g_debug("New Page No after move to next to prev page = %d", page_data->page_no);
+		}
+#ifdef DEFENSIVE
 	}
+#endif
 	win_data->current_vte = page_data->vte;
 
 // ---- Monitor cmdline ---- //
@@ -749,7 +755,7 @@ gboolean close_page(GtkWidget *vte, gint close_type)
 	struct Page *page_data = (struct Page *)g_object_get_data(G_OBJECT(vte), "Page_Data");
 	// g_debug("Get page_data = %p, pid = %d, vte = %p when closing page!", page_data, page_data->pid, vte);
 #ifdef DEFENSIVE
-	if (page_data==NULL) return FALSE;
+	if ((page_data==NULL) || (page_data->window==NULL)) return FALSE;
 #endif
 
 	struct Window *win_data = (struct Window *)g_object_get_data(G_OBJECT(page_data->window),
