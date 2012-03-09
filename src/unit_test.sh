@@ -20,11 +20,13 @@
 #!/bin/bash
 
 INCLUDES="$1"
+
 RUN_GDB=0
 RUN_VALGRIND=0
 TEST_SCRIPT_ONLY=0
 BUILD_ONLY=0
 LIB_LISTS="*.h"
+FUNCTION_FOUND=0
 
 for opt do
 	case "$opt" in
@@ -59,8 +61,16 @@ for opt do
 	esac
 done
 
-
 ECHO=`whereis -b echo | awk '{print $2}'`
+
+CHECK_INCLUDES=`$ECHO "$INCLUDES" | grep -- '-DUNIT_TEST'`
+if [ -z "$CHECK_INCLUDES" ]; then
+	make clean
+	make uto
+	INCLUDES="-DDEFENSIVE -DDEBUG -DFATAL -DDEVELOP -DUNIT_TEST"
+	RUN_GDB=1
+fi
+
 
 PKGCONFIG=`whereis -b pkg-config | awk '{print $2}'`
 if [ -z "$PKGCONFIG" ]; then
@@ -121,11 +131,17 @@ EOF
 
 for DATA in `cat $LIB_LISTS | sed '/^\/\*/,/ \*\/$/d' | sed -e 's/[ \t]*\/\*[ \t]*.*[ \t]*\*\///g' | sed -e 's/[ \t]*\/\/.*//g' | sed -e '/[ \t]*#[ \t]*ifdef[ \t]*USE_NEW_GEOMETRY_METHOD/,/#[ \t]*endif[ \t]*/d' | sed -e '/^[ \t]*#.*/d' | sed '/^[ \t]*typedef.*;[ \t]*$/d' | sed '/^[ \t]*typedef enum/,/}.*;[ \t]*$/d' | tr -d '\n' | sed -e 's/[\t ][\t ]*/_SPACE_/g' | sed -e 's/;/;\n/g' | sed -e 's/_SPACE_/ /g' | sed -e '/[ \t]*struct.*{/,/.*}[ \t]*;/d' | sed -e 's/ *\([)(,]\) */ \1 /g' | sed -e 's/[\t ][\t ]*/_SPACE_/g' | sed -e '/_SPACE_(_SPACE_)_SPACE_/d'`; do
 
+	if [ $FUNCTION_FOUND -eq 1 ]; then
+		break
+	fi
+
 	if [ -n "$SPECIFIC_FUNCTION" ]; then
 		CHECK_STR="_SPACE_\**"$SPECIFIC_FUNCTION"_SPACE_"
 		CHECK_PROGRAM=`echo "$DATA" | grep "$CHECK_STR"`
 		if [ -z "$CHECK_PROGRAM" ]; then
 			continue
+		else
+			FUNCTION_FOUND=1
 		fi
 	fi
 	MAX_STR=0
@@ -409,22 +425,26 @@ EOF
 		if [ $BUILD_ONLY -eq 0 ]; then
 			if [ $RUN_GDB -eq 1 ]; then
 				echo -e "\x1b[1;36m$FUNC_NAME(): \x1b[1;33m** Testing with gdb...\x1b[0m"
-				echo "Testing $FUNC_NAME() with gdb..." > /tmp/lilyterm_$FUNC_NAME.log
-				time gdb -batch -x ./lilyterm.gdb ./unit_test >> /tmp/lilyterm_$FUNC_NAME.log 2>&1
-				CHECK_STR=`tail -n 3 /tmp/lilyterm_$FUNC_NAME.log | tr -d '\n'`
-				if [ "$CHECK_STR" != 'Program exited normally.No stack.' ]; then
-					cat /tmp/lilyterm_$FUNC_NAME.log >> lilyterm_gdb.log
-					echo "" >> lilyterm_gdb.log
+				if [ -n "$FUNCTION_NAME"]; then
+					gdb -batch -x ./lilyterm.gdb ./unit_test
 				else
-					echo -e "\x1b[1;36m$FUNC_NAME(): \x1b[1;33m** Program exited normally. Clear log...\x1b[0m"
+					echo "Testing $FUNC_NAME() with gdb..." > /tmp/lilyterm_$FUNC_NAME.log
+					gdb -batch -x ./lilyterm.gdb ./unit_test >> /tmp/lilyterm_$FUNC_NAME.log 2>&1
+					CHECK_STR=`tail -n 3 /tmp/lilyterm_$FUNC_NAME.log | tr -d '\n'`
+					if [ "$CHECK_STR" != 'Program exited normally.No stack.' ]; then
+						cat /tmp/lilyterm_$FUNC_NAME.log >> lilyterm_gdb.log
+						echo "" >> lilyterm_gdb.log
+					else
+						echo -e "\x1b[1;36m$FUNC_NAME(): \x1b[1;33m** Program exited normally. Clear log...\x1b[0m"
+					fi
+					rm /tmp/lilyterm_$FUNC_NAME.log
 				fi
-				rm /tmp/lilyterm_$FUNC_NAME.log
 			fi
 	
 			if [ $RUN_VALGRIND -eq 1 ]; then
 				echo -e "\x1b[1;36m$FUNC_NAME(): \x1b[1;33m** Testing with valgrind...\x1b[0m"
 				echo "Testing $FUNC_NAME() with valgrind..." >> lilyterm_valgrind.log
-				time valgrind --leak-check=full ./unit_test >> lilyterm_valgrind.log 2>&1
+				valgrind --leak-check=full ./unit_test >> lilyterm_valgrind.log 2>&1
 				echo "" >> lilyterm_valgrind.log
 			fi
 		fi
