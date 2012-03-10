@@ -124,7 +124,7 @@ ut: unit_test
 unit_test: CFLAGS := $(CFLAGS) -g
 unit_test: INCLUDES := $(INCLUDES) -DDEFENSIVE -DDEBUG -DFATAL -DDEVELOP -DUNIT_TEST -DVERSION=\"$(VERSION)_UNIT_TEST_$(date)\"
 unit_test: $(OBJ)
-	@ sh unit_test.sh "$(INCLUDES)" --enable-gdb
+	@ sh unit_test.sh "$(INCLUDES)" --enable-gdb --test_all
 
 .PHONY: uto
 uto: unit_test_object

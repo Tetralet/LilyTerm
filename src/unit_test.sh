@@ -25,29 +25,30 @@ RUN_GDB=0
 RUN_VALGRIND=0
 TEST_SCRIPT_ONLY=0
 BUILD_ONLY=0
-LIB_LISTS="*.h"
+LIB_LISTS="lilyterm.h"
 FUNCTION_FOUND=0
 
 for opt do
 	case "$opt" in
 		--help)
-			echo "Usage: sh $0 INCLUDES --enable-glib-debugger --enable-gtk-debugger --enable-gdb --enable-valgrind --specific_function=FUNCTION_NAME --create_program_only --build_program_only"
+			echo "Usage: sh $0 INCLUDES --test_all --enable-glib-debugger --enable-gtk-debugger --enable-gdb --enable-valgrind --specific_function=FUNCTION_NAME --create_program_only --build_program_only"
 			exit 0
+			;;
+		--test_all)
+			LIB_LISTS="*.h"
+			export G_DEBUG=fatal_warnings
 			;;
 		--enable-glib-debugger)
 			export G_DEBUG=fatal_warnings
-			LIB_LISTS=lilyterm.h
 			;;
 		--enable-gtk-debugger)
 			GTK_DEBUG="--g-fatal-warnings"
-			LIB_LISTS=lilyterm.h
 			;;
 		--enable-gdb)
 			RUN_GDB=1
 			;;
 		--enable-valgrind)
 			RUN_VALGRIND=1
-			LIB_LISTS=lilyterm.h
 			;;
 		--specific_function=*)
 			SPECIFIC_FUNCTION=`echo $opt | cut -d '=' -f 2`
