@@ -31,7 +31,7 @@ FUNCTION_FOUND=0
 for opt do
 	case "$opt" in
 		--help)
-			echo "Usage: sh $0 INCLUDES --test_all --enable-glib-debugger --enable-gtk-debugger --enable-gdb --enable-valgrind --specific_function=FUNCTION_NAME --create_program_only --build_program_only"
+			echo "Usage: sh $0 INCLUDES --test_all --enable-glib-debugger --enable-gtk-debugger --enable-gdb --enable-valgrind --specific_function=FUNCTION_NAME --skip_function=FUNCTION_NAME --create_program_only --build_program_only"
 			exit 0
 			;;
 		--test_all)
@@ -52,6 +52,9 @@ for opt do
 			;;
 		--specific_function=*)
 			SPECIFIC_FUNCTION=`echo $opt | cut -d '=' -f 2`
+			;;
+		--skip_function=*)
+			SKIP_FUNCTION=`echo $opt | cut -d '=' -f 2`
 			;;
 		--create_program_only)
 			TEST_SCRIPT_ONLY=1
@@ -138,6 +141,14 @@ for DATA in `cat $LIB_LISTS | sed '/^\/\*/,/ \*\/$/d' | sed -e 's/[ \t]*\/\*[ \t
 
 	if [ $FUNCTION_FOUND -eq 1 ]; then
 		break
+	fi
+
+	if [ -n "$SKIP_FUNCTION" ]; then
+		CHECK_STR="_SPACE_\**"$SKIP_FUNCTION"_SPACE_"
+		CHECK_PROGRAM=`echo "$DATA" | grep "$CHECK_STR"`
+		if [ -n "$CHECK_PROGRAM" ]; then
+			continue
+		fi
 	fi
 
 	if [ -n "$SPECIFIC_FUNCTION" ]; then
@@ -430,7 +441,7 @@ EOF
 		if [ $BUILD_ONLY -eq 0 ]; then
 			if [ $RUN_GDB -eq 1 ]; then
 				echo -e "\x1b[1;36m$FUNC_NAME(): \x1b[1;33m** Testing with gdb...\x1b[0m"
-				if [ -n "$FUNCTION_NAME"]; then
+				if [ -n "$SPECIFIC_FUNCTION" ]; then
 					gdb -batch -x ./lilyterm.gdb ./unit_test
 				else
 					echo "Testing $FUNC_NAME() with gdb..." > /tmp/lilyterm_$FUNC_NAME.log
@@ -445,7 +456,7 @@ EOF
 					rm /tmp/lilyterm_$FUNC_NAME.log
 				fi
 			fi
-	
+
 			if [ $RUN_VALGRIND -eq 1 ]; then
 				echo -e "\x1b[1;36m$FUNC_NAME(): \x1b[1;33m** Testing with valgrind...\x1b[0m"
 				echo "Testing $FUNC_NAME() with valgrind..." >> lilyterm_valgrind.log
