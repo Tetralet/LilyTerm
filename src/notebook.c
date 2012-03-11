@@ -603,7 +603,7 @@ gchar **get_argv(struct Window *win_data, gboolean *argv_need_be_free)
 	g_debug("! Launch get_argv()! with win_data = %p", win_data);
 #endif
 #ifdef DEFENSIVE
-	if (win_data==NULL) return NULL;
+	if ((win_data==NULL) || (argv_need_be_free==NULL)) return NULL;
 #endif
 	gchar **argv = win_data->argv;
 	*argv_need_be_free = FALSE;
@@ -715,7 +715,7 @@ void label_size_request (GtkWidget *label, GtkRequisition *requisition, struct P
 	g_debug("! Launch label_size_request() with page_data = %p", page_data);
 #endif
 #ifdef DEFENSIVE
-	if (page_data==NULL) return;
+	if ((page_data==NULL) || (page_data->window==NULL)) return;
 #endif
 	struct Window *win_data = (struct Window *)g_object_get_data(G_OBJECT(page_data->window), "Win_Data");
 #ifdef DEFENSIVE
@@ -948,6 +948,9 @@ void vte_grab_focus(GtkWidget *vte, gpointer user_data)
 #ifdef DETAIL
 	g_debug("! Launch vte_grab_focus() with vte = %p", vte);
 #endif
+#ifdef DEFENSIVE
+	if (vte==NULL) return;
+#endif
 	// g_debug("vte = %p grub focus !", vte);
 	struct Page *page_data = (struct Page *)g_object_get_data(G_OBJECT(vte), "Page_Data");
 #ifdef DEFENSIVE
@@ -1133,6 +1136,9 @@ gboolean vte_button_press(GtkWidget *vte, GdkEventButton *event, gpointer user_d
 {
 #ifdef DETAIL
 	g_debug("! Launch vte_button_press() for vte %p", vte);
+#endif
+#ifdef DEFENSIVE
+	if (vte==NULL) return FALSE;
 #endif
 	// We may click mouse button on a lost focus window to popup it's Menu
 	// So that we should find the active_window via page_data
@@ -1671,7 +1677,10 @@ gboolean compare_win_page_encoding(GtkWidget *menu_item_encoding, gchar *encodin
 gchar *get_url(GdkEventButton *event, struct Page *page_data, gint *tag)
 {
 #ifdef DETAIL
-	g_debug("! Launch get_url() with page_data = %p, tag = %d", page_data, *tag);
+	if (tag)
+		g_debug("! Launch get_url() with page_data = %p, tag = %d", page_data, *tag);
+	else
+		g_debug("! Launch get_url() with page_data = %p", page_data);
 #endif
 #ifdef DEFENSIVE
 	if ((page_data==NULL) || (event==NULL)) return NULL;

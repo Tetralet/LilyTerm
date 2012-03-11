@@ -2115,6 +2115,9 @@ gboolean accelerator_parse (const gchar *key_name, const gchar *key_value, guint
 	{
 		// NULL
 		// g_warning("We Got a NULL Key (%s)!\n", key_value);
+#ifdef DEFENSIVE
+		if ((key==NULL) || (mods==NULL)) goto FINISH;
+#endif
 		*key=GDK_KEY_VoidSymbol;
 		*mods=-1;
 		response = TRUE;

@@ -741,6 +741,9 @@ FINISH:
 
 char **set_process_data (pid_t entry_pid, gint *ppid, StrAddr **cmd)
 {
+#ifdef DEFENSIVE
+	if (ppid==NULL) return NULL;
+#endif
 #ifdef FULL
 	if (ppid)
 		g_debug("! Launch set_process_data() with entry_pid = %d, ppid = %d, cmd = %s", entry_pid, *ppid, *cmd);
@@ -1431,7 +1434,10 @@ void window_size_request (GtkWidget *window, GtkRequisition *requisition, struct
 	g_debug("@ window_size_request(): Got keep_vte_size (before) = %x", win_data->keep_vte_size);
 
 	GtkRequisition window_requisition;
-	gtk_widget_get_child_requisition (window, &window_requisition);
+#    ifdef DEFENSIVE
+	if (window)
+#    endif
+		gtk_widget_get_child_requisition (window, &window_requisition);
 	g_debug("@ window_size_request(): request_size (before) = %d x %d",
 		window_requisition.width, window_requisition.height);
 #  endif
@@ -1550,7 +1556,10 @@ void window_size_allocate(GtkWidget *window, GtkAllocation *allocation, struct W
 
 #  ifdef GEOMETRY
 	GtkRequisition window_requisition;
-	gtk_window_get_size(GTK_WINDOW(window), &window_requisition.width, &window_requisition.height);
+#    ifdef DEFENSIVE
+	if (window)
+#    endif
+	  gtk_window_get_size(GTK_WINDOW(window), &window_requisition.width, &window_requisition.height);
 	g_debug("! The final window size (for %p) is %d x %d (keep_vte_size = %d)",
 		window, window_requisition.width, window_requisition.height, win_data->keep_vte_size);
 #  endif
@@ -2116,7 +2125,7 @@ GtkNotebook *create_window (GtkNotebook *notebook, GtkWidget *page, gint x, gint
 			notebook, win_data);
 #endif
 #ifdef DEFENSIVE
-	if (win_data==NULL) return NULL;
+	if ((win_data==NULL) || (win_data->current_vte==NULL)) return NULL;
 #endif
 	struct Page *page_data = (struct Page *)g_object_get_data(G_OBJECT(win_data->current_vte), "Page_Data");
 #ifdef DEFENSIVE
@@ -2641,11 +2650,23 @@ void dump_data (struct Window *win_data, struct Page *page_data)
 	g_debug("- page_data->page_shows_current_dir = %d", page_data->page_shows_current_dir);
 	g_debug("- page_data->page_shows_current_cmdline = %d", page_data->page_shows_current_cmdline);
 	g_debug("- page_data->bold_action_page_name = %d", page_data->bold_action_page_name);
-	g_debug("- page_data->*window_title_tpgid = %d", *(page_data->window_title_tpgid));
+#ifdef DEFENSIVE
+	if ((page_data) && (page_data->window_title_tpgid))
+#endif
+		g_debug("- page_data->*window_title_tpgid = %d", *(page_data->window_title_tpgid));
 //	g_debug("- page_data->use_scrollback_lines = %d", page_data->use_scrollback_lines);
-	g_debug("- page_data->*lost_focus = %d", *(page_data->lost_focus));
-	g_debug("- page_data->*keep_vte_size = %d", *(page_data->keep_vte_size));
-	g_debug("- page_data->*current_vte = %p", *(page_data->current_vte));
+#ifdef DEFENSIVE
+	if (page_data->lost_focus)
+#endif
+		g_debug("- page_data->*lost_focus = %d", *(page_data->lost_focus));
+#ifdef DEFENSIVE
+	if (page_data->keep_vte_size)
+#endif
+		g_debug("- page_data->*keep_vte_size = %d", *(page_data->keep_vte_size));
+#ifdef DEFENSIVE
+	if (page_data->current_vte)
+#endif
+		g_debug("- page_data->*current_vte = %p", *(page_data->current_vte));
 	g_debug("- page_data->window_title_pwd = %s", page_data->window_title_pwd);
 	g_debug("- page_data->custom_window_title = %d", page_data->custom_window_title);
 	// g_debug("- page_data->*update_window_title_only = %d", *(page_data->update_window_title_only));

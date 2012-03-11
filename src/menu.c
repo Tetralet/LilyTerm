@@ -1141,8 +1141,11 @@ void set_encoding(GtkWidget *menuitem, gpointer user_data)
 void new_tab_with_locale(GtkWidget *locale_menuitem, gboolean VTE_CJK_WIDTH)
 {
 #ifdef DETAIL
-	g_debug("! Launch new_tab_with_locale() with locale = %s and VTE_CJK_WIDTH = %d",
-		gtk_widget_get_name(locale_menuitem), VTE_CJK_WIDTH);
+	if (locale_menuitem)
+		g_debug("! Launch new_tab_with_locale() with locale = %s and VTE_CJK_WIDTH = %d",
+			gtk_widget_get_name(locale_menuitem), VTE_CJK_WIDTH);
+	else
+		g_debug("! Launch new_tab_with_locale() with VTE_CJK_WIDTH = %d", VTE_CJK_WIDTH);
 #endif
 #ifdef FATAL
 	// g_debug("menu_active_window = %p", menu_active_window);
@@ -2129,10 +2132,11 @@ void load_background_image_from_file(GtkWidget *widget, struct Window *win_data)
 	gtk_widget_show_all(dialog);
 	preview->default_filename = g_strdup(background_image_path);
 	update_preview_image (GTK_FILE_CHOOSER(dialog), preview);
-	GtkResponseType response = gtk_dialog_run (GTK_DIALOG (dialog));
+	GtkResponseType response;
 #ifdef UNIT_TEST
 	for (response=GTK_RESPONSE_HELP; response<=GTK_RESPONSE_NONE; response++)
 #else
+	response = gtk_dialog_run (GTK_DIALOG (dialog));
 	if (response == GTK_RESPONSE_ACCEPT)
 #endif
 	{
@@ -2149,15 +2153,22 @@ void load_background_image_from_file(GtkWidget *widget, struct Window *win_data)
 		win_data->scroll_background = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(preview->scroll_background));
 		gint i;
 		struct Page *page_data = NULL;
-		for (i=0; i<gtk_notebook_get_n_pages(GTK_NOTEBOOK(win_data->notebook)); i++)
-		{
-			page_data = get_page_data_from_nth_page(win_data, i);
 #ifdef DEFENSIVE
-			if (page_data)
+		if (win_data->notebook)
+		{
 #endif
-				set_background_saturation (NULL, 0, win_data->background_saturation,
-							   page_data->vte);
+			for (i=0; i<gtk_notebook_get_n_pages(GTK_NOTEBOOK(win_data->notebook)); i++)
+			{
+				page_data = get_page_data_from_nth_page(win_data, i);
+#ifdef DEFENSIVE
+				if (page_data)
+#endif
+					set_background_saturation (NULL, 0, win_data->background_saturation,
+								   page_data->vte);
+			}
+#ifdef DEFENSIVE
 		}
+#endif
 	}
 	gtk_widget_destroy (dialog);
 	g_free(preview);
@@ -2169,7 +2180,7 @@ void update_preview_image (GtkFileChooser *dialog, struct Preview *preview)
 	g_debug("! Launch update_preview_image() with dialog = %p, preview = %p!", dialog, preview);
 #endif
 #ifdef DEFENSIVE
-	if (preview==NULL) return;
+	if ((preview==NULL) || (dialog==NULL)) return;
 #endif
 	gchar *filename = preview->default_filename;
 	if (filename)

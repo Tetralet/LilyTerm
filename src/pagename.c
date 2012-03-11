@@ -824,7 +824,8 @@ gchar *get_tab_name_with_page_names(struct Window *win_data)
 gchar *get_tab_name_with_cmdline(struct Page *page_data)
 {
 #ifdef DETAIL
-	g_debug("! Launch get_tab_name_with_cmdline() for tpgid %d", page_data->new_tpgid);
+	if (page_data)
+		g_debug("! Launch get_tab_name_with_cmdline() for tpgid %d", page_data->new_tpgid);
 #endif
 #ifdef DEFENSIVE
 	if (page_data==NULL) return NULL;

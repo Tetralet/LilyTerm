@@ -52,6 +52,7 @@ for opt do
 			;;
 		--specific_function=*)
 			SPECIFIC_FUNCTION=`echo $opt | cut -d '=' -f 2`
+			LIB_LISTS="*.h"
 			;;
 		--skip_function=*)
 			SKIP_FUNCTION=`echo $opt | cut -d '=' -f 2`
