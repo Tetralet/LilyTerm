@@ -67,6 +67,7 @@ for opt do
 done
 
 ECHO=`whereis -b echo | awk '{print $2}'`
+PRINTF=`whereis -b printf | awk '{print $2}'`
 
 CHECK_INCLUDES=`$ECHO "$INCLUDES" | grep -- '-DUNIT_TEST'`
 if [ -z "$CHECK_INCLUDES" ]; then
@@ -83,7 +84,7 @@ fi
 
 PKGCONFIG=`whereis -b pkg-config | awk '{print $2}'`
 if [ -z "$PKGCONFIG" ]; then
-	$ECHO -e "\x1b[1;31m** ERROR: Command pkg-config is not found!\x1b[0m"
+	$PRINTF "\x1b\x5b1;31m** ERROR: Command pkg-config is not found!\x1b\x5b0m\n"
 	exit 1
 fi
 
@@ -91,7 +92,7 @@ VTE=`$PKGCONFIG --exists 'vte' && $ECHO 'vte'`
 if [ $VTE = "vte" ]; then
   GTK=`$PKGCONFIG --exists 'gtk+-2.0' && $ECHO 'gtk+-2.0'`
   if [ "$GTK" != "gtk+-2.0" ]; then
-    $ECHO -e "\x1b[1;31m** ERROR: You need GTK+2 to run this unit test program!\x1b[0m"
+    $PRINTF "\x1b\x5b1;31m** ERROR: You need GTK+2 to run this unit test program!\x1b\x5b0m\n"
     exit 1
   fi
 else
@@ -99,11 +100,11 @@ else
   if [ $VTE = "vte-2.90" ]; then
     GTK=`$PKGCONFIG --exists 'gtk+-3.0' && $ECHO 'gtk+-3.0'`
     if [ "$GTK" != "gtk+-3.0" ]; then
-      $ECHO -e "\x1b[1;31m** ERROR: You need GTK+3 to run this unit test program!\x1b[0m"
+      $PRINTF "\x1b\x5b1;31m** ERROR: You need GTK+3 to run this unit test program!\x1b\x5b0m\n"
       exit 1
     fi
   else
-    $ECHO -e "\x1b[1;31m** ERROR: You need VTE to run this unit test program!\x1b[0m"
+    $PRINTF "\x1b\x5b1;31m** ERROR: You need VTE to run this unit test program!\x1b\x5b0m\n"
     exit 1
   fi
 fi
@@ -113,7 +114,7 @@ if [ -z "$CC" ]; then
 fi
 
 if [ -z "$CFLAGS" ]; then
-  CFLAGS="-Wall -Werror -Wformat -Wformat-security -Werror=format-security -O2 -g"
+  CFLAGS="-Wall -O2 -g"
 fi
 
 OBJ="menu.o profile.o dialog.o pagename.o notebook.o font.o property.o window.o misc.o console.o main.o"
@@ -194,7 +195,7 @@ for DATA in `cat $LIB_LISTS | sed '/^\/\*/,/ \*\/$/d' | sed -e 's/[ \t]*\/\*[ \t
 					# sed -e 's/^.* \**\([^ ]*\)/\1/g': clear the declare, like "gchar **"
 					FUNC_NAME=`echo $STR | sed -e 's/_SPACE_/ /g' | sed -e 's/^ *//g' | sed -e 's/ *$//g' | sed -e 's/^.* \**\([^ ]*\)/\1/g'`
 					# echo "GOT FUNC_NAME = $FUNC_NAME"
-					echo -e "\x1b[1;36m$FUNC_NAME(): \x1b[1;33m** Createing unit_test.c...\x1b[0m"
+					$PRINTF "\x1b\x5b1;36m$FUNC_NAME(): \x1b[1;33m** Createing unit_test.c...\x1b\x5b0m\n"
 				fi
 				;;
 			1)
@@ -436,12 +437,12 @@ EOF
 }
 EOF
 	if [ $TEST_SCRIPT_ONLY -eq 0 ]; then
-		echo -e "\x1b[1;36m$FUNC_NAME(): \x1b[1;33m** Compiling unit_test...\x1b[0m"
+		$PRINTF "\x1b\x5b1;36m$FUNC_NAME(): \x1b[1;33m** Compiling unit_test...\x1b\x5b0m\n"
 		$CC $CFLAGS $INCLUDES -o unit_test unit_test.c $OBJ `$PKGCONFIG --cflags --libs $GTK $VTE` || exit 1
 
 		if [ $BUILD_ONLY -eq 0 ]; then
 			if [ $RUN_GDB -eq 1 ]; then
-				echo -e "\x1b[1;36m$FUNC_NAME(): \x1b[1;33m** Testing with gdb...\x1b[0m"
+				$PRINTF "\x1b\x5b1;36m$FUNC_NAME(): \x1b[1;33m** Testing with gdb...\x1b\x5b0m\n"
 				if [ -n "$SPECIFIC_FUNCTION" ]; then
 					gdb -batch -x ./lilyterm.gdb ./unit_test
 				else
@@ -452,14 +453,14 @@ EOF
 						cat /tmp/lilyterm_$FUNC_NAME.log >> lilyterm_gdb.log
 						echo "" >> lilyterm_gdb.log
 					else
-						echo -e "\x1b[1;36m$FUNC_NAME(): \x1b[1;33m** Program exited normally. Clear log...\x1b[0m"
+						$PRINTF "\x1b\x5b1;36m$FUNC_NAME(): \x1b[1;33m** Program exited normally. Clear log...\x1b\x5b0m\n"
 					fi
 					rm /tmp/lilyterm_$FUNC_NAME.log
 				fi
 			fi
 
 			if [ $RUN_VALGRIND -eq 1 ]; then
-				echo -e "\x1b[1;36m$FUNC_NAME(): \x1b[1;33m** Testing with valgrind...\x1b[0m"
+				$PRINTF "\x1b\x5b1;36m$FUNC_NAME(): \x1b[1;33m** Testing with valgrind...\x1b\x5b0m\n"
 				echo "Testing $FUNC_NAME() with valgrind..." >> lilyterm_valgrind.log
 				valgrind --leak-check=full ./unit_test >> lilyterm_valgrind.log 2>&1
 				echo "" >> lilyterm_valgrind.log

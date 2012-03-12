@@ -3,8 +3,6 @@ include .default
 
 DIR = src data
 
-ECHO = $(shell whereis -b echo | awk '{print $$2}')
-
 ifeq ($(NLS), Y)
 DIR += po
 endif
@@ -46,12 +44,12 @@ ifeq ($(NLS), Y)
 endif
 	@ if [ -z "`ls -A "$(DESTDIR)/$(PREFIX)"`" ]; then \
 		$(ECHO) "===========================================" ; \
-		$(ECHO) -e "\x1b[1;31m** WARNING: \"$(DESTDIR)/$(PREFIX)\" is empty. Please remove it manually if necessary.\x1b[0m" ; \
+		$(PRINTF) "\x1b\x5b1;31m** WARNING: \"$(DESTDIR)/$(PREFIX)\" is empty. Please remove it manually if necessary.\x1b\x5b0m\n" ; \
 		$(ECHO) "===========================================" ; \
 	fi
 distclean: clean
 	@ if [ -f .config ]; then \
-		$(ECHO) -e "\x1b[1;35m** deleting .config...\x1b[0m" ; \
+		$(PRINTF) "\x1b\x5b1;35m** deleting .config...\x1b\x5b0m\n" ; \
 		rm .config ; \
 	fi
 

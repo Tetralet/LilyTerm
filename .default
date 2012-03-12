@@ -5,6 +5,7 @@ BUGREPORT = tetrlet@gmail.com
 
 YEAR = $(shell date +%Y)
 ECHO = $(shell whereis -b echo | awk '{print $$2}')
+PRINTF = $(shell whereis -b printf | awk '{print $$2}')
 
 PREFIX = /usr/local
 DATADIR = $(PREFIX)/share

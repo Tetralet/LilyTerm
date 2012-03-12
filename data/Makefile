@@ -39,55 +39,55 @@ $(BINARY).conf:
 		cd ../src ; \
 		$(MAKE) ; \
 	fi
-	@ $(ECHO) -e "\x1b[1;33m** creating $(BINARY).conf...\x1b[0m"
+	@ $(PRINTF) "\x1b\x5b1;33m** creating $(BINARY).conf...\x1b\x5b0m\n"
 	@ ../src/$(MAIN_BINARY) -p > $(BINARY).conf
 
 $(BINARY).1.gz:
 	@ if [ -f $(BINARY).1 ]; then \
-		$(ECHO) -e "\x1b[1;33m** adding $(BINARY).1...\x1b[0m" ; \
+		$(PRINTF) "\x1b\x5b1;33m** adding $(BINARY).1...\x1b\x5b0m\n" ; \
 		gzip $(BINARY).1 ; \
 	fi
 
 .PHONY: clean
 clean:
 	@ if [ -f $(BINARY).conf ]; then \
-		$(ECHO) -e "\x1b[1;35m** deleteing $(BINARY).conf...\x1b[0m" ; \
+		$(PRINTF) "\x1b\x5b1;35m** deleteing $(BINARY).conf...\x1b\x5b0m\n" ; \
 		rm $(BINARY).conf ; \
 	fi
 	@ if [ -f $(BINARY).1.gz ]; then \
-		$(ECHO) -e "\x1b[1;35m** unziping $(BINARY).1...\x1b[0m" ; \
+		$(PRINTF) "\x1b\x5b1;35m** unziping $(BINARY).1...\x1b\x5b0m\n" ; \
 		gzip -d  $(BINARY).1.gz ; \
 	fi
 
 .PHONY: install
 install: all
-	@ $(ECHO) -e "\x1b[1;33m** installing $(BINARY).conf to $(DESTDIR)/$(ETCDIR)...\x1b[0m"
+	@ $(PRINTF) "\x1b\x5b1;33m** installing $(BINARY).conf to $(DESTDIR)/$(ETCDIR)...\x1b\x5b0m\n"
 	@ install -d $(DESTDIR)/$(ETCDIR)
 	@ install -m 644 $(BINARY).conf $(DESTDIR)/$(ETCDIR)
 
-	@ $(ECHO) -e "\x1b[1;33m** installing AUTHORS COPYING ChangeLog to $(DESTDIR)/$(DOCDIR)...\x1b[0m"
+	@ $(PRINTF) "\x1b\x5b1;33m** installing AUTHORS COPYING ChangeLog to $(DESTDIR)/$(DOCDIR)...\x1b\x5b0m\n"
 	@ install -d $(DESTDIR)/$(DOCDIR)
 	@ install -m 644 ../AUTHORS ../COPYING ../ChangeLog $(DESTDIR)/$(DOCDIR)
 
-	@ $(ECHO) -e "\x1b[1;33m** installing $(BINARY).1.gz to $(DESTDIR)/$(MANDIR)...\x1b[0m"
+	@ $(PRINTF) "\x1b\x5b1;33m** installing $(BINARY).1.gz to $(DESTDIR)/$(MANDIR)...\x1b\x5b0m\n"
 	@ install -d $(DESTDIR)/$(MANDIR)
 	@ install -m 644 $(BINARY).1.gz $(DESTDIR)/$(MANDIR)
 
-	@ $(ECHO) -e "\x1b[1;33m** installing $(BINARY).desktop to $(DESTDIR)/$(DESKTOP_DIR)...\x1b[0m"
+	@ $(PRINTF) "\x1b\x5b1;33m** installing $(BINARY).desktop to $(DESTDIR)/$(DESKTOP_DIR)...\x1b\x5b0m\n"
 	@ install -d $(DESTDIR)/$(DESKTOP_DIR)
 	@ install -m 644  $(BINARY).desktop $(DESTDIR)/$(DESKTOP_DIR)
 
-	@ $(ECHO) -e "\x1b[1;33m** installing $(BINARY).png $(BINARY).xpm to $(DESTDIR)/$(ICONDIR)...\x1b[0m"
+	@ $(PRINTF) "\x1b\x5b1;33m** installing $(BINARY).png $(BINARY).xpm to $(DESTDIR)/$(ICONDIR)...\x1b\x5b0m\n"
 	@ install -d $(DESTDIR)/$(ICONDIR)
 	@ install -m 644 $(BINARY).png $(BINARY).xpm $(DESTDIR)/$(ICONDIR)
 
-	@ $(ECHO) -e "\x1b[1;33m** installing $(BINARY).conf to $(DESTDIR)/$(EXAMPLES_DIR)...\x1b[0m"
+	@ $(PRINTF) "\x1b\x5b1;33m** installing $(BINARY).conf to $(DESTDIR)/$(EXAMPLES_DIR)...\x1b\x5b0m\n"
 	@ install -d $(DESTDIR)/$(EXAMPLES_DIR)
 	@ install -m 644 $(BINARY).conf $(DESTDIR)/$(EXAMPLES_DIR)
 
 ifeq ($(GNOME_CONTROL_CENTER), Y)
     ifneq ($(GNOME_CONTROL_CENTER_DIR), )
-	@ $(ECHO) -e "\x1b[1;33m** installing $(BINARY).xml to $(DESTDIR)/$(GNOME_CONTROL_CENTER_DIR)...\x1b[0m"
+	@ $(PRINTF) "\x1b\x5b1;33m** installing $(BINARY).xml to $(DESTDIR)/$(GNOME_CONTROL_CENTER_DIR)...\x1b\x5b0m\n"
 	@ install -d $(DESTDIR)/$(GNOME_CONTROL_CENTER_DIR)
 	@ install -m 644 $(BINARY).xml $(DESTDIR)/$(GNOME_CONTROL_CENTER_DIR)
     endif
@@ -97,15 +97,15 @@ endif
 uninstall:
 	@ - for FileName in $(FileList) ; do \
 		if [ -f "$$FileName" ]; then \
-			$(ECHO) -e "\x1b[1;35m** "deleting $$FileName..."\x1b[0m" ; \
+			$(PRINTF) "\x1b\x5b1;35m** deleting $$FileName...\x1b\x5b0m\n" ; \
 			rm -f "$$FileName" ; \
 			DirName=`dirname $$FileName` ; \
 			until [ -n "`ls -A $$DirName`" -o "$$DirName" = "$(DESTDIR)/$(PREFIX)" ]; do \
-				$(ECHO) -e "\x1b[1;35m** deleting $$DirName...\x1b[0m" ; \
+				$(PRINTF) "\x1b\x5b1;35m** deleting $$DirName...\x1b\x5b0m\n" ; \
 				rmdir "$$DirName" ; \
 				DirName=`dirname $$DirName` ; \
 			done \
 		else \
-			$(ECHO) -e "\x1b[1;31m** "$$FileName is NOT exist!"\x1b[0m"; \
+			$(PRINTF) "\x1b\x5b1;31m** $$FileName is NOT exist!\x1b\x5b0m\n"; \
 		fi ; \
 	done

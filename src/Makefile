@@ -169,17 +169,17 @@ clean:
 	-@ for FileName in $(BINARY) $(BINARY)_dev $(BINARY)_dbg $(OBJ) unit_test unit_test.c lilyterm.gdb lilyterm_gdb.log lilyterm_valgrind.log ; \
 	do \
 		if [ -f "$$FileName" ]; then \
-			$(ECHO) -e "\x1b[1;35m** "deleting $$FileName..."\x1b[0m"; \
+			$(PRINTF) "\x1b\x5b1;35m** deleting $$FileName...\x1b\x5b0m\n"; \
 			rm "$$FileName"; \
 		fi; \
 	done
 
 %.o: %.c %.h data.h $(BINARY).h
-	@ $(ECHO) -e "\x1b[1;33m** compiling $@...\x1b[0m"
+	@ $(PRINTF) "\x1b\x5b1;33m** compiling $@...\x1b\x5b0m\n"
 	@ $(CC) $(CFLAGS) $(INCLUDES) -c $< `$(OBJ_PKG_CMD)`
 
 $(BINARY): $(OBJ)
-	@ $(ECHO) -e "\x1b[1;36m** compiling $(BINARY)...\x1b[0m"
+	@ $(PRINTF) "\x1b\x5b1;36m** compiling $(BINARY)...\x1b\x5b0m\n"
 	@ $(CC) $(LDFLAGS) $(CFLAGS) -o $(BINARY) $(OBJ) `$(BINARY_PKG_CMD)`
 
 .PHONY: data
@@ -191,21 +191,21 @@ install: $(BINARY)
 	@ echo $(PREFIX)
 	@ install -d $(DESTDIR)/$(BINDIR)
 	@ if [ -f $(BINARY) ]; then \
-		$(ECHO) -e "\x1b[1;33m** installing $(BINARY) to $(DESTDIR)/$(BINDIR)...\x1b[0m" ; \
+		$(PRINTF) "\x1b\x5b1;33m** installing $(BINARY) to $(DESTDIR)/$(BINDIR)...\x1b\x5b0m\n" ; \
 		install -m 755 $(BINARY) $(DESTDIR)/$(BINDIR) ; \
 	fi ; \
 
 .PHONY: uninstall
 uninstall:
 	@ - if [ -f $(DESTDIR)/$(BINDIR)/$(BINARY) ]; then \
-		$(ECHO) -e "\x1b[1;35m** deleting $(DESTDIR)/$(BINDIR)/$(BINARY)...\x1b[0m" ; \
+		$(PRINTF) "\x1b\x5b1;35m** deleting $(DESTDIR)/$(BINDIR)/$(BINARY)...\x1b\x5b0m\n" ; \
 		rm "$(DESTDIR)/$(BINDIR)/$(BINARY)" ; \
 		DirName="$(DESTDIR)/$(BINDIR)" ; \
 		until [ -n "`ls -A $$DirName`" -o "$$DirName" = "$(DESTDIR)/$(PREFIX)" ]; do \
-			$(ECHO) -e "\x1b[1;35m** deleting $$DirName...\x1b[0m" ; \
+			$(PRINTF) "\x1b\x5b1;35m** deleting $$DirName...\x1b\x5b0m\n" ; \
 			rmdir "$$DirName" ; \
 			DirName=`dirname $$DirName` ; \
 		done \
 	else \
-		$(ECHO) -e "\x1b[1;31m** $(DESTDIR)/$(BINDIR)/$(BINARY) is NOT exist!\x1b[0m" ; \
+		$(PRINTF) "\x1b\x5b1;31m** $(DESTDIR)/$(BINDIR)/$(BINARY) is NOT exist!\x1b\x5b0m\n" ; \
 	fi
