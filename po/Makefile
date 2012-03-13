@@ -5,21 +5,49 @@ LANG_LIST ?= de fr es it nl pl ru sk tr uk zh_CN zh_TW
 PO_LIST ?= $(LANG_LIST:=.po)
 MO_LIST ?= $(LANG_LIST:=.mo)
 
+XGETTEXT_PARAMETER = -k_
+
+SUPPORT_FROM_CODE = $(shell xgettext --help | grep -q -- '--from-code' && echo Y)
+ifeq ($(SUPPORT_FROM_CODE), Y)
+	XGETTEXT_PARAMETER += --from-code=UTF-8
+endif
+
+SUPPORT_COPYRIGHT_HOLDER = $(shell xgettext --help | grep -q -- '--copyright-holder' && echo Y)
+ifeq ($(SUPPORT_COPYRIGHT_HOLDER), Y)
+	XGETTEXT_PARAMETER += --copyright-holder="$(YEAR) FULL NAME <EMAIL@ADDRESS>"
+endif
+
+SUPPORT_PACKAGE_NAME = $(shell xgettext --help | grep -q -- '--package-name' && echo Y)
+ifeq ($(SUPPORT_PACKAGE_NAME), Y)
+	XGETTEXT_PARAMETER += --package-name=$(PACKAGE)
+endif
+
+SUPPORT_PACKAGE_VERSION = $(shell xgettext --help | grep -q -- '--package-version' && echo Y)
+ifeq ($(SUPPORT_PACKAGE_VERSION), Y)
+	XGETTEXT_PARAMETER += --package-version="$(VER)"
+endif
+
+SUPPORT_USE_UNTRANSLATED = $(shell msgcmp --help | grep -q -- '--use-untranslated' && echo Y)
+ifeq ($(SUPPORT_USE_UNTRANSLATED), Y)
+	MSGCMP_PARAMETER += --use-untranslated
+endif
+
+SUPPORT_PREVIOUS = $(shell msgmerge --help | grep -q -- '--previous' && echo Y)
+ifeq ($(SUPPORT_PREVIOUS), Y)
+	MSGMERGE_PARAMETER += --previous
+endif
+
 .PHONY: all
 all: pot $(PO_LIST) $(MO_LIST)
 
 .PHONY: pot
 pot:
 	@ cd ../src ; \
-	xgettext --from-code=UTF-8 -k_ \
-		 --copyright-holder="$(YEAR) FULL NAME <EMAIL@ADDRESS>" \
-		 --package-name=$(PACKAGE) \
-		 --package-version="$(VER)" \
-		 --add-comments='TRANSLATE NOTE:' -o ../po/$(BINARY).po *.c
+	xgettext $(XGETTEXT_PARAMETER) --add-comments='TRANSLATE NOTE:' -o ../po/$(BINARY).po *.c
 	@#  echo '' >> $(BINARY).po
 	@#  echo 'msgid "A light and easy to use libvte based X Terminal Emulator"' >> $(BINARY).po
 	@#  echo 'msgstr ""' >> $(BINARY).po
-	@ if (msgcmp --use-untranslated $(BINARY).pot $(BINARY).po) then \
+	@ if (msgcmp $(MSGCMP_PARAMETER) $(BINARY).pot $(BINARY).po) then \
 		rm $(BINARY).po ; \
 	else \
 		$(PRINTF) "\x1b\x5b1;36m** creating $(BINARY).pot...\x1b\x5b0m\n" ; \
@@ -33,7 +61,7 @@ po: $(PO_LIST)
 
 %.po: $(BINARY).pot
 	@ $(PRINTF) "\x1b\x5b1;33m** msgmerge $@...\x1b\x5b0m\n"
-	-msgmerge --previous $@ $< -o $@
+	-msgmerge $(MSGMERGE_PARAMETER) $@ $< -o $@
 
 %.mo: %.po $(BINARY).pot
 	@ $(PRINTF) "\x1b\x5b1;33m** creating $@...\x1b\x5b0m\n"
