@@ -38,7 +38,10 @@ ifeq ($(SUPPORT_PREVIOUS), Y)
 endif
 
 .PHONY: all
-all: pot $(PO_LIST) $(MO_LIST)
+all: $(MO_LIST)
+
+.PHONY: update-po
+update-po: pot $(PO_LIST)
 
 .PHONY: pot
 pot:
@@ -57,7 +60,7 @@ pot:
 $(BINARY).pot: pot
 
 .PHONY: po
-po: $(PO_LIST)
+po: $(MO_LIST)
 
 %.po: $(BINARY).pot
 	@ $(PRINTF) "\x1b\x5b1;33m** msgmerge $@...\x1b\x5b0m\n"
