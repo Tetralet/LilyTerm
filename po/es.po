@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LilyTerm 0.9.9\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-12 16:23+0800\n"
+"POT-Creation-Date: 2012-03-16 21:07+0800\n"
 "PO-Revision-Date: 2010-05-09 16:52-0500\n"
 "Last-Translator: P.L. Francisco <disco299@gmail.com>\n"
 "Language-Team: lilyterm\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
 "X-Generator: Virtaal 0.5.2\n"
 
-#: console.c:116 dialog.c:834
+#: console.c:116 dialog.c:831
 #, fuzzy
 #| msgid ""
 #| "Default shortcut key: (It may custom or disable by editing user's "
@@ -33,12 +33,16 @@ msgstr ""
 "del usuario)\n"
 "\n"
 
-#: console.c:124
+#: console.c:123
 #, fuzzy, c-format
 #| msgid "Please report bug to %s. Thank you for using %s!\n"
-msgid ""
-"\n"
-"Please report bug to %s. Thank you for using %s!"
+msgid "Please report bug to %s."
+msgstr "Reporte cualquier error a %s. ¡Gracias por usar %s!\n"
+
+#: console.c:125 dialog.c:869
+#, fuzzy, c-format
+#| msgid "Please report bug to %s. Thank you for using %s!\n"
+msgid "Thank you for using %s!"
 msgstr "Reporte cualquier error a %s. ¡Gracias por usar %s!\n"
 
 #: console.c:143
@@ -278,7 +282,7 @@ msgstr ""
 "\t\t\t(p.e. Simula el tercer botón del mouse)\n"
 "\n"
 
-#: dialog.c:98 dialog.c:2714 menu.c:2493
+#: dialog.c:98 dialog.c:2768 menu.c:2493
 msgid "The following error is occurred:"
 msgstr "Ha ocurrido el siguiente error:"
 
@@ -318,7 +322,7 @@ msgstr ""
 msgid "Use Perl compatible regular expressions"
 msgstr ""
 
-#: dialog.c:299 dialog.c:376
+#: dialog.c:299 dialog.c:366
 #, fuzzy
 #| msgid "  * <Ctrl><O>\t\tSelect all the text in the Vte Terminal box\n"
 msgid "Paste texts to every Vte Terminal"
@@ -338,248 +342,282 @@ msgstr ""
 msgid "Append a <NewLine> to the end of the text."
 msgstr ""
 
-#: dialog.c:358
+#: dialog.c:357
 msgid "Grab keys"
 msgstr ""
 
-#: dialog.c:373
+#: dialog.c:363
 msgid ""
 "Paste the grabbed key to the Vte Terminals.\n"
 "It will be useful if you want to paste combined keys, like <Ctrl><C>."
 msgstr ""
 
-#: dialog.c:396 dialog.c:775
+#: dialog.c:386 dialog.c:755
 #, fuzzy
 msgid "Key Value:"
 msgstr "Valor de la clave:"
 
-#: dialog.c:403
+#: dialog.c:392
 msgid "Entry"
 msgstr ""
 
-#: dialog.c:417
+#: dialog.c:397
 msgid "Add new locales and set the default locale"
 msgstr ""
 
 #. TRANSLATE NOTE: You may replace the following locales with the locale name of your country.
 #. TRANSLATE NOTE: For example, replace "zh_TW" with "ru_RU", replace "zh_TW.Big5" with "ru_RU.KOI8-R",
 #. TRANSLATE NOTE: or replace "zh_TW.UTF-8" with "ru_RU.UTF-8".
-#: dialog.c:436
+#: dialog.c:416
 msgid ""
 "The default locale used when initing a Vte Terminal.\n"
 "You may use \"zh_TW\", \"zh_TW.Big5\", or \"zh_TW.UTF-8\" here."
 msgstr ""
 
-#: dialog.c:440
+#: dialog.c:420
 msgid "Default locale:"
 msgstr ""
 
 #. TRANSLATE NOTE: You may replace the following locales with the locale name of your country.
 #. TRANSLATE NOTE: For example, replace "zh_TW" with "ja_JP", replace "zh_TW.Big5" with "ja_JP.EUC-JP",
 #. TRANSLATE NOTE: and replace "zh_TW.UTF-8" with "ja_JP.UTF-8".
-#: dialog.c:447
+#: dialog.c:427
 msgid ""
 "The locales list on right click menu, separate with <space>.\n"
 "You may use \"zh_TW\", \"zh_TW.Big5\", or \"zh_TW.UTF-8\" here.\n"
 "You may want to use \"UTF-8\" here if you have no locale data installed."
 msgstr ""
 
-#: dialog.c:452
+#: dialog.c:432
 msgid "Locales list:"
 msgstr ""
 
-#: dialog.c:459
+#: dialog.c:439
 msgid "Change the saturation of background"
 msgstr "Cambia la saturación del color del fondo de la terminal"
 
-#: dialog.c:468
+#: dialog.c:448
 msgid "Change the Saturation of background:"
 msgstr "Modificar la saturación del fondo:"
 
-#: dialog.c:491
+#: dialog.c:471
 msgid "Change the foreground color in terminal"
 msgstr "Modificar el color de primer plano de la terminal"
 
-#: dialog.c:527 menu.c:109
+#: dialog.c:507 menu.c:109
 #, c-format
 msgid "Change the %s color on tab"
 msgstr "Modificar el color %s en la solapa"
 
-#: dialog.c:615 dialog.c:2533
+#: dialog.c:595 dialog.c:2587
 msgid "Bold Demo Text"
 msgstr "Texto en negritas"
 
-#: dialog.c:666
+#: dialog.c:646
 msgid "Confirm to close multi tabs"
 msgstr "Confirmar cuando intente cerrar varias solapas al mismo tiempo"
 
-#: dialog.c:675
+#: dialog.c:655
 msgid "You are about to close multi tabs. Continue anyway?"
 msgstr "Esta a punto de cerrar varias solapas. ¿Desea continuar?"
 
-#: dialog.c:682 dialog.c:1164
+#: dialog.c:662 dialog.c:1167
 msgid "those tabs"
 msgstr ""
 
-#: dialog.c:688
+#: dialog.c:668
 msgid ""
 "You may press <Ctrl + Alt + Shift + Win> + <any key> here\n"
 "to get the key value used for the key binding."
 msgstr ""
 
-#: dialog.c:690
+#: dialog.c:670
 #, fuzzy
 msgid "Get the key value for function key"
 msgstr "Obtener el valor de la clave que se usa en el perfil"
 
-#: dialog.c:743
+#: dialog.c:723
 #, fuzzy
 msgid "Function Key Name"
 msgstr "Obtener el valor de la función"
 
-#: dialog.c:747
+#: dialog.c:727
 msgid "Shortcut Key"
 msgstr ""
 
-#: dialog.c:755
+#: dialog.c:735
 #, fuzzy
 msgid "Key Group: "
 msgstr "Valor de la clave:"
 
-#: dialog.c:764
+#: dialog.c:744
 msgid "Note: "
 msgstr ""
 
-#: dialog.c:785
+#: dialog.c:765
 msgid "Disable all the function keys."
 msgstr ""
 
-#: dialog.c:812
+#: dialog.c:796
 #, fuzzy, c-format
 msgid "Usage for %s %s"
 msgstr "Forma de uso de %s %s"
 
-#: dialog.c:869
-msgid "Don't forget to save your settings after making any change!\n"
+#: dialog.c:825
+msgid "Don't forget to save your settings after making any change!"
 msgstr ""
 
-#: dialog.c:873
-#, fuzzy, c-format
-#| msgid "Please report bug to %s. Thank you for using %s!\n"
-msgid "Please report bug to %s. Thank you for using %s!"
-msgstr "Reporte cualquier error a %s. ¡Gracias por usar %s!\n"
+#: dialog.c:828 menu.c:394
+msgid "Usage"
+msgstr "Forma de uso"
 
-#: dialog.c:900
+#: dialog.c:837
+msgid "Key binding"
+msgstr ""
+
+#: dialog.c:853
+msgid "License"
+msgstr ""
+
+#: dialog.c:866
+msgid "Translators"
+msgstr ""
+
+#: dialog.c:884
+msgid "homepage:"
+msgstr ""
+
+#: dialog.c:884
+msgid "blog:"
+msgstr ""
+
+#: dialog.c:885
+msgid "Wiki:"
+msgstr ""
+
+#: dialog.c:885
+msgid "Issues:"
+msgstr ""
+
+#: dialog.c:885
+msgid "IRC:"
+msgstr ""
+
+#: dialog.c:887
+msgid "About"
+msgstr ""
+
+#: dialog.c:903
 #, c-format
 msgid "There is still a running foreground program on #%d tab:"
 msgstr "Aún existe un proceso corriendo en segundo plano en la solapa #%d:"
 
-#: dialog.c:902
+#: dialog.c:905
 #, c-format
 msgid "Terminate it by using `kill -9 %d' is recommend if it is non-response."
 msgstr "Use `kill -9 %d' para finalizar un proceso que no este respondiendo."
 
-#: dialog.c:908 dialog.c:1079 dialog.c:1110 dialog.c:1145 dialog.c:1177
+#: dialog.c:911 dialog.c:1082 dialog.c:1113 dialog.c:1148 dialog.c:1180
 msgid "Continue anyway?"
 msgstr "¿Desea continuar?"
 
-#: dialog.c:910 dialog.c:1112
+#: dialog.c:913 dialog.c:1115
 msgid "Tip:"
 msgstr "Tip:"
 
-#: dialog.c:919
+#: dialog.c:922
 msgid "Confirm to close running foreground program"
 msgstr ""
 "Confirmar para cerrar mientras aún se ejecutan programas en segundo plano"
 
-#: dialog.c:936 dialog.c:1136
+#: dialog.c:939 dialog.c:1139
 #, fuzzy
 #| msgid "Rename this tab"
 msgid "this tab"
 msgstr "Renombra esta solapa"
 
-#: dialog.c:943
+#: dialog.c:946
 msgid "Change the opacity of window"
 msgstr "Modificar la opacidad de la ventana"
 
-#: dialog.c:945
+#: dialog.c:948
 #, fuzzy
 #| msgid "Change the opacity of window"
 msgid "Change the opacity of window:"
 msgstr "Modificar la opacidad de la ventana"
 
-#: dialog.c:955
+#: dialog.c:958
 #, fuzzy
 #| msgid "Change the opacity of window"
 msgid "Change the opacity of window when inactive"
 msgstr "Modificar la opacidad de la ventana"
 
-#: dialog.c:957
+#: dialog.c:960
 #, fuzzy
 #| msgid "Change the opacity of window"
 msgid "Change the opacity of window when inactive:"
 msgstr "Modificar la opacidad de la ventana"
 
-#: dialog.c:995
+#: dialog.c:998
 msgid "Change the background color in terminal"
 msgstr "Modificar el color de fondo de la terminal"
 
-#: dialog.c:1028
+#: dialog.c:1031
 msgid "Adjust the brightness of ANSI colors used in terminal"
 msgstr "Ajustar el brillo de los colores ANSI que se usan en la terminal"
 
-#: dialog.c:1034
+#: dialog.c:1037
 #, fuzzy
 #| msgid "Adjust the brightness of ANSI colors"
 msgid "Adjust the brightness of ANSI colors when inactive"
 msgstr "Ajustar el brillo de los colores ANSI"
 
-#: dialog.c:1073
+#: dialog.c:1076
 #, fuzzy
 #| msgid "is trying to execute the following command:"
 msgid " is trying to execute the following command:"
 msgstr "está tratando de ejecutar el siguiente comando:"
 
-#: dialog.c:1082
+#: dialog.c:1085
 msgid "Confirm to execute -e/-x/--execute command"
 msgstr "Confirmar para ejecutar -e/-x/--execute comando"
 
-#: dialog.c:1101
+#: dialog.c:1104
 #, c-format
 msgid "The following programs are still running under #%d tab:"
 msgstr "Los siguientes programas aún se estan ejecutando en la solapa #%d:"
 
-#: dialog.c:1103
+#: dialog.c:1106
 msgid "Using <Ctrl><D> or 'exit' to close tabs is recommended"
 msgstr "Use <Ctrl><D> o 'exit' para cerrar correctamente las solapas"
 
-#: dialog.c:1118
+#: dialog.c:1121
 #, fuzzy
 #| msgid "Confirm to close a tab with child proccess"
 msgid "Confirm to close a tab with child process"
 msgstr "Confirmar para cerrar solapas mientras aún se ejecutan procesos"
 
-#: dialog.c:1141
+#: dialog.c:1144
 msgid "The following programs are still running under this window:"
 msgstr "Los siguientes programas aún se estan ejecutando en esta ventana:"
 
-#: dialog.c:1147
+#: dialog.c:1150
 #, fuzzy
 #| msgid "Confirm to close a window with child proccess"
 msgid "Confirm to close a window with child process"
 msgstr "Confirmar para cerrar ventanas mientras aún se ejecutan procesos"
 
-#: dialog.c:1167
+#: dialog.c:1170
 #, fuzzy, c-format
 msgid "Confirm to close %s"
 msgstr "Comfirmar para cerrar %s"
 
-#: dialog.c:1170
+#: dialog.c:1173
 #, c-format
 msgid "The following programs are still running under %s:"
 msgstr "Los siguientes programas aún se estan ejecutando en %s:"
 
-#: dialog.c:1198
+#: dialog.c:1201
 #, fuzzy
 #| msgid "  * <Ctrl><O>\t\tSelect all the text in the Vte Terminal box\n"
 msgid ""
@@ -587,27 +625,27 @@ msgid ""
 "\n"
 msgstr "  * <Ctrl><O>\t\tSelecciona todo el texto de la terminal\n"
 
-#: dialog.c:1201
+#: dialog.c:1204
 #, fuzzy
 #| msgid "Continue anyway?"
 msgid "Continue anyway?\n"
 msgstr "¿Desea continuar?"
 
-#: dialog.c:1203
+#: dialog.c:1206
 #, fuzzy
 #| msgid "  * <Ctrl><O>\t\tSelect all the text in the Vte Terminal box\n"
 msgid "Confirm to paste texts to the Vte Terminal"
 msgstr "  * <Ctrl><O>\t\tSelecciona todo el texto de la terminal\n"
 
-#: dialog.c:1221
+#: dialog.c:1224
 msgid "Join and paste"
 msgstr ""
 
-#: dialog.c:1233 menu.c:212
+#: dialog.c:1236 menu.c:212
 msgid "Clipboard"
 msgstr ""
 
-#: dialog.c:2250
+#: dialog.c:2304
 #, fuzzy, c-format
 #| msgid ""
 #| "Try to kill this tab with SIGKILL to avoid terminate those programs!\n"
@@ -620,21 +658,21 @@ msgstr ""
 "aplicaciones\n"
 "(¡PUEDE PROVOCAR PERDIDA DE DATOS!)"
 
-#: dialog.c:2268
+#: dialog.c:2322
 #, c-format
 msgid "Force to close all the tabs and windows, and exit %s!"
 msgstr "¡Forzar el cierre de todas las solapas y ventanas %s!"
 
-#: dialog.c:2397
+#: dialog.c:2451
 #, c-format
 msgid "(Disabled, duplicated with [%s])"
 msgstr ""
 
-#: dialog.c:2406 dialog.c:2874 dialog.c:2925
+#: dialog.c:2460 dialog.c:2928 dialog.c:2979
 msgid "(Disabled)"
 msgstr ""
 
-#: dialog.c:2652
+#: dialog.c:2706
 #, fuzzy, c-format
 msgid ""
 "The locale \"%s\" seems NOT supported by your system!\n"
@@ -645,20 +683,20 @@ msgstr ""
 "Si ha actualizado %s recientemente,\n"
 "Cierre todas las solapas y vuelva a intentarlo."
 
-#: dialog.c:2656
+#: dialog.c:2710
 msgid "Not supported locale!"
 msgstr ""
 
-#: dialog.c:2726
+#: dialog.c:2780
 #, c-format
 msgid "You should upgrade to %s and recompile %s to support this feature."
 msgstr ""
 
-#: dialog.c:2727
+#: dialog.c:2781
 msgid "Not supported feature!"
 msgstr ""
 
-#: dialog.c:2882
+#: dialog.c:2936
 #, fuzzy, c-format
 #| msgid ""
 #| "  * <Ctrl><`>\t\tDisable/Enable hyperlinks, function keys and right click "
@@ -905,10 +943,6 @@ msgstr "Restablecer el tamaño y fuente del sistema"
 #: menu.c:387
 msgid "Reset the content"
 msgstr "Restablecer el contenido"
-
-#: menu.c:394
-msgid "Usage"
-msgstr "Forma de uso"
 
 #: menu.c:398
 msgid "Set key binding"
@@ -1415,6 +1449,13 @@ msgstr "\tVentana #%d, página #%d: (%d) %s\n"
 #, c-format
 msgid "\tPage #%d: (%d) %s\n"
 msgstr "\tPágina #%d: (%d) %s\n"
+
+#, fuzzy
+#~| msgid "Please report bug to %s. Thank you for using %s!\n"
+#~ msgid ""
+#~ "\n"
+#~ "Please report bug to %s. Thank you for using %s!"
+#~ msgstr "Reporte cualquier error a %s. ¡Gracias por usar %s!\n"
 
 #, fuzzy
 #~| msgid ""

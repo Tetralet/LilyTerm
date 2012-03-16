@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LilyTerm 0.9.9\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-12 16:23+0800\n"
+"POT-Creation-Date: 2012-03-16 21:07+0800\n"
 "PO-Revision-Date: 2008-03-21 00:30+0800\n"
 "Last-Translator: Tetralet <tetralet@gmail.com>\n"
 "Language-Team: Tetralet <tetralet@gmail.com>\n"
@@ -15,20 +15,23 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language: \n"
 
-#: console.c:116 dialog.c:834
+#: console.c:116 dialog.c:831
 msgid ""
 "Default shortcut key: (It may custom or disable by right click menu [Set "
 "function key value])"
 msgstr "預設的快捷鍵：（可經由滑鼠右鍵選單【設定功能鍵值】來自訂或關閉）"
 
-#: console.c:124
-#, c-format
-msgid ""
-"\n"
-"Please report bug to %s. Thank you for using %s!"
-msgstr ""
-"\n"
-"請向 %s 回報錯誤。感謝您使用 %s！"
+#: console.c:123
+#, fuzzy, c-format
+#| msgid "Please report bug to %s. Thank you for using %s!"
+msgid "Please report bug to %s."
+msgstr "請向 %s 回報錯誤。感謝您使用 %s！"
+
+#: console.c:125 dialog.c:869
+#, fuzzy, c-format
+#| msgid "Please report bug to %s. Thank you for using %s!"
+msgid "Thank you for using %s!"
+msgstr "請向 %s 回報錯誤。感謝您使用 %s！"
 
 #: console.c:143
 #, c-format
@@ -207,7 +210,7 @@ msgstr "  * <Shift><Insert>\tVte 預設功能，貼上主要剪貼簿中的文�
 msgid "\t\t\t(i.e. Emulate a middle button mouse click to paste the text)"
 msgstr "\t\t\t（即：模擬按下了滑鼠中鍵貼上文字）"
 
-#: dialog.c:98 dialog.c:2714 menu.c:2493
+#: dialog.c:98 dialog.c:2768 menu.c:2493
 msgid "The following error is occurred:"
 msgstr "發生了以下的錯誤："
 
@@ -247,7 +250,7 @@ msgstr "大小寫相符"
 msgid "Use Perl compatible regular expressions"
 msgstr "使用 Perl 相容的正規表示式"
 
-#: dialog.c:299 dialog.c:376
+#: dialog.c:299 dialog.c:366
 msgid "Paste texts to every Vte Terminal"
 msgstr "將文字貼至所有的 Vte 終端機視窗"
 
@@ -263,11 +266,11 @@ msgstr "文字："
 msgid "Append a <NewLine> to the end of the text."
 msgstr "附加 <新行> 至文字結尾。"
 
-#: dialog.c:358
+#: dialog.c:357
 msgid "Grab keys"
 msgstr "截取鍵值"
 
-#: dialog.c:373
+#: dialog.c:363
 msgid ""
 "Paste the grabbed key to the Vte Terminals.\n"
 "It will be useful if you want to paste combined keys, like <Ctrl><C>."
@@ -275,22 +278,22 @@ msgstr ""
 "將截取到的鍵值貼至 Vte 終端機視窗。\n"
 "如果您想貼上的是複合鍵，像 <Ctrl><C> 時，將會很有用。"
 
-#: dialog.c:396 dialog.c:775
+#: dialog.c:386 dialog.c:755
 msgid "Key Value:"
 msgstr "鍵值："
 
-#: dialog.c:403
+#: dialog.c:392
 msgid "Entry"
 msgstr "輸入欄"
 
-#: dialog.c:417
+#: dialog.c:397
 msgid "Add new locales and set the default locale"
 msgstr "新增新的 locale 及設定預設的 locale"
 
 #. TRANSLATE NOTE: You may replace the following locales with the locale name of your country.
 #. TRANSLATE NOTE: For example, replace "zh_TW" with "ru_RU", replace "zh_TW.Big5" with "ru_RU.KOI8-R",
 #. TRANSLATE NOTE: or replace "zh_TW.UTF-8" with "ru_RU.UTF-8".
-#: dialog.c:436
+#: dialog.c:416
 msgid ""
 "The default locale used when initing a Vte Terminal.\n"
 "You may use \"zh_TW\", \"zh_TW.Big5\", or \"zh_TW.UTF-8\" here."
@@ -298,14 +301,14 @@ msgstr ""
 "在初始化 Vte 終端機視窗時所使用的預設 locale。\n"
 "您可以在此使用 \"zh_TW\"、\"zh_TW.Big5\" 或 \"zh_TW.UTF-8\"。"
 
-#: dialog.c:440
+#: dialog.c:420
 msgid "Default locale:"
 msgstr "預設的 locale："
 
 #. TRANSLATE NOTE: You may replace the following locales with the locale name of your country.
 #. TRANSLATE NOTE: For example, replace "zh_TW" with "ja_JP", replace "zh_TW.Big5" with "ja_JP.EUC-JP",
 #. TRANSLATE NOTE: and replace "zh_TW.UTF-8" with "ja_JP.UTF-8".
-#: dialog.c:447
+#: dialog.c:427
 msgid ""
 "The locales list on right click menu, separate with <space>.\n"
 "You may use \"zh_TW\", \"zh_TW.Big5\", or \"zh_TW.UTF-8\" here.\n"
@@ -315,44 +318,44 @@ msgstr ""
 "您可以在此使用 \"zh_TW\"、\"zh_TW.Big5\" 或 \"zh_TW.UTF-8\"。\n"
 "若您沒有安裝任何的 locale 資料，可以在此使用 \"UTF-8\"。"
 
-#: dialog.c:452
+#: dialog.c:432
 msgid "Locales list:"
 msgstr "locale 列表："
 
-#: dialog.c:459
+#: dialog.c:439
 msgid "Change the saturation of background"
 msgstr "改變背景的透明度"
 
-#: dialog.c:468
+#: dialog.c:448
 msgid "Change the Saturation of background:"
 msgstr "改變背景的透明度"
 
-#: dialog.c:491
+#: dialog.c:471
 msgid "Change the foreground color in terminal"
 msgstr "改變終端機的文字顏色"
 
-#: dialog.c:527 menu.c:109
+#: dialog.c:507 menu.c:109
 #, c-format
 msgid "Change the %s color on tab"
 msgstr "改變分頁上的 %s 顏色"
 
-#: dialog.c:615 dialog.c:2533
+#: dialog.c:595 dialog.c:2587
 msgid "Bold Demo Text"
 msgstr "粗體範例文字"
 
-#: dialog.c:666
+#: dialog.c:646
 msgid "Confirm to close multi tabs"
 msgstr "確認是否關閉多個分頁"
 
-#: dialog.c:675
+#: dialog.c:655
 msgid "You are about to close multi tabs. Continue anyway?"
 msgstr "您將要關閉多個分頁。是否無論如何仍繼續？"
 
-#: dialog.c:682 dialog.c:1164
+#: dialog.c:662 dialog.c:1167
 msgid "those tabs"
 msgstr "這些分頁"
 
-#: dialog.c:688
+#: dialog.c:668
 #, fuzzy
 #| msgid ""
 #| "You may press <Ctrl + Alt + Shift> + <any key> here\n"
@@ -364,142 +367,181 @@ msgstr ""
 "您可以在此按下 <Ctrl + Alt + Shift> 加上 <任何鍵>\n"
 "以取功能鍵可用的鍵值。"
 
-#: dialog.c:690
+#: dialog.c:670
 msgid "Get the key value for function key"
 msgstr "取得功能鍵的鍵值"
 
-#: dialog.c:743
+#: dialog.c:723
 msgid "Function Key Name"
 msgstr "功能鍵名稱"
 
-#: dialog.c:747
+#: dialog.c:727
 msgid "Shortcut Key"
 msgstr "快捷鍵"
 
-#: dialog.c:755
+#: dialog.c:735
 msgid "Key Group: "
 msgstr "鍵群組："
 
-#: dialog.c:764
+#: dialog.c:744
 msgid "Note: "
 msgstr "說明："
 
-#: dialog.c:785
+#: dialog.c:765
 msgid "Disable all the function keys."
 msgstr "關閉所有的功能鍵。"
 
-#: dialog.c:812
+#: dialog.c:796
 #, c-format
 msgid "Usage for %s %s"
 msgstr "%s %s 的使用說明"
 
-#: dialog.c:869
-msgid "Don't forget to save your settings after making any change!\n"
+#: dialog.c:825
+#, fuzzy
+#| msgid "Don't forget to save your settings after making any change!\n"
+msgid "Don't forget to save your settings after making any change!"
 msgstr "在進行了任何更動之後，別忘了儲存您的設定！\n"
 
-#: dialog.c:873
-#, c-format
-msgid "Please report bug to %s. Thank you for using %s!"
-msgstr "請向 %s 回報錯誤。感謝您使用 %s！"
+#: dialog.c:828 menu.c:394
+msgid "Usage"
+msgstr "使用說明"
 
-#: dialog.c:900
+#: dialog.c:837
+#, fuzzy
+#| msgid "Erase Binding"
+msgid "Key binding"
+msgstr "刪除鍵值"
+
+#: dialog.c:853
+msgid "License"
+msgstr ""
+
+#: dialog.c:866
+msgid "Translators"
+msgstr ""
+
+#: dialog.c:884
+msgid "homepage:"
+msgstr ""
+
+#: dialog.c:884
+msgid "blog:"
+msgstr ""
+
+#: dialog.c:885
+msgid "Wiki:"
+msgstr ""
+
+#: dialog.c:885
+msgid "Issues:"
+msgstr ""
+
+#: dialog.c:885
+msgid "IRC:"
+msgstr ""
+
+#: dialog.c:887
+msgid "About"
+msgstr ""
+
+#: dialog.c:903
 #, c-format
 msgid "There is still a running foreground program on #%d tab:"
 msgstr "在 #%d 分頁上有個前景程式尚在執行："
 
-#: dialog.c:902
+#: dialog.c:905
 #, c-format
 msgid "Terminate it by using `kill -9 %d' is recommend if it is non-response."
 msgstr "若它已失去回應，建議使用 `kill -9 %d' 來中止它。"
 
-#: dialog.c:908 dialog.c:1079 dialog.c:1110 dialog.c:1145 dialog.c:1177
+#: dialog.c:911 dialog.c:1082 dialog.c:1113 dialog.c:1148 dialog.c:1180
 msgid "Continue anyway?"
 msgstr "是否無論如何仍繼續？"
 
-#: dialog.c:910 dialog.c:1112
+#: dialog.c:913 dialog.c:1115
 msgid "Tip:"
 msgstr "小技巧："
 
-#: dialog.c:919
+#: dialog.c:922
 msgid "Confirm to close running foreground program"
 msgstr "確認是否關閉正在前景執行中的程式"
 
-#: dialog.c:936 dialog.c:1136
+#: dialog.c:939 dialog.c:1139
 msgid "this tab"
 msgstr "此分頁"
 
-#: dialog.c:943
+#: dialog.c:946
 msgid "Change the opacity of window"
 msgstr "改變視窗的透明度"
 
-#: dialog.c:945
+#: dialog.c:948
 msgid "Change the opacity of window:"
 msgstr "改變視窗的透明度："
 
-#: dialog.c:955
+#: dialog.c:958
 msgid "Change the opacity of window when inactive"
 msgstr "改變未作用時視窗的透明度"
 
-#: dialog.c:957
+#: dialog.c:960
 msgid "Change the opacity of window when inactive:"
 msgstr "改變未作用時視窗的透明度："
 
-#: dialog.c:995
+#: dialog.c:998
 msgid "Change the background color in terminal"
 msgstr "改變終端機的背景顏色"
 
-#: dialog.c:1028
+#: dialog.c:1031
 msgid "Adjust the brightness of ANSI colors used in terminal"
 msgstr "調整在終端機裡的 ANSI 顏色的亮度"
 
-#: dialog.c:1034
+#: dialog.c:1037
 msgid "Adjust the brightness of ANSI colors when inactive"
 msgstr "調整未作用時 ANSI 顏色的亮度"
 
-#: dialog.c:1073
+#: dialog.c:1076
 msgid " is trying to execute the following command:"
 msgstr "正試圖執行以下指令："
 
-#: dialog.c:1082
+#: dialog.c:1085
 msgid "Confirm to execute -e/-x/--execute command"
 msgstr "確認是否執行 -e/-x/--execute 指令"
 
-#: dialog.c:1101
+#: dialog.c:1104
 #, c-format
 msgid "The following programs are still running under #%d tab:"
 msgstr "以下程式尚在 #%d 分頁裡執行："
 
-#: dialog.c:1103
+#: dialog.c:1106
 msgid "Using <Ctrl><D> or 'exit' to close tabs is recommended"
 msgstr "使用 <Ctrl><D> 或 exit 來關閉分頁是比較建議的作法"
 
-#: dialog.c:1118
+#: dialog.c:1121
 #, fuzzy
 #| msgid "Confirm to close a tab with child proccess"
 msgid "Confirm to close a tab with child process"
 msgstr "確認是否關閉尚有子行程的分頁"
 
-#: dialog.c:1141
+#: dialog.c:1144
 msgid "The following programs are still running under this window:"
 msgstr "以下程式尚在這個視窗裡執行："
 
-#: dialog.c:1147
+#: dialog.c:1150
 #, fuzzy
 #| msgid "Confirm to close a window with child proccess"
 msgid "Confirm to close a window with child process"
 msgstr "確認是否關閉尚有子行程的視窗"
 
-#: dialog.c:1167
+#: dialog.c:1170
 #, c-format
 msgid "Confirm to close %s"
 msgstr "確認是否關閉 %s"
 
-#: dialog.c:1170
+#: dialog.c:1173
 #, c-format
 msgid "The following programs are still running under %s:"
 msgstr "以下程式尚在 %s 裡執行："
 
-#: dialog.c:1198
+#: dialog.c:1201
 #, fuzzy
 #| msgid ""
 #| "Trying to paste the folowing texts to the Vte Terminal:\n"
@@ -509,25 +551,25 @@ msgid ""
 "\n"
 msgstr "將要把以下的文字貼入 Vte 終端機視窗裡：\n"
 
-#: dialog.c:1201
+#: dialog.c:1204
 #, fuzzy
 #| msgid "Continue anyway?"
 msgid "Continue anyway?\n"
 msgstr "是否無論如何仍繼續？"
 
-#: dialog.c:1203
+#: dialog.c:1206
 msgid "Confirm to paste texts to the Vte Terminal"
 msgstr "確認是否要將文字貼入 Vte 終端機視窗裡"
 
-#: dialog.c:1221
+#: dialog.c:1224
 msgid "Join and paste"
 msgstr ""
 
-#: dialog.c:1233 menu.c:212
+#: dialog.c:1236 menu.c:212
 msgid "Clipboard"
 msgstr "剪貼簿"
 
-#: dialog.c:2250
+#: dialog.c:2304
 #, c-format
 msgid ""
 "Try to kill %s with SIGKILL() to avoid terminate those programs!\n"
@@ -536,21 +578,21 @@ msgstr ""
 "試著用 SIGKILL() 來強制關閉%s以避免中斷這些程式！\n"
 "【 可 能 導 致 資 料 遺 失 ！ ！ 】"
 
-#: dialog.c:2268
+#: dialog.c:2322
 #, c-format
 msgid "Force to close all the tabs and windows, and exit %s!"
 msgstr "強制關閉所有的分頁及視窗，並關閉 %s！"
 
-#: dialog.c:2397
+#: dialog.c:2451
 #, c-format
 msgid "(Disabled, duplicated with [%s])"
 msgstr "（已關閉，和【%s】重複）"
 
-#: dialog.c:2406 dialog.c:2874 dialog.c:2925
+#: dialog.c:2460 dialog.c:2928 dialog.c:2979
 msgid "(Disabled)"
 msgstr "（已關閉）"
 
-#: dialog.c:2652
+#: dialog.c:2706
 #, c-format
 msgid ""
 "The locale \"%s\" seems NOT supported by your system!\n"
@@ -561,20 +603,20 @@ msgstr ""
 "如果您剛剛才新增了 locale 資訊，\n"
 "請關閉所有的 %s 視窗並再試一次。"
 
-#: dialog.c:2656
+#: dialog.c:2710
 msgid "Not supported locale!"
 msgstr "不被支援的 locale！"
 
-#: dialog.c:2726
+#: dialog.c:2780
 #, c-format
 msgid "You should upgrade to %s and recompile %s to support this feature."
 msgstr "您應當升級至 %s 並重新編譯 %s 以支援這個功能。"
 
-#: dialog.c:2727
+#: dialog.c:2781
 msgid "Not supported feature!"
 msgstr "不被支援的功能！"
 
-#: dialog.c:2882
+#: dialog.c:2936
 #, c-format
 msgid "Disable all the function keys of [%s] group."
 msgstr "關閉群組【%s】的所有功能鍵。"
@@ -798,10 +840,6 @@ msgstr "重置為系統字型及大小"
 #: menu.c:387
 msgid "Reset the content"
 msgstr "重置分頁的內容"
-
-#: menu.c:394
-msgid "Usage"
-msgstr "使用說明"
 
 #: menu.c:398
 msgid "Set key binding"
@@ -1259,6 +1297,13 @@ msgstr "\t第 #%d 視窗，第 #%d 分頁: (%d) %s\n"
 #, c-format
 msgid "\tPage #%d: (%d) %s\n"
 msgstr "\t第 #%d 分頁: (%d) %s\n"
+
+#~ msgid ""
+#~ "\n"
+#~ "Please report bug to %s. Thank you for using %s!"
+#~ msgstr ""
+#~ "\n"
+#~ "請向 %s 回報錯誤。感謝您使用 %s！"
 
 #, fuzzy
 #~| msgid ""

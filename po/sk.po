@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: lilyterm 0.9.9~rc9\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-12 16:23+0800\n"
+"POT-Creation-Date: 2012-03-16 21:07+0800\n"
 "PO-Revision-Date: 2011-07-11 20:47+0200\n"
 "Last-Translator: Slavko <linux@slavino.sk>\n"
 "Language-Team: Slovak <nomail>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Language: sk\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
-#: console.c:116 dialog.c:834
+#: console.c:116 dialog.c:831
 msgid ""
 "Default shortcut key: (It may custom or disable by right click menu [Set "
 "function key value])"
@@ -26,14 +26,17 @@ msgstr ""
 "Predvolené klávesové skratky: (Môže byť vlastná alebo zakázaná pomocou "
 "kontextového menu [Nastaviť funkčné klávesy])"
 
-#: console.c:124
-#, c-format
-msgid ""
-"\n"
-"Please report bug to %s. Thank you for using %s!"
-msgstr ""
-"\n"
-"Prosím chyby hláste na %s. Ďakujem, že používate %s!"
+#: console.c:123
+#, fuzzy, c-format
+#| msgid "Please report bug to %s. Thank you for using %s!"
+msgid "Please report bug to %s."
+msgstr "Chyby prosím hláste na %s. Ďakujem, že používate %s!"
+
+#: console.c:125 dialog.c:869
+#, fuzzy, c-format
+#| msgid "Please report bug to %s. Thank you for using %s!"
+msgid "Thank you for using %s!"
+msgstr "Chyby prosím hláste na %s. Ďakujem, že používate %s!"
 
 #: console.c:143
 #, c-format
@@ -229,7 +232,7 @@ msgid "\t\t\t(i.e. Emulate a middle button mouse click to paste the text)"
 msgstr ""
 "\t\t\t(tj. Emulovať stlačenie prostredného tlačidla myši na vloženie textu)"
 
-#: dialog.c:98 dialog.c:2714 menu.c:2493
+#: dialog.c:98 dialog.c:2768 menu.c:2493
 msgid "The following error is occurred:"
 msgstr "nastala nasledujúca chyba:"
 
@@ -269,7 +272,7 @@ msgstr "Rozlišovať veľkosť"
 msgid "Use Perl compatible regular expressions"
 msgstr "Použiť regulárne výrazy kompatibilné s Perlom"
 
-#: dialog.c:299 dialog.c:376
+#: dialog.c:299 dialog.c:366
 #, fuzzy
 #| msgid "Select all the text in the Vte Terminal box."
 msgid "Paste texts to every Vte Terminal"
@@ -289,32 +292,32 @@ msgstr ""
 msgid "Append a <NewLine> to the end of the text."
 msgstr ""
 
-#: dialog.c:358
+#: dialog.c:357
 msgid "Grab keys"
 msgstr ""
 
-#: dialog.c:373
+#: dialog.c:363
 msgid ""
 "Paste the grabbed key to the Vte Terminals.\n"
 "It will be useful if you want to paste combined keys, like <Ctrl><C>."
 msgstr ""
 
-#: dialog.c:396 dialog.c:775
+#: dialog.c:386 dialog.c:755
 msgid "Key Value:"
 msgstr "Hodnota klávesu:"
 
-#: dialog.c:403
+#: dialog.c:392
 msgid "Entry"
 msgstr ""
 
-#: dialog.c:417
+#: dialog.c:397
 msgid "Add new locales and set the default locale"
 msgstr "Pridať novú lokalizáciu a nastaviť ju ako predvolenú"
 
 #. TRANSLATE NOTE: You may replace the following locales with the locale name of your country.
 #. TRANSLATE NOTE: For example, replace "zh_TW" with "ru_RU", replace "zh_TW.Big5" with "ru_RU.KOI8-R",
 #. TRANSLATE NOTE: or replace "zh_TW.UTF-8" with "ru_RU.UTF-8".
-#: dialog.c:436
+#: dialog.c:416
 #, fuzzy
 #| msgid ""
 #| "The default locale used when initing a vte terminal.\n"
@@ -326,14 +329,14 @@ msgstr ""
 "Predvolená lokalizácia použitá pri inicializácii terminálu vte.\n"
 "Môžete tu použiť \"zh_TW\", \"zh_TW.Big5\" alebo \"zh_TW.UTF-8\"."
 
-#: dialog.c:440
+#: dialog.c:420
 msgid "Default locale:"
 msgstr "Predvolená lokalizácia:"
 
 #. TRANSLATE NOTE: You may replace the following locales with the locale name of your country.
 #. TRANSLATE NOTE: For example, replace "zh_TW" with "ja_JP", replace "zh_TW.Big5" with "ja_JP.EUC-JP",
 #. TRANSLATE NOTE: and replace "zh_TW.UTF-8" with "ja_JP.UTF-8".
-#: dialog.c:447
+#: dialog.c:427
 msgid ""
 "The locales list on right click menu, separate with <space>.\n"
 "You may use \"zh_TW\", \"zh_TW.Big5\", or \"zh_TW.UTF-8\" here.\n"
@@ -343,44 +346,44 @@ msgstr ""
 "Môžete tu použiť \"zh_TW\", \"zh_TW.Big5\" alebo \"zh_TW.UTF-8\".\n"
 "Môžete tu chcieť použiť \"UTF-8\", ak nemáte nainštalované lokalizačné dáta."
 
-#: dialog.c:452
+#: dialog.c:432
 msgid "Locales list:"
 msgstr "Zoznam lokalizácií:"
 
-#: dialog.c:459
+#: dialog.c:439
 msgid "Change the saturation of background"
 msgstr "Zmeniť saturáciu pozadia"
 
-#: dialog.c:468
+#: dialog.c:448
 msgid "Change the Saturation of background:"
 msgstr "Zmeniť saturáciu pozadia:"
 
-#: dialog.c:491
+#: dialog.c:471
 msgid "Change the foreground color in terminal"
 msgstr "Zmeniť farbu písma v termináli"
 
-#: dialog.c:527 menu.c:109
+#: dialog.c:507 menu.c:109
 #, c-format
 msgid "Change the %s color on tab"
 msgstr "Zmeniť farbu %s v záložke"
 
-#: dialog.c:615 dialog.c:2533
+#: dialog.c:595 dialog.c:2587
 msgid "Bold Demo Text"
 msgstr "Tučný demo text"
 
-#: dialog.c:666
+#: dialog.c:646
 msgid "Confirm to close multi tabs"
 msgstr "Potvrdiť zatvorenie viacerých záložiek"
 
-#: dialog.c:675
+#: dialog.c:655
 msgid "You are about to close multi tabs. Continue anyway?"
 msgstr "Zatvárate viaceré záložky. Pokračovať?"
 
-#: dialog.c:682 dialog.c:1164
+#: dialog.c:662 dialog.c:1167
 msgid "those tabs"
 msgstr "tieto záložky"
 
-#: dialog.c:688
+#: dialog.c:668
 #, fuzzy
 #| msgid ""
 #| "You may press <Ctrl + Alt + Shift> + <any key> here\n"
@@ -392,142 +395,181 @@ msgstr ""
 "Môžete tu stlačiť <Ctrl + Alt + Shift> + <akýkoľvek kláves>,\n"
 "čím získate hodnotu použitú pre funkčný kláves."
 
-#: dialog.c:690
+#: dialog.c:670
 msgid "Get the key value for function key"
 msgstr "Získať hodnotu pre funkčný kláves"
 
-#: dialog.c:743
+#: dialog.c:723
 msgid "Function Key Name"
 msgstr "Meno funkčného klávesu"
 
-#: dialog.c:747
+#: dialog.c:727
 msgid "Shortcut Key"
 msgstr "Klávesová skratka"
 
-#: dialog.c:755
+#: dialog.c:735
 msgid "Key Group: "
 msgstr "Skupina klávesov:"
 
-#: dialog.c:764
+#: dialog.c:744
 msgid "Note: "
 msgstr "Poznámka: "
 
-#: dialog.c:785
+#: dialog.c:765
 msgid "Disable all the function keys."
 msgstr "Vypnúť všetky funkčné klávesy."
 
-#: dialog.c:812
+#: dialog.c:796
 #, c-format
 msgid "Usage for %s %s"
 msgstr "Použitie %s %s"
 
-#: dialog.c:869
-msgid "Don't forget to save your settings after making any change!\n"
+#: dialog.c:825
+#, fuzzy
+#| msgid "Don't forget to save your settings after making any change!\n"
+msgid "Don't forget to save your settings after making any change!"
 msgstr "Nezabudnite uložiť svoje nastavenia po vykonaní akejkoľvek zmeny!\n"
 
-#: dialog.c:873
-#, c-format
-msgid "Please report bug to %s. Thank you for using %s!"
-msgstr "Chyby prosím hláste na %s. Ďakujem, že používate %s!"
+#: dialog.c:828 menu.c:394
+msgid "Usage"
+msgstr "Použitie"
 
-#: dialog.c:900
+#: dialog.c:837
+#, fuzzy
+#| msgid "Erase Binding"
+msgid "Key binding"
+msgstr "Väzba mazania"
+
+#: dialog.c:853
+msgid "License"
+msgstr ""
+
+#: dialog.c:866
+msgid "Translators"
+msgstr ""
+
+#: dialog.c:884
+msgid "homepage:"
+msgstr ""
+
+#: dialog.c:884
+msgid "blog:"
+msgstr ""
+
+#: dialog.c:885
+msgid "Wiki:"
+msgstr ""
+
+#: dialog.c:885
+msgid "Issues:"
+msgstr ""
+
+#: dialog.c:885
+msgid "IRC:"
+msgstr ""
+
+#: dialog.c:887
+msgid "About"
+msgstr ""
+
+#: dialog.c:903
 #, c-format
 msgid "There is still a running foreground program on #%d tab:"
 msgstr "V %d. záložke stále beží program:"
 
-#: dialog.c:902
+#: dialog.c:905
 #, c-format
 msgid "Terminate it by using `kill -9 %d' is recommend if it is non-response."
 msgstr "Ak neodpovedá, je odporúčané jeho ukončenie pomocou `kill -9 %d'."
 
-#: dialog.c:908 dialog.c:1079 dialog.c:1110 dialog.c:1145 dialog.c:1177
+#: dialog.c:911 dialog.c:1082 dialog.c:1113 dialog.c:1148 dialog.c:1180
 msgid "Continue anyway?"
 msgstr "Pokračovať?"
 
-#: dialog.c:910 dialog.c:1112
+#: dialog.c:913 dialog.c:1115
 msgid "Tip:"
 msgstr "Tip:"
 
-#: dialog.c:919
+#: dialog.c:922
 msgid "Confirm to close running foreground program"
 msgstr "Potvrďte ukončenie bežiaceho programu"
 
-#: dialog.c:936 dialog.c:1136
+#: dialog.c:939 dialog.c:1139
 msgid "this tab"
 msgstr "táto záložka"
 
-#: dialog.c:943
+#: dialog.c:946
 msgid "Change the opacity of window"
 msgstr "Zmeniť priehľadnosť okna"
 
-#: dialog.c:945
+#: dialog.c:948
 msgid "Change the opacity of window:"
 msgstr "Zmeniť priehľadnosť okna:"
 
-#: dialog.c:955
+#: dialog.c:958
 msgid "Change the opacity of window when inactive"
 msgstr "Zmeniť priehľadnosť okna, keď nie je aktívne"
 
-#: dialog.c:957
+#: dialog.c:960
 msgid "Change the opacity of window when inactive:"
 msgstr "Zmeniť priehľadnosť okna, keď nie je aktívne:"
 
-#: dialog.c:995
+#: dialog.c:998
 msgid "Change the background color in terminal"
 msgstr "Zmeniť farbu pozadia pozadia v termináli"
 
-#: dialog.c:1028
+#: dialog.c:1031
 msgid "Adjust the brightness of ANSI colors used in terminal"
 msgstr "Prispôsobiť jas farieb ANSI použitých v termináli"
 
-#: dialog.c:1034
+#: dialog.c:1037
 msgid "Adjust the brightness of ANSI colors when inactive"
 msgstr "Prispôsobiť jas farieb ANSI, keď nie je aktívny"
 
-#: dialog.c:1073
+#: dialog.c:1076
 msgid " is trying to execute the following command:"
 msgstr " sa pokúša spustiť nasledujúci príkaz:"
 
-#: dialog.c:1082
+#: dialog.c:1085
 msgid "Confirm to execute -e/-x/--execute command"
 msgstr "Potvrdiť spustenie príkazu -e/-x/--execute"
 
-#: dialog.c:1101
+#: dialog.c:1104
 #, c-format
 msgid "The following programs are still running under #%d tab:"
 msgstr "Nasledujúce programy stále bežia v %d. záložke:"
 
-#: dialog.c:1103
+#: dialog.c:1106
 msgid "Using <Ctrl><D> or 'exit' to close tabs is recommended"
 msgstr "Na zatvorenie záložky je odporúčané použiť <Ctrl><D> alebo 'exit'"
 
-#: dialog.c:1118
+#: dialog.c:1121
 #, fuzzy
 #| msgid "Confirm to close a tab with child proccess"
 msgid "Confirm to close a tab with child process"
 msgstr "Potvrďte zatvorenie záložky s procesom potomka"
 
-#: dialog.c:1141
+#: dialog.c:1144
 msgid "The following programs are still running under this window:"
 msgstr "V tomto okne stále bežia nasledujúce programy:"
 
-#: dialog.c:1147
+#: dialog.c:1150
 #, fuzzy
 #| msgid "Confirm to close a window with child proccess"
 msgid "Confirm to close a window with child process"
 msgstr "Potvrďte zatvorenia okna s procesom potomka"
 
-#: dialog.c:1167
+#: dialog.c:1170
 #, c-format
 msgid "Confirm to close %s"
 msgstr "Potvrdiť zatvorenie %s"
 
-#: dialog.c:1170
+#: dialog.c:1173
 #, c-format
 msgid "The following programs are still running under %s:"
 msgstr "V %s stále bežia nasledujúce programy:"
 
-#: dialog.c:1198
+#: dialog.c:1201
 #, fuzzy
 #| msgid "Select all the text in the Vte Terminal box."
 msgid ""
@@ -535,29 +577,29 @@ msgid ""
 "\n"
 msgstr "vyberie všetok text v okne Vte Terminálu"
 
-#: dialog.c:1201
+#: dialog.c:1204
 #, fuzzy
 #| msgid "Continue anyway?"
 msgid "Continue anyway?\n"
 msgstr "Pokračovať?"
 
-#: dialog.c:1203
+#: dialog.c:1206
 #, fuzzy
 #| msgid "Select all the text in the Vte Terminal box."
 msgid "Confirm to paste texts to the Vte Terminal"
 msgstr "vyberie všetok text v okne Vte Terminálu"
 
-#: dialog.c:1221
+#: dialog.c:1224
 msgid "Join and paste"
 msgstr ""
 
-#: dialog.c:1233 menu.c:212
+#: dialog.c:1236 menu.c:212
 #, fuzzy
 #| msgid "Copy to clipboard."
 msgid "Clipboard"
 msgstr "Kopírovať do schránky"
 
-#: dialog.c:2250
+#: dialog.c:2304
 #, c-format
 msgid ""
 "Try to kill %s with SIGKILL() to avoid terminate those programs!\n"
@@ -567,21 +609,21 @@ msgstr ""
 "programov!\n"
 "(MÔŽE SPÔSOBIŤ STRATU DÁT!!)"
 
-#: dialog.c:2268
+#: dialog.c:2322
 #, c-format
 msgid "Force to close all the tabs and windows, and exit %s!"
 msgstr "Vynútiť zatvorenie všetkých záložiek a okien a ukončiť %s!"
 
-#: dialog.c:2397
+#: dialog.c:2451
 #, c-format
 msgid "(Disabled, duplicated with [%s])"
 msgstr "(Vypnuté, duplikovaé s [%s])"
 
-#: dialog.c:2406 dialog.c:2874 dialog.c:2925
+#: dialog.c:2460 dialog.c:2928 dialog.c:2979
 msgid "(Disabled)"
 msgstr "(Vypnuté)"
 
-#: dialog.c:2652
+#: dialog.c:2706
 #, c-format
 msgid ""
 "The locale \"%s\" seems NOT supported by your system!\n"
@@ -592,22 +634,22 @@ msgstr ""
 "Ak ste práve pridali lokalizačné dáta,\n"
 "prosím zatvorte všetky okná %s a skúste znova."
 
-#: dialog.c:2656
+#: dialog.c:2710
 msgid "Not supported locale!"
 msgstr "Nepodporovaná lokalizácia!"
 
-#: dialog.c:2726
+#: dialog.c:2780
 #, c-format
 msgid "You should upgrade to %s and recompile %s to support this feature."
 msgstr ""
 "Musíte aktualizovať na %s a prekompilovať %s, aby bola táto vlastnosť "
 "podporovaná."
 
-#: dialog.c:2727
+#: dialog.c:2781
 msgid "Not supported feature!"
 msgstr "Nepodporovaná vlastnosť!"
 
-#: dialog.c:2882
+#: dialog.c:2936
 #, c-format
 msgid "Disable all the function keys of [%s] group."
 msgstr "Vypnúť všetky funkčné klávesy skupiny [%s]."
@@ -843,10 +885,6 @@ msgstr "Vrátiť systémové písmo/veľkosť"
 #: menu.c:387
 msgid "Reset the content"
 msgstr "Vymazať obsah"
-
-#: menu.c:394
-msgid "Usage"
-msgstr "Použitie"
 
 #: menu.c:398
 msgid "Set key binding"
@@ -1307,6 +1345,13 @@ msgstr "\tOkno %d, Strana %d: (%d) %s\n"
 #, c-format
 msgid "\tPage #%d: (%d) %s\n"
 msgstr "\tStrana %d: (%d) %s\n"
+
+#~ msgid ""
+#~ "\n"
+#~ "Please report bug to %s. Thank you for using %s!"
+#~ msgstr ""
+#~ "\n"
+#~ "Prosím chyby hláste na %s. Ďakujem, že používate %s!"
 
 #, fuzzy
 #~| msgid ""
