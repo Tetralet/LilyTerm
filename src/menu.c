@@ -259,7 +259,7 @@ gboolean create_menu(struct Window *win_data)
 	// ----------------------------------------
 	add_separator_menu (win_data->menu);
 
-	GtkWidget *misc_sub_menu = create_sub_item (win_data->menu, _("Misc"), GTK_STOCK_PREFERENCES);
+	GtkWidget *misc_sub_menu = create_sub_item (win_data->menu, _("Misc"), GTK_STOCK_CONVERT);
 
 	create_menu_item (IMAGE_MENU_ITEM, misc_sub_menu, _("Paste to every Vte Terminal"), NULL, GTK_STOCK_PASTE,
 							     (GSourceFunc)paste_to_every_vte, win_data);
@@ -395,7 +395,7 @@ gboolean create_menu(struct Window *win_data)
 				  (GSourceFunc)dialog, GINT_TO_POINTER(USAGE_MESSAGE));
 
 	// Get the key value for using in profile
-	create_menu_item (IMAGE_MENU_ITEM, win_data->menu, _("Set key binding"), NULL, GTK_STOCK_CONVERT,
+	create_menu_item (IMAGE_MENU_ITEM, win_data->menu, _("Set key binding"), NULL, GTK_STOCK_PREFERENCES,
 				  (GSourceFunc)dialog, GINT_TO_POINTER(SET_FUNCTION_KEY_VALUE));
 
 

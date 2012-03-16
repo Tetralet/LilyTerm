@@ -119,10 +119,10 @@ gchar *get_help_message(gchar *profile)
 	if (function_key)
 #endif
 		g_string_append( help_message,  function_key);
-	g_string_append( help_message, "\n");
-	g_string_append_printf( help_message,
-				_("\nPlease report bug to %s. Thank you for using %s!"),
-				BUGREPORT, PACKAGE);
+	g_string_append( help_message, "\n\n");
+	g_string_append_printf( help_message, _("Please report bug to %s."), BUGREPORT);
+	g_string_append( help_message, " ");
+	g_string_append_printf( help_message, _("Thank you for using %s!"), PACKAGE);
 	g_string_append( help_message, "\n");
 	g_free(usage);
 	g_free(function_key);

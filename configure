@@ -2,6 +2,7 @@
 
 PACKAGE=LilyTerm
 BINARY=lilyterm
+AUTHOR="Lu, Chao-Ming (Tetralet)"
 BUGREPORT=tetralet@gmail.com
 VERSION=0.9.9
 
@@ -255,6 +256,7 @@ INFO "===========================================\n"
 $ECHO "PACKAGE   = $PACKAGE"
 $ECHO "BINARY    = $BINARY"
 $ECHO "VERSION   = $VERSION"
+$ECHO "AUTHOR = $AUTHOR"
 $ECHO "BUGREPORT = $BUGREPORT"
 IMPORTANT "PREFIX    = $PREFIX\n"
 IMPORTANT "ETCDIR    = $ETCDIR\n"
@@ -314,6 +316,7 @@ $ECHO ""
 $ECHO "PACKAGE = $PACKAGE" > .config
 $ECHO "BINARY = $BINARY" >> .config
 $ECHO "VERSION = $VERSION" >> .config
+$ECHO "AUTHOR = $AUTHOR" >> .config
 $ECHO "BUGREPORT = $BUGREPORT" >> .config
 $ECHO "PREFIX = $PREFIX" >> .config
 $ECHO "ETCDIR = $ETCDIR" >> .config

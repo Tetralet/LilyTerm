@@ -90,8 +90,8 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 	if (menu_active_window==NULL)
 	{
 		gchar *err_msg = g_strdup_printf("dialog(%ld): menu_active_window = NULL\n\n"
-					  "Please report bug to %s, Thanks!",
-					  (glong)style, BUGREPORT);
+						  "Please report bug to %s, Thanks!",
+						  (glong)style, BUGREPORT);
 #ifdef DEFENSIVE
 		if (err_msg)
 #endif
@@ -354,17 +354,7 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 					 G_CALLBACK(paste_text_to_vte_terminal), dialog_data);
 
 			// <Grab keys> Button
-			GtkWidget *switch_button = gtk_dialog_add_button (GTK_DIALOG(dialog_data->window),
-									  _("Grab keys"), GTK_RESPONSE_OK);
-			gtk_button_set_image (GTK_BUTTON(switch_button),
-					      gtk_image_new_from_stock(GTK_STOCK_REFRESH, GTK_ICON_SIZE_BUTTON));
-#ifdef ENABLE_DIALOG_GET_ACTION_AREA
-			gtk_button_box_set_child_secondary (GTK_BUTTON_BOX(gtk_dialog_get_action_area(GTK_DIALOG(dialog_data->window))),
-							    switch_button, TRUE);
-#else
-			gtk_button_box_set_child_secondary (GTK_BUTTON_BOX (GTK_DIALOG(dialog_data->window)->action_area),
-							    switch_button, TRUE);
-#endif
+			add_secondary_button(dialog_data->window, _("Grab keys"), GTK_RESPONSE_OK, GTK_STOCK_REFRESH);
 			break;
 		}
 		case PASTE_GRABBED_KEY_TO_EVERY_VTE_TERMINAL:
@@ -399,17 +389,7 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 					 G_CALLBACK(grab_key_press), dialog_data);
 
 			// <Switch> Button
-			GtkWidget *switch_button = gtk_dialog_add_button (GTK_DIALOG(dialog_data->window),
-									  _("Entry"), GTK_RESPONSE_OK);
-			gtk_button_set_image (GTK_BUTTON(switch_button),
-					      gtk_image_new_from_stock(GTK_STOCK_REFRESH, GTK_ICON_SIZE_BUTTON));
-#ifdef ENABLE_DIALOG_GET_ACTION_AREA
-			gtk_button_box_set_child_secondary (GTK_BUTTON_BOX (gtk_dialog_get_action_area(GTK_DIALOG(dialog_data->window))),
-							    switch_button, TRUE);
-#else
-			gtk_button_box_set_child_secondary (GTK_BUTTON_BOX (GTK_DIALOG(dialog_data->window)->action_area),
-							    switch_button, TRUE);
-#endif
+			add_secondary_button(dialog_data->window, _("Entry"), GTK_RESPONSE_OK, GTK_STOCK_REFRESH);
 			break;
 		}
 		case ADD_NEW_LOCALES:
@@ -809,85 +789,108 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 		}
 		case USAGE_MESSAGE:						// 5
 		{
-			temp_str[0] = g_strdup_printf(_("Usage for %s %s"),PACKAGE, VERSION);
-			temp_str[1] = g_strdup_printf("Usage for %s %s",PACKAGE, VERSION);
-			// gchar *help_msg = get_help_message(win_data->profile);
-			temp_str[2] = get_help_message_usage(win_data->profile, TRUE);
+			gchar *str[14] = {NULL};
+			gchar *temp_str;
 
-			create_dialog(temp_str[0],
-				      temp_str[1],
+			// Create dialog
+			str[0] = g_strdup_printf(_("Usage for %s %s"),PACKAGE, VERSION);
+			str[1] = g_strdup_printf("Usage for %s %s",PACKAGE, VERSION);
+			create_dialog(str[0],
+				      str[1],
 				      DIALOG_OK,
 				      page_data->window,
 				      FALSE,
 				      FALSE,
-				      15,
+				      0,
 				      GTK_RESPONSE_OK,
 				      NULL,
-				      temp_str[2],
+				      NULL,
 				      TRUE,
 				      0,
 				      FALSE,
 				      BOX_VERTICALITY,
 				      0,
 				      dialog_data);
-			/* Create the expander */
-			gchar *msg_str=_("Default shortcut key: "
-					 "(It may custom or disable by right click menu "
-					 "[Set function key value])");
-
-			temp_str[3] = convert_text_to_html(&msg_str, FALSE, NULL, "tt", NULL);
-			GtkWidget *label = NULL;
-#ifdef DEFENSIVE
-			if (temp_str[3])
-			{
-#endif
-				GtkWidget *expander = gtk_expander_new (temp_str[3]);
-				gtk_expander_set_use_markup (GTK_EXPANDER(expander), TRUE);
-				gtk_box_pack_start (GTK_BOX (dialog_data->box), expander, FALSE, FALSE, 0);
-
-				temp_str[4] = get_help_message_function_key(TRUE);
-#ifdef DEFENSIVE
-				if (temp_str[4])
-				{
-#endif
-					label = gtk_label_new (NULL);
-					gtk_label_set_markup (GTK_LABEL(label), temp_str[4]);
-					gtk_expander_set_spacing (GTK_EXPANDER(expander), 15);
-					gtk_container_add (GTK_CONTAINER (expander), label);
-#ifdef DEFENSIVE
-				}
-#endif
-				// g_object_set(label, "can-focus", FALSE, NULL);
-#ifdef USE_GTK_WIDGET_SET_CAN_FOCUS
-				gtk_widget_set_can_focus(GTK_WIDGET (expander), FALSE);
+			// Notebook
+			GtkWidget *notebook = gtk_notebook_new();
+#ifdef ENABLE_DIALOG_GET_CONTENT_AREA
+			gtk_container_add (GTK_CONTAINER (gtk_dialog_get_content_area(GTK_DIALOG(dialog_data->window))), notebook);
 #else
-				GTK_WIDGET_UNSET_FLAGS(expander, GTK_CAN_FOCUS);
+			gtk_container_add (GTK_CONTAINER (GTK_DIALOG(dialog_data->window)->vbox), notebook);
 #endif
-#ifdef DEFENSIVE
-			}
-#endif
-			msg_str=_("Don't forget to save your settings after making any change!\n");
-			temp_str[5] = convert_text_to_html (&msg_str, FALSE, "darkred", "tt", "b", NULL);
+			gtk_container_set_border_width (GTK_CONTAINER (notebook), 5);
 
-			gchar *str[3] = {NULL};
-			str[0] = g_strdup_printf(_("Please report bug to %s. Thank you for using %s!"),
-						 BUGREPORT, PACKAGE);
-			str[1] = convert_text_to_html (&str[0], FALSE, NULL, "tt", NULL);
-			str[2] = g_strdup_printf("\n%s%s", temp_str[5], str[1]);
-#ifdef DEFENSIVE
-			if (str[2])
-			{
-#endif
-				GtkWidget *hbox = gtk_hbox_new (FALSE, 0);
-	       			gtk_box_pack_start (GTK_BOX(dialog_data->box), hbox, FALSE, FALSE, 0);
-				label = gtk_label_new (NULL);
-				gtk_label_set_markup (GTK_LABEL (label), str[2]);
-				gtk_label_set_selectable(GTK_LABEL(label), TRUE);
-				gtk_box_pack_start (GTK_BOX(hbox), label, FALSE, FALSE, 0);
-#ifdef DEFENSIVE
-			}
-#endif
-			for (i=0; i<3; i++) g_free(str[i]);
+			// Usage
+			str[2] = get_help_message_usage(win_data->profile, TRUE);
+			temp_str =_("Don't forget to save your settings after making any change!");
+			str[3] = convert_text_to_html (&temp_str, FALSE, "darkred", "tt", "b", NULL);
+			str[4] = g_strdup_printf("%s\n\n%s", str[2], str[3]);
+			dialog_data->operate[ABOUT_BUTTON_USAGE] = add_text_to_notebook(notebook, _("Usage"), GTK_STOCK_HELP, str[4]);
+
+			// Shortcut Keys
+			temp_str = _("Default shortcut key: "
+				     "(It may custom or disable by right click menu "
+				     "[Set function key value])");
+			str[5] = convert_text_to_html(&temp_str, FALSE, NULL, "tt", NULL);
+			str[6] = get_help_message_function_key(TRUE);
+			str[7] = g_strdup_printf("%s\n\n%s", str[5], str[6]);
+			dialog_data->operate[ABOUT_BUTTON_SHORTCUT_KEYS] = add_text_to_notebook(notebook, _("Key binding"), GTK_STOCK_PREFERENCES, str[7]);
+
+			// License
+			str[8] = g_strdup_printf("Copyright (c) 2008-%s  %s.  All rights reserved.\n\n"
+						 "%s is free software: you can redistribute it and/or modify\n"
+						 "it under the terms of the GNU General Public License as published by\n"
+						 "the Free Software Foundation, either version 3 of the License, or\n"
+						 "(at your option) any later version.\n\n"
+						 "%s is distributed in the hope that it will be useful,\n"
+						 "but WITHOUT ANY WARRANTY; without even the implied warranty of\n"
+						 "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n"
+						 "GNU General Public License for more details.\n\n"
+						 "You should have received a copy of the GNU General Public License\n"
+						 "along with %s.  If not, see <http://www.gnu.org/licenses/>.",
+						 YEAR, AUTHOR, PACKAGE, PACKAGE, PACKAGE);
+			str[9] = convert_text_to_html(&str[8], FALSE, NULL, "tt", NULL);
+			dialog_data->operate[ABOUT_BUTTON_LICENSE] = add_text_to_notebook(notebook, _("License"), GTK_STOCK_DIALOG_AUTHENTICATION, str[9]);
+
+			// Translators
+			temp_str = "Adrian Buyssens: Flemish/Dutch translations.\n"
+				   "GoGoNKT: Simplified Chinese translation.\n"
+				   "Marco Paolome: Italian translation.\n"
+				   "Mario Blättermann: German translation.\n"
+				   "Niels Martignène: Franch translation.\n"
+				   "P.L. Francisco: Spanish translation.\n"
+				   "Samed Beyribey: Turkish translation.\n"
+				   "Slavko: Slovak translation.\n" 
+				   "Vladimir Smolyar: Russian and Ukrainian translation.";
+			str[10] = convert_text_to_html(&temp_str, FALSE, NULL, "tt", NULL);
+			dialog_data->operate[ABOUT_BUTTON_TRANSLATORS] = add_text_to_notebook(notebook, _("Translators"), GTK_STOCK_CONVERT, str[10]);
+
+			// About
+			str[11] = g_strdup_printf (_("Thank you for using %s!"), PACKAGE);
+			str[12] = g_strdup_printf ("%s <%s>\n\n"
+						   "%s\n"
+						   "\thttp://lilyterm.luna.com.tw/index.html (Main site)\n"
+						   "\thttp://lilyterm.luna.com.tw/index_cht.html (Traditional Chinese site)\n"
+						   "\thttps://github.com/Tetralet/LilyTerm (Github site)\n\n"
+						   "%s"
+						   "\thttp://tetralet.luna.com.tw\n\n"
+						   "%s"
+						   "\thttps://github.com/Tetralet/LilyTerm/wiki\n\n"
+						   "%s"
+						   "\thttps://github.com/Tetralet/LilyTerm/issues\n\n"
+						   "%s"
+						   "\t#hime@freenode.net\n\n"
+						   "%s",
+						   AUTHOR, BUGREPORT, _("homepage:"), _("blog:"),
+						   _("Wiki:"), _("Issues:"), _("IRC:"), str[11]);
+			str[13] = convert_text_to_html(&str[12], FALSE, NULL, "tt", NULL);
+			dialog_data->operate[ABOUT_BUTTON_AUTHOR] = add_text_to_notebook(notebook, _("About"), GTK_STOCK_ABOUT, str[13]);
+
+			show_usage_text(notebook, NULL, 0, dialog_data);
+			g_signal_connect(G_OBJECT(notebook), "switch-page", G_CALLBACK(show_usage_text), dialog_data);
+
+			for (i=0; i<14; i++) g_free(str[i]);
+
 			break;
 		}
 		case CONFIRM_TO_CLOSE_RUNNING_APPLICATION:			// 7
@@ -1641,6 +1644,49 @@ FINISH:
 	return dialog_response;
 }
 
+GtkWidget *create_label_with_text(GtkWidget *box, gboolean set_markup, gboolean selectable, gint max_width_chars, const gchar *text)
+{
+#ifdef DETAIL
+	g_debug("! Launch create_label_with_text() with box = %p, set_markup = %d, "
+		"selectable = %d, max_width_chars = %d, text = %s",
+		box, set_markup, selectable, max_width_chars, text);
+#endif
+#ifdef DEFENSIVE
+	if ((text==NULL) || (box==NULL)) return NULL;
+#endif
+	GtkWidget *label = gtk_label_new(NULL);
+	if (set_markup)
+		gtk_label_set_markup(GTK_LABEL (label), text);
+	else
+		gtk_label_set_text(GTK_LABEL (label), text);
+	if (selectable) gtk_label_set_selectable(GTK_LABEL(label), TRUE);
+	if (max_width_chars) gtk_label_set_max_width_chars (GTK_LABEL(label), max_width_chars);
+
+	if (box) gtk_box_pack_start (GTK_BOX(box), label, FALSE, FALSE, 0);
+	return label;
+}
+
+GtkWidget *add_secondary_button(GtkWidget *dialog, const gchar *text, gint response_id, const gchar *stock_id)
+{
+#ifdef DETAIL
+	g_debug("! Launch add_secondary_button() with dialog = %p, text = %s, response_id = %d, stock_id = %s",
+		dialog, text, response_id, stock_id);
+#endif
+#ifdef DEFENSIVE
+	if ((text==NULL) || (dialog==NULL)) return NULL;
+#endif
+	GtkWidget *button = gtk_dialog_add_button (GTK_DIALOG(dialog), text, response_id);
+	if (stock_id)
+		gtk_button_set_image (GTK_BUTTON(button),
+				      gtk_image_new_from_stock(stock_id, GTK_ICON_SIZE_BUTTON));
+#ifdef ENABLE_DIALOG_GET_ACTION_AREA
+	gtk_button_box_set_child_secondary (GTK_BUTTON_BOX(gtk_dialog_get_action_area(GTK_DIALOG(dialog))), button, TRUE);
+#else
+	gtk_button_box_set_child_secondary (GTK_BUTTON_BOX (GTK_DIALOG(dialog)->action_area), button, TRUE);
+#endif
+	return button;
+}
+
 #ifdef ENABLE_FIND_STRING
 void refresh_regex_settings(GtkWidget *widget, struct Window *win_data)
 {
@@ -2021,17 +2067,7 @@ void create_dialog(gchar *dialog_title_translation, gchar *dialog_title,  Dialog
 	gtk_box_pack_start (GTK_BOX(main_hbox), state_vbox, TRUE, TRUE, 0);
 
 	if (title)
-	{
-		GtkWidget *title_hbox = gtk_hbox_new (FALSE, 0);
-		gtk_box_pack_start (GTK_BOX(state_vbox), title_hbox, FALSE, FALSE, 0);
-
-		dialog_data->title_label = gtk_label_new (NULL);
-		gtk_label_set_markup (GTK_LABEL (dialog_data->title_label), title);
-		if (selectable) gtk_label_set_selectable(GTK_LABEL(dialog_data->title_label), TRUE);
-		if (max_width_chars)
-			gtk_label_set_max_width_chars (GTK_LABEL(dialog_data->title_label), max_width_chars);
-		gtk_box_pack_start (GTK_BOX(title_hbox), dialog_data->title_label, FALSE, FALSE, 0);
-	}
+		dialog_data->title_label = create_label_with_text(state_vbox, TRUE, selectable, max_width_chars, title);
 
 	if (state_bottom)
 	{
@@ -2153,6 +2189,24 @@ GtkWidget *create_button_with_image(gchar *label_text, const gchar *stock_id, gb
 #endif
 		g_signal_connect(G_OBJECT(label), "clicked", G_CALLBACK(func), func_data);
 	return label;
+}
+
+GtkWidget *create_hbox_with_text_and_image(gchar *text, const gchar *stock_id)
+{
+#ifdef DETAIL
+	g_debug("! Launch create_hbox_with_text_and_image() with label_text = %s, stock_id = %s!",
+		text, stock_id);
+#endif
+	GtkWidget *hbox=gtk_hbox_new(FALSE, 0);
+	set_widget_thickness(hbox, 0);
+
+	GtkWidget *label = gtk_label_new(text);
+	gtk_box_pack_start(GTK_BOX(hbox), label, TRUE, TRUE, 0);
+	GtkWidget *image = gtk_image_new_from_stock(stock_id, GTK_ICON_SIZE_MENU);
+	gtk_box_pack_start(GTK_BOX(hbox), image, FALSE, FALSE, 0);
+	gtk_widget_show_all(hbox);
+
+	return hbox;
 }
 
 void create_color_selection_widget(struct Dialog *dialog_data, struct Color_Data *color_data, Dialog_Type_Flags style,
@@ -3003,6 +3057,55 @@ void clear_key_group_all(GtkButton *button, struct Dialog *dialog_data)
 	g_debug("! Launch clear_key_group_all() with button = %p, dialog_data = %p!", button, dialog_data);
 #endif
 	clear_key_groups(dialog_data, TRUE);
+}
+
+GtkWidget *add_text_to_notebook(GtkWidget *notebook, const gchar *label, const gchar *stock_id, const gchar *text)
+{
+#ifdef DETAIL
+	g_debug("! Launch add_text_to_notebook() with notebook = %p, label = %s, stock_id = %s, text = %s",
+		notebook, label, stock_id, text);
+#endif
+	GtkWidget *text_label = create_label_with_text(NULL, TRUE, TRUE, 0, text);
+	GTK_WIDGET_UNSET_FLAGS(text_label, GTK_CAN_FOCUS);
+
+	GtkWidget *hbox = gtk_hbox_new(FALSE, 0);
+	gtk_container_set_border_width(GTK_CONTAINER(hbox), 10);
+	gtk_box_pack_start(GTK_BOX(hbox), text_label, TRUE, TRUE, 0);
+
+	GtkWidget *label_hbox = gtk_hbox_new(FALSE, 0);
+	set_widget_thickness(label_hbox, 0);
+	GtkWidget *image = gtk_image_new_from_stock(stock_id, GTK_ICON_SIZE_MENU);
+	gtk_box_pack_start(GTK_BOX(label_hbox), image, FALSE, FALSE, 0);
+	GtkWidget *label_text = gtk_label_new(label);
+	gtk_box_pack_start(GTK_BOX(label_hbox), label_text, TRUE, TRUE, 0);
+	gtk_widget_show_all(label_hbox);
+
+	gtk_notebook_append_page(GTK_NOTEBOOK(notebook), hbox, label_hbox);
+
+	return text_label;
+}
+
+void show_usage_text(GtkWidget *notebook, gpointer page, guint page_num, struct Dialog *dialog_data)
+{
+#ifdef DETAIL
+	g_debug("! Launch show_usage_text() with notebook = %p, page = %p, page_num = %d, dialog_data = %p",
+		notebook, page, page_num, dialog_data);
+#endif
+#ifdef DEFENSIVE
+	if (dialog_data==NULL) return;
+#endif
+	gint i;
+	for (i=0; i<=ABOUT_BUTTON_AUTHOR; i++)
+	{
+		if (i==page_num)
+			gtk_widget_set_no_show_all(dialog_data->operate[i], FALSE);
+		else
+		{
+			gtk_widget_set_no_show_all(dialog_data->operate[i], TRUE);
+			gtk_widget_hide(dialog_data->operate[i]);
+		}
+	}
+	gtk_widget_show_all(dialog_data->window);
 }
 
 //void err_page_data_is_null(gchar *function_name)

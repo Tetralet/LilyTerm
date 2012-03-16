@@ -1065,7 +1065,7 @@ typedef enum {
 struct Dialog
 {
 	GtkWidget *window;
-	GtkWidget *operate[4];
+	GtkWidget *operate[5];
 	GtkWidget *box;
 	GtkWidget *title_label;
 

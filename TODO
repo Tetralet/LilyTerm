@@ -25,7 +25,6 @@ a scroll bar menu
 Save settings that diff and full
 ** check the focus of dialogs
 ** replace sleep with time_out
-** better about dialog
 ** custom URL match
 ** custom protocal matches <- very hard to implement
 ** fix solarized ansi color themes.

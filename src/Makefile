@@ -59,9 +59,13 @@ SOURCE_FILES = menu.c profile.c dialog.c pagename.c notebook.c font.c \
 	       property.c window.c misc.c console.c main.c
 OBJ = $(SOURCE_FILES:.c=.o)
 
+AUTHOR_CONVERT = $(shell echo "$(AUTHOR)" | sed -e 's/\([ ()]\)/\\\1/g')
+
 INCLUDES = -DBINARY=\"$(BINARY)\" \
 	   -DPACKAGE=\"$(PACKAGE)\" \
+	   -DAUTHOR=\"$(AUTHOR_CONVERT)\" \
 	   -DBUGREPORT=\"$(BUGREPORT)\" \
+	   -DYEAR=\"$(YEAR)\" \
 	   -DLOCALEDIR=\"$(LOCALEDIR)\" \
 	   -DICONDIR=\"$(ICONDIR)\"
 

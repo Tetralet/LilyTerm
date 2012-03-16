@@ -41,6 +41,14 @@ typedef enum {
 	BOX_VERTICALITY,
 } Box_Type;
 
+typedef enum {
+	ABOUT_BUTTON_USAGE,
+	ABOUT_BUTTON_SHORTCUT_KEYS,
+	ABOUT_BUTTON_LICENSE,
+	ABOUT_BUTTON_TRANSLATORS,
+	ABOUT_BUTTON_AUTHOR,
+} About_Button_Type;
+
 struct Color_Data
 {
 	// the function type.
@@ -58,6 +66,9 @@ struct Color_Data
 
 	gboolean transparent_background;
 };
+
+GtkWidget *create_label_with_text(GtkWidget *box, gboolean set_markup, gboolean selectable, gint max_width_chars, const gchar *text);
+GtkWidget *add_secondary_button(GtkWidget *dialog, const gchar *text, gint response_id, const gchar *stock_id);
 void paste_text_to_vte_terminal(GtkWidget *widget, struct Dialog *dialog_data);
 void create_dialog(gchar *dialog_title_translation, gchar *dialog_title,  Dialog_Button_Type type,
 		   GtkWidget *window, gboolean center, gboolean resizable, gint border_width,
@@ -92,4 +103,6 @@ void update_key_info (GtkTreeSelection *treeselection, struct Dialog *dialog_dat
 void clear_key_group(GtkButton *button, struct Dialog *dialog_data);
 void clear_key_group_all(GtkButton *button, struct Dialog *dialog_data);
 void clear_key_groups(struct Dialog *dialog_data, gboolean clear_all);
+GtkWidget *add_text_to_notebook(GtkWidget *notebook, const gchar *label, const gchar *stock_id, const gchar *text);
+void show_usage_text(GtkWidget *notebook, gpointer page, guint page_num, struct Dialog *dialog_data);
 // void err_page_data_is_null(gchar *function_name);
