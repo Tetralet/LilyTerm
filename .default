@@ -1,8 +1,8 @@
 PACKAGE = LilyTerm
 BINARY = lilyterm
-VERSION = 0.9.9
 AUTHOR = Lu, Chao-Ming (Tetralet)
 BUGREPORT = tetrlet@gmail.com
+VERSION = 0.9.9
 
 YEAR = $(shell date +%Y)
 ECHO = $(shell whereis -b echo | awk '{print $$2}')

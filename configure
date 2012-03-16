@@ -1,10 +1,10 @@
 #!/bin/bash
 
-PACKAGE=LilyTerm
-BINARY=lilyterm
-AUTHOR="Lu, Chao-Ming (Tetralet)"
-BUGREPORT=tetralet@gmail.com
-VERSION=0.9.9
+PACKAGE=`grep "^PACKAGE = " .default | awk '{print $3}'`
+BINARY=`grep "^BINARY = " .default | awk -F ' = ' '{print $2}'`
+AUTHOR=`grep "^AUTHOR = " .default | awk -F ' = ' '{print $2}'`
+BUGREPORT=`grep "^BUGREPORT = " .default | awk -F ' = ' '{print $2}'`
+VERSION=`grep "^VERSION = " .default | awk -F ' = ' '{print $2}'`
 
 PREFIX=/usr/local
 ETCDIR="\$(PREFIX)/etc/xdg"
@@ -253,21 +253,21 @@ $ECHO ""
 # ---- REPORT ---- #
 
 INFO "===========================================\n"
-$ECHO "PACKAGE   = $PACKAGE"
-$ECHO "BINARY    = $BINARY"
-$ECHO "VERSION   = $VERSION"
-$ECHO "AUTHOR = $AUTHOR"
-$ECHO "BUGREPORT = $BUGREPORT"
+# $ECHO "PACKAGE   = $PACKAGE"
+# $ECHO "BINARY    = $BINARY"
+# $ECHO "VERSION   = $VERSION"
+# $ECHO "AUTHOR    = $AUTHOR"
+# $ECHO "BUGREPORT = $BUGREPORT"
 IMPORTANT "PREFIX    = $PREFIX\n"
 IMPORTANT "ETCDIR    = $ETCDIR\n"
-$ECHO "BINDIR    = $BINDIR"
-$ECHO "DATADIR   = $DATADIR"
-$ECHO "MANDIR    = $MANDIR"
-$ECHO "DOCDIR    = $DOCDIR"
-if [ "$NLS" = 'Y' ]; then
-  $ECHO "LOCALEDIR = $LOCALEDIR"
-fi
-$ECHO "ICONDIR   = $ICONDIR"
+# $ECHO "BINDIR    = $BINDIR"
+# $ECHO "DATADIR   = $DATADIR"
+# $ECHO "MANDIR    = $MANDIR"
+# $ECHO "DOCDIR    = $DOCDIR"
+# if [ "$NLS" = 'Y' ]; then
+#  $ECHO "LOCALEDIR = $LOCALEDIR"
+# fi
+# $ECHO "ICONDIR   = $ICONDIR"
 if [ "$DEBUG" = 'Y' ]; then
   IMPORTANT "DEBUG     = $DEBUG\n"
 else
@@ -299,11 +299,11 @@ if [ "$CFLAGS" != '-Wall -O -g' ]; then
 else
   $ECHO "CFLAGS    = $CFLAGS"
 fi
-if [ -n "$MAKE" ]; then
-  $ECHO "MAKE      = $MAKE"
-else
-  ERR "MAKE      = $MAKE\n"
-fi
+# if [ -n "$MAKE" ]; then
+#  $ECHO "MAKE      = $MAKE"
+# else
+#  ERR "MAKE      = $MAKE\n"
+# fi
 $ECHO "GTK       = $GTK"
 $ECHO "VTE       = $VTE"
 if [ "$GNOME_CONTROL_CENTER" = 'Y' ]; then
