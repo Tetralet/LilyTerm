@@ -1,6 +1,6 @@
 #!/bin/bash
 
-PACKAGE=`grep "^PACKAGE = " .default | awk '{print $3}'`
+PACKAGE=`grep "^PACKAGE = " .default | awk -F ' = ' '{print $2}'`
 BINARY=`grep "^BINARY = " .default | awk -F ' = ' '{print $2}'`
 AUTHOR=`grep "^AUTHOR = " .default | awk -F ' = ' '{print $2}'`
 BUGREPORT=`grep "^BUGREPORT = " .default | awk -F ' = ' '{print $2}'`
