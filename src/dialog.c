@@ -3065,8 +3065,14 @@ GtkWidget *add_text_to_notebook(GtkWidget *notebook, const gchar *label, const g
 	g_debug("! Launch add_text_to_notebook() with notebook = %p, label = %s, stock_id = %s, text = %s",
 		notebook, label, stock_id, text);
 #endif
+#ifdef DEFENSIVE
+	if (notebook==NULL) return NULL;
+#endif
 	GtkWidget *text_label = create_label_with_text(NULL, TRUE, TRUE, 0, text);
-	GTK_WIDGET_UNSET_FLAGS(text_label, GTK_CAN_FOCUS);
+#ifdef DEFENSIVE
+	if (text_label==NULL) return NULL;
+#endif
+		GTK_WIDGET_UNSET_FLAGS(text_label, GTK_CAN_FOCUS);
 
 	GtkWidget *hbox = gtk_hbox_new(FALSE, 0);
 	gtk_container_set_border_width(GTK_CONTAINER(hbox), 10);
@@ -3097,6 +3103,9 @@ void show_usage_text(GtkWidget *notebook, gpointer page, guint page_num, struct 
 	gint i;
 	for (i=0; i<5; i++)
 	{
+#ifdef DEFENSIVE
+		if (dialog_data->operate[i]==NULL) continue;
+#endif
 		if (i==page_num)
 			gtk_widget_set_no_show_all(dialog_data->operate[i], FALSE);
 		else
@@ -3105,7 +3114,10 @@ void show_usage_text(GtkWidget *notebook, gpointer page, guint page_num, struct 
 			gtk_widget_hide(dialog_data->operate[i]);
 		}
 	}
-	gtk_widget_show_all(dialog_data->window);
+#ifdef DEFENSIVE
+	if (dialog_data->window)
+#endif
+		gtk_widget_show_all(dialog_data->window);
 }
 
 //void err_page_data_is_null(gchar *function_name)
