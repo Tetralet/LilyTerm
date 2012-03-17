@@ -192,7 +192,7 @@
 	#define USE_TIMEOUT_SECONDS
 #endif
 
-#if defined VTE_CHECK_VERSION
+#if defined(VTE_CHECK_VERSION)
     #if VTE_CHECK_VERSION(0,16,0)
 	#define ENABLE_VTE_SELECT_ALL
     #endif
@@ -220,12 +220,9 @@
 	#define USE_OLD_VTE_FORK_COMMAND
     #endif
 #else
-    #if defined vte_terminal_select_all
-	#define ENABLE_VTE_SELECT_ALL
-    #endif
-	#define USE_OLD_VTE_SET_FONT
-	#define USE_OLD_VTE_GET_PADDING
-	#define USE_OLD_VTE_FORK_COMMAND
+    #define USE_OLD_VTE_SET_FONT
+    #define USE_OLD_VTE_GET_PADDING
+    #define USE_OLD_VTE_FORK_COMMAND
 #endif
 
 #define ENABLE_GDKCOLOR_TO_STRING_VER "GTK 2.12"

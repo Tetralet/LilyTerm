@@ -328,7 +328,7 @@ gchar *get_proc_data(pid_t pid, gchar *file, gsize *length)
 	gchar *file_path = g_strdup_printf("%s/%s", proc_path, file);
 	// g_debug("file_path = %s", file_path);
 
-#if defined MEMORY || defined UNIT_TEST
+#if defined(MEMORY) || defined(UNIT_TEST)
 	if (proc_path && file_path)
 	{
 #endif
@@ -384,7 +384,7 @@ gchar *get_proc_data(pid_t pid, gchar *file, gsize *length)
 				break;
 			}
 		}
-#if defined MEMORY || defined UNIT_TEST
+#if defined(MEMORY) || defined(UNIT_TEST)
 	}
 #endif
 	g_free(file_path);
@@ -610,7 +610,7 @@ gchar *colorful_max_new_lines(gchar *string, gint max, gint output_line)
 	return NULL;
 }
 
-#if defined OUT_OF_MEMORY || defined UNIT_TEST
+#if defined(OUT_OF_MEMORY) || defined(UNIT_TEST)
 gchar *fake_g_strdup(const gchar *str)
 {
 #   ifdef DETAIL

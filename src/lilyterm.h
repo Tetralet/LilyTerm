@@ -47,10 +47,11 @@ gchar **get_pid_stat(pid_t pid, gint max_tokens);
 gchar *convert_text_to_html(StrAddr **text, gboolean free_text, gchar *color, StrLists *tag, ...);
 gchar *join_strings_to_string(const gchar separator, const gint total, const StrLists *string, ...);
 gchar *colorful_max_new_lines(gchar *string, gint max, gint output_line);
-#if defined OUT_OF_MEMORY || defined UNIT_TEST
+#if defined(OUT_OF_MEMORY) || defined(UNIT_TEST)
 gchar *fake_g_strdup(const gchar *gchar);
 gchar *fake_g_strdup_printf(const StrLists *format, ...);
 #endif
+
 //
 // **************************** main.c ****************************
 //
@@ -91,7 +92,7 @@ GtkNotebook *new_window(int argc,
 			struct Window *win_data_orig,
 			struct Page *page_data_orig);
 gchar *get_init_dir(pid_t pid, gchar *pwd, gchar *home);
-#if defined USE_OLD_GEOMETRY_METHOD || defined UNIT_TEST
+#if defined(USE_OLD_GEOMETRY_METHOD) || defined(UNIT_TEST)
 void keep_window_size (struct Window *win_data, GtkWidget *vte, guint keep_vte_size);
 #endif
 #ifdef USE_NEW_GEOMETRY_METHOD
@@ -116,7 +117,7 @@ void remove_notebook_page (GtkNotebook *notebook, GtkWidget *child, guint page_n
 void update_window_hint(struct Window *win_data, struct Page *page_data);
 gboolean hide_and_show_tabs_bar(struct Window *win_data , Switch_Type show_tabs_bar);
 gboolean hide_scrollback_lines(GtkWidget *widget, struct Window *win_data);
-#ifdef FATAL
+#if defined(FATAL) || defined(UNIT_TEST)
 void print_array(gchar *name, gchar **data);
 #endif
 void clear_win_data(struct Window *win_data);
@@ -244,7 +245,7 @@ gboolean check_and_add_locale_to_warned_locale_list(struct Window *win_data, gch
 void create_invalid_locale_error_message(gchar *locale);
 void error_dialog(GtkWidget *window, gchar *title_translation, gchar *title,
 		  gchar *icon, gchar *message, gchar *encoding);
-#ifdef FATAL
+#if defined(FATAL) || defined(UNIT_TEST)
 void print_switch_out_of_range_error_dialog(gchar *function, gchar *var, gint value);
 #endif
 GdkColor get_inactive_color(GdkColor original_fg_color, gdouble new_brightness, gdouble old_brightness);
@@ -269,7 +270,7 @@ GtkWidget *add_radio_menuitem_to_sub_menu(GSList *encoding_group,
 void refresh_profile_list (struct Window *win_data);
 long get_profile_dir_modtime();
 
-#ifdef FATAL
+#if defined(FATAL) || defined(UNIT_TEST)
 void print_active_window_is_null_error_dialog(gchar *function);
 #endif
 

@@ -163,7 +163,7 @@ unit_test_full: $(OBJ)
 	@ sh unit_test.sh "$(INCLUDES)" --enable-glib-debugger --enable-gtk-debugger --enable-gdb --enable-valgrind
 
 .PHONY: memory
-memory: CFLAGS := $(CFLAGS) -g
+memory: CFLAGS = -Wall -Wformat -Wformat-security -Werror=format-security -O2
 memory: INCLUDES := $(INCLUDES) -DDEBUG -DFATAL -DDEVELOP -DDEFENSIVE -DOUT_OF_MEMORY -DVERSION=\"$(VERSION)\ Develop\ Version\ \($(date)\)\"
 memory: BINARY := $(BINARY)_dev
 memory: $(BINARY)
