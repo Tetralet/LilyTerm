@@ -226,9 +226,10 @@ fi
 
 if [ "$NLS" = 'Y' ]; then
   $ECHO -n "... testing Native Language Support : "
-  GETTEST=`whereis -b gettext | awk '{print $2}'`
-  if [ $? != 0 ]; then
-    ERR "not found. Please install gettext package. ABORT!\n"
+  GETTEXT=`whereis -b gettext | awk '{print $2}'`
+  if [ -z "$GETTEXT" ]; then
+    WARN "not found.\n"
+    NLS=N
   else
     INFO "found.\n"
   fi
@@ -286,9 +287,7 @@ fi
 
 CHECK_CC=`whereis -b $CC | awk '{print $2}'`
 if [ -n "$CHECK_CC" ]; then
-  if [ "$CC" = 'gcc' ]; then
-    $ECHO "CC        = $CC"
-  else
+  if [ "$CC" != 'gcc' ]; then
     IMPORTANT "CC        = $CC\n"
   fi
 else
@@ -299,15 +298,13 @@ if [ "$CFLAGS" != '-Wall -O -g' ]; then
 else
   $ECHO "CFLAGS    = $CFLAGS"
 fi
-# if [ -n "$MAKE" ]; then
-#  $ECHO "MAKE      = $MAKE"
-# else
-#  ERR "MAKE      = $MAKE\n"
-# fi
+if [ -z "$MAKE" ]; then
+ ERR "MAKE      = $MAKE\n"
+fi
 $ECHO "GTK       = $GTK"
 $ECHO "VTE       = $VTE"
 if [ "$GNOME_CONTROL_CENTER" = 'Y' ]; then
-  IMPORTANT "GNOME_CONTROL_CENTER = $GNOME_CONTROL_CENTER\n"
+  IMPORTANT "GNOME_CONTROL_CENTER     = $GNOME_CONTROL_CENTER\n"
   IMPORTANT "GNOME_CONTROL_CENTER_DIR = $GNOME_CONTROL_CENTER_DIR\n"
 fi
 INFO "===========================================\n"
