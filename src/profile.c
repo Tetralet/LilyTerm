@@ -1149,10 +1149,10 @@ void get_user_settings(struct Window *win_data, const gchar *encoding)
 	if (win_data==NULL) return;
 #endif
 #ifdef OUT_OF_MEMORY
-#	undef g_strdup
-#	undef g_strdup_printf
-#	undef g_strsplit
-#	undef g_strsplit_set
+#  undef g_strdup
+#  undef g_strdup_printf
+#  undef g_strsplit
+#  undef g_strsplit_set
 #endif
 
 	// g_debug("Get win_data = %d when get user settings!", win_data);

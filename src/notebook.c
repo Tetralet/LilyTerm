@@ -1244,9 +1244,9 @@ gboolean vte_button_press(GtkWidget *vte, GdkEventButton *event, gpointer user_d
 		{
 #ifdef ENABLE_RGBA
 			if (win_data->use_rgba == -1)
-#   ifdef DEFENSIVE
+#  ifdef DEFENSIVE
 				if (win_data->menuitem_trans_win)
-#   endif
+#  endif
 					// GTK_CHECK_MENU_ITEM(win_data->menuitem_trans_win)->active =
 					//	win_data->transparent_window;
 					gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM(win_data->menuitem_trans_win),

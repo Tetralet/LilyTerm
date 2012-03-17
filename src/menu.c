@@ -38,10 +38,10 @@ gboolean create_menu(struct Window *win_data)
 #endif
 
 #ifdef OUT_OF_MEMORY
-#	undef g_strdup
-#	undef g_strdup_printf
-#	undef g_strsplit
-#	undef g_strsplit_set
+#  undef g_strdup
+#  undef g_strdup_printf
+#  undef g_strsplit
+#  undef g_strsplit_set
 #endif
 #ifdef DEFENSIVE
 	if (win_data==NULL) return FALSE;
@@ -542,13 +542,13 @@ void set_dim_text(GtkWidget *menuitem_dim_text, struct Window *win_data)
 #ifdef ENABLE_RGBA
 void set_dim_window(GtkWidget *menuitem_dim_text, struct Window *win_data)
 {
-#   ifdef DETAIL
+#  ifdef DETAIL
 	g_debug("! Launch set_dim_window() with win_data = %p", win_data);
-#   endif
-#   ifdef DEFENSIVE
+#  endif
+#  ifdef DEFENSIVE
 	if (win_data==NULL) return;
 	if (win_data->menuitem_dim_window==NULL) return;
-#   endif
+#  endif
 	// win_data->dim_window = GTK_CHECK_MENU_ITEM(win_data->menuitem_dim_window)->active;
 	win_data->dim_window = gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(win_data->menuitem_dim_window));
 	dim_window(win_data, 2);
@@ -774,11 +774,11 @@ void launch_hide_and_show_tabs_bar(GtkWidget *widget, Switch_Type show_tabs_bar)
 			win_data->show_tabs_bar = FORCE_OFF;
 			break;
 		default:
-#   ifdef FATAL
+#  ifdef FATAL
 			print_switch_out_of_range_error_dialog("launch_hide_and_show_tabs_bar",
 							       "show_tabs_bar",
 							       show_tabs_bar);
-#   endif
+#  endif
 			break;
 	}
 	// g_debug("launch_hide_and_show_tabs_bar(): call hide_and_show_tabs_bar() with show_tabs_bar = %d", show_tabs_bar);
@@ -791,7 +791,7 @@ GtkWidget *check_name_in_menuitem(GtkWidget *sub_menu, const gchar *name, gboole
 	g_debug("! Launch check_name_in_menuitem() with name = %s", name);
 #endif
 #ifdef OUT_OF_MEMORY
-#	undef gtk_widget_get_name
+#  undef gtk_widget_get_name
 #endif
 #ifdef DEFENSIVE
 	// FIXME: if sub_menu == NULL...
@@ -855,7 +855,7 @@ gint add_menuitem_to_locale_sub_menu(struct Window *win_data,
 		win_data, no, name);
 #endif
 #ifdef OUT_OF_MEMORY
-#	undef g_strdup_printf
+#  undef g_strdup_printf
 #endif
 #ifdef DEFENSIVE
 	if ((win_data==NULL) || (name==NULL)) return 0;
@@ -1254,11 +1254,11 @@ void select_font(GtkWidget *widget, struct Window *win_data)
 }
 
 #ifdef OUT_OF_MEMORY
-#	undef g_strdup
-#	undef g_strdup_printf
-#	undef g_strsplit
-#	undef g_strsplit_set
-#	undef g_get_system_config_dirs
+#  undef g_strdup
+#  undef g_strdup_printf
+#  undef g_strsplit
+#  undef g_strsplit_set
+#  undef g_get_system_config_dirs
 #endif
 
 gboolean refresh_locale_and_encoding_list(struct Window *win_data)

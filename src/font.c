@@ -394,10 +394,10 @@ void apply_font_to_every_vte(GtkWidget *window, gchar *new_font_name, glong colu
 #ifdef USE_GTK3_GEOMETRY_METHOD
 		page_data->column = column;
 		page_data->row = row;
-#   ifdef GEOMETRY
+#  ifdef GEOMETRY
 		g_debug("@ apply_font_to_every_vte (for %p): Trying set the geometry to %ld x %ld",
 			window, column, row);
-#   endif
+#  endif
 #endif
 		g_free(page_data->font_name);
 		page_data->font_name = g_strdup(new_font_name);

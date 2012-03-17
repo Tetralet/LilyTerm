@@ -257,7 +257,7 @@ gchar *get_encoding_from_locale(const gchar *locale)
 	g_debug("! Launch get_encoding_from_locale()");
 #endif
 #ifdef OUT_OF_MEMORY
-#	undef g_strdup
+#  undef g_strdup
 #endif
 	// locale==NULL: get the init encoding.
 
@@ -613,12 +613,12 @@ gchar *colorful_max_new_lines(gchar *string, gint max, gint output_line)
 #if defined(OUT_OF_MEMORY) || defined(UNIT_TEST)
 gchar *fake_g_strdup(const gchar *str)
 {
-#   ifdef DETAIL
+#  ifdef DETAIL
 	g_debug("! fake_g_strdup(): Trying to strdup(%s)...", str);
-#   endif
+#  endif
 
-#   undef g_strdup
-#   undef g_strsplit
+#  undef g_strdup
+#  undef g_strsplit
 	if (str==NULL) return NULL;
 
 	gchar *return_str = NULL;
@@ -635,28 +635,28 @@ gchar *fake_g_strdup(const gchar *str)
 	}
 	g_strfreev (strs);
 	return return_str;
-#   define g_strdup fake_g_strdup
-#   define g_strsplit fake_g_strsplit
+#  define g_strdup fake_g_strdup
+#  define g_strsplit fake_g_strsplit
 }
 
 gchar *fake_g_strdup_printf(const StrLists *format, ...)
 {
-#   ifdef DETAIL
+#  ifdef DETAIL
 	g_debug("! Trying to strdup_printf(%s)...", format);
-#   endif
+#  endif
 	return NULL;
 }
 
 
 gchar** fake_g_strsplit(const gchar *string, const gchar *delimiter, gint max_tokens)
 {
-#   ifdef DETAIL
+#  ifdef DETAIL
 	g_debug("! fake_g_strsplit(): Trying to strsplit('%s', '%s', %d)...", string, delimiter, max_tokens);
-#   endif
+#  endif
 
 	if ((string==NULL) || (delimiter==NULL) || (delimiter[0]=='\0')) return NULL;
 
-#   undef g_strsplit
+#  undef g_strsplit
 
 	gchar **return_array = NULL;
 	gchar **strs = g_strsplit(string, " ", 2);
@@ -686,7 +686,7 @@ gchar** fake_g_strsplit(const gchar *string, const gchar *delimiter, gint max_to
 
 	return return_array;
 
-#   define g_strsplit fake_g_strsplit
+#  define g_strsplit fake_g_strsplit
 }
 
 #endif

@@ -101,7 +101,7 @@ int main( int   argc,
 	const gchar *user_config_dir = g_get_user_config_dir();
 
 #ifdef OUT_OF_MEMORY
-#	undef g_strdup_printf
+#  undef g_strdup_printf
 #endif
 	if (user_config_dir) profile_dir = g_strdup_printf("%s/%s", user_config_dir, BINARY);
 #ifdef OUT_OF_MEMORY
@@ -694,9 +694,9 @@ gboolean socket_fault(int type, GError *error, GIOChannel *channel, gboolean unr
 	g_debug("! Launch socket_fault() to show the error message !");
 #endif
 #ifdef UNIT_TEST
-#   define G_WARNING g_message
+#  define G_WARNING g_message
 #else
-#   define G_WARNING g_warning
+#  define G_WARNING g_warning
 #endif
 	switch (type)
 	{
@@ -761,7 +761,7 @@ gboolean socket_fault(int type, GError *error, GIOChannel *channel, gboolean unr
 	if (error) g_clear_error (&error);
 	clear_channel(channel, unref);
 #ifdef UNIT_TEST
-#   undef G_WARNING
+#  undef G_WARNING
 #endif
 	return FALSE;
 }
@@ -867,7 +867,7 @@ gchar *get_local_list()
 	g_debug("! Launch get_local_list()!");
 #endif
 #ifdef OUT_OF_MEMORY
-#	undef g_getenv
+#  undef g_getenv
 #endif
 	return join_strings_to_string(' ',
 				      14,

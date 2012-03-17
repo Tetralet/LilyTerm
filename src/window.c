@@ -1240,23 +1240,23 @@ gboolean deal_key_press(GtkWidget *window, gint type, struct Window *win_data)
 		}
 #ifdef ENABLE_MOUSE_SCROLL
 		case KEY_SCROLL_UP:
-#   ifdef DEFENSIVE
+#  ifdef DEFENSIVE
 			if (page_data==NULL) return FALSE;
-#   endif
+#  endif
 			gtk_test_widget_click(page_data->vte, 4, 0);
 			break;
 		case KEY_SCROLL_DOWN:
-#   ifdef DEFENSIVE
+#  ifdef DEFENSIVE
 			if (page_data==NULL) return FALSE;
-#   endif
+#  endif
 			gtk_test_widget_click(page_data->vte, 5, 0);
 			break;
 		case KEY_SCROLL_UP_1_LINE:
 		case KEY_SCROLL_DOWN_1_LINE:
 		{
-#   ifdef DEFENSIVE
+#  ifdef DEFENSIVE
 			if (page_data==NULL) return FALSE;
-#   endif
+#  endif
 			gdouble value = gtk_adjustment_get_value(page_data->adjustment);
 			if (type==KEY_SCROLL_UP_1_LINE)
 				value --;
@@ -2344,7 +2344,7 @@ void keep_gtk3_window_size(struct Window *win_data, GtkWidget *vte)
 #  ifdef GEOMETRY
 	g_debug("@ keep_gtk3_window_size(for %p): New FINAL size = %ld x %ld",
 		win_data->window, final_width, final_height);
-#   endif
+#  endif
 	GtkRequisition current_window_requisition;
 	gtk_window_get_size(GTK_WINDOW(win_data->window),
 			    &current_window_requisition.width,
@@ -3083,11 +3083,11 @@ gboolean hide_and_show_tabs_bar(struct Window *win_data , Switch_Type show_tabs_
 			break;
 
 		default:
-#   ifdef FATAL
+#  ifdef FATAL
 			print_switch_out_of_range_error_dialog("hide_and_show_tabs_bar",
 							       "show_tabs_bar",
 							       show_tabs_bar);
-#   endif
+#  endif
 			break;
 	}
 	// g_debug("hide_and_show_tabs_bar(): show = %d, and tabs_bar_status = %d", show, tabs_bar_status);
@@ -3184,9 +3184,9 @@ gboolean hide_scrollback_lines(GtkWidget *menu_item, struct Window *win_data)
 		if (page_data==NULL) continue;
 #endif
 #ifdef USE_GTK3_GEOMETRY_METHOD
-#   ifdef GEOMETRY
+#  ifdef GEOMETRY
 		g_debug("@ hide_scrollback_lines(vte %p): call save_current_vte_geometry()...", page_data->vte);
-#   endif
+#  endif
 		save_current_vte_geometry(win_data, page_data->vte);
 #endif
 		show_and_hide_scroll_bar(page_data, show);
