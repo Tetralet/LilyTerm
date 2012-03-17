@@ -116,6 +116,7 @@ void set_fill_tabs_bar(GtkNotebook *notebook, gboolean fill_tabs_bar, struct Pag
 void remove_notebook_page (GtkNotebook *notebook, GtkWidget *child, guint page_num, struct Window *win_data);
 void update_window_hint(struct Window *win_data, struct Page *page_data);
 gboolean hide_and_show_tabs_bar(struct Window *win_data , Switch_Type show_tabs_bar);
+void set_widget_can_not_get_focus(GtkWidget *widget);
 gboolean hide_scrollback_lines(GtkWidget *widget, struct Window *win_data);
 #if defined(FATAL) || defined(UNIT_TEST)
 void print_array(gchar *name, gchar **data);

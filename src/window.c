@@ -3126,14 +3126,23 @@ gboolean hide_and_show_tabs_bar(struct Window *win_data , Switch_Type show_tabs_
 	gtk_notebook_set_show_border(GTK_NOTEBOOK(win_data->notebook), show);
 
 	if (show)
-	{
-#ifdef USE_GTK_WIDGET_SET_CAN_FOCUS
-		gtk_widget_set_can_focus(GTK_WIDGET (win_data->notebook), FALSE);
-#else
-		GTK_WIDGET_UNSET_FLAGS(win_data->notebook, GTK_CAN_FOCUS);
-#endif
-	}
+		set_widget_can_not_get_focus(win_data->notebook);
 	return TRUE;
+}
+
+void set_widget_can_not_get_focus(GtkWidget *widget)
+{
+#ifdef DETAIL
+	g_debug("! Launch set_widget_can_not_get_focus() with widget = %p", widget);
+#endif
+#ifdef DEFENSIVE
+	if (widget==NULL) return;
+#endif
+#ifdef USE_GTK_WIDGET_SET_CAN_FOCUS
+		gtk_widget_set_can_focus(GTK_WIDGET (widget), FALSE);
+#else
+		GTK_WIDGET_UNSET_FLAGS(widget, GTK_CAN_FOCUS);
+#endif
 }
 
 gboolean hide_scrollback_lines(GtkWidget *menu_item, struct Window *win_data)

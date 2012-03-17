@@ -259,14 +259,8 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 			gtk_box_pack_start (GTK_BOX(hbox), dialog_data->operate[2], FALSE, FALSE, 0);
 			g_signal_connect(G_OBJECT(dialog_data->operate[2]), "toggled",
 					 G_CALLBACK(refresh_regex_settings), win_data);
-
-#ifdef USE_GTK_WIDGET_SET_CAN_FOCUS
-			gtk_widget_set_can_focus(GTK_WIDGET (dialog_data->operate[1]), FALSE);
-			gtk_widget_set_can_focus(GTK_WIDGET (dialog_data->operate[2]), FALSE);
-#else
-			GTK_WIDGET_UNSET_FLAGS(dialog_data->operate[1], GTK_CAN_FOCUS);
-			GTK_WIDGET_UNSET_FLAGS(dialog_data->operate[2], GTK_CAN_FOCUS);
-#endif
+			set_widget_can_not_get_focus(dialog_data->operate[1]);
+			set_widget_can_not_get_focus(dialog_data->operate[2]);
 			hbox = gtk_hbox_new (FALSE, 5);
 			dialog_data->operate[3] = gtk_label_new(NULL);
 			gtk_widget_set_no_show_all (dialog_data->operate[3], TRUE);
@@ -2310,11 +2304,7 @@ void create_SIGKILL_and_EXIT_widget(struct Dialog *dialog_data, gboolean create_
 		if (dialog_data->box!=NULL)
 #endif
 			gtk_box_pack_start (GTK_BOX(dialog_data->box), dialog_data->operate[1], FALSE, FALSE, 0);
-#ifdef USE_GTK_WIDGET_SET_CAN_FOCUS
-		gtk_widget_set_can_focus(GTK_WIDGET (dialog_data->operate[1]), FALSE);
-#else
-		GTK_WIDGET_UNSET_FLAGS(dialog_data->operate[1], GTK_CAN_FOCUS);
-#endif
+		set_widget_can_not_get_focus(dialog_data->operate[1]);
 	}
 
 	if (create_force_kill_hbox)
@@ -2327,11 +2317,7 @@ void create_SIGKILL_and_EXIT_widget(struct Dialog *dialog_data, gboolean create_
 		if (dialog_data->box!=NULL)
 #endif
 			gtk_box_pack_start (GTK_BOX(dialog_data->box), dialog_data->operate[0], FALSE, FALSE, 0);
-#ifdef USE_GTK_WIDGET_SET_CAN_FOCUS
-		gtk_widget_set_can_focus(GTK_WIDGET (dialog_data->operate[0]), FALSE);
-#else
-		GTK_WIDGET_UNSET_FLAGS(dialog_data->operate[0], GTK_CAN_FOCUS);
-#endif
+		set_widget_can_not_get_focus(dialog_data->operate[0]);
 	}
 }
 
@@ -3072,7 +3058,7 @@ GtkWidget *add_text_to_notebook(GtkWidget *notebook, const gchar *label, const g
 #ifdef DEFENSIVE
 	if (text_label==NULL) return NULL;
 #endif
-		GTK_WIDGET_UNSET_FLAGS(text_label, GTK_CAN_FOCUS);
+		set_widget_can_not_get_focus(text_label);
 
 	GtkWidget *hbox = gtk_hbox_new(FALSE, 0);
 	gtk_container_set_border_width(GTK_CONTAINER(hbox), 10);
