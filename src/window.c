@@ -387,10 +387,12 @@ GtkNotebook *new_window(int argc,
 			guint column, row;
 			if (XParseGeometry (win_data->geometry, &offset_x, &offset_y, &column, &row))
 			{
+#  ifdef USE_GTK3_GEOMETRY_METHOD
 				struct Page *page_data = (struct Page *)g_object_get_data(G_OBJECT(win_data->current_vte),
 											  "Page_Data");
 				page_data->column = column;
 				page_data->row = row;
+#  endif
 				gtk_window_move (GTK_WINDOW(win_data->window), offset_x, offset_y);
 			}
 #else
