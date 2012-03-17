@@ -76,9 +76,6 @@ if [ -z "$CHECK_INCLUDES" ]; then
 	fi
 	make uto
 	INCLUDES="-DDEFENSIVE -DDEBUG -DFATAL -DDEVELOP -DUNIT_TEST"
-	RUN_GDB=1
-	export G_DEBUG=fatal_warnings
-	GTK_DEBUG="--g-fatal-warnings"
 fi
 
 
@@ -438,7 +435,8 @@ EOF
 EOF
 	if [ $TEST_SCRIPT_ONLY -eq 0 ]; then
 		$PRINTF "\x1b\x5b1;36m$FUNC_NAME(): \x1b[1;33m** Compiling unit_test...\x1b\x5b0m\n"
-		$CC $CFLAGS $INCLUDES -o unit_test unit_test.c $OBJ `$PKGCONFIG --cflags --libs $GTK $VTE` || exit 1
+		$CC $CFLAGS "$INCLUDES" -o unit_test unit_test.c $OBJ `$PKGCONFIG --cflags --libs $GTK $VTE` || exit 1
+		# if [ $? != 0 ]; then exit 1; fi
 
 		if [ $BUILD_ONLY -eq 0 ]; then
 			if [ $RUN_GDB -eq 1 ]; then
