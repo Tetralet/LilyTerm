@@ -135,99 +135,34 @@
 	#define ENABLE_SET_TOOLTIP_TEXT
 	#define ENABLE_DRAG_AND_DROP
 #endif
-#if GTK_CHECK_VERSION(2,13,0)
-	#define EXIST_GTK_STOCK_PAGE_SETUP
+#if ! GTK_CHECK_VERSION(2,13,0)
+	#define GTK_STOCK_PAGE_SETUP GTK_STOCK_INDEX
+#endif
+#if ! GTK_CHECK_VERSION(2,14,0)
+	#define gtk_dialog_get_content_area(x) x->vbox
+	#define gtk_dialog_get_action_area(x) x->action_area
 #endif
 #if GTK_CHECK_VERSION(2,14,0)
 	#define ENABLE_MOUSE_SCROLL
-	#define ENABLE_DIALOG_GET_CONTENT_AREA
-	#define ENABLE_DIALOG_GET_ACTION_AREA
+#endif
+#if ! GTK_CHECK_VERSION(2,16,0)
+	#define gtk_menu_item_set_label(x,y) gtk_label_set_text(GTK_LABEL(gtk_bin_get_child(GTK_BIN(x))), y)
 #endif
 #if GTK_CHECK_VERSION(2,16,0)
-	#define USE_GTK_MENU_ITEM_SET_LABEL
 	#define USE_GTK_ALLOCATION
 #endif
-#if GTK_CHECK_VERSION(2,18,0)
-	#define USE_GTK_WIDGET_SET_CAN_FOCUS
+#if ! GTK_CHECK_VERSION(2,18,0)
+	#define gtk_widget_set_can_focus(x,FALSE) GTK_WIDGET_UNSET_FLAGS(x,GTK_CAN_FOCUS)
+#  ifdef UNIT_TEST
+	#define NO_GTK_WIDGET_GET_VISIBLE
+	#define NO_GTK_WIDGET_GET_ALLOCATION
+#  endif
 #endif
 #if ! GTK_CHECK_VERSION(2,20,0)
-	#define USE_OLD_GTK_WIDGET_MAPPED
+	#define gtk_widget_get_mapped(x) GTK_WIDGET_MAPPED(x)
 	#define USE_OLD_GTK_LABEL_PACKING
 #endif
 #if ! GTK_CHECK_VERSION(2,21,8)
-	#define USE_OLD_GDK_KEY
-#endif
-#if ! GTK_CHECK_VERSION(2,24,0)
-	#define USE_OLD_GTK_WIDGET_HIDE_ALL
-	#define USE_OLD_GDK_SPAWN_ON_SCREEN_WITH_PIPES
-#endif
-#if ! GTK_CHECK_VERSION(2,90,7)
-	#define EXIST_GTK_DIALOG_NO_SEPARATOR
-#endif
-#if GTK_CHECK_VERSION(2,91,0)
-	#define USE_GTK_NOTEBOOK_SET_GROUP_NAME
-	#define USE_GDK_SCREEN_GET_RGBA_VISUAL
-#endif
-#if GTK_CHECK_VERSION(2,91,1)
-	#define NO_RESIZE_GRIP
-	#define USE_XPARSEGEOMETRY
-#endif
-#if GTK_CHECK_VERSION(2,91,5)
-	#define USE_NEW_GEOMETRY_METHOD
-#else
-#if GTK_CHECK_VERSION(2,91,7)
-	#define GTK3_LAME_GDK_SCREEN_IS_COMPOSITED
-	#define GTK3_LAME_GDK_SCREEN_GET_RGBA_VISUAL
-#endif
-#if GTK_CHECK_VERSION(2,99,0)
-	#define USE_G_ATEXIT
-#endif
-	#define USE_OLD_GEOMETRY_METHOD
-#endif
-
-#if GLIB_CHECK_VERSION(2,14,0)
-	#define USE_TIMEOUT_SECONDS
-#endif
-
-#if defined(VTE_CHECK_VERSION)
-    #if VTE_CHECK_VERSION(0,16,0)
-	#define ENABLE_VTE_SELECT_ALL
-    #endif
-    #if VTE_CHECK_VERSION(0,17,1)
-	#define USE_NEW_VTE_CURSOR_BLINKS_MODE
-	#define USE_NEW_VTE_MATCH_ADD_GREGEX
-    #endif
-    #if ! VTE_CHECK_VERSION(0,20,0)
-	#define USE_OLD_VTE_SET_FONT
-    #endif
-    #if VTE_CHECK_VERSION(0,20,4)
-	#define ENABLE_VTE_ERASE_TTY
-    #endif
-    #if VTE_CHECK_VERSION(0,22,3)
-	#define ENABLE_UNLIMITED_SCROLL_HISTORY
-    #endif
-    #if ! VTE_CHECK_VERSION(0,24,1)
-	#define USE_OLD_VTE_GET_PADDING
-    #endif
-    #if ! VTE_CHECK_VERSION(0,25,1)
-	#define USE_OLD_VTE_FORK_COMMAND
-    #endif
-    #if VTE_CHECK_VERSION(0,25,1)
-	#define ENABLE_FIND_STRING
-    #endif
-#else
-    #define USE_OLD_VTE_SET_FONT
-    #define USE_OLD_VTE_GET_PADDING
-    #define USE_OLD_VTE_FORK_COMMAND
-#endif
-
-#define ENABLE_GDKCOLOR_TO_STRING_VER "GTK 2.12"
-#define ENABLE_MOUSE_SCROLL_VER "GTK 2.14"
-#define ENABLE_RGBA_VER "GTK 2.12"
-#define ENABLE_VTE_SELECT_ALL_VER "VTE 0.16"
-#define ENABLE_FIND_STRING_VER "VTE 0.25.1"
-
-#ifdef USE_OLD_GDK_KEY
 	#define GDK_KEY_VoidSymbol	GDK_VoidSymbol
 	#define GDK_KEY_asciitilde	GDK_asciitilde
 	#define GDK_KEY_Shift_L		GDK_Shift_L
@@ -242,17 +177,88 @@
 	#define GDK_KEY_A		GDK_A
 	#define GDK_KEY_Z		GDK_Z
 #endif
+#if ! GTK_CHECK_VERSION(2,24,0)
+	#define gtk_widget_hide(x) gtk_widget_hide_all(x)
+	#define g_spawn_async_with_pipes(a,b,c,d,e,f,g,h,i,j,k) gdk_spawn_on_screen_with_pipes(gdk_screen_get_default(),a,b,c,d,e,f,g,h,i,j,k)
+#endif
+#ifdef UNIT_TEST
+  #if GTK_CHECK_VERSION(2,24,0)
+	#define gtk_object_destroy gtk_widget_destroy
+  #endif
+#endif
+#if ! GTK_CHECK_VERSION(2,90,7)
+	#define EXIST_GTK_DIALOG_NO_SEPARATOR
+#endif
+#if ! GTK_CHECK_VERSION(2,91,0)
+	#define gtk_notebook_set_group_name(x, y) gtk_notebook_set_group(x, GINT_TO_POINTER (NOTEBOOK_GROUP))
+#endif
+#if GTK_CHECK_VERSION(2,91,0)
+	#define USE_GDK_SCREEN_GET_RGBA_VISUAL
+#endif
+#if GTK_CHECK_VERSION(2,91,1)
+	#define NO_RESIZE_GRIP
+	#define USE_XPARSEGEOMETRY
+#endif
+#if GTK_CHECK_VERSION(2,91,5)
+	#define USE_GTK3_GEOMETRY_METHOD
+#else
+	#define USE_GTK2_GEOMETRY_METHOD
+#endif
+#if GTK_CHECK_VERSION(2,91,7)
+	#define GTK3_LAME_GDK_SCREEN_IS_COMPOSITED
+	#define GTK3_LAME_GDK_SCREEN_GET_RGBA_VISUAL
+#endif
+#if ! GTK_CHECK_VERSION(2,99,0)
+	#define g_atexit(x) gtk_quit_add(0, (GtkFunction)x, NULL)
+#endif
+
+#if ! GLIB_CHECK_VERSION(2,14,0)
+	#define g_timeout_add_seconds(x,y,z) g_timeout_add(x*1000,y,z);
+#endif
+
+#if defined(VTE_CHECK_VERSION)
+    #if VTE_CHECK_VERSION(0,16,0)
+	#define ENABLE_VTE_SELECT_ALL
+    #endif
+    #if VTE_CHECK_VERSION(0,17,1)
+	#define USE_NEW_VTE_CURSOR_BLINKS_MODE
+	#define USE_NEW_VTE_MATCH_ADD_GREGEX
+    #endif
+    #if VTE_CHECK_VERSION(0,20,0)
+	#define vte_terminal_set_font_from_string_full(x,y,z) vte_terminal_set_font_from_string(x,y)
+    #endif
+    #if VTE_CHECK_VERSION(0,20,4)
+	#define ENABLE_VTE_ERASE_TTY
+    #endif
+    #if VTE_CHECK_VERSION(0,22,3)
+	#define SCROLL_HISTORY -1
+    #else
+	#define SCROLL_HISTORY 1024
+    #endif
+    #if VTE_CHECK_VERSION(0,24,1)
+	#define vte_terminal_get_padding fake_vte_terminal_get_padding
+    #endif
+    #if ! VTE_CHECK_VERSION(0,25,1)
+	#define USE_OLD_VTE_FORK_COMMAND
+    #endif
+    #if VTE_CHECK_VERSION(0,25,1)
+	#define ENABLE_FIND_STRING
+    #endif
+#else
+    #define SCROLL_HISTORY 1024
+    #define USE_OLD_VTE_FORK_COMMAND
+#endif
+
+#define ENABLE_GDKCOLOR_TO_STRING_VER "GTK 2.12"
+#define ENABLE_MOUSE_SCROLL_VER "GTK 2.14"
+#define ENABLE_RGBA_VER "GTK 2.12"
+#define ENABLE_VTE_SELECT_ALL_VER "VTE 0.16"
+#define ENABLE_FIND_STRING_VER "VTE 0.25.1"
 
 #define ALL_ACCELS_MASK (GDK_CONTROL_MASK | GDK_SHIFT_MASK | GDK_MOD1_MASK | GDK_MOD4_MASK | GDK_SUPER_MASK)
 #define SHIFT_ONLY_MASK (GDK_CONTROL_MASK | GDK_MOD1_MASK | GDK_MOD4_MASK | GDK_SUPER_MASK)
 // mods = (event->state | GDK_LOCK_MASK | GDK_MOD2_MASK) & GDK_MODIFIER_MASK;
 #define DUD_MASK (GDK_LOCK_MASK | GDK_MOD2_MASK | ( ~GDK_MODIFIER_MASK))
-
-
-#ifdef USE_OLD_GTK_WIDGET_MAPPED
-	#define gtk_widget_get_mapped(x) GTK_WIDGET_MAPPED(x)
-#endif
-
 
 #define KEY_GROUP 9
 typedef enum {
@@ -614,7 +620,7 @@ struct Window
 	//  2: decide by gdk_screen_is_composited()
 	gint use_rgba;
 	gint use_rgba_orig;
-#ifdef ENABLE_RGBA
+#if defined(ENABLE_RGBA) || defined(UNIT_TEST)
 	gint transparent_window;
 	gdouble window_opacity;
 
@@ -673,7 +679,7 @@ struct Window
 	GtkWidget *menu;
 	gboolean menu_activated;
 
-#ifdef ENABLE_RGBA
+#if defined(ENABLE_RGBA) || defined(UNIT_TEST)
 	GtkWidget *menuitem_trans_win;
 #endif
 	GtkWidget *menuitem_trans_bg;
@@ -770,9 +776,8 @@ struct Window
 	gchar *user_page_color[PAGE_COLOR];		/* Should be take care when drag to another window */
 
 // ---- font ---- //
-#ifdef USE_OLD_VTE_SET_FONT
+	// WRANING: font_anti_alias is no use since VTE 0.20.0
 	gboolean font_anti_alias;			/* Should be take care when drag to another window */
-#endif
 	gchar *default_font_name;			/* Should be take care when drag to another window */
 	// Only using in <Ctrl><Enter>
 	gchar *restore_font_name;
@@ -853,7 +858,7 @@ struct Page
 	GtkWidget *notebook;
 	// current page no on notebook. *for performance*
 	guint page_no;
-#ifdef USE_NEW_GEOMETRY_METHOD
+#if defined(USE_GTK3_GEOMETRY_METHOD) || defined(UNIT_TEST)
 	long column;
 	long row;
 #endif

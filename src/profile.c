@@ -455,11 +455,7 @@ void init_window_parameters(struct Window *win_data)
 	win_data->background_saturation = 0.15;
 	// win_data->scroll_background = 0;
 	win_data->background_image = g_strdup(NULL_DEVICE);
-#ifdef ENABLE_UNLIMITED_SCROLL_HISTORY
-	win_data->scrollback_lines = -1;
-#else
-	win_data->scrollback_lines = 1024;
-#endif
+	win_data->scrollback_lines = SCROLL_HISTORY;
 	win_data->dim_text = TRUE;
 #ifdef USE_NEW_VTE_CURSOR_BLINKS_MODE
 	// win_data->cursor_blinks = 0;
@@ -2646,7 +2642,7 @@ gchar *get_profile()
 	return profile;
 }
 
-#ifdef ENABLE_RGBA
+#if defined(ENABLE_RGBA) || defined(UNIT_TEST)
 // init rgba to enable true transparent.
 void init_rgba(struct Window *win_data)
 {
@@ -2671,7 +2667,9 @@ void init_rgba(struct Window *win_data)
 	{
 		if (screen)
 #endif
+#ifdef ENABLE_RGBA
 			win_data->use_rgba = gdk_screen_is_composited(screen);
+#endif
 #ifdef GTK3_LAME_GDK_SCREEN_IS_COMPOSITED
 		else
 			goto FINISH;
@@ -2767,7 +2765,7 @@ void check_profile_version (GKeyFile *keyfile, struct Window *win_data)
 		gint i;
 		for (i=0; i<3; i++)
 			g_free(temp_str[i]);
-#if !defined DEBUG && !defined DETAIL && !defined FULL
+#if !defined(DEBUG) && !defined(DETAIL) && !defined(FULL)
 		checked_profile_version = TRUE;
 #endif
 	}

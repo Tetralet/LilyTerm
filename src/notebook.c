@@ -292,9 +292,9 @@ struct Page *add_page(struct Window *win_data,
 
 	login_shell_str[0] = win_data->shell;
 	// g_debug("win_data->shell = %s", win_data->shell);
-#ifdef DEFENSIVE
+#  ifdef DEFENSIVE
 	if (login_shell_str[0]==NULL) login_shell_str[0] = "/bin/sh";
-#endif
+#  endif
 	if (win_data->argv==NULL)
 	{
 		if (win_data->login_shell==-1)
@@ -314,13 +314,13 @@ struct Page *add_page(struct Window *win_data,
 		gchar *final_argv_str = g_strdup_printf("%s\x10%s", win_data->command, argv_str);
 		final_argv = split_string(final_argv_str, "\x10", -1);
 		final_argv_need_be_free = TRUE;
-#ifdef DEFENSIVE
+#  ifdef DEFENSIVE
 		if (final_argv==NULL)
 		{
 			final_argv = full_argv;
 			final_argv_need_be_free = FALSE;
 		}
-#endif
+#  endif
 		// print_array("add_page(): final_argv", final_argv);
 		g_free(argv_str);
 		g_free(final_argv_str);
@@ -377,7 +377,7 @@ struct Page *add_page(struct Window *win_data,
 	gtk_box_pack_start(GTK_BOX(page_data->label), page_data->label_text, TRUE, TRUE, 0);
 	set_page_width(win_data, page_data);
 	gtk_label_set_ellipsize(GTK_LABEL(page_data->label_text), PANGO_ELLIPSIZE_MIDDLE);
-#ifdef USE_OLD_GEOMETRY_METHOD
+#ifdef USE_GTK2_GEOMETRY_METHOD
 	// when dragging the tab on a vte, or dragging a vte to itself, may change the size of vte.
 	g_signal_connect(G_OBJECT(page_data->label_text), "size_request",
 				 G_CALLBACK(label_size_request), page_data);
@@ -433,7 +433,7 @@ struct Page *add_page(struct Window *win_data,
 	// Init new page. run_once: some settings only need run once.
 	// run_once only = TRUE when initing LilyTerm in main().
 	init_new_page(win_data, page_data, column, row);
-#ifdef USE_NEW_GEOMETRY_METHOD
+#ifdef USE_GTK3_GEOMETRY_METHOD
 	page_data->column = column;
 	page_data->row = row;
 #endif
@@ -723,13 +723,14 @@ void label_size_request (GtkWidget *label, GtkRequisition *requisition, struct P
 #endif
 	// g_debug("label_size_request(): launch keep_window_size()!");
 
-#ifdef USE_OLD_GEOMETRY_METHOD
+#ifdef USE_GTK2_GEOMETRY_METHOD
 #  ifdef GEOMETRY
-	g_debug("@ label_size_request(for %p): Call keep_window_size() with keep_vte_size = %x",
+	g_debug("@ label_size_request(for %p): Call keep_gtk2_window_size() with keep_vte_size = %x",
 		win_data->window, win_data->keep_vte_size);
 #  endif
-	keep_window_size (win_data, page_data->vte, 0x3);
-#else
+	keep_gtk2_window_size (win_data, page_data->vte, 0x3);
+#endif
+#ifdef USE_GTK3_GEOMETRY_METHOD
 #  ifdef GEOMETRY
 	g_debug("@ label_size_request(for %p): Set win_data->keep_vte_size = TRUE", win_data->window);
 #  endif
@@ -1505,33 +1506,6 @@ gboolean open_url_with_external_command (gchar *url, gint tag, struct Window *wi
 #endif
 				new_environs = split_string(environ_str->str, "\t", -1);
 
-#ifdef USE_OLD_GDK_SPAWN_ON_SCREEN_WITH_PIPES
-			// gboolean gdk_spawn_on_screen_with_pipes (GdkScreen *screen,
-			//					    const gchar *working_directory,
-			//					    gchar **argv,
-			//					    gchar **envp,
-			//					    GSpawnFlags flags,
-			//					    GSpawnChildSetupFunc child_setup,
-			//					    gpointer user_data,
-			//					    gint *child_pid,
-			//					    gint *standard_input,
-			//					    gint *standard_output,
-			//					    gint *standard_error,
-			//					    GError **error);
-			if (gdk_spawn_on_screen_with_pipes(
-					gdk_screen_get_default(),
-					NULL,
-					argv,
-					new_environs,
-					G_SPAWN_SEARCH_PATH,
-					NULL,
-					NULL,
-					NULL,
-					NULL,
-					NULL,
-					NULL,
-					NULL) == FALSE)
-#else
 			// gboolean g_spawn_async_with_pipes (const gchar *working_directory,
 			//				      gchar **argv,
 			//				      gchar **envp,
@@ -1554,8 +1528,6 @@ gboolean open_url_with_external_command (gchar *url, gint tag, struct Window *wi
 						      NULL,
 						      NULL,
 						      NULL) == FALSE)
-
-#endif
 			{
 				gint i=0;
 				while (full_command[i])
@@ -1686,24 +1658,9 @@ gchar *get_url(GdkEventButton *event, struct Page *page_data, gint *tag)
 	if ((page_data==NULL) || (event==NULL)) return NULL;
 #endif
 	gint pad_x=0, pad_y=0;
-#ifdef USE_OLD_VTE_GET_PADDING
-	vte_terminal_get_padding (VTE_TERMINAL(page_data->vte), &pad_x, &pad_y);
+	vte_terminal_get_padding(VTE_TERMINAL(page_data->vte), &pad_x, &pad_y);
 	pad_x /= 2;
 	pad_y /= 2;
-#else
-	GtkBorder *inner_border = NULL;
-	gtk_widget_style_get (GTK_WIDGET (page_data->vte), "inner-border", &inner_border, NULL);
-#ifdef DEFENSIVE
-	if (inner_border)
-	{
-#endif
-		pad_x = inner_border->left;
-		pad_y = inner_border->top;
-#ifdef DEFENSIVE
-	}
-#endif
-	gtk_border_free (inner_border);
-#endif
 	// g_debug("pad_x = %d, pad_y = %d", pad_x, pad_y);
 	return vte_terminal_match_check(VTE_TERMINAL(page_data->vte),
 					(event->x - pad_x) /

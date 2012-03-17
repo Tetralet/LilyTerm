@@ -92,13 +92,13 @@ GtkNotebook *new_window(int argc,
 			struct Window *win_data_orig,
 			struct Page *page_data_orig);
 gchar *get_init_dir(pid_t pid, gchar *pwd, gchar *home);
-#if defined(USE_OLD_GEOMETRY_METHOD) || defined(UNIT_TEST)
-void keep_window_size (struct Window *win_data, GtkWidget *vte, guint keep_vte_size);
+#if defined(USE_GTK2_GEOMETRY_METHOD) || defined(UNIT_TEST)
+void keep_gtk2_window_size (struct Window *win_data, GtkWidget *vte, guint keep_vte_size);
 #endif
-#ifdef USE_NEW_GEOMETRY_METHOD
+#if defined(USE_GTK3_GEOMETRY_METHOD) || defined(UNIT_TEST)
 void save_vte_geometry(struct Window *win_data);
 void save_current_vte_geometry(struct Window *win_data, GtkWidget *vte);
-void keep_window_size(struct Window *win_data, GtkWidget *vte);
+void keep_gtk3_window_size(struct Window *win_data, GtkWidget *vte);
 #endif
 void dim_window(struct Window *win_data, gint dim_window);
 void set_window_icon(GtkWidget *window);
@@ -165,6 +165,9 @@ void add_remove_window_title_changed_signal(struct Page *page_data);
 gboolean set_background_saturation(GtkRange *range, GtkScrollType scroll, gdouble value, GtkWidget *vte);
 gboolean set_window_opacity (GtkRange *range, GtkScrollType scroll, gdouble value, struct Window *win_data);
 void window_resizable(GtkWidget *window, GtkWidget *vte, gint set_hints_inc);
+#ifndef USE_OLD_VTE_GET_PADDING
+void fake_vte_terminal_get_padding(VteTerminal *vte, gint *width, gint *height);
+#endif
 void apply_new_win_data_to_page (struct Window *win_data_orig, struct Window *win_data, struct Page *page_data);
 gboolean compare_color(GdkColor *a, GdkColor *b);
 gboolean check_show_or_hide_scroll_bar(struct Window *win_data);

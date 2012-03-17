@@ -636,7 +636,7 @@ gboolean update_page_name(GtkWidget *window, GtkWidget *vte, gchar *page_name, G
 	// We don't update label name when the size of window is changing.
 	// 0xfe = 11,111,110
 	// g_debug("win_data->keep_vte_size = %x", win_data->keep_vte_size);
-#ifdef USE_OLD_GEOMETRY_METHOD
+#ifdef USE_GTK2_GEOMETRY_METHOD
 	if (!(win_data->keep_vte_size&0xfffc))
 	{
 #endif
@@ -683,13 +683,14 @@ gboolean update_page_name(GtkWidget *window, GtkWidget *vte, gchar *page_name, G
 			// DANGEROUS: remark the following keep_window_size()
 			//	      will break the geometry of window when drag and drop.
 			// g_debug("update_page_name(): launch keep_window_size()!");
-#ifdef USE_OLD_GEOMETRY_METHOD
+#ifdef USE_GTK2_GEOMETRY_METHOD
 #  ifdef GEOMETRY
-			g_debug("@ update_page_name(): Call keep_window_size() with keep_vte_size = %x",
+			g_debug("@ update_page_name(): Call keep_gtk2_window_size() with keep_vte_size = %x",
 				win_data->keep_vte_size);
 #  endif
-			keep_window_size (win_data, vte, 0x3);
-#else
+			keep_gtk2_window_size (win_data, vte, 0x3);
+#endif
+#ifdef USE_GTK3_GEOMETRY_METHOD
 			win_data->keep_vte_size++;
 #endif
 			if (win_data->use_color_page && (tab_color != NULL))
@@ -716,7 +717,7 @@ gboolean update_page_name(GtkWidget *window, GtkWidget *vte, gchar *page_name, G
 
 		// free the data
 		g_free(label_name);
-#ifdef USE_OLD_GEOMETRY_METHOD
+#ifdef USE_GTK2_GEOMETRY_METHOD
 	}
 #endif
 	// we should update window title if page name changed.

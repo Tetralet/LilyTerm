@@ -167,11 +167,7 @@ gboolean create_menu(struct Window *win_data)
 
 	if (win_data->show_background_menu)
 	{
-#ifdef EXIST_GTK_STOCK_PAGE_SETUP
 		GtkWidget *background_sub_menu = create_sub_item (win_data->menu, _("Background"), GTK_STOCK_PAGE_SETUP);
-#else
-		GtkWidget *background_sub_menu = create_sub_item (win_data->menu, _("Background"), GTK_STOCK_INDEX);
-#endif
 #ifdef ENABLE_RGBA
 		if (win_data->use_rgba == -1)
 		{
@@ -2470,12 +2466,7 @@ void set_menuitem_label(GtkWidget *menu_item, gchar *text)
 #ifdef DEFENSIVE
 	if ((menu_item==NULL) || (text==NULL)) return;
 #endif
-#ifdef USE_GTK_MENU_ITEM_SET_LABEL
 	gtk_menu_item_set_label(GTK_MENU_ITEM(menu_item), text);
-#else
-	GtkWidget *label = gtk_bin_get_child(GTK_BIN(menu_item));
-	gtk_label_set_text(GTK_LABEL(label), text);
-#endif
 }
 
 #ifdef FATAL

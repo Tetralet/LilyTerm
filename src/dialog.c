@@ -326,23 +326,15 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 			GtkWidget *paste_button = gtk_button_new_from_stock (GTK_STOCK_PASTE);
 			if (gtk_alternative_dialog_button_order(NULL))
 			{
-#ifdef ENABLE_DIALOG_GET_ACTION_AREA
 				gtk_box_pack_end (GTK_BOX(gtk_dialog_get_action_area(GTK_DIALOG(dialog_data->window))),
 						  paste_button, FALSE, FALSE, 0);
-#else
-				gtk_box_pack_end (GTK_BOX(GTK_DIALOG(dialog_data->window)->action_area), paste_button, FALSE, FALSE, 0);
-#endif
 				gtk_dialog_add_button (GTK_DIALOG(dialog_data->window), GTK_STOCK_QUIT, GTK_RESPONSE_CANCEL);
 			}
 			else
 			{
 				gtk_dialog_add_button (GTK_DIALOG(dialog_data->window), GTK_STOCK_QUIT, GTK_RESPONSE_CANCEL);
-#ifdef ENABLE_DIALOG_GET_ACTION_AREA
 				gtk_box_pack_end (GTK_BOX(gtk_dialog_get_action_area(GTK_DIALOG(dialog_data->window))),
 						  paste_button, FALSE, FALSE, 0);
-#else
-				gtk_box_pack_end (GTK_BOX(GTK_DIALOG(dialog_data->window)->action_area), paste_button, FALSE, FALSE, 0);
-#endif
 			}
 			g_signal_connect(G_OBJECT(paste_button), "clicked",
 					 G_CALLBACK(paste_text_to_vte_terminal), dialog_data);
@@ -807,11 +799,7 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 				      dialog_data);
 			// Notebook
 			GtkWidget *notebook = gtk_notebook_new();
-#ifdef ENABLE_DIALOG_GET_CONTENT_AREA
 			gtk_container_add (GTK_CONTAINER (gtk_dialog_get_content_area(GTK_DIALOG(dialog_data->window))), notebook);
-#else
-			gtk_container_add (GTK_CONTAINER (GTK_DIALOG(dialog_data->window)->vbox), notebook);
-#endif
 			gtk_container_set_border_width (GTK_CONTAINER (notebook), 5);
 
 			// Usage
@@ -1218,13 +1206,8 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 									_("Join and paste"), GTK_RESPONSE_ACCEPT);
 			gtk_button_set_image (GTK_BUTTON(join_button),
 					      gtk_image_new_from_stock(GTK_STOCK_PASTE, GTK_ICON_SIZE_BUTTON));
-#ifdef ENABLE_DIALOG_GET_ACTION_AREA
 			gtk_button_box_set_child_secondary (GTK_BUTTON_BOX(gtk_dialog_get_action_area(GTK_DIALOG(dialog_data->window))),
 							    join_button, TRUE);
-#else
-			gtk_button_box_set_child_secondary (GTK_BUTTON_BOX (GTK_DIALOG(dialog_data->window)->action_area),
-							    join_button, TRUE);
-#endif
 			break;
 		case VIEW_THE_CLIPBOARD:
 			create_dialog(_("Clipboard"),
@@ -1673,15 +1656,11 @@ GtkWidget *add_secondary_button(GtkWidget *dialog, const gchar *text, gint respo
 	if (stock_id)
 		gtk_button_set_image (GTK_BUTTON(button),
 				      gtk_image_new_from_stock(stock_id, GTK_ICON_SIZE_BUTTON));
-#ifdef ENABLE_DIALOG_GET_ACTION_AREA
 	gtk_button_box_set_child_secondary (GTK_BUTTON_BOX(gtk_dialog_get_action_area(GTK_DIALOG(dialog))), button, TRUE);
-#else
-	gtk_button_box_set_child_secondary (GTK_BUTTON_BOX (GTK_DIALOG(dialog)->action_area), button, TRUE);
-#endif
 	return button;
 }
 
-#ifdef ENABLE_FIND_STRING
+#if defined(ENABLE_FIND_STRING) || defined(UNIT_TEST)
 void refresh_regex_settings(GtkWidget *widget, struct Window *win_data)
 {
 #ifdef DETAIL
@@ -1725,6 +1704,7 @@ void refresh_regex(struct Window *win_data, struct Dialog *dialog_data)
 #ifdef DEFENSIVE
 	if ((win_data==NULL) || (win_data->current_vte==NULL) || (dialog_data == NULL)) return;
 #endif
+#ifdef ENABLE_FIND_STRING
 	gint RegexCompileFlags = G_REGEX_OPTIMIZE;
 	if (! win_data->find_case_sensitive) RegexCompileFlags |= G_REGEX_CASELESS;
 	if ((! win_data->find_use_perl_regular_expressions) &&
@@ -1773,10 +1753,10 @@ void refresh_regex(struct Window *win_data, struct Dialog *dialog_data)
 		}
 	}
 
-#ifdef DEFENSIVE
+#  ifdef DEFENSIVE
 	if (dialog_data->operate[0]!=NULL)
 	{
-#endif
+#  endif
 		if (update_bg_color)
 		{
 			GtkRcStyle *rc_style = gtk_rc_style_new();
@@ -1785,13 +1765,14 @@ void refresh_regex(struct Window *win_data, struct Dialog *dialog_data)
 			gtk_widget_modify_style (dialog_data->operate[0], rc_style);
 			g_object_unref(rc_style);
 		}
-#ifdef DEFENSIVE
+#  ifdef DEFENSIVE
 	}
-#endif
-#ifdef DEFENSIVE
+#  endif
+#  ifdef DEFENSIVE
 	if (dialog_data->operate[3]!=NULL)
-#endif
+#  endif
 		gtk_widget_hide(dialog_data->operate[3]);
+#endif
 }
 
 void find_str(GtkWidget *widget, Dialog_Find_Type type)
@@ -1812,7 +1793,7 @@ void find_str(GtkWidget *widget, Dialog_Find_Type type)
 #ifdef DEFENSIVE
 	if ((win_data==NULL) || (win_data->current_vte==NULL)) return;
 #endif
-
+#ifdef ENABLE_FIND_STRING
 	vte_terminal_search_set_wrap_around (VTE_TERMINAL(win_data->current_vte), FALSE);
 	gboolean response = find_str_in_vte(win_data->current_vte, type);
 
@@ -1834,14 +1815,15 @@ void find_str(GtkWidget *widget, Dialog_Find_Type type)
 						     "Find hit bottom, continuing at top!",
 						     dialog_data->operate[3]);
 				break;
-#ifdef FATAL
+#  ifdef FATAL
 			default:
 				print_switch_out_of_range_error_dialog("find_str", "type", type);
-#endif
+#  endif
 		}
 		gtk_widget_show(dialog_data->operate[3]);
 		find_str_in_vte(win_data->current_vte, type);
 	}
+#endif
 }
 
 gboolean find_str_in_vte(GtkWidget *vte, Dialog_Find_Type type)
@@ -1854,6 +1836,7 @@ gboolean find_str_in_vte(GtkWidget *vte, Dialog_Find_Type type)
 #endif
 	gboolean response = FALSE;
 
+#ifdef ENABLE_FIND_STRING
 	switch (type)
 	{
 		case FIND_PREV:
@@ -1862,12 +1845,12 @@ gboolean find_str_in_vte(GtkWidget *vte, Dialog_Find_Type type)
 		case FIND_NEXT:
 			response = vte_terminal_search_find_next(VTE_TERMINAL(vte));
 			break;
-#ifdef FATAL
+#  ifdef FATAL
 		default:
 			print_switch_out_of_range_error_dialog("find_str_in_vte", "type", type);
-#endif
+#  endif
 	}
-
+#endif
 	return response;
 }
 #endif
@@ -2035,11 +2018,7 @@ void create_dialog(gchar *dialog_title_translation, gchar *dialog_title,  Dialog
 	gtk_dialog_set_default_response(GTK_DIALOG(dialog_data->window), response);
 
 	GtkWidget *main_hbox = gtk_hbox_new (FALSE, 5);
-#ifdef ENABLE_DIALOG_GET_CONTENT_AREA
 	gtk_container_add (GTK_CONTAINER (gtk_dialog_get_content_area(GTK_DIALOG(dialog_data->window))), main_hbox);
-#else
-	gtk_container_add (GTK_CONTAINER (GTK_DIALOG(dialog_data->window)->vbox), main_hbox);
-#endif
 	GtkWidget *main_right_vbox = gtk_vbox_new (FALSE, 0);
 	gtk_box_pack_end (GTK_BOX(main_hbox), main_right_vbox, FALSE, FALSE, 0);
 

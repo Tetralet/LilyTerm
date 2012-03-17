@@ -86,7 +86,7 @@ if [ -z "$PKGCONFIG" ]; then
 fi
 
 VTE=`$PKGCONFIG --exists 'vte' && $ECHO 'vte'`
-if [ $VTE = "vte" ]; then
+if [ "$VTE" = "vte" ]; then
   GTK=`$PKGCONFIG --exists 'gtk+-2.0' && $ECHO 'gtk+-2.0'`
   if [ "$GTK" != "gtk+-2.0" ]; then
     $PRINTF "\x1b\x5b1;31m** ERROR: You need GTK+2 to run this unit test program!\x1b\x5b0m\n"
@@ -94,7 +94,7 @@ if [ $VTE = "vte" ]; then
   fi
 else
   VTE=`$PKGCONFIG --exists 'vte-2.90' && $ECHO 'vte-2.90'`
-  if [ $VTE = "vte-2.90" ]; then
+  if [ "$VTE" = "vte-2.90" ]; then
     GTK=`$PKGCONFIG --exists 'gtk+-3.0' && $ECHO 'gtk+-3.0'`
     if [ "$GTK" != "gtk+-3.0" ]; then
       $PRINTF "\x1b\x5b1;31m** ERROR: You need GTK+3 to run this unit test program!\x1b\x5b0m\n"
@@ -124,7 +124,7 @@ EOF
 # sed '/^\/\*/,/ \*\/$/d': Delete [ /* blah ... blah */ ] (multi lines)
 # sed -e 's/[ \t]*\/\*[ \t]*.*[ \t]*\*\///g': Delete [ /* blah ... blah */ ] (single line)
 # sed -e 's/[ \t]*\/\/.*//g': Delete [ // blah ... blah ]
-# sed -e '/[ \t]*#[ \t]*ifdef[ \t]*USE_NEW_GEOMETRY_METHOD/,/#[ \t]*endif[ \t]*/d': clear #ifdef USE_NEW_GEOMETRY_METHOD ... #endif
+# sed -e '/[ \t]*#[ \t]*ifdef[ \t]*USE_GTK3_GEOMETRY_METHOD/,/#[ \t]*endif[ \t]*/d': clear #ifdef USE_GTK3_GEOMETRY_METHOD ... #endif
 # sed -e '/^[ \t]*#.*/d' | tr -d '\n': Delete [ #include ]
 # sed '/^[ \t]*typedef enum/,/}.*;[ \t]*$/d': Delete typedef enum
 # tr -d '\n': Delete [ <NewLine> ]
@@ -136,7 +136,7 @@ EOF
 # sed -e 's/[\t ][\t ]*/_SPACE_/g': convert <Tab> and <Space> to "_SAPCE_" again
 # sed -e '/_SPACE_(_SPACE_)_SPACE_/d': clear something like [ blah ( )  ]
 
-for DATA in `cat $LIB_LISTS | sed '/^\/\*/,/ \*\/$/d' | sed -e 's/[ \t]*\/\*[ \t]*.*[ \t]*\*\///g' | sed -e 's/[ \t]*\/\/.*//g' | sed -e '/[ \t]*#[ \t]*ifdef[ \t]*USE_NEW_GEOMETRY_METHOD/,/#[ \t]*endif[ \t]*/d' | sed -e '/^[ \t]*#.*/d' | sed '/^[ \t]*typedef.*;[ \t]*$/d' | sed '/^[ \t]*typedef enum/,/}.*;[ \t]*$/d' | tr -d '\n' | sed -e 's/[\t ][\t ]*/_SPACE_/g' | sed -e 's/;/;\n/g' | sed -e 's/_SPACE_/ /g' | sed -e '/[ \t]*struct.*{/,/.*}[ \t]*;/d' | sed -e 's/ *\([)(,]\) */ \1 /g' | sed -e 's/[\t ][\t ]*/_SPACE_/g' | sed -e '/_SPACE_(_SPACE_)_SPACE_/d'`; do
+for DATA in `cat $LIB_LISTS | sed '/^\/\*/,/ \*\/$/d' | sed -e 's/[ \t]*\/\*[ \t]*.*[ \t]*\*\///g' | sed -e 's/[ \t]*\/\/.*//g' | sed -e '/^[ \t]*#.*/d' | sed '/^[ \t]*typedef.*;[ \t]*$/d' | sed '/^[ \t]*typedef enum/,/}.*;[ \t]*$/d' | tr -d '\n' | sed -e 's/[\t ][\t ]*/_SPACE_/g' | sed -e 's/;/;\n/g' | sed -e 's/_SPACE_/ /g' | sed -e '/[ \t]*struct.*{/,/.*}[ \t]*;/d' | sed -e 's/ *\([)(,]\) */ \1 /g' | sed -e 's/[\t ][\t ]*/_SPACE_/g' | sed -e '/_SPACE_(_SPACE_)_SPACE_/d'`; do
 
 	if [ $FUNCTION_FOUND -eq 1 ]; then
 		break

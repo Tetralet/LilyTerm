@@ -169,11 +169,7 @@ int main( int   argc,
 			// no LilyTerm exist. create a socket server
 			// g_debug("Creating a LilyTerm socket server...");
 			init_socket_server();
-#ifdef USE_G_ATEXIT
 			g_atexit((GVoidFunc)shutdown_socket_server);
-#else
-			gtk_quit_add (0, shutdown_socket_server, NULL);
-#endif
 		}
 	}
 
@@ -325,10 +321,10 @@ gboolean init_socket_data()
 	{
 #endif
 		gchar *display = gdk_get_display();
-#ifdef DEVELOP
+#if defined(DEVELOP)
 		g_snprintf(address.sun_path, UNIX_PATH_MAX, "%s/.%s_dev_%s%s",
 			   tmp_dir ,BINARY, g_get_user_name(), display);
-#elif defined DEBUG
+#elif defined(DEBUG)
 		g_snprintf(address.sun_path, UNIX_PATH_MAX, "%s/.%s_dbg_%s%s",
 			   tmp_dir ,BINARY, g_get_user_name(), display);
 #else

@@ -109,16 +109,11 @@ void init_new_page(struct Window *win_data,
 	if (page_data->font_name)
 	{
 #endif
-#ifdef USE_OLD_VTE_SET_FONT
 		// set font
 		// g_debug("Set Font AA = %d", win_data->font_anti_alias);
 		vte_terminal_set_font_from_string_full (VTE_TERMINAL(page_data->vte),
 							page_data->font_name,
 							win_data->font_anti_alias);
-#else
-		vte_terminal_set_font_from_string (VTE_TERMINAL(page_data->vte),
-						   page_data->font_name);
-#endif
 #ifdef DEFENSIVE
 	}
 #endif
@@ -339,15 +334,9 @@ void add_remove_page_timeout_id(struct Window *win_data, struct Page *page_data)
 	else
 		// monitor_cmdline(page_data->monitor, page_data->pid);
 		// monitor_cmdline(page_data->channel, page_data->pid);
-#ifdef USE_TIMEOUT_SECONDS
 		page_data->timeout_id = g_timeout_add_seconds (1,
 							       (GSourceFunc)monitor_cmdline,
 							       page_data);
-#else
-		page_data->timeout_id = g_timeout_add (1000,
-						       (GSourceFunc)monitor_cmdline,
-						       page_data);
-#endif
 }
 
 void add_remove_window_title_changed_signal(struct Page *page_data)
@@ -425,7 +414,7 @@ gboolean set_background_saturation(GtkRange *range, GtkScrollType scroll, gdoubl
 	return FALSE;
 }
 
-#ifdef ENABLE_RGBA
+#if defined(ENABLE_RGBA) || defined(UNIT_TEST)
 gboolean set_window_opacity(GtkRange *range, GtkScrollType scroll, gdouble value, struct Window *win_data)
 {
 #ifdef DETAIL
@@ -439,10 +428,12 @@ gboolean set_window_opacity(GtkRange *range, GtkScrollType scroll, gdouble value
 	value = CLAMP(value, 0, 1);
 	if (win_data->use_rgba == -1)
 	{
+#ifdef ENABLE_RGBA
 		if (win_data->transparent_window)
 			gtk_window_set_opacity (GTK_WINDOW(win_data->window), 1-value);
 		else
 			gtk_window_set_opacity (GTK_WINDOW(win_data->window), 1);
+#endif
 	}
 	return FALSE;
 }
@@ -467,23 +458,7 @@ void window_resizable(GtkWidget *window, GtkWidget *vte, gint set_hints_inc)
 
 	GdkGeometry hints = {0};
 	// g_debug("Trying to get padding...");
-#ifdef USE_OLD_VTE_GET_PADDING
 	vte_terminal_get_padding (VTE_TERMINAL(vte), &(hints.base_width), &(hints.base_height));
-	// g_debug("hints.base_width = %d, hints.base_height = %d", hints.base_width, hints.base_height);
-#else
-	GtkBorder *inner_border = NULL;
-	gtk_widget_style_get (GTK_WIDGET (vte), "inner-border", &inner_border, NULL);
-#  ifdef DEFENSIVE
-	if (inner_border)
-	{
-#  endif
-		hints.base_width = inner_border->left + inner_border->right;
-		hints.base_height= inner_border->top + inner_border->bottom;
-#  ifdef DEFENSIVE
-	}
-#  endif
-	gtk_border_free (inner_border);
-#endif
 	// g_debug("hints.base_width = %d, hints.base_height = %d", hints.base_width, hints.base_height);
 
 	switch (set_hints_inc)
@@ -522,6 +497,24 @@ void window_resizable(GtkWidget *window, GtkWidget *vte, gint set_hints_inc)
 	//			vte_terminal_get_column_count(VTE_TERMINAL(vte)),
 	//			vte_terminal_get_row_count(VTE_TERMINAL(vte)));
 }
+
+#ifndef USE_OLD_VTE_GET_PADDING
+void fake_vte_terminal_get_padding(VteTerminal *vte, gint *width, gint *height)
+{
+	GtkBorder *inner_border = NULL;
+	gtk_widget_style_get(GTK_WIDGET(vte), "inner-border", &inner_border, NULL);
+#  ifdef DEFENSIVE
+	if (inner_border)
+	{
+#  endif
+		*width = inner_border->left + inner_border->right;
+		*height = inner_border->top + inner_border->bottom;
+#  ifdef DEFENSIVE
+	}
+#  endif
+	gtk_border_free (inner_border);
+}
+#endif
 
 void apply_new_win_data_to_page (struct Window *win_data_orig,
 				 struct Window *win_data,
@@ -655,13 +648,11 @@ void apply_new_win_data_to_page (struct Window *win_data_orig,
 	    (win_data_orig->show_close_button_on_all_tabs != win_data->show_close_button_on_all_tabs))
 		show_close_button_on_tab(win_data, page_data);
 
-#ifdef USE_OLD_VTE_SET_FONT
 // ---- font ---- //
 	if (win_data_orig->font_anti_alias != win_data->font_anti_alias)
 		vte_terminal_set_font_from_string_full (VTE_TERMINAL(page_data->vte),
 							page_data->font_name,
 							win_data->font_anti_alias);
-#endif
 
 // ---- other settings for init a vte ---- //
 

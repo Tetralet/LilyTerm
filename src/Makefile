@@ -46,7 +46,7 @@ endif
 BINDIR = $(PREFIX)/bin
 date = `date +%Y-%m-%d`
 CC ?= gcc
-CFLAGS ?= -Wall -Werror -Wformat -Wformat-security -Werror=format-security -O2
+CFLAGS ?= -Wall -Werror -Os
 #CFLAGS = $$CFLAGS -Wall -Wextra -Os -std=c99 \
 #	 -DG_DISABLE_DEPRECATED \
 #	 -DG_DISABLE_SINGLE_INCLUDES -DGDK_DISABLE_DEPRECATED \
@@ -111,7 +111,7 @@ detail: BINARY := $(BINARY)_dev
 detail: $(BINARY)
 
 .PHONY: full
-full: CFLAGS := $(CFLAGS) -g
+full: CFLAGS = -Wall -Werror -Wformat -Wformat-security -Werror=format-security -Os -g
 full: INCLUDES := $(INCLUDES) -DGEOMETRY -DDEBUG -DFATAL -DDEVELOP -DDETAIL -DFULL -DVERSION=\"$(VERSION)\ Develop\ Version\ \($(date)\)\"
 full: BINARY := $(BINARY)_dev
 full: $(BINARY)

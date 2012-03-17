@@ -321,14 +321,9 @@ void reset_vte_size(GtkWidget *vte, gchar *new_font_name, Font_Reset_Type type)
 			// We need to apply a new font to a single vte.
 			// so that we should insure that this won't change the size of window.
 			// g_debug("Trying to apply font %s to vte", current_font_name);
-#ifdef USE_OLD_VTE_SET_FONT
 			vte_terminal_set_font_from_string_full( VTE_TERMINAL(vte),
 								new_font_name,
 								win_data->font_anti_alias);
-#else
-			vte_terminal_set_font_from_string (VTE_TERMINAL(vte),
-							   new_font_name);
-#endif
 			// g_debug("reset_vte_size(): call window_resizable() with run_once = %d", win_data->update_hints);
 			// g_debug("reset_vte_size(): launch update_window_hint()!");
 			update_window_hint(win_data, page_data);
@@ -388,20 +383,15 @@ void apply_font_to_every_vte(GtkWidget *window, gchar *new_font_name, glong colu
 #ifdef DEFENSIVE
 		if (page_data==NULL) continue;
 #endif
-#ifdef USE_NEW_GEOMETRY_METHOD
+#ifdef USE_GTK3_GEOMETRY_METHOD
 		save_current_vte_geometry(win_data, page_data->vte);
 #endif
 		// g_debug("The default font for %d page is: %s (%s)", i, page_data->font_name, new_font_name);
-#ifdef USE_OLD_VTE_SET_FONT
 		vte_terminal_set_font_from_string_full(VTE_TERMINAL(page_data->vte),
 						       new_font_name,
 						       win_data->font_anti_alias);
-#else
-		vte_terminal_set_font_from_string (VTE_TERMINAL(page_data->vte),
-						   new_font_name);
-#endif
 		vte_terminal_set_size(VTE_TERMINAL(page_data->vte), column, row);
-#ifdef USE_NEW_GEOMETRY_METHOD
+#ifdef USE_GTK3_GEOMETRY_METHOD
 		page_data->column = column;
 		page_data->row = row;
 #   ifdef GEOMETRY
@@ -421,24 +411,25 @@ void apply_font_to_every_vte(GtkWidget *window, gchar *new_font_name, glong colu
 	// g_debug("window_resizable in apply_font_to_every_vte!");
 	// window_resizable(window, page_data->vte, 2, 1);
 	// g_debug("apply_font_to_every_vte(): launch keep_window_size()!");
-#ifdef USE_OLD_GEOMETRY_METHOD
+#ifdef USE_GTK2_GEOMETRY_METHOD
 #  ifdef GEOMETRY
-	g_debug("@ apply_font_to_every_vte(): Call keep_window_size() with win_data->unfullscreen = %d",
+	g_debug("@ apply_font_to_every_vte(): Call keep_gtk2_window_size() with win_data->unfullscreen = %d",
 		win_data->unfullscreen);
 #  endif
-	// Don't need to call keep_window_size() when fullscreen
+	// Don't need to call keep_gtk2_window_size() when fullscreen
 	switch (win_data->unfullscreen)
 	{
 		case 0:
 		case 2:
 #  ifdef GEOMETRY
-			g_debug("@ apply_font_to_every_vte(): Call keep_window_size() with keep_vte_size = %x",
+			g_debug("@ apply_font_to_every_vte(): Call keep_gtk2_window_size() with keep_vte_size = %x",
 				win_data->keep_vte_size);
 #  endif
-			keep_window_size (win_data, page_data->vte, 0x380);
+			keep_gtk2_window_size (win_data, page_data->vte, 0x380);
 			break;
 	}
-#else
+#endif
+#ifdef USE_GTK3_GEOMETRY_METHOD
 	win_data->keep_vte_size += 2;
 #  ifdef GEOMETRY
 	g_debug("@ apply_font_to_every_vte(for %p): Set win_data->keep_vte_size to %d",
