@@ -825,7 +825,7 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 			temp_str =_("Don't forget to save your settings after making any change!");
 			str[3] = convert_text_to_html (&temp_str, FALSE, "darkred", "tt", "b", NULL);
 			str[4] = g_strdup_printf("%s\n\n%s", str[2], str[3]);
-			dialog_data->operate[ABOUT_BUTTON_USAGE] = add_text_to_notebook(notebook, _("Usage"), GTK_STOCK_HELP, str[4]);
+			dialog_data->operate[0] = add_text_to_notebook(notebook, _("Usage"), GTK_STOCK_HELP, str[4]);
 
 			// Shortcut Keys
 			temp_str = _("Default shortcut key: "
@@ -834,7 +834,7 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 			str[5] = convert_text_to_html(&temp_str, FALSE, NULL, "tt", NULL);
 			str[6] = get_help_message_function_key(TRUE);
 			str[7] = g_strdup_printf("%s\n\n%s", str[5], str[6]);
-			dialog_data->operate[ABOUT_BUTTON_SHORTCUT_KEYS] = add_text_to_notebook(notebook, _("Key binding"), GTK_STOCK_PREFERENCES, str[7]);
+			dialog_data->operate[1] = add_text_to_notebook(notebook, _("Key binding"), GTK_STOCK_PREFERENCES, str[7]);
 
 			// License
 			str[8] = g_strdup_printf("Copyright (c) 2008-%s  %s.  All rights reserved.\n\n"
@@ -850,7 +850,7 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 						 "along with %s.  If not, see <http://www.gnu.org/licenses/>.",
 						 YEAR, AUTHOR, PACKAGE, PACKAGE, PACKAGE);
 			str[9] = convert_text_to_html(&str[8], FALSE, NULL, "tt", NULL);
-			dialog_data->operate[ABOUT_BUTTON_LICENSE] = add_text_to_notebook(notebook, _("License"), GTK_STOCK_DIALOG_AUTHENTICATION, str[9]);
+			dialog_data->operate[2] = add_text_to_notebook(notebook, _("License"), GTK_STOCK_DIALOG_AUTHENTICATION, str[9]);
 
 			// Translators
 			temp_str = "Adrian Buyssens: Flemish/Dutch translations.\n"
@@ -863,7 +863,7 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 				   "Slavko: Slovak translation.\n" 
 				   "Vladimir Smolyar: Russian and Ukrainian translation.";
 			str[10] = convert_text_to_html(&temp_str, FALSE, NULL, "tt", NULL);
-			dialog_data->operate[ABOUT_BUTTON_TRANSLATORS] = add_text_to_notebook(notebook, _("Translators"), GTK_STOCK_CONVERT, str[10]);
+			dialog_data->operate[3] = add_text_to_notebook(notebook, _("Translators"), GTK_STOCK_CONVERT, str[10]);
 
 			// About
 			str[11] = g_strdup_printf (_("Thank you for using %s!"), PACKAGE);
@@ -884,7 +884,7 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 						   AUTHOR, BUGREPORT, _("homepage:"), _("blog:"),
 						   _("Wiki:"), _("Issues:"), _("IRC:"), str[11]);
 			str[13] = convert_text_to_html(&str[12], FALSE, NULL, "tt", NULL);
-			dialog_data->operate[ABOUT_BUTTON_AUTHOR] = add_text_to_notebook(notebook, _("About"), GTK_STOCK_ABOUT, str[13]);
+			dialog_data->operate[4] = add_text_to_notebook(notebook, _("About"), GTK_STOCK_ABOUT, str[13]);
 
 			show_usage_text(notebook, NULL, 0, dialog_data);
 			g_signal_connect(G_OBJECT(notebook), "switch-page", G_CALLBACK(show_usage_text), dialog_data);
@@ -3095,7 +3095,7 @@ void show_usage_text(GtkWidget *notebook, gpointer page, guint page_num, struct 
 	if (dialog_data==NULL) return;
 #endif
 	gint i;
-	for (i=0; i<=ABOUT_BUTTON_AUTHOR; i++)
+	for (i=0; i<5; i++)
 	{
 		if (i==page_num)
 			gtk_widget_set_no_show_all(dialog_data->operate[i], FALSE);

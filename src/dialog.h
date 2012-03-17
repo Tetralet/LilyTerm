@@ -41,14 +41,6 @@ typedef enum {
 	BOX_VERTICALITY,
 } Box_Type;
 
-typedef enum {
-	ABOUT_BUTTON_USAGE,
-	ABOUT_BUTTON_SHORTCUT_KEYS,
-	ABOUT_BUTTON_LICENSE,
-	ABOUT_BUTTON_TRANSLATORS,
-	ABOUT_BUTTON_AUTHOR,
-} About_Button_Type;
-
 struct Color_Data
 {
 	// the function type.
