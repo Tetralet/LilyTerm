@@ -1414,7 +1414,7 @@ void window_style_set(GtkWidget *window, GtkStyle *previous_style, struct Window
 #endif
 }
 
-#ifdef USE_GTK2_GEOMETRY_METHOD
+#if defined(USE_GTK2_GEOMETRY_METHOD) || defined(UNIT_TEST)
 void window_size_request (GtkWidget *window, GtkRequisition *requisition, struct Window *win_data)
 {
 #  ifdef DETAIL
@@ -1488,7 +1488,9 @@ void window_size_request (GtkWidget *window, GtkRequisition *requisition, struct
 #  endif
 	}
 }
+#endif
 
+#ifdef USE_GTK2_GEOMETRY_METHOD
 void window_size_allocate(GtkWidget *window, GtkAllocation *allocation, struct Window *win_data)
 {
 #  ifdef DETAIL
@@ -1624,9 +1626,7 @@ void save_current_vte_geometry(struct Window *win_data, GtkWidget *vte)
 #  ifdef DEFENSIVE
 	if (vte==NULL) return;
 #  endif
-#  ifndef NO_GTK_WIDGET_GET_VISIBLE
 	if (gtk_widget_get_visible(vte)==FALSE) return;
-#  endif
 #  ifdef DEFENSIVE
 	if (win_data==NULL) return;
 #  endif
@@ -2242,9 +2242,7 @@ void keep_gtk3_window_size(struct Window *win_data, GtkWidget *vte)
 	if (win_data==NULL) return;
 #  endif
 	if (win_data->current_vte==NULL) return;
-#  ifndef NO_GTK_WIDGET_GET_VISIBLE
 	if (gtk_widget_get_visible(vte)==FALSE) return;
-#  endif
 
 	// if (gtk_widget_get_window(vte)==NULL)
 	//	g_debug("!!! keep_gtk3_window_size(vte %p): WARNING: gtk_widget_get_window(vte)==NULL!!", vte);
@@ -2274,9 +2272,7 @@ void keep_gtk3_window_size(struct Window *win_data, GtkWidget *vte)
 
 	// find the current vte size
 	GtkAllocation vte_requisition = {0};
-#  ifndef NO_GTK_WIDGET_GET_ALLOCATION
 	gtk_widget_get_allocation(vte, &vte_requisition);
-#  endif
 #  ifdef GEOMETRY
 	g_debug("@ keep_gtk3_window_size(for %p): Original vte size = %d x %d",
 		win_data->window, vte_requisition.width, vte_requisition.height);

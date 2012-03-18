@@ -111,10 +111,10 @@ if [ -z "$CC" ]; then
 fi
 
 if [ -z "$CFLAGS" ]; then
-  CFLAGS="-Wall -O2 -g"
+  CFLAGS="-Wall -Werror -Os -g"
 fi
 
-OBJ="menu.o profile.o dialog.o pagename.o notebook.o font.o property.o window.o misc.o console.o main.o"
+OBJ="menu.o profile.o dialog.o pagename.o notebook.o font.o property.o window.o misc.o console.o main.o unit_test.o"
 
 cat > lilyterm.gdb << EOF
 run $GTK_DEBUG
@@ -434,8 +434,10 @@ EOF
 }
 EOF
 	if [ $TEST_SCRIPT_ONLY -eq 0 ]; then
+		$PRINTF "\x1b\x5b1;36m$FUNC_NAME(): \x1b[1;33m** Compiling unit_test.o...\x1b\x5b0m\n"
+		$CC $CFLAGS $INCLUDES -c unit_test.c `$PKGCONFIG --cflags $GTK $VTE` || exit 1
 		$PRINTF "\x1b\x5b1;36m$FUNC_NAME(): \x1b[1;33m** Compiling unit_test...\x1b\x5b0m\n"
-		$CC $CFLAGS "$INCLUDES" -o unit_test unit_test.c $OBJ `$PKGCONFIG --cflags --libs $GTK $VTE` || exit 1
+		$CC $CFLAGS $INCLUDES -o unit_test $OBJ `$PKGCONFIG --cflags --libs $GTK $VTE` || exit 1
 		# if [ $? != 0 ]; then exit 1; fi
 
 		if [ $BUILD_ONLY -eq 0 ]; then

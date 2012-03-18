@@ -98,11 +98,6 @@
 // **************************** data.h ****************************
 //
 
-#ifdef HAVE_CONFIG_H
-#  include "config.h"
-#endif
-
-
 // for key value
 #include <gdk/gdkkeysyms.h>
 
@@ -154,8 +149,8 @@
 #if ! GTK_CHECK_VERSION(2,18,0)
 	#define gtk_widget_set_can_focus(x,FALSE) GTK_WIDGET_UNSET_FLAGS(x,GTK_CAN_FOCUS)
 #  ifdef UNIT_TEST
-	#define NO_GTK_WIDGET_GET_VISIBLE
-	#define NO_GTK_WIDGET_GET_ALLOCATION
+	#define gtk_widget_get_visible gtk_widget_is_focus
+	#define gtk_widget_get_allocation(x,y) gtk_widget_is_focus(x)
 #  endif
 #endif
 #if ! GTK_CHECK_VERSION(2,20,0)
@@ -183,6 +178,7 @@
 #endif
 #ifdef UNIT_TEST
   #if GTK_CHECK_VERSION(2,24,0)
+	#define GTK_OBJECT GTK_WIDGET
 	#define gtk_object_destroy gtk_widget_destroy
   #endif
 #endif

@@ -143,7 +143,7 @@ void check_profile_version (GKeyFile *keyfile, struct Window *win_data);
 void profile_is_invalid_dialog(GError *error, struct Window *win_data);
 void convert_string_to_user_key(gint i, gchar *value, struct Window *win_data);
 gchar *get_profile();
-#ifdef ENABLE_RGBA
+#if defined(ENABLE_RGBA) || defined (UNIT_TEST)
 void init_rgba(struct Window *win_data);
 #endif
 
