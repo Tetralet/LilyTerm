@@ -327,7 +327,7 @@ for DATA in `cat $LIB_LISTS | sed '/^\/\*/,/ \*\/$/d' | sed -e 's/[ \t]*\/\*[ \t
 								FUNC_STAR="$FUNC_STAR\n$SPACE""for (V[$VAR]=0; V[$VAR]<2; V[$VAR]++) {"
 								FUNC_STAR="$FUNC_STAR\n$SPACE""_SPACE_""GtkCellRenderer *V$VAR = NULL;\n""$SPACE""_SPACE_""if (V[$VAR]) V$VAR = gtk_cell_renderer_text_new();"
 								FUNCTION="$FUNCTION V$VAR,"
-								FUN_DATA="$SPACE""_SPACE_""if (V$VAR) gtk_object_destroy(GTK_OBJECT(V$VAR));\n"
+								# FUN_DATA="$SPACE""_SPACE_""if (V$VAR) gtk_object_destroy(GTK_OBJECT(V$VAR));\n"
 								;;
 							'GtkRange*')
 								FUNC_STAR="$FUNC_STAR\n$SPACE""for (V[$VAR]=0; V[$VAR]<2; V[$VAR]++) {"

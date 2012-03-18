@@ -176,12 +176,6 @@
 	#define gtk_widget_hide(x) gtk_widget_hide_all(x)
 	#define g_spawn_async_with_pipes(a,b,c,d,e,f,g,h,i,j,k) gdk_spawn_on_screen_with_pipes(gdk_screen_get_default(),a,b,c,d,e,f,g,h,i,j,k)
 #endif
-#ifdef UNIT_TEST
-  #if GTK_CHECK_VERSION(2,24,0)
-	#define GTK_OBJECT GTK_WIDGET
-	#define gtk_object_destroy gtk_widget_destroy
-  #endif
-#endif
 #if ! GTK_CHECK_VERSION(2,90,7)
 	#define EXIST_GTK_DIALOG_NO_SEPARATOR
 #endif
