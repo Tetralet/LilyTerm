@@ -170,7 +170,7 @@ if [ $? != 0 ]; then
       $ECHO ""
       exit 1
     else
-      INFO "found.\n"
+      WARN "found. But using Gtk+3 to build $PACKAGE is NOT recommend.\n"
     fi
   else
     if [ "$GTK" = "gtk+-2.0" ]; then
