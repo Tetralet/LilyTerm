@@ -16,12 +16,15 @@ LOCALEDIR="\$(DATADIR)/locale"
 ICONDIR="\$(DATADIR)/pixmaps"
 
 GTK=gtk+-2.0
-GTK_SPC=0
 
 DEBUG=N
 NLS=Y
 SAFEMODE=Y
 GNOME_CONTROL_CENTER=Y
+
+GTK_SPC=0
+NLS_SPC=0
+GNOME_CONTROL_CENTER_SPC=0
 
 if [ -z "$CC" ]; then
   CC=gcc
@@ -84,7 +87,8 @@ if [ "$1" = "-h" -o "$1" = "--help" -o "$1" = "-help" ]; then
   $ECHO "run \``IMPORTANT 'make distclean'`' to clean $PACKAGE builded and configure files."
   $ECHO ""
   $ECHO "run \``IMPORTANT 'make install'`' to install $PACKAGE to your system."
-  $ECHO "run \``IMPORTANT 'make uninstall'`' to unstall $PACKAGE in `NORMAL "$PREFIX"` from your system.\n"
+  $ECHO "run \``IMPORTANT 'make uninstall'`' to unstall $PACKAGE in `NORMAL "$PREFIX"` from your system."
+  $ECHO ""
   exit 0
 fi
 
@@ -101,6 +105,9 @@ for opt do
     --enable-debug)
       DEBUG=Y
       ;;
+    --disable-debug)
+      DEBUG=N
+      ;;
     --prefix=*)
       PREFIX=`$ECHO $opt | cut -d '=' -f 2`
       ;;
@@ -114,11 +121,17 @@ for opt do
       GTK=gtk+-3.0
       GTK_SPC=1
       ;;
+    --enable-nls)
+      NLS_SPC=1
+      ;;
     --disable-nls)
       NLS=N
       ;;
     --disable-safe-mode)
       SAFEMODE=N
+      ;;
+    --enable-gnome-control-center)
+      GNOME_CONTROL_CENTER_SPC=1
       ;;
     --disable-gnome-control-center)
       GNOME_CONTROL_CENTER=N
@@ -226,8 +239,13 @@ fi
 
 if [ "$NLS" = 'Y' ]; then
   $ECHO -n "... testing Native Language Support : "
-  GETTEXT=`whereis -b gettext | awk '{print $2}'`
+  GETTEXT=`whereis -b msgfmt | awk '{print $2}'`
   if [ -z "$GETTEXT" ]; then
+    if [ $NLS_SPC -eq 1 ]; then
+      ERR "not found. Please install gettext package. ABORT!\n"
+      $ECHO ""
+      exit 1
+    fi
     WARN "not found.\n"
     NLS=N
   else
@@ -242,6 +260,11 @@ if [ "$GNOME_CONTROL_CENTER" = 'Y' ]; then
   $ECHO -n "... testing Gnome Control Center    : "
   GNOME_CONTROL_CENTER_DIR=`pkg-config --variable=defappsdir --define-variable=datadir='$(DATADIR)' gnome-default-applications`
   if [ $? != 0 ]; then
+    if [ $GNOME_CONTROL_CENTER_SPC -eq 1 ]; then
+      ERR "not found. Please install gnome-control-center-dev package. ABORT!\n"
+      $ECHO ""
+      exit 1
+    fi
     WARN "not found.\n"
     GNOME_CONTROL_CENTER=N
   else
