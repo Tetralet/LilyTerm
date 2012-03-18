@@ -136,6 +136,12 @@ for opt do
     --disable-gnome-control-center)
       GNOME_CONTROL_CENTER=N
       ;;
+    *)
+      $ECHO ""
+      ERR "ERROR: invalid option \"$opt\". ABORT!\n"
+      $ECHO ""
+      exit 1
+      ;;
   esac
 done
 
