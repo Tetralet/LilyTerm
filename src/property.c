@@ -501,14 +501,26 @@ void window_resizable(GtkWidget *window, GtkWidget *vte, gint set_hints_inc)
 #ifndef USE_OLD_VTE_GET_PADDING
 void fake_vte_terminal_get_padding(VteTerminal *vte, gint *width, gint *height)
 {
+#ifdef DETAIL
+	g_debug("! Launch fake_vte_terminal_get_padding() with vte = %p", vte);
+#endif
+#ifdef DEFENSIVE
+	if (vte==NULL) return;
+#endif
 	GtkBorder *inner_border = NULL;
 	gtk_widget_style_get(GTK_WIDGET(vte), "inner-border", &inner_border, NULL);
 #  ifdef DEFENSIVE
 	if (inner_border)
 	{
 #  endif
-		*width = inner_border->left + inner_border->right;
-		*height = inner_border->top + inner_border->bottom;
+#ifdef DEFENSIVE
+		if (width)
+#endif
+			*width = inner_border->left + inner_border->right;
+#ifdef DEFENSIVE
+		if (height)
+#endif
+			*height = inner_border->top + inner_border->bottom;
 #  ifdef DEFENSIVE
 	}
 #  endif

@@ -1599,7 +1599,7 @@ void save_vte_geometry(struct Window *win_data)
 	g_debug("! Launch save_vte_geometry() with win_data = %p", win_data);
 #  endif
 #  ifdef DEFENSIVE
-	if (win_data==NULL) return;
+	if ((win_data==NULL) || (win_data->notebook==NULL)) return;
 #  endif
 	struct Page *page_data = NULL;
 	gint i;
