@@ -168,7 +168,7 @@ memory: $(BINARY)
 
 .PHONY: clean
 clean:
-	-@ for FileName in $(BINARY) $(BINARY)_dev $(BINARY)_dbg $(OBJ) unit_test unit_test.[co] lilyterm.gdb lilyterm_gdb.log lilyterm_valgrind.log ; \
+	-@ for FileName in $(BINARY) $(BINARY)_dev $(BINARY)_dbg $(OBJ) unit_test unit_test.[co] gdb_batch gdb.log valgrind.log ; \
 	do \
 		if [ -f "$$FileName" ]; then \
 			$(PRINTF) "\x1b\x5b1;35m** deleting $$FileName...\x1b\x5b0m\n"; \

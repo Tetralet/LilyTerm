@@ -116,9 +116,12 @@ fi
 
 OBJ="menu.o profile.o dialog.o pagename.o notebook.o font.o property.o window.o misc.o console.o main.o unit_test.o"
 
-cat > lilyterm.gdb << EOF
-run $GTK_DEBUG
-bt full
+cat > gdb_batch << EOF
+run
+backtrace full
+info registers
+thread apply all backtrace
+quit
 EOF
 
 # sed '/^\/\*/,/ \*\/$/d': Delete [ /* blah ... blah */ ] (multi lines)
@@ -444,14 +447,14 @@ EOF
 			if [ $RUN_GDB -eq 1 ]; then
 				$PRINTF "\x1b\x5b1;36m$FUNC_NAME(): \x1b[1;33m** Testing with gdb...\x1b\x5b0m\n"
 				if [ -n "$SPECIFIC_FUNCTION" ]; then
-					gdb -batch -x ./lilyterm.gdb ./unit_test
+					gdb -batch -x ./gdb_batch --args ./unit_test $GTK_DEBUG
 				else
 					echo "Testing $FUNC_NAME() with gdb..." > /tmp/lilyterm_$FUNC_NAME.log
-					gdb -batch -x ./lilyterm.gdb ./unit_test >> /tmp/lilyterm_$FUNC_NAME.log 2>&1
-					CHECK_STR=`tail -n 3 /tmp/lilyterm_$FUNC_NAME.log | tr -d '\n'`
-					if [ "$CHECK_STR" != 'Program exited normally.No stack.' ]; then
-						cat /tmp/lilyterm_$FUNC_NAME.log >> lilyterm_gdb.log
-						echo "" >> lilyterm_gdb.log
+					gdb -batch -x ./gdb_batch --args ./unit_test $GTK_DEBUG  >> /tmp/lilyterm_$FUNC_NAME.log 2>&1
+					CHECK_STR=`tail -n 4 /tmp/lilyterm_$FUNC_NAME.log | grep 'exited normally'`
+					if [ -z "$CHECK_STR" ]; then
+						cat /tmp/lilyterm_$FUNC_NAME.log >> gdb.log
+						echo "" >> gdb.log
 					else
 						$PRINTF "\x1b\x5b1;36m$FUNC_NAME(): \x1b[1;33m** Program exited normally. Clear log...\x1b\x5b0m\n"
 					fi
@@ -461,14 +464,15 @@ EOF
 
 			if [ $RUN_VALGRIND -eq 1 ]; then
 				$PRINTF "\x1b\x5b1;36m$FUNC_NAME(): \x1b[1;33m** Testing with valgrind...\x1b\x5b0m\n"
-				echo "Testing $FUNC_NAME() with valgrind..." >> lilyterm_valgrind.log
-				valgrind --leak-check=full ./unit_test >> lilyterm_valgrind.log 2>&1
-				echo "" >> lilyterm_valgrind.log
+				echo "Testing $FUNC_NAME() with valgrind..." >> valgrind.log
+				valgrind --leak-check=full ./unit_test >> valgrind.log 2>&1
+				echo "" >> valgrind.log
 			fi
 		fi
 	fi
+	echo ""
 done
 
-if [ -f ./lilyterm.gdb ]; then
-	rm ./lilyterm.gdb
+if [ -f ./gdb_batch ]; then
+	rm ./gdb_batch
 fi
