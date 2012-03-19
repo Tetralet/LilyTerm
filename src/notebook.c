@@ -904,11 +904,7 @@ gboolean close_page(GtkWidget *vte, gint close_type)
 	// Note that due to historical reasons,
 	// GtkNotebook refuses to switch to a page unless the child widget is visible.
 	// Therefore, it is recommended to show child widgets before adding them to a notebook.
-#ifdef USE_OLD_GTK_WIDGET_HIDE_ALL
 	gtk_widget_hide_all(page_data->hbox);
-#else
-	gtk_widget_hide(page_data->hbox);
-#endif
 
 	// gtk_widget_destroy(page_data->vte);
 	// remove current page
