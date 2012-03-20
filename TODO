@@ -7,29 +7,29 @@ check window_resizable
 add a new tab, and increase the font size of 1st tab, close 2nd tab, the window size is incorrect.
 check every externs...
 the environ won't copy from last tab <- very hard to fix it.
-** antialias don't work in new libvte
-[LilyTerm Default & System Default] don't behave the same?
+* antialias don't work in new libvte
+** [LilyTerm Default & System Default] don't behave the same?
 
 TODO:
 
-** reload settings (Window Title may cause problems)
-apply to every window
-response from unix sockets
+* reload settings (Window Title may cause problems)
+* apply to every window
+* response from unix sockets
 check vte_data->column
 confirm to save settings before exit
 
-double click to select more...
+* double click to select more...
 
 sort menu via profile
 a scroll bar menu
 Save settings that diff and full
 ** check the focus of dialogs
-** replace sleep with time_out
+* replace sleep with time_out
 ** custom URL match
-** custom protocal matches <- very hard to implement
+* custom protocal matches <- very hard to implement
 ** fix solarized ansi color themes.
 ** sometimes the running command shows on tab is incorrect.
-** the copy/paste key -> <ctrl><shift><c>/<ctrl><shift><v>
+* the copy/paste key -> <ctrl><shift><c>/<ctrl><shift><v>
 
 Deprecated:
 
