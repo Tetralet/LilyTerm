@@ -92,7 +92,8 @@ void create_load_profile_from_menu_items(GtkWidget *sub_menu, const gchar *stock
 gboolean create_profile_menu_list(GtkWidget *sub_menu, const gchar *stock_id, GSourceFunc func, gpointer func_data);
 void load_background_image_from_file(GtkWidget *widget, struct Window *win_data);
 void apply_profile_from_file_dialog(GtkWidget *menu_item, Apply_Profile_Type type);
-void apply_profile_from_file(GtkWidget *menu_item, Apply_Profile_Type type);
+void apply_profile_from_menu_item(GtkWidget *menu_item, Apply_Profile_Type type);
+void apply_profile_from_file(const gchar *path, Apply_Profile_Type type);
 void reload_settings(GtkWidget *menu_item, struct Window *win_data);
 void apply_to_every_window(GtkWidget *menu_item, struct Window *win_data);
 void save_user_settings_as(GtkWidget *widget, struct Window *win_data);

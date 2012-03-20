@@ -1623,7 +1623,7 @@ void create_new_window_from_menu_items(GtkWidget *sub_menu, const gchar *stock_i
 	g_debug("! Launch create_new_window_from_menu_items() with sub_menu = %p, stock_id = %s",
 		sub_menu, stock_id);
 #endif
-	if (create_profile_menu_list(sub_menu, stock_id, (GSourceFunc)apply_profile_from_file,
+	if (create_profile_menu_list(sub_menu, stock_id, (GSourceFunc)apply_profile_from_menu_item,
 				     GINT_TO_POINTER(NEW_WINDOW_FROM_PROFILE)))
 		add_separator_menu (sub_menu);
 	create_menu_item (IMAGE_MENU_ITEM, sub_menu, _("Other settings..."), NULL, GTK_STOCK_ADD,
@@ -1665,7 +1665,7 @@ void create_load_profile_from_menu_items(GtkWidget *sub_menu, const gchar *stock
 	add_separator_menu(sub_menu);
 
 	if (create_profile_menu_list(sub_menu, GTK_STOCK_APPLY,
-				 (GSourceFunc)apply_profile_from_file, GINT_TO_POINTER(LOAD_FROM_PROFILE)))
+				 (GSourceFunc)apply_profile_from_menu_item, GINT_TO_POINTER(LOAD_FROM_PROFILE)))
 		add_separator_menu (sub_menu);
 
 	create_menu_item (IMAGE_MENU_ITEM, sub_menu, _("Other settings..."), NULL, GTK_STOCK_ADD,
@@ -1799,31 +1799,33 @@ void apply_profile_from_file_dialog(GtkWidget *menu_item, Apply_Profile_Type typ
 	{
 		// Create new win_data
 		gchar *filename = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (dialog));
-#ifdef DEFENSIVE
-		if (filename)
-		{
-#endif
-			gtk_widget_set_name(menu_item, filename);
-			apply_profile_from_file(menu_item, type);
-#ifdef DEFENSIVE
-		}
-#endif
+		apply_profile_from_file(filename, type);
 		g_free (filename);
 	}
 	gtk_widget_destroy (dialog);
 }
 
-void apply_profile_from_file(GtkWidget *menu_item, Apply_Profile_Type type)
+void apply_profile_from_menu_item(GtkWidget *menu_item, Apply_Profile_Type type)
 {
 #ifdef DETAIL
-	g_debug("! Launch apply_profile_from_file() with menu_item= %p, type = %d", menu_item, type);
+	g_debug("! Launch apply_profile_from_menu_item() with menu_item= %p, type = %d", menu_item, type);
 #endif
 	// g_debug("The path of menu_item is %s", gtk_widget_get_name(menu_item));
-	gint argc = 0;
 #ifdef DEFENSIVE
 	if (menu_item==NULL) return;
 #endif
-	const gchar *path = gtk_widget_get_name(menu_item);
+	apply_profile_from_file(gtk_widget_get_name(menu_item), type);
+}
+
+void apply_profile_from_file(const gchar *path, Apply_Profile_Type type)
+{
+#ifdef DETAIL
+	g_debug("! Launch apply_profile_from_file() with path= %s, type = %d", path, type);
+#endif
+#ifdef DEFENSIVE
+	if (path==NULL) return;
+#endif
+	gint argc = 0;
 
 #ifdef FATAL
 	// g_debug("menu_active_window = %p", menu_active_window);
@@ -2252,19 +2254,8 @@ void reload_settings(GtkWidget *menu_item, struct Window *win_data)
 		current_profile = g_strdup(win_data->profile);
 	else
 		current_profile = g_strdup_printf("%s/%s", profile_dir, USER_PROFILE);
-
-#ifdef DEFENSIVE
-	if (current_profile==NULL) return;
-#endif
-#ifdef DEFENSIVE
-	if (menu_item)
-	{
-#endif
-		gtk_widget_set_name(menu_item, current_profile);
-		apply_profile_from_file(menu_item, LOAD_FROM_PROFILE);
-#ifdef DEFENSIVE
-	}
-#endif
+	
+	apply_profile_from_file(current_profile, LOAD_FROM_PROFILE);
 	g_free(current_profile);
 }
 
