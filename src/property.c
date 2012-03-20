@@ -498,7 +498,7 @@ void window_resizable(GtkWidget *window, GtkWidget *vte, gint set_hints_inc)
 	//			vte_terminal_get_row_count(VTE_TERMINAL(vte)));
 }
 
-#ifndef USE_OLD_VTE_GET_PADDING
+#ifdef vte_terminal_get_padding
 void fake_vte_terminal_get_padding(VteTerminal *vte, gint *width, gint *height)
 {
 #ifdef DETAIL

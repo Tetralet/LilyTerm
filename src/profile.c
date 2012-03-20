@@ -436,7 +436,7 @@ void init_window_parameters(struct Window *win_data)
 	win_data->user_page_color[3] = g_strdup("#9C0A81");
 	win_data->user_page_color[4] = g_strdup("#BE0020");
 	win_data->user_page_color[5] = g_strdup("#333333");
-#ifdef USE_OLD_VTE_SET_FONT
+#ifndef vte_terminal_set_font_from_string_full
 	win_data->font_anti_alias = VTE_ANTI_ALIAS_USE_DEFAULT;
 #endif
 	// default_font_name is got from profile
@@ -1275,7 +1275,7 @@ void get_user_settings(struct Window *win_data, const gchar *encoding)
 			win_data->show_resize_menu = check_boolean_value(keyfile, "main", "show_resize_menu",
 									 win_data->show_resize_menu);
 
-#ifdef USE_OLD_VTE_SET_FONT
+#ifndef vte_terminal_set_font_from_string_full
 			win_data->font_anti_alias = check_integer_value( keyfile, "main", "font_anti_alias",
 					 win_data->font_anti_alias, DISABLE_EMPTY_STR, 0, ENABLE_ZERO, CHECK_MIN, 0, CHECK_MAX, 2);
 #endif
@@ -2281,7 +2281,7 @@ GString *save_user_settings(GtkWidget *widget, struct Window *win_data)
 					"# [Reset to default font/size] and [Reset to system font/size]\n"
 					"# on right click menu.\n"
 					"show_resize_menu = %d\n\n", win_data->show_resize_menu);
-#ifdef USE_OLD_VTE_SET_FONT
+#ifndef vte_terminal_set_font_from_string_full
 	g_string_append_printf(contents,"# Using antialias when showing fonts.\n"
 					"# 0: default. 1: force enable. 2: force disable.\n"
 					"font_anti_alias = %d\n\n", win_data->font_anti_alias);

@@ -1510,7 +1510,7 @@ gboolean refresh_locale_and_encoding_list(struct Window *win_data)
 				// gtk_menu_shell_append (GTK_MENU_SHELL (win_data->menu), sub_menu_item);
 				// don't create "New tab" submenu.
 				// g_debug("Show sub_menu_item(%p)!", sub_menu_item);
-#ifdef DBEUG
+#ifdef DEBUG
 				// if ((GTK_IS_WIDGET(sub_menu_item)==FALSE) || (sub_menu_item==NULL))
 				//	g_debug("! refresh_locale_and_encoding_list(): "
 				//		"sub_menu_item = %p for win_data (%p) is not a widget!",
