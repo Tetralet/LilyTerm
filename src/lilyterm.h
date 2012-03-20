@@ -165,7 +165,7 @@ void add_remove_window_title_changed_signal(struct Page *page_data);
 gboolean set_background_saturation(GtkRange *range, GtkScrollType scroll, gdouble value, GtkWidget *vte);
 gboolean set_window_opacity (GtkRange *range, GtkScrollType scroll, gdouble value, struct Window *win_data);
 void window_resizable(GtkWidget *window, GtkWidget *vte, gint set_hints_inc);
-#ifdef vte_terminal_get_padding
+#if defined(vte_terminal_get_padding) || defined(UNIT_TEST)
 void fake_vte_terminal_get_padding(VteTerminal *vte, gint *width, gint *height);
 #endif
 void apply_new_win_data_to_page (struct Window *win_data_orig, struct Window *win_data, struct Page *page_data);
