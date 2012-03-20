@@ -266,9 +266,9 @@ typedef enum {
 } Function_Key_Groups;
 
 #ifdef FATAL
-	#define KEYS 41
+	#define KEYS 42
 #else
-	#define KEYS 40
+	#define KEYS 41
 #endif
 
 typedef enum {
@@ -299,6 +299,7 @@ typedef enum {
 	KEY_SWITCH_TO_TAB_10,					// 24
 	KEY_SWITCH_TO_TAB_11,					// 25
 	KEY_SWITCH_TO_TAB_12,					// 26
+	KEY_NEW_WINDOW,						// NEW
 	KEY_SELECT_ALL,						// 27
 	KEY_COPY_CLIPBOARD,					// 28
 	KEY_PASTE_CLIPBOARD,					// 29

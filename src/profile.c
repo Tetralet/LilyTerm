@@ -603,6 +603,8 @@ void init_user_keys(struct Window *win_data)
 	win_data->user_keys[KEY_SWITCH_TO_TAB_10].value = g_strdup("Ctrl F10");
 	win_data->user_keys[KEY_SWITCH_TO_TAB_11].value = g_strdup("Ctrl F11");
 	win_data->user_keys[KEY_SWITCH_TO_TAB_12].value = g_strdup("Ctrl F12");
+	// open new window
+	win_data->user_keys[KEY_NEW_WINDOW].value = g_strdup("Ctrl N");
 	// select all
 	win_data->user_keys[KEY_SELECT_ALL].value = g_strdup("Ctrl O");
 	// copy the text to clipboard
@@ -673,6 +675,8 @@ void init_function_keys_name_and_group()
 		system_keys[i].name = g_strdup_printf("switch_to_tab_%d", i-KEY_SWITCH_TO_TAB_1+1);
 		system_keys[i].group = KEY_GROUP_SWITCH_TO_TAB;
 	}
+	system_keys[KEY_NEW_WINDOW].name = "new_window";
+	system_keys[KEY_NEW_WINDOW].group = KEY_GROUP_MISC;
 	system_keys[KEY_SELECT_ALL].name = "select_all";
 	system_keys[KEY_SELECT_ALL].group = KEY_GROUP_TEXT;
 	system_keys[KEY_COPY_CLIPBOARD].name = "copy_clipboard";
@@ -789,6 +793,10 @@ void init_function_keys()
 		system_keys[i].translation = g_strdup_printf(_("Switch #%d tab directly."), i-KEY_SWITCH_TO_TAB_1+1);
 	}
 
+	// new_window
+	system_keys[KEY_NEW_WINDOW].topic = _("New window");
+	system_keys[KEY_NEW_WINDOW].comment = "# Open a new window with current dir.";
+	system_keys[KEY_NEW_WINDOW].translation = _("Open a new window with current dir.");
 	// select all
 	system_keys[KEY_SELECT_ALL].topic = _("Select all");
 	system_keys[KEY_SELECT_ALL].comment = "# Select all the text in the Vte Terminal box.";

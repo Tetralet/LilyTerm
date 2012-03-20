@@ -239,8 +239,8 @@ GtkNotebook *new_window(int argc,
 	else
 	{
 		win_data_dup(win_data_orig, win_data);
-		// the init_rgba() must run before the window is mapped!
 #ifdef ENABLE_RGBA
+		// the init_rgba() must run before the window is mapped!
 		if (win_data->use_rgba == -1) init_rgba(win_data);
 #endif
 	}
@@ -1168,6 +1168,9 @@ gboolean deal_key_press(GtkWidget *window, gint type, struct Window *win_data)
 			// switch to #%d page
 			if (total_page > type-KEY_SWITCH_TO_TAB_1)
 				gtk_notebook_set_current_page(GTK_NOTEBOOK(win_data->notebook), type-KEY_SWITCH_TO_TAB_1);
+			break;
+		case KEY_NEW_WINDOW:
+			create_window(NULL, NULL, 0, 0, win_data);
 			break;
 		case KEY_SELECT_ALL:
 #ifdef ENABLE_VTE_SELECT_ALL
@@ -2137,23 +2140,27 @@ GtkNotebook *create_window (GtkNotebook *notebook, GtkWidget *page, gint x, gint
 #endif
 	// we set the encoding=NULL here,
 	// because new_window() with page_data != NULL will not call add_page()
-	// GtkNotebook *new_window(int argc,
-	//			   char *argv[],
-	//			   gchar *environment,
-	//			   gchar *local_list,
-	//			   gchar *PWD,
-	//			   gchar *VTE_CJK_WIDTH_STR,
-	//			   gboolean VTE_CJK_WIDTH_STR_overwrite_profile,
-	//			   gchar *user_environ,
-	//			   gchar *encoding,
-	//			   gboolean encoding_overwrite_profile,
-	//			   gchar *lc_messages,
-	//			   struct Window *win_data_orig,
-	//			   struct Page *page_data_orig)
-
+	//GtkNotebook *new_window(int argc,
+	//			  char *argv[],
+	//			  gchar *shell,
+	//			  gchar *environment,
+	//			  gchar *local_list,
+	//			  gchar *PWD,
+	//			  gchar *HOME,
+	//			  gchar *VTE_CJK_WIDTH_STR,
+	//			  gboolean VTE_CJK_WIDTH_STR_overwrite_profile,
+	//			  gchar *wmclass_name,
+	//			  gchar *wmclass_class,
+	//			  gchar *user_environ,
+	//			  gchar *encoding,
+	//			  gboolean encoding_overwrite_profile,
+	//			  gchar *lc_messages,
+	//			  struct Window *win_data_orig,
+	//			  struct Page *page_data_orig)
 	// g_debug("create_window(): win_data->runtime_encoding = %s", win_data->runtime_encoding);
 	// g_debug("create_window(): win_data->runtime_locale_list = %s", win_data->runtime_locale_list);
 
+	// notebook==NULL: open a new window with <Ctrl><N>
 	return new_window(0,
 			  NULL,
 			  win_data->shell,
@@ -2170,7 +2177,7 @@ GtkNotebook *create_window (GtkNotebook *notebook, GtkWidget *page, gint x, gint
 			  TRUE,
 			  win_data->runtime_LC_MESSAGES,
 			  win_data,
-			  page_data);
+			  (notebook==NULL)? NULL :page_data);
 }
 
 gboolean window_state_event (GtkWidget *widget, GdkEventWindowState *event, struct Window *win_data)
