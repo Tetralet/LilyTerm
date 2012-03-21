@@ -172,9 +172,6 @@
 	#define GDK_KEY_A		GDK_A
 	#define GDK_KEY_Z		GDK_Z
 #endif
-#if GTK_CHECK_VERSION(2,24,0)
-	#define gtk_widget_hide_all(x) gtk_widget_hide(x)
-#endif
 #if ! GTK_CHECK_VERSION(2,24,0)
 	#define g_spawn_async_with_pipes(a,b,c,d,e,f,g,h,i,j,k) gdk_spawn_on_screen_with_pipes(gdk_screen_get_default(),a,b,c,d,e,f,g,h,i,j,k)
 #endif
@@ -190,6 +187,9 @@
 #if GTK_CHECK_VERSION(2,91,1)
 	#define NO_RESIZE_GRIP
 	#define USE_XPARSEGEOMETRY
+#endif
+#if GTK_CHECK_VERSION(2,91,2)
+	#define gtk_widget_hide_all(x) gtk_widget_hide(x)
 #endif
 #if GTK_CHECK_VERSION(2,91,5)
 	#define USE_GTK3_GEOMETRY_METHOD
