@@ -1629,7 +1629,7 @@ GtkWidget *create_label_with_text(GtkWidget *box, gboolean set_markup, gboolean 
 		box, set_markup, selectable, max_width_chars, text);
 #endif
 #ifdef DEFENSIVE
-	if ((text==NULL) || (box==NULL)) return NULL;
+	if (text==NULL) return NULL;
 #endif
 	GtkWidget *label = gtk_label_new(NULL);
 	if (set_markup)
