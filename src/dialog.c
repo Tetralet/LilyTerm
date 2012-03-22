@@ -1185,7 +1185,7 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 						  win_data->temp_data,
 						  "\n\n",
 						  _("Continue anyway?"),
-						  "\n"
+						  "\n",
 						  NULL);
 			create_dialog(_("Confirm to paste texts to the Vte Terminal"),
 				      "Confirm to paste texts to the Vte Terminal",
