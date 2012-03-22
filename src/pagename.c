@@ -22,7 +22,7 @@
 extern gint dialog_activated;
 extern gboolean proc_exist;
 
-// cmdline always = "" under Ubuntu *ONLY* if argv = split_string("", " ", -1);
+// cmdline always = "" under *Ubuntu ONLY* if argv = split_string("", " ", -1);
 // Don't ask me why...
 gboolean vte_fork_cmdline_returned_empty = FALSE;
 
@@ -128,6 +128,8 @@ gboolean monitor_cmdline(struct Page *page_data)
 	if ((page_data==NULL) || (page_data->lost_focus==NULL) || (page_data->keep_vte_size==NULL) ||
 	    (page_data->current_vte==NULL) || (page_data->window_title_tpgid==NULL)) return FALSE;
 #endif
+	if (page_data->pid<1) return FALSE;
+
 	gboolean lost_focus = *(page_data->lost_focus);
 
 	// g_debug("Get page_data->keep_vte_size = %d in monitor_cmdline()", *(page_data->keep_vte_size));
@@ -147,12 +149,13 @@ gboolean monitor_cmdline(struct Page *page_data)
 	    page_data->custom_page_name ||
 	    dialog_activated)
 		return TRUE;
-
-	if (page_data->pid<1) return FALSE;
-
 	// if we should call get_and_update_page_name or not
 	gboolean page_name_changed = FALSE;
+
+	// backup page_data datas
 	gint page_update_method = page_data->page_update_method;
+	pid_t new_tpgid = page_data->new_tpgid;
+
 	page_data->page_update_method = 0;
 	// g_debug("INIT: lost_focus = %d", lost_focus);
 	// g_debug("INIT: page_data->window_title_updated = %d", page_data->window_title_updated);
@@ -209,6 +212,8 @@ gboolean monitor_cmdline(struct Page *page_data)
 			new_pwd = page_data->pwd;
 			page_data->pwd = old_pwd;
 			// g_debug("Restore page_data->pwd to %s", page_data->pwd);
+
+			page_data->new_tpgid = new_tpgid;
 		}
 	}
 	else
@@ -552,9 +557,7 @@ void update_page_name_pwd(StrAddr **page_name,
 		// page_data->pwd = get_tab_name_with_current_dir(page_data->new_tpgid);
 		// page_name = get_tab_name_with_current_dir(pid);
 		if (lost_focus)
-		{
 			*page_name = g_strdup(page_data->window_title_pwd);
-		}
 		else
 		{
 			// g_debug("page_data->pwd (get_and_update_page_name())= %s", page_data->pwd);

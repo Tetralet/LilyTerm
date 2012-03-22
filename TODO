@@ -28,7 +28,6 @@ Save settings that diff and full
 ** custom URL match
 * custom protocal matches <- very hard to implement
 ** fix solarized ansi color themes.
-** sometimes the running command shows on tab is incorrect.
 * the copy/paste key -> <ctrl><shift><c>/<ctrl><shift><v>
 
 Deprecated:

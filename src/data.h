@@ -960,7 +960,7 @@ struct Page
 	//  1: updated
 	//  0: nothing happened
 	// -1: "window-title-changed" stop working
-	gboolean window_title_updated;
+	gint window_title_updated;
 	// 0: auto (default)
 	// 1: window title
 	// 2: command line
