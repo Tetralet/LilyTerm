@@ -112,8 +112,7 @@ gchar *get_help_message(gchar *profile)
 	if (usage)
 #endif
 		g_string_append( help_message, usage);
-	// g_string_append( help_message,  _("Default shortcut key: (It may custom or disable by editing user's profile)"));
-	g_string_append( help_message,  _("Default shortcut key: (It may custom or disable by right click menu [Set function key value])"));
+	g_string_append( help_message,  _("Default key binding: (It may custom or disable by right click menu [Set function key value])"));
 	g_string_append( help_message, "\n\n");
 #ifdef DEFENSIVE
 	if (function_key)

@@ -95,7 +95,7 @@ ifeq ($(MSGMERGE), )
 	@ exit 1
 endif
 	@ $(PRINTF) "\x1b\x5b1;33m** msgmerge $@...\x1b\x5b0m\n"
-	-$(MSGMERGE) $(MSGMERGE_PARAMETER) $@ $< -o $@
+	-@ $(MSGMERGE) $(MSGMERGE_PARAMETER) $@ $< -o $@
 
 %.mo: %.po $(BINARY).pot
 ifeq ($(MSGFMT), )
@@ -104,7 +104,7 @@ ifeq ($(MSGFMT), )
 	@ exit 1
 endif
 	@ $(PRINTF) "\x1b\x5b1;33m** creating $@...\x1b\x5b0m\n"
-	-$(MSGFMT) --check --statistics $< -o $@
+	-@ $(MSGFMT) --check --statistics $< -o $@
 
 .PHONY: clean
 clean:

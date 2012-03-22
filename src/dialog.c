@@ -710,7 +710,7 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 								     "text", 0, NULL);
 
 			gtk_tree_view_insert_column_with_attributes (GTK_TREE_VIEW (dialog_data->treeview), -1,
-								     _("Shortcut Key"), renderer,
+								     _("Key Binding"), renderer,
 								     "text", 1, NULL);
 
 			GtkTreeSelection *tree_selection = gtk_tree_view_get_selection(GTK_TREE_VIEW (dialog_data->treeview));
@@ -810,7 +810,7 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 			dialog_data->operate[0] = add_text_to_notebook(notebook, _("Usage"), GTK_STOCK_HELP, str[4]);
 
 			// Shortcut Keys
-			temp_str = _("Default shortcut key: "
+			temp_str = _("Default key binding: "
 				     "(It may custom or disable by right click menu "
 				     "[Set function key value])");
 			str[5] = convert_text_to_html(&temp_str, FALSE, NULL, "tt", NULL);
@@ -1180,10 +1180,12 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 			create_SIGKILL_and_EXIT_widget(dialog_data, TRUE, TRUE, PACKAGE);
 			break;
 		case CONFIRM_TO_PASTE_TEXTS_TO_VTE_TERMINAL:
-			temp_str[0] = g_strconcat(_("Trying to paste the following texts to the Vte Terminal:\n\n"),
+			temp_str[0] = g_strconcat(_("Trying to paste the following texts to the Vte Terminal:"),
+						  "\n\n",
 						  win_data->temp_data,
 						  "\n\n",
-						  _("Continue anyway?\n"),
+						  _("Continue anyway?"),
+						  "\n"
 						  NULL);
 			create_dialog(_("Confirm to paste texts to the Vte Terminal"),
 				      "Confirm to paste texts to the Vte Terminal",
