@@ -227,7 +227,7 @@ void init_command()
 	#define HOST "[A-Za-z0-9][-A-Za-z0-9.]*\\.[A-Za-z0-9]+[-A-Za-z0-9.]*[-A-Za-z0-9]*"
 	#define PORT "[:]*[0-9]*"
 	#define SPECIAL "([^|.< \t\r\n\\\"]*([.][^|< \t\r\n\\\"])?[^|.< \t\r\n\\\"]*)*"
-	#define END "[^< \t\r\n,;|\\\"]*[^|.< \t\r\n\\\"]"
+	#define END "[^<> \t\r\n,;|\\\"]*[^|.<> \t\r\n\\\"]"
 
 	// WWW
 	command[TAG_WWW].name = "web_browser";
