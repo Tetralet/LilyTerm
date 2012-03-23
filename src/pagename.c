@@ -154,9 +154,8 @@ gboolean monitor_cmdline(struct Page *page_data)
 
 	// backup page_data datas
 	gint page_update_method = page_data->page_update_method;
-	pid_t new_tpgid = page_data->new_tpgid;
 
-	page_data->page_update_method = 0;
+	page_data->page_update_method = PAGE_METHOD_AUTOMATIC;
 	// g_debug("INIT: lost_focus = %d", lost_focus);
 	// g_debug("INIT: page_data->window_title_updated = %d", page_data->window_title_updated);
 
@@ -212,8 +211,6 @@ gboolean monitor_cmdline(struct Page *page_data)
 			new_pwd = page_data->pwd;
 			page_data->pwd = old_pwd;
 			// g_debug("Restore page_data->pwd to %s", page_data->pwd);
-
-			page_data->new_tpgid = new_tpgid;
 		}
 	}
 	else
@@ -250,7 +247,7 @@ gboolean check_cmdline(struct Page *page_data, pid_t check_tpgid)
 		{
 			// g_debug("Trying to update Cmdline!!!");
 			page_name_changed = TRUE;
-			page_data->page_update_method = 2;
+			page_data->page_update_method = PAGE_METHOD_CMDLINE;
 		}
 		// else if (page_data->new_tpgid==page_data->pid)
 		else if (page_data->window_title_updated == 0)
@@ -283,7 +280,7 @@ gboolean check_window_title (struct Page *page_data, gboolean lost_focus)
 		{
 			// g_debug("Trying to update Window title!!!");
 			page_name_changed = TRUE;
-			page_data->page_update_method = 1;
+			page_data->page_update_method = PAGE_METHOD_WINDOW_TITLE;
 			page_data->window_title_updated = 1;
 		}
 	}
@@ -313,13 +310,13 @@ gboolean check_pwd(struct Page *page_data, gchar *pwd, gchar *new_pwd, gint page
 		page_name_changed = compare_strings(pwd, new_pwd, TRUE);
 
 		if ((*(page_data->window_title_tpgid) != page_data->displayed_tpgid) &&
-		    (page_update_method == 2))
+		    (page_update_method == PAGE_METHOD_CMDLINE))
 			page_name_changed = TRUE;
 
 		if (page_name_changed)
 		{
 			// g_debug("Trying to update PWD!!!");
-			page_data->page_update_method = 3;
+			page_data->page_update_method = PAGE_METHOD_PWD;
 			page_name_changed = TRUE;
 		}
 		// g_debug("page_data->window_title_pwd = %s\npage_name_changed = %d",
@@ -356,19 +353,19 @@ gboolean get_and_update_page_name(struct Page *page_data, gboolean lost_focus)
 
 	switch (page_data->page_update_method)
 	{
-		case 0:
-		case 5:
+		case PAGE_METHOD_AUTOMATIC:
+		case PAGE_METHOD_REFRESH:
 			break;
-		case 1:
+		case PAGE_METHOD_WINDOW_TITLE:
 			update_page_name_wintitle(&page_name, &page_color, win_data, page_data);
 			break;
-		case 2:
+		case PAGE_METHOD_CMDLINE:
 			update_page_name_cmdline(&page_name, &page_color, win_data, page_data);
 			break;
-		case 3:
+		case PAGE_METHOD_PWD:
 			update_page_name_pwd(&page_name, &page_color, win_data, page_data, lost_focus);
 			break;
-		case 4:
+		case PAGE_METHOD_NORMAL:
 			update_page_name_normal(&page_name, &page_color, win_data, page_data);
 			break;
 		default:
@@ -449,11 +446,11 @@ gboolean get_and_update_page_name(struct Page *page_data, gboolean lost_focus)
 
 		return_value = TRUE;
 	}
-	else if (page_data->page_update_method == 1)
-		page_data->window_title_updated = 2;
+	else if (page_data->page_update_method == PAGE_METHOD_WINDOW_TITLE)
+		page_data->window_title_updated = PAGE_METHOD_CMDLINE;
 
 	// update page_data->pwd or page_data->window_title_pwd, if it was not updated
-	if (page_data->page_update_method == 1)
+	if (page_data->page_update_method == PAGE_METHOD_WINDOW_TITLE)
 	{
 		if (win_data->page_shows_current_cmdline)
 			page_data->displayed_tpgid = page_data->new_tpgid;
@@ -492,7 +489,7 @@ void update_page_name_wintitle(StrAddr **page_name,
 		*page_color = win_data->user_page_color[0];
 		page_data->window_title_updated = 0;
 		// g_debug("Window title updated: *page_name = %s, color = %s", *page_name, *page_color);
-		page_data->page_update_method = 1;
+		page_data->page_update_method = PAGE_METHOD_WINDOW_TITLE;
 	}
 }
 
@@ -528,7 +525,7 @@ void update_page_name_cmdline(StrAddr **page_name,
 #endif
 			*page_color = win_data->user_page_color[1];
 			// g_debug("Cmdline updated: *page_name = %s, color = %s", *page_name, *page_color);
-			page_data->page_update_method = 2;
+			page_data->page_update_method = PAGE_METHOD_CMDLINE;
 #ifdef DEFENSIVE
 		}
 #endif
@@ -570,7 +567,7 @@ void update_page_name_pwd(StrAddr **page_name,
 			page_data->window_title_updated = -1;
 		}
 		// g_debug("PWD updated: *page_name = %s, color = %s", *page_name, *page_color);
-		page_data->page_update_method = 3;
+		page_data->page_update_method = PAGE_METHOD_PWD;
 	}
 }
 
@@ -589,7 +586,7 @@ void update_page_name_normal(StrAddr **page_name,
 	// g_debug("Trying to update to NORMAL page!");
 	if (*page_name==NULL)
 	{
-		if (page_data->page_name && (page_data->page_update_method !=5))
+		if (page_data->page_name && (page_data->page_update_method != PAGE_METHOD_REFRESH))
 			*page_name = g_strdup(page_data->page_name);
 		else
 			*page_name = get_tab_name_with_page_names(win_data);
@@ -599,9 +596,9 @@ void update_page_name_normal(StrAddr **page_name,
 		else
 			*page_color = NULL;
 		// g_debug("page_shows_normal_dir : page_name = %s, color = %s", *page_name, *page_color);
-		if (page_data->page_update_method==5) win_data->page_names_no++;
+		if (page_data->page_update_method==PAGE_METHOD_REFRESH) win_data->page_names_no++;
 		// g_debug("page_data->page_update_method = %d", page_data->page_update_method);
-		page_data->page_update_method = 4;
+		page_data->page_update_method = PAGE_METHOD_NORMAL;
 	}
 }
 

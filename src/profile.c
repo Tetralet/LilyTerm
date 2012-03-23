@@ -534,7 +534,7 @@ void init_page_parameters(struct Window *win_data, struct Page *page_data)
 //	page_data->is_root = 0;
 //	page_data->is_bold = 0;
 //	page_data->window_title_updated = 0;
-//	page_data->page_update_method = 0;
+//	page_data->page_update_method = PAGE_METHOD_AUTOMATIC;
 //	page_data->window_title_signal = 0;
 
 //	page_data->timeout_id = 0;

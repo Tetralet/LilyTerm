@@ -593,14 +593,14 @@ void apply_new_win_data_to_page (struct Window *win_data_orig,
 	//		   win_data->page_shows_current_dir ||
 	//		   win_data->page_shows_window_title);
 	if ((proc_exist) &&
-	    ((page_data->page_update_method != 4) ||
+	    ((page_data->page_update_method != PAGE_METHOD_NORMAL) ||
 	    (win_data->page_shows_current_cmdline ||
 	     win_data->page_shows_current_dir ||
 	     win_data->page_shows_window_title)))
 	{
 		// FIXME: Is it necessary?
-		if (page_data->page_update_method == 1) page_data->window_title_updated = 1;
-		page_data->page_update_method = 5;
+		if (page_data->page_update_method == PAGE_METHOD_WINDOW_TITLE) page_data->window_title_updated = 1;
+		page_data->page_update_method = PAGE_METHOD_REFRESH;
 	}
 	// g_debug("page_data->page_update_method = %d", page_data->page_update_method);
 

@@ -376,6 +376,15 @@ typedef enum {
 	SELECTION_PRIMARY,
 } Clipboard_Type;
 
+typedef enum {
+	PAGE_METHOD_AUTOMATIC,
+	PAGE_METHOD_WINDOW_TITLE,
+	PAGE_METHOD_CMDLINE,
+	PAGE_METHOD_PWD,
+	PAGE_METHOD_NORMAL,
+	PAGE_METHOD_REFRESH,
+} Page_Update_Method;
+
 // KeyValue: only need to init once when LilyTerm starts.
 // so that we don't need to free them.
 struct KeyValue

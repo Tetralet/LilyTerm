@@ -1711,7 +1711,7 @@ void page_data_dup(struct Page *page_data_prev, struct Page *page_data)
 	page_data->is_bold = 0;
 
 	page_data->window_title_updated = -1;
-	page_data->page_update_method = 0;
+	page_data->page_update_method = PAGE_METHOD_AUTOMATIC;
 	page_data->window_title_signal = 0;
 
 	page_data->timeout_id = 0;

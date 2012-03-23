@@ -2048,7 +2048,7 @@ void apply_profile_from_file(const gchar *path, Apply_Profile_Type type)
 #ifdef DEFENSIVE
 			if (page_data==NULL) continue;
 #endif
-			if (page_data->page_update_method == 1) page_data->window_title_updated = 1;
+			if (page_data->page_update_method == PAGE_METHOD_WINDOW_TITLE) page_data->window_title_updated = 1;
 			apply_new_win_data_to_page (win_data_backup, win_data, page_data);
 			// Don't like drag a vte to another lilyterm window,
 			// It will not call page_added()

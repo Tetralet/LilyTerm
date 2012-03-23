@@ -1281,7 +1281,7 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 
 					// g_debug("Get the page name = %s, color = %s",
 					// 	page_data->custom_page_name, page_data->tab_color);
-					if (page_data->page_update_method == 1)
+					if (page_data->page_update_method == PAGE_METHOD_WINDOW_TITLE)
 						page_data->window_title_updated = 1;
 					get_and_update_page_name(page_data, FALSE);
 
@@ -2630,7 +2630,7 @@ void recover_page_colors(GtkWidget *dialog_window, GtkWidget *window, GtkWidget 
 		// g_debug("Launch get_and_update_page_name() in recover_page_colors() for %d page!", i);
 		// g_debug("page_data->page_update_method = %d", page_data->page_update_method);
 		if (i <= PAGE_COLOR) page_data->page_update_method = dialog_data->original_update_method[i];
-		if (page_data->page_update_method == 1) page_data->window_title_updated = 1;
+		if (page_data->page_update_method == PAGE_METHOD_WINDOW_TITLE) page_data->window_title_updated = 1;
 		get_and_update_page_name(page_data, FALSE);
 	}
 }
