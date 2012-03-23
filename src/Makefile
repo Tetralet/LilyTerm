@@ -190,7 +190,6 @@ data: debug
 
 .PHONY: install
 install: $(BINARY)
-	@ echo $(PREFIX)
 	@ install -d $(DESTDIR)/$(BINDIR)
 	@ if [ -f $(BINARY) ]; then \
 		$(PRINTF) "\x1b\x5b1;33m** installing $(BINARY) to $(DESTDIR)/$(BINDIR)...\x1b\x5b0m\n" ; \

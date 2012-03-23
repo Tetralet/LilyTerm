@@ -117,21 +117,21 @@ clean:
 
 .PHONY: install
 install: all
-	@ install -d $(DESTDIR)/$(LOCALEDIR)
-	@ for FILE in $(MO_LIST); do \
-		if [ -f $$FILE ]; then \
-			$(PRINTF) "\x1b\x5b1;33m** installing $$FILE to $(DESTDIR)/$(LOCALEDIR)...\x1b\x5b0m\n" ; \
-			install -m 644 $$FILE $(DESTDIR)/$(LOCALEDIR) ; \
+	@ for FILE in $(LANG_LIST); do \
+		if [ -f $$FILE.mo ]; then \
+			install -d $(DESTDIR)/$(LOCALEDIR)/$$FILE/LC_MESSAGES/ ; \
+			$(PRINTF) "\x1b\x5b1;33m** installing $$FILE.mo to $(DESTDIR)/$(LOCALEDIR)/$$FILE/LC_MESSAGES/...\x1b\x5b0m\n" ; \
+			install -m 644 $$FILE.mo $(DESTDIR)/$(LOCALEDIR)/$$FILE/LC_MESSAGES/$(BINARY).mo ; \
 		fi ; \
 	done
 
 .PHONY: uninstall
 uninstall:
-	@ - for FILE in $(MO_LIST); do \
-		if [ -f $(DESTDIR)/$(LOCALEDIR)/$$FILE ]; then \
-			$(PRINTF) "\x1b\x5b1;35m** deleting $(DESTDIR)/$(LOCALEDIR)/$$FILE...\x1b\x5b0m\n" ; \
-			rm "$(DESTDIR)/$(LOCALEDIR)/$$FILE" ; \
-			DirName="$(DESTDIR)/$(LOCALEDIR)" ; \
+	@ - for FILE in $(LANG_LIST); do \
+		if [ -f $(DESTDIR)/$(LOCALEDIR)/$$FILE/LC_MESSAGES/$(BINARY).mo ]; then \
+			$(PRINTF) "\x1b\x5b1;35m** deleting $(DESTDIR)/$(LOCALEDIR)/$$FILE/LC_MESSAGES/$(BINARY).mo...\x1b\x5b0m\n" ; \
+			rm "$(DESTDIR)/$(LOCALEDIR)/$$FILE/LC_MESSAGES/$(BINARY).mo" ; \
+			DirName="$(DESTDIR)/$(LOCALEDIR)/$$FILE/LC_MESSAGES/" ; \
 			until [ -n "`ls -A $$DirName`" -o "$$DirName" = "$(DESTDIR)/$(PREFIX)" ]; do \
 				$(PRINTF) "\x1b\x5b1;35m** deleting $$DirName...\x1b\x5b0m\n" ; \
 				rmdir "$$DirName" ; \
