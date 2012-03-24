@@ -2,6 +2,13 @@ PACKAGE = LilyTerm
 BINARY = lilyterm
 AUTHOR = Lu, Chao-Ming (Tetralet)
 BUGREPORT = tetrlet@gmail.com
+MAINSITE = http://lilyterm.luna.com.tw/index.html
+TCSITE = http://lilyterm.luna.com.tw/index_cht.html
+GITHUBURL = https://github.com/Tetralet/LilyTerm
+BLOG = http://tetralet.luna.com.tw
+WIKI = https://github.com/Tetralet/LilyTerm/wiki
+ISSUES = https://github.com/Tetralet/LilyTerm/issues
+IRC = \#hime@freenode.net
 VERSION = 0.9.9
 LANG_LIST ?= de fr es it nl pl ru sk tr uk zh_CN zh_TW
 
@@ -10,7 +17,11 @@ ECHO = $(shell whereis -b echo | awk '{print $$2}')
 PRINTF = $(shell whereis -b printf | awk '{print $$2}')
 
 PREFIX = /usr/local
+ETCDIR = $(PREFIX)/etc/xdg
+BINDIR = $(PREFIX)/bin
 DATADIR = $(PREFIX)/share
+MANDIR = $(DATADIR)/man
+DOCDIR = $(DATADIR)/doc/$(BINARY)
 LOCALEDIR = $(DATADIR)/locale
 ICONDIR = $(DATADIR)/pixmaps
 

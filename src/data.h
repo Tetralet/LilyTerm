@@ -303,6 +303,7 @@ typedef enum {
 	KEY_SELECT_ALL,						// 27
 	KEY_COPY_CLIPBOARD,					// 28
 	KEY_PASTE_CLIPBOARD,					// 29
+	KEY_PASTE_PRIMARY,					// 39
 	KEY_INCREASE_FONT_SIZE,					// 30
 	KEY_DECREASE_FONT_SIZE,					// 31
 	KEY_RESET_FONT_SIZE,					// 32
@@ -312,7 +313,6 @@ typedef enum {
 	KEY_SCROLL_DOWN,					// 36
 	KEY_SCROLL_UP_1_LINE,					// 37
 	KEY_SCROLL_DOWN_1_LINE,					// 38
-	KEY_PASTE_PRIMARY,					// 39
 #ifdef FATAL
 	KEY_DUMP_DATA,						// 40
 #endif

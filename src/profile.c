@@ -566,9 +566,9 @@ void init_user_keys(struct Window *win_data)
 	win_data->user_keys[KEY_DISABLE_FUNCTION].value = g_strdup("Ctrl grave");
 	// New Page
 	win_data->user_keys[KEY_NEW_TAB].value = g_strdup("Ctrl T");
-	// Close Page
-	win_data->user_keys[KEY_CLOSE_TAB].value = g_strdup("Ctrl Q");
-	// Edit Page Name
+	// ### Close Page, disabled
+	// win_data->user_keys[KEY_CLOSE_TAB].value = g_strdup("Ctrl Q");
+	// ### Edit Page Name, disabled
 	// win_data->user_keys[KEY_EDIT_LABEL].value = g_strdup("Ctrl E");
 	// Find String
 	win_data->user_keys[KEY_FIND].value = g_strdup("Ctrl F");
@@ -603,8 +603,8 @@ void init_user_keys(struct Window *win_data)
 	win_data->user_keys[KEY_SWITCH_TO_TAB_10].value = g_strdup("Ctrl F10");
 	win_data->user_keys[KEY_SWITCH_TO_TAB_11].value = g_strdup("Ctrl F11");
 	win_data->user_keys[KEY_SWITCH_TO_TAB_12].value = g_strdup("Ctrl F12");
-	// open new window
-	win_data->user_keys[KEY_NEW_WINDOW].value = g_strdup("Ctrl N");
+	// #### open new window, disabled
+	// win_data->user_keys[KEY_NEW_WINDOW].value = g_strdup("Ctrl N");
 	// select all
 	win_data->user_keys[KEY_SELECT_ALL].value = g_strdup("Ctrl O");
 	// copy the text to clipboard

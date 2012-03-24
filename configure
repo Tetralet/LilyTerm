@@ -1,19 +1,7 @@
 #!/bin/bash
 
-PACKAGE=`grep "^PACKAGE = " .default | awk -F ' = ' '{print $2}'`
-BINARY=`grep "^BINARY = " .default | awk -F ' = ' '{print $2}'`
-AUTHOR=`grep "^AUTHOR = " .default | awk -F ' = ' '{print $2}'`
-BUGREPORT=`grep "^BUGREPORT = " .default | awk -F ' = ' '{print $2}'`
-VERSION=`grep "^VERSION = " .default | awk -F ' = ' '{print $2}'`
-
 PREFIX=/usr/local
 ETCDIR="\$(PREFIX)/etc/xdg"
-BINDIR="\$(PREFIX)/bin"
-DATADIR="\$(PREFIX)/share"
-MANDIR="\$(DATADIR)/man"
-DOCDIR="\$(DATADIR)/doc/\$(BINARY)"
-LOCALEDIR="\$(DATADIR)/locale"
-ICONDIR="\$(DATADIR)/pixmaps"
 
 GTK=gtk+-2.0
 
@@ -283,21 +271,8 @@ $ECHO ""
 # ---- REPORT ---- #
 
 INFO "===========================================\n"
-# $ECHO "PACKAGE   = $PACKAGE"
-# $ECHO "BINARY    = $BINARY"
-# $ECHO "VERSION   = $VERSION"
-# $ECHO "AUTHOR    = $AUTHOR"
-# $ECHO "BUGREPORT = $BUGREPORT"
 IMPORTANT "PREFIX    = $PREFIX\n"
 IMPORTANT "ETCDIR    = $ETCDIR\n"
-# $ECHO "BINDIR    = $BINDIR"
-# $ECHO "DATADIR   = $DATADIR"
-# $ECHO "MANDIR    = $MANDIR"
-# $ECHO "DOCDIR    = $DOCDIR"
-# if [ "$NLS" = 'Y' ]; then
-#  $ECHO "LOCALEDIR = $LOCALEDIR"
-# fi
-# $ECHO "ICONDIR   = $ICONDIR"
 if [ "$DEBUG" = 'Y' ]; then
   IMPORTANT "DEBUG     = $DEBUG\n"
 else
@@ -339,20 +314,9 @@ fi
 INFO "===========================================\n"
 $ECHO ""
 
-$ECHO "PACKAGE = $PACKAGE" > .config
-$ECHO "BINARY = $BINARY" >> .config
-$ECHO "VERSION = $VERSION" >> .config
-$ECHO "AUTHOR = $AUTHOR" >> .config
-$ECHO "BUGREPORT = $BUGREPORT" >> .config
 $ECHO "PREFIX = $PREFIX" >> .config
 $ECHO "ETCDIR = $ETCDIR" >> .config
-$ECHO "BINDIR = $BINDIR" >> .config
-$ECHO "DATADIR = $DATADIR" >> .config
-$ECHO "MANDIR = $MANDIR" >> .config
-$ECHO "DOCDIR = $DOCDIR" >> .config
 $ECHO "NLS = $NLS" >> .config
-$ECHO "LOCALEDIR = $LOCALEDIR" >> .config
-$ECHO "ICONDIR = $ICONDIR" >> .config
 $ECHO "DEBUG = $DEBUG" >> .config
 $ECHO "NLS = $NLS" >> .config
 $ECHO "SAFEMODE = $SAFEMODE" >> .config

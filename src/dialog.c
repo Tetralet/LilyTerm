@@ -775,7 +775,7 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 		}
 		case USAGE_MESSAGE:						// 5
 		{
-			gchar *str[14] = {NULL};
+			gchar *str[19] = {NULL};
 			gchar *temp_str;
 
 			// Create dialog
@@ -810,16 +810,11 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 			dialog_data->operate[0] = add_text_to_notebook(notebook, _("Usage"), GTK_STOCK_HELP, str[4]);
 
 			// Shortcut Keys
-			temp_str = _("Default key binding: "
-				     "(It may custom or disable by right click menu "
-				     "[Set function key value])");
-			str[5] = convert_text_to_html(&temp_str, FALSE, NULL, "tt", NULL);
-			str[6] = get_help_message_function_key(TRUE);
-			str[7] = g_strdup_printf("%s\n\n%s", str[5], str[6]);
-			dialog_data->operate[1] = add_text_to_notebook(notebook, _("Key binding"), GTK_STOCK_PREFERENCES, str[7]);
+			str[5] = get_help_message_function_key(TRUE);
+			dialog_data->operate[1] = add_text_to_notebook(notebook, _("Key binding"), GTK_STOCK_PREFERENCES, str[5]);
 
 			// License
-			str[8] = g_strdup_printf("Copyright (c) 2008-%s  %s.  All rights reserved.\n\n"
+			str[6] = g_strdup_printf("Copyright (c) 2008-2012  %s.  All rights reserved.\n\n"
 						 "%s is free software: you can redistribute it and/or modify\n"
 						 "it under the terms of the GNU General Public License as published by\n"
 						 "the Free Software Foundation, either version 3 of the License, or\n"
@@ -830,9 +825,9 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 						 "GNU General Public License for more details.\n\n"
 						 "You should have received a copy of the GNU General Public License\n"
 						 "along with %s.  If not, see <http://www.gnu.org/licenses/>.",
-						 YEAR, AUTHOR, PACKAGE, PACKAGE, PACKAGE);
-			str[9] = convert_text_to_html(&str[8], FALSE, NULL, "tt", NULL);
-			dialog_data->operate[2] = add_text_to_notebook(notebook, _("License"), GTK_STOCK_DIALOG_AUTHENTICATION, str[9]);
+						 AUTHOR, PACKAGE, PACKAGE, PACKAGE);
+			str[7] = convert_text_to_html(&str[6], FALSE, NULL, "tt", NULL);
+			dialog_data->operate[2] = add_text_to_notebook(notebook, _("License"), GTK_STOCK_DIALOG_AUTHENTICATION, str[7]);
 
 			// Translators
 			temp_str = "Adrian Buyssens: Flemish/Dutch translations.\n"
@@ -844,34 +839,32 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 				   "Samed Beyribey: Turkish translation.\n"
 				   "Slavko: Slovak translation.\n" 
 				   "Vladimir Smolyar: Russian and Ukrainian translation.";
-			str[10] = convert_text_to_html(&temp_str, FALSE, NULL, "tt", NULL);
-			dialog_data->operate[3] = add_text_to_notebook(notebook, _("Translators"), GTK_STOCK_CONVERT, str[10]);
+			str[8] = convert_text_to_html(&temp_str, FALSE, NULL, "tt", NULL);
+			dialog_data->operate[3] = add_text_to_notebook(notebook, _("Translators"), GTK_STOCK_CONVERT, str[8]);
 
 			// About
-			str[11] = g_strdup_printf (_("Thank you for using %s!"), PACKAGE);
-			str[12] = g_strdup_printf ("%s <%s>\n\n"
-						   "%s\n"
-						   "\thttp://lilyterm.luna.com.tw/index.html (Main site)\n"
-						   "\thttp://lilyterm.luna.com.tw/index_cht.html (Traditional Chinese site)\n"
-						   "\thttps://github.com/Tetralet/LilyTerm (Github site)\n\n"
-						   "%s"
-						   "\thttp://tetralet.luna.com.tw\n\n"
-						   "%s"
-						   "\thttps://github.com/Tetralet/LilyTerm/wiki\n\n"
-						   "%s"
-						   "\thttps://github.com/Tetralet/LilyTerm/issues\n\n"
-						   "%s"
-						   "\t#hime@freenode.net\n\n"
-						   "%s",
-						   AUTHOR, BUGREPORT, _("homepage:"), _("blog:"),
-						   _("Wiki:"), _("Issues:"), _("IRC:"), str[11]);
-			str[13] = convert_text_to_html(&str[12], FALSE, NULL, "tt", NULL);
-			dialog_data->operate[4] = add_text_to_notebook(notebook, _("About"), GTK_STOCK_ABOUT, str[13]);
+			str[9]  = g_strdup_printf (_("%s (Main site)"), MAINSITE);
+			str[10] = g_strdup_printf (_("%s (Traditional Chinese site)"), TCSITE);
+			str[11] = g_strdup_printf (_("%s (Github site)"), GITHUBURL);
+			str[12] = g_strdup_printf (_("Blog:   %s"), BLOG);
+			str[13] = g_strdup_printf (_("Wiki:   %s"), WIKI);
+			str[14] = g_strdup_printf (_("Issues: %s"), ISSUES);
+			str[15] = g_strdup_printf (_("IRC:    %s"), IRC);
+			str[16] = g_strdup_printf (_("Thank you for using %s!"), PACKAGE);
+			str[17] = g_strdup_printf ("%s <%s>\n\n%s\n"
+						   "\t%s\n"
+						   "\t%s\n"
+						   "\t%s\n\n"
+						   "%s\n\n%s\n\n%s\n\n%s\n\n%s",
+						   AUTHOR, BUGREPORT, _("homepage:"), str[9] ,str[10], str[11],
+						   str[12], str[13], str[14], str[15], str[16]);
+			str[18] = convert_text_to_html(&str[17], FALSE, NULL, "tt", NULL);
+			dialog_data->operate[4] = add_text_to_notebook(notebook, _("About"), GTK_STOCK_ABOUT, str[18]);
 
 			show_usage_text(notebook, NULL, 0, dialog_data);
 			g_signal_connect(G_OBJECT(notebook), "switch-page", G_CALLBACK(show_usage_text), dialog_data);
 
-			for (i=0; i<14; i++) g_free(str[i]);
+			for (i=0; i<19; i++) g_free(str[i]);
 
 			break;
 		}

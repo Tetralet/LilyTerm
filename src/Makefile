@@ -64,6 +64,13 @@ AUTHOR_CONVERT = $(shell echo "$(AUTHOR)" | sed -e 's/\([ ()]\)/\\\1/g')
 INCLUDES = -DBINARY=\"$(BINARY)\" \
 	   -DPACKAGE=\"$(PACKAGE)\" \
 	   -DBUGREPORT=\"$(BUGREPORT)\" \
+	   -DMAINSITE=\"$(MAINSITE)\" \
+	   -DTCSITE=\"$(TCSITE)\" \
+	   -DGITHUBURL=\"$(GITHUBURL)\" \
+	   -DBLOG=\"$(BLOG)\" \
+	   -DWIKI=\"$(WIKI)\" \
+	   -DISSUES=\"$(ISSUES)\" \
+	   -DIRC=\"$(IRC)\" \
 	   -DYEAR=\"$(YEAR)\" \
 	   -DLOCALEDIR=\"$(LOCALEDIR)\" \
 	   -DICONDIR=\"$(ICONDIR)\"

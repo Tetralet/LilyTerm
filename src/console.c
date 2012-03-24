@@ -106,23 +106,20 @@ gchar *get_help_message(gchar *profile)
 #endif
 	GString *help_message = g_string_new(NULL);
 	gchar *usage = get_help_message_usage(profile, FALSE);
-	gchar *function_key = get_help_message_function_key(FALSE);
-
 #ifdef DEFENSIVE
 	if (usage)
 #endif
-		g_string_append( help_message, usage);
-	g_string_append( help_message,  _("Default key binding: (It may custom or disable by right click menu [Set function key value])"));
-	g_string_append( help_message, "\n\n");
+		g_string_append(help_message, usage);
+
+	gchar *function_key = get_help_message_function_key(FALSE);
 #ifdef DEFENSIVE
 	if (function_key)
 #endif
-		g_string_append( help_message,  function_key);
-	g_string_append( help_message, "\n\n");
-	g_string_append_printf( help_message, _("Please report bug to %s."), BUGREPORT);
-	g_string_append( help_message, " ");
-	g_string_append_printf( help_message, _("Thank you for using %s!"), PACKAGE);
-	g_string_append( help_message, "\n");
+		g_string_append(help_message,  function_key);
+
+	g_string_append(help_message, "\n");
+	g_string_append_printf(help_message, _("Please report bug at <%s>.\n"), ISSUES);
+	g_string_append_printf(help_message, _("Thank you for using %s!\n"), PACKAGE);
 	g_free(usage);
 	g_free(function_key);
 	return g_string_free(help_message, FALSE);
@@ -138,26 +135,26 @@ gchar *get_help_message_usage(gchar *profile, gboolean convert_to_html)
 	GString *help_message = g_string_new(NULL);
 	gint i;
 
-	g_string_append_printf( help_message,
+	g_string_append_printf(help_message,
 					_("%s is a libvte based X Terminal Emulator.\n\n"), PACKAGE);
-	g_string_append( help_message,  _("Use -e/-x/--execute {Command} to run a command when starting up."
+	g_string_append(help_message,  _("Use -e/-x/--execute {Command} to run a command when starting up."
 					  " (Must be the final option).\n"));
-	g_string_append( help_message,  _("Use -T/--title {title} to specify the window title.\n"));
-	g_string_append( help_message,  _("Use -t/--tab {number} to open multi tabs when starting up.\n"));
-	g_string_append( help_message,  _("Use -d/--directory {directory} to specify the init directory when starting up.\n"));
-	g_string_append( help_message,  _("Use -g/--geometry {WIDTHxHEIGHT[+-]XOFFSET[+-]YOFFSET} to specify the geometry of window.\n"));
-	g_string_append( help_message,  _("Use -l/-ls/--login to make the shell invoked as a login shell.\n"));
-//	g_string_append( help_message,  _("\t\t\tThis option will be ignored when using with -e/-x/--execute option.\n"));
-	g_string_append( help_message,  _("Use -s/--separate to run in separate process.\n"));
-	g_string_append( help_message,  _("Use -v/--version to show the version information.\n"));
-	g_string_append( help_message,  _("Use -p/--profile to got a profile sample.\n"));
-	g_string_append_printf( help_message,
+	g_string_append(help_message,  _("Use -T/--title {title} to specify the window title.\n"));
+	g_string_append(help_message,  _("Use -t/--tab {number} to open multi tabs when starting up.\n"));
+	g_string_append(help_message,  _("Use -d/--directory {directory} to specify the init directory when starting up.\n"));
+	g_string_append(help_message,  _("Use -g/--geometry {WIDTHxHEIGHT[+-]XOFFSET[+-]YOFFSET} to specify the geometry of window.\n"));
+	g_string_append(help_message,  _("Use -l/-ls/--login to make the shell invoked as a login shell.\n"));
+//	g_string_append(help_message,  _("\t\t\tThis option will be ignored when using with -e/-x/--execute option.\n"));
+	g_string_append(help_message,  _("Use -s/--separate to run in separate process.\n"));
+	g_string_append(help_message,  _("Use -v/--version to show the version information.\n"));
+	g_string_append(help_message,  _("Use -p/--profile to got a profile sample.\n"));
+	g_string_append_printf(help_message,
 					_("Use -u/--user_profile {%s} to use a specified profile.\n\n"), SYS_PROFILE);
 	const char * const *system_dirs = g_get_system_config_dirs();
 	if (system_dirs)
 	{
 		for (i=0; system_dirs[i] != NULL; i++)
-			g_string_append_printf( help_message,
+			g_string_append_printf(help_message,
 					_("The %s system configure file is: %s/%s\n"), PACKAGE, system_dirs[i], SYS_PROFILE);
 	}
 
@@ -228,59 +225,50 @@ gchar *get_help_message_function_key(gboolean convert_to_html)
 #ifdef DETAIL
 	g_debug("! Launch get_help_message_function_key() with convert_to_html = %d!", convert_to_html);
 #endif
-	GString *help_message = g_string_new(NULL);
+	gchar *msg_head = _("Default key binding:");
+	gchar *disable_function_key = _("  * <Ctrl><`>           Disable/Enable hyperlinks, function keys and right click menu.");
+	GString *message = g_string_new(NULL);
+	g_string_append(message, _("  * <Ctrl><T>           Add a New tab with current directory.\n"));
+	g_string_append(message, _("  * <Ctrl><PgUp/PgDn>   Switch to Prev/Next tab.\n"));
+	g_string_append(message, _("  * <Ctrl><Home/End>    Switch to First/Last tab.\n"));
+	g_string_append(message, _("  * <Ctrl><[/]>         Move current tab Forward/Backward.\n"));
+	g_string_append(message, _("  * <Ctrl><Up/Down>     Move current tab to First/Last.\n"));
+	g_string_append(message, _("  * <Ctrl><F1~F12>      Switch to 1st ~ 12th tab.\n"));
+	g_string_append(message, _("  * <Ctrl><+/-/Enter>   Increase/Decrease/Reset the font size of current tab.\n"));
+	g_string_append(message, _("  * <Shift><Left/Right> Emulate a mouse Scroll Up/Down event on Vte Terminal box.\n"));
+	g_string_append(message, _("  * <Shift><Up/Down>    Asks to Scroll Up/Down 1 line on Vte Terminal box.\n"));
+	g_string_append(message, _("  * <Shift><PgUp/PgDn>  Gtk+ default behavior, Scroll Up/Down on Vte Terminal box.\n"));
+	g_string_append(message, _("  * <Shift><Home/End>   Gtk+ default behavior, Scroll the Terminal box to to Top/Bottom.\n"));
+	g_string_append(message, _("  * <Alt><F11/Enter>    Switch between fullwindow/unfullwindow and fullscreen/unfullscreen state.\n"));
+	g_string_append(message, _("  * <Ctrl><F>           Find text in the Vte Terminal box. Use <F3>/<Shift><F3>to find Next/Prev.\n"));
+	g_string_append(message, _("  * <Ctrl><O>           Select all the text in the Vte Terminal box.\n"));
+	g_string_append(message, _("  * <Ctrl><Del/Ins>     Copy the text to clipboard / Paste the text in clipboard.\n"));
+	g_string_append(message, _("  * <Shift><Del/Ins>    Copy the text to primary clipboard / Paste the text in primary clipboard.\n"));
+	g_string_append(message, _("                        (i.e. Emulate a middle button mouse click to copy/paste the text)\n"));
+	g_string_append(message,"\n");
+	g_string_append(message, _("Some key bindings that disabled by default but maybe useful:\n"));
+	g_string_append(message, _("  * <Ctrl><Q>           Trying to close current tab.\n"));
+	g_string_append(message, _("                        (Using <Ctrl><D> or 'exit' to close tabs is recommended)\n"));
+	g_string_append(message, _("  * <Ctrl><N>           Open a new window with current directory.\n"));
+	g_string_append(message, _("  * <Ctrl><E>           Rename the tab name of current tab.\n"));
 
-	gchar *disable_function_key = _("  * <Ctrl><`>\t\tDisable/Enable hyperlinks, function keys and right click menu.\n");
-	g_string_append( help_message,  _("  * <Ctrl><T/Q>\t\tAdd a New tab/Close current tab.\n"));
-	g_string_append( help_message,  _("\t\t\t(Using <Ctrl><D> or 'exit' to close tabs is recommended)\n"));
-	g_string_append( help_message,  _("  * <Ctrl><E>\t\tRename current tab.\n"));
-	g_string_append( help_message,  _("  * <Ctrl><PgUp/PgDn>\tSwitch to Prev/Next tab.\n"));
-	g_string_append( help_message,  _("  * <Ctrl><Home/End>\tSwitch to First/Last tab.\n"));
-	g_string_append( help_message,  _("  * <Ctrl><[/]>\t\tMove current tab Forward/Backward.\n"));
-	g_string_append( help_message,  _("  * <Ctrl><Up/Down>\tMove current tab to First/Last.\n"));
-	g_string_append( help_message,  _("  * <Ctrl><F1~F12>\tSwitch to 1st ~ 12th tab.\n"));
-	g_string_append( help_message,  _("  * <Ctrl><O>\t\tSelect all the text in the Vte Terminal box.\n"));
-	g_string_append( help_message,  _("  * <Ctrl><Del/Ins>\tCopy the text to clipboard / Paste the text in clipboard.\n"));
-	g_string_append( help_message,  _("  * <Ctrl><+/-/Enter>\tIncrease/Decrease/Reset the font size of current tab.\n"));
-	g_string_append( help_message,  _("  * <Shift><Left/Right>\tEmulate a mouse Scroll Up/Down event on Vte Terminal box.\n"));
-	g_string_append( help_message,  _("  * <Shift><Up/Down>\tAsks to Scroll Up/Down 1 line on Vte Terminal box.\n"));
-	g_string_append( help_message,  _("  * <Shift><PgUp/PgDn>\tGtk+ default behavior, Scroll Up/Down on Vte Terminal box.\n"));
-	g_string_append( help_message,  _("  * <Shift><Home/End>\tGtk+ default behavior, Scroll the Terminal box to to Top/Bottom.\n"));
-	g_string_append( help_message,  _("  * <Alt><F11/Enter>\tSwitch between fullwindow/unfullwindow and fullscreen/unfullscreen state.\n"));
-	g_string_append( help_message,  _("  * <Shift><Insert>\tVte default behavior, Paste the text in primary clipboard.\n"));
-	g_string_append( help_message,  _("\t\t\t(i.e. Emulate a middle button mouse click to paste the text)"));
+	gchar *final_message = NULL;
 	if (convert_to_html)
 	{
-		gchar *final_help_message = NULL;
-		disable_function_key = convert_text_to_html(&disable_function_key, FALSE, "darkblue", "tt", NULL);
-#ifdef DEFENSIVE
-		if (disable_function_key)
-		{
-			gchar *html_help_message = NULL;
-			if (help_message)
-				html_help_message = convert_text_to_html(&(help_message->str),
-									 FALSE, NULL, "tt", NULL);
-#else
-			gchar *html_help_message = html_help_message = convert_text_to_html(&(help_message->str),
-											    FALSE, NULL, "tt",
-											    NULL);
-#endif
+		gchar *str[5];
 
-			final_help_message = g_strdup_printf("%s%s",
-							     disable_function_key,
-							     html_help_message);
-			g_free (html_help_message);
-#ifdef DEFENSIVE
-		}
-#endif
-		g_free (disable_function_key);
-		g_string_free (help_message, TRUE);
-		// g_debug("Get html_help_message = %s", final_help_message);
-		return final_help_message;
+		str[0] = g_strdup_printf (_("TIP: These key bindings may custom or disable by right click menu [%s]."), _("Set key binding"));
+		str[1] = convert_text_to_html(&msg_head, FALSE, NULL, "tt", NULL);
+		str[2] = convert_text_to_html(&disable_function_key, FALSE, "darkred", "tt", NULL);
+		str[3] = convert_text_to_html(&(message->str), FALSE, NULL, "tt", NULL);
+		str[4] = convert_text_to_html(&str[0], FALSE, "darkblue", "tt", "b", NULL);
+		final_message = g_strdup_printf("%s\n%s\n%s\n%s", str[1], str[2], str[3], str[4]);
+		gint i;
+		for (i=0; i<5; i++) g_free(str[i]);
 	}
 	else
-	{
-		g_string_prepend (help_message, disable_function_key);
-		return g_string_free(help_message, FALSE);
-	}
+		final_message = g_strdup_printf("%s\n%s\n%s", msg_head, disable_function_key, message->str);
+
+	g_string_free (message, TRUE);
+	return final_message;
 }
