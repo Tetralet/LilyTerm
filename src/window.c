@@ -446,6 +446,7 @@ gchar *get_init_dir(pid_t pid, gchar *pwd, gchar *home)
 	if (pid>0)
 	{
 		gchar *dir = get_tab_name_with_current_dir(pid);
+		// g_debug("get_init_dir: get_tab_name_with_current_dir(%d) = %s", pid, dir);
 #ifdef DEFENSIVE
 		if (dir && (g_file_test(dir, G_FILE_TEST_EXISTS))) return dir;
 #else
@@ -3249,8 +3250,7 @@ gboolean confirm_to_paste_form_clipboard(Clipboard_Type type, struct Window *win
 #ifdef DEFENSIVE
 	if (page_data==NULL) return FALSE;
 #endif
-	pid_t tpgid = get_tpgid(page_data->pid);
-	gchar **stats = get_pid_stat(tpgid, 4);
+	gchar **stats = get_pid_stat(get_tpgid(page_data->pid), 4);
 	gboolean pasted = FALSE;
 	if ((stats) &&
 	    (check_string_in_array(stats[2], win_data->paste_texts_whitelists) == FALSE))
