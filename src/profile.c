@@ -221,17 +221,17 @@ void init_command()
 	g_debug("! Launch init_command()!");
 #endif
 
-	#define USER "[A-Za-z][-A-Za-z0-9.]*"
-	#define PASS "(:[^ \t\r\n]+)?"
-	#define LOGIN "(" USER PASS "@)?"
-	#define HOST "[A-Za-z0-9][-A-Za-z0-9.]*\\.[A-Za-z0-9]+[-A-Za-z0-9.]*[-A-Za-z0-9]*"
+	#define USERNAME "[A-Za-z][-A-Za-z0-9.]*"
+	#define PASSWORD "(:[^ \t\r\n]+)?"
+	#define LOGIN "(" USERNAME PASSWORD "@)?"
+	#define HOSTNAME "[A-Za-z0-9][-A-Za-z0-9.]*\\.[A-Za-z0-9]+[-A-Za-z0-9.]*[-A-Za-z0-9]*"
 	#define PORT "[:]*[0-9]*"
-	#define SPECIAL "([^|.< \t\r\n\\\"]*([.][^|< \t\r\n\\\"])?[^|.< \t\r\n\\\"]*)*"
-	#define END "[^<> \t\r\n,;|\\\"]*[^|.<> \t\r\n\\\"]"
+	#define ADDRESS_BODY "([^|.< \t\r\n\\\"]*([.][^|< \t\r\n\\\"])?[^|.< \t\r\n\\\"]*)*"
+	#define ADDRESS_END "[^<> \t\r\n,;|\\\"]*[^|.<> \t\r\n\\\"]"
 
 	// WWW
 	command[TAG_WWW].name = "web_browser";
-	command[TAG_WWW].match = "[Hh][Tt][Tt][Pp][Ss]?://" LOGIN HOST PORT "(/" SPECIAL END ")?/*";
+	command[TAG_WWW].match = "[Hh][Tt][Tt][Pp][Ss]?://" LOGIN HOSTNAME PORT "(/" ADDRESS_BODY ADDRESS_END ")?/*";
 	command[TAG_WWW].comment = "# The web browser using for http(s)://";
 	command[TAG_WWW].method_name = "web_method";
 	command[TAG_WWW].environ_name = "web_environ";
@@ -241,7 +241,7 @@ void init_command()
 
 	// FTP
 	command[TAG_FTP].name = "ftp_client";
-	command[TAG_FTP].match = "[Ff][Tt][Pp][Ss]?://" LOGIN HOST PORT "(/" SPECIAL END ")?/*";
+	command[TAG_FTP].match = "[Ff][Tt][Pp][Ss]?://" LOGIN HOSTNAME PORT "(/" ADDRESS_BODY ADDRESS_END ")?/*";
 	command[TAG_FTP].comment = "# The ftp client using for ftp(s)://";
 	command[TAG_FTP].method_name = "ftp_method";
 	command[TAG_FTP].environ_name = "ftp_environ";
@@ -251,7 +251,7 @@ void init_command()
 
 	// FILE
 	command[TAG_FILE].name = "file_manager";
-	command[TAG_FILE].match = "[Ff][Ii][Ll][Ee]:///" SPECIAL END;
+	command[TAG_FILE].match = "[Ff][Ii][Ll][Ee]:///" ADDRESS_BODY ADDRESS_END;
 	command[TAG_FILE].comment = "# The file manager using for file:// and [Open current directory with file manager]";
 	command[TAG_FILE].method_name = "file_method";
 	command[TAG_FILE].environ_name = "file_environ";
@@ -261,7 +261,7 @@ void init_command()
 
 	// MAIL
 	command[TAG_MAIL].name = "email_client";
-	command[TAG_MAIL].match = "([Mm][Aa][Ii][Ll][Tt][Oo]:)?" USER "@" HOST;
+	command[TAG_MAIL].match = "([Mm][Aa][Ii][Ll][Tt][Oo]:)?" USERNAME "@" HOSTNAME;
 	command[TAG_MAIL].comment = "# The email client using for user@host";
 	command[TAG_MAIL].method_name = "email_method";
 	command[TAG_MAIL].environ_name = "email_environ";
