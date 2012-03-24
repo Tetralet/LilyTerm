@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LilyTerm 0.9.6\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-22 15:32+0800\n"
+"POT-Creation-Date: 2012-03-24 20:08+0800\n"
 "PO-Revision-Date: 2010-12-14 19:09+0200\n"
 "Last-Translator: Samed Beyribey <ras0ir@eventualis.org>\n"
 "Language-Team: GNU-TR <tr@li.org>\n"
@@ -15,35 +15,23 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language: \n"
 
-#: console.c:115 dialog.c:813
-#, fuzzy
-#| msgid ""
-#| "Default shortcut key: (It may custom or disable by right click menu [Set "
-#| "function key value])"
-msgid ""
-"Default key binding: (It may custom or disable by right click menu [Set "
-"function key value])"
+#: console.c:121
+#, fuzzy, c-format
+#| msgid "Please report bug to %s. Thank you for using %s!"
+msgid "Please report bug at <%s>.\n"
 msgstr ""
-"Öntanımlı kısayol tuşu: (Sağ tık menüsünden değiştirilebilir/kaldırılabilir "
-"[Fonksiyon tuşu değeri])"
+"Lütfen hataları %s adresine bildiriniz. %s programını kullandığınız için "
+"teşekkürler!"
 
 #: console.c:122
 #, fuzzy, c-format
 #| msgid "Please report bug to %s. Thank you for using %s!"
-msgid "Please report bug to %s."
+msgid "Thank you for using %s!\n"
 msgstr ""
 "Lütfen hataları %s adresine bildiriniz. %s programını kullandığınız için "
 "teşekkürler!"
 
-#: console.c:124 dialog.c:851
-#, fuzzy, c-format
-#| msgid "Please report bug to %s. Thank you for using %s!"
-msgid "Thank you for using %s!"
-msgstr ""
-"Lütfen hataları %s adresine bildiriniz. %s programını kullandığınız için "
-"teşekkürler!"
-
-#: console.c:142
+#: console.c:139
 #, c-format
 msgid ""
 "%s is a libvte based X Terminal Emulator.\n"
@@ -52,7 +40,7 @@ msgstr ""
 "%s libvte tabanlı bir X Terminal Öykünücüsüdür.\n"
 "\n"
 
-#: console.c:143
+#: console.c:140
 msgid ""
 "Use -e/-x/--execute {Command} to run a command when starting up. (Must be "
 "the final option).\n"
@@ -60,16 +48,16 @@ msgstr ""
 "Açılışta bir programın çalıştırılması için -e / -x / --execute {Komut} "
 "kullanın. (Bu parametre en son kullanılmalıdır).\n"
 
-#: console.c:145
+#: console.c:142
 msgid "Use -T/--title {title} to specify the window title.\n"
 msgstr "Pencere başlığını belirlemek için -T/--title {başlık} kullanın.\n"
 
-#: console.c:146
+#: console.c:143
 msgid "Use -t/--tab {number} to open multi tabs when starting up.\n"
 msgstr ""
 "Açılışta birden fazla sekme oluşturmak için -t / --tab {sayı} kullanın.\n"
 
-#: console.c:147
+#: console.c:144
 msgid ""
 "Use -d/--directory {directory} to specify the init directory when starting "
 "up.\n"
@@ -77,7 +65,7 @@ msgstr ""
 "Açılışta içerisinde işlem yapılacak dizini belirtmek için -d/--directory "
 "{dizin} kullanın.\n"
 
-#: console.c:148
+#: console.c:145
 #, fuzzy
 #| msgid "Use -g/--geometry {geometry} to specify the geometry of window.\n"
 msgid ""
@@ -86,23 +74,23 @@ msgid ""
 msgstr ""
 "Pencerenin boyutlarını değiştirmek için -g/--geometry {boyut} kullanın.\n"
 
-#: console.c:149
+#: console.c:146
 msgid "Use -l/-ls/--login to make the shell invoked as a login shell.\n"
 msgstr "Kabuğu giriş kabuğu olarak belirlemek için -l/-ls/--login kullanın.\n"
 
-#: console.c:151
+#: console.c:148
 msgid "Use -s/--separate to run in separate process.\n"
 msgstr "Ayrı süreçlerde çalıştırmak için -s/--seperate kullanın.\n"
 
-#: console.c:152
+#: console.c:149
 msgid "Use -v/--version to show the version information.\n"
 msgstr "Sürüm bilgisini görüntülemek için -v/--version kullanın.\n"
 
-#: console.c:153
+#: console.c:150
 msgid "Use -p/--profile to got a profile sample.\n"
 msgstr "Profil örneğini görüntülemek için -p/--profile kullanın.\n"
 
-#: console.c:155
+#: console.c:152
 #, c-format
 msgid ""
 "Use -u/--user_profile {%s} to use a specified profile.\n"
@@ -111,135 +99,233 @@ msgstr ""
 "Belirli bir profil kullanmak için -u/--user_profile {%s} kullanın.\n"
 "\n"
 
-#: console.c:161
+#: console.c:158
 #, fuzzy, c-format
 #| msgid "The %s system config is: %s/%s\n"
 msgid "The %s system configure file is: %s/%s\n"
 msgstr "%s sistem geneli yapılandırma dosyası: %s/%s\n"
 
-#: console.c:198
+#: console.c:195
 #, c-format
 msgid "And your %s profile is: "
 msgstr "%s profiliniz:"
 
-#: console.c:200
+#: console.c:197
 #, c-format
 msgid "Your %s profile is: "
 msgstr "%s profiliniz:"
 
-#: console.c:233
+#: console.c:228
+#, fuzzy
+#| msgid "Erase Binding"
+msgid "Default key binding:"
+msgstr "Erase Binding"
+
+#: console.c:229
+#, fuzzy
+#| msgid ""
+#| "  * <Ctrl><`>\t\tDisable/Enable hyperlinks, function keys and right click "
+#| "menu.\n"
 msgid ""
-"  * <Ctrl><`>\t\tDisable/Enable hyperlinks, function keys and right click "
-"menu.\n"
+"  * <Ctrl><`>           Disable/Enable hyperlinks, function keys and right "
+"click menu."
 msgstr ""
 "  * <Ctrl><`>\t\tBağlantıları, fonksiyon tuşlarını ve sağ tıklama ile açılan "
 "menüyü etkinleştirir/devredışı bırakır.\n"
 
-#: console.c:234
-msgid "  * <Ctrl><T/Q>\t\tAdd a New tab/Close current tab.\n"
+#: console.c:231
+#, fuzzy
+#| msgid "  * <Ctrl><T/Q>\t\tAdd a New tab/Close current tab.\n"
+msgid "  * <Ctrl><T>           Add a New tab with current directory.\n"
 msgstr "  * <Ctrl><T/Q>\t\tYeni Sekme Açar/Mevcut sekmeyi kapatır.\n"
 
-#: console.c:235
-msgid "\t\t\t(Using <Ctrl><D> or 'exit' to close tabs is recommended)\n"
-msgstr ""
-"\t\t\t(Sekmeleri <Ctrl><D> veya 'exit' kullanarak kapatmanız tavsiye "
-"edilir)\n"
-
-#: console.c:236
-msgid "  * <Ctrl><E>\t\tRename current tab.\n"
-msgstr "  * <Ctrl><E>\t\tMevcut sekmeyi yeniden adlandırır.\n"
-
-#: console.c:237
-msgid "  * <Ctrl><PgUp/PgDn>\tSwitch to Prev/Next tab.\n"
+#: console.c:232
+#, fuzzy
+#| msgid "  * <Ctrl><PgUp/PgDn>\tSwitch to Prev/Next tab.\n"
+msgid "  * <Ctrl><PgUp/PgDn>   Switch to Prev/Next tab.\n"
 msgstr "  * <Ctrl><PgUp/PgDn>\tÖnceki/Sonraki sekmeye geçiş yapar.\n"
 
-#: console.c:238
-msgid "  * <Ctrl><Home/End>\tSwitch to First/Last tab.\n"
+#: console.c:233
+#, fuzzy
+#| msgid "  * <Ctrl><Home/End>\tSwitch to First/Last tab.\n"
+msgid "  * <Ctrl><Home/End>    Switch to First/Last tab.\n"
 msgstr "  * <Ctrl><Home/End>\tİlk/Son sekmeye geçiş yapar.\n"
 
-#: console.c:239
-msgid "  * <Ctrl><[/]>\t\tMove current tab Forward/Backward.\n"
+#: console.c:234
+#, fuzzy
+#| msgid "  * <Ctrl><[/]>\t\tMove current tab Forward/Backward.\n"
+msgid "  * <Ctrl><[/]>         Move current tab Forward/Backward.\n"
 msgstr "  * <Ctrl><[/]>\t\tSekmenin yerini değiştirir.\n"
 
-#: console.c:240
-msgid "  * <Ctrl><Up/Down>\tMove current tab to First/Last.\n"
+#: console.c:235
+#, fuzzy
+#| msgid "  * <Ctrl><Up/Down>\tMove current tab to First/Last.\n"
+msgid "  * <Ctrl><Up/Down>     Move current tab to First/Last.\n"
 msgstr "  * <Ctrl><Up/Down>\tMevcut sekmeyi en başa veya en sona taşır.\n"
 
-#: console.c:241
-msgid "  * <Ctrl><F1~F12>\tSwitch to 1st ~ 12th tab.\n"
+#: console.c:236
+#, fuzzy
+#| msgid "  * <Ctrl><F1~F12>\tSwitch to 1st ~ 12th tab.\n"
+msgid "  * <Ctrl><F1~F12>      Switch to 1st ~ 12th tab.\n"
 msgstr "  * <Ctrl><F1~F12>\t1 ile 12. sekmeler arasında geçiş yapar.\n"
 
-#: console.c:242
-msgid "  * <Ctrl><O>\t\tSelect all the text in the Vte Terminal box.\n"
-msgstr "  * <Ctrl><O>\t\tVte Terminalindeki tüm yazıları seçer.\n"
-
-#: console.c:243
+#: console.c:237
+#, fuzzy
+#| msgid ""
+#| "  * <Ctrl><+/-/Enter>\tIncrease/Decrease/Reset the font size of current "
+#| "tab.\n"
 msgid ""
-"  * <Ctrl><Del/Ins>\tCopy the text to clipboard / Paste the text in "
-"clipboard.\n"
-msgstr ""
-"  * <Ctrl><Del/Ins>\tYazıyı panoya kopyalar / Panodaki yazıyı yapıştırır.\n"
-
-#: console.c:244
-msgid ""
-"  * <Ctrl><+/-/Enter>\tIncrease/Decrease/Reset the font size of current "
+"  * <Ctrl><+/-/Enter>   Increase/Decrease/Reset the font size of current "
 "tab.\n"
 msgstr ""
 "  * <Ctrl><+/-/Enter>\tMevcut sekmenin yazıtipi boyutunu Artırır/Azaltır/"
 "Sıfırlar.\n"
 
-#: console.c:245
+#: console.c:238
+#, fuzzy
+#| msgid ""
+#| "  * <Shift><Left/Right>\tEmulate a mouse Scroll Up/Down event on Vte "
+#| "Terminal box.\n"
 msgid ""
-"  * <Shift><Left/Right>\tEmulate a mouse Scroll Up/Down event on Vte "
-"Terminal box.\n"
+"  * <Shift><Left/Right> Emulate a mouse Scroll Up/Down event on Vte Terminal "
+"box.\n"
 msgstr ""
 "  * <Shift><Sol/Sağ>\tVte terminalinde farenin yukarı/aşağı kaydırma tuşunu "
 "taklit eder.\n"
 
-#: console.c:246
+#: console.c:239
+#, fuzzy
+#| msgid ""
+#| "  * <Shift><Up/Down>\tAsks to Scroll Up/Down 1 line on Vte Terminal box.\n"
 msgid ""
-"  * <Shift><Up/Down>\tAsks to Scroll Up/Down 1 line on Vte Terminal box.\n"
+"  * <Shift><Up/Down>    Asks to Scroll Up/Down 1 line on Vte Terminal box.\n"
 msgstr ""
 "  * <Shift><Yukarı/Aşağı>\tVte terminalinde 1 satır aşağı/yukarı kaydırma "
 "yapar.\n"
 
-#: console.c:247
+#: console.c:240
+#, fuzzy
+#| msgid ""
+#| "  * <Shift><PgUp/PgDn>\tGtk+ default behavior, Scroll Up/Down on Vte "
+#| "Terminal box.\n"
 msgid ""
-"  * <Shift><PgUp/PgDn>\tGtk+ default behavior, Scroll Up/Down on Vte "
+"  * <Shift><PgUp/PgDn>  Gtk+ default behavior, Scroll Up/Down on Vte "
 "Terminal box.\n"
 msgstr ""
 "  * <Shift><PgUp/PgDn>\tGtk+ öntanımlı davranışı, terminalde yukarı/aşağı "
 "gider.\n"
 
-#: console.c:248
+#: console.c:241
+#, fuzzy
+#| msgid ""
+#| "  * <Shift><Home/End>\tGtk+ default behavior, Scroll the Terminal box to "
+#| "to Top/Bottom.\n"
 msgid ""
-"  * <Shift><Home/End>\tGtk+ default behavior, Scroll the Terminal box to to "
+"  * <Shift><Home/End>   Gtk+ default behavior, Scroll the Terminal box to to "
 "Top/Bottom.\n"
 msgstr ""
 "  * <Shift><Home/End>\tGtk+ öntanımlı davranışı, terminalde en üste/alta "
 "gider.\n"
 
-#: console.c:249
+#: console.c:242
+#, fuzzy
+#| msgid ""
+#| "  * <Alt><F11/Enter>\tSwitch between fullwindow/unfullwindow and "
+#| "fullscreen/unfullscreen state.\n"
 msgid ""
-"  * <Alt><F11/Enter>\tSwitch between fullwindow/unfullwindow and fullscreen/"
-"unfullscreen state.\n"
+"  * <Alt><F11/Enter>    Switch between fullwindow/unfullwindow and "
+"fullscreen/unfullscreen state.\n"
 msgstr ""
 "  * <Alt><F11/Enter>\tTam ekran moduna giriş yapar/Tam ekran modundan çıkış "
 "yapar\n"
 
-#: console.c:250
+#: console.c:243
 msgid ""
-"  * <Shift><Insert>\tVte default behavior, Paste the text in primary "
+"  * <Ctrl><F>           Find text in the Vte Terminal box. Use <F3>/"
+"<Shift><F3>to find Next/Prev.\n"
+msgstr ""
+
+#: console.c:244
+#, fuzzy
+#| msgid "  * <Ctrl><O>\t\tSelect all the text in the Vte Terminal box.\n"
+msgid "  * <Ctrl><O>           Select all the text in the Vte Terminal box.\n"
+msgstr "  * <Ctrl><O>\t\tVte Terminalindeki tüm yazıları seçer.\n"
+
+#: console.c:245
+#, fuzzy
+#| msgid ""
+#| "  * <Ctrl><Del/Ins>\tCopy the text to clipboard / Paste the text in "
+#| "clipboard.\n"
+msgid ""
+"  * <Ctrl><Del/Ins>     Copy the text to clipboard / Paste the text in "
 "clipboard.\n"
 msgstr ""
-"  * <Shift><Insert>\tVte öntanımlı davranışı, Esas panodaki yazıyı "
-"yapıştır.\n"
+"  * <Ctrl><Del/Ins>\tYazıyı panoya kopyalar / Panodaki yazıyı yapıştırır.\n"
 
-#: console.c:251
-msgid "\t\t\t(i.e. Emulate a middle button mouse click to paste the text)"
+#: console.c:246
+#, fuzzy
+#| msgid ""
+#| "  * <Ctrl><Del/Ins>\tCopy the text to clipboard / Paste the text in "
+#| "clipboard.\n"
+msgid ""
+"  * <Shift><Del/Ins>    Copy the text to primary clipboard / Paste the text "
+"in primary clipboard.\n"
+msgstr ""
+"  * <Ctrl><Del/Ins>\tYazıyı panoya kopyalar / Panodaki yazıyı yapıştırır.\n"
+
+#: console.c:247
+#, fuzzy
+#| msgid "\t\t\t(i.e. Emulate a middle button mouse click to paste the text)"
+msgid ""
+"                        (i.e. Emulate a middle button mouse click to copy/"
+"paste the text)\n"
 msgstr "\t\t\t(ör. Yapıştırmak için farenin orta tuşunun yaptığı işlemi yapar)"
 
-#: dialog.c:98 dialog.c:2735 menu.c:2475
+#: console.c:249
+msgid "Some key bindings that disabled by default but maybe useful:\n"
+msgstr ""
+
+#: console.c:250
+#, fuzzy
+#| msgid "  * <Ctrl><T/Q>\t\tAdd a New tab/Close current tab.\n"
+msgid "  * <Ctrl><Q>           Trying to close current tab.\n"
+msgstr "  * <Ctrl><T/Q>\t\tYeni Sekme Açar/Mevcut sekmeyi kapatır.\n"
+
+#: console.c:251
+#, fuzzy
+#| msgid "\t\t\t(Using <Ctrl><D> or 'exit' to close tabs is recommended)\n"
+msgid ""
+"                        (Using <Ctrl><D> or 'exit' to close tabs is "
+"recommended)\n"
+msgstr ""
+"\t\t\t(Sekmeleri <Ctrl><D> veya 'exit' kullanarak kapatmanız tavsiye "
+"edilir)\n"
+
+#: console.c:252
+msgid "  * <Ctrl><N>           Open a new window with current directory.\n"
+msgstr ""
+
+#: console.c:253
+#, fuzzy
+#| msgid "  * <Ctrl><E>\t\tRename current tab.\n"
+msgid "  * <Ctrl><E>           Rename the tab name of current tab.\n"
+msgstr "  * <Ctrl><E>\t\tMevcut sekmeyi yeniden adlandırır.\n"
+
+#: console.c:260
+#, fuzzy, c-format
+#| msgid ""
+#| "Default shortcut key: (It may custom or disable by right click menu [Set "
+#| "function key value])"
+msgid "TIP: These key bindings may custom or disable by right click menu [%s]."
+msgstr ""
+"Öntanımlı kısayol tuşu: (Sağ tık menüsünden değiştirilebilir/kaldırılabilir "
+"[Fonksiyon tuşu değeri])"
+
+#: console.c:260 menu.c:394
+msgid "Set key binding"
+msgstr ""
+
+#: dialog.c:98 dialog.c:2728 menu.c:2475
 msgid "The following error is occurred:"
 msgstr "Hata çıktısı:"
 
@@ -377,7 +463,7 @@ msgstr "Önplan rengini değiştir"
 msgid "Change the %s color on tab"
 msgstr "Sekmedeki %s rengini değiştir"
 
-#: dialog.c:581 dialog.c:2554
+#: dialog.c:581 dialog.c:2547
 msgid "Bold Demo Text"
 msgstr "Kalın Yazı Örneği"
 
@@ -389,7 +475,7 @@ msgstr "Birden çok sekme açık olduğu için onayınız gerekiyor"
 msgid "You are about to close multi tabs. Continue anyway?"
 msgstr "Birden fazla sekme kapatılacak. Devam etmek istiyor musunuz?"
 
-#: dialog.c:648 dialog.c:1149
+#: dialog.c:648 dialog.c:1142
 msgid "those tabs"
 msgstr "bu sekmeler"
 
@@ -447,171 +533,198 @@ msgstr ""
 msgid "Usage"
 msgstr "Kullanım"
 
-#: dialog.c:819
+#: dialog.c:814
 #, fuzzy
 #| msgid "Erase Binding"
 msgid "Key binding"
 msgstr "Erase Binding"
 
-#: dialog.c:835
+#: dialog.c:830
 msgid "License"
 msgstr ""
 
-#: dialog.c:848
+#: dialog.c:843
 msgid "Translators"
 msgstr ""
 
-#: dialog.c:866
+#: dialog.c:846
+#, c-format
+msgid "%s (Main site)"
+msgstr ""
+
+#: dialog.c:847
+#, c-format
+msgid "%s (Traditional Chinese site)"
+msgstr ""
+
+#: dialog.c:848
+#, c-format
+msgid "%s (Github site)"
+msgstr ""
+
+#: dialog.c:849
+#, c-format
+msgid "Blog:   %s"
+msgstr ""
+
+#: dialog.c:850
+#, c-format
+msgid "Wiki:   %s"
+msgstr ""
+
+#: dialog.c:851
+#, c-format
+msgid "Issues: %s"
+msgstr ""
+
+#: dialog.c:852
+#, c-format
+msgid "IRC:    %s"
+msgstr ""
+
+#: dialog.c:853
+#, fuzzy, c-format
+#| msgid "Please report bug to %s. Thank you for using %s!"
+msgid "Thank you for using %s!"
+msgstr ""
+"Lütfen hataları %s adresine bildiriniz. %s programını kullandığınız için "
+"teşekkürler!"
+
+#: dialog.c:859
 msgid "homepage:"
 msgstr ""
 
-#: dialog.c:866
-msgid "blog:"
-msgstr ""
-
-#: dialog.c:867
-msgid "Wiki:"
-msgstr ""
-
-#: dialog.c:867
-msgid "Issues:"
-msgstr ""
-
-#: dialog.c:867
-msgid "IRC:"
-msgstr ""
-
-#: dialog.c:869
+#: dialog.c:862
 msgid "About"
 msgstr ""
 
-#: dialog.c:885
+#: dialog.c:878
 #, c-format
 msgid "There is still a running foreground program on #%d tab:"
 msgstr "#%d numaralı sekmede hala çalışmakta olan bir uygulama var:"
 
-#: dialog.c:887
+#: dialog.c:880
 #, c-format
 msgid "Terminate it by using `kill -9 %d' is recommend if it is non-response."
 msgstr "Yanıt vermiyorsa `kill -9 %d'  kullanmanız tavsiye edilir."
 
-#: dialog.c:893 dialog.c:1064 dialog.c:1095 dialog.c:1130 dialog.c:1162
-#: dialog.c:1187
+#: dialog.c:886 dialog.c:1057 dialog.c:1088 dialog.c:1123 dialog.c:1155
+#: dialog.c:1180
 msgid "Continue anyway?"
 msgstr "Devam etmek istiyor musunuz?"
 
-#: dialog.c:895 dialog.c:1097
+#: dialog.c:888 dialog.c:1090
 msgid "Tip:"
 msgstr "İpucu"
 
-#: dialog.c:904
+#: dialog.c:897
 msgid "Confirm to close running foreground program"
 msgstr "Arkaplanda çalışan programı kapatmak için onayınız gerekiyor"
 
-#: dialog.c:921 dialog.c:1121
+#: dialog.c:914 dialog.c:1114
 msgid "this tab"
 msgstr "bu sekme"
 
-#: dialog.c:928
+#: dialog.c:921
 msgid "Change the opacity of window"
 msgstr "Pencere donukluğunu değiştir"
 
-#: dialog.c:930
+#: dialog.c:923
 #, fuzzy
 #| msgid "Change the opacity of window"
 msgid "Change the opacity of window:"
 msgstr "Pencere donukluğunu değiştir"
 
-#: dialog.c:940
+#: dialog.c:933
 #, fuzzy
 #| msgid "Change the opacity of window"
 msgid "Change the opacity of window when inactive"
 msgstr "Pencere donukluğunu değiştir"
 
-#: dialog.c:942
+#: dialog.c:935
 #, fuzzy
 #| msgid "Change the opacity of window"
 msgid "Change the opacity of window when inactive:"
 msgstr "Pencere donukluğunu değiştir"
 
-#: dialog.c:980
+#: dialog.c:973
 msgid "Change the background color in terminal"
 msgstr "Arkaplan rengini değiştir"
 
-#: dialog.c:1013
+#: dialog.c:1006
 msgid "Adjust the brightness of ANSI colors used in terminal"
 msgstr "Uçbirimde kullanılacak ANSI renklerinin parlaklığını ayarla"
 
-#: dialog.c:1019
+#: dialog.c:1012
 msgid "Adjust the brightness of ANSI colors when inactive"
 msgstr "İşlem yapılmadığı zaman ANSI renklerinin parlaklığını değiştir"
 
-#: dialog.c:1058
+#: dialog.c:1051
 msgid " is trying to execute the following command:"
 msgstr "aşağıdaki komutu çalıştırmayı deniyor:"
 
-#: dialog.c:1067
+#: dialog.c:1060
 msgid "Confirm to execute -e/-x/--execute command"
 msgstr "Çalıştırma komutu -e/-x/--execute komut için onaylayın "
 
-#: dialog.c:1086
+#: dialog.c:1079
 #, c-format
 msgid "The following programs are still running under #%d tab:"
 msgstr "#%d sekmesinde hala çalışmakta olan uygulamalar var:"
 
-#: dialog.c:1088
+#: dialog.c:1081
 msgid "Using <Ctrl><D> or 'exit' to close tabs is recommended"
 msgstr "Sekmeleri 'exit' veya <Ctrl><D> kullanarak kapatmanız tavsiye edilir"
 
-#: dialog.c:1103
+#: dialog.c:1096
 #, fuzzy
 #| msgid "Confirm to close a tab with child proccess"
 msgid "Confirm to close a tab with child process"
 msgstr "Alt süreçlerin çalıştığı sekmeyi kapatmak için onayınız gerekiyor"
 
-#: dialog.c:1126
+#: dialog.c:1119
 msgid "The following programs are still running under this window:"
 msgstr "Aşağıdaki uygulamalar bu pencere altında çalışmaya devam ediyor:"
 
-#: dialog.c:1132
+#: dialog.c:1125
 #, fuzzy
 #| msgid "Confirm to close a window with child proccess"
 msgid "Confirm to close a window with child process"
 msgstr "Alt süreçlerin çalıştığı pencereyi kapatmak için onayınız gerekiyor"
 
-#: dialog.c:1152
+#: dialog.c:1145
 #, c-format
 msgid "Confirm to close %s"
 msgstr "%s kapatılması için onayınız gerekiyor"
 
-#: dialog.c:1155
+#: dialog.c:1148
 #, c-format
 msgid "The following programs are still running under %s:"
 msgstr "%s altında hala çalışmakta olan bir uygulama var:"
 
-#: dialog.c:1183
+#: dialog.c:1176
 #, fuzzy
 #| msgid "Select all the text in the Vte Terminal box."
 msgid "Trying to paste the following texts to the Vte Terminal:"
 msgstr "Vte terminalindeki tüm yazıyı seç."
 
-#: dialog.c:1190
+#: dialog.c:1183
 #, fuzzy
 #| msgid "Select all the text in the Vte Terminal box."
 msgid "Confirm to paste texts to the Vte Terminal"
 msgstr "Vte terminalindeki tüm yazıyı seç."
 
-#: dialog.c:1208
+#: dialog.c:1201
 msgid "Join and paste"
 msgstr ""
 
-#: dialog.c:1215 menu.c:208
+#: dialog.c:1208 menu.c:208
 #, fuzzy
 #| msgid "Copy to clipboard."
 msgid "Clipboard"
 msgstr "Panoya kopyala."
 
-#: dialog.c:2279
+#: dialog.c:2272
 #, c-format
 msgid ""
 "Try to kill %s with SIGKILL() to avoid terminate those programs!\n"
@@ -620,22 +733,22 @@ msgstr ""
 "Uygulamaları sonlandırmak için %s sürecini SIGKILL() kullanın!\n"
 "(VERİ KAYBINA YOL AÇABİLİR!)"
 
-#: dialog.c:2293
+#: dialog.c:2286
 #, c-format
 msgid "Force to close all the tabs and windows, and exit %s!"
 msgstr ""
 "Bütün sekmeleri ve pencereleri kapatmaya zorla ve %s uygulamasından çık!"
 
-#: dialog.c:2418
+#: dialog.c:2411
 #, c-format
 msgid "(Disabled, duplicated with [%s])"
 msgstr "(Pasif, [%s] ile çakışıyor)"
 
-#: dialog.c:2427 dialog.c:2895 dialog.c:2946
+#: dialog.c:2420 dialog.c:2888 dialog.c:2939
 msgid "(Disabled)"
 msgstr "(Pasif)"
 
-#: dialog.c:2673
+#: dialog.c:2666
 #, c-format
 msgid ""
 "The locale \"%s\" seems NOT supported by your system!\n"
@@ -646,21 +759,21 @@ msgstr ""
 "Eğer yereli yeni eklemişseniz,\n"
 "Lütfen %s uygulamasının tüm pencerelerini kapatıp yeniden deneyin."
 
-#: dialog.c:2677
+#: dialog.c:2670
 msgid "Not supported locale!"
 msgstr "Desteklenmeyen yerel!"
 
-#: dialog.c:2747
+#: dialog.c:2740
 #, c-format
 msgid "You should upgrade to %s and recompile %s to support this feature."
 msgstr ""
 "Bu özelliğin kullanılabilmesi için %s güncellenmeli ve %s tekrar derlenmeli."
 
-#: dialog.c:2748
+#: dialog.c:2741
 msgid "Not supported feature!"
 msgstr "Desteklenmeyen özellik!"
 
-#: dialog.c:2903
+#: dialog.c:2896
 #, fuzzy, c-format
 #| msgid "Disable all the function keys of this group."
 msgid "Disable all the function keys of [%s] group."
@@ -905,10 +1018,6 @@ msgstr "Sistem yazıtipine/boyutuna sıfırla"
 #: menu.c:383
 msgid "Reset the content"
 msgstr "İçeriği sıfırla"
-
-#: menu.c:394
-msgid "Set key binding"
-msgstr ""
 
 #: menu.c:398
 msgid "User profile"
@@ -1373,6 +1482,13 @@ msgstr "\tPencere #%d, Sayfa #%d: (%d) %s\n"
 #, c-format
 msgid "\tPage #%d: (%d) %s\n"
 msgstr "\tSayfa #%d: (%d) %s\n"
+
+#~ msgid ""
+#~ "  * <Shift><Insert>\tVte default behavior, Paste the text in primary "
+#~ "clipboard.\n"
+#~ msgstr ""
+#~ "  * <Shift><Insert>\tVte öntanımlı davranışı, Esas panodaki yazıyı "
+#~ "yapıştır.\n"
 
 #~ msgid "Shortcut Key"
 #~ msgstr "Kısayol Tuşu"

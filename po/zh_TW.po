@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LilyTerm 0.9.9\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-22 15:32+0800\n"
+"POT-Creation-Date: 2012-03-24 20:08+0800\n"
 "PO-Revision-Date: 2008-03-21 00:30+0800\n"
 "Last-Translator: Tetralet <tetralet@gmail.com>\n"
 "Language-Team: Tetralet <tetralet@gmail.com>\n"
@@ -15,23 +15,19 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language: \n"
 
-#: console.c:115 dialog.c:813
-msgid ""
-"Default key binding: (It may custom or disable by right click menu [Set "
-"function key value])"
-msgstr "預設的功能鍵：（可經由滑鼠右鍵選單【設定功能鍵值】來自訂或關閉）"
-
-#: console.c:122
-#, c-format
-msgid "Please report bug to %s."
+#: console.c:121
+#, fuzzy, c-format
+#| msgid "Please report bug to %s."
+msgid "Please report bug at <%s>.\n"
 msgstr "請向 %s 回報錯誤。"
 
-#: console.c:124 dialog.c:851
-#, c-format
-msgid "Thank you for using %s!"
+#: console.c:122
+#, fuzzy, c-format
+#| msgid "Thank you for using %s!"
+msgid "Thank you for using %s!\n"
 msgstr "感謝您使用 %s！"
 
-#: console.c:142
+#: console.c:139
 #, c-format
 msgid ""
 "%s is a libvte based X Terminal Emulator.\n"
@@ -40,7 +36,7 @@ msgstr ""
 "%s 是基於 libvte 的 X 終端機模擬器。\n"
 "\n"
 
-#: console.c:143
+#: console.c:140
 msgid ""
 "Use -e/-x/--execute {Command} to run a command when starting up. (Must be "
 "the final option).\n"
@@ -48,44 +44,44 @@ msgstr ""
 "使用 -e/-x/--execute {指令} 來在啟動後執行某一特定程式。（須為最後一個選"
 "項）\n"
 
-#: console.c:145
+#: console.c:142
 msgid "Use -T/--title {title} to specify the window title.\n"
 msgstr "使用 -T/--title {標題} 來指定視窗的標題。\n"
 
-#: console.c:146
+#: console.c:143
 msgid "Use -t/--tab {number} to open multi tabs when starting up.\n"
 msgstr "使用 -t/--tab {數目} 來在啟動後開啟多個分頁。\n"
 
-#: console.c:147
+#: console.c:144
 msgid ""
 "Use -d/--directory {directory} to specify the init directory when starting "
 "up.\n"
 msgstr "使用 -d/--directory {目錄} 來指定啟動後的初始目錄。\n"
 
-#: console.c:148
+#: console.c:145
 msgid ""
 "Use -g/--geometry {WIDTHxHEIGHT[+-]XOFFSET[+-]YOFFSET} to specify the "
 "geometry of window.\n"
 msgstr ""
 "使用 -g/--geometry {寬x高[+-]X位移[+-]Y位移} 來指定視窗的大小及位置。\n"
 
-#: console.c:149
+#: console.c:146
 msgid "Use -l/-ls/--login to make the shell invoked as a login shell.\n"
 msgstr "使用 -l/-ls/--login 來在呼叫 shell 時啟用 login shell。\n"
 
-#: console.c:151
+#: console.c:148
 msgid "Use -s/--separate to run in separate process.\n"
 msgstr "使用 -s/--separate 來以獨立行程運行。\n"
 
-#: console.c:152
+#: console.c:149
 msgid "Use -v/--version to show the version information.\n"
 msgstr "使用 -v/--version 來顯示版本資訊。\n"
 
-#: console.c:153
+#: console.c:150
 msgid "Use -p/--profile to got a profile sample.\n"
 msgstr "使用 -p/--profile 以取得設定檔範例。\n"
 
-#: console.c:155
+#: console.c:152
 #, c-format
 msgid ""
 "Use -u/--user_profile {%s} to use a specified profile.\n"
@@ -94,120 +90,219 @@ msgstr ""
 "使用 -u/--user_profile {%s} 來指定使用某個特定的設定檔。\n"
 "\n"
 
-#: console.c:161
+#: console.c:158
 #, c-format
 msgid "The %s system configure file is: %s/%s\n"
 msgstr "%s 的系統設定檔為：%s/%s\n"
 
-#: console.c:198
+#: console.c:195
 #, c-format
 msgid "And your %s profile is: "
 msgstr "而您的 %s 個人設定檔則為："
 
-#: console.c:200
+#: console.c:197
 #, c-format
 msgid "Your %s profile is: "
 msgstr "您的 %s 個人設定檔為："
 
-#: console.c:233
+#: console.c:228
+#, fuzzy
+#| msgid "Set key binding"
+msgid "Default key binding:"
+msgstr "設定功能鍵"
+
+#: console.c:229
+#, fuzzy
+#| msgid ""
+#| "  * <Ctrl><`>\t\tDisable/Enable hyperlinks, function keys and right click "
+#| "menu.\n"
 msgid ""
-"  * <Ctrl><`>\t\tDisable/Enable hyperlinks, function keys and right click "
-"menu.\n"
+"  * <Ctrl><`>           Disable/Enable hyperlinks, function keys and right "
+"click menu."
 msgstr "  * <Ctrl><`>\t\t啟用/關閉超連結、功能鍵，及右鍵選單。\n"
 
-#: console.c:234
-msgid "  * <Ctrl><T/Q>\t\tAdd a New tab/Close current tab.\n"
+#: console.c:231
+#, fuzzy
+#| msgid "  * <Ctrl><T/Q>\t\tAdd a New tab/Close current tab.\n"
+msgid "  * <Ctrl><T>           Add a New tab with current directory.\n"
 msgstr "  * <Ctrl><T/Q>\t\t新增分頁/關閉目前的分頁。\n"
 
-#: console.c:235
-msgid "\t\t\t(Using <Ctrl><D> or 'exit' to close tabs is recommended)\n"
-msgstr "\t\t\t（使用 <Ctrl><D> 或 exit 來關閉分頁是比較建議的作法）\n"
-
-#: console.c:236
-msgid "  * <Ctrl><E>\t\tRename current tab.\n"
-msgstr "  * <Ctrl><E>\t\t更改目前分頁的名稱。\n"
-
-#: console.c:237
-msgid "  * <Ctrl><PgUp/PgDn>\tSwitch to Prev/Next tab.\n"
+#: console.c:232
+#, fuzzy
+#| msgid "  * <Ctrl><PgUp/PgDn>\tSwitch to Prev/Next tab.\n"
+msgid "  * <Ctrl><PgUp/PgDn>   Switch to Prev/Next tab.\n"
 msgstr "  * <Ctrl><PgUp/PgDn>\t切換至上/下一個分頁。\n"
 
-#: console.c:238
-msgid "  * <Ctrl><Home/End>\tSwitch to First/Last tab.\n"
+#: console.c:233
+#, fuzzy
+#| msgid "  * <Ctrl><Home/End>\tSwitch to First/Last tab.\n"
+msgid "  * <Ctrl><Home/End>    Switch to First/Last tab.\n"
 msgstr "  * <Ctrl><Home/End>\t切換至第一/最後一個分頁。\n"
 
-#: console.c:239
-msgid "  * <Ctrl><[/]>\t\tMove current tab Forward/Backward.\n"
+#: console.c:234
+#, fuzzy
+#| msgid "  * <Ctrl><[/]>\t\tMove current tab Forward/Backward.\n"
+msgid "  * <Ctrl><[/]>         Move current tab Forward/Backward.\n"
 msgstr "  * <Ctrl><[/]>\t\t往前/後移動該分頁。\n"
 
-#: console.c:240
-msgid "  * <Ctrl><Up/Down>\tMove current tab to First/Last.\n"
+#: console.c:235
+#, fuzzy
+#| msgid "  * <Ctrl><Up/Down>\tMove current tab to First/Last.\n"
+msgid "  * <Ctrl><Up/Down>     Move current tab to First/Last.\n"
 msgstr "  * <Ctrl><Up/Down>\t將該分頁移至第一/最後一頁。\n"
 
-#: console.c:241
-msgid "  * <Ctrl><F1~F12>\tSwitch to 1st ~ 12th tab.\n"
+#: console.c:236
+#, fuzzy
+#| msgid "  * <Ctrl><F1~F12>\tSwitch to 1st ~ 12th tab.\n"
+msgid "  * <Ctrl><F1~F12>      Switch to 1st ~ 12th tab.\n"
 msgstr "  * <Ctrl><F1~F12>\t切換到第 1 至 12 個分頁。\n"
 
-#: console.c:242
-msgid "  * <Ctrl><O>\t\tSelect all the text in the Vte Terminal box.\n"
-msgstr "  * <Ctrl><O>\t\t全選 Vte 終端機視窗裡的文字。\n"
-
-#: console.c:243
+#: console.c:237
+#, fuzzy
+#| msgid ""
+#| "  * <Ctrl><+/-/Enter>\tIncrease/Decrease/Reset the font size of current "
+#| "tab.\n"
 msgid ""
-"  * <Ctrl><Del/Ins>\tCopy the text to clipboard / Paste the text in "
-"clipboard.\n"
-msgstr "  * <Ctrl><Del/Ins>\t將文字複製至剪貼簿/貼上剪貼簿中的文字。\n"
-
-#: console.c:244
-msgid ""
-"  * <Ctrl><+/-/Enter>\tIncrease/Decrease/Reset the font size of current "
+"  * <Ctrl><+/-/Enter>   Increase/Decrease/Reset the font size of current "
 "tab.\n"
 msgstr "  * <Ctrl><+/-/Enter>\t放大/縮小/重置目前分頁的字體。\n"
 
-#: console.c:245
+#: console.c:238
+#, fuzzy
+#| msgid ""
+#| "  * <Shift><Left/Right>\tEmulate a mouse Scroll Up/Down event on Vte "
+#| "Terminal box.\n"
 msgid ""
-"  * <Shift><Left/Right>\tEmulate a mouse Scroll Up/Down event on Vte "
-"Terminal box.\n"
+"  * <Shift><Left/Right> Emulate a mouse Scroll Up/Down event on Vte Terminal "
+"box.\n"
 msgstr ""
 "  * <Shift><Left/Right>\t在 Vte 終端機視窗裡模擬一個滑鼠滾輪向上/下捲動事"
 "件。\n"
 
-#: console.c:246
+#: console.c:239
+#, fuzzy
+#| msgid ""
+#| "  * <Shift><Up/Down>\tAsks to Scroll Up/Down 1 line on Vte Terminal box.\n"
 msgid ""
-"  * <Shift><Up/Down>\tAsks to Scroll Up/Down 1 line on Vte Terminal box.\n"
+"  * <Shift><Up/Down>    Asks to Scroll Up/Down 1 line on Vte Terminal box.\n"
 msgstr "  * <Shift><Up/Down>\t試著在 Vte 終端機視窗裡向上/下捲動一行。\n"
 
-#: console.c:247
+#: console.c:240
+#, fuzzy
+#| msgid ""
+#| "  * <Shift><PgUp/PgDn>\tGtk+ default behavior, Scroll Up/Down on Vte "
+#| "Terminal box.\n"
 msgid ""
-"  * <Shift><PgUp/PgDn>\tGtk+ default behavior, Scroll Up/Down on Vte "
+"  * <Shift><PgUp/PgDn>  Gtk+ default behavior, Scroll Up/Down on Vte "
 "Terminal box.\n"
 msgstr ""
 "  * <Shift><PgUp/PgDn>\tGtk+ 預設功能，在 Vte 終端機視窗裡向上/下捲動。\n"
 
-#: console.c:248
+#: console.c:241
+#, fuzzy
+#| msgid ""
+#| "  * <Shift><Home/End>\tGtk+ default behavior, Scroll the Terminal box to "
+#| "to Top/Bottom.\n"
 msgid ""
-"  * <Shift><Home/End>\tGtk+ default behavior, Scroll the Terminal box to to "
+"  * <Shift><Home/End>   Gtk+ default behavior, Scroll the Terminal box to to "
 "Top/Bottom.\n"
 msgstr "  * <Shift><Home/End>\tGtk+ 預設功能，將 Vte 終端機視窗捲至頂/底部。\n"
 
-#: console.c:249
+#: console.c:242
+#, fuzzy
+#| msgid ""
+#| "  * <Alt><F11/Enter>\tSwitch between fullwindow/unfullwindow and "
+#| "fullscreen/unfullscreen state.\n"
 msgid ""
-"  * <Alt><F11/Enter>\tSwitch between fullwindow/unfullwindow and fullscreen/"
-"unfullscreen state.\n"
+"  * <Alt><F11/Enter>    Switch between fullwindow/unfullwindow and "
+"fullscreen/unfullscreen state.\n"
 msgstr ""
 "  * <Alt><F11/Enter>\t將視窗在 全視窗/非全視窗 及 全螢幕/非全螢幕 模式中切"
 "換。\n"
 
-#: console.c:250
+#: console.c:243
 msgid ""
-"  * <Shift><Insert>\tVte default behavior, Paste the text in primary "
-"clipboard.\n"
-msgstr "  * <Shift><Insert>\tVte 預設功能，貼上主要剪貼簿中的文字。\n"
+"  * <Ctrl><F>           Find text in the Vte Terminal box. Use <F3>/"
+"<Shift><F3>to find Next/Prev.\n"
+msgstr ""
 
-#: console.c:251
-msgid "\t\t\t(i.e. Emulate a middle button mouse click to paste the text)"
+#: console.c:244
+#, fuzzy
+#| msgid "  * <Ctrl><O>\t\tSelect all the text in the Vte Terminal box.\n"
+msgid "  * <Ctrl><O>           Select all the text in the Vte Terminal box.\n"
+msgstr "  * <Ctrl><O>\t\t全選 Vte 終端機視窗裡的文字。\n"
+
+#: console.c:245
+#, fuzzy
+#| msgid ""
+#| "  * <Ctrl><Del/Ins>\tCopy the text to clipboard / Paste the text in "
+#| "clipboard.\n"
+msgid ""
+"  * <Ctrl><Del/Ins>     Copy the text to clipboard / Paste the text in "
+"clipboard.\n"
+msgstr "  * <Ctrl><Del/Ins>\t將文字複製至剪貼簿/貼上剪貼簿中的文字。\n"
+
+#: console.c:246
+#, fuzzy
+#| msgid ""
+#| "  * <Ctrl><Del/Ins>\tCopy the text to clipboard / Paste the text in "
+#| "clipboard.\n"
+msgid ""
+"  * <Shift><Del/Ins>    Copy the text to primary clipboard / Paste the text "
+"in primary clipboard.\n"
+msgstr "  * <Ctrl><Del/Ins>\t將文字複製至剪貼簿/貼上剪貼簿中的文字。\n"
+
+#: console.c:247
+#, fuzzy
+#| msgid "\t\t\t(i.e. Emulate a middle button mouse click to paste the text)"
+msgid ""
+"                        (i.e. Emulate a middle button mouse click to copy/"
+"paste the text)\n"
 msgstr "\t\t\t（即：模擬按下了滑鼠中鍵貼上文字）"
 
-#: dialog.c:98 dialog.c:2735 menu.c:2475
+#: console.c:249
+msgid "Some key bindings that disabled by default but maybe useful:\n"
+msgstr ""
+
+#: console.c:250
+#, fuzzy
+#| msgid "  * <Ctrl><T/Q>\t\tAdd a New tab/Close current tab.\n"
+msgid "  * <Ctrl><Q>           Trying to close current tab.\n"
+msgstr "  * <Ctrl><T/Q>\t\t新增分頁/關閉目前的分頁。\n"
+
+#: console.c:251
+#, fuzzy
+#| msgid "\t\t\t(Using <Ctrl><D> or 'exit' to close tabs is recommended)\n"
+msgid ""
+"                        (Using <Ctrl><D> or 'exit' to close tabs is "
+"recommended)\n"
+msgstr "\t\t\t（使用 <Ctrl><D> 或 exit 來關閉分頁是比較建議的作法）\n"
+
+#: console.c:252
+#, fuzzy
+#| msgid "Open a new window with current dir."
+msgid "  * <Ctrl><N>           Open a new window with current directory.\n"
+msgstr "以當前目錄開啟新視窗。"
+
+#: console.c:253
+#, fuzzy
+#| msgid "  * <Ctrl><E>\t\tRename current tab.\n"
+msgid "  * <Ctrl><E>           Rename the tab name of current tab.\n"
+msgstr "  * <Ctrl><E>\t\t更改目前分頁的名稱。\n"
+
+#: console.c:260
+#, fuzzy, c-format
+#| msgid ""
+#| "Default key binding: (It may custom or disable by right click menu [Set "
+#| "function key value])"
+msgid "TIP: These key bindings may custom or disable by right click menu [%s]."
+msgstr "預設的功能鍵：（可經由滑鼠右鍵選單【設定功能鍵值】來自訂或關閉）"
+
+#: console.c:260 menu.c:394
+msgid "Set key binding"
+msgstr "設定功能鍵"
+
+#: dialog.c:98 dialog.c:2728 menu.c:2475
 msgid "The following error is occurred:"
 msgstr "發生了以下的錯誤："
 
@@ -336,7 +431,7 @@ msgstr "改變終端機的文字顏色"
 msgid "Change the %s color on tab"
 msgstr "改變分頁上的 %s 顏色"
 
-#: dialog.c:581 dialog.c:2554
+#: dialog.c:581 dialog.c:2547
 msgid "Bold Demo Text"
 msgstr "粗體範例文字"
 
@@ -348,7 +443,7 @@ msgstr "確認是否關閉多個分頁"
 msgid "You are about to close multi tabs. Continue anyway?"
 msgstr "您將要關閉多個分頁。是否無論如何仍繼續？"
 
-#: dialog.c:648 dialog.c:1149
+#: dialog.c:648 dialog.c:1142
 msgid "those tabs"
 msgstr "這些分頁"
 
@@ -397,153 +492,179 @@ msgstr "在進行了任何更動之後，別忘了儲存您的設定！"
 msgid "Usage"
 msgstr "使用說明"
 
-#: dialog.c:819
+#: dialog.c:814
 msgid "Key binding"
 msgstr "功能鍵值"
 
-#: dialog.c:835
+#: dialog.c:830
 msgid "License"
 msgstr "授權"
 
-#: dialog.c:848
+#: dialog.c:843
 msgid "Translators"
 msgstr "翻譯者"
 
-#: dialog.c:866
+#: dialog.c:846
+#, c-format
+msgid "%s (Main site)"
+msgstr ""
+
+#: dialog.c:847
+#, c-format
+msgid "%s (Traditional Chinese site)"
+msgstr ""
+
+#: dialog.c:848
+#, c-format
+msgid "%s (Github site)"
+msgstr ""
+
+#: dialog.c:849
+#, c-format
+msgid "Blog:   %s"
+msgstr ""
+
+#: dialog.c:850
+#, fuzzy, c-format
+#| msgid "Wiki:"
+msgid "Wiki:   %s"
+msgstr "維基文庫："
+
+#: dialog.c:851
+#, fuzzy, c-format
+#| msgid "Issues:"
+msgid "Issues: %s"
+msgstr "錯誤回報："
+
+#: dialog.c:852
+#, c-format
+msgid "IRC:    %s"
+msgstr ""
+
+#: dialog.c:853
+#, c-format
+msgid "Thank you for using %s!"
+msgstr "感謝您使用 %s！"
+
+#: dialog.c:859
 msgid "homepage:"
 msgstr "首頁："
 
-#: dialog.c:866
-msgid "blog:"
-msgstr "部落格："
-
-#: dialog.c:867
-msgid "Wiki:"
-msgstr "維基文庫："
-
-#: dialog.c:867
-msgid "Issues:"
-msgstr "錯誤回報："
-
-#: dialog.c:867
-msgid "IRC:"
-msgstr "IRC:"
-
-#: dialog.c:869
+#: dialog.c:862
 msgid "About"
 msgstr "關於"
 
-#: dialog.c:885
+#: dialog.c:878
 #, c-format
 msgid "There is still a running foreground program on #%d tab:"
 msgstr "在 #%d 分頁上有個前景程式尚在執行："
 
-#: dialog.c:887
+#: dialog.c:880
 #, c-format
 msgid "Terminate it by using `kill -9 %d' is recommend if it is non-response."
 msgstr "若它已失去回應，建議使用 `kill -9 %d' 來中止它。"
 
-#: dialog.c:893 dialog.c:1064 dialog.c:1095 dialog.c:1130 dialog.c:1162
-#: dialog.c:1187
+#: dialog.c:886 dialog.c:1057 dialog.c:1088 dialog.c:1123 dialog.c:1155
+#: dialog.c:1180
 msgid "Continue anyway?"
 msgstr "是否無論如何仍繼續？"
 
-#: dialog.c:895 dialog.c:1097
+#: dialog.c:888 dialog.c:1090
 msgid "Tip:"
 msgstr "小技巧："
 
-#: dialog.c:904
+#: dialog.c:897
 msgid "Confirm to close running foreground program"
 msgstr "確認是否關閉正在前景執行中的程式"
 
-#: dialog.c:921 dialog.c:1121
+#: dialog.c:914 dialog.c:1114
 msgid "this tab"
 msgstr "此分頁"
 
-#: dialog.c:928
+#: dialog.c:921
 msgid "Change the opacity of window"
 msgstr "改變視窗的透明度"
 
-#: dialog.c:930
+#: dialog.c:923
 msgid "Change the opacity of window:"
 msgstr "改變視窗的透明度："
 
-#: dialog.c:940
+#: dialog.c:933
 msgid "Change the opacity of window when inactive"
 msgstr "改變未作用時視窗的透明度"
 
-#: dialog.c:942
+#: dialog.c:935
 msgid "Change the opacity of window when inactive:"
 msgstr "改變未作用時視窗的透明度："
 
-#: dialog.c:980
+#: dialog.c:973
 msgid "Change the background color in terminal"
 msgstr "改變終端機的背景顏色"
 
-#: dialog.c:1013
+#: dialog.c:1006
 msgid "Adjust the brightness of ANSI colors used in terminal"
 msgstr "調整在終端機裡的 ANSI 顏色的亮度"
 
-#: dialog.c:1019
+#: dialog.c:1012
 msgid "Adjust the brightness of ANSI colors when inactive"
 msgstr "調整未作用時 ANSI 顏色的亮度"
 
-#: dialog.c:1058
+#: dialog.c:1051
 msgid " is trying to execute the following command:"
 msgstr "正試圖執行以下指令："
 
-#: dialog.c:1067
+#: dialog.c:1060
 msgid "Confirm to execute -e/-x/--execute command"
 msgstr "確認是否執行 -e/-x/--execute 指令"
 
-#: dialog.c:1086
+#: dialog.c:1079
 #, c-format
 msgid "The following programs are still running under #%d tab:"
 msgstr "以下程式尚在 #%d 分頁裡執行："
 
-#: dialog.c:1088
+#: dialog.c:1081
 msgid "Using <Ctrl><D> or 'exit' to close tabs is recommended"
 msgstr "使用 <Ctrl><D> 或 exit 來關閉分頁是比較建議的作法"
 
-#: dialog.c:1103
+#: dialog.c:1096
 msgid "Confirm to close a tab with child process"
 msgstr "確認是否關閉尚有子行程的分頁"
 
-#: dialog.c:1126
+#: dialog.c:1119
 msgid "The following programs are still running under this window:"
 msgstr "以下程式尚在這個視窗裡執行："
 
-#: dialog.c:1132
+#: dialog.c:1125
 msgid "Confirm to close a window with child process"
 msgstr "確認是否關閉尚有子行程的視窗"
 
-#: dialog.c:1152
+#: dialog.c:1145
 #, c-format
 msgid "Confirm to close %s"
 msgstr "確認是否關閉 %s"
 
-#: dialog.c:1155
+#: dialog.c:1148
 #, c-format
 msgid "The following programs are still running under %s:"
 msgstr "以下程式尚在 %s 裡執行："
 
-#: dialog.c:1183
+#: dialog.c:1176
 msgid "Trying to paste the following texts to the Vte Terminal:"
 msgstr "將要把以下的文字貼入 Vte 終端機視窗裡："
 
-#: dialog.c:1190
+#: dialog.c:1183
 msgid "Confirm to paste texts to the Vte Terminal"
 msgstr "確認是否要將文字貼入 Vte 終端機視窗裡"
 
-#: dialog.c:1208
+#: dialog.c:1201
 msgid "Join and paste"
 msgstr "合併後貼上"
 
-#: dialog.c:1215 menu.c:208
+#: dialog.c:1208 menu.c:208
 msgid "Clipboard"
 msgstr "剪貼簿"
 
-#: dialog.c:2279
+#: dialog.c:2272
 #, c-format
 msgid ""
 "Try to kill %s with SIGKILL() to avoid terminate those programs!\n"
@@ -552,21 +673,21 @@ msgstr ""
 "試著用 SIGKILL() 來強制關閉 %s 以避免中斷這些程式！\n"
 "【 可 能 導 致 資 料 遺 失 ！ ！ 】"
 
-#: dialog.c:2293
+#: dialog.c:2286
 #, c-format
 msgid "Force to close all the tabs and windows, and exit %s!"
 msgstr "強制關閉所有的分頁及視窗，並關閉 %s！"
 
-#: dialog.c:2418
+#: dialog.c:2411
 #, c-format
 msgid "(Disabled, duplicated with [%s])"
 msgstr "（已關閉，和【%s】重複）"
 
-#: dialog.c:2427 dialog.c:2895 dialog.c:2946
+#: dialog.c:2420 dialog.c:2888 dialog.c:2939
 msgid "(Disabled)"
 msgstr "（已關閉）"
 
-#: dialog.c:2673
+#: dialog.c:2666
 #, c-format
 msgid ""
 "The locale \"%s\" seems NOT supported by your system!\n"
@@ -577,20 +698,20 @@ msgstr ""
 "如果您剛剛才新增了 locale 資訊，\n"
 "請關閉所有的 %s 視窗並再試一次。"
 
-#: dialog.c:2677
+#: dialog.c:2670
 msgid "Not supported locale!"
 msgstr "不被支援的 locale！"
 
-#: dialog.c:2747
+#: dialog.c:2740
 #, c-format
 msgid "You should upgrade to %s and recompile %s to support this feature."
 msgstr "您應當升級至 %s 並重新編譯 %s 以支援這個功能。"
 
-#: dialog.c:2748
+#: dialog.c:2741
 msgid "Not supported feature!"
 msgstr "不被支援的功能！"
 
-#: dialog.c:2903
+#: dialog.c:2896
 #, c-format
 msgid "Disable all the function keys of [%s] group."
 msgstr "關閉群組【%s】的所有功能鍵。"
@@ -812,10 +933,6 @@ msgstr "重置為系統字型及大小"
 #: menu.c:383
 msgid "Reset the content"
 msgstr "重置分頁的內容"
-
-#: menu.c:394
-msgid "Set key binding"
-msgstr "設定功能鍵"
 
 #: menu.c:398
 msgid "User profile"
@@ -1274,3 +1391,14 @@ msgstr "\t第 #%d 視窗，第 #%d 分頁: (%d) %s\n"
 #, c-format
 msgid "\tPage #%d: (%d) %s\n"
 msgstr "\t第 #%d 分頁: (%d) %s\n"
+
+#~ msgid ""
+#~ "  * <Shift><Insert>\tVte default behavior, Paste the text in primary "
+#~ "clipboard.\n"
+#~ msgstr "  * <Shift><Insert>\tVte 預設功能，貼上主要剪貼簿中的文字。\n"
+
+#~ msgid "blog:"
+#~ msgstr "部落格："
+
+#~ msgid "IRC:"
+#~ msgstr "IRC:"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LilyTerm \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-22 15:32+0800\n"
+"POT-Creation-Date: 2012-03-24 20:08+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,187 +16,216 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: console.c:115 dialog.c:813
-msgid ""
-"Default key binding: (It may custom or disable by right click menu [Set "
-"function key value])"
+#: console.c:121
+#, c-format
+msgid "Please report bug at <%s>.\n"
 msgstr ""
 
 #: console.c:122
 #, c-format
-msgid "Please report bug to %s."
+msgid "Thank you for using %s!\n"
 msgstr ""
 
-#: console.c:124 dialog.c:851
-#, c-format
-msgid "Thank you for using %s!"
-msgstr ""
-
-#: console.c:142
+#: console.c:139
 #, c-format
 msgid ""
 "%s is a libvte based X Terminal Emulator.\n"
 "\n"
 msgstr ""
 
-#: console.c:143
+#: console.c:140
 msgid ""
 "Use -e/-x/--execute {Command} to run a command when starting up. (Must be "
 "the final option).\n"
 msgstr ""
 
-#: console.c:145
+#: console.c:142
 msgid "Use -T/--title {title} to specify the window title.\n"
 msgstr ""
 
-#: console.c:146
+#: console.c:143
 msgid "Use -t/--tab {number} to open multi tabs when starting up.\n"
 msgstr ""
 
-#: console.c:147
+#: console.c:144
 msgid ""
 "Use -d/--directory {directory} to specify the init directory when starting "
 "up.\n"
 msgstr ""
 
-#: console.c:148
+#: console.c:145
 msgid ""
 "Use -g/--geometry {WIDTHxHEIGHT[+-]XOFFSET[+-]YOFFSET} to specify the "
 "geometry of window.\n"
 msgstr ""
 
-#: console.c:149
+#: console.c:146
 msgid "Use -l/-ls/--login to make the shell invoked as a login shell.\n"
 msgstr ""
 
-#: console.c:151
+#: console.c:148
 msgid "Use -s/--separate to run in separate process.\n"
 msgstr ""
 
-#: console.c:152
+#: console.c:149
 msgid "Use -v/--version to show the version information.\n"
 msgstr ""
 
-#: console.c:153
+#: console.c:150
 msgid "Use -p/--profile to got a profile sample.\n"
 msgstr ""
 
-#: console.c:155
+#: console.c:152
 #, c-format
 msgid ""
 "Use -u/--user_profile {%s} to use a specified profile.\n"
 "\n"
 msgstr ""
 
-#: console.c:161
+#: console.c:158
 #, c-format
 msgid "The %s system configure file is: %s/%s\n"
 msgstr ""
 
-#: console.c:198
+#: console.c:195
 #, c-format
 msgid "And your %s profile is: "
 msgstr ""
 
-#: console.c:200
+#: console.c:197
 #, c-format
 msgid "Your %s profile is: "
 msgstr ""
 
-#: console.c:233
+#: console.c:228
+msgid "Default key binding:"
+msgstr ""
+
+#: console.c:229
 msgid ""
-"  * <Ctrl><`>\t\tDisable/Enable hyperlinks, function keys and right click "
-"menu.\n"
+"  * <Ctrl><`>           Disable/Enable hyperlinks, function keys and right "
+"click menu."
+msgstr ""
+
+#: console.c:231
+msgid "  * <Ctrl><T>           Add a New tab with current directory.\n"
+msgstr ""
+
+#: console.c:232
+msgid "  * <Ctrl><PgUp/PgDn>   Switch to Prev/Next tab.\n"
+msgstr ""
+
+#: console.c:233
+msgid "  * <Ctrl><Home/End>    Switch to First/Last tab.\n"
 msgstr ""
 
 #: console.c:234
-msgid "  * <Ctrl><T/Q>\t\tAdd a New tab/Close current tab.\n"
+msgid "  * <Ctrl><[/]>         Move current tab Forward/Backward.\n"
 msgstr ""
 
 #: console.c:235
-msgid "\t\t\t(Using <Ctrl><D> or 'exit' to close tabs is recommended)\n"
+msgid "  * <Ctrl><Up/Down>     Move current tab to First/Last.\n"
 msgstr ""
 
 #: console.c:236
-msgid "  * <Ctrl><E>\t\tRename current tab.\n"
+msgid "  * <Ctrl><F1~F12>      Switch to 1st ~ 12th tab.\n"
 msgstr ""
 
 #: console.c:237
-msgid "  * <Ctrl><PgUp/PgDn>\tSwitch to Prev/Next tab.\n"
+msgid ""
+"  * <Ctrl><+/-/Enter>   Increase/Decrease/Reset the font size of current "
+"tab.\n"
 msgstr ""
 
 #: console.c:238
-msgid "  * <Ctrl><Home/End>\tSwitch to First/Last tab.\n"
+msgid ""
+"  * <Shift><Left/Right> Emulate a mouse Scroll Up/Down event on Vte Terminal "
+"box.\n"
 msgstr ""
 
 #: console.c:239
-msgid "  * <Ctrl><[/]>\t\tMove current tab Forward/Backward.\n"
+msgid ""
+"  * <Shift><Up/Down>    Asks to Scroll Up/Down 1 line on Vte Terminal box.\n"
 msgstr ""
 
 #: console.c:240
-msgid "  * <Ctrl><Up/Down>\tMove current tab to First/Last.\n"
+msgid ""
+"  * <Shift><PgUp/PgDn>  Gtk+ default behavior, Scroll Up/Down on Vte "
+"Terminal box.\n"
 msgstr ""
 
 #: console.c:241
-msgid "  * <Ctrl><F1~F12>\tSwitch to 1st ~ 12th tab.\n"
+msgid ""
+"  * <Shift><Home/End>   Gtk+ default behavior, Scroll the Terminal box to to "
+"Top/Bottom.\n"
 msgstr ""
 
 #: console.c:242
-msgid "  * <Ctrl><O>\t\tSelect all the text in the Vte Terminal box.\n"
+msgid ""
+"  * <Alt><F11/Enter>    Switch between fullwindow/unfullwindow and "
+"fullscreen/unfullscreen state.\n"
 msgstr ""
 
 #: console.c:243
 msgid ""
-"  * <Ctrl><Del/Ins>\tCopy the text to clipboard / Paste the text in "
-"clipboard.\n"
+"  * <Ctrl><F>           Find text in the Vte Terminal box. Use <F3>/"
+"<Shift><F3>to find Next/Prev.\n"
 msgstr ""
 
 #: console.c:244
-msgid ""
-"  * <Ctrl><+/-/Enter>\tIncrease/Decrease/Reset the font size of current "
-"tab.\n"
+msgid "  * <Ctrl><O>           Select all the text in the Vte Terminal box.\n"
 msgstr ""
 
 #: console.c:245
 msgid ""
-"  * <Shift><Left/Right>\tEmulate a mouse Scroll Up/Down event on Vte "
-"Terminal box.\n"
+"  * <Ctrl><Del/Ins>     Copy the text to clipboard / Paste the text in "
+"clipboard.\n"
 msgstr ""
 
 #: console.c:246
 msgid ""
-"  * <Shift><Up/Down>\tAsks to Scroll Up/Down 1 line on Vte Terminal box.\n"
+"  * <Shift><Del/Ins>    Copy the text to primary clipboard / Paste the text "
+"in primary clipboard.\n"
 msgstr ""
 
 #: console.c:247
 msgid ""
-"  * <Shift><PgUp/PgDn>\tGtk+ default behavior, Scroll Up/Down on Vte "
-"Terminal box.\n"
-msgstr ""
-
-#: console.c:248
-msgid ""
-"  * <Shift><Home/End>\tGtk+ default behavior, Scroll the Terminal box to to "
-"Top/Bottom.\n"
+"                        (i.e. Emulate a middle button mouse click to copy/"
+"paste the text)\n"
 msgstr ""
 
 #: console.c:249
-msgid ""
-"  * <Alt><F11/Enter>\tSwitch between fullwindow/unfullwindow and fullscreen/"
-"unfullscreen state.\n"
+msgid "Some key bindings that disabled by default but maybe useful:\n"
 msgstr ""
 
 #: console.c:250
-msgid ""
-"  * <Shift><Insert>\tVte default behavior, Paste the text in primary "
-"clipboard.\n"
+msgid "  * <Ctrl><Q>           Trying to close current tab.\n"
 msgstr ""
 
 #: console.c:251
-msgid "\t\t\t(i.e. Emulate a middle button mouse click to paste the text)"
+msgid ""
+"                        (Using <Ctrl><D> or 'exit' to close tabs is "
+"recommended)\n"
 msgstr ""
 
-#: dialog.c:98 dialog.c:2735 menu.c:2475
+#: console.c:252
+msgid "  * <Ctrl><N>           Open a new window with current directory.\n"
+msgstr ""
+
+#: console.c:253
+msgid "  * <Ctrl><E>           Rename the tab name of current tab.\n"
+msgstr ""
+
+#: console.c:260
+#, c-format
+msgid "TIP: These key bindings may custom or disable by right click menu [%s]."
+msgstr ""
+
+#: console.c:260 menu.c:394
+msgid "Set key binding"
+msgstr ""
+
+#: dialog.c:98 dialog.c:2728 menu.c:2475
 msgid "The following error is occurred:"
 msgstr ""
 
@@ -318,7 +347,7 @@ msgstr ""
 msgid "Change the %s color on tab"
 msgstr ""
 
-#: dialog.c:581 dialog.c:2554
+#: dialog.c:581 dialog.c:2547
 msgid "Bold Demo Text"
 msgstr ""
 
@@ -330,7 +359,7 @@ msgstr ""
 msgid "You are about to close multi tabs. Continue anyway?"
 msgstr ""
 
-#: dialog.c:648 dialog.c:1149
+#: dialog.c:648 dialog.c:1142
 msgid "those tabs"
 msgstr ""
 
@@ -377,174 +406,198 @@ msgstr ""
 msgid "Usage"
 msgstr ""
 
-#: dialog.c:819
+#: dialog.c:814
 msgid "Key binding"
 msgstr ""
 
-#: dialog.c:835
+#: dialog.c:830
 msgid "License"
 msgstr ""
 
-#: dialog.c:848
+#: dialog.c:843
 msgid "Translators"
 msgstr ""
 
-#: dialog.c:866
+#: dialog.c:846
+#, c-format
+msgid "%s (Main site)"
+msgstr ""
+
+#: dialog.c:847
+#, c-format
+msgid "%s (Traditional Chinese site)"
+msgstr ""
+
+#: dialog.c:848
+#, c-format
+msgid "%s (Github site)"
+msgstr ""
+
+#: dialog.c:849
+#, c-format
+msgid "Blog:   %s"
+msgstr ""
+
+#: dialog.c:850
+#, c-format
+msgid "Wiki:   %s"
+msgstr ""
+
+#: dialog.c:851
+#, c-format
+msgid "Issues: %s"
+msgstr ""
+
+#: dialog.c:852
+#, c-format
+msgid "IRC:    %s"
+msgstr ""
+
+#: dialog.c:853
+#, c-format
+msgid "Thank you for using %s!"
+msgstr ""
+
+#: dialog.c:859
 msgid "homepage:"
 msgstr ""
 
-#: dialog.c:866
-msgid "blog:"
-msgstr ""
-
-#: dialog.c:867
-msgid "Wiki:"
-msgstr ""
-
-#: dialog.c:867
-msgid "Issues:"
-msgstr ""
-
-#: dialog.c:867
-msgid "IRC:"
-msgstr ""
-
-#: dialog.c:869
+#: dialog.c:862
 msgid "About"
 msgstr ""
 
-#: dialog.c:885
+#: dialog.c:878
 #, c-format
 msgid "There is still a running foreground program on #%d tab:"
 msgstr ""
 
-#: dialog.c:887
+#: dialog.c:880
 #, c-format
 msgid "Terminate it by using `kill -9 %d' is recommend if it is non-response."
 msgstr ""
 
-#: dialog.c:893 dialog.c:1064 dialog.c:1095 dialog.c:1130 dialog.c:1162
-#: dialog.c:1187
+#: dialog.c:886 dialog.c:1057 dialog.c:1088 dialog.c:1123 dialog.c:1155
+#: dialog.c:1180
 msgid "Continue anyway?"
 msgstr ""
 
-#: dialog.c:895 dialog.c:1097
+#: dialog.c:888 dialog.c:1090
 msgid "Tip:"
 msgstr ""
 
-#: dialog.c:904
+#: dialog.c:897
 msgid "Confirm to close running foreground program"
 msgstr ""
 
-#: dialog.c:921 dialog.c:1121
+#: dialog.c:914 dialog.c:1114
 msgid "this tab"
 msgstr ""
 
-#: dialog.c:928
+#: dialog.c:921
 msgid "Change the opacity of window"
 msgstr ""
 
-#: dialog.c:930
+#: dialog.c:923
 msgid "Change the opacity of window:"
 msgstr ""
 
-#: dialog.c:940
+#: dialog.c:933
 msgid "Change the opacity of window when inactive"
 msgstr ""
 
-#: dialog.c:942
+#: dialog.c:935
 msgid "Change the opacity of window when inactive:"
 msgstr ""
 
-#: dialog.c:980
+#: dialog.c:973
 msgid "Change the background color in terminal"
 msgstr ""
 
-#: dialog.c:1013
+#: dialog.c:1006
 msgid "Adjust the brightness of ANSI colors used in terminal"
 msgstr ""
 
-#: dialog.c:1019
+#: dialog.c:1012
 msgid "Adjust the brightness of ANSI colors when inactive"
 msgstr ""
 
-#: dialog.c:1058
+#: dialog.c:1051
 msgid " is trying to execute the following command:"
 msgstr ""
 
-#: dialog.c:1067
+#: dialog.c:1060
 msgid "Confirm to execute -e/-x/--execute command"
 msgstr ""
 
-#: dialog.c:1086
+#: dialog.c:1079
 #, c-format
 msgid "The following programs are still running under #%d tab:"
 msgstr ""
 
-#: dialog.c:1088
+#: dialog.c:1081
 msgid "Using <Ctrl><D> or 'exit' to close tabs is recommended"
 msgstr ""
 
-#: dialog.c:1103
+#: dialog.c:1096
 msgid "Confirm to close a tab with child process"
 msgstr ""
 
-#: dialog.c:1126
+#: dialog.c:1119
 msgid "The following programs are still running under this window:"
 msgstr ""
 
-#: dialog.c:1132
+#: dialog.c:1125
 msgid "Confirm to close a window with child process"
 msgstr ""
 
-#: dialog.c:1152
+#: dialog.c:1145
 #, c-format
 msgid "Confirm to close %s"
 msgstr ""
 
-#: dialog.c:1155
+#: dialog.c:1148
 #, c-format
 msgid "The following programs are still running under %s:"
 msgstr ""
 
-#: dialog.c:1183
+#: dialog.c:1176
 msgid "Trying to paste the following texts to the Vte Terminal:"
 msgstr ""
 
-#: dialog.c:1190
+#: dialog.c:1183
 msgid "Confirm to paste texts to the Vte Terminal"
 msgstr ""
 
-#: dialog.c:1208
+#: dialog.c:1201
 msgid "Join and paste"
 msgstr ""
 
-#: dialog.c:1215 menu.c:208
+#: dialog.c:1208 menu.c:208
 msgid "Clipboard"
 msgstr ""
 
-#: dialog.c:2279
+#: dialog.c:2272
 #, c-format
 msgid ""
 "Try to kill %s with SIGKILL() to avoid terminate those programs!\n"
 "(MAY CAUSE DATA LOSS!!)"
 msgstr ""
 
-#: dialog.c:2293
+#: dialog.c:2286
 #, c-format
 msgid "Force to close all the tabs and windows, and exit %s!"
 msgstr ""
 
-#: dialog.c:2418
+#: dialog.c:2411
 #, c-format
 msgid "(Disabled, duplicated with [%s])"
 msgstr ""
 
-#: dialog.c:2427 dialog.c:2895 dialog.c:2946
+#: dialog.c:2420 dialog.c:2888 dialog.c:2939
 msgid "(Disabled)"
 msgstr ""
 
-#: dialog.c:2673
+#: dialog.c:2666
 #, c-format
 msgid ""
 "The locale \"%s\" seems NOT supported by your system!\n"
@@ -552,20 +605,20 @@ msgid ""
 "Please close all the windows of %s and try again."
 msgstr ""
 
-#: dialog.c:2677
+#: dialog.c:2670
 msgid "Not supported locale!"
 msgstr ""
 
-#: dialog.c:2747
+#: dialog.c:2740
 #, c-format
 msgid "You should upgrade to %s and recompile %s to support this feature."
 msgstr ""
 
-#: dialog.c:2748
+#: dialog.c:2741
 msgid "Not supported feature!"
 msgstr ""
 
-#: dialog.c:2903
+#: dialog.c:2896
 #, c-format
 msgid "Disable all the function keys of [%s] group."
 msgstr ""
@@ -779,10 +832,6 @@ msgstr ""
 
 #: menu.c:383
 msgid "Reset the content"
-msgstr ""
-
-#: menu.c:394
-msgid "Set key binding"
 msgstr ""
 
 #: menu.c:398
