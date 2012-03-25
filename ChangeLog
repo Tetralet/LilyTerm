@@ -1,4 +1,4 @@
-2011-11-26 Lu, Chao-Ming (Tetralet) <tetralet@gmail.com>
+2012-04-04 Lu, Chao-Ming (Tetralet) <tetralet@gmail.com>
   Trying to migrate to GTK3+ but failed. Still having big trouble in handling geometry.
 
   New Feature:
@@ -30,6 +30,19 @@
 	* Add a menu item [Add other locales...] to [Change text encoding] menu subitem.
 	  Thanks BV1AL for this idea.
 	* Add a new menu item [Reload settings].
+	* A new key binding <Ctrl N>, open a new windows with current directory.
+	  Thanks mrknacky for this idea.
+	* Using <Ctrl E> to edit tab name is disable by default.
+	  Thanks Rodolfo Quesada-Zumbado for this idea.
+	* Support solarized ansi color themes from http://ethanschoonover.com/solarized.
+	  Thanks medicalwei for this idea.
+	* New handmade build system. autotools had been dropped.
+	* Added a button <Join and paste> to [Confirm to paste texts] dialog.
+	* Add a new make target: update-po to po/Makefile. Thanks caleb for this idea.
+	* Better about dialog. Thanks Mario Blättermann for this idea.
+
+  FIX:
+	* Remove '>' from URL matching. Thanks BrainWorker for reporting this bug.
 
 2011-06-15 Lu, Chao-Ming (Tetralet) <tetralet@gmail.com>
   version 0.9.9~rc9, It will be the version of 0.9.9,
