@@ -1,7 +1,9 @@
 #!/bin/bash
 
-PREFIX=/usr/local
-ETCDIR="\$(PREFIX)/etc/xdg"
+PACKAGE=`grep "^PACKAGE = " .default | awk -F ' = ' '{print $2}'`
+PREFIX=`grep "^PREFIX = " .default | awk -F ' = ' '{print $2}'`
+DATADIR=`grep "^DATADIR = " .default | awk -F ' = ' '{print $2}'`
+ETCDIR=`grep "^ETCDIR = " .default | awk -F ' = ' '{print $2}'`
 
 GTK=gtk+-2.0
 
@@ -314,7 +316,7 @@ fi
 INFO "===========================================\n"
 $ECHO ""
 
-$ECHO "PREFIX = $PREFIX" >> .config
+$ECHO "PREFIX = $PREFIX" > .config
 $ECHO "ETCDIR = $ETCDIR" >> .config
 $ECHO "NLS = $NLS" >> .config
 $ECHO "DEBUG = $DEBUG" >> .config
