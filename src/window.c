@@ -2638,9 +2638,15 @@ void dump_data (struct Window *win_data, struct Page *page_data)
 //	g_debug("- page_data->VTE_CJK_WIDTH = %d", page_data->VTE_CJK_WIDTH);
 	g_debug("- page_data->VTE_CJK_WIDTH_STR = %s", page_data->VTE_CJK_WIDTH_STR);
 	g_debug("- page_data->page_name = %s", page_data->page_name);
-	g_debug("- page_data->pid = %d", page_data->pid);
-	g_debug("- page_data->new_tpgid = %d", page_data->new_tpgid);
-	g_debug("- page_data->displayed_tpgid = %d", page_data->displayed_tpgid);
+	gchar *cmdline = get_cmdline(page_data->pid);
+	g_debug("- page_data->pid = %d, cmdline = %s", page_data->pid, cmdline);
+	g_free(cmdline);
+	cmdline = get_cmdline(page_data->new_tpgid);
+	g_debug("- page_data->new_tpgid = %d, cmdline = %s", page_data->new_tpgid, cmdline);
+	g_free(cmdline);
+	cmdline = get_cmdline(page_data->displayed_tpgid);
+	g_debug("- page_data->displayed_tpgid = %d, cmdline = %s", page_data->displayed_tpgid, cmdline);
+	g_free(cmdline);
 	g_debug("- page_data->pid_cmdline = %s", page_data->pid_cmdline);
 	g_debug("- page_data->custom_page_name = %s", page_data->custom_page_name);
 	g_debug("- page_data->tab_color = %s (%p)", page_data->tab_color, page_data->tab_color);
