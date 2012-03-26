@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LilyTerm 0.9.9\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-26 10:58+0800\n"
+"POT-Creation-Date: 2012-03-26 20:54+0800\n"
 "PO-Revision-Date: 2008-03-21 00:30+0800\n"
 "Last-Translator: GoGoNKT <gogonkt@gmail.com>\n"
 "Language-Team: GoGoNKT <gogonkt@gmail.com>\n"
@@ -295,7 +295,7 @@ msgstr ""
 #: console.c:254
 #, fuzzy
 #| msgid "  * <Ctrl><E>\t\tRename current tab.\n"
-msgid "  * <Ctrl><E>           Rename the tab name of current tab.\n"
+msgid "  * <Ctrl><E>           Rename the current tab.\n"
 msgstr "  * <Ctrl><E>\t\t更改目前分页名字。\n"
 
 #: console.c:261
@@ -310,7 +310,7 @@ msgstr "默认快捷键：（在鼠标右键菜单中【设置功能键值】里
 msgid "Set key binding"
 msgstr ""
 
-#: dialog.c:98 dialog.c:2728 menu.c:2475
+#: dialog.c:98 dialog.c:2728 menu.c:2479
 msgid "The following error is occurred:"
 msgstr "发生了以下的错误："
 
@@ -510,6 +510,25 @@ msgstr "使用说明"
 #| msgid "Erase Binding"
 msgid "Key binding"
 msgstr "删除键值"
+
+#: dialog.c:817
+#, c-format
+msgid ""
+"Copyright (c) %s-%s  %s.  All rights reserved.\n"
+"\n"
+"%s is free software: you can redistribute it and/or modify\n"
+"it under the terms of the GNU General Public License as published by\n"
+"the Free Software Foundation, either version 3 of the License, or\n"
+"(at your option) any later version.\n"
+"\n"
+"%s is distributed in the hope that it will be useful,\n"
+"but WITHOUT ANY WARRANTY; without even the implied warranty of\n"
+"MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n"
+"GNU General Public License for more details.\n"
+"\n"
+"You should have received a copy of the GNU General Public License\n"
+"along with %s.  If not, see <http://www.gnu.org/licenses/>."
+msgstr ""
 
 #: dialog.c:830
 msgid "License"
@@ -1062,7 +1081,15 @@ msgstr "关闭：尝试以【透明背景】代替。"
 msgid "Scroll the background image along with the text"
 msgstr "随着文字卷动背景图片"
 
-#: menu.c:2473
+#: menu.c:2313
+msgid "Open File"
+msgstr ""
+
+#: menu.c:2315
+msgid "Save File"
+msgstr ""
+
+#: menu.c:2477
 #, fuzzy, c-format
 #| msgid "The following error is occurred:"
 msgid "The following error is occurred: %s"
@@ -1377,6 +1404,22 @@ msgstr "Root 权限"
 #: profile.c:888
 msgid "Normal Text"
 msgstr "一般文字"
+
+#: profile.c:922
+msgid "Shift"
+msgstr ""
+
+#: profile.c:926
+msgid "Ctrl"
+msgstr ""
+
+#: profile.c:928
+msgid "Alt"
+msgstr ""
+
+#: profile.c:938
+msgid "Win"
+msgstr ""
 
 #: profile.c:2555
 msgid "The target file does NOT exist"
