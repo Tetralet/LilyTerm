@@ -2311,7 +2311,7 @@ GtkWidget *create_load_file_dialog(GtkFileChooserAction action, GtkWidget *windo
 		window, filename);
 #endif
 	gchar *window_title = _("Open File");
-	if (GtkFileChooserAction == GTK_FILE_CHOOSER_ACTION_OPEN)
+	if (action == GTK_FILE_CHOOSER_ACTION_SAVE)
 		window_title = _("Save File");
 
 	GtkWidget *dialog;
