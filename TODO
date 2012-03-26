@@ -27,7 +27,6 @@ Save settings that diff and full
 * replace sleep with time_out
 ** custom URL match
 * custom protocal matches <- very hard to implement
-** fix solarized ansi color themes.
 * the copy/paste key -> <ctrl><shift><c>/<ctrl><shift><v>
 
 Deprecated:

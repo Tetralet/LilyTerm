@@ -408,15 +408,19 @@ gboolean get_and_update_page_name(struct Page *page_data, gboolean lost_focus)
 		// we Must clean the value for page_color here. for drag&drop tabs.
 		page_data->tab_color = NULL;
 
-	g_free(page_data->page_name);
+	gchar *old_page_name = page_data->page_name;
 	gchar *local_page_name = convert_str_to_utf8(page_name, page_data->encoding_str);
 #ifdef DEFENSIVE
 	if (local_page_name == NULL)
+	{
+		// g_debug("PAGENAME: get_and_update_page_name(), vte = %p, set page_data->page_name = %s", page_name);
 		page_data->page_name = page_name;
+	}
 	else
 	{
 #endif
 		g_free(page_name);
+		// g_debug("PAGENAME: get_and_update_page_name(): vte = %p, set page_data->page_name = %s",page_data->vte, page_name);
 		page_data->page_name = local_page_name;
 #ifdef DEFENSIVE
 	}
@@ -425,8 +429,8 @@ gboolean get_and_update_page_name(struct Page *page_data, gboolean lost_focus)
 	gboolean return_value = FALSE;
 	// g_debug ("Launch update_page_name() in get_and_update_page_name()!!!");
 	if (update_page_name(page_data->window, page_data->vte, page_data->page_name, page_data->label_text,
-			    page_data->page_no+1, page_data->custom_page_name, page_color, page_data->is_root,
-			    page_data->is_bold, compare_strings(win_data->runtime_encoding,
+			     page_data->page_no+1, page_data->custom_page_name, page_color, page_data->is_root,
+			     page_data->is_bold, compare_strings(win_data->runtime_encoding,
 			    					page_data->encoding_str,
 								FALSE),
 			    page_data->encoding_str, page_data->custom_window_title, lost_focus))
@@ -436,6 +440,8 @@ gboolean get_and_update_page_name(struct Page *page_data, gboolean lost_focus)
 		if (! lost_focus)
 		{
 			page_data->displayed_tpgid = page_data->new_tpgid;
+			// g_debug("PAGENAME: vte = %p, update_page_name() success, set page_data->displayed_tpgid = %d",
+			//	page_data->vte, page_data->displayed_tpgid);
 			g_free(page_data->window_title_pwd);
 			page_data->window_title_pwd = g_strdup(page_data->pwd);
 		}
@@ -446,14 +452,26 @@ gboolean get_and_update_page_name(struct Page *page_data, gboolean lost_focus)
 
 		return_value = TRUE;
 	}
-	else if (page_data->page_update_method == PAGE_METHOD_WINDOW_TITLE)
-		page_data->window_title_updated = PAGE_METHOD_CMDLINE;
+	else
+	{
+		gchar *temp_page_name = old_page_name;
+		old_page_name = page_data->page_name;
+		page_data->page_name = temp_page_name;
+
+		if (page_data->page_update_method == PAGE_METHOD_WINDOW_TITLE)
+			page_data->window_title_updated = PAGE_METHOD_CMDLINE;
+	}
+	g_free(old_page_name);
 
 	// update page_data->pwd or page_data->window_title_pwd, if it was not updated
 	if (page_data->page_update_method == PAGE_METHOD_WINDOW_TITLE)
 	{
 		if (win_data->page_shows_current_cmdline)
+		{
 			page_data->displayed_tpgid = page_data->new_tpgid;
+			// g_debug("PAGENAME: vte = %p, page_update_method == PAGE_METHOD_WINDOW_TITLE, set page_data->displayed_tpgid = %d",
+			//	page_data->vte, page_data->displayed_tpgid);
+		}
 
 		if (win_data->page_shows_current_dir)
 		{
