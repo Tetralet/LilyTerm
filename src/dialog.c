@@ -814,18 +814,18 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 			dialog_data->operate[1] = add_text_to_notebook(notebook, _("Key binding"), GTK_STOCK_PREFERENCES, str[5]);
 
 			// License
-			str[6] = g_strdup_printf("Copyright (c) 2008-2012  %s.  All rights reserved.\n\n"
-						 "%s is free software: you can redistribute it and/or modify\n"
-						 "it under the terms of the GNU General Public License as published by\n"
-						 "the Free Software Foundation, either version 3 of the License, or\n"
-						 "(at your option) any later version.\n\n"
-						 "%s is distributed in the hope that it will be useful,\n"
-						 "but WITHOUT ANY WARRANTY; without even the implied warranty of\n"
-						 "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n"
-						 "GNU General Public License for more details.\n\n"
-						 "You should have received a copy of the GNU General Public License\n"
-						 "along with %s.  If not, see <http://www.gnu.org/licenses/>.",
-						 AUTHOR, PACKAGE, PACKAGE, PACKAGE);
+			str[6] = g_strdup_printf(_("Copyright (c) %s-%s  %s.  All rights reserved.\n\n"
+						   "%s is free software: you can redistribute it and/or modify\n"
+						   "it under the terms of the GNU General Public License as published by\n"
+						   "the Free Software Foundation, either version 3 of the License, or\n"
+						   "(at your option) any later version.\n\n"
+						   "%s is distributed in the hope that it will be useful,\n"
+						   "but WITHOUT ANY WARRANTY; without even the implied warranty of\n"
+						   "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n"
+						   "GNU General Public License for more details.\n\n"
+						   "You should have received a copy of the GNU General Public License\n"
+						   "along with %s.  If not, see <http://www.gnu.org/licenses/>."),
+						   "2008", YEAR, AUTHOR, PACKAGE, PACKAGE, PACKAGE);
 			str[7] = convert_text_to_html(&str[6], FALSE, NULL, "tt", NULL);
 			dialog_data->operate[2] = add_text_to_notebook(notebook, _("License"), GTK_STOCK_DIALOG_AUTHENTICATION, str[7]);
 
