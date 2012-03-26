@@ -2310,16 +2310,20 @@ GtkWidget *create_load_file_dialog(GtkFileChooserAction action, GtkWidget *windo
 	g_debug("! Launch create_load_file_dialog() with window = %p, filename =%s",
 		window, filename);
 #endif
+	gchar *window_title = _("Open File");
+	if (GtkFileChooserAction == GTK_FILE_CHOOSER_ACTION_OPEN)
+		window_title = _("Save File");
+
 	GtkWidget *dialog;
 	if (gtk_alternative_dialog_button_order(NULL))
-		dialog = gtk_file_chooser_dialog_new ("Open File",
+		dialog = gtk_file_chooser_dialog_new (window_title,
 						      GTK_WINDOW(window),
 						      action,
 						      button_text, GTK_RESPONSE_ACCEPT,
 						      GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 						      NULL);
 	else
-		dialog = gtk_file_chooser_dialog_new ("Open File",
+		dialog = gtk_file_chooser_dialog_new (window_title,
 						      GTK_WINDOW(window),
 						      action,
 						      GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
