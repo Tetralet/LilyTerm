@@ -119,7 +119,8 @@ gchar *get_help_message(gchar *profile)
 
 	g_string_append(help_message, "\n");
 	g_string_append_printf(help_message, _("Please report bug at <%s>.\n"), ISSUES);
-	g_string_append_printf(help_message, _("Thank you for using %s!\n"), PACKAGE);
+	g_string_append_printf(help_message, _("Thank you for using %s!"), PACKAGE);
+	g_string_append(help_message, "\n");
 	g_free(usage);
 	g_free(function_key);
 	return g_string_free(help_message, FALSE);
@@ -240,7 +241,7 @@ gchar *get_help_message_function_key(gboolean convert_to_html)
 	g_string_append(message, _("  * <Shift><PgUp/PgDn>  Gtk+ default behavior, Scroll Up/Down on Vte Terminal box.\n"));
 	g_string_append(message, _("  * <Shift><Home/End>   Gtk+ default behavior, Scroll the Terminal box to to Top/Bottom.\n"));
 	g_string_append(message, _("  * <Alt><F11/Enter>    Switch between fullwindow/unfullwindow and fullscreen/unfullscreen state.\n"));
-	g_string_append(message, _("  * <Ctrl><F>           Find text in the Vte Terminal box. Use <F3>/<Shift><F3>to find Next/Prev.\n"));
+	g_string_append(message, _("  * <Ctrl><F>           Find text in the Vte Terminal box. Use <F3>/<Shift><F3> to find Next/Prev.\n"));
 	g_string_append(message, _("  * <Ctrl><O>           Select all the text in the Vte Terminal box.\n"));
 	g_string_append(message, _("  * <Ctrl><Del/Ins>     Copy the text to clipboard / Paste the text in clipboard.\n"));
 	g_string_append(message, _("  * <Shift><Del/Ins>    Copy the text to primary clipboard / Paste the text in primary clipboard.\n"));

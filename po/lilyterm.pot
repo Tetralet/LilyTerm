@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LilyTerm \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-24 20:08+0800\n"
+"POT-Creation-Date: 2012-03-26 10:58+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -21,207 +21,207 @@ msgstr ""
 msgid "Please report bug at <%s>.\n"
 msgstr ""
 
-#: console.c:122
+#: console.c:122 dialog.c:853
 #, c-format
-msgid "Thank you for using %s!\n"
+msgid "Thank you for using %s!"
 msgstr ""
 
-#: console.c:139
+#: console.c:140
 #, c-format
 msgid ""
 "%s is a libvte based X Terminal Emulator.\n"
 "\n"
 msgstr ""
 
-#: console.c:140
+#: console.c:141
 msgid ""
 "Use -e/-x/--execute {Command} to run a command when starting up. (Must be "
 "the final option).\n"
 msgstr ""
 
-#: console.c:142
+#: console.c:143
 msgid "Use -T/--title {title} to specify the window title.\n"
 msgstr ""
 
-#: console.c:143
+#: console.c:144
 msgid "Use -t/--tab {number} to open multi tabs when starting up.\n"
 msgstr ""
 
-#: console.c:144
+#: console.c:145
 msgid ""
 "Use -d/--directory {directory} to specify the init directory when starting "
 "up.\n"
 msgstr ""
 
-#: console.c:145
+#: console.c:146
 msgid ""
 "Use -g/--geometry {WIDTHxHEIGHT[+-]XOFFSET[+-]YOFFSET} to specify the "
 "geometry of window.\n"
 msgstr ""
 
-#: console.c:146
+#: console.c:147
 msgid "Use -l/-ls/--login to make the shell invoked as a login shell.\n"
 msgstr ""
 
-#: console.c:148
+#: console.c:149
 msgid "Use -s/--separate to run in separate process.\n"
 msgstr ""
 
-#: console.c:149
+#: console.c:150
 msgid "Use -v/--version to show the version information.\n"
 msgstr ""
 
-#: console.c:150
+#: console.c:151
 msgid "Use -p/--profile to got a profile sample.\n"
 msgstr ""
 
-#: console.c:152
+#: console.c:153
 #, c-format
 msgid ""
 "Use -u/--user_profile {%s} to use a specified profile.\n"
 "\n"
 msgstr ""
 
-#: console.c:158
+#: console.c:159
 #, c-format
 msgid "The %s system configure file is: %s/%s\n"
 msgstr ""
 
-#: console.c:195
+#: console.c:196
 #, c-format
 msgid "And your %s profile is: "
 msgstr ""
 
-#: console.c:197
+#: console.c:198
 #, c-format
 msgid "Your %s profile is: "
 msgstr ""
 
-#: console.c:228
+#: console.c:229
 msgid "Default key binding:"
 msgstr ""
 
-#: console.c:229
+#: console.c:230
 msgid ""
 "  * <Ctrl><`>           Disable/Enable hyperlinks, function keys and right "
 "click menu."
 msgstr ""
 
-#: console.c:231
+#: console.c:232
 msgid "  * <Ctrl><T>           Add a New tab with current directory.\n"
 msgstr ""
 
-#: console.c:232
+#: console.c:233
 msgid "  * <Ctrl><PgUp/PgDn>   Switch to Prev/Next tab.\n"
 msgstr ""
 
-#: console.c:233
+#: console.c:234
 msgid "  * <Ctrl><Home/End>    Switch to First/Last tab.\n"
 msgstr ""
 
-#: console.c:234
+#: console.c:235
 msgid "  * <Ctrl><[/]>         Move current tab Forward/Backward.\n"
 msgstr ""
 
-#: console.c:235
+#: console.c:236
 msgid "  * <Ctrl><Up/Down>     Move current tab to First/Last.\n"
 msgstr ""
 
-#: console.c:236
+#: console.c:237
 msgid "  * <Ctrl><F1~F12>      Switch to 1st ~ 12th tab.\n"
 msgstr ""
 
-#: console.c:237
+#: console.c:238
 msgid ""
 "  * <Ctrl><+/-/Enter>   Increase/Decrease/Reset the font size of current "
 "tab.\n"
 msgstr ""
 
-#: console.c:238
+#: console.c:239
 msgid ""
 "  * <Shift><Left/Right> Emulate a mouse Scroll Up/Down event on Vte Terminal "
 "box.\n"
 msgstr ""
 
-#: console.c:239
+#: console.c:240
 msgid ""
 "  * <Shift><Up/Down>    Asks to Scroll Up/Down 1 line on Vte Terminal box.\n"
 msgstr ""
 
-#: console.c:240
+#: console.c:241
 msgid ""
 "  * <Shift><PgUp/PgDn>  Gtk+ default behavior, Scroll Up/Down on Vte "
 "Terminal box.\n"
 msgstr ""
 
-#: console.c:241
+#: console.c:242
 msgid ""
 "  * <Shift><Home/End>   Gtk+ default behavior, Scroll the Terminal box to to "
 "Top/Bottom.\n"
 msgstr ""
 
-#: console.c:242
+#: console.c:243
 msgid ""
 "  * <Alt><F11/Enter>    Switch between fullwindow/unfullwindow and "
 "fullscreen/unfullscreen state.\n"
 msgstr ""
 
-#: console.c:243
+#: console.c:244
 msgid ""
 "  * <Ctrl><F>           Find text in the Vte Terminal box. Use <F3>/"
-"<Shift><F3>to find Next/Prev.\n"
-msgstr ""
-
-#: console.c:244
-msgid "  * <Ctrl><O>           Select all the text in the Vte Terminal box.\n"
+"<Shift><F3> to find Next/Prev.\n"
 msgstr ""
 
 #: console.c:245
+msgid "  * <Ctrl><O>           Select all the text in the Vte Terminal box.\n"
+msgstr ""
+
+#: console.c:246
 msgid ""
 "  * <Ctrl><Del/Ins>     Copy the text to clipboard / Paste the text in "
 "clipboard.\n"
 msgstr ""
 
-#: console.c:246
+#: console.c:247
 msgid ""
 "  * <Shift><Del/Ins>    Copy the text to primary clipboard / Paste the text "
 "in primary clipboard.\n"
 msgstr ""
 
-#: console.c:247
+#: console.c:248
 msgid ""
 "                        (i.e. Emulate a middle button mouse click to copy/"
 "paste the text)\n"
 msgstr ""
 
-#: console.c:249
+#: console.c:250
 msgid "Some key bindings that disabled by default but maybe useful:\n"
 msgstr ""
 
-#: console.c:250
+#: console.c:251
 msgid "  * <Ctrl><Q>           Trying to close current tab.\n"
 msgstr ""
 
-#: console.c:251
+#: console.c:252
 msgid ""
 "                        (Using <Ctrl><D> or 'exit' to close tabs is "
 "recommended)\n"
 msgstr ""
 
-#: console.c:252
+#: console.c:253
 msgid "  * <Ctrl><N>           Open a new window with current directory.\n"
 msgstr ""
 
-#: console.c:253
+#: console.c:254
 msgid "  * <Ctrl><E>           Rename the tab name of current tab.\n"
 msgstr ""
 
-#: console.c:260
+#: console.c:261
 #, c-format
 msgid "TIP: These key bindings may custom or disable by right click menu [%s]."
 msgstr ""
 
-#: console.c:260 menu.c:394
+#: console.c:261 menu.c:394
 msgid "Set key binding"
 msgstr ""
 
@@ -451,11 +451,6 @@ msgstr ""
 #: dialog.c:852
 #, c-format
 msgid "IRC:    %s"
-msgstr ""
-
-#: dialog.c:853
-#, c-format
-msgid "Thank you for using %s!"
 msgstr ""
 
 #: dialog.c:859
@@ -916,17 +911,17 @@ msgstr ""
 msgid "↲"
 msgstr ""
 
-#: notebook.c:664
+#: notebook.c:665
 msgid "Error while creating the child process:"
 msgstr ""
 
-#: notebook.c:673
+#: notebook.c:674
 msgid ""
 "Error while creating the child process!\n"
 "Please make sure the /dev/pts is mounted as a devpts file system!"
 msgstr ""
 
-#: notebook.c:686
+#: notebook.c:687
 msgid "Error when creating child process"
 msgstr ""
 
@@ -1267,12 +1262,12 @@ msgstr ""
 msgid "The profile is invalid!"
 msgstr ""
 
-#: window.c:711
+#: window.c:712
 #, c-format
 msgid "\tWindow #%d, Page #%d: (%d) %s\n"
 msgstr ""
 
-#: window.c:715
+#: window.c:716
 #, c-format
 msgid "\tPage #%d: (%d) %s\n"
 msgstr ""

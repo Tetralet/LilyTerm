@@ -76,17 +76,18 @@ endif
 	@#  echo '' >> $(BINARY).po
 	@#  echo 'msgid "A light and easy to use libvte based X Terminal Emulator"' >> $(BINARY).po
 	@#  echo 'msgstr ""' >> $(BINARY).po
-	@ if ($(MSGCMP) $(MSGCMP_PARAMETER) $(BINARY).pot $(BINARY).po) then \
+	@ if ($(MSGCMP) $(MSGCMP_PARAMETER) $(BINARY).pot $(BINARY).po > /dev/null 2>&1) then \
 		rm $(BINARY).po ; \
 	else \
 		$(PRINTF) "\x1b\x5b1;36m** creating $(BINARY).pot...\x1b\x5b0m\n" ; \
 		mv $(BINARY).po $(BINARY).pot ; \
+		echo "" ; \
 	fi
 
 $(BINARY).pot: pot
 
 .PHONY: po
-po: $(MO_LIST)
+po: $(PO_LIST)
 
 %.po: $(BINARY).pot
 ifeq ($(MSGMERGE), )

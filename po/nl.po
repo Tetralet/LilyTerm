@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LilyTerm 0.9.9\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-24 20:08+0800\n"
+"POT-Creation-Date: 2012-03-26 10:58+0800\n"
 "PO-Revision-Date: 2010-11-19 17:08+0100\n"
 "Last-Translator: Adrian Buyssens <howitzer@archlinux.us>\n"
 "Language-Team: Adrian Buyssens <howitzer@archlinux.us>\n"
@@ -21,20 +21,20 @@ msgstr ""
 msgid "Please report bug at <%s>.\n"
 msgstr "Rapporteer bugs aan %s. Bedankt om %s te gebruiken!"
 
-#: console.c:122
+#: console.c:122 dialog.c:853
 #, fuzzy, c-format
 #| msgid "Please report bug to %s. Thank you for using %s!"
-msgid "Thank you for using %s!\n"
+msgid "Thank you for using %s!"
 msgstr "Rapporteer bugs aan %s. Bedankt om %s te gebruiken!"
 
-#: console.c:139
+#: console.c:140
 #, c-format
 msgid ""
 "%s is a libvte based X Terminal Emulator.\n"
 "\n"
 msgstr "%s is een op libvte gebaseerde X Terminal Emulator\n"
 
-#: console.c:140
+#: console.c:141
 msgid ""
 "Use -e/-x/--execute {Command} to run a command when starting up. (Must be "
 "the final option).\n"
@@ -42,21 +42,21 @@ msgstr ""
 "Gebruik -e/-x/--execute {commando} om een commando uit te voeren bij het "
 "starten. (Dit moet de laatste optie zijn.)\n"
 
-#: console.c:142
+#: console.c:143
 msgid "Use -T/--title {title} to specify the window title.\n"
 msgstr "Gebruik -T/--title {titel} om het venster te benoemen.\n"
 
-#: console.c:143
+#: console.c:144
 msgid "Use -t/--tab {number} to open multi tabs when starting up.\n"
 msgstr "Gebruik -t/--tab {getal} om meerdere tabs te openen bij het starten.\n"
 
-#: console.c:144
+#: console.c:145
 msgid ""
 "Use -d/--directory {directory} to specify the init directory when starting "
 "up.\n"
 msgstr "Gebruik -d/--directory {map} om in een specifieke map te starten.\n"
 
-#: console.c:145
+#: console.c:146
 #, fuzzy
 #| msgid "Use -g/--geometry {geometry} to specify the geometry of window.\n"
 msgid ""
@@ -64,25 +64,25 @@ msgid ""
 "geometry of window.\n"
 msgstr "Gebruik -g/--geometry {coördinaten} om de venstergrootte te bepalen.\n"
 
-#: console.c:146
+#: console.c:147
 msgid "Use -l/-ls/--login to make the shell invoked as a login shell.\n"
 msgstr "Gebruik -l/-ls/--login om de terminal te starten als inlog shell.\n"
 
-#: console.c:148
+#: console.c:149
 msgid "Use -s/--separate to run in separate process.\n"
 msgstr "Gebruik -s/--separate om de terminal in een ander proces te starten.\n"
 
-#: console.c:149
+#: console.c:150
 msgid "Use -v/--version to show the version information.\n"
 msgstr "Gebruik -v/--version om de versie te zien.\n"
 
-#: console.c:150
+#: console.c:151
 msgid "Use -p/--profile to got a profile sample.\n"
 msgstr "Gebruik -p/--profile om een voorbeeld profiel te krijgen.\n"
 
 # MSGID of 154 should read as following:
 # "Use -p/--profile to GET a profile sample.\n"
-#: console.c:152
+#: console.c:153
 #, c-format
 msgid ""
 "Use -u/--user_profile {%s} to use a specified profile.\n"
@@ -91,29 +91,29 @@ msgstr ""
 "Gebruik -u/--user_profile {%s} om een specifiek profiel te laden.\n"
 "\n"
 
-#: console.c:158
+#: console.c:159
 #, fuzzy, c-format
 #| msgid "The %s system config is: %s/%s\n"
 msgid "The %s system configure file is: %s/%s\n"
 msgstr "Het %s systeem configuratiebestand is: %s/%s\n"
 
-#: console.c:195
+#: console.c:196
 #, c-format
 msgid "And your %s profile is: "
 msgstr "En uw %s profiel is: "
 
-#: console.c:197
+#: console.c:198
 #, c-format
 msgid "Your %s profile is: "
 msgstr "Uw %s profiel is:"
 
-#: console.c:228
+#: console.c:229
 #, fuzzy
 #| msgid "Erase Binding"
 msgid "Default key binding:"
 msgstr "Wis binding"
 
-#: console.c:229
+#: console.c:230
 #, fuzzy
 #| msgid ""
 #| "  * <Ctrl><`>\t\tDisable/Enable hyperlinks, function keys and right click "
@@ -125,44 +125,44 @@ msgstr ""
 "  * <Ctrl><`>\t\tActiveer/Desactiveer hyperlinks, functie toetsenen het "
 "rechterklikmenu.\n"
 
-#: console.c:231
+#: console.c:232
 #, fuzzy
 #| msgid "  * <Ctrl><T/Q>\t\tAdd a New tab/Close current tab.\n"
 msgid "  * <Ctrl><T>           Add a New tab with current directory.\n"
 msgstr "  * <Ctrl><T/Q>\t\tOpen een nieuwe tab/Sluit de huidige tab.\n"
 
-#: console.c:232
+#: console.c:233
 #, fuzzy
 #| msgid "  * <Ctrl><PgUp/PgDn>\tSwitch to Prev/Next tab.\n"
 msgid "  * <Ctrl><PgUp/PgDn>   Switch to Prev/Next tab.\n"
 msgstr "  * <Ctrl><PgUp/PgDn>\tVerander naar vorige/volgende tab.\n"
 
-#: console.c:233
+#: console.c:234
 #, fuzzy
 #| msgid "  * <Ctrl><Home/End>\tSwitch to First/Last tab.\n"
 msgid "  * <Ctrl><Home/End>    Switch to First/Last tab.\n"
 msgstr "  * <Ctrl><Home/End>\tVerander naar eerste/laatste tab.\n"
 
-#: console.c:234
+#: console.c:235
 #, fuzzy
 #| msgid "  * <Ctrl><[/]>\t\tMove current tab Forward/Backward.\n"
 msgid "  * <Ctrl><[/]>         Move current tab Forward/Backward.\n"
 msgstr "  * <Ctrl><[/]>\t\tVerplaats huidige tab voorwaarts/achterwaarts.\n"
 
-#: console.c:235
+#: console.c:236
 #, fuzzy
 #| msgid "  * <Ctrl><Up/Down>\tMove current tab to First/Last.\n"
 msgid "  * <Ctrl><Up/Down>     Move current tab to First/Last.\n"
 msgstr ""
 "  * <Ctrl><Up/Down>\tVerplaats huidige tab naar eerste/laatsteplaats.\n"
 
-#: console.c:236
+#: console.c:237
 #, fuzzy
 #| msgid "  * <Ctrl><F1~F12>\tSwitch to 1st ~ 12th tab.\n"
 msgid "  * <Ctrl><F1~F12>      Switch to 1st ~ 12th tab.\n"
 msgstr "  * <Ctrl><F1~F12>\tVerander naar eerste ~ twaalfde tab.\n"
 
-#: console.c:237
+#: console.c:238
 #, fuzzy
 #| msgid ""
 #| "  * <Ctrl><+/-/Enter>\tIncrease/Decrease/Reset the font size of current "
@@ -174,7 +174,7 @@ msgstr ""
 "  * <Ctrl><+/-/Enter>\tVergroot/verklein/reset de lettertypegroottevan "
 "huidige tab.\n"
 
-#: console.c:238
+#: console.c:239
 #, fuzzy
 #| msgid ""
 #| "  * <Shift><Left/Right>\tEmulate a mouse Scroll Up/Down event on Vte "
@@ -186,7 +186,7 @@ msgstr ""
 "  * <Shift><Left/Right>\tEmuleer omhoog/omlaag scrollen met de muisin Vte "
 "Terminalvenster.\n"
 
-#: console.c:239
+#: console.c:240
 #, fuzzy
 #| msgid ""
 #| "  * <Shift><Up/Down>\tAsks to Scroll Up/Down 1 line on Vte Terminal box.\n"
@@ -194,7 +194,7 @@ msgid ""
 "  * <Shift><Up/Down>    Asks to Scroll Up/Down 1 line on Vte Terminal box.\n"
 msgstr "  * <Shift><Up/Down>\tVraag om een lijn omhoog/omlaag te scrollen.\n"
 
-#: console.c:240
+#: console.c:241
 #, fuzzy
 #| msgid ""
 #| "  * <Shift><Up/Down>\tAsks to Scroll Up/Down 1 line on Vte Terminal box.\n"
@@ -203,7 +203,7 @@ msgid ""
 "Terminal box.\n"
 msgstr "  * <Shift><Up/Down>\tVraag om een lijn omhoog/omlaag te scrollen.\n"
 
-#: console.c:241
+#: console.c:242
 #, fuzzy
 #| msgid ""
 #| "  * <Shift><Home/End>\tGtk+ default behavior, Scroll the Terminal box to "
@@ -215,7 +215,7 @@ msgstr ""
 "  * <Shift><Home/End>\tStandaard Gtk+ gedrag; scroll helemaal naarboven/"
 "beneden.\n"
 
-#: console.c:242
+#: console.c:243
 #, fuzzy
 #| msgid ""
 #| "  * <Alt><F11/Enter>\tSwitch between fullwindow/unfullwindow and "
@@ -226,19 +226,21 @@ msgid ""
 msgstr ""
 "  * <Alt><F11/Enter>\tVerander tussen wel/niet schermvullend venster.\n"
 
-#: console.c:243
+#: console.c:244
+#, fuzzy
+#| msgid "  * <Ctrl><O>\t\tSelect all the text in the Vte Terminal box.\n"
 msgid ""
 "  * <Ctrl><F>           Find text in the Vte Terminal box. Use <F3>/"
-"<Shift><F3>to find Next/Prev.\n"
-msgstr ""
+"<Shift><F3> to find Next/Prev.\n"
+msgstr "  * <Ctrl><O>\t\tSelecteer alle tekst in de Vte Terminal.\n"
 
-#: console.c:244
+#: console.c:245
 #, fuzzy
 #| msgid "  * <Ctrl><O>\t\tSelect all the text in the Vte Terminal box.\n"
 msgid "  * <Ctrl><O>           Select all the text in the Vte Terminal box.\n"
 msgstr "  * <Ctrl><O>\t\tSelecteer alle tekst in de Vte Terminal.\n"
 
-#: console.c:245
+#: console.c:246
 #, fuzzy
 #| msgid ""
 #| "  * <Ctrl><X/V>\t\tCopy the text to clipboard / Paste the text in "
@@ -248,7 +250,7 @@ msgid ""
 "clipboard.\n"
 msgstr "  * <Ctrl><X/V>\t\tKopieer/knip de tekst naar klembord.\n"
 
-#: console.c:246
+#: console.c:247
 #, fuzzy
 #| msgid ""
 #| "  * <Ctrl><X/V>\t\tCopy the text to clipboard / Paste the text in "
@@ -258,7 +260,7 @@ msgid ""
 "in primary clipboard.\n"
 msgstr "  * <Ctrl><X/V>\t\tKopieer/knip de tekst naar klembord.\n"
 
-#: console.c:247
+#: console.c:248
 #, fuzzy
 #| msgid "\t\t\t(i.e. Emulate a middle button mouse click to paste the text)"
 msgid ""
@@ -266,17 +268,17 @@ msgid ""
 "paste the text)\n"
 msgstr "\t\t\t(wat betekent: emuleer de middelmuisklik om tekst te plakken)"
 
-#: console.c:249
+#: console.c:250
 msgid "Some key bindings that disabled by default but maybe useful:\n"
 msgstr ""
 
-#: console.c:250
+#: console.c:251
 #, fuzzy
 #| msgid "  * <Ctrl><T/Q>\t\tAdd a New tab/Close current tab.\n"
 msgid "  * <Ctrl><Q>           Trying to close current tab.\n"
 msgstr "  * <Ctrl><T/Q>\t\tOpen een nieuwe tab/Sluit de huidige tab.\n"
 
-#: console.c:251
+#: console.c:252
 #, fuzzy
 #| msgid "\t\t\t(Using <Ctrl><D> or 'exit' to close tabs is recommended)\n"
 msgid ""
@@ -285,22 +287,22 @@ msgid ""
 msgstr ""
 "\t\t\t(<Ctrl><D> of 'exit' gebruiken om tabs te sluiten is aangeraden)\n"
 
-#: console.c:252
+#: console.c:253
 msgid "  * <Ctrl><N>           Open a new window with current directory.\n"
 msgstr ""
 
-#: console.c:253
+#: console.c:254
 #, fuzzy
 #| msgid "  * <Ctrl><E>\t\tRename current tab.\n"
 msgid "  * <Ctrl><E>           Rename the tab name of current tab.\n"
 msgstr "  * <Ctrl><E>\t\tHernoem huidige tab.\n"
 
-#: console.c:260
+#: console.c:261
 #, c-format
 msgid "TIP: These key bindings may custom or disable by right click menu [%s]."
 msgstr ""
 
-#: console.c:260 menu.c:394
+#: console.c:261 menu.c:394
 msgid "Set key binding"
 msgstr ""
 
@@ -559,12 +561,6 @@ msgstr ""
 #, c-format
 msgid "IRC:    %s"
 msgstr ""
-
-#: dialog.c:853
-#, fuzzy, c-format
-#| msgid "Please report bug to %s. Thank you for using %s!"
-msgid "Thank you for using %s!"
-msgstr "Rapporteer bugs aan %s. Bedankt om %s te gebruiken!"
 
 #: dialog.c:859
 msgid "homepage:"
@@ -1086,11 +1082,11 @@ msgstr "De volgende fout is gebeurd:"
 msgid "↲"
 msgstr ""
 
-#: notebook.c:664
+#: notebook.c:665
 msgid "Error while creating the child process:"
 msgstr "Error bij het creëren van hetn child proces:"
 
-#: notebook.c:673
+#: notebook.c:674
 msgid ""
 "Error while creating the child process!\n"
 "Please make sure the /dev/pts is mounted as a devpts file system!"
@@ -1098,7 +1094,7 @@ msgstr ""
 "Error bij het creëren van het child proces!\n"
 "Bent u zeker dat /dev/pts is gemount als een devpts file systeem?"
 
-#: notebook.c:686
+#: notebook.c:687
 msgid "Error when creating child process"
 msgstr "Error wanneer child proces gecreëerd wordt"
 
@@ -1448,15 +1444,20 @@ msgstr ""
 msgid "The profile is invalid!"
 msgstr "Het profiel is ongeldig!"
 
-#: window.c:711
+#: window.c:712
 #, c-format
 msgid "\tWindow #%d, Page #%d: (%d) %s\n"
 msgstr "\tVenster #%d, Pagina #%d: (%d) %s\n"
 
-#: window.c:715
+#: window.c:716
 #, c-format
 msgid "\tPage #%d: (%d) %s\n"
 msgstr "\tPagina #%d: (%d) %s\n"
+
+#, fuzzy
+#~| msgid "Please report bug to %s. Thank you for using %s!"
+#~ msgid "Thank you for using %s!\n"
+#~ msgstr "Rapporteer bugs aan %s. Bedankt om %s te gebruiken!"
 
 #~ msgid ""
 #~ "  * <Shift><Insert>\tVte default behavior, Paste the text in primary "

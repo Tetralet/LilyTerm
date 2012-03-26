@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: lilyterm 0.9.9~rc9\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-24 20:08+0800\n"
+"POT-Creation-Date: 2012-03-26 10:58+0800\n"
 "PO-Revision-Date: 2011-07-11 20:47+0200\n"
 "Last-Translator: Slavko <linux@slavino.sk>\n"
 "Language-Team: Slovak <nomail>\n"
@@ -24,13 +24,13 @@ msgstr ""
 msgid "Please report bug at <%s>.\n"
 msgstr "Chyby prosím hláste na %s. Ďakujem, že používate %s!"
 
-#: console.c:122
+#: console.c:122 dialog.c:853
 #, fuzzy, c-format
 #| msgid "Please report bug to %s. Thank you for using %s!"
-msgid "Thank you for using %s!\n"
+msgid "Thank you for using %s!"
 msgstr "Chyby prosím hláste na %s. Ďakujem, že používate %s!"
 
-#: console.c:139
+#: console.c:140
 #, c-format
 msgid ""
 "%s is a libvte based X Terminal Emulator.\n"
@@ -39,7 +39,7 @@ msgstr ""
 "%s je emulátor terminálu pre X založený na libvte.\n"
 "\n"
 
-#: console.c:140
+#: console.c:141
 msgid ""
 "Use -e/-x/--execute {Command} to run a command when starting up. (Must be "
 "the final option).\n"
@@ -47,15 +47,15 @@ msgstr ""
 "Použite -e/-x/--execute {Príkaz} na spustenie príkazu pri štarte. (Musí byť "
 "ako posledná voľba).\n"
 
-#: console.c:142
+#: console.c:143
 msgid "Use -T/--title {title} to specify the window title.\n"
 msgstr "Použite -T/--title {titulok} na nastavenie titulku okna.\n"
 
-#: console.c:143
+#: console.c:144
 msgid "Use -t/--tab {number} to open multi tabs when starting up.\n"
 msgstr "Použite -t/--tab {číslo} na otvorenie viacerých záložiek pri štarte.\n"
 
-#: console.c:144
+#: console.c:145
 msgid ""
 "Use -d/--directory {directory} to specify the init directory when starting "
 "up.\n"
@@ -63,7 +63,7 @@ msgstr ""
 "Použite -d/--directory {adresár} na nastavenie počiatočného adresára pri "
 "štarte.\n"
 
-#: console.c:145
+#: console.c:146
 #, fuzzy
 #| msgid "Use -g/--geometry {geometry} to specify the geometry of window.\n"
 msgid ""
@@ -71,24 +71,24 @@ msgid ""
 "geometry of window.\n"
 msgstr "Použite -g/--geometry {geometria} na nastavenie geometrie okna.\n"
 
-#: console.c:146
+#: console.c:147
 msgid "Use -l/-ls/--login to make the shell invoked as a login shell.\n"
 msgstr ""
 "Použite -l/-ls/--login na spustenie shellu ako prihlasovacieho shellu.\n"
 
-#: console.c:148
+#: console.c:149
 msgid "Use -s/--separate to run in separate process.\n"
 msgstr "Použite -s/--separate na spustenie v samostatnom procese.\n"
 
-#: console.c:149
+#: console.c:150
 msgid "Use -v/--version to show the version information.\n"
 msgstr "Použite -v/--version na zobrazenie informácií o verzii.\n"
 
-#: console.c:150
+#: console.c:151
 msgid "Use -p/--profile to got a profile sample.\n"
 msgstr "Použite -p/--profile na získanie ukážkového profilu.\n"
 
-#: console.c:152
+#: console.c:153
 #, c-format
 msgid ""
 "Use -u/--user_profile {%s} to use a specified profile.\n"
@@ -97,29 +97,29 @@ msgstr ""
 "Použite -u/--user_profile {%s} na použitie zadaného profilu.\n"
 "\n"
 
-#: console.c:158
+#: console.c:159
 #, fuzzy, c-format
 #| msgid "The %s system config is: %s/%s\n"
 msgid "The %s system configure file is: %s/%s\n"
 msgstr "Systémová konfigurácia %s je: %s/%s\n"
 
-#: console.c:195
+#: console.c:196
 #, c-format
 msgid "And your %s profile is: "
 msgstr "A váš %s profil je: "
 
-#: console.c:197
+#: console.c:198
 #, c-format
 msgid "Your %s profile is: "
 msgstr "Váš %s profil je: "
 
-#: console.c:228
+#: console.c:229
 #, fuzzy
 #| msgid "Erase Binding"
 msgid "Default key binding:"
 msgstr "Väzba mazania"
 
-#: console.c:229
+#: console.c:230
 #, fuzzy
 #| msgid ""
 #| "  * <Ctrl><`>\t\tDisable/Enable hyperlinks, function keys and right click "
@@ -131,44 +131,44 @@ msgstr ""
 "  * <Ctrl><`>\t\tZapnúť/Vypnúť hypertextové odkazy, funkčné klávesy a menu "
 "pravého tlačidla.\n"
 
-#: console.c:231
+#: console.c:232
 #, fuzzy
 #| msgid "  * <Ctrl><T/Q>\t\tAdd a New tab/Close current tab.\n"
 msgid "  * <Ctrl><T>           Add a New tab with current directory.\n"
 msgstr "  * <Ctrl><T/Q>\t\tPridať novú záložku/Zatvoriť aktuálnu záložku.\n"
 
-#: console.c:232
+#: console.c:233
 #, fuzzy
 #| msgid "  * <Ctrl><PgUp/PgDn>\tSwitch to Prev/Next tab.\n"
 msgid "  * <Ctrl><PgUp/PgDn>   Switch to Prev/Next tab.\n"
 msgstr "  * <Ctrl><PgUp/PgDn>\tPrepnúť na Predošlú/Ďalšiu záložku.\n"
 
-#: console.c:233
+#: console.c:234
 #, fuzzy
 #| msgid "  * <Ctrl><Home/End>\tSwitch to First/Last tab.\n"
 msgid "  * <Ctrl><Home/End>    Switch to First/Last tab.\n"
 msgstr "  * <Ctrl><Home/End>\tPrepnúť na Prvú/Poslednú záložku.\n"
 
-#: console.c:234
+#: console.c:235
 #, fuzzy
 #| msgid "  * <Ctrl><[/]>\t\tMove current tab Forward/Backward.\n"
 msgid "  * <Ctrl><[/]>         Move current tab Forward/Backward.\n"
 msgstr "  * <Ctrl><[/]>\t\tPresunúť aktuálnu záložku Dopredu/Dozadu.\n"
 
-#: console.c:235
+#: console.c:236
 #, fuzzy
 #| msgid "  * <Ctrl><Up/Down>\tMove current tab to First/Last.\n"
 msgid "  * <Ctrl><Up/Down>     Move current tab to First/Last.\n"
 msgstr ""
 "  * <Ctrl><Up/Down>\tPresunúť aktuálnu záložku na Prvé/Posledné miesto.\n"
 
-#: console.c:236
+#: console.c:237
 #, fuzzy
 #| msgid "  * <Ctrl><F1~F12>\tSwitch to 1st ~ 12th tab.\n"
 msgid "  * <Ctrl><F1~F12>      Switch to 1st ~ 12th tab.\n"
 msgstr "  * <Ctrl><F1~F12>\tPrepnúť na 1. – 12. záložku.\n"
 
-#: console.c:237
+#: console.c:238
 #, fuzzy
 #| msgid ""
 #| "  * <Ctrl><+/-/Enter>\tIncrease/Decrease/Reset the font size of current "
@@ -180,7 +180,7 @@ msgstr ""
 "  * <Ctrl><+/-/Enter>\tZväčšiť/Zmenšiť/Obnoviť veľkosť písma aktuálnej "
 "záložky.\n"
 
-#: console.c:238
+#: console.c:239
 #, fuzzy
 #| msgid ""
 #| "  * <Shift><Left/Right>\tEmulate a mouse Scroll Up/Down event on Vte "
@@ -192,7 +192,7 @@ msgstr ""
 "  * <Shift><Left/Right>\tEmulovať udalosti myši Rolovať hore/dole v okne Vte "
 "Terminálu.\n"
 
-#: console.c:239
+#: console.c:240
 #, fuzzy
 #| msgid ""
 #| "  * <Shift><Up/Down>\tAsks to Scroll Up/Down 1 line on Vte Terminal box.\n"
@@ -202,7 +202,7 @@ msgstr ""
 "  * <Shift><Up/Down>\tPožiadať o Rolovanie hore/Dole o 1 riadok v okne Vte "
 "Terminálu.\n"
 
-#: console.c:240
+#: console.c:241
 #, fuzzy
 #| msgid ""
 #| "  * <Shift><PgUp/PgDn>\tGtk+ default behavior, Scroll Up/Down on Vte "
@@ -214,7 +214,7 @@ msgstr ""
 "  * <Shift><PgUp/PgDn>\tPredvolené správanie Gtk+, Rolovať hore/dole v okne "
 "Vte Terminálu.\n"
 
-#: console.c:241
+#: console.c:242
 #, fuzzy
 #| msgid ""
 #| "  * <Shift><Home/End>\tGtk+ default behavior, Scroll the Terminal box to "
@@ -226,7 +226,7 @@ msgstr ""
 "  * <Shift><Home/End>\tPredvolené správanie Gtk+, Rolovať okno Terminálu na "
 "Začiatok/Koniec.\n"
 
-#: console.c:242
+#: console.c:243
 #, fuzzy
 #| msgid ""
 #| "  * <Alt><F11/Enter>\tSwitch between fullwindow/unfullwindow and "
@@ -236,19 +236,21 @@ msgid ""
 "fullscreen/unfullscreen state.\n"
 msgstr "  * <Alt><F11/Enter>\tPrepnúť režim Celé okno a Celá obrazovka.\n"
 
-#: console.c:243
+#: console.c:244
+#, fuzzy
+#| msgid "  * <Ctrl><O>\t\tSelect all the text in the Vte Terminal box.\n"
 msgid ""
 "  * <Ctrl><F>           Find text in the Vte Terminal box. Use <F3>/"
-"<Shift><F3>to find Next/Prev.\n"
-msgstr ""
+"<Shift><F3> to find Next/Prev.\n"
+msgstr "  * <Ctrl><O>\t\tvybrať všetok text v okne Vte Terminálu.\n"
 
-#: console.c:244
+#: console.c:245
 #, fuzzy
 #| msgid "  * <Ctrl><O>\t\tSelect all the text in the Vte Terminal box.\n"
 msgid "  * <Ctrl><O>           Select all the text in the Vte Terminal box.\n"
 msgstr "  * <Ctrl><O>\t\tvybrať všetok text v okne Vte Terminálu.\n"
 
-#: console.c:245
+#: console.c:246
 #, fuzzy
 #| msgid ""
 #| "  * <Ctrl><Del/Ins>\tCopy the text to clipboard / Paste the text in "
@@ -259,7 +261,7 @@ msgid ""
 msgstr ""
 "  * <Ctrl><Del/Ins>\tKopírovať text do schránky / Vložiť text zo schránky.\n"
 
-#: console.c:246
+#: console.c:247
 #, fuzzy
 #| msgid ""
 #| "  * <Ctrl><Del/Ins>\tCopy the text to clipboard / Paste the text in "
@@ -270,7 +272,7 @@ msgid ""
 msgstr ""
 "  * <Ctrl><Del/Ins>\tKopírovať text do schránky / Vložiť text zo schránky.\n"
 
-#: console.c:247
+#: console.c:248
 #, fuzzy
 #| msgid "\t\t\t(i.e. Emulate a middle button mouse click to paste the text)"
 msgid ""
@@ -279,17 +281,17 @@ msgid ""
 msgstr ""
 "\t\t\t(tj. Emulovať stlačenie prostredného tlačidla myši na vloženie textu)"
 
-#: console.c:249
+#: console.c:250
 msgid "Some key bindings that disabled by default but maybe useful:\n"
 msgstr ""
 
-#: console.c:250
+#: console.c:251
 #, fuzzy
 #| msgid "  * <Ctrl><T/Q>\t\tAdd a New tab/Close current tab.\n"
 msgid "  * <Ctrl><Q>           Trying to close current tab.\n"
 msgstr "  * <Ctrl><T/Q>\t\tPridať novú záložku/Zatvoriť aktuálnu záložku.\n"
 
-#: console.c:251
+#: console.c:252
 #, fuzzy
 #| msgid "\t\t\t(Using <Ctrl><D> or 'exit' to close tabs is recommended)\n"
 msgid ""
@@ -298,17 +300,17 @@ msgid ""
 msgstr ""
 "\t\t\t(Na zatváranie záložiek je odporúčané použiť <Ctrl><D> alebo 'exit')\n"
 
-#: console.c:252
+#: console.c:253
 msgid "  * <Ctrl><N>           Open a new window with current directory.\n"
 msgstr ""
 
-#: console.c:253
+#: console.c:254
 #, fuzzy
 #| msgid "  * <Ctrl><E>\t\tRename current tab.\n"
 msgid "  * <Ctrl><E>           Rename the tab name of current tab.\n"
 msgstr "  * <Ctrl><E>\t\tPremenovať aktuálnu záložku.\n"
 
-#: console.c:260
+#: console.c:261
 #, fuzzy, c-format
 #| msgid ""
 #| "Default shortcut key: (It may custom or disable by right click menu [Set "
@@ -318,7 +320,7 @@ msgstr ""
 "Predvolené klávesové skratky: (Môže byť vlastná alebo zakázaná pomocou "
 "kontextového menu [Nastaviť funkčné klávesy])"
 
-#: console.c:260 menu.c:394
+#: console.c:261 menu.c:394
 msgid "Set key binding"
 msgstr ""
 
@@ -574,12 +576,6 @@ msgstr ""
 #, c-format
 msgid "IRC:    %s"
 msgstr ""
-
-#: dialog.c:853
-#, fuzzy, c-format
-#| msgid "Please report bug to %s. Thank you for using %s!"
-msgid "Thank you for using %s!"
-msgstr "Chyby prosím hláste na %s. Ďakujem, že používate %s!"
 
 #: dialog.c:859
 msgid "homepage:"
@@ -1086,11 +1082,11 @@ msgstr "nastala nasledujúca chyba:"
 msgid "↲"
 msgstr ""
 
-#: notebook.c:664
+#: notebook.c:665
 msgid "Error while creating the child process:"
 msgstr "Chyb pri vytváraní procesu potomka:"
 
-#: notebook.c:673
+#: notebook.c:674
 msgid ""
 "Error while creating the child process!\n"
 "Please make sure the /dev/pts is mounted as a devpts file system!"
@@ -1098,7 +1094,7 @@ msgstr ""
 "Chyba pri vytváraní procesu potomka!\n"
 "Prosím overte, že je /dev/pts pripojený ako súborový systém devpts!"
 
-#: notebook.c:686
+#: notebook.c:687
 msgid "Error when creating child process"
 msgstr "Chyba pri vytváraní procesu potomka"
 
@@ -1450,15 +1446,20 @@ msgstr ""
 msgid "The profile is invalid!"
 msgstr "Profil je neplatný!"
 
-#: window.c:711
+#: window.c:712
 #, c-format
 msgid "\tWindow #%d, Page #%d: (%d) %s\n"
 msgstr "\tOkno %d, Strana %d: (%d) %s\n"
 
-#: window.c:715
+#: window.c:716
 #, c-format
 msgid "\tPage #%d: (%d) %s\n"
 msgstr "\tStrana %d: (%d) %s\n"
+
+#, fuzzy
+#~| msgid "Please report bug to %s. Thank you for using %s!"
+#~ msgid "Thank you for using %s!\n"
+#~ msgstr "Chyby prosím hláste na %s. Ďakujem, že používate %s!"
 
 #~ msgid ""
 #~ "  * <Shift><Insert>\tVte default behavior, Paste the text in primary "
