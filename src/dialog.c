@@ -830,7 +830,8 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 			dialog_data->operate[2] = add_text_to_notebook(notebook, _("License"), GTK_STOCK_DIALOG_AUTHENTICATION, str[7]);
 
 			// Translators
-			temp_str = "Adrian Buyssens: Flemish/Dutch translations.\n"
+			temp_str = "Adrian Buyssens: Flemish/Dutch translation.\n"
+				   "Bogusz Kowalski: Polish translation.\n"
 				   "GoGoNKT: Simplified Chinese translation.\n"
 				   "Marco Paolome: Italian translation.\n"
 				   "Mario Blättermann: German translation.\n"
@@ -838,7 +839,7 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 				   "P.L. Francisco: Spanish translation.\n"
 				   "Samed Beyribey: Turkish translation.\n"
 				   "Slavko: Slovak translation.\n" 
-				   "Vladimir Smolyar: Russian and Ukrainian translation.";
+				   "Vladimir Smolyar: Russian and Ukrainian translations.";
 			str[8] = convert_text_to_html(&temp_str, FALSE, NULL, "tt", NULL);
 			dialog_data->operate[3] = add_text_to_notebook(notebook, _("Translators"), GTK_STOCK_CONVERT, str[8]);
 
