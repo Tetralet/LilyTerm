@@ -52,6 +52,7 @@ endif
 endif
 
 MSGFMT := $(shell whereis -b msgfmt | awk '{print $$2}')
+TOUCH := $(shell whereis -b touch | awk '{print $$2}')
 
 .PHONY: all
 all: $(MO_LIST)
@@ -85,6 +86,10 @@ endif
 	fi
 
 $(BINARY).pot: pot
+
+.PHONY: reset
+reset:
+	@ $(TOUCH) $(BINARY).pot
 
 .PHONY: po
 po: $(PO_LIST)
