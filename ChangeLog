@@ -13,8 +13,8 @@
 	* Add a new menu item [Visible bell].
 	* Add a new menu item [Urgent bell].
 	  VERY THANKS to captnfab for this idea and patch.
-	  Be notice that for performance reason, the Urgent bell will disable if the
-	  LilyTerm window is in focus.
+	  Be notice that for performance reason, the Urgent bell will disable
+	  if the LilyTerm window is in focus.
 	  i.e. It only works only when the LilyTerm window is losing focus.
 	* Add new menu item [View clipboard] and [View primary clipboard].
 	* Add a new menu item [Paste to every Vte Terminal].
@@ -22,27 +22,30 @@
 	* Add a new menu item [Launch File Manager].
 	  Thanks Slavko for this idea.
 	* Confirm before pasting more than 1 lines to the Vte Terminal.
-	  May add a programs to "paste_texts_whitelist" in profile so that LilyTerm
-	  will not warn you when trying to paste lines to it.
+	  May add a programs to "paste_texts_whitelist" in profile so that
+	  LilyTerm will not warn you when trying to paste lines to it.
 	  Set confirm_to_paste = 0 in user profile to disable this feature.
 	* The function key "Edit Label" is disabled by default,
 	  and the menu item [Rename this tab] is shown by default.
-	* Add a menu item [Add other locales...] to [Change text encoding] menu subitem.
-	  Thanks BV1AL for this idea.
+	* Add a menu item [Add other locales...] to [Change text encoding]
+	  menu subitem. Thanks BV1AL for this idea.
 	* Add a new menu item [Reload settings].
 	* A new key binding <Ctrl N>, open a new windows with current directory.
 	  Thanks mrknacky for this idea.
 	* Using <Ctrl E> to edit tab name is disable by default.
 	  Thanks Rodolfo Quesada-Zumbado for this idea.
-	* Support solarized ansi color themes from http://ethanschoonover.com/solarized.
+	* Support solarized ansi color themes from
+	  http://ethanschoonover.com/solarized.
 	  Thanks medicalwei for this idea.
 	* New handmade build system. autotools had been dropped.
 	* Added a button <Join and paste> to [Confirm to paste texts] dialog.
-	* Add a new make target: update-po to po/Makefile. Thanks caleb for this idea.
+	* Add a new make target: update-po to po/Makefile.
+	  Thanks caleb for this idea.
 	* Better about dialog. Thanks Mario Blättermann for this idea.
 
   FIX:
-	* Remove '>' from URL matching. Thanks BrainWorker for reporting this bug.
+	* Remove '>' from URL matching.
+	  Thanks BrainWorker for reporting this bug.
 
 2011-06-15 Lu, Chao-Ming (Tetralet) <tetralet@gmail.com>
   version 0.9.9~rc9, It will be the version of 0.9.9,
