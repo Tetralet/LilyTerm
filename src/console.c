@@ -251,7 +251,7 @@ gchar *get_help_message_function_key(gboolean convert_to_html)
 	g_string_append(message, _("  * <Ctrl><Q>           Trying to close current tab.\n"));
 	g_string_append(message, _("                        (Using <Ctrl><D> or 'exit' to close tabs is recommended)\n"));
 	g_string_append(message, _("  * <Ctrl><N>           Open a new window with current directory.\n"));
-	g_string_append(message, _("  * <Ctrl><E>           Rename the tab name of current tab.\n"));
+	g_string_append(message, _("  * <Ctrl><E>           Rename the current tab.\n"));
 
 	gchar *final_message = NULL;
 	if (convert_to_html)
