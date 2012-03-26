@@ -919,13 +919,13 @@ void init_mod_keys()
 #ifdef DETAIL
 	g_debug("! Launch init_mod_keys()!");
 #endif
-	modkeys[0].name = "Shift";
+	modkeys[0].name = _("Shift");
 	modkeys[0].mod = GDK_SHIFT_MASK;
 	// modkeys[1].name = "NumLock";
 	// modkeys[1].mod = GDK_LOCK_MASK ;
-	modkeys[1].name = "Ctrl";
+	modkeys[1].name = _("Ctrl");
 	modkeys[1].mod = GDK_CONTROL_MASK;
-	modkeys[2].name = "Alt";
+	modkeys[2].name = _("Alt");
 	modkeys[2].mod = GDK_MOD1_MASK ;
 	// Mod2 = Alt
 	// modkeys[2].name = "Mod1";
@@ -935,7 +935,7 @@ void init_mod_keys()
 	// modkeys[3].mod = GDK_MOD2_MASK ;
 	//// modkeys[3].name = "Mod3";
 	//// modkeys[3].mod = GDK_MOD3_MASK;
-	modkeys[3].name = "Win";
+	modkeys[3].name = _("Win");
 	modkeys[3].mod = GDK_MOD4_MASK | GDK_SUPER_MASK;
 	//// modkeys[5].name = "Mod5";
 	//// modkeys[5].mod = GDK_MOD5_MASK ;
