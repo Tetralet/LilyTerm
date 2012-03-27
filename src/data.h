@@ -438,7 +438,7 @@ struct Color
 	gchar *comment;
 };
 
-#define THEME 9
+#define THEME 8
 #define DEFAULT_THEME 0
 struct Color_Theme
 {
