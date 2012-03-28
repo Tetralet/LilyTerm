@@ -227,6 +227,8 @@ gchar *get_help_message_function_key(gboolean convert_to_html)
 	g_debug("! Launch get_help_message_function_key() with convert_to_html = %d!", convert_to_html);
 #endif
 	gchar *msg_head = _("Default key binding:");
+	// TRANSLATE NOTE: Please be care of the spacing when translating the following key binding description.
+	// TRANSLATE NOTE: Please check it in [Right Click Menu] -> [Usage] -> [Key binding] page after translating.
 	gchar *disable_function_key = _("  * <Ctrl><`>           Disable/Enable hyperlinks, function keys and right click menu.");
 	GString *message = g_string_new(NULL);
 	g_string_append(message, _("  * <Ctrl><T>           Add a New tab with current directory.\n"));

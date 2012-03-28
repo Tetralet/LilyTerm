@@ -814,6 +814,11 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 			dialog_data->operate[1] = add_text_to_notebook(notebook, _("Key binding"), GTK_STOCK_PREFERENCES, str[5]);
 
 			// License
+			// TRANSLATE NOTE: The following license declaration is just a notice, not full license text.
+			// TRANSLATE NOTE: The full GPLv3 license text is included in LilyTerm source code.
+			// TRANSLATE NOTE: Of corse, Translating the GPLv3 license text won't be a good idea,
+			// TRANSLATE NOTE: But it seems be safe to translate the following license declaration.
+			// TRANSLATE NOTE: Please just skip and leave it alone if you don't wanna translate it.
 			str[6] = g_strdup_printf(_("Copyright (c) %s-%s  %s.  All rights reserved.\n\n"
 						   "%s is free software: you can redistribute it and/or modify\n"
 						   "it under the terms of the GNU General Public License as published by\n"
@@ -847,6 +852,8 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 			str[9]  = g_strdup_printf (_("%s (Main site)"), MAINSITE);
 			str[10] = g_strdup_printf (_("%s (Traditional Chinese site)"), TCSITE);
 			str[11] = g_strdup_printf (_("%s (Github site)"), GITHUBURL);
+			// TRANSLATE NOTE: Please be care of the spacing when translating the following site informatoins.
+			// TRANSLATE NOTE: Please check it in [Right Click Menu] -> [Usage] -> [About] page after translating.
 			str[12] = g_strdup_printf (_("Blog:   %s"), BLOG);
 			str[13] = g_strdup_printf (_("Wiki:   %s"), WIKI);
 			str[14] = g_strdup_printf (_("Issues: %s"), ISSUES);
