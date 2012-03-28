@@ -151,13 +151,14 @@ void init_rgba(struct Window *win_data);
 // **************************** property.c ****************************
 //
 
-void adjust_ansi_color(GdkColor color[COLOR], GdkColor color_orig[COLOR], gdouble color_brightness);
+void adjust_ansi_color(GdkColor color[COLOR], GdkColor color_orig[COLOR], gdouble color_brightness, gboolean revert_color);
 void adjust_ansi_color_severally(GdkColor *color, GdkColor *color_orig, gdouble color_brightness);
 void set_color_brightness(struct Window *win_data);
 void init_new_page(struct Window *win_data, struct Page *page_data, glong column, glong row);
 void set_cursor_blink(struct Window *win_data, struct Page *page_data);
 void set_hyprelink(struct Window *win_data, struct Page *page_data);
 void set_vte_color(struct Window *win_data, struct Page *page_data);
+void switch_color(struct Window *win_data);
 void set_page_width(struct Window *win_data, struct Page *page_data);
 void pack_vte_and_scroll_bar_to_hbox(struct Window *win_data, struct Page *page_data);
 void add_remove_page_timeout_id(struct Window *win_data, struct Page *page_data);

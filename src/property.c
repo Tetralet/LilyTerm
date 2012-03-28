@@ -22,10 +22,10 @@
 extern gboolean proc_exist;
 extern struct Command command[COMMAND];
 
-void adjust_ansi_color(GdkColor color[COLOR], GdkColor color_orig[COLOR], gdouble color_brightness)
+void adjust_ansi_color(GdkColor color[COLOR], GdkColor color_orig[COLOR], gdouble color_brightness, gboolean revert_color)
 {
 #ifdef DETAIL
-	g_debug("! Launch adjust_ansi_color() with color_brightness = %f",  color_brightness);
+	g_debug("! Launch adjust_ansi_color() with color_brightness = %f, revert_color = %d",  color_brightness, revert_color);
 #endif
 #ifdef DEFENSIVE
 	if ((color==NULL) || (color_orig==NULL)) return;
@@ -34,20 +34,32 @@ void adjust_ansi_color(GdkColor color[COLOR], GdkColor color_orig[COLOR], gdoubl
 	color_brightness = CLAMP(color_brightness, -1, 1);
 
 	gint i;
-	for (i=0; i<COLOR; i++)
+	if (revert_color)
 	{
-		adjust_ansi_color_severally(&color[i], &color_orig[i], color_brightness);
-		//g_debug("color_orig[%d] = %x, %x, %x",
-		//	i,
-		//	color_orig[i].red,
-		//	color_orig[i].green,
-		//	color_orig[i].blue);
+		gint half = COLOR/2;
+		for (i=0; i<half; i++)
+		{
+			adjust_ansi_color_severally(&color[i], &color_orig[i+half], color_brightness);
+			adjust_ansi_color_severally(&color[i+half], &color_orig[i], color_brightness);
+		}
+	}
+	else
+	{
+		for (i=0; i<COLOR; i++)
+		{
+			adjust_ansi_color_severally(&color[i], &color_orig[i], color_brightness);
+			//g_debug("color_orig[%d] = %x, %x, %x",
+			//	i,
+			//	color_orig[i].red,
+			//	color_orig[i].green,
+			//	color_orig[i].blue);
 
-		//g_debug("color[%d] = %x, %x, %x",
-		//	i,
-		//	color[i].red,
-		//	color[i].green,
-		//	color[i].blue);
+			//g_debug("color[%d] = %x, %x, %x",
+			//	i,
+			//	color[i].red,
+			//	color[i].green,
+			//	color[i].blue);
+		}
 	}
 }
 
@@ -73,7 +85,6 @@ void adjust_ansi_color_severally(GdkColor *color, GdkColor *color_orig, gdouble 
 	}
 }
 
-
 void set_color_brightness(struct Window *win_data)
 {
 #ifdef DETAIL
@@ -86,8 +97,8 @@ void set_color_brightness(struct Window *win_data)
 	win_data->fg_color_inactive = get_inactive_color (win_data->fg_color,
 							  win_data->color_brightness_inactive,
 							  win_data->color_brightness);
-	adjust_ansi_color(win_data->color, win_data->color_orig, win_data->color_brightness);
-	adjust_ansi_color(win_data->color_inactive, win_data->color_orig, win_data->color_brightness_inactive);
+	adjust_ansi_color(win_data->color, win_data->color_orig, win_data->color_brightness, win_data->revert_color);
+	adjust_ansi_color(win_data->color_inactive, win_data->color_orig, win_data->color_brightness_inactive, win_data->revert_color);
 }
 
 // to init a new page
@@ -238,6 +249,17 @@ void set_vte_color(struct Window *win_data, struct Page *page_data)
 		vte_terminal_set_color_background(VTE_TERMINAL(page_data->vte), &(win_data->bg_color));
 	}
 	vte_terminal_set_color_bold (VTE_TERMINAL(page_data->vte), &(win_data->fg_color));
+}
+
+void switch_color(struct Window *win_data)
+{
+	GdkColor tmp_color = win_data->fg_color;
+	win_data->fg_color = win_data->bg_color;
+	win_data->bg_color = tmp_color;
+
+	gdouble color_brightness = win_data->color_brightness;
+	win_data->color_brightness = win_data->color_brightness_inactive;
+	win_data->color_brightness_inactive = color_brightness;
 }
 
 void set_page_width(struct Window *win_data, struct Page *page_data)

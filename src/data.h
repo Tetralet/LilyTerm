@@ -734,6 +734,8 @@ struct Window
 	// color datas
 	gchar *color_theme_str;
 	gchar *color_value[COLOR];
+	gboolean revert_color;
+	GtkWidget *menuitem_revert_color;
 	GtkWidget *menuitem_theme[THEME];
 	GtkWidget *current_menuitem_theme;
 

@@ -2525,6 +2525,8 @@ void dump_data (struct Window *win_data, struct Page *page_data)
 	print_color("win_data->fg_color_inactive", &(win_data->fg_color_inactive));
 	print_color("win_data->bg_color", &(win_data->bg_color));
 	g_debug("- win_data->color_theme_str = %s", win_data->color_theme_str);
+	g_debug("- win_data->revert_color = %d", win_data->revert_color);
+	g_debug("- win_data->menuitem_revert_color = %p", win_data->menuitem_revert_color);
 	g_debug("- win_data->using_custom_color = %d", win_data->using_custom_color);
 	// g_debug("- win_data->using_custom_color_orig = %d", win_data->using_custom_color_orig);
 	for (i=0; i<COLOR; i++)
@@ -2922,6 +2924,8 @@ void win_data_dup(struct Window *win_data_orig, struct Window *win_data)
 	// win_data->fg_color_inactive;
 	// win_data->bg_color;
 	win_data->color_theme_str = g_strdup(win_data_orig->color_theme_str);
+	// win_data->menuitem_revert_color
+	win_data->menuitem_revert_color = NULL;
 
 	// win_data->color_theme_str_orig will always be NULL
 	// win_data->color_theme_str_orig = g_strdup(win_data_orig->color_theme_str)orig);

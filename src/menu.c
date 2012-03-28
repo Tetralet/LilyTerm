@@ -120,6 +120,9 @@ gboolean create_menu(struct Window *win_data)
 #endif
 	// The ansi theme
 	sub_menu = create_sub_item (win_data->menu, _("Change ANSI color theme"), GTK_STOCK_SELECT_COLOR);
+	win_data->menuitem_revert_color = create_menu_item(CHECK_MENU_ITEM, sub_menu, _("Revert color"), NULL, NULL,
+							    (GSourceFunc)set_ansi_theme, win_data->color);
+	add_separator_menu (sub_menu);
 	GSList *theme_group = NULL;
 	// g_debug("win_data->color_theme_str = %s", win_data->color_theme_str);
 	for (i=0; i<THEME; i++)
@@ -1011,27 +1014,52 @@ void set_ansi_theme(GtkWidget *menuitem, GdkColor color[COLOR])
 #endif
 	// g_debug("menuitem = %p, and win_data->current_menuitem_theme = %p",
 	//	menuitem, win_data->current_menuitem_theme);
-	if ((win_data->checking_menu_item) || (menuitem == win_data->current_menuitem_theme)) return;
-
-	g_free(win_data->color_theme_str);
-	win_data->color_theme_str = g_strdup(gtk_widget_get_name(menuitem));
+	if (menuitem == win_data->menuitem_revert_color)
+	{
+		gboolean revert_color = gtk_check_menu_item_get_active (GTK_CHECK_MENU_ITEM(menuitem));
+		if (revert_color == win_data->revert_color) return;
+		win_data->revert_color = revert_color;
+	}
+	else
+	{
+		if ((win_data->checking_menu_item) || (menuitem == win_data->current_menuitem_theme)) return;
+		
+		g_free(win_data->color_theme_str);
+		win_data->color_theme_str = g_strdup(gtk_widget_get_name(menuitem));
 #ifdef DEFENSIVE
-	if (win_data->color_theme_str==NULL) return;
+		if (win_data->color_theme_str==NULL) return;
 #endif
+	}
+
 	if (win_data->using_custom_color == FALSE)
 	{
-		win_data->using_custom_color = win_data->color_theme_str[0];
-		if (win_data->color_brightness) win_data->using_custom_color = TRUE;
-		if (win_data->color_brightness != win_data->color_brightness_inactive) win_data->using_custom_color = TRUE;
+		if (menuitem == win_data->menuitem_revert_color)
+			win_data->using_custom_color = TRUE;
+		else
+		{
+			win_data->using_custom_color = win_data->color_theme_str[0];
+			if (win_data->color_brightness) win_data->using_custom_color = TRUE;
+			if (win_data->color_brightness != win_data->color_brightness_inactive) win_data->using_custom_color = TRUE;
+		}
 		// init the init_user_color(struct Window *win_data)
 		if (win_data->using_custom_color) init_user_color(win_data);
 	}
 
 	gint i;
-	if (win_data->using_custom_color)
+	if (menuitem == win_data->menuitem_revert_color)
 	{
-		for (i=0; i<COLOR; i++)
-			win_data->color_orig[i] = color[i];
+		if (win_data->color_orig==NULL)
+			for (i=0; i<COLOR; i++)
+				win_data->color_orig[i] = color_theme[0].color[i];
+		switch_color(win_data);
+	}
+	else
+	{
+		if (win_data->using_custom_color)
+		{
+			for (i=0; i<COLOR; i++)
+				win_data->color_orig[i] = color[i];
+		}
 	}
 
 	set_color_brightness (win_data);
@@ -1045,8 +1073,12 @@ void set_ansi_theme(GtkWidget *menuitem, GdkColor color[COLOR])
 #endif
 			set_vte_color(win_data, page_data);
 	}
-	// g_debug("Set the color theme to %s!", gtk_menu_item_get_label(GTK_MENU_ITEM(menuitem)));
-	win_data->current_menuitem_theme = menuitem;
+
+	if (menuitem != win_data->menuitem_revert_color)
+	{
+		// g_debug("Set the color theme to %s!", gtk_menu_item_get_label(GTK_MENU_ITEM(menuitem)));
+		win_data->current_menuitem_theme = menuitem;
+	}
 }
 
 void set_erase_binding (GtkWidget *menuitem, gint value)

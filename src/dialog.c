@@ -1467,7 +1467,8 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 					set_new_ansi_color(win_data);
 					adjust_ansi_color(win_data->color_inactive,
 							  win_data->color_orig,
-							  win_data->color_brightness_inactive);
+							  win_data->color_brightness_inactive,
+							  win_data->revert_color);
 					break;
 #endif
 			}
@@ -1556,7 +1557,8 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 					win_data->fg_color = dialog_data->original_fg_color;
 					adjust_ansi_color(win_data->color,
 							  win_data->color_orig,
-							  win_data->color_brightness);
+							  win_data->color_brightness,
+							  win_data->revert_color);
 					struct Page *page_data = (struct Page *)g_object_get_data(G_OBJECT(win_data->current_vte),
 												  "Page_Data");
 #ifdef DEFENSIVE
@@ -2775,7 +2777,7 @@ gboolean set_ansi_color(GtkRange *range, GtkScrollType scroll, gdouble value, Gt
 	win_data->fg_color = get_inactive_color(dialog_data->original_fg_color,
 						win_data->color_brightness,
 						dialog_data->original_color_brightness);
-	adjust_ansi_color(win_data->color, win_data->color_orig, win_data->color_brightness);
+	adjust_ansi_color(win_data->color, win_data->color_orig, win_data->color_brightness, win_data->revert_color);
 	set_vte_color(win_data, page_data);
 	return FALSE;
 }
@@ -2814,7 +2816,8 @@ void set_new_ansi_color(struct Window *win_data)
 							  win_data->color_brightness);
 	adjust_ansi_color(win_data->color,
 			  win_data->color_orig,
-			  win_data->color_brightness);
+			  win_data->color_brightness,
+			  win_data->revert_color);
 #ifdef DEFENSIVE
 	if (win_data->current_vte==NULL) return;
 #endif
