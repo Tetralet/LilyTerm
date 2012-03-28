@@ -7,13 +7,13 @@ msgstr ""
 "Project-Id-Version: LilyTerm 0.9.9~pre4\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-03-28 22:27+0800\n"
-"PO-Revision-Date: 2012-03-26 14:20+0200\n"
+"PO-Revision-Date: 2012-03-28 17:36+0200\n"
 "Last-Translator: Marco Paolone <marcopaolone@gmail.com>\n"
 "Language-Team: Italian <IT@li.org>\n"
+"Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: it\n"
 
 #: console.c:121
 #, c-format
@@ -783,7 +783,7 @@ msgstr "Cambia tema colori ANSI"
 
 #: menu.c:123
 msgid "Revert color"
-msgstr ""
+msgstr "Ripristina colori"
 
 #. TRANSLATE NOTE: Please translate the "System default (SCHEME)" into "System default" (in your language).
 #. TRANSLATE NOTE: Some language will have trouble if here is "System default" only.
