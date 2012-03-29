@@ -128,9 +128,7 @@ for opt do
       ;;
     *)
       $ECHO ""
-      ERR "ERROR: invalid option \"$opt\". ABORT!\n"
-      $ECHO ""
-      exit 1
+      WARN "WARNING: invalid option \"$opt\"!\n"
       ;;
   esac
 done
