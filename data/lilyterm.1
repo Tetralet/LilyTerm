@@ -1,14 +1,14 @@
 .\" Process this file with
 .\" groff -man -Tascii lilyterm.1
 .\"
-.TH LilyTerm 1 "July 2010" "LilyTerm 0.9.9" "A light and eazy-to-use terminal emulator"
+.TH LilyTerm 1 "March 2012" "LilyTerm 0.9.9" "A light and eazy-to-use terminal emulator"
 .SH NAME
 LilyTerm \- A light and eazy-to-use terminal emulator for X.
 .\" Disable justification (adjust text to left margin only)
 .ad l
 .SH SYNOPSIS
 .HP 9
-\fBlilyterm\fR [\fB-?\fR | \fB-h\fR | \fB--help\fR] [\fB-v\fR | \fB--version\fR] [\fB-p\fR | \fB--profile\fR] [\fB-s\fR | \fB--separate\fR] [\fB-l\fR | \fB-ls\fR | \fB--login\fR] [\fB-T\fR \fITITLE\fR | \fB--title\fR \fITITLE\fR] [\fB-g\fR \fIGEOMETRY\fR | \fB--geometry\fR \fIGEOMETRY\fR] [\fB-t\fR \fINUMBER\fR | \fB--tab\fR \fINUMBER\fR] [\fB-d\fR \fIDIRECTORY\fR | \fB--directory\fR \fIDIRECTORY\fR] [\fB-u\fR \fIPROFILE\fR | \fB--user_profile\fR \fIPROFILE\fR] [\fB-e\fR \fICOMMAND\fR | \fB-x\fR \fICOMMAND\fR | \fB--execute\fR \fICOMMAND\fR]
+\fBlilyterm\fR [\fB-?\fR | \fB-h\fR | \fB--help\fR] [\fB-v\fR | \fB--version\fR] [\fB-d\fR \fIDIRECTORY\fR | \fB--directory\fR \fIDIRECTORY\fR] [\fB-g\fR \fIGEOMETRY\fR | \fB--geometry\fR \fIGEOMETRY\fR] [\fB-l\fR | \fB-ls\fR | \fB--login\fR] [\fB-p\fR | \fB--profile\fR] [\fB-s\fR | \fB--separate\fR] [\fB-T\fR \fITITLE\fR | \fB--title\fR \fITITLE\fR] [\fB-t\fR \fINUMBER\fR | \fB--tab\fR \fINUMBER\fR] [\fB-u\fR \fIPROFILE\fR | \fB--user_profile\fR \fIPROFILE\fR] [\fB-e\fR \fICOMMAND\fR | \fB-x\fR \fICOMMAND\fR | \fB--execute\fR \fICOMMAND\fR]
 .SH DESCRIPTION
 LilyTerm is a terminal emulator for the X Window System, based on the \fBlibvte\fR library, and aims to be fast and lightweight.
 .SH OPTIONS
@@ -23,6 +23,23 @@ Display a brief help message.
 Show the version information.
 .RE
 .PP
+\fB-d\fR \fIDIRECTORY\fR | \fB--directory\fR \fIDIRECTORY\fR
+.RS 4
+Specify the init directory when starting up.
+.RE
+.PP
+\fB-g\fR \fIGEOMETRY\fR | \fB--geometry\fR \fIGEOMETRY\fR
+.RS 4
+Specify the geometry of window when starting.
+.br
+A reasonable example value is "80x24+0+0", witch means "width x height {+-} xoffset {+-} yoffset" (without space).
+.RE
+.PP
+\fB-l\fR | \fB-ls\fR | \fB--login\fR
+.RS 4
+Make the shell invoked as a login shell.
+.RE
+.PP
 \fB-p\fR | \fB--profile\fR
 .RS 4
 Got a profile sample.
@@ -33,31 +50,14 @@ Got a profile sample.
 Run in separate process.
 .RE
 .PP
-\fB-l\fR | \fB-ls\fR | \fB--login\fR
-.RS 4
-Make the shell invoked as a login shell.
-.RE
-.PP
 \fB-T\fR \fITITLE\fR | \fB--title\fR \fITITLE\fR
 .RS 4
 Specify the window title.
 .RE
 .PP
-\fB-g\fR \fIGEOMETRY\fR | \fB--geometry\fR \fIGEOMETRY\fR
-.RS 4
-Specify the geometry of window when starting.
-.br
-A reasonable example value is "80x24+0+0", witch means "width x height {+-} xoffset {+-} yoffset" (without space).
-.RE
-.PP
 \fB-t\fR \fINUMBER\fR | \fB--tab\fR \fINUMBER\fR
 .RS 4
 Open multi tabs when starting up.
-.RE
-.PP
-\fB-d\fR \fIDIRECTORY\fR | \fB--directory\fR \fIDIRECTORY\fR
-.RS 4
-Specify the init directory when starting up.
 .RE
 .PP
 \fB-u\fR \fIPROFILE\fR | \fB--user_profile\fR \fIPROFILE\fR
@@ -71,7 +71,7 @@ Run a command when starting up. Must be the final option.
 .RE
 
 .SH KEYBOARD CONTROL
-The following shortcut keys may custom or disable by editing user's profile. Use \fB[Get function value]\fR in the right click menu to get the function key value for used in profile.
+The following key bindings may custom or disable by the right click menu \fB[Set key binding]\fR.
 .PP
 .PD 0
 .TP 20
@@ -80,13 +80,17 @@ Disable/Enable hyperlinks, function keys and right click menu for temporary.
 
 .TP
 .BI <Ctrl><T/Q>
-Add a New tab/Close current tab.
+Add a New tab with current directory/Close current tab (had been disabled by default).
 .br
 \fIUsing \fR\fB<Ctrl><D>\fR\fI or '\fR\fBexit\fR\fI' to close tabs is recommended.\fR
 
 .TP
 .BI <Ctrl><E>
-Rename current tab.
+Rename the current tab. (had been disabled by default)
+
+.TP
+.BI <Ctrl><N>
+Open a new window with current directory. (had been disabled by default)
 
 .TP
 .BI <Ctrl><PgUp/PgDn>
@@ -113,10 +117,6 @@ Switch to 1st ~ 12th tab.
 Select all the text in the Vte Terminal box.
 
 .TP
-.BI <Ctrl><Delete/Insert>
-Copy the text to clipboard / Paste the text in clipboard.
-
-.TP
 .BI <Ctrl><+/-/Enter>
 Increase/Decrease/Reset the font size of current tab.
 
@@ -137,10 +137,14 @@ Asks to scroll Up/Down 1 line on Vte Terminal box.
 Asks to scroll Up/Down on Vte Terminal box.
 
 .TP
-.BI <Shift><Insert>
-Paste the text in primary clipboard.
+.BI <Ctrl><Delete/Insert>
+Copy the text to clipboard / Paste the text in clipboard.
+
+.TP
+.BI <Shift><Delete/Insert>
+Copy the text to primary clipboard / Paste the text in primary clipboard.
 .br
-i.e. Emulate a middle button mouse click to paste the text.
+i.e. Emulate a middle button mouse click to copy/paste the text.
 .RE
 
 .SH FILE
@@ -199,10 +203,16 @@ xauth merge /tmp/display
 export DISPLAY=:0
 .RE
 
-Launch LilyTerm directly, or run it under \fBXnest\fR:
+Launch LilyTerm directly, or run it under \fBXnest\fR/\fBXephyr\fR:
 
 .RS 4
-xinit ~/.xinitrc \-\- /usr/bin/Xnest :1 \-ac
+xinit ~/.xinitrc \-\- /usr/bin/Xnest :1 \-ac -geometry 800x600
+.RE
+
+or
+
+.RS 4
+xinit ~/.xinitrc \-\- /usr/bin/Xephyr :1 \-ac -screen 800x600
 .RE
 .RE
 
