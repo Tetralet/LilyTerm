@@ -77,7 +77,9 @@ INCLUDES = -DBINARY=\"$(BINARY)\" \
 
 .PHONY: all
 all: default
+ifeq ($(STRIP), Y)
 	@ strip --remove-section=.comment --remove-section=.note $(BINARY)
+endif
 
 .PHONY: default
 default: CFLAGS := $(CFLAGS) -DDEFENSIVE

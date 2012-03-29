@@ -10,6 +10,7 @@ GTK=gtk+-2.0
 DEBUG=N
 NLS=Y
 SAFEMODE=Y
+STRIP=N
 GNOME_CONTROL_CENTER=Y
 
 GTK_SPC=0
@@ -119,6 +120,9 @@ for opt do
       ;;
     --disable-safe-mode)
       SAFEMODE=N
+      ;;
+    --enable-strip)
+      STRIP=Y
       ;;
     --enable-gnome-control-center)
       GNOME_CONTROL_CENTER_SPC=1
@@ -290,7 +294,9 @@ if [ "$SAFEMODE" = 'N' ]; then
 else
   $ECHO "SAFEMODE  = $SAFEMODE"
 fi
-
+if [ "$STRIP" = 'Y' ]; then
+  IMPORTANT "STRIP     = $STRIP\n"
+fi
 CHECK_CC=`whereis -b $CC | awk '{print $2}'`
 if [ -n "$CHECK_CC" ]; then
   if [ "$CC" != 'gcc' ]; then
@@ -322,6 +328,7 @@ $ECHO "NLS = $NLS" >> .config
 $ECHO "DEBUG = $DEBUG" >> .config
 $ECHO "NLS = $NLS" >> .config
 $ECHO "SAFEMODE = $SAFEMODE" >> .config
+$ECHO "STRIP = $STRIP" >> .config
 $ECHO "CC = $CC" >> .config
 $ECHO "CFLAGS = $CFLAGS" >> .config
 $ECHO "MAKE = $MAKE" >> .config
