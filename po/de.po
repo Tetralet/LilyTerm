@@ -5,16 +5,16 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 0.9.9~final2\n"
+"Project-Id-Version: 0.9.9~final3\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-03-28 22:27+0800\n"
-"PO-Revision-Date: 2012-03-26 18:51+0100\n"
+"PO-Revision-Date: 2012-03-28 20:35+0100\n"
 "Last-Translator: Mario Blättermann <mario.blaettermann@gmail.com>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
+"Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: de\n"
 "X-Poedit-Language: German\n"
 "X-Poedit-Country: GERMANY\n"
 "X-Poedit-SourceCharset: utf-8\n"
@@ -40,8 +40,8 @@ msgstr ""
 
 #: console.c:141
 msgid ""
-"Use -e/-x/--execute {Command} to run a command when starting up. (Must be "
-"the final option).\n"
+"Use -e/-x/--execute {Command} to run a command when starting up. (Must be the "
+"final option).\n"
 msgstr ""
 "Verwenden Sie -e/-x/--execute {Befehl}, um einen Befehl beim Start "
 "auszuführen.\n"
@@ -96,8 +96,7 @@ msgid ""
 "Use -u/--user_profile {%s} to use a specified profile.\n"
 "\n"
 msgstr ""
-"Verwenden Sie -u/--user_profile {%s}, um ein bestimmtes Profil zu "
-"verwenden.\n"
+"Verwenden Sie -u/--user_profile {%s}, um ein bestimmtes Profil zu verwenden.\n"
 "\n"
 
 #: console.c:159
@@ -126,8 +125,7 @@ msgid ""
 "  * <Ctrl><`>           Disable/Enable hyperlinks, function keys and right "
 "click menu."
 msgstr ""
-"  * <Strg><`>                        Deaktivieren/Aktivieren der "
-"Hyperlinks,\n"
+"  * <Strg><`>                        Deaktivieren/Aktivieren der Hyperlinks,\n"
 "                                     Funktionstasten und des Rechtsklickmenüs"
 
 #: console.c:234
@@ -139,8 +137,7 @@ msgstr ""
 #: console.c:235
 msgid "  * <Ctrl><PgUp/PgDn>   Switch to Prev/Next tab.\n"
 msgstr ""
-"  * <Strg><Bild auf/Bild ab>         Zum vorherigen/nächsten Reiter "
-"wechseln\n"
+"  * <Strg><Bild auf/Bild ab>         Zum vorherigen/nächsten Reiter wechseln\n"
 
 #: console.c:236
 msgid "  * <Ctrl><Home/End>    Switch to First/Last tab.\n"
@@ -189,8 +186,8 @@ msgstr ""
 
 #: console.c:243
 msgid ""
-"  * <Shift><PgUp/PgDn>  Gtk+ default behavior, Scroll Up/Down on Vte "
-"Terminal box.\n"
+"  * <Shift><PgUp/PgDn>  Gtk+ default behavior, Scroll Up/Down on Vte Terminal "
+"box.\n"
 msgstr ""
 "  * <Umschalt><Bild auf/Bild ab>     Gtk+Standardverhalten, im Vte-Terminal "
 "nach oben/unten rollen.\n"
@@ -205,8 +202,8 @@ msgstr ""
 
 #: console.c:245
 msgid ""
-"  * <Alt><F11/Enter>    Switch between fullwindow/unfullwindow and "
-"fullscreen/unfullscreen state.\n"
+"  * <Alt><F11/Enter>    Switch between fullwindow/unfullwindow and fullscreen/"
+"unfullscreen state.\n"
 msgstr ""
 "  * <Alt><F11/Eingabe>               Zwischen Vollbild- und Fenstermodus "
 "sowie\n"
@@ -524,8 +521,8 @@ msgstr ""
 "%s wurde mit dem Ziel veröffentlicht, dass Sie es nützlich finden,\n"
 "jedoch OHNE JEDWEDE GARANTIE, sogar ohne eine implizite Garantie\n"
 "der VERKAUFBARKEIT oder der NUTZBARKEIT FÜR EINEN SPEZIELLEN ZWECK.\n"
-"Schauen Sie für weitere Informationen bitte in der GNU General Public "
-"License (GNU GPL) nach.\n"
+"Schauen Sie für weitere Informationen bitte in der GNU General Public License "
+"(GNU GPL) nach.\n"
 "\n"
 "Mit %s sollten Sie außerdem eine Kopie der GNU General Public License "
 "erhalten\n"
@@ -821,7 +818,7 @@ msgstr "ANSI-Farbthema ändern"
 
 #: menu.c:123
 msgid "Revert color"
-msgstr ""
+msgstr "Farbe zurücksetzen"
 
 #. TRANSLATE NOTE: Please translate the "System default (SCHEME)" into "System default" (in your language).
 #. TRANSLATE NOTE: Some language will have trouble if here is "System default" only.
@@ -1045,8 +1042,7 @@ msgstr "Die folgenden Einstellungen können nicht angewendet werden"
 #: menu.c:2147
 msgid "Disable: Trying to use [Transparent Background] instead."
 msgstr ""
-"Deaktivieren: Stattdessen versuchen, [Transparenten Hintergrund] zu "
-"verwenden."
+"Deaktivieren: Stattdessen versuchen, [Transparenten Hintergrund] zu verwenden."
 
 #: menu.c:2153
 msgid "Scroll the background image along with the text"
