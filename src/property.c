@@ -253,6 +253,12 @@ void set_vte_color(struct Window *win_data, struct Page *page_data)
 
 void switch_color(struct Window *win_data)
 {
+#ifdef DETAIL
+	g_debug("! Launch switch_color() with win_data = %p", win_data);
+#endif
+#ifdef DEFENSIVE
+	if ((win_data==NULL)) return;
+#endif
 	GdkColor tmp_color = win_data->fg_color;
 	win_data->fg_color = win_data->bg_color;
 	win_data->bg_color = tmp_color;
