@@ -2,7 +2,7 @@ include ../.default
 -include ../.config
 
 ETCDIR ?= /etc
-MANDIR ?= $(DATADIR)/man
+MANDIR ?= $(DATADIR)/man/man1
 DESKTOP_DIR ?= $(DATADIR)/applications
 EXAMPLES_DIR ?= $(DATADIR)/doc/$(BINARY)/examples
 GNOME_CONTROL_CENTER ?= Y
