@@ -396,7 +396,7 @@ void init_window_parameters(struct Window *win_data)
 	// win_data->color_inactive[COLOR];
 	// win_data->color_orig[COLOR];
 	win_data->color_brightness = 0.2;
-	win_data->color_brightness_inactive = -0.3;
+	win_data->color_brightness_inactive = -2;
 	win_data->page_width = 16;
 	// win_data->fill_tabs_bar;
 	// win_data->tabs_bar_position;
