@@ -1456,6 +1456,7 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 				// style 19: Adjust the brightness of ANSI colors used in terminal
 				case ADJUST_THE_BRIGHTNESS_OF_ANSI_COLORS_USED_IN_TERMINAL:
 				{
+					if (win_data->dim_text == FALSE) win_data->color_brightness_inactive = win_data->color_brightness;
 					struct Page *page_data;
 					for (i=0; i<gtk_notebook_get_n_pages(GTK_NOTEBOOK(win_data->notebook)); i++)
 					{

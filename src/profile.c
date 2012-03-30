@@ -2171,6 +2171,9 @@ GString *save_user_settings(GtkWidget *widget, struct Window *win_data)
 	gchar *lc_numeric = g_strdup((char*)g_getenv("LC_NUMERIC"));
 	setlocale(LC_NUMERIC, "C");
 
+	gboolean revert_color = win_data->revert_color;
+	if (revert_color) switch_color(win_data);
+
 	long column = 0, row = 0;
 	GString *contents = g_string_new("[main]\n\n");
 	g_string_append_printf(contents,"# The version of this profile's format. DO NOT EDIT IT!\n"
@@ -2514,6 +2517,8 @@ GString *save_user_settings(GtkWidget *widget, struct Window *win_data)
 		g_string_append_printf( contents,"%s = %s\n\n",
 					command[i].locale_name, win_data->user_command[i].locale);
 	}
+
+	if (revert_color) switch_color(win_data);
 
 	// g_debug("menu_active_window = %p", menu_active_window);
 	if (menu_active_window==NULL)

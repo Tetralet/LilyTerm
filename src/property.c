@@ -263,6 +263,10 @@ void switch_color(struct Window *win_data)
 	win_data->fg_color = win_data->bg_color;
 	win_data->bg_color = tmp_color;
 
+	gchar *color = win_data->foreground_color;
+	win_data->foreground_color = win_data->background_color;
+	win_data->background_color = color;
+
 	gdouble color_brightness = win_data->color_brightness;
 	win_data->color_brightness = win_data->color_brightness_inactive;
 	win_data->color_brightness_inactive = color_brightness;
