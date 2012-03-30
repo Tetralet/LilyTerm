@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: lilyterm 0.9.9~rc9\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-03-28 22:27+0800\n"
-"PO-Revision-Date: 2012-03-26 22:25+0200\n"
+"PO-Revision-Date: 2012-03-29 21:14+0200\n"
 "Last-Translator: Slavko <linux@slavino.sk>\n"
 "Language-Team: slovenčina <debian-l10n-slovak@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
@@ -340,7 +340,7 @@ msgstr ""
 
 #: dialog.c:372 dialog.c:741
 msgid "Key Value:"
-msgstr "Hodnota klávesu:"
+msgstr "Hodnota klávesa:"
 
 #: dialog.c:378
 msgid "Entry"
@@ -490,12 +490,12 @@ msgstr ""
 "Copyright (c) %s-%s  %s. Všetky práva rezervované.\n"
 "\n"
 "%s je slobodný softvér: môžete ho distribuovať a/alebo upravovať\n"
-"pri dodržaní podmienok GNU General Public License, tak ako ju zverejňuje\n"
-"Free Software Foundation, buď verzie 3 Licencie, alebo\n"
+"pri dodržaní podmienok GNU General Public License, tak ako ju\n"
+"zverejňuje Free Software Foundation, buď verzie 3 Licencie, alebo\n"
 "(podľa vašej voľby) akejkoľvek neskoršej verzie.\n"
 "\n"
-"%s je distribuovaný v nádeji, že bude užitočný,\n"
-"ale BEZ AKEJKOĽVEK ZÁRUKY; dokonca aj bez implikovanej záruky\n"
+"%s je distribuovaný v nádeji, že bude užitočný, ale\n"
+"BEZ AKEJKOĽVEK ZÁRUKY; dokonca aj bez implikovanej záruky\n"
 "PREDAJNOSTI alebo VHODNOSTI NA URČITÝ ÚČEL. Viac podrobností\n"
 "hľadajte v GNU General Public License.\n"
 "\n"
@@ -789,7 +789,7 @@ msgstr "Zmeniť farebnú schému ANSI"
 
 #: menu.c:123
 msgid "Revert color"
-msgstr ""
+msgstr "Vrátiť farbu"
 
 #. TRANSLATE NOTE: Please translate the "System default (SCHEME)" into "System default" (in your language).
 #. TRANSLATE NOTE: Some language will have trouble if here is "System default" only.
