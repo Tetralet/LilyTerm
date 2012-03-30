@@ -19,7 +19,8 @@ check vte_data->column
 confirm to save settings before exit
 
 * double click to select more...
-
+add programs to 'whitelist' when warning dialog appeard.
+[Auto save settings]?
 sort menu via profile
 a scroll bar menu
 Save settings that diff and full
@@ -28,6 +29,9 @@ Save settings that diff and full
 ** custom URL match
 * custom protocal matches <- very hard to implement
 * the copy/paste key -> <ctrl><shift><c>/<ctrl><shift><v>
+
+* clear the bottom space in the 'set the key binding' dialog.
+* revert b6a3d6f22ef915c6a004ab2fb56b181705984698.
 
 Deprecated:
 

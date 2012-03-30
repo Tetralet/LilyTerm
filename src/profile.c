@@ -2821,13 +2821,14 @@ void convert_string_to_user_key(gint i, gchar *value, struct Window *win_data)
 	if (win_data==NULL) return;
 #endif
 
-	if (value && (value[0]!='\0'))
+	if (value)
 	{
 		// g_debug("Got %s key = %s form profile.", pagekeys[i].name, value);
 		// g_debug("Call accelerator_parse() with system_keys[i].name = %s, value = %s (%p)",
 		//	system_keys[i].name, value, value);
-		if ( accelerator_parse(system_keys[i].name, value,
-				  &(win_data->user_keys[i].key), &(win_data->user_keys[i].mods)))
+		if ((value[0]=='\0') ||
+		    accelerator_parse(system_keys[i].name, value,
+				      &(win_data->user_keys[i].key), &(win_data->user_keys[i].mods)))
 		{
 			g_free(win_data->user_keys[i].value);
 			win_data->user_keys[i].value = value;
@@ -2850,8 +2851,6 @@ void convert_string_to_user_key(gint i, gchar *value, struct Window *win_data)
 		//			pagekeys[i].key, gdk_keyval_name(pagekeys[i].key),
 		//			pagekeys[i].mods);
 	}
-	else
-		g_free(value);
 	// else
 	//	g_debug("We can not find %s key in profile...", pagekeys[i].name);
 }
