@@ -1495,8 +1495,7 @@ void get_user_settings(struct Window *win_data, const gchar *encoding)
 				// value = check_string_value(keyfile, "key", system_keys[i].name,
 				//			   g_strdup(win_data->user_keys[i].value), ENABLE_EMPTY_STR);
 				// g_debug("Get %s (%p) from g_key_file_get_value()...", value, value);
-				if (value && (value[0]!='\0'))
-					convert_string_to_user_key(i, value, win_data);
+				convert_string_to_user_key(i, value, win_data);
 			}
 
 			for (i=0; i<COMMAND; i++)
@@ -1533,9 +1532,9 @@ void get_user_settings(struct Window *win_data, const gchar *encoding)
 
 			init_user_color(win_data);
 
+			gboolean custom_color = FALSE;
 			for (i=0; i<COLOR; i++)
 			{
-				gboolean custom_color = FALSE;
 				win_data->color_value[i] = check_string_value(keyfile, "color",
 									      color[i].name,
 									      win_data->color_value[i],
@@ -1554,11 +1553,11 @@ void get_user_settings(struct Window *win_data, const gchar *encoding)
 					//	win_data->color[i].pixel, win_data->color[i].red,
 					//	win_data->color[i].green, win_data->color[i].blue );
 				}
-				if (custom_color)
-				{
-					g_free(win_data->color_theme_str);
-					win_data->color_theme_str = g_strdup("Custom");
-				}
+			}
+			if (custom_color)
+			{
+				g_free(win_data->color_theme_str);
+				win_data->color_theme_str = g_strdup("Custom");
 			}
 
 			win_data->color_brightness = check_double_value(keyfile,
@@ -2822,7 +2821,7 @@ void convert_string_to_user_key(gint i, gchar *value, struct Window *win_data)
 	if (win_data==NULL) return;
 #endif
 
-	if (value)
+	if (value && (value[0]!='\0'))
 	{
 		// g_debug("Got %s key = %s form profile.", pagekeys[i].name, value);
 		// g_debug("Call accelerator_parse() with system_keys[i].name = %s, value = %s (%p)",
@@ -2851,6 +2850,8 @@ void convert_string_to_user_key(gint i, gchar *value, struct Window *win_data)
 		//			pagekeys[i].key, gdk_keyval_name(pagekeys[i].key),
 		//			pagekeys[i].mods);
 	}
+	else
+		g_free(value);
 	// else
 	//	g_debug("We can not find %s key in profile...", pagekeys[i].name);
 }
