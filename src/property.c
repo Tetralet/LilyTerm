@@ -249,6 +249,7 @@ void set_vte_color(struct Window *win_data, struct Page *page_data)
 		vte_terminal_set_color_background(VTE_TERMINAL(page_data->vte), &(win_data->bg_color));
 	}
 	vte_terminal_set_color_bold (VTE_TERMINAL(page_data->vte), &(win_data->fg_color));
+	vte_terminal_set_background_tint_color (VTE_TERMINAL(page_data->vte), &(win_data->bg_color));
 }
 
 void switch_color(struct Window *win_data)
