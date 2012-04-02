@@ -95,8 +95,8 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 #ifdef DEFENSIVE
 		if (err_msg)
 #endif
-			error_dialog(NULL, _("The following error is occurred:"),
-				     "The following error is occurred:",
+			error_dialog(NULL, _("The following error occurred:"),
+				     "The following error occurred:",
 				     GTK_STOCK_DIALOG_ERROR, err_msg, NULL);
 		g_free(err_msg);
 		goto FINISH;
@@ -710,7 +710,7 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 								     "text", 0, NULL);
 
 			gtk_tree_view_insert_column_with_attributes (GTK_TREE_VIEW (dialog_data->treeview), -1,
-								     _("Key Binding"), renderer,
+								     _("Key Bindings"), renderer,
 								     "text", 1, NULL);
 
 			GtkTreeSelection *tree_selection = gtk_tree_view_get_selection(GTK_TREE_VIEW (dialog_data->treeview));
@@ -864,7 +864,7 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 						   "\t%s\n"
 						   "\t%s\n\n"
 						   "%s\n\n%s\n\n%s\n\n%s\n\n%s",
-						   AUTHOR, BUGREPORT, _("homepage:"), str[9] ,str[10], str[11],
+						   AUTHOR, BUGREPORT, _("Homepage:"), str[9] ,str[10], str[11],
 						   str[12], str[13], str[14], str[15], str[16]);
 			str[18] = convert_text_to_html(&str[17], FALSE, NULL, "tt", NULL);
 			dialog_data->operate[4] = add_text_to_notebook(notebook, _("About"), GTK_STOCK_ABOUT, str[18]);
@@ -1476,7 +1476,7 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 					adjust_ansi_color(win_data->color_inactive,
 							  win_data->color_orig,
 							  win_data->color_brightness_inactive,
-							  win_data->revert_color);
+							  win_data->invert_color);
 					break;
 #endif
 			}
@@ -1566,7 +1566,7 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 					adjust_ansi_color(win_data->color,
 							  win_data->color_orig,
 							  win_data->color_brightness,
-							  win_data->revert_color);
+							  win_data->invert_color);
 					struct Page *page_data = (struct Page *)g_object_get_data(G_OBJECT(win_data->current_vte),
 												  "Page_Data");
 #ifdef DEFENSIVE
@@ -2736,8 +2736,8 @@ void print_switch_out_of_range_error_dialog(gchar *function, gchar *var, gint va
 #ifdef DEFENSIVE
 	if (err_msg)
 #endif
-		error_dialog(NULL, _("The following error is occurred:"),
-			     "The following error is occurred:",
+		error_dialog(NULL, _("The following error occurred:"),
+			     "The following error occurred:",
 			     GTK_STOCK_DIALOG_ERROR, err_msg, NULL);
 	g_free(err_msg);
 }
@@ -2785,7 +2785,7 @@ gboolean set_ansi_color(GtkRange *range, GtkScrollType scroll, gdouble value, Gt
 	win_data->fg_color = get_inactive_color(dialog_data->original_fg_color,
 						win_data->color_brightness,
 						dialog_data->original_color_brightness);
-	adjust_ansi_color(win_data->color, win_data->color_orig, win_data->color_brightness, win_data->revert_color);
+	adjust_ansi_color(win_data->color, win_data->color_orig, win_data->color_brightness, win_data->invert_color);
 	set_vte_color(win_data, page_data);
 	return FALSE;
 }
@@ -2825,7 +2825,7 @@ void set_new_ansi_color(struct Window *win_data)
 	adjust_ansi_color(win_data->color,
 			  win_data->color_orig,
 			  win_data->color_brightness,
-			  win_data->revert_color);
+			  win_data->invert_color);
 #ifdef DEFENSIVE
 	if (win_data->current_vte==NULL) return;
 #endif

@@ -6,14 +6,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LilyTerm 0.9.9~pre4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-28 22:27+0800\n"
+"POT-Creation-Date: 2012-04-02 21:05+0800\n"
 "PO-Revision-Date: 2012-03-28 17:36+0200\n"
 "Last-Translator: Marco Paolone <marcopaolone@gmail.com>\n"
 "Language-Team: Italian <IT@li.org>\n"
-"Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: it\n"
 
 #: console.c:121
 #, c-format
@@ -272,8 +272,10 @@ msgstr ""
 msgid "Set key binding"
 msgstr "Imposta combinazioni dei tasti"
 
-#: dialog.c:98 dialog.c:2738 menu.c:2511
-msgid "The following error is occurred:"
+#: dialog.c:98 dialog.c:2739 menu.c:2511
+#, fuzzy
+#| msgid "The following error is occurred:"
+msgid "The following error occurred:"
 msgstr "Si è verificato il seguente errore:"
 
 #: dialog.c:163 menu.c:329
@@ -404,7 +406,7 @@ msgstr "Cambia il colore di primo piano nel terminale"
 msgid "Change the %s color on tab"
 msgstr "Cambia il colore %s sulla scheda"
 
-#: dialog.c:581 dialog.c:2557
+#: dialog.c:581 dialog.c:2558
 msgid "Bold Demo Text"
 msgstr "Testo dimostrativo in grassetto"
 
@@ -437,7 +439,9 @@ msgid "Function Key Name"
 msgstr "Nome del tasto funzione"
 
 #: dialog.c:713
-msgid "Key Binding"
+#, fuzzy
+#| msgid "Key Binding"
+msgid "Key Bindings"
 msgstr "Combinazione tasti"
 
 #: dialog.c:721
@@ -539,7 +543,9 @@ msgid "IRC:    %s"
 msgstr "IRC:    %s"
 
 #: dialog.c:867
-msgid "homepage:"
+#, fuzzy
+#| msgid "homepage:"
+msgid "Homepage:"
 msgstr "Sito principale:"
 
 #: dialog.c:870
@@ -658,7 +664,7 @@ msgstr "Unisci e incolla"
 msgid "Clipboard"
 msgstr "Appunti"
 
-#: dialog.c:2282
+#: dialog.c:2283
 #, c-format
 msgid ""
 "Try to kill %s with SIGKILL() to avoid terminate those programs!\n"
@@ -668,22 +674,22 @@ msgstr ""
 "programmi!\n"
 "(POTREBBE CAUSARE PERDITA DI DATI!!)"
 
-#: dialog.c:2296
+#: dialog.c:2297
 #, c-format
 msgid "Force to close all the tabs and windows, and exit %s!"
 msgstr ""
 "Forza la chiusura di tutte le schede e tutte le finestre, ed esce da %s!"
 
-#: dialog.c:2421
+#: dialog.c:2422
 #, c-format
 msgid "(Disabled, duplicated with [%s])"
 msgstr "(Disabilitato, duplicato con [%s])"
 
-#: dialog.c:2430 dialog.c:2899 dialog.c:2950
+#: dialog.c:2431 dialog.c:2900 dialog.c:2951
 msgid "(Disabled)"
 msgstr "(Disabilitato)"
 
-#: dialog.c:2676
+#: dialog.c:2677
 #, c-format
 msgid ""
 "The locale \"%s\" seems NOT supported by your system!\n"
@@ -694,22 +700,22 @@ msgstr ""
 "Se i dati locali sono stati aggiornati di recente,\n"
 "chiudere tutte le finestre di %s e provare di nuovo."
 
-#: dialog.c:2680
+#: dialog.c:2681
 msgid "Not supported locale!"
 msgstr "Locale non supportato!"
 
-#: dialog.c:2750
+#: dialog.c:2751
 #, c-format
 msgid "You should upgrade to %s and recompile %s to support this feature."
 msgstr ""
 "È necessario aggiornare a %s e ricompilare %s per supportare questa "
 "caratteristica."
 
-#: dialog.c:2751
+#: dialog.c:2752
 msgid "Not supported feature!"
 msgstr "Funzionalità non supportata!"
 
-#: dialog.c:2907
+#: dialog.c:2908
 #, c-format
 msgid "Disable all the function keys of [%s] group."
 msgstr "Disabilita tutti i tasti funzione del gruppo [%s]"
@@ -782,7 +788,9 @@ msgid "Change ANSI color theme"
 msgstr "Cambia tema colori ANSI"
 
 #: menu.c:123
-msgid "Revert color"
+#, fuzzy
+#| msgid "Revert color"
+msgid "Invert color"
 msgstr "Ripristina colori"
 
 #. TRANSLATE NOTE: Please translate the "System default (SCHEME)" into "System default" (in your language).
@@ -1021,8 +1029,9 @@ msgid "Save File"
 msgstr "Salva file"
 
 #: menu.c:2509
-#, c-format
-msgid "The following error is occurred: %s"
+#, fuzzy, c-format
+#| msgid "The following error is occurred: %s"
+msgid "The following error occurred: %s"
 msgstr "Si è verificato il seguente errore: %s"
 
 #. TRANSLATE NOTE: The "↲" is a replace character for <Enter> (<CR>, or <New Line>).
@@ -1357,24 +1366,24 @@ msgstr "Alt"
 msgid "Win"
 msgstr "Meta"
 
-#: profile.c:2546
+#: profile.c:2550
 msgid "The target file does NOT exist"
 msgstr "Il file di destinazione NON esiste"
 
-#: profile.c:2557
+#: profile.c:2561
 msgid "The target file is a directory"
 msgstr "Il file di destinazione è una cartella"
 
-#: profile.c:2605
+#: profile.c:2609
 #, c-format
 msgid "Error while writing profile '%s':"
 msgstr "Errore nella scrittura del profilo: '%s':"
 
-#: profile.c:2610
+#: profile.c:2614
 msgid "Error when writing profile"
 msgstr "Errore durante la scrittura del profilo"
 
-#: profile.c:2750
+#: profile.c:2754
 msgid ""
 "Some entry in profile is added, removed, or changed in this version.\n"
 "Please use [Save settings] on the right click menu to save your settings,\n"
@@ -1386,7 +1395,7 @@ msgstr ""
 "impostazioni,\n"
 "e modificarle manualmente se necessario.\n"
 
-#: profile.c:2756
+#: profile.c:2760
 #, c-format
 msgid ""
 "%s\n"
@@ -1395,11 +1404,11 @@ msgstr ""
 "%s\n"
 "Il proprio profilo è %s."
 
-#: profile.c:2759
+#: profile.c:2763
 msgid "The format of your profile is out of date"
 msgstr "Il formato del profilo non è aggiornato"
 
-#: profile.c:2787 profile.c:2790
+#: profile.c:2791 profile.c:2794
 #, c-format
 msgid ""
 "The profile \"%s\" is invalid:\n"
@@ -1410,7 +1419,7 @@ msgstr ""
 "\n"
 "\t%s"
 
-#: profile.c:2798
+#: profile.c:2802
 msgid "The profile is invalid!"
 msgstr "Profilo non valido!"
 

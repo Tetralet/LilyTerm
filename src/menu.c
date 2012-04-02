@@ -120,7 +120,7 @@ gboolean create_menu(struct Window *win_data)
 #endif
 	// The ansi theme
 	sub_menu = create_sub_item (win_data->menu, _("Change ANSI color theme"), GTK_STOCK_SELECT_COLOR);
-	win_data->menuitem_revert_color = create_menu_item(CHECK_MENU_ITEM, sub_menu, _("Revert color"), NULL, NULL,
+	win_data->menuitem_invert_color = create_menu_item(CHECK_MENU_ITEM, sub_menu, _("Invert color"), NULL, NULL,
 							    (GSourceFunc)set_ansi_theme, win_data->color);
 	add_separator_menu (sub_menu);
 	GSList *theme_group = NULL;
@@ -1014,11 +1014,11 @@ void set_ansi_theme(GtkWidget *menuitem, GdkColor color[COLOR])
 #endif
 	// g_debug("menuitem = %p, and win_data->current_menuitem_theme = %p",
 	//	menuitem, win_data->current_menuitem_theme);
-	if (menuitem == win_data->menuitem_revert_color)
+	if (menuitem == win_data->menuitem_invert_color)
 	{
-		gboolean revert_color = gtk_check_menu_item_get_active (GTK_CHECK_MENU_ITEM(menuitem));
-		if (revert_color == win_data->revert_color) return;
-		win_data->revert_color = revert_color;
+		gboolean invert_color = gtk_check_menu_item_get_active (GTK_CHECK_MENU_ITEM(menuitem));
+		if (invert_color == win_data->invert_color) return;
+		win_data->invert_color = invert_color;
 	}
 	else
 	{
@@ -1033,7 +1033,7 @@ void set_ansi_theme(GtkWidget *menuitem, GdkColor color[COLOR])
 
 	if (win_data->using_custom_color == FALSE)
 	{
-		if (menuitem == win_data->menuitem_revert_color)
+		if (menuitem == win_data->menuitem_invert_color)
 			win_data->using_custom_color = TRUE;
 		else
 		{
@@ -1046,7 +1046,7 @@ void set_ansi_theme(GtkWidget *menuitem, GdkColor color[COLOR])
 	}
 
 	gint i;
-	if (menuitem == win_data->menuitem_revert_color)
+	if (menuitem == win_data->menuitem_invert_color)
 	{
 		if (win_data->color_orig==NULL)
 			for (i=0; i<COLOR; i++)
@@ -1074,7 +1074,7 @@ void set_ansi_theme(GtkWidget *menuitem, GdkColor color[COLOR])
 			set_vte_color(win_data, page_data);
 	}
 
-	if (menuitem != win_data->menuitem_revert_color)
+	if (menuitem != win_data->menuitem_invert_color)
 	{
 		// g_debug("Set the color theme to %s!", gtk_menu_item_get_label(GTK_MENU_ITEM(menuitem)));
 		win_data->current_menuitem_theme = menuitem;
@@ -2506,10 +2506,10 @@ void print_active_window_is_null_error_dialog(gchar *function)
 	if (err_msg)
 #endif
 #ifdef UNIT_TEST
-		g_debug(_("The following error is occurred: %s"), err_msg);
+		g_debug(_("The following error occurred: %s"), err_msg);
 #else
-		error_dialog(NULL, _("The following error is occurred:"),
-			     "The following error is occurred:",
+		error_dialog(NULL, _("The following error occurred:"),
+			     "The following error occurred:",
 			     GTK_STOCK_DIALOG_ERROR, err_msg, NULL);
 #endif
 	g_free(err_msg);

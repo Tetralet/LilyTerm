@@ -1236,9 +1236,9 @@ gboolean vte_button_press(GtkWidget *vte, GdkEventButton *event, gpointer user_d
 #endif
 			gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM(win_data->current_menuitem_erase_binding), TRUE);
 #ifdef DEFENSIVE
-		if (win_data->menuitem_revert_color)
+		if (win_data->menuitem_invert_color)
 #endif
-			gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM(win_data->menuitem_revert_color), win_data->revert_color);
+			gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM(win_data->menuitem_invert_color), win_data->invert_color);
 		win_data->checking_menu_item = FALSE;
 
 		if (win_data->show_background_menu)

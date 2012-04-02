@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LilyTerm 0.9.9\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-28 22:27+0800\n"
+"POT-Creation-Date: 2012-04-02 21:05+0800\n"
 "PO-Revision-Date: 2008-03-21 00:30+0800\n"
 "Last-Translator: GoGoNKT <gogonkt@gmail.com>\n"
 "Language-Team: GoGoNKT <gogonkt@gmail.com>\n"
@@ -312,8 +312,10 @@ msgstr "默认快捷键：（在鼠标右键菜单中【设置功能键值】里
 msgid "Set key binding"
 msgstr ""
 
-#: dialog.c:98 dialog.c:2738 menu.c:2511
-msgid "The following error is occurred:"
+#: dialog.c:98 dialog.c:2739 menu.c:2511
+#, fuzzy
+#| msgid "The following error is occurred:"
+msgid "The following error occurred:"
 msgstr "发生了以下的错误："
 
 #: dialog.c:163 menu.c:329
@@ -438,7 +440,7 @@ msgstr "改变终端文字颜色"
 msgid "Change the %s color on tab"
 msgstr "改变分页上的 %s 颜色"
 
-#: dialog.c:581 dialog.c:2557
+#: dialog.c:581 dialog.c:2558
 msgid "Bold Demo Text"
 msgstr "粗体文字范例"
 
@@ -479,7 +481,7 @@ msgstr "设置功能键值"
 #: dialog.c:713
 #, fuzzy
 #| msgid "Erase Binding"
-msgid "Key Binding"
+msgid "Key Bindings"
 msgstr "删除键值"
 
 #: dialog.c:721
@@ -583,7 +585,7 @@ msgid "IRC:    %s"
 msgstr ""
 
 #: dialog.c:867
-msgid "homepage:"
+msgid "Homepage:"
 msgstr ""
 
 #: dialog.c:870
@@ -716,7 +718,7 @@ msgstr ""
 msgid "Clipboard"
 msgstr "复制至剪贴板。"
 
-#: dialog.c:2282
+#: dialog.c:2283
 #, c-format
 msgid ""
 "Try to kill %s with SIGKILL() to avoid terminate those programs!\n"
@@ -725,21 +727,21 @@ msgstr ""
 "尝试用 SIGKILL() 强制关闭%s以免中断这些程序！\n"
 "【 可 能 导 致 资 料 丟 失 ！ ！ 】"
 
-#: dialog.c:2296
+#: dialog.c:2297
 #, c-format
 msgid "Force to close all the tabs and windows, and exit %s!"
 msgstr "强制关闭所有分页及窗口，并退出 %s！"
 
-#: dialog.c:2421
+#: dialog.c:2422
 #, c-format
 msgid "(Disabled, duplicated with [%s])"
 msgstr ""
 
-#: dialog.c:2430 dialog.c:2899 dialog.c:2950
+#: dialog.c:2431 dialog.c:2900 dialog.c:2951
 msgid "(Disabled)"
 msgstr "（已关闭）"
 
-#: dialog.c:2676
+#: dialog.c:2677
 #, fuzzy, c-format
 #| msgid ""
 #| "The data got from socket seems incorrect.\n"
@@ -754,21 +756,21 @@ msgstr ""
 "如果您刚刚升级了 %s，\n"
 "请关闭所有的 %s 窗口并再试一次。"
 
-#: dialog.c:2680
+#: dialog.c:2681
 msgid "Not supported locale!"
 msgstr "不被支持的 locale！"
 
-#: dialog.c:2750
+#: dialog.c:2751
 #, fuzzy, c-format
 #| msgid "You should upgrade to %s to support this feature."
 msgid "You should upgrade to %s and recompile %s to support this feature."
 msgstr "您应当升级至 %s 以支持这个功能。"
 
-#: dialog.c:2751
+#: dialog.c:2752
 msgid "Not supported feature!"
 msgstr "不被支持的功能！"
 
-#: dialog.c:2907
+#: dialog.c:2908
 #, fuzzy, c-format
 #| msgid "Disable all the function keys of this group."
 msgid "Disable all the function keys of [%s] group."
@@ -842,8 +844,10 @@ msgid "Change ANSI color theme"
 msgstr "改变 ANSI 颜色主题"
 
 #: menu.c:123
-msgid "Revert color"
-msgstr ""
+#, fuzzy
+#| msgid "Change colors"
+msgid "Invert color"
+msgstr "改变颜色"
 
 #. TRANSLATE NOTE: Please translate the "System default (SCHEME)" into "System default" (in your language).
 #. TRANSLATE NOTE: Some language will have trouble if here is "System default" only.
@@ -1105,7 +1109,7 @@ msgstr ""
 #: menu.c:2509
 #, fuzzy, c-format
 #| msgid "The following error is occurred:"
-msgid "The following error is occurred: %s"
+msgid "The following error occurred: %s"
 msgstr "发生了以下的错误："
 
 #. TRANSLATE NOTE: The "↲" is a replace character for <Enter> (<CR>, or <New Line>).
@@ -1434,24 +1438,24 @@ msgstr ""
 msgid "Win"
 msgstr ""
 
-#: profile.c:2546
+#: profile.c:2550
 msgid "The target file does NOT exist"
 msgstr "目标文件并不存在"
 
-#: profile.c:2557
+#: profile.c:2561
 msgid "The target file is a directory"
 msgstr "目标文件是个目录"
 
-#: profile.c:2605
+#: profile.c:2609
 #, c-format
 msgid "Error while writing profile '%s':"
 msgstr "写入配置文件 %s 时发生错误："
 
-#: profile.c:2610
+#: profile.c:2614
 msgid "Error when writing profile"
 msgstr "写入配置文件时发生错误"
 
-#: profile.c:2750
+#: profile.c:2754
 msgid ""
 "Some entry in profile is added, removed, or changed in this version.\n"
 "Please use [Save settings] on the right click menu to save your settings,\n"
@@ -1461,7 +1465,7 @@ msgstr ""
 "请使用右键菜单中的【储存设置】来储存您的设置，\n"
 "并视形况加以修改。\n"
 
-#: profile.c:2756
+#: profile.c:2760
 #, c-format
 msgid ""
 "%s\n"
@@ -1470,11 +1474,11 @@ msgstr ""
 "%s\n"
 "您的个人配置文件为：%s。"
 
-#: profile.c:2759
+#: profile.c:2763
 msgid "The format of your profile is out of date"
 msgstr "您的配置文件格式已过时"
 
-#: profile.c:2787 profile.c:2790
+#: profile.c:2791 profile.c:2794
 #, c-format
 msgid ""
 "The profile \"%s\" is invalid:\n"
@@ -1485,7 +1489,7 @@ msgstr ""
 "\n"
 "\t%s"
 
-#: profile.c:2798
+#: profile.c:2802
 msgid "The profile is invalid!"
 msgstr "配置文件无效！"
 

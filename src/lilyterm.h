@@ -151,7 +151,7 @@ void init_rgba(struct Window *win_data);
 // **************************** property.c ****************************
 //
 
-void adjust_ansi_color(GdkColor color[COLOR], GdkColor color_orig[COLOR], gdouble color_brightness, gboolean revert_color);
+void adjust_ansi_color(GdkColor color[COLOR], GdkColor color_orig[COLOR], gdouble color_brightness, gboolean invert_color);
 void adjust_ansi_color_severally(GdkColor *color, GdkColor *color_orig, gdouble color_brightness);
 void set_color_brightness(struct Window *win_data);
 void init_new_page(struct Window *win_data, struct Page *page_data, glong column, glong row);

@@ -7,14 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.9.9~final3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-28 22:27+0800\n"
+"POT-Creation-Date: 2012-04-02 21:05+0800\n"
 "PO-Revision-Date: 2012-03-28 20:35+0100\n"
 "Last-Translator: Mario Blättermann <mario.blaettermann@gmail.com>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
-"Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: de\n"
 "X-Poedit-Language: German\n"
 "X-Poedit-Country: GERMANY\n"
 "X-Poedit-SourceCharset: utf-8\n"
@@ -40,8 +40,8 @@ msgstr ""
 
 #: console.c:141
 msgid ""
-"Use -e/-x/--execute {Command} to run a command when starting up. (Must be the "
-"final option).\n"
+"Use -e/-x/--execute {Command} to run a command when starting up. (Must be "
+"the final option).\n"
 msgstr ""
 "Verwenden Sie -e/-x/--execute {Befehl}, um einen Befehl beim Start "
 "auszuführen.\n"
@@ -96,7 +96,8 @@ msgid ""
 "Use -u/--user_profile {%s} to use a specified profile.\n"
 "\n"
 msgstr ""
-"Verwenden Sie -u/--user_profile {%s}, um ein bestimmtes Profil zu verwenden.\n"
+"Verwenden Sie -u/--user_profile {%s}, um ein bestimmtes Profil zu "
+"verwenden.\n"
 "\n"
 
 #: console.c:159
@@ -125,7 +126,8 @@ msgid ""
 "  * <Ctrl><`>           Disable/Enable hyperlinks, function keys and right "
 "click menu."
 msgstr ""
-"  * <Strg><`>                        Deaktivieren/Aktivieren der Hyperlinks,\n"
+"  * <Strg><`>                        Deaktivieren/Aktivieren der "
+"Hyperlinks,\n"
 "                                     Funktionstasten und des Rechtsklickmenüs"
 
 #: console.c:234
@@ -137,7 +139,8 @@ msgstr ""
 #: console.c:235
 msgid "  * <Ctrl><PgUp/PgDn>   Switch to Prev/Next tab.\n"
 msgstr ""
-"  * <Strg><Bild auf/Bild ab>         Zum vorherigen/nächsten Reiter wechseln\n"
+"  * <Strg><Bild auf/Bild ab>         Zum vorherigen/nächsten Reiter "
+"wechseln\n"
 
 #: console.c:236
 msgid "  * <Ctrl><Home/End>    Switch to First/Last tab.\n"
@@ -186,8 +189,8 @@ msgstr ""
 
 #: console.c:243
 msgid ""
-"  * <Shift><PgUp/PgDn>  Gtk+ default behavior, Scroll Up/Down on Vte Terminal "
-"box.\n"
+"  * <Shift><PgUp/PgDn>  Gtk+ default behavior, Scroll Up/Down on Vte "
+"Terminal box.\n"
 msgstr ""
 "  * <Umschalt><Bild auf/Bild ab>     Gtk+Standardverhalten, im Vte-Terminal "
 "nach oben/unten rollen.\n"
@@ -202,8 +205,8 @@ msgstr ""
 
 #: console.c:245
 msgid ""
-"  * <Alt><F11/Enter>    Switch between fullwindow/unfullwindow and fullscreen/"
-"unfullscreen state.\n"
+"  * <Alt><F11/Enter>    Switch between fullwindow/unfullwindow and "
+"fullscreen/unfullscreen state.\n"
 msgstr ""
 "  * <Alt><F11/Eingabe>               Zwischen Vollbild- und Fenstermodus "
 "sowie\n"
@@ -289,8 +292,10 @@ msgstr ""
 msgid "Set key binding"
 msgstr "Tastenkürzel festlegen"
 
-#: dialog.c:98 dialog.c:2738 menu.c:2511
-msgid "The following error is occurred:"
+#: dialog.c:98 dialog.c:2739 menu.c:2511
+#, fuzzy
+#| msgid "The following error is occurred:"
+msgid "The following error occurred:"
 msgstr "Folgender Fehler ist aufgetreten:"
 
 #: dialog.c:163 menu.c:329
@@ -421,7 +426,7 @@ msgstr "Vordergrundfarbe des Terminals ändern"
 msgid "Change the %s color on tab"
 msgstr "Farbe »%s« für den Reiter ändern"
 
-#: dialog.c:581 dialog.c:2557
+#: dialog.c:581 dialog.c:2558
 msgid "Bold Demo Text"
 msgstr "Fetter Beispieltext"
 
@@ -454,7 +459,9 @@ msgid "Function Key Name"
 msgstr "Name der Funktionstaste"
 
 #: dialog.c:713
-msgid "Key Binding"
+#, fuzzy
+#| msgid "Key Binding"
+msgid "Key Bindings"
 msgstr "Tastenkürzel"
 
 #: dialog.c:721
@@ -521,8 +528,8 @@ msgstr ""
 "%s wurde mit dem Ziel veröffentlicht, dass Sie es nützlich finden,\n"
 "jedoch OHNE JEDWEDE GARANTIE, sogar ohne eine implizite Garantie\n"
 "der VERKAUFBARKEIT oder der NUTZBARKEIT FÜR EINEN SPEZIELLEN ZWECK.\n"
-"Schauen Sie für weitere Informationen bitte in der GNU General Public License "
-"(GNU GPL) nach.\n"
+"Schauen Sie für weitere Informationen bitte in der GNU General Public "
+"License (GNU GPL) nach.\n"
 "\n"
 "Mit %s sollten Sie außerdem eine Kopie der GNU General Public License "
 "erhalten\n"
@@ -574,7 +581,9 @@ msgid "IRC:    %s"
 msgstr "IRC:    %s"
 
 #: dialog.c:867
-msgid "homepage:"
+#, fuzzy
+#| msgid "homepage:"
+msgid "Homepage:"
 msgstr "Webseite:"
 
 #: dialog.c:870
@@ -692,7 +701,7 @@ msgstr "Bestätigen und einfügen"
 msgid "Clipboard"
 msgstr "Zwischenablage"
 
-#: dialog.c:2282
+#: dialog.c:2283
 #, c-format
 msgid ""
 "Try to kill %s with SIGKILL() to avoid terminate those programs!\n"
@@ -701,21 +710,21 @@ msgstr ""
 "%s abwürgen mit SIGKILL(), um dessen Programme zu beenden!\n"
 "(KANN DATENVERLUST ZUR FOLGE HABEN!!)"
 
-#: dialog.c:2296
+#: dialog.c:2297
 #, c-format
 msgid "Force to close all the tabs and windows, and exit %s!"
 msgstr "Schließen aller Reiter und Fenster erzwingen und %s beenden"
 
-#: dialog.c:2421
+#: dialog.c:2422
 #, c-format
 msgid "(Disabled, duplicated with [%s])"
 msgstr "(Deaktiviert, Duplikat von [%s])"
 
-#: dialog.c:2430 dialog.c:2899 dialog.c:2950
+#: dialog.c:2431 dialog.c:2900 dialog.c:2951
 msgid "(Disabled)"
 msgstr "(Deaktiviert)"
 
-#: dialog.c:2676
+#: dialog.c:2677
 #, c-format
 msgid ""
 "The locale \"%s\" seems NOT supported by your system!\n"
@@ -727,22 +736,22 @@ msgstr ""
 "Spracheinstellungen hinzugefügt haben sollten, schließen\n"
 "Sie bitte alle Fenster von %s und versuchen Sie es erneut."
 
-#: dialog.c:2680
+#: dialog.c:2681
 msgid "Not supported locale!"
 msgstr "Nicht unterstützte Spracheinstellung!"
 
-#: dialog.c:2750
+#: dialog.c:2751
 #, c-format
 msgid "You should upgrade to %s and recompile %s to support this feature."
 msgstr ""
 "Sie sollten auf %s aktualisieren und %s neu kompilieren, um dieses "
 "Funktionsmerkmal nutzen zu können."
 
-#: dialog.c:2751
+#: dialog.c:2752
 msgid "Not supported feature!"
 msgstr "Kein unterstütztes Funktionsmerkmal"
 
-#: dialog.c:2907
+#: dialog.c:2908
 #, c-format
 msgid "Disable all the function keys of [%s] group."
 msgstr "Alle Funktionstasten der Gruppe [%s] deaktivieren."
@@ -817,7 +826,9 @@ msgid "Change ANSI color theme"
 msgstr "ANSI-Farbthema ändern"
 
 #: menu.c:123
-msgid "Revert color"
+#, fuzzy
+#| msgid "Revert color"
+msgid "Invert color"
 msgstr "Farbe zurücksetzen"
 
 #. TRANSLATE NOTE: Please translate the "System default (SCHEME)" into "System default" (in your language).
@@ -1042,7 +1053,8 @@ msgstr "Die folgenden Einstellungen können nicht angewendet werden"
 #: menu.c:2147
 msgid "Disable: Trying to use [Transparent Background] instead."
 msgstr ""
-"Deaktivieren: Stattdessen versuchen, [Transparenten Hintergrund] zu verwenden."
+"Deaktivieren: Stattdessen versuchen, [Transparenten Hintergrund] zu "
+"verwenden."
 
 #: menu.c:2153
 msgid "Scroll the background image along with the text"
@@ -1057,8 +1069,9 @@ msgid "Save File"
 msgstr "Datei speichern"
 
 #: menu.c:2509
-#, c-format
-msgid "The following error is occurred: %s"
+#, fuzzy, c-format
+#| msgid "The following error is occurred: %s"
+msgid "The following error occurred: %s"
 msgstr "Folgender Fehler ist aufgetreten: %s"
 
 #. TRANSLATE NOTE: The "↲" is a replace character for <Enter> (<CR>, or <New Line>).
@@ -1394,24 +1407,24 @@ msgstr "Alt"
 msgid "Win"
 msgstr "Win"
 
-#: profile.c:2546
+#: profile.c:2550
 msgid "The target file does NOT exist"
 msgstr "Die Zieldatei ist nicht vorhanden"
 
-#: profile.c:2557
+#: profile.c:2561
 msgid "The target file is a directory"
 msgstr "Die Zieldatei ist ein Ordner"
 
-#: profile.c:2605
+#: profile.c:2609
 #, c-format
 msgid "Error while writing profile '%s':"
 msgstr "Fehler beim Speichern des Profils »%s«:"
 
-#: profile.c:2610
+#: profile.c:2614
 msgid "Error when writing profile"
 msgstr "Fehler beim Speichern des Profils"
 
-#: profile.c:2750
+#: profile.c:2754
 msgid ""
 "Some entry in profile is added, removed, or changed in this version.\n"
 "Please use [Save settings] on the right click menu to save your settings,\n"
@@ -1423,7 +1436,7 @@ msgstr ""
 "um Ihre Einstellungen zu speichern. Falls nötig, können Sie diese\n"
 "manuell bearbeiten.\n"
 
-#: profile.c:2756
+#: profile.c:2760
 #, c-format
 msgid ""
 "%s\n"
@@ -1432,11 +1445,11 @@ msgstr ""
 "%s\n"
 "Ihr Profil ist %s."
 
-#: profile.c:2759
+#: profile.c:2763
 msgid "The format of your profile is out of date"
 msgstr "Das Format Ihres Profils ist nicht mehr aktuell"
 
-#: profile.c:2787 profile.c:2790
+#: profile.c:2791 profile.c:2794
 #, c-format
 msgid ""
 "The profile \"%s\" is invalid:\n"
@@ -1447,7 +1460,7 @@ msgstr ""
 "\n"
 "\t%s"
 
-#: profile.c:2798
+#: profile.c:2802
 msgid "The profile is invalid!"
 msgstr "Das Profil ist ungültig"
 

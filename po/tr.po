@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LilyTerm 0.9.6\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-28 22:27+0800\n"
+"POT-Creation-Date: 2012-04-02 21:05+0800\n"
 "PO-Revision-Date: 2010-12-14 19:09+0200\n"
 "Last-Translator: Samed Beyribey <ras0ir@eventualis.org>\n"
 "Language-Team: GNU-TR <tr@li.org>\n"
@@ -329,8 +329,10 @@ msgstr ""
 msgid "Set key binding"
 msgstr ""
 
-#: dialog.c:98 dialog.c:2738 menu.c:2511
-msgid "The following error is occurred:"
+#: dialog.c:98 dialog.c:2739 menu.c:2511
+#, fuzzy
+#| msgid "The following error is occurred:"
+msgid "The following error occurred:"
 msgstr "Hata çıktısı:"
 
 #: dialog.c:163 menu.c:329
@@ -467,7 +469,7 @@ msgstr "Önplan rengini değiştir"
 msgid "Change the %s color on tab"
 msgstr "Sekmedeki %s rengini değiştir"
 
-#: dialog.c:581 dialog.c:2557
+#: dialog.c:581 dialog.c:2558
 msgid "Bold Demo Text"
 msgstr "Kalın Yazı Örneği"
 
@@ -506,7 +508,7 @@ msgstr "Fonksiyon Tuşu Adı"
 #: dialog.c:713
 #, fuzzy
 #| msgid "Erase Binding"
-msgid "Key Binding"
+msgid "Key Bindings"
 msgstr "Erase Binding"
 
 #: dialog.c:721
@@ -613,7 +615,7 @@ msgid "IRC:    %s"
 msgstr ""
 
 #: dialog.c:867
-msgid "homepage:"
+msgid "Homepage:"
 msgstr ""
 
 #: dialog.c:870
@@ -746,7 +748,7 @@ msgstr ""
 msgid "Clipboard"
 msgstr "Panoya kopyala."
 
-#: dialog.c:2282
+#: dialog.c:2283
 #, c-format
 msgid ""
 "Try to kill %s with SIGKILL() to avoid terminate those programs!\n"
@@ -755,22 +757,22 @@ msgstr ""
 "Uygulamaları sonlandırmak için %s sürecini SIGKILL() kullanın!\n"
 "(VERİ KAYBINA YOL AÇABİLİR!)"
 
-#: dialog.c:2296
+#: dialog.c:2297
 #, c-format
 msgid "Force to close all the tabs and windows, and exit %s!"
 msgstr ""
 "Bütün sekmeleri ve pencereleri kapatmaya zorla ve %s uygulamasından çık!"
 
-#: dialog.c:2421
+#: dialog.c:2422
 #, c-format
 msgid "(Disabled, duplicated with [%s])"
 msgstr "(Pasif, [%s] ile çakışıyor)"
 
-#: dialog.c:2430 dialog.c:2899 dialog.c:2950
+#: dialog.c:2431 dialog.c:2900 dialog.c:2951
 msgid "(Disabled)"
 msgstr "(Pasif)"
 
-#: dialog.c:2676
+#: dialog.c:2677
 #, c-format
 msgid ""
 "The locale \"%s\" seems NOT supported by your system!\n"
@@ -781,21 +783,21 @@ msgstr ""
 "Eğer yereli yeni eklemişseniz,\n"
 "Lütfen %s uygulamasının tüm pencerelerini kapatıp yeniden deneyin."
 
-#: dialog.c:2680
+#: dialog.c:2681
 msgid "Not supported locale!"
 msgstr "Desteklenmeyen yerel!"
 
-#: dialog.c:2750
+#: dialog.c:2751
 #, c-format
 msgid "You should upgrade to %s and recompile %s to support this feature."
 msgstr ""
 "Bu özelliğin kullanılabilmesi için %s güncellenmeli ve %s tekrar derlenmeli."
 
-#: dialog.c:2751
+#: dialog.c:2752
 msgid "Not supported feature!"
 msgstr "Desteklenmeyen özellik!"
 
-#: dialog.c:2907
+#: dialog.c:2908
 #, fuzzy, c-format
 #| msgid "Disable all the function keys of this group."
 msgid "Disable all the function keys of [%s] group."
@@ -871,8 +873,10 @@ msgid "Change ANSI color theme"
 msgstr "ANSI renk temasını değiştir"
 
 #: menu.c:123
-msgid "Revert color"
-msgstr ""
+#, fuzzy
+#| msgid "Change colors"
+msgid "Invert color"
+msgstr "Renkleri değiştir"
 
 #. TRANSLATE NOTE: Please translate the "System default (SCHEME)" into "System default" (in your language).
 #. TRANSLATE NOTE: Some language will have trouble if here is "System default" only.
@@ -1134,7 +1138,7 @@ msgstr ""
 #: menu.c:2509
 #, fuzzy, c-format
 #| msgid "The following error is occurred:"
-msgid "The following error is occurred: %s"
+msgid "The following error occurred: %s"
 msgstr "Hata çıktısı:"
 
 #. TRANSLATE NOTE: The "↲" is a replace character for <Enter> (<CR>, or <New Line>).
@@ -1468,24 +1472,24 @@ msgstr ""
 msgid "Win"
 msgstr ""
 
-#: profile.c:2546
+#: profile.c:2550
 msgid "The target file does NOT exist"
 msgstr "Hedef dosya mevcut DEĞİL"
 
-#: profile.c:2557
+#: profile.c:2561
 msgid "The target file is a directory"
 msgstr "Hedef dosya bir dizin"
 
-#: profile.c:2605
+#: profile.c:2609
 #, c-format
 msgid "Error while writing profile '%s':"
 msgstr "'%s' profili yazılırken hata oluştu:"
 
-#: profile.c:2610
+#: profile.c:2614
 msgid "Error when writing profile"
 msgstr "Profil kaydedilirken hata oluştu"
 
-#: profile.c:2750
+#: profile.c:2754
 msgid ""
 "Some entry in profile is added, removed, or changed in this version.\n"
 "Please use [Save settings] on the right click menu to save your settings,\n"
@@ -1495,7 +1499,7 @@ msgstr ""
 "Lütfen menüye sağ tıklayarak [Ayarları kaydet] seçeneğini kullanın\n"
 "veya yapılandırma dosyasını elle düzenleyin.\n"
 
-#: profile.c:2756
+#: profile.c:2760
 #, c-format
 msgid ""
 "%s\n"
@@ -1504,11 +1508,11 @@ msgstr ""
 "%s\n"
 "Kullandığınız profil %s."
 
-#: profile.c:2759
+#: profile.c:2763
 msgid "The format of your profile is out of date"
 msgstr "Profil biçiminiz güncel değil"
 
-#: profile.c:2787 profile.c:2790
+#: profile.c:2791 profile.c:2794
 #, c-format
 msgid ""
 "The profile \"%s\" is invalid:\n"
@@ -1519,7 +1523,7 @@ msgstr ""
 "\n"
 "\t%s"
 
-#: profile.c:2798
+#: profile.c:2802
 msgid "The profile is invalid!"
 msgstr "Profil geçersiz!"
 

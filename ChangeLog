@@ -42,7 +42,9 @@
 	* Add a new make target: update-po to po/Makefile.
 	  Thanks caleb for this idea.
 	* Better about dialog. Thanks Mario Blättermann for this idea.
-	* Added a new menu item: [Revert Color].
+	* Added a new menu item: [Invert Color].
+	* Fix some typo and syntax in translations texts.
+	  VERY THANKS to Vladimir Smolyar.
 
   FIX:
 	* Remove '>' from URL matching.

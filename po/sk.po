@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: lilyterm 0.9.9~rc9\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-28 22:27+0800\n"
+"POT-Creation-Date: 2012-04-02 21:05+0800\n"
 "PO-Revision-Date: 2012-03-29 21:14+0200\n"
 "Last-Translator: Slavko <linux@slavino.sk>\n"
 "Language-Team: slovenčina <debian-l10n-slovak@lists.debian.org>\n"
@@ -270,8 +270,10 @@ msgstr ""
 msgid "Set key binding"
 msgstr "nastaviť kláv. skratky"
 
-#: dialog.c:98 dialog.c:2738 menu.c:2511
-msgid "The following error is occurred:"
+#: dialog.c:98 dialog.c:2739 menu.c:2511
+#, fuzzy
+#| msgid "The following error is occurred:"
+msgid "The following error occurred:"
 msgstr "nastala nasledujúca chyba:"
 
 #: dialog.c:163 menu.c:329
@@ -399,7 +401,7 @@ msgstr "Zmeniť farbu písma v termináli"
 msgid "Change the %s color on tab"
 msgstr "Zmeniť farbu %s v záložke"
 
-#: dialog.c:581 dialog.c:2557
+#: dialog.c:581 dialog.c:2558
 msgid "Bold Demo Text"
 msgstr "Tučný demo text"
 
@@ -432,7 +434,9 @@ msgid "Function Key Name"
 msgstr "Meno funkčného klávesu"
 
 #: dialog.c:713
-msgid "Key Binding"
+#, fuzzy
+#| msgid "Key Binding"
+msgid "Key Bindings"
 msgstr "Klávesová skratka"
 
 #: dialog.c:721
@@ -548,7 +552,9 @@ msgid "IRC:    %s"
 msgstr "IRC:    %s"
 
 #: dialog.c:867
-msgid "homepage:"
+#, fuzzy
+#| msgid "homepage:"
+msgid "Homepage:"
 msgstr "Domovská stránka:"
 
 #: dialog.c:870
@@ -665,7 +671,7 @@ msgstr "Spojiť a vložiť"
 msgid "Clipboard"
 msgstr "Schránka"
 
-#: dialog.c:2282
+#: dialog.c:2283
 #, c-format
 msgid ""
 "Try to kill %s with SIGKILL() to avoid terminate those programs!\n"
@@ -675,21 +681,21 @@ msgstr ""
 "programov!\n"
 "(MÔŽE SPÔSOBIŤ STRATU DÁT!!)"
 
-#: dialog.c:2296
+#: dialog.c:2297
 #, c-format
 msgid "Force to close all the tabs and windows, and exit %s!"
 msgstr "Vynútiť zatvorenie všetkých záložiek a okien a ukončiť %s!"
 
-#: dialog.c:2421
+#: dialog.c:2422
 #, c-format
 msgid "(Disabled, duplicated with [%s])"
 msgstr "(Vypnuté, duplikované s [%s])"
 
-#: dialog.c:2430 dialog.c:2899 dialog.c:2950
+#: dialog.c:2431 dialog.c:2900 dialog.c:2951
 msgid "(Disabled)"
 msgstr "(Vypnuté)"
 
-#: dialog.c:2676
+#: dialog.c:2677
 #, c-format
 msgid ""
 "The locale \"%s\" seems NOT supported by your system!\n"
@@ -700,22 +706,22 @@ msgstr ""
 "Ak ste práve pridali lokalizačné dáta,\n"
 "prosím zatvorte všetky okná %s a skúste znova."
 
-#: dialog.c:2680
+#: dialog.c:2681
 msgid "Not supported locale!"
 msgstr "Nepodporovaná lokalizácia!"
 
-#: dialog.c:2750
+#: dialog.c:2751
 #, c-format
 msgid "You should upgrade to %s and recompile %s to support this feature."
 msgstr ""
 "Musíte aktualizovať na %s a prekompilovať %s, aby bola táto vlastnosť "
 "podporovaná."
 
-#: dialog.c:2751
+#: dialog.c:2752
 msgid "Not supported feature!"
 msgstr "Nepodporovaná vlastnosť!"
 
-#: dialog.c:2907
+#: dialog.c:2908
 #, c-format
 msgid "Disable all the function keys of [%s] group."
 msgstr "Vypnúť všetky funkčné klávesy skupiny [%s]."
@@ -788,7 +794,9 @@ msgid "Change ANSI color theme"
 msgstr "Zmeniť farebnú schému ANSI"
 
 #: menu.c:123
-msgid "Revert color"
+#, fuzzy
+#| msgid "Revert color"
+msgid "Invert color"
 msgstr "Vrátiť farbu"
 
 #. TRANSLATE NOTE: Please translate the "System default (SCHEME)" into "System default" (in your language).
@@ -1027,8 +1035,9 @@ msgid "Save File"
 msgstr "Zatvoriť súbor"
 
 #: menu.c:2509
-#, c-format
-msgid "The following error is occurred: %s"
+#, fuzzy, c-format
+#| msgid "The following error is occurred: %s"
+msgid "The following error occurred: %s"
 msgstr "Nastala nasledujúca chyba: %s"
 
 #. TRANSLATE NOTE: The "↲" is a replace character for <Enter> (<CR>, or <New Line>).
@@ -1360,24 +1369,24 @@ msgstr "Alt"
 msgid "Win"
 msgstr "Win"
 
-#: profile.c:2546
+#: profile.c:2550
 msgid "The target file does NOT exist"
 msgstr "Cieľový súbor neexistuje"
 
-#: profile.c:2557
+#: profile.c:2561
 msgid "The target file is a directory"
 msgstr "Cieľový súbor je adresár"
 
-#: profile.c:2605
+#: profile.c:2609
 #, c-format
 msgid "Error while writing profile '%s':"
 msgstr "Chyba pri zápise profilu '%s':"
 
-#: profile.c:2610
+#: profile.c:2614
 msgid "Error when writing profile"
 msgstr "Chyba pri zápise profilu"
 
-#: profile.c:2750
+#: profile.c:2754
 msgid ""
 "Some entry in profile is added, removed, or changed in this version.\n"
 "Please use [Save settings] on the right click menu to save your settings,\n"
@@ -1389,7 +1398,7 @@ msgstr ""
 "nastavení\n"
 "a upravte ich manuálne, ak je to potrebné.\n"
 
-#: profile.c:2756
+#: profile.c:2760
 #, c-format
 msgid ""
 "%s\n"
@@ -1398,11 +1407,11 @@ msgstr ""
 "%s\n"
 "Váš profil je %s."
 
-#: profile.c:2759
+#: profile.c:2763
 msgid "The format of your profile is out of date"
 msgstr "Formát vášho profilu je neaktuálny"
 
-#: profile.c:2787 profile.c:2790
+#: profile.c:2791 profile.c:2794
 #, c-format
 msgid ""
 "The profile \"%s\" is invalid:\n"
@@ -1413,7 +1422,7 @@ msgstr ""
 "\n"
 "\t%s"
 
-#: profile.c:2798
+#: profile.c:2802
 msgid "The profile is invalid!"
 msgstr "Profil je neplatný!"
 

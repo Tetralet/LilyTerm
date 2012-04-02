@@ -22,10 +22,10 @@
 extern gboolean proc_exist;
 extern struct Command command[COMMAND];
 
-void adjust_ansi_color(GdkColor color[COLOR], GdkColor color_orig[COLOR], gdouble color_brightness, gboolean revert_color)
+void adjust_ansi_color(GdkColor color[COLOR], GdkColor color_orig[COLOR], gdouble color_brightness, gboolean invert_color)
 {
 #ifdef DETAIL
-	g_debug("! Launch adjust_ansi_color() with color_brightness = %f, revert_color = %d",  color_brightness, revert_color);
+	g_debug("! Launch adjust_ansi_color() with color_brightness = %f, invert_color = %d",  color_brightness, invert_color);
 #endif
 #ifdef DEFENSIVE
 	if ((color==NULL) || (color_orig==NULL)) return;
@@ -34,7 +34,7 @@ void adjust_ansi_color(GdkColor color[COLOR], GdkColor color_orig[COLOR], gdoubl
 	color_brightness = CLAMP(color_brightness, -1, 1);
 
 	gint i;
-	if (revert_color)
+	if (invert_color)
 	{
 		gint half = COLOR/2;
 		for (i=0; i<half; i++)
@@ -97,8 +97,8 @@ void set_color_brightness(struct Window *win_data)
 	win_data->fg_color_inactive = get_inactive_color (win_data->fg_color,
 							  win_data->color_brightness_inactive,
 							  win_data->color_brightness);
-	adjust_ansi_color(win_data->color, win_data->color_orig, win_data->color_brightness, win_data->revert_color);
-	adjust_ansi_color(win_data->color_inactive, win_data->color_orig, win_data->color_brightness_inactive, win_data->revert_color);
+	adjust_ansi_color(win_data->color, win_data->color_orig, win_data->color_brightness, win_data->invert_color);
+	adjust_ansi_color(win_data->color_inactive, win_data->color_orig, win_data->color_brightness_inactive, win_data->invert_color);
 }
 
 // to init a new page

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LilyTerm 0.9.9\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-28 22:27+0800\n"
+"POT-Creation-Date: 2012-04-02 21:05+0800\n"
 "PO-Revision-Date: 2010-11-19 17:08+0100\n"
 "Last-Translator: Adrian Buyssens <howitzer@archlinux.us>\n"
 "Language-Team: Adrian Buyssens <howitzer@archlinux.us>\n"
@@ -308,8 +308,10 @@ msgstr ""
 msgid "Set key binding"
 msgstr ""
 
-#: dialog.c:98 dialog.c:2738 menu.c:2511
-msgid "The following error is occurred:"
+#: dialog.c:98 dialog.c:2739 menu.c:2511
+#, fuzzy
+#| msgid "The following error is occurred:"
+msgid "The following error occurred:"
 msgstr "De volgende fout is gebeurd:"
 
 #: dialog.c:163 menu.c:329
@@ -446,7 +448,7 @@ msgstr "Wijzig de voorgrondkleur van de terminal"
 msgid "Change the %s color on tab"
 msgstr "Wijzig de %s kleur in tab"
 
-#: dialog.c:581 dialog.c:2557
+#: dialog.c:581 dialog.c:2558
 msgid "Bold Demo Text"
 msgstr "Voorbeeld vette tekst"
 
@@ -485,7 +487,7 @@ msgstr "Functietoets naam"
 #: dialog.c:713
 #, fuzzy
 #| msgid "Erase Binding"
-msgid "Key Binding"
+msgid "Key Bindings"
 msgstr "Wis binding"
 
 #: dialog.c:721
@@ -591,7 +593,7 @@ msgid "IRC:    %s"
 msgstr ""
 
 #: dialog.c:867
-msgid "homepage:"
+msgid "Homepage:"
 msgstr ""
 
 #: dialog.c:870
@@ -726,7 +728,7 @@ msgstr ""
 msgid "Clipboard"
 msgstr "Kopieer naar klembord."
 
-#: dialog.c:2282
+#: dialog.c:2283
 #, c-format
 msgid ""
 "Try to kill %s with SIGKILL() to avoid terminate those programs!\n"
@@ -736,21 +738,21 @@ msgstr ""
 "vermijden!\n"
 "(KAN DATAVERLIES VEROORZAKEN!!)"
 
-#: dialog.c:2296
+#: dialog.c:2297
 #, c-format
 msgid "Force to close all the tabs and windows, and exit %s!"
 msgstr "Forceer het sluiten van alle tabs en vensters en %s te sluiten!"
 
-#: dialog.c:2421
+#: dialog.c:2422
 #, c-format
 msgid "(Disabled, duplicated with [%s])"
 msgstr "(Niet geactiveerd, gekopieerd met [%s])"
 
-#: dialog.c:2430 dialog.c:2899 dialog.c:2950
+#: dialog.c:2431 dialog.c:2900 dialog.c:2951
 msgid "(Disabled)"
 msgstr "(Niet geactiveerd)"
 
-#: dialog.c:2676
+#: dialog.c:2677
 #, c-format
 msgid ""
 "The locale \"%s\" seems NOT supported by your system!\n"
@@ -761,21 +763,21 @@ msgstr ""
 "Als u de locales data zonet heeft toegevoegd,\n"
 "Gelieve eerst alle %s vensters te sluiten en opnieuw te proberen."
 
-#: dialog.c:2680
+#: dialog.c:2681
 msgid "Not supported locale!"
 msgstr "Locale wordt niet ondersteund!"
 
-#: dialog.c:2750
+#: dialog.c:2751
 #, fuzzy, c-format
 #| msgid "You should upgrade to %s to support this feature."
 msgid "You should upgrade to %s and recompile %s to support this feature."
 msgstr "Om deze functie te gebruiken moet u upgraden naar %s."
 
-#: dialog.c:2751
+#: dialog.c:2752
 msgid "Not supported feature!"
 msgstr "Functie wordt niet ondersteund!"
 
-#: dialog.c:2907
+#: dialog.c:2908
 #, fuzzy, c-format
 #| msgid "Disable all the function keys."
 msgid "Disable all the function keys of [%s] group."
@@ -849,8 +851,10 @@ msgid "Change ANSI color theme"
 msgstr "Wijzig het ANSI kleurthema"
 
 #: menu.c:123
-msgid "Revert color"
-msgstr ""
+#, fuzzy
+#| msgid "Change colors"
+msgid "Invert color"
+msgstr "Wijzig de kleuren"
 
 #. TRANSLATE NOTE: Please translate the "System default (SCHEME)" into "System default" (in your language).
 #. TRANSLATE NOTE: Some language will have trouble if here is "System default" only.
@@ -1113,7 +1117,7 @@ msgstr ""
 #: menu.c:2509
 #, fuzzy, c-format
 #| msgid "The following error is occurred:"
-msgid "The following error is occurred: %s"
+msgid "The following error occurred: %s"
 msgstr "De volgende fout is gebeurd:"
 
 #. TRANSLATE NOTE: The "↲" is a replace character for <Enter> (<CR>, or <New Line>).
@@ -1445,24 +1449,24 @@ msgstr ""
 msgid "Win"
 msgstr ""
 
-#: profile.c:2546
+#: profile.c:2550
 msgid "The target file does NOT exist"
 msgstr "Het doelbestand bestaat NIET"
 
-#: profile.c:2557
+#: profile.c:2561
 msgid "The target file is a directory"
 msgstr "Het doelbestand is een map"
 
-#: profile.c:2605
+#: profile.c:2609
 #, c-format
 msgid "Error while writing profile '%s':"
 msgstr "Error bij saven van profiel '%s':"
 
-#: profile.c:2610
+#: profile.c:2614
 msgid "Error when writing profile"
 msgstr "Error bij saven profiel"
 
-#: profile.c:2750
+#: profile.c:2754
 msgid ""
 "Some entry in profile is added, removed, or changed in this version.\n"
 "Please use [Save settings] on the right click menu to save your settings,\n"
@@ -1472,7 +1476,7 @@ msgstr ""
 "Gebruik [Save instellingen] in het rechterklikmenu om uw instellingen\n"
 "te saven en bewerk het manueel indien nodig.\n"
 
-#: profile.c:2756
+#: profile.c:2760
 #, c-format
 msgid ""
 "%s\n"
@@ -1481,11 +1485,11 @@ msgstr ""
 "%s\n"
 "Uw profiel is %s."
 
-#: profile.c:2759
+#: profile.c:2763
 msgid "The format of your profile is out of date"
 msgstr "Het formaat van uw profiel is outdatet"
 
-#: profile.c:2787 profile.c:2790
+#: profile.c:2791 profile.c:2794
 #, c-format
 msgid ""
 "The profile \"%s\" is invalid:\n"
@@ -1496,7 +1500,7 @@ msgstr ""
 "\n"
 "\t%s"
 
-#: profile.c:2798
+#: profile.c:2802
 msgid "The profile is invalid!"
 msgstr "Het profiel is ongeldig!"
 

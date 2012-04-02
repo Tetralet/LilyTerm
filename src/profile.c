@@ -387,8 +387,8 @@ void init_window_parameters(struct Window *win_data)
 	// win_data->color_theme_str;
 	// win_data->color_theme;
 	// win_data->color_value[COLOR];
-	// win_data->revert_color;
-	// win_data->menuitem_revert_color;
+	// win_data->invert_color;
+	// win_data->menuitem_invert_color;
 	// win_data->menuitem_theme;
 	// win_data->current_menuitem_theme;
 	// win_data->using_custom_color;
@@ -1528,7 +1528,7 @@ void get_user_settings(struct Window *win_data, const gchar *encoding)
 								   win_data->color_theme_str, ENABLE_EMPTY_STR);
 			// g_debug("get_user_settings: Got win_data->color_theme_str = %s", win_data->color_theme_str);
 
-			win_data->revert_color = check_boolean_value(keyfile, "color", "revert_color", win_data->revert_color);
+			win_data->invert_color = check_boolean_value(keyfile, "color", "invert_color", win_data->invert_color);
 
 			init_user_color(win_data);
 
@@ -1661,7 +1661,7 @@ void get_user_settings(struct Window *win_data, const gchar *encoding)
 		gdk_color_parse ("white", &(win_data->fg_color));
 		gdk_color_parse ("dark", &(win_data->bg_color));
 	}
-	if (win_data->revert_color) switch_color(win_data);
+	if (win_data->invert_color) switch_color(win_data);
 	set_color_brightness(win_data);
 
 	// g_debug("get_user_settings(): win_data->VTE_CJK_WIDTH_STR = %s", win_data->VTE_CJK_WIDTH_STR);
@@ -2170,8 +2170,8 @@ GString *save_user_settings(GtkWidget *widget, struct Window *win_data)
 	gchar *lc_numeric = g_strdup((char*)g_getenv("LC_NUMERIC"));
 	setlocale(LC_NUMERIC, "C");
 
-	gboolean revert_color = win_data->revert_color;
-	if (revert_color) switch_color(win_data);
+	gboolean invert_color = win_data->invert_color;
+	if (invert_color) switch_color(win_data);
 
 	long column = 0, row = 0;
 	GString *contents = g_string_new("[main]\n\n");
@@ -2463,8 +2463,8 @@ GString *save_user_settings(GtkWidget *widget, struct Window *win_data)
 		g_string_append_printf(contents, "theme = %s\n\n", win_data->color_theme_str);
 	else
 		g_string_append(contents, "theme = \n\n");
-	g_string_append_printf(contents,"# Revert the ansi colors, like revert the darkred to red, darkblue to bule.\n"
-					"revert_color = %d\n\n", win_data->revert_color);
+	g_string_append_printf(contents,"# Invert the ansi colors, like invert the darkred to red, darkblue to bule.\n"
+					"invert_color = %d\n\n", win_data->invert_color);
 	g_string_append_printf(contents,"# The brightness for ansi colors used in terminal.\n"
 					"brightness = %1.3f\n\n", win_data->color_brightness);
 	g_string_append_printf(contents,"# The brightness for ansi colors used in terminal when inactive.\n"
@@ -2517,7 +2517,7 @@ GString *save_user_settings(GtkWidget *widget, struct Window *win_data)
 					command[i].locale_name, win_data->user_command[i].locale);
 	}
 
-	if (revert_color) switch_color(win_data);
+	if (invert_color) switch_color(win_data);
 
 	// g_debug("menu_active_window = %p", menu_active_window);
 	if (menu_active_window==NULL)

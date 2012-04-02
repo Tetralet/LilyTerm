@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LilyTerm 0.9.9\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-28 22:27+0800\n"
+"POT-Creation-Date: 2012-04-02 21:05+0800\n"
 "PO-Revision-Date: 2011-07-04 20:15+0300\n"
 "Last-Translator: Vladimir Smolyar <v_2e@ukr.net>\n"
 "Language-Team: Ukrainian\n"
@@ -340,8 +340,10 @@ msgstr ""
 msgid "Set key binding"
 msgstr ""
 
-#: dialog.c:98 dialog.c:2738 menu.c:2511
-msgid "The following error is occurred:"
+#: dialog.c:98 dialog.c:2739 menu.c:2511
+#, fuzzy
+#| msgid "The following error is occurred:"
+msgid "The following error occurred:"
 msgstr "Виникла наступна помилка:"
 
 #: dialog.c:163 menu.c:329
@@ -479,7 +481,7 @@ msgstr "Змінити колір тексту у терміналі"
 msgid "Change the %s color on tab"
 msgstr "Змінити колір %s на вкладці"
 
-#: dialog.c:581 dialog.c:2557
+#: dialog.c:581 dialog.c:2558
 msgid "Bold Demo Text"
 msgstr "Жирний текст"
 
@@ -518,7 +520,7 @@ msgstr "Назва сполучення клавіш"
 #: dialog.c:713
 #, fuzzy
 #| msgid "Erase Binding"
-msgid "Key Binding"
+msgid "Key Bindings"
 msgstr "Прив'язування для стирання"
 
 #: dialog.c:721
@@ -624,7 +626,7 @@ msgid "IRC:    %s"
 msgstr ""
 
 #: dialog.c:867
-msgid "homepage:"
+msgid "Homepage:"
 msgstr ""
 
 #: dialog.c:870
@@ -753,7 +755,7 @@ msgstr ""
 msgid "Clipboard"
 msgstr "Скопіювати до буферу обміну"
 
-#: dialog.c:2282
+#: dialog.c:2283
 #, c-format
 msgid ""
 "Try to kill %s with SIGKILL() to avoid terminate those programs!\n"
@@ -762,21 +764,21 @@ msgstr ""
 "Спробувати вбити %s сигналом SIGKILL(), щоб запобігти\n"
 "перериванню цих програм! (МОЖЕ ПРИЗВЕСТИ ДО ВТРАТИ ДАНИХ!!)"
 
-#: dialog.c:2296
+#: dialog.c:2297
 #, c-format
 msgid "Force to close all the tabs and windows, and exit %s!"
 msgstr "Примусово закрити усі вкладки й вікна та вийти з %s!"
 
-#: dialog.c:2421
+#: dialog.c:2422
 #, c-format
 msgid "(Disabled, duplicated with [%s])"
 msgstr "(Заборонено, співпадає з [%s])"
 
-#: dialog.c:2430 dialog.c:2899 dialog.c:2950
+#: dialog.c:2431 dialog.c:2900 dialog.c:2951
 msgid "(Disabled)"
 msgstr "(Заборонено)"
 
-#: dialog.c:2676
+#: dialog.c:2677
 #, c-format
 msgid ""
 "The locale \"%s\" seems NOT supported by your system!\n"
@@ -787,22 +789,22 @@ msgstr ""
 "Якщо ви нещодавно оновили дані локалізацій,\n"
 "будь ласка, закрийте усі вікна %s і спробуйте знову."
 
-#: dialog.c:2680
+#: dialog.c:2681
 msgid "Not supported locale!"
 msgstr "Непідтримувана локалізація!"
 
-#: dialog.c:2750
+#: dialog.c:2751
 #, c-format
 msgid "You should upgrade to %s and recompile %s to support this feature."
 msgstr ""
 "Вам необхідно оновити до %s та перекомпілювати %s, щоб отримати підтримку "
 "цієї можливості."
 
-#: dialog.c:2751
+#: dialog.c:2752
 msgid "Not supported feature!"
 msgstr "Непідтримувана функція!"
 
-#: dialog.c:2907
+#: dialog.c:2908
 #, c-format
 msgid "Disable all the function keys of [%s] group."
 msgstr "Заборонити усі сполучення клавіш групи [%s]."
@@ -875,8 +877,10 @@ msgid "Change ANSI color theme"
 msgstr "Змінити схему кольорів ANSI"
 
 #: menu.c:123
-msgid "Revert color"
-msgstr ""
+#, fuzzy
+#| msgid "Change colors"
+msgid "Invert color"
+msgstr "Змінити кольори"
 
 #. TRANSLATE NOTE: Please translate the "System default (SCHEME)" into "System default" (in your language).
 #. TRANSLATE NOTE: Some language will have trouble if here is "System default" only.
@@ -1132,7 +1136,7 @@ msgstr ""
 #: menu.c:2509
 #, fuzzy, c-format
 #| msgid "The following error is occurred:"
-msgid "The following error is occurred: %s"
+msgid "The following error occurred: %s"
 msgstr "Виникла наступна помилка:"
 
 #. TRANSLATE NOTE: The "↲" is a replace character for <Enter> (<CR>, or <New Line>).
@@ -1477,24 +1481,24 @@ msgstr ""
 msgid "Win"
 msgstr ""
 
-#: profile.c:2546
+#: profile.c:2550
 msgid "The target file does NOT exist"
 msgstr "Файл призначення НЕ існує"
 
-#: profile.c:2557
+#: profile.c:2561
 msgid "The target file is a directory"
 msgstr "Файл призначення є каталогом"
 
-#: profile.c:2605
+#: profile.c:2609
 #, c-format
 msgid "Error while writing profile '%s':"
 msgstr "Помилка запису профілю '%s':"
 
-#: profile.c:2610
+#: profile.c:2614
 msgid "Error when writing profile"
 msgstr "Помилка запису профілю"
 
-#: profile.c:2750
+#: profile.c:2754
 msgid ""
 "Some entry in profile is added, removed, or changed in this version.\n"
 "Please use [Save settings] on the right click menu to save your settings,\n"
@@ -1505,7 +1509,7 @@ msgstr ""
 "миші,\n"
 "щоб зберегти ваші налаштування, і відредагуйте його вручну за необхідності.\n"
 
-#: profile.c:2756
+#: profile.c:2760
 #, c-format
 msgid ""
 "%s\n"
@@ -1514,11 +1518,11 @@ msgstr ""
 "%s\n"
 "Ваш профіль - %s."
 
-#: profile.c:2759
+#: profile.c:2763
 msgid "The format of your profile is out of date"
 msgstr "Формат вашого профілю застарів"
 
-#: profile.c:2787 profile.c:2790
+#: profile.c:2791 profile.c:2794
 #, c-format
 msgid ""
 "The profile \"%s\" is invalid:\n"
@@ -1529,7 +1533,7 @@ msgstr ""
 "\n"
 "\t%s"
 
-#: profile.c:2798
+#: profile.c:2802
 msgid "The profile is invalid!"
 msgstr "Профіль некоректний!"
 
