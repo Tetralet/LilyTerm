@@ -43,12 +43,14 @@
 	  Thanks caleb for this idea.
 	* Better about dialog. Thanks Mario Blättermann for this idea.
 	* Added a new menu item: [Invert Color].
-	* Fix some typo and syntax in translations texts.
-	  VERY THANKS to Vladimir Smolyar.
+	* Add a new option and a new menuitem 'Cursor shape'.
+	  Thanks ralesi for this great idea.
 
   FIX:
 	* Remove '>' from URL matching.
 	  Thanks BrainWorker for reporting this bug.
+	* Fix some typo and syntax in translations texts.
+	  VERY THANKS to Vladimir Smolyar.
 
 2011-06-15 Lu, Chao-Ming (Tetralet) <tetralet@gmail.com>
   version 0.9.9~rc9, It will be the version of 0.9.9,

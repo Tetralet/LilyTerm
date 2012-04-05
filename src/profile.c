@@ -198,6 +198,16 @@ struct Erase_Binding erase_binding[ERASE_BINDING] =
 	 VTE_ERASE_DELETE_SEQUENCE}};
 #endif
 
+#ifdef ENABLE_CURSOR_SHAPE
+struct Cursor_Shape cursor_shape[CURSOR_SHAPE] =
+	{{"BLOCK",
+	 VTE_CURSOR_SHAPE_BLOCK},
+	 {"IBEAM",
+	 VTE_CURSOR_SHAPE_IBEAM},
+	 {"UNDERLINE",
+	 VTE_CURSOR_SHAPE_UNDERLINE}};
+#endif
+
 void init_command()
 {
 #ifdef DETAIL
@@ -455,6 +465,11 @@ void init_window_parameters(struct Window *win_data)
 	win_data->erase_binding = erase_binding[DEFAULT_ERASE_BINDING].value;
 	// win_data->menuitem_erase_binding[ERASE_BINDING];
 	// win_data->current_menuitem_erase_binding;
+#ifdef ENABLE_CURSOR_SHAPE
+	win_data->cursor_shape = cursor_shape[DEFAULT_CURSOR_SHAPE].value;
+	// win_data->menuitem_cursor_shape[CURSOR_SHAPE];
+	// win_data->current_menuitem_cursor_shape;
+#endif
 	// win_data->confirm_to_close_multi_tabs = FALSE;
 	// win_data->confirm_to_execute_command = TRUE;			// inited in init_prime_user_datas()
 	// Don't forget to edit windows.c if you change the default volue here.
@@ -1376,7 +1391,15 @@ void get_user_settings(struct Window *win_data, const gchar *encoding)
 								      ENABLE_ZERO,
 								      CHECK_MIN, 0,
 								      CHECK_MAX, ERASE_BINDING);
-
+#ifdef ENABLE_CURSOR_SHAPE
+			win_data->cursor_shape = check_integer_value(keyfile, "main",
+								     "cursor_shape",
+								     win_data->cursor_shape,
+								     DISABLE_EMPTY_STR, 0,
+								     ENABLE_ZERO,
+								     CHECK_MIN, 0,
+								     CHECK_MAX, CURSOR_SHAPE);
+#endif
 			win_data->locales_list = check_string_value( keyfile, "main", "locales_list",
 								     win_data->locales_list, ENABLE_EMPTY_STR);
 			// g_debug("Got locales_list = %s from user's profile!", value);
@@ -2351,6 +2374,13 @@ GString *save_user_settings(GtkWidget *widget, struct Window *win_data)
 					"# 4: VTE_ERASE_TTY\n"
 #endif
 					"erase_binding = %d\n\n", win_data->erase_binding);
+#ifdef ENABLE_CURSOR_SHAPE
+	g_string_append_printf(contents,"# Sets the shape of the cursor drawn.\n"
+					"# 0: VTE_CURSOR_SHAPE_BLOCK\n"
+					"# 1: VTE_CURSOR_SHAPE_IBEAM\n"
+					"# 2: VTE_CURSOR_SHAPE_UNDERLINE\n"
+					"cursor_shape = %d\n\n", win_data->cursor_shape);
+#endif
 	g_string_append_printf(contents,"# The default locale used when initing a vte terminal.\n"
 					"# You may use \"zh_TW\", \"zh_TW.Big5\", or \"zh_TW.UTF-8\" here.\n");
 	g_string_append_printf(contents,"default_locale = %s\n\n", win_data->default_locale);

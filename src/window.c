@@ -2554,6 +2554,11 @@ void dump_data (struct Window *win_data, struct Page *page_data)
 	for (i=0; i<ERASE_BINDING; i++)
 		g_debug("- win_data->menuitem_erase_binding[%d] = %p", i, win_data->menuitem_erase_binding[i]);
 	g_debug("- win_data->current_menuitem_erase_binding = %p", win_data->current_menuitem_erase_binding);
+#ifdef ENABLE_CURSOR_SHAPE
+	for (i=0; i<CURSOR_SHAPE; i++)
+		g_debug("- win_data->menuitem_cursor_shape[%d] = %p", i, win_data->menuitem_cursor_shape[i]);
+	g_debug("- win_data->current_menuitem_cursor_shape = %p", win_data->current_menuitem_cursor_shape);
+#endif
 	g_debug("- win_data->color_brightness = %1.3f", win_data->color_brightness);
 	g_debug("- win_data->color_brightness_inactive = %1.3f", win_data->color_brightness_inactive);
 	g_debug("- win_data->page_width = %d", win_data->page_width);
@@ -2598,6 +2603,9 @@ void dump_data (struct Window *win_data, struct Page *page_data)
 	g_debug("- win_data->urgent_bell_status = %d", win_data->urgent_bell_status);
 	g_debug("- win_data->urgent_bell_focus_in_event_id = %ld", win_data->urgent_bell_focus_in_event_id);
 	g_debug("- win_data->erase_binding = %d", win_data->erase_binding);
+#ifdef ENABLE_CURSOR_SHAPE
+	g_debug("- win_data->cursor_shape = %d", win_data->cursor_shape);
+#endif
 	g_debug("- win_data->prime_user_datas_inited = %d", win_data->prime_user_datas_inited);
 	g_debug("- win_data->confirm_to_close_multi_tabs = %d", win_data->confirm_to_close_multi_tabs);
 	g_debug("- win_data->confirm_to_execute_command = %d", win_data->confirm_to_execute_command);
@@ -2999,6 +3007,12 @@ void win_data_dup(struct Window *win_data_orig, struct Window *win_data)
 	for (i=0; i<ERASE_BINDING; i++)
 		win_data->menuitem_erase_binding[i] = NULL;
 	win_data->current_menuitem_erase_binding = NULL;
+#ifdef ENABLE_CURSOR_SHAPE
+	// win_data->cursor_shape;
+	for (i=0; i<CURSOR_SHAPE; i++)
+		win_data->menuitem_cursor_shape[i] = NULL;
+	win_data->current_menuitem_cursor_shape = NULL;
+#endif
 // ---- other ---- //
 
 	// win_data->confirm_to_close_multi_tabs;

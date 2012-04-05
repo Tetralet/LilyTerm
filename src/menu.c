@@ -25,6 +25,9 @@ extern GtkWidget *menu_active_window;
 extern struct Page_Color page_color[PAGE_COLOR];
 extern struct Color_Theme color_theme[THEME];
 extern struct Erase_Binding erase_binding[ERASE_BINDING];
+#ifdef ENABLE_CURSOR_SHAPE
+extern struct Cursor_Shape cursor_shape[CURSOR_SHAPE];
+#endif
 extern gchar *system_locale_list;
 extern gchar *init_LC_CTYPE;
 extern gchar *init_encoding;
@@ -282,6 +285,22 @@ gboolean create_menu(struct Window *win_data)
 		if (win_data->erase_binding == erase_binding[i].value)
 			win_data->current_menuitem_erase_binding = win_data->menuitem_erase_binding[i];
 	}
+
+#ifdef ENABLE_CURSOR_SHAPE
+	sub_menu = create_sub_item (misc_sub_menu, _("Cursor Shape"), GTK_STOCK_GO_BACK);
+	GSList *cursor_shape_group = NULL;
+	for (i=0; i<CURSOR_SHAPE; i++)
+	{
+		win_data->menuitem_cursor_shape[i] = add_radio_menuitem_to_sub_menu (cursor_shape_group,
+									      sub_menu,
+									      cursor_shape[i].name,
+									      (GSourceFunc)set_cursor_shape,
+									      GINT_TO_POINTER(cursor_shape[i].value));
+		cursor_shape_group = gtk_radio_menu_item_get_group (GTK_RADIO_MENU_ITEM (win_data->menuitem_cursor_shape[i]));
+		if (win_data->cursor_shape == cursor_shape[i].value)
+			win_data->current_menuitem_cursor_shape = win_data->menuitem_cursor_shape[i];
+	}
+#endif
 
 	// Dim when inactive
        	win_data->menuitem_dim_text = create_menu_item (CHECK_MENU_ITEM, misc_sub_menu,
@@ -1098,7 +1117,7 @@ void set_erase_binding (GtkWidget *menuitem, gint value)
 #ifdef DEFENSIVE
 	if (win_data==NULL) return;
 #endif
-	if ((win_data->checking_menu_item) || (win_data->erase_binding = value)) return;
+	if ((win_data->checking_menu_item) || (win_data->erase_binding == value)) return;
 	win_data->erase_binding = value;
 
 	gint i;
@@ -1109,10 +1128,45 @@ void set_erase_binding (GtkWidget *menuitem, gint value)
 #ifdef DEFENSIVE
 		if (page_data)
 #endif
-		vte_terminal_set_backspace_binding (VTE_TERMINAL(page_data->vte), win_data->erase_binding);
+			vte_terminal_set_backspace_binding (VTE_TERMINAL(page_data->vte), win_data->erase_binding);
 	}
 	win_data->current_menuitem_erase_binding = menuitem;
 }
+
+#ifdef ENABLE_CURSOR_SHAPE
+void set_cursor_shape (GtkWidget *menuitem, gint value)
+{
+#ifdef DETAIL
+	g_debug("! Launch set_cursor_shape() with menuitem = %p!, value = %d", menuitem, value);
+#endif
+#ifdef FATAL
+	// g_debug("menu_active_window = %p", menu_active_window);
+	if (menu_active_window==NULL)
+		return print_active_window_is_null_error_dialog("set_cursor_shape()");
+#endif
+#ifdef DEFENSIVE
+	if (menu_active_window==NULL) return;
+#endif
+	struct Window *win_data = (struct Window *)g_object_get_data(G_OBJECT(menu_active_window), "Win_Data");
+#ifdef DEFENSIVE
+	if (win_data==NULL) return;
+#endif
+	if ((win_data->checking_menu_item) || (win_data->cursor_shape == value)) return;
+	win_data->cursor_shape = value;
+
+	gint i;
+	struct Page *page_data = NULL;
+	for (i=0; i<gtk_notebook_get_n_pages(GTK_NOTEBOOK(win_data->notebook)); i++)
+	{
+		page_data = get_page_data_from_nth_page(win_data, i);
+#ifdef DEFENSIVE
+		if (page_data)
+#endif
+			vte_terminal_set_cursor_shape(VTE_TERMINAL(page_data->vte), win_data->cursor_shape);
+	}
+	win_data->current_menuitem_cursor_shape = menuitem;
+}
+#endif
 
 // it is OK to use either zh_TW.Big5 or Big5 here
 void set_encoding(GtkWidget *menuitem, gpointer user_data)

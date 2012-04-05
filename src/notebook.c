@@ -1235,6 +1235,12 @@ gboolean vte_button_press(GtkWidget *vte, GdkEventButton *event, gpointer user_d
 		if (win_data->current_menuitem_erase_binding)
 #endif
 			gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM(win_data->current_menuitem_erase_binding), TRUE);
+#ifdef ENABLE_CURSOR_SHAPE
+#  ifdef DEFENSIVE
+		if (win_data->current_menuitem_cursor_shape)
+#  endif
+			gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM(win_data->current_menuitem_cursor_shape), TRUE);
+#endif
 #ifdef DEFENSIVE
 		if (win_data->menuitem_invert_color)
 #endif

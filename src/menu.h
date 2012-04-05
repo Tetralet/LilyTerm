@@ -65,6 +65,9 @@ void set_trans_bg(GtkWidget *menuitem_trans_bg, struct Window *win_data);
 void set_trans_win(GtkWidget *widget, GtkWidget *window);
 void set_ansi_theme(GtkWidget *menuitem, GdkColor color[COLOR]);
 void set_erase_binding (GtkWidget *menuitem, gint value);
+#ifdef ENABLE_CURSOR_SHAPE
+void set_cursor_shape (GtkWidget *menuitem, gint value);
+#endif
 void clean_scrollback_lines(GtkWidget *widget, struct Window *win_data);
 void reset_vte(GtkWidget *widget, struct Window *win_data);
 void select_font(GtkWidget *widget, struct Window *win_data);

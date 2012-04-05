@@ -170,6 +170,9 @@ void init_new_page(struct Window *win_data,
 	// g_debug("init_new_page(): call set_vte_urgent_bell()");
 	set_vte_urgent_bell(win_data, page_data);
 	vte_terminal_set_backspace_binding (VTE_TERMINAL(page_data->vte), win_data->erase_binding);
+#ifdef ENABLE_CURSOR_SHAPE
+	vte_terminal_set_cursor_shape(VTE_TERMINAL(page_data->vte), win_data->cursor_shape);
+#endif
 	vte_terminal_set_emulation (VTE_TERMINAL(page_data->vte), win_data->emulate_term);
 }
 
@@ -745,7 +748,10 @@ void apply_new_win_data_to_page (struct Window *win_data_orig,
 
 	if (win_data_orig->erase_binding != win_data->erase_binding)
 		vte_terminal_set_backspace_binding (VTE_TERMINAL(page_data->vte), win_data->erase_binding);
-
+#ifdef ENABLE_CURSOR_SHAPE
+	if (win_data_orig->cursor_shape != win_data->cursor_shape)
+		vte_terminal_set_cursor_shape(VTE_TERMINAL(page_data->vte), win_data->cursor_shape);
+#endif
 	if (compare_strings(win_data_orig->emulate_term, win_data->emulate_term, TRUE))
 		vte_terminal_set_emulation (VTE_TERMINAL(page_data->vte), win_data->emulate_term);
 }

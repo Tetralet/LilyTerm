@@ -218,6 +218,7 @@
     #endif
     #if VTE_CHECK_VERSION(0,20,0)
 	#define vte_terminal_set_font_from_string_full(x,y,z) vte_terminal_set_font_from_string(x,y)
+	#define ENABLE_CURSOR_SHAPE
     #endif
     #if VTE_CHECK_VERSION(0,20,4)
 	#define ENABLE_VTE_ERASE_TTY
@@ -452,11 +453,23 @@ struct Color_Theme
 	#define ERASE_BINDING 4
 #endif
 #define DEFAULT_ERASE_BINDING 2
+
 struct Erase_Binding
 {
 	gchar *name;
 	gint value;
 };
+
+#ifdef ENABLE_CURSOR_SHAPE
+	#define CURSOR_SHAPE 3
+	#define DEFAULT_CURSOR_SHAPE 0
+
+struct Cursor_Shape
+{
+	gchar *name;
+	gint value;
+};
+#endif
 
 // 1: WinTitle
 // 2: CmdLine
@@ -819,6 +832,11 @@ struct Window
 	gint erase_binding;
 	GtkWidget *menuitem_erase_binding[ERASE_BINDING];
 	GtkWidget *current_menuitem_erase_binding;
+#ifdef ENABLE_CURSOR_SHAPE
+	gint cursor_shape;
+	GtkWidget *menuitem_cursor_shape[CURSOR_SHAPE];
+	GtkWidget *current_menuitem_cursor_shape;
+#endif
 
 // ---- other ---- //
 
