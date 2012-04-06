@@ -1781,6 +1781,7 @@ void clear_win_data(struct Window *win_data)
 	}
 
 	g_free(win_data->foreground_color);
+	g_free(win_data->cursor_color_str);
 	g_free(win_data->background_color);
 	g_free(win_data->color_theme_str);
 
@@ -2520,9 +2521,11 @@ void dump_data (struct Window *win_data, struct Page *page_data)
 	g_debug("- win_data->menuitem_clipboard = %p", win_data->menuitem_clipboard);
 	g_debug("- win_data->menuitem_primary = %p", win_data->menuitem_primary);
 	g_debug("- win_data->foreground_color = %s", win_data->foreground_color);
+	g_debug("- win_data->cursor_color_str = %s", win_data->cursor_color_str);
 	g_debug("- win_data->background_color = %s", win_data->background_color);
 	print_color("win_data->fg_color", &(win_data->fg_color));
 	print_color("win_data->fg_color_inactive", &(win_data->fg_color_inactive));
+	print_color("win_data->cursor_color", &(win_data->cursor_color));
 	print_color("win_data->bg_color", &(win_data->bg_color));
 	g_debug("- win_data->color_theme_str = %s", win_data->color_theme_str);
 	g_debug("- win_data->invert_color = %d", win_data->invert_color);
@@ -2927,9 +2930,11 @@ void win_data_dup(struct Window *win_data_orig, struct Window *win_data)
 // ---- the color used in vte ---- //
 
 	win_data->foreground_color = g_strdup(win_data_orig->foreground_color);
+	win_data->cursor_color_str = g_strdup(win_data_orig->cursor_color_str);
 	win_data->background_color = g_strdup(win_data_orig->background_color);
 	// win_data->fg_color;
 	// win_data->fg_color_inactive;
+	// win_data->cursor_color;
 	// win_data->bg_color;
 	win_data->color_theme_str = g_strdup(win_data_orig->color_theme_str);
 	// win_data->menuitem_invert_color

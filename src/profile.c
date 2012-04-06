@@ -390,9 +390,11 @@ void init_window_parameters(struct Window *win_data)
 	// win_data->menuitem_clipboard;
 	// win_data->menuitem_primary;
 	win_data->foreground_color = g_strdup("white");
+	win_data->cursor_color_str = g_strdup("cyan");
 	win_data->background_color = g_strdup("black");
 	// win_data->fg_color;
 	// win_data->fg_color_inactive;
+	// win_data->cursor_color;
 	// win_data->bg_color;
 	// win_data->color_theme_str;
 	// win_data->color_theme;
@@ -1277,6 +1279,9 @@ void get_user_settings(struct Window *win_data, const gchar *encoding)
 			win_data->foreground_color = check_string_value(keyfile, "main", "foreground_color",
 									win_data->foreground_color, DISABLE_EMPTY_STR);
 
+			win_data->cursor_color_str = check_string_value(keyfile, "main", "cursor_color",
+									win_data->cursor_color_str, DISABLE_EMPTY_STR);
+
 			win_data->background_color = check_string_value(keyfile, "main", "background_color",
 									win_data->background_color, DISABLE_EMPTY_STR);
 
@@ -1678,12 +1683,15 @@ void get_user_settings(struct Window *win_data, const gchar *encoding)
 	if (win_data->window_title_shows_current_page == 0) win_data->window_title_append_package_name = 0;
 	// g_debug("win_data->foreground_color = %s", win_data->foreground_color);
 	check_color_value ("foreground_color", win_data->foreground_color, &(win_data->fg_color));
+	check_color_value ("cursor_color", win_data->cursor_color_str, &(win_data->cursor_color));
 	check_color_value ("background_color", win_data->background_color, &(win_data->bg_color));
 	if (! compare_color(&(win_data->fg_color), &(win_data->bg_color)))
 	{
 		gdk_color_parse ("white", &(win_data->fg_color));
 		gdk_color_parse ("dark", &(win_data->bg_color));
 	}
+	if (! compare_color(&(win_data->bg_color), &(win_data->cursor_color)))
+		gdk_color_parse ("cyan", &(win_data->cursor_color));
 	if (win_data->invert_color) switch_color(win_data);
 	set_color_brightness(win_data);
 
@@ -2296,6 +2304,9 @@ GString *save_user_settings(GtkWidget *widget, struct Window *win_data)
 	g_string_append_printf(contents,"# The normal text color used in vte terminal.\n"
 					"# You may use black, #000000 or #000000000000 here.\n"
 					"foreground_color = %s\n\n", win_data->foreground_color);
+	g_string_append_printf(contents,"# Sets the background color for text which is under the cursor.\n"
+					"# You may use black, #000000 or #000000000000 here.\n"
+					"cursor_color = %s\n\n", win_data->cursor_color_str);
 	g_string_append_printf(contents,"# The background color used in vte terminal.\n"
 					"# You may use black, #000000 or #000000000000 here.\n"
 					"background_color = %s\n\n", win_data->background_color);

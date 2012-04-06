@@ -251,6 +251,7 @@ void set_vte_color(struct Window *win_data, struct Page *page_data)
 		vte_terminal_set_color_foreground(VTE_TERMINAL(page_data->vte), &(win_data->fg_color));
 		vte_terminal_set_color_background(VTE_TERMINAL(page_data->vte), &(win_data->bg_color));
 	}
+	vte_terminal_set_color_cursor(VTE_TERMINAL(page_data->vte), &(win_data->cursor_color));
 	vte_terminal_set_color_bold (VTE_TERMINAL(page_data->vte), &(win_data->fg_color));
 	vte_terminal_set_background_tint_color (VTE_TERMINAL(page_data->vte), &(win_data->bg_color));
 }
@@ -590,6 +591,7 @@ void apply_new_win_data_to_page (struct Window *win_data_orig,
 	gboolean update_color = FALSE;
 
 	if (compare_color(&(win_data_orig->fg_color), &(win_data->fg_color)) ||
+	    compare_color(&(win_data_orig->cursor_color), &(win_data->cursor_color)) ||
 	    compare_color(&(win_data_orig->bg_color), &(win_data->bg_color)) ||
 	    (win_data_orig->using_custom_color != win_data->using_custom_color) ||
 	    (win_data_orig->color_brightness != win_data->color_brightness))

@@ -45,6 +45,8 @@
 	* Added a new menu item: [Invert Color].
 	* Add a new option and a new menuitem 'Cursor shape'.
 	  Thanks ralesi for this great idea.
+	* Add a new option and a new menuitem 'Change the color of cursor'.
+	  Thanks ralesi for this great idea.
 
   FIX:
 	* Remove '>' from URL matching.

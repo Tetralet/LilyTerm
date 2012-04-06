@@ -39,6 +39,7 @@ GdkColor entry_not_find_bg_color = {0, 0xffff, 0xbcbc, 0xbcbc};
 // FIND_STRING,
 // ADD_NEW_LOCALES,
 // CHANGE_THE_FOREGROUND_COLOR,
+// CHANGE_THE_CURSOR_COLOR,
 // ADJUST_THE_BRIGHTNESS_OF_ANSI_COLORS_USED_IN_TERMINAL,
 // ADJUST_THE_BRIGHTNESS_OF_ANSI_COLORS_WHEN_INACTIVE,
 // CHANGE_THE_BACKGROUND_COLOR,
@@ -474,6 +475,27 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 			create_color_selection_widget(dialog_data, color_data, style,
 						      (GSourceFunc)adjest_vte_color, win_data->current_vte);
 			break;
+		case CHANGE_THE_CURSOR_COLOR:				// 9
+			create_dialog(_("Change the cursor color in terminal"),
+				      "Change the cursor color in terminal",
+				      DIALOG_OK_CANCEL,
+				      page_data->window,
+				      FALSE,
+				      FALSE,
+				      15,
+				      GTK_RESPONSE_OK,
+				      NULL,
+				      NULL,
+				      FALSE,
+				      0,
+				      FALSE,
+				      BOX_HORIZONTAL,
+				      0,
+				      dialog_data);
+			color_data->original_color = win_data->cursor_color;
+			create_color_selection_widget(dialog_data, color_data, style,
+						      (GSourceFunc)adjest_vte_color, win_data->current_vte);
+			break;
 		case CHANGE_THE_TEXT_COLOR_OF_WINDOW_TITLE:			// 11
 		case CHANGE_THE_TEXT_COLOR_OF_CMDLINE:				// 12
 		case CHANGE_THE_TEXT_COLOR_OF_CURRENT_DIR:			// 13
@@ -617,6 +639,7 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 		}
 #else
 		case CHANGE_THE_FOREGROUND_COLOR:
+		case CHANGE_THE_CURSOR_COLOR:
 		case CHANGE_THE_TEXT_COLOR_OF_WINDOW_TITLE:			// 11
 		case CHANGE_THE_TEXT_COLOR_OF_CMDLINE:				// 12
 		case CHANGE_THE_TEXT_COLOR_OF_CURRENT_DIR:			// 13
@@ -1307,6 +1330,8 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 				case CHANGE_BACKGROUND_SATURATION:
 				// style  9: change the foreground color
 				case CHANGE_THE_FOREGROUND_COLOR:
+				// style  9: change the cursor color
+				case CHANGE_THE_CURSOR_COLOR:
 				// style 10: change the background color
 				case CHANGE_THE_BACKGROUND_COLOR:
 				// style 11: change the text color of window title
@@ -1332,18 +1357,24 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 						case CHANGE_THE_FOREGROUND_COLOR:
 							g_free(win_data->foreground_color);
 							win_data->foreground_color =
-								gdk_color_to_string(&(color_data->fg_color));
-							win_data->fg_color = color_data->fg_color;
+								gdk_color_to_string(&(color_data->color));
+							win_data->fg_color = color_data->color;
 							adjust_ansi_color_severally(&(win_data->fg_color_inactive),
 										    &(win_data->fg_color),
 										    win_data->color_brightness_inactive /
 										    	(1 + win_data->color_brightness));
 							break;
+						case CHANGE_THE_CURSOR_COLOR:
+							g_free(win_data->cursor_color_str);
+							win_data->cursor_color_str =
+								gdk_color_to_string(&(color_data->color));
+							win_data->cursor_color = color_data->color;
+							break;
 						case CHANGE_THE_BACKGROUND_COLOR:
 							g_free(win_data->background_color);
 							win_data->background_color =
-								gdk_color_to_string(&(color_data->bg_color));
-							win_data->bg_color = color_data->bg_color;
+								gdk_color_to_string(&(color_data->color));
+							win_data->bg_color = color_data->color;
 							// FIXME: GtkColorSelection have no ALPHA-CHANGED signal.
 							//	  so that the following code should be
 							//	  marked for temporary.
@@ -1379,17 +1410,20 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 #ifdef DEFENSIVE
 							if (tmp_page_data==NULL) goto DESTROY_WINDOW;
 #endif
-
-							if (style==CHANGE_BACKGROUND_SATURATION)
-								set_background_saturation (NULL, 0,
-									   win_data->background_saturation,
-									   tmp_page_data->vte);
-
-							if (style==CHANGE_THE_FOREGROUND_COLOR ||
-							    style==CHANGE_THE_BACKGROUND_COLOR)
-								adjest_vte_color (GTK_COLOR_SELECTION(
-									dialog_data->operate[0]),
-									  tmp_page_data->vte);
+							switch (style)
+							{
+								case CHANGE_BACKGROUND_SATURATION:
+									set_background_saturation (NULL, 0,
+												   win_data->background_saturation,
+												   tmp_page_data->vte);
+									break;
+								case CHANGE_THE_FOREGROUND_COLOR:
+								case CHANGE_THE_BACKGROUND_COLOR:
+								case CHANGE_THE_CURSOR_COLOR:
+									adjest_vte_color(GTK_COLOR_SELECTION(dialog_data->operate[0]),
+													      tmp_page_data->vte);
+									break;
+							}
 						}
 					}
 					break;
@@ -1497,6 +1531,8 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 				case CHANGE_BACKGROUND_SATURATION:
 				// style  9: change the foreground color
 				case CHANGE_THE_FOREGROUND_COLOR:
+				// style  9: change the cursor color
+				case CHANGE_THE_CURSOR_COLOR:
 				// style 10: change the background color
 				case CHANGE_THE_BACKGROUND_COLOR:
 					if (style==CHANGE_BACKGROUND_SATURATION)
@@ -1508,10 +1544,14 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 									  win_data->background_saturation,
 									  win_data->current_vte);
 					}
-					if (style==CHANGE_THE_FOREGROUND_COLOR)
-						color_data->fg_color = color_data->original_color;
-					else if (style==CHANGE_THE_BACKGROUND_COLOR)
-						color_data->bg_color = color_data->original_color;
+					switch (style)
+					{
+						case CHANGE_THE_FOREGROUND_COLOR:
+						case CHANGE_THE_BACKGROUND_COLOR:
+						case CHANGE_THE_CURSOR_COLOR:
+							color_data->color = color_data->original_color;
+							break;
+					}
 
 					if (style!=CHANGE_BACKGROUND_SATURATION)
 					{
@@ -2513,14 +2553,19 @@ void adjest_vte_color(GtkColorSelection *colorselection, GtkWidget *vte)
 	{
 		case CHANGE_THE_FOREGROUND_COLOR:
 			if (! color_data->recover)
-				gtk_color_selection_get_current_color (colorselection, &(color_data->fg_color));
-			vte_terminal_set_color_foreground(VTE_TERMINAL(vte), &(color_data->fg_color));
-			vte_terminal_set_color_bold (VTE_TERMINAL(vte), &(color_data->fg_color));
+				gtk_color_selection_get_current_color (colorselection, &(color_data->color));
+			vte_terminal_set_color_foreground(VTE_TERMINAL(vte), &(color_data->color));
+			vte_terminal_set_color_bold (VTE_TERMINAL(vte), &(color_data->color));
 			break;
+		case CHANGE_THE_CURSOR_COLOR:
+			if (! color_data->recover)
+				gtk_color_selection_get_current_color (colorselection, &(color_data->color));
+			vte_terminal_set_color_cursor(VTE_TERMINAL(vte), &(color_data->color));
+					break;
 		case CHANGE_THE_BACKGROUND_COLOR:
 			if (! color_data->recover)
 			{
-				gtk_color_selection_get_current_color (colorselection, &(color_data->bg_color));
+				gtk_color_selection_get_current_color (colorselection, &(color_data->color));
 				// FIXME: GtkColorSelection have no ALPHA CHANGED signal.
 				//	  so that the following code should be marked for temporary
 				//if (use_rgba)
@@ -2534,8 +2579,8 @@ void adjest_vte_color(GtkColorSelection *colorselection, GtkWidget *vte)
 			//else if (use_rgba)
 			//	set_background_saturation(NULL, 0, background_saturation, vte);
 
-			vte_terminal_set_color_background(VTE_TERMINAL(vte), &(color_data->bg_color));
-			vte_terminal_set_background_tint_color (VTE_TERMINAL(vte), &(color_data->bg_color));
+			vte_terminal_set_color_background(VTE_TERMINAL(vte), &(color_data->color));
+			vte_terminal_set_background_tint_color (VTE_TERMINAL(vte), &(color_data->color));
 			break;
 		case CHANGE_THE_TEXT_COLOR_OF_WINDOW_TITLE:
 		case CHANGE_THE_TEXT_COLOR_OF_CMDLINE:

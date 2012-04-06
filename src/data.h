@@ -739,8 +739,10 @@ struct Window
 // ---- the color used in vte ---- //
 
 	gchar *foreground_color;
+	gchar *cursor_color_str;
 	gchar *background_color;
 	GdkColor fg_color;
+	GdkColor cursor_color;
 	GdkColor fg_color_inactive;
 	GdkColor bg_color;
 
@@ -1056,6 +1058,7 @@ typedef enum {
 	FIND_STRING,
 	ADD_NEW_LOCALES,
 	CHANGE_THE_FOREGROUND_COLOR,
+	CHANGE_THE_CURSOR_COLOR,
 	ADJUST_THE_BRIGHTNESS_OF_ANSI_COLORS_USED_IN_TERMINAL,
 	ADJUST_THE_BRIGHTNESS_OF_ANSI_COLORS_WHEN_INACTIVE,
 	CHANGE_THE_BACKGROUND_COLOR,

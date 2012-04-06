@@ -53,8 +53,7 @@ struct Color_Data
 	gchar *original_page_color;
 	GdkColor original_color;
 	gchar *original_custom_page_name;
-	GdkColor fg_color;
-	GdkColor bg_color;
+	GdkColor color;
 
 	gboolean transparent_background;
 };

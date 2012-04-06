@@ -1127,6 +1127,7 @@ void dim_vte_text (struct Window *win_data, struct Page *page_data, gint dim_tex
 		}
 		page_data->vte_is_inactivated = dim_vte;
 	}
+	vte_terminal_set_color_cursor(VTE_TERMINAL(page_data->vte), &(win_data->cursor_color));
 	// g_debug("FINAL: dim_vte = %d, page_data->vte_is_inactivated = %d", dim_vte, page_data->vte_is_inactivated);
 }
 

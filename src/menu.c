@@ -90,6 +90,10 @@ gboolean create_menu(struct Window *win_data)
 		create_menu_item (IMAGE_MENU_ITEM, sub_menu, _("Change the foreground color"), NULL, GTK_STOCK_SELECT_COLOR,
 				  (GSourceFunc)dialog, GINT_TO_POINTER (CHANGE_THE_FOREGROUND_COLOR));
 
+		// Change the cursor color for every tab
+		create_menu_item (IMAGE_MENU_ITEM, sub_menu, _("Change the cursor color"), NULL, GTK_STOCK_SELECT_COLOR,
+				  (GSourceFunc)dialog, GINT_TO_POINTER (CHANGE_THE_CURSOR_COLOR));
+
 		// Change the background color for every tab
 		create_menu_item (IMAGE_MENU_ITEM, sub_menu, _("Change the background color"), NULL, GTK_STOCK_SELECT_COLOR,
 				  (GSourceFunc)dialog, GINT_TO_POINTER (CHANGE_THE_BACKGROUND_COLOR));
