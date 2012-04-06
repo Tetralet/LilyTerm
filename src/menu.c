@@ -1046,7 +1046,7 @@ void set_ansi_theme(GtkWidget *menuitem, GdkColor color[COLOR])
 	else
 	{
 		if ((win_data->checking_menu_item) || (menuitem == win_data->current_menuitem_theme)) return;
-		
+
 		g_free(win_data->color_theme_str);
 		win_data->color_theme_str = g_strdup(gtk_widget_get_name(menuitem));
 #ifdef DEFENSIVE
@@ -1102,6 +1102,18 @@ void set_ansi_theme(GtkWidget *menuitem, GdkColor color[COLOR])
 		// g_debug("Set the color theme to %s!", gtk_menu_item_get_label(GTK_MENU_ITEM(menuitem)));
 		win_data->current_menuitem_theme = menuitem;
 	}
+}
+
+void set_auto_save(GtkWidget *menuitem, struct Window *win_data)
+{
+#ifdef DETAIL
+	g_debug("! Launch set_auto_save() with menuitem = %p, win_data = %p", menuitem, win_data);
+#endif
+#ifdef DEFENSIVE
+	if (win_data==NULL) return;
+#endif
+	win_data->auto_save = gtk_check_menu_item_get_active (GTK_CHECK_MENU_ITEM(menuitem));
+	// g_debug("Set win_data->auto_save to %d", win_data->auto_save);
 }
 
 void set_erase_binding (GtkWidget *menuitem, gint value)
@@ -1728,6 +1740,11 @@ void create_load_profile_from_menu_items(GtkWidget *sub_menu, const gchar *stock
 #endif
 	// Profile
 	//menu_item = gtk_image_menu_item_new_with_label(_("Profile sample"));
+	win_data->menuitem_auto_save = create_menu_item(CHECK_MENU_ITEM, sub_menu, _("Auto save settings"), NULL, NULL,
+							(GSourceFunc)set_auto_save, win_data);
+
+	add_separator_menu (sub_menu);
+
 	create_menu_item (IMAGE_MENU_ITEM, sub_menu, _("Save settings"), NULL, GTK_STOCK_SAVE,
 			  (GSourceFunc)save_user_settings, win_data);
 
@@ -2344,7 +2361,7 @@ void reload_settings(GtkWidget *menu_item, struct Window *win_data)
 		current_profile = g_strdup(win_data->profile);
 	else
 		current_profile = g_strdup_printf("%s/%s", profile_dir, USER_PROFILE);
-	
+
 	apply_profile_from_file(current_profile, LOAD_FROM_PROFILE);
 	g_free(current_profile);
 }

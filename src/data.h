@@ -591,6 +591,8 @@ struct Window
 	gchar *profile;
 	gchar *specified_profile;
 	glong profile_dir_modtime;
+	GtkWidget *menuitem_auto_save;
+	gboolean auto_save;
 
 // ---- the component of a single window ---- //
 

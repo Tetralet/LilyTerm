@@ -866,7 +866,7 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 				   "Niels Martignène: Franch translation.\n"
 				   "P.L. Francisco: Spanish translation.\n"
 				   "Samed Beyribey: Turkish translation.\n"
-				   "Slavko: Slovak translation.\n" 
+				   "Slavko: Slovak translation.\n"
 				   "Vladimir Smolyar: Russian and Ukrainian translations.";
 			str[8] = convert_text_to_html(&temp_str, FALSE, NULL, "tt", NULL);
 			dialog_data->operate[3] = add_text_to_notebook(notebook, _("Translators"), GTK_STOCK_CONVERT, str[8]);

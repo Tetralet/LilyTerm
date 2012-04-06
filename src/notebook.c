@@ -863,6 +863,10 @@ gboolean close_page(GtkWidget *vte, gint close_type)
 		win_data->current_vte = oldvte;
 	}
 
+	if (win_data->auto_save &&
+	    (gtk_notebook_get_n_pages(GTK_NOTEBOOK(win_data->notebook))==1))
+		save_user_settings(NULL, win_data);
+
 	// remove timeout event for page_shows_current_cmdline
 	// if (page_data->page_shows_current_cmdline ||
 	//    page_data->page_shows_current_dir ||
@@ -1246,6 +1250,10 @@ gboolean vte_button_press(GtkWidget *vte, GdkEventButton *event, gpointer user_d
 		if (win_data->menuitem_invert_color)
 #endif
 			gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM(win_data->menuitem_invert_color), win_data->invert_color);
+#ifdef DEFENSIVE
+		if (win_data->menuitem_auto_save)
+#endif
+			gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM(win_data->menuitem_auto_save), win_data->auto_save);
 		win_data->checking_menu_item = FALSE;
 
 		if (win_data->show_background_menu)

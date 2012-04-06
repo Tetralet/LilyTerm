@@ -64,6 +64,7 @@ GtkWidget *check_name_in_menuitem(GtkWidget *sub_menu, const gchar *name, gboole
 void set_trans_bg(GtkWidget *menuitem_trans_bg, struct Window *win_data);
 void set_trans_win(GtkWidget *widget, GtkWidget *window);
 void set_ansi_theme(GtkWidget *menuitem, GdkColor color[COLOR]);
+void set_auto_save(GtkWidget *menuitem, struct Window *win_data);
 void set_erase_binding (GtkWidget *menuitem, gint value);
 #ifdef ENABLE_CURSOR_SHAPE
 void set_cursor_shape (GtkWidget *menuitem, gint value);

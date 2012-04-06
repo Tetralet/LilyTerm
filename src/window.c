@@ -1742,7 +1742,7 @@ void destroy_window(struct Window *win_data)
 void clear_win_data(struct Window *win_data)
 {
 #ifdef DETAIL
-	g_debug("! Launch destroy_window() win_data = %p", win_data);
+	g_debug("! Launch clear_win_data() win_data = %p", win_data);
 #endif
 #ifdef DEFENSIVE
 	if (win_data==NULL) return;
@@ -2431,6 +2431,8 @@ void dump_data (struct Window *win_data, struct Page *page_data)
 	g_debug("- win_data->profile = %s", win_data->profile);
 	g_debug("- win_data->specified_profile = %s", win_data->specified_profile);
 	g_debug("- win_data->profile_dir_modtime = %ld", win_data->profile_dir_modtime);
+	g_debug("- win_data->menuitem_auto_save = %p", win_data->menuitem_auto_save);
+	g_debug("- win_data->auto_save = %d", win_data->auto_save);
 	g_debug("- win_data->fullscreen = %d", win_data->fullscreen);
 	g_debug("- win_data->true_fullscreen = %d", win_data->true_fullscreen);
 	g_debug("- win_data->show_tabs_bar = %d", win_data->show_tabs_bar);
@@ -2846,6 +2848,8 @@ void win_data_dup(struct Window *win_data_orig, struct Window *win_data)
 	win_data->profile = g_strdup(win_data_orig->profile);
 	win_data->specified_profile = NULL;
 	win_data->profile_dir_modtime = -1;
+	win_data->menuitem_auto_save = NULL;
+	// win_data->auto_save;
 
 	// g_debug("dup environ and command line option finish!");
 

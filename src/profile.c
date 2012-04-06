@@ -326,6 +326,8 @@ void init_window_parameters(struct Window *win_data)
 	// win_data->profile;
 	// win_data->specified_profile;
 	win_data->profile_dir_modtime = -1;
+	// win_data->menuitem_auto_save = NULL;
+	win_data->auto_save = TRUE;
 	// win_data->startup_fullscreen;
 	// win_data->fullscreen;
 	// win_data->true_fullscreen;
@@ -461,7 +463,7 @@ void init_window_parameters(struct Window *win_data)
 #endif
 	win_data->audible_bell = TRUE;
 	// win_data->visible_bell = FALSE;
-	// win_data->urgent_bell = FALSE;
+	win_data->urgent_bell = TRUE;
 	// win_data->urgent_bell_status = FALSE;
 	// win_data->urgent_bell_focus_in_event_id = 0;
 	win_data->erase_binding = erase_binding[DEFAULT_ERASE_BINDING].value;
@@ -1197,6 +1199,8 @@ void get_user_settings(struct Window *win_data, const gchar *encoding)
 		if (g_key_file_load_from_file(keyfile, win_data->profile, G_KEY_FILE_NONE, &error))
 		{
 			get_prime_user_settings(keyfile, win_data, (gchar *)encoding);
+
+			win_data->auto_save = check_boolean_value(keyfile, "main", "auto_save", win_data->auto_save);
 
 			win_data->default_font_name = check_string_value(keyfile, "main", "font_name",
 									 win_data->default_font_name, DISABLE_EMPTY_STR);
@@ -2206,6 +2210,8 @@ GString *save_user_settings(GtkWidget *widget, struct Window *win_data)
 
 	long column = 0, row = 0;
 	GString *contents = g_string_new("[main]\n\n");
+	g_string_append_printf(contents,"# Auto save settings when closing window.\n"
+					"auto_save = %d\n\n", win_data->auto_save);
 	g_string_append_printf(contents,"# The version of this profile's format. DO NOT EDIT IT!\n"
 					"version = %s\n\n", PROFILE_FORMAT_VERSION);
 	if (menu_active_window)

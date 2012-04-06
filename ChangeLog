@@ -47,6 +47,7 @@
 	  Thanks ralesi for this great idea.
 	* Add a new option and a new menuitem 'Change the color of cursor'.
 	  Thanks ralesi for this great idea.
+	* Add a new option and a new menuitem 'Auto save settings'.
 
   FIX:
 	* Remove '>' from URL matching.
