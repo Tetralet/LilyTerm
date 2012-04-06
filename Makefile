@@ -52,6 +52,3 @@ distclean: clean
 		$(PRINTF) "\x1b\x5b1;35m** deleting .config...\x1b\x5b0m\n" ; \
 		rm .config ; \
 	fi
-
-.config: configure
-	@ ./configure > /dev/null
