@@ -7,13 +7,13 @@ msgstr ""
 "Project-Id-Version: LilyTerm 0.9.9~pre4\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-04-02 21:05+0800\n"
-"PO-Revision-Date: 2012-03-28 17:36+0200\n"
+"PO-Revision-Date: 2012-04-02 23:05+0200\n"
 "Last-Translator: Marco Paolone <marcopaolone@gmail.com>\n"
 "Language-Team: Italian <IT@li.org>\n"
+"Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: it\n"
 
 #: console.c:121
 #, c-format
@@ -273,8 +273,6 @@ msgid "Set key binding"
 msgstr "Imposta combinazioni dei tasti"
 
 #: dialog.c:98 dialog.c:2739 menu.c:2511
-#, fuzzy
-#| msgid "The following error is occurred:"
 msgid "The following error occurred:"
 msgstr "Si è verificato il seguente errore:"
 
@@ -439,10 +437,8 @@ msgid "Function Key Name"
 msgstr "Nome del tasto funzione"
 
 #: dialog.c:713
-#, fuzzy
-#| msgid "Key Binding"
 msgid "Key Bindings"
-msgstr "Combinazione tasti"
+msgstr "Combinazioni tasto"
 
 #: dialog.c:721
 msgid "Key Group: "
@@ -543,10 +539,8 @@ msgid "IRC:    %s"
 msgstr "IRC:    %s"
 
 #: dialog.c:867
-#, fuzzy
-#| msgid "homepage:"
 msgid "Homepage:"
-msgstr "Sito principale:"
+msgstr "Pagina principale:"
 
 #: dialog.c:870
 msgid "About"
@@ -788,10 +782,8 @@ msgid "Change ANSI color theme"
 msgstr "Cambia tema colori ANSI"
 
 #: menu.c:123
-#, fuzzy
-#| msgid "Revert color"
 msgid "Invert color"
-msgstr "Ripristina colori"
+msgstr "Inverti colori"
 
 #. TRANSLATE NOTE: Please translate the "System default (SCHEME)" into "System default" (in your language).
 #. TRANSLATE NOTE: Some language will have trouble if here is "System default" only.
@@ -1029,8 +1021,7 @@ msgid "Save File"
 msgstr "Salva file"
 
 #: menu.c:2509
-#, fuzzy, c-format
-#| msgid "The following error is occurred: %s"
+#, c-format
 msgid "The following error occurred: %s"
 msgstr "Si è verificato il seguente errore: %s"
 
