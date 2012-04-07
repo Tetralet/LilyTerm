@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: lilyterm 0.9.9~rc9\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-04-02 21:05+0800\n"
-"PO-Revision-Date: 2012-03-29 21:14+0200\n"
+"PO-Revision-Date: 2012-04-03 21:06+0200\n"
 "Last-Translator: Slavko <linux@slavino.sk>\n"
 "Language-Team: slovenčina <debian-l10n-slovak@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
@@ -271,10 +271,9 @@ msgid "Set key binding"
 msgstr "nastaviť kláv. skratky"
 
 #: dialog.c:98 dialog.c:2739 menu.c:2511
-#, fuzzy
 #| msgid "The following error is occurred:"
 msgid "The following error occurred:"
-msgstr "nastala nasledujúca chyba:"
+msgstr "Nastala nasledujúca chyba:"
 
 #: dialog.c:163 menu.c:329
 msgid "Rename this tab"
@@ -434,10 +433,9 @@ msgid "Function Key Name"
 msgstr "Meno funkčného klávesu"
 
 #: dialog.c:713
-#, fuzzy
 #| msgid "Key Binding"
 msgid "Key Bindings"
-msgstr "Klávesová skratka"
+msgstr "Klávesové skratky"
 
 #: dialog.c:721
 msgid "Key Group: "
@@ -552,7 +550,6 @@ msgid "IRC:    %s"
 msgstr "IRC:    %s"
 
 #: dialog.c:867
-#, fuzzy
 #| msgid "homepage:"
 msgid "Homepage:"
 msgstr "Domovská stránka:"
@@ -794,10 +791,9 @@ msgid "Change ANSI color theme"
 msgstr "Zmeniť farebnú schému ANSI"
 
 #: menu.c:123
-#, fuzzy
 #| msgid "Revert color"
 msgid "Invert color"
-msgstr "Vrátiť farbu"
+msgstr "Invertovať farbu"
 
 #. TRANSLATE NOTE: Please translate the "System default (SCHEME)" into "System default" (in your language).
 #. TRANSLATE NOTE: Some language will have trouble if here is "System default" only.
@@ -1035,7 +1031,7 @@ msgid "Save File"
 msgstr "Zatvoriť súbor"
 
 #: menu.c:2509
-#, fuzzy, c-format
+#, c-format
 #| msgid "The following error is occurred: %s"
 msgid "The following error occurred: %s"
 msgstr "Nastala nasledujúca chyba: %s"
