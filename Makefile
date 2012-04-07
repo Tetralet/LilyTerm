@@ -25,9 +25,7 @@ po:
 clean:
 	@ $(MAKE) -C src clean
 	@ $(MAKE) -C data clean
-ifeq ($(NLS), Y)
 	@ $(MAKE) -C po clean
-endif
 
 install: all
 	@ $(MAKE) -C src install
