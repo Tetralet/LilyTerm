@@ -28,6 +28,7 @@ Save settings that diff and full
 * custom protocal matches <- very hard to implement
 ** check the pagename if page_shows_cmdline = 0
 * clear the bottom space in the 'set the key binding' dialog.
+** fullscreen and fullwindow in profile.
 
 Deprecated:
 

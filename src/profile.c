@@ -2252,7 +2252,7 @@ GString *save_user_settings(GtkWidget *widget, struct Window *win_data)
 						"use_rgba = \n\n");
 	}
 	g_string_append_printf(contents,"# Start up with fullscreen.\n"
-					"fullscreen = %d\n\n", win_data->startup_fullscreen>0);
+					"fullscreen = %d\n\n", win_data->true_fullscreen);
 #ifdef ENABLE_RGBA
 	g_string_append_printf(contents,"# Transparent window. Only enabled when the window manager were composited.\n"
 					"transparent_window = %d\n\n", (win_data->transparent_window==1));
