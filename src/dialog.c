@@ -688,7 +688,7 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 				      temp_str[0],
 				      FALSE,
 				      0,
-				      TRUE,
+				      FALSE,
 				      BOX_VERTICALITY,
 				      5,
 				      dialog_data);
@@ -790,8 +790,8 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 			gtk_container_remove (GTK_CONTAINER(vbox), dialog_data->treeview);
 			gtk_box_pack_start (GTK_BOX(vbox), scrolled_window, FALSE, FALSE, 0);
 			gtk_container_add (GTK_CONTAINER (scrolled_window), dialog_data->treeview);
-			gtk_widget_set_size_request(dialog_data->treeview,
-					  requisition.width, requisition.height);
+			gtk_widget_set_size_request(scrolled_window,
+						    requisition.width, requisition.height);
 			g_object_unref(dialog_data->treeview);
 
 			break;
