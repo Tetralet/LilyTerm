@@ -2681,12 +2681,16 @@ void dump_data (struct Window *win_data, struct Page *page_data)
 	g_debug("- page_data->page_shows_current_dir = %d", page_data->page_shows_current_dir);
 	g_debug("- page_data->page_shows_current_cmdline = %d", page_data->page_shows_current_cmdline);
 	g_debug("- page_data->bold_action_page_name = %d", page_data->bold_action_page_name);
-#ifdef DEFENSIVE
-	if ((page_data) && (page_data->window_title_tpgid))
-#endif
-		g_debug("- page_data->*window_title_tpgid = %d", *(page_data->window_title_tpgid));
 //	g_debug("- page_data->use_scrollback_lines = %d", page_data->use_scrollback_lines);
 #ifdef DEFENSIVE
+	if ((page_data) && (page_data->window_title_tpgid))
+	{
+#endif
+		cmdline = get_cmdline(*(page_data->window_title_tpgid));
+		g_debug("- page_data->*window_title_tpgid = %d (%s)", *(page_data->window_title_tpgid), cmdline);
+		g_free(cmdline);
+#ifdef DEFENSIVE
+	}
 	if (page_data->lost_focus)
 #endif
 		g_debug("- page_data->*lost_focus = %d", *(page_data->lost_focus));

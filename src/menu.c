@@ -1740,7 +1740,7 @@ void create_load_profile_from_menu_items(GtkWidget *sub_menu, const gchar *stock
 #endif
 	// Profile
 	//menu_item = gtk_image_menu_item_new_with_label(_("Profile sample"));
-	win_data->menuitem_auto_save = create_menu_item(CHECK_MENU_ITEM, sub_menu, _("Auto save settings"), NULL, NULL,
+	win_data->menuitem_auto_save = create_menu_item(CHECK_MENU_ITEM, sub_menu, _("Save settings automatically"), NULL, NULL,
 							(GSourceFunc)set_auto_save, win_data);
 
 	add_separator_menu (sub_menu);

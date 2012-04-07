@@ -16,8 +16,7 @@ TODO:
 * apply to every window
 * response from unix sockets
 check vte_data->column
-confirm to save settings before exit
-
+** confirm to save settings before exit
 * double click to select more...
 add programs to 'whitelist' when warning dialog appeard.
 sort menu via profile
@@ -27,10 +26,8 @@ Save settings that diff and full
 * replace sleep with time_out
 ** custom URL match
 * custom protocal matches <- very hard to implement
-* the copy/paste key -> <ctrl><shift><c>/<ctrl><shift><v>
-
+** check the pagename if page_shows_cmdline = 0
 * clear the bottom space in the 'set the key binding' dialog.
-* revert b6a3d6f22ef915c6a004ab2fb56b181705984698.
 
 Deprecated:
 

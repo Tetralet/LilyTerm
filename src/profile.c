@@ -327,7 +327,7 @@ void init_window_parameters(struct Window *win_data)
 	// win_data->specified_profile;
 	win_data->profile_dir_modtime = -1;
 	// win_data->menuitem_auto_save = NULL;
-	win_data->auto_save = TRUE;
+	// win_data->auto_save = FALSE;
 	// win_data->startup_fullscreen;
 	// win_data->fullscreen;
 	// win_data->true_fullscreen;
