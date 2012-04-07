@@ -166,7 +166,7 @@ gboolean monitor_cmdline(struct Page *page_data)
 		page_name_changed = check_cmdline(page_data, page_data->displayed_tpgid);
 		
 		if ((page_name_changed)	&& page_data->check_root_privileges)
-			page_data->is_root = check_is_root(page_data->new_tpgid);
+			page_data->is_root = check_is_root(page_data->current_tpgid);
 	}
 
 	// g_debug("lost_focus = %d", lost_focus);
@@ -181,7 +181,7 @@ gboolean monitor_cmdline(struct Page *page_data)
 	else
 		old_pwd = page_data->pwd;
 
-	gchar *new_pwd = get_tab_name_with_current_dir(page_data->new_tpgid);
+	gchar *new_pwd = get_tab_name_with_current_dir(page_data->current_tpgid);
 
 	if (check_pwd(page_data, old_pwd, new_pwd, page_update_method))
 	{
@@ -193,7 +193,7 @@ gboolean monitor_cmdline(struct Page *page_data)
 		new_pwd = old_pwd;
 	}
 
-	// g_debug("check_tpgid = %d, and new_tpgid = %d", *check_tpgid, page_data->new_tpgid);
+	// g_debug("check_tpgid = %d, and current_tpgid = %d", *check_tpgid, page_data->current_tpgid);
 	// only update the page name when tpgid is updated.
 	// g_debug("Final: page_data->page_update_method = %d", page_data->page_update_method);
 	if (page_name_changed)
@@ -238,18 +238,18 @@ gboolean check_cmdline(struct Page *page_data, pid_t check_tpgid)
 	gboolean page_name_changed = FALSE;
 	if (page_data->page_shows_current_cmdline || page_data->page_shows_current_dir)
 	{
-		// find the new_tpgid
-		page_data->new_tpgid = get_tpgid(page_data->pid);
-		// g_debug("Get page_data->new_tpgid = %d, check_tpgid = %d",
-		//	page_data->new_tpgid, check_tpgid);
+		// find the current_tpgid
+		page_data->current_tpgid = get_tpgid(page_data->pid);
+		// g_debug("Get page_data->current_tpgid = %d, check_tpgid = %d",
+		//	page_data->current_tpgid, check_tpgid);
 
-		if (check_tpgid != page_data->new_tpgid)
+		if (check_tpgid != page_data->current_tpgid)
 		{
 			// g_debug("Trying to update Cmdline!!!");
 			page_name_changed = TRUE;
 			page_data->page_update_method = PAGE_METHOD_CMDLINE;
 		}
-		// else if (page_data->new_tpgid==page_data->pid)
+		// else if (page_data->current_tpgid==page_data->pid)
 		else if (page_data->window_title_updated == 0)
 			page_data->window_title_updated = -1;
 
@@ -257,7 +257,7 @@ gboolean check_cmdline(struct Page *page_data, pid_t check_tpgid)
 		// g_debug("page_data->page_update_method = %d", page_data->page_update_method);
 	}
 	// g_debug("the original tpgid is %d, and got tpgid from get_tpgid() is: %d",
-	//	page_data->displayed_tpgid, page_data->new_tpgid);
+	//	page_data->displayed_tpgid, page_data->current_tpgid);
 	return page_name_changed;
 }
 
@@ -304,7 +304,7 @@ gboolean check_pwd(struct Page *page_data, gchar *pwd, gchar *new_pwd, gint page
 	// update the page name with PWD when pid=tpgid
 	// g_debug ("page_name_changed = %d, ", page_name_changed);
 	if (page_data->page_shows_current_dir &&
-	    (page_data->new_tpgid == page_data->pid) &&
+	    (page_data->current_tpgid == page_data->pid) &&
 	    (page_data->window_title_updated == -1))
 	{
 		page_name_changed = compare_strings(pwd, new_pwd, TRUE);
@@ -345,7 +345,7 @@ gboolean get_and_update_page_name(struct Page *page_data, gboolean lost_focus)
 	// page_color should not be free().
 	gchar *page_name = NULL, *page_color = NULL;
 
-	// g_debug("Get pid=%d, tpgid=%d", page_data->pid, page_data->new_tpgid);
+	// g_debug("Get pid=%d, tpgid=%d", page_data->pid, page_data->current_tpgid);
 	// g_debug("win_data->page_shows_window_title = %d", win_data->page_shows_window_title);
 	// g_debug("page_data->window_title_updated = %d", page_data->window_title_updated);
 	// g_debug("lost_focus = %d", lost_focus);
@@ -431,11 +431,11 @@ gboolean get_and_update_page_name(struct Page *page_data, gboolean lost_focus)
 								 FALSE),
 			     page_data->encoding_str, page_data->custom_window_title, lost_focus))
 	{
-		// g_debug("Update page_data->displayed_tpgid (%d) = page_data->new_tpgid (%d)",
-		//	page_data->displayed_tpgid, page_data->new_tpgid);
+		// g_debug("Update page_data->displayed_tpgid (%d) = page_data->current_tpgid (%d)",
+		//	page_data->displayed_tpgid, page_data->current_tpgid);
 		if (! lost_focus)
 		{
-			page_data->displayed_tpgid = page_data->new_tpgid;
+			page_data->displayed_tpgid = page_data->current_tpgid;
 			g_free(page_data->window_title_pwd);
 			page_data->window_title_pwd = g_strdup(page_data->pwd);
 		}
@@ -454,16 +454,16 @@ gboolean get_and_update_page_name(struct Page *page_data, gboolean lost_focus)
 	if (page_data->page_update_method == PAGE_METHOD_WINDOW_TITLE)
 	{
 		if (win_data->page_shows_current_cmdline)
-			page_data->displayed_tpgid = page_data->new_tpgid;
+			page_data->displayed_tpgid = page_data->current_tpgid;
 
 		if (win_data->page_shows_current_dir)
 		{
 			g_free(page_data->pwd);
-			page_data->pwd = get_tab_name_with_current_dir(page_data->new_tpgid);
+			page_data->pwd = get_tab_name_with_current_dir(page_data->current_tpgid);
 		}
 	}
 
-	win_data->window_title_tpgid = page_data->new_tpgid;
+	win_data->window_title_tpgid = page_data->current_tpgid;
 	// g_debug("Final: page_data->displayed_tpgid = %d", page_data->displayed_tpgid);
 	// g_debug("Final: page_data->window_title_tpgid = %d", *(page_data->window_title_tpgid));
 
@@ -511,13 +511,13 @@ void update_page_name_cmdline(StrAddr **page_name,
 	// We need to show /bin/bash on the tab name.
 	// g_debug("page_name = %p (%s)", *page_name, *page_name);
 	// g_debug("win_data->page_shows_current_cmdline = %d", win_data->page_shows_current_cmdline);
-	// g_debug("page_data->pid = %d, page_data->new_tpgid = %d", page_data->pid, page_data->new_tpgid);
+	// g_debug("page_data->pid = %d, page_data->current_tpgid = %d", page_data->pid, page_data->current_tpgid);
 	if ( (*page_name==NULL) && win_data->page_shows_current_cmdline &&
 	    ((! (win_data->page_shows_current_dir ||
 		 ( win_data->page_shows_window_title &&
 		   (vte_terminal_get_window_title(VTE_TERMINAL(page_data->vte))!=NULL) &&
 		   (page_data->window_title_updated != -1)))) ||
-	     (page_data->pid!=page_data->new_tpgid)))
+	     (page_data->pid!=page_data->current_tpgid)))
 	{
 		*page_name = get_tab_name_with_cmdline(page_data);
 #ifdef DEFENSIVE
@@ -552,7 +552,7 @@ void update_page_name_pwd(StrAddr **page_name,
 	{
 		// g_free(page_data->pwd);
 		// g_debug("!!! Getting new page_data->pwd");
-		// page_data->pwd = get_tab_name_with_current_dir(page_data->new_tpgid);
+		// page_data->pwd = get_tab_name_with_current_dir(page_data->current_tpgid);
 		// page_name = get_tab_name_with_current_dir(pid);
 		if (lost_focus)
 			*page_name = g_strdup(page_data->window_title_pwd);
@@ -827,7 +827,7 @@ gchar *get_tab_name_with_cmdline(struct Page *page_data)
 {
 #ifdef DETAIL
 	if (page_data)
-		g_debug("! Launch get_tab_name_with_cmdline() for tpgid %d", page_data->new_tpgid);
+		g_debug("! Launch get_tab_name_with_cmdline() for tpgid %d", page_data->current_tpgid);
 #endif
 #ifdef DEFENSIVE
 	if (page_data==NULL) return NULL;
@@ -842,12 +842,12 @@ gchar *get_tab_name_with_cmdline(struct Page *page_data)
 #ifdef OUT_OF_MEMORY
 	return NULL;
 #endif
-	if (page_data->new_tpgid>0)
+	if (page_data->current_tpgid>0)
 	{
-		gchar *tpgid_cmdline = get_cmdline(page_data->new_tpgid);
-		//if ((page_data->pid == page_data->new_tpgid) ||
+		gchar *tpgid_cmdline = get_cmdline(page_data->current_tpgid);
+		//if ((page_data->pid == page_data->current_tpgid) ||
 		//    (compare_strings(page_data->pid_cmdline, tpgid_cmdline, TRUE)))
-		if ((page_data->pid == page_data->new_tpgid) ||
+		if ((page_data->pid == page_data->current_tpgid) ||
 		    (tpgid_cmdline && page_data->pid_cmdline &&
 		     (! g_str_has_suffix(tpgid_cmdline, page_data->pid_cmdline))))
 			return tpgid_cmdline;
@@ -856,15 +856,15 @@ gchar *get_tab_name_with_cmdline(struct Page *page_data)
 			// g_debug("pid = %d, tpgid = %d, pid_cmdline = %s", pid, tpgid, pid_cmdline);
 #ifdef DEBUG
 			g_message("Got (%s), Trying to reread the /proc/%d/cmdline...",
-				  tpgid_cmdline, (gint)page_data->new_tpgid);
+				  tpgid_cmdline, (gint)page_data->current_tpgid);
 #endif
 			g_free(tpgid_cmdline);
 			// Magic number: we wait for 0.15 sec then reread cmdline again.
 			usleep(150000);
-			tpgid_cmdline = get_cmdline(page_data->new_tpgid);
+			tpgid_cmdline = get_cmdline(page_data->current_tpgid);
 #ifdef DEBUG
 			g_message("Got (%s) after reread the /proc/%d/cmdline.",
-				tpgid_cmdline, (gint)page_data->new_tpgid);
+				tpgid_cmdline, (gint)page_data->current_tpgid);
 #endif
 			return tpgid_cmdline;
 		}
@@ -908,17 +908,17 @@ gint get_tpgid(pid_t pid)
 	if (pid<1) return 0;
 
 	pid_t tmp_tpgid = 0;
-	pid_t new_tpgid = pid;
+	pid_t current_tpgid = pid;
 
-	while (tmp_tpgid != new_tpgid)
+	while (tmp_tpgid != current_tpgid)
 	{
-		tmp_tpgid = new_tpgid;
+		tmp_tpgid = current_tpgid;
 		gchar **stats = get_pid_stat(tmp_tpgid, 11);
-		if (stats) new_tpgid = atoi(stats[9]);
+		if (stats) current_tpgid = atoi(stats[9]);
 		g_strfreev(stats);
 	}
-	// g_debug("The pid =%d, tpgid=%d", pid, new_tpgid);
-	return new_tpgid;
+	// g_debug("The pid =%d, tpgid=%d", pid, current_tpgid);
+	return current_tpgid;
 }
 
 // It will return NULL if fault

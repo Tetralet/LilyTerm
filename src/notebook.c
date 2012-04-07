@@ -466,7 +466,7 @@ struct Page *add_page(struct Window *win_data,
 // ---- Init other datas of the page ---- //
 
 	// set the tab name.
-	page_data->new_tpgid = page_data->pid;
+	page_data->current_tpgid = page_data->pid;
 	page_data->displayed_tpgid = 0;
 	// page_data->tab_color = win_data->user_page_color[5];
 	page_data->is_root = check_is_root(page_data->pid);
@@ -1719,7 +1719,7 @@ void page_data_dup(struct Page *page_data_prev, struct Page *page_data)
 	page_data->page_name = NULL;
 	page_data->pid = -1;
 	page_data->pid_cmdline = NULL;
-	page_data->new_tpgid = 0;
+	page_data->current_tpgid = 0;
 	page_data->displayed_tpgid = 0;
 	page_data->page_name = NULL;
 	page_data->custom_page_name = NULL;

@@ -916,7 +916,7 @@ struct Page
 	// the pid of vte
 	pid_t pid;
 	// the pid of foreground program
-	pid_t new_tpgid;
+	pid_t current_tpgid;
 	// the pid of showing on the tab name
 	pid_t displayed_tpgid;
 	// the original cmdline for pid

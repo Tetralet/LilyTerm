@@ -530,7 +530,7 @@ void init_page_parameters(struct Window *win_data, struct Page *page_data)
 
 //	page_data->page_name = NULL;
 //	page_data->_t pid = 0;
-//	page_data->_t new_tpgid = 0;
+//	page_data->_t current_tpgid = 0;
 //	page_data->_t displayed_tpgid = 0;
 //	page_data->custom_page_name = NULL;
 //	page_data->tab_color = NULL;

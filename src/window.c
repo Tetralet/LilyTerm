@@ -1370,7 +1370,7 @@ gboolean window_lost_focus(GtkWidget *window, GdkEventFocus *event, struct Windo
 			if (win_data->page_shows_current_dir)
 			{
 				g_free(page_data->window_title_pwd);
-				page_data->window_title_pwd = get_tab_name_with_current_dir(page_data->new_tpgid);
+				page_data->window_title_pwd = get_tab_name_with_current_dir(page_data->current_tpgid);
 			}
 #ifdef DEFENSIVE
 		}
@@ -2656,8 +2656,8 @@ void dump_data (struct Window *win_data, struct Page *page_data)
 	gchar *cmdline = get_cmdline(page_data->pid);
 	g_debug("- page_data->pid = %d, cmdline = %s", page_data->pid, cmdline);
 	g_free(cmdline);
-	cmdline = get_cmdline(page_data->new_tpgid);
-	g_debug("- page_data->new_tpgid = %d, cmdline = %s", page_data->new_tpgid, cmdline);
+	cmdline = get_cmdline(page_data->current_tpgid);
+	g_debug("- page_data->current_tpgid = %d, cmdline = %s", page_data->current_tpgid, cmdline);
 	g_free(cmdline);
 	cmdline = get_cmdline(page_data->displayed_tpgid);
 	g_debug("- page_data->displayed_tpgid = %d, cmdline = %s", page_data->displayed_tpgid, cmdline);
