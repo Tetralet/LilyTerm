@@ -959,7 +959,7 @@ gboolean window_key_press(GtkWidget *window, GdkEventKey *event, struct Window *
 		// mods = (event->state|GDK_LOCK_MASK|GDK_MOD2_MASK)&GDK_MODIFIER_MASK;
 		mods = event->state | DUD_MASK;
 
-		if (win_data->enable_function_key)
+		if (win_data->enable_key_binding)
 		{
 			for (i=0; i<KEYS; i++)
 			{
@@ -1027,7 +1027,7 @@ gboolean deal_key_press(GtkWidget *window, gint type, struct Window *win_data)
 	switch (type)
 	{
 		case KEY_DISABLE_FUNCTION:
-			win_data->enable_function_key = ! win_data->enable_function_key;
+			win_data->enable_key_binding = ! win_data->enable_key_binding;
 			if (win_data->enable_hyperlink)
 			{
 				gint i;
@@ -2461,7 +2461,7 @@ void dump_data (struct Window *win_data, struct Page *page_data)
 	g_debug("- win_data->dim_window_expect = %d", win_data->dim_window_expect);
 	g_debug("- win_data->menuitem_dim_window = %p", win_data->menuitem_dim_window);
 #endif
-	g_debug("- win_data->enable_function_key = %d", win_data->enable_function_key);
+	g_debug("- win_data->enable_key_binding = %d", win_data->enable_key_binding);
 	for (i=0; i<KEYS; i++)
 	{
 		g_debug("- win_data->user_keys[%d].value = %s", i, win_data->user_keys[i].value);
@@ -2885,7 +2885,7 @@ void win_data_dup(struct Window *win_data_orig, struct Window *win_data)
 	// win_data->transparent_window;
 	// win_data->window_opacity;
 #endif
-	// win_data->enable_function_key;
+	// win_data->enable_key_binding;
 	for (i=0; i<KEYS; i++)
 		win_data->user_keys[i].value = g_strdup(win_data_orig->user_keys[i].value);
 	// win_data->update_hints = win_data_orig->update_hints;

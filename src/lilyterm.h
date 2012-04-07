@@ -68,7 +68,7 @@ void quit_gtk();
 
 void command_option(int argc, char *argv[]);
 gchar *get_help_message_usage(gchar *profile, gboolean convert_to_html);
-gchar *get_help_message_function_key(gboolean convert_to_html);
+gchar *get_help_message_key_binding(gboolean convert_to_html);
 
 //
 // **************************** window.c ****************************

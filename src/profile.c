@@ -355,7 +355,7 @@ void init_window_parameters(struct Window *win_data)
 	win_data->dim_window = TRUE;
 	win_data->window_opacity_inactive = 0.2;
 #endif
-	win_data->enable_function_key = TRUE;
+	win_data->enable_key_binding = TRUE;
 	// win_data->User_KeyValue user_keys[KEYS];
 	// win_data->update_hints;
 	win_data->lost_focus = FALSE;
@@ -638,12 +638,12 @@ void init_user_keys(struct Window *win_data)
 #endif
 }
 
-void init_function_keys_name_and_group()
+void init_key_bindings_name_and_group()
 {
 #ifdef DETAIL
-	g_debug("! Launch init_function_keys_name_and_group()!");
+	g_debug("! Launch init_key_bindings_name_and_group()!");
 #endif
-	system_keys[KEY_DISABLE_FUNCTION].name = "disable_function_key";
+	system_keys[KEY_DISABLE_FUNCTION].name = "disable_key_binding";
 	system_keys[KEY_DISABLE_FUNCTION].group = KEY_GROUP_MISC;
 	system_keys[KEY_NEW_TAB].name = "new_tab_key";
 	system_keys[KEY_NEW_TAB].group = KEY_GROUP_TAB_OPERATION;
@@ -713,10 +713,10 @@ void init_function_keys_name_and_group()
 #endif
 }
 
-void init_function_keys()
+void init_key_bindings()
 {
 #ifdef DETAIL
-	g_debug("! Launch init_function_keys()!");
+	g_debug("! Launch init_key_bindings()!");
 #endif
 
 	key_groups[KEY_GROUP_MISC] = _("Misc");
@@ -913,7 +913,7 @@ void init_locale_restrict_data(gchar *lc_messages)
 			g_free(system_keys[i].comment);
 			g_free(system_keys[i].translation);
 		}
-		init_function_keys();
+		init_key_bindings();
 		init_page_color_data_comment();
 	}
 }
@@ -1179,7 +1179,7 @@ void get_user_settings(struct Window *win_data, const gchar *encoding)
 	{
 		// Init some static datas.
 		init_page_color_data();
-		init_function_keys_name_and_group();
+		init_key_bindings_name_and_group();
 		init_mod_keys();
 		init_command();
 		init_colors();
@@ -2194,7 +2194,7 @@ GString *save_user_settings(GtkWidget *widget, struct Window *win_data)
 		init_window_parameters(win_data);
 		init_user_keys(win_data);
 		init_page_color_data();
-		init_function_keys_name_and_group();
+		init_key_bindings_name_and_group();
 		init_locale_restrict_data(NULL);
 		init_command();
 		init_user_command(win_data);

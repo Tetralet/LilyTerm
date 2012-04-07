@@ -418,7 +418,7 @@ gboolean create_menu(struct Window *win_data)
 
 	// Get the key value for using in profile
 	create_menu_item (IMAGE_MENU_ITEM, win_data->menu, _("Set key binding"), NULL, GTK_STOCK_PREFERENCES,
-				  (GSourceFunc)dialog, GINT_TO_POINTER(SET_FUNCTION_KEY_VALUE));
+				  (GSourceFunc)dialog, GINT_TO_POINTER(SET_KEY_BINDING));
 
 
 	win_data->menuitem_load_profile_from_list = create_sub_item_subitem (_("User profile"), GTK_STOCK_PROPERTIES);

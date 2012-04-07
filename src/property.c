@@ -203,7 +203,7 @@ void set_hyprelink(struct Window *win_data, struct Page *page_data)
 #ifdef DEFENSIVE
 	if ((win_data==NULL) || (page_data==NULL) || (page_data->vte==NULL)) return;
 #endif
-	if (win_data->enable_hyperlink && win_data->enable_function_key)
+	if (win_data->enable_hyperlink && win_data->enable_key_binding)
 	{
 		gint i;
 		for (i=0; i<COMMAND; i++)

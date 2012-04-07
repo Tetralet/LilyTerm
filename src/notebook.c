@@ -1156,7 +1156,7 @@ gboolean vte_button_press(GtkWidget *vte, GdkEventButton *event, gpointer user_d
 	if (win_data==NULL) return FALSE;
 #endif
 	// g_debug ("Get win_data = %d in show_menu", win_data);
-	if (! win_data->enable_function_key) return FALSE;
+	if (! win_data->enable_key_binding) return FALSE;
 
 	if (event->button == 2)
 	{

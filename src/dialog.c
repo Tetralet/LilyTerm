@@ -62,7 +62,7 @@ GdkColor entry_not_find_bg_color = {0, 0xffff, 0xbcbc, 0xbcbc};
 // VIEW_THE_CLIPBOARD,
 // PASTE_TEXTS_TO_EVERY_VTE_TERMINAL,
 // PASTE_GRABBED_KEY_TO_EVERY_VTE_TERMINAL,
-// SET_FUNCTION_KEY_VALUE,
+// SET_KEY_BINDING,
 // USAGE_MESSAGE
 
 GtkResponseType dialog(GtkWidget *widget, gsize style)
@@ -110,7 +110,7 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 	if (win_data==NULL) goto FINISH;
 #endif
 
-	gboolean enable_function_key = win_data->enable_function_key;
+	gboolean enable_key_binding = win_data->enable_key_binding;
 
 	// g_debug("dialog(): win_data->runtime_LC_MESSAGES = %s", win_data->runtime_LC_MESSAGES);
 	setlocale(LC_MESSAGES, win_data->runtime_LC_MESSAGES);
@@ -346,7 +346,7 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 		}
 		case PASTE_GRABBED_KEY_TO_EVERY_VTE_TERMINAL:
 		{
-			win_data->enable_function_key = FALSE;
+			win_data->enable_key_binding = FALSE;
 			temp_str[0] = g_markup_escape_text (_("Paste the grabbed key to the Vte Terminals.\n"
 							      "It will be useful if you want to paste combined keys, like <Ctrl><C>."),
 							    -1);
@@ -671,7 +671,7 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 			create_SIGKILL_and_EXIT_widget(dialog_data, FALSE, create_entry_hbox, _("those tabs"));
 
 			break;
-		case SET_FUNCTION_KEY_VALUE:					// 4
+		case SET_KEY_BINDING:					// 4
 		{
 			init_locale_restrict_data(win_data->runtime_LC_MESSAGES);
 			temp_str[0] = g_markup_escape_text(_("You may press <Ctrl + Alt + Shift + Win> + <any key> here\n"
@@ -833,7 +833,7 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 			dialog_data->operate[0] = add_text_to_notebook(notebook, _("Usage"), GTK_STOCK_HELP, str[4]);
 
 			// Shortcut Keys
-			str[5] = get_help_message_function_key(TRUE);
+			str[5] = get_help_message_key_binding(TRUE);
 			dialog_data->operate[1] = add_text_to_notebook(notebook, _("Key binding"), GTK_STOCK_PREFERENCES, str[5]);
 
 			// License
@@ -1448,7 +1448,7 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 					break;
 				}
 				// style 4: get function key value
-				case SET_FUNCTION_KEY_VALUE:
+				case SET_KEY_BINDING:
 				{
 					for (i=0; i<KEYS; i++)
 						convert_string_to_user_key(i, dialog_data->user_key_value[i], win_data);
@@ -1561,7 +1561,7 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 					}
 					break;
 				// style 4: get function key value
-				case SET_FUNCTION_KEY_VALUE:
+				case SET_KEY_BINDING:
 				{
 					for (i=0; i<KEYS; i++)
 						g_free(dialog_data->user_key_value[i]);
@@ -1647,7 +1647,7 @@ DESTROY_WINDOW:
 
 	if (style==PASTE_GRABBED_KEY_TO_EVERY_VTE_TERMINAL)
 	// for PASTE_GRABBED_KEY_TO_EVERY_VTE_TERMINAL Only...
-	win_data->enable_function_key = enable_function_key;
+	win_data->enable_key_binding = enable_key_binding;
 
 FINISH:
 	dialog_activated--;

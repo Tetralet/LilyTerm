@@ -80,7 +80,7 @@
 //	define get_default_LC_DATA(x) NULL
 //	define get_encoding_from_locale(x) NULL
 //	define get_help_message(x) NULL
-//	define get_help_message_function_key(x) NULL
+//	define get_help_message_key_binding(x) NULL
 //	define get_help_message_usage(x,y) NULL
 //	define get_local_list(x) NULL
 //	define get_proc_data(x,y,z) NULL
@@ -264,7 +264,7 @@ typedef enum {
 	KEY_GROUP_SCROLL,					// 6
 	KEY_GROUP_FONT,						// 7
 	KEY_GROUP_NONE,						// 8, MUST BE THE LAST ONE!!
-} Function_Key_Groups;
+} Key_Binding_Groups;
 
 #ifdef FATAL
 	#define KEYS 42
@@ -317,7 +317,7 @@ typedef enum {
 #ifdef FATAL
 	KEY_DUMP_DATA,						// 40
 #endif
-} Function_Keys;
+} Key_Bindings;
 
 
 typedef enum {
@@ -649,7 +649,7 @@ struct Window
 	GtkWidget *menuitem_dim_window;
 #endif
 
-	gboolean enable_function_key;
+	gboolean enable_key_binding;
 	struct User_KeyValue user_keys[KEYS];
 
 	// 0: Do nothing
@@ -1083,7 +1083,7 @@ typedef enum {
 	VIEW_THE_CLIPBOARD,
 	PASTE_TEXTS_TO_EVERY_VTE_TERMINAL,
 	PASTE_GRABBED_KEY_TO_EVERY_VTE_TERMINAL,
-	SET_FUNCTION_KEY_VALUE,
+	SET_KEY_BINDING,
 	USAGE_MESSAGE,
 } Dialog_Type_Flags;
 

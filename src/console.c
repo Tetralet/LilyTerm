@@ -111,18 +111,18 @@ gchar *get_help_message(gchar *profile)
 #endif
 		g_string_append(help_message, usage);
 
-	gchar *function_key = get_help_message_function_key(FALSE);
+	gchar *key_binding = get_help_message_key_binding(FALSE);
 #ifdef DEFENSIVE
-	if (function_key)
+	if (key_binding)
 #endif
-		g_string_append(help_message,  function_key);
+		g_string_append(help_message,  key_binding);
 
 	g_string_append(help_message, "\n");
 	g_string_append_printf(help_message, _("Please report bug at <%s>.\n"), ISSUES);
 	g_string_append_printf(help_message, _("Thank you for using %s!"), PACKAGE);
 	g_string_append(help_message, "\n");
 	g_free(usage);
-	g_free(function_key);
+	g_free(key_binding);
 	return g_string_free(help_message, FALSE);
 }
 
@@ -221,15 +221,15 @@ gchar *get_help_message_usage(gchar *profile, gboolean convert_to_html)
 	return g_string_free(help_message, FALSE);
 }
 
-gchar *get_help_message_function_key(gboolean convert_to_html)
+gchar *get_help_message_key_binding(gboolean convert_to_html)
 {
 #ifdef DETAIL
-	g_debug("! Launch get_help_message_function_key() with convert_to_html = %d!", convert_to_html);
+	g_debug("! Launch get_help_message_key_binding() with convert_to_html = %d!", convert_to_html);
 #endif
 	gchar *msg_head = _("Default key binding:");
 	// TRANSLATE NOTE: Please be care of the spacing when translating the following key binding description.
 	// TRANSLATE NOTE: Please check it in [Right Click Menu] -> [Usage] -> [Key binding] page after translating.
-	gchar *disable_function_key = _("  * <Ctrl><`>           Disable/Enable hyperlinks, function keys and right click menu.");
+	gchar *disable_key_binding = _("  * <Ctrl><`>           Disable/Enable hyperlinks, function keys and right click menu.");
 	GString *message = g_string_new(NULL);
 	g_string_append(message, _("  * <Ctrl><T>           Add a New tab with current directory.\n"));
 	g_string_append(message, _("  * <Ctrl><PgUp/PgDn>   Switch to Prev/Next tab.\n"));
@@ -262,7 +262,7 @@ gchar *get_help_message_function_key(gboolean convert_to_html)
 
 		str[0] = g_strdup_printf (_("TIP: These key bindings may custom or disable by right click menu [%s]."), _("Set key binding"));
 		str[1] = convert_text_to_html(&msg_head, FALSE, NULL, "tt", NULL);
-		str[2] = convert_text_to_html(&disable_function_key, FALSE, "darkred", "tt", NULL);
+		str[2] = convert_text_to_html(&disable_key_binding, FALSE, "darkred", "tt", NULL);
 		str[3] = convert_text_to_html(&(message->str), FALSE, NULL, "tt", NULL);
 		str[4] = convert_text_to_html(&str[0], FALSE, "darkblue", "tt", "b", NULL);
 		final_message = g_strdup_printf("%s\n%s\n%s\n%s", str[1], str[2], str[3], str[4]);
@@ -270,7 +270,7 @@ gchar *get_help_message_function_key(gboolean convert_to_html)
 		for (i=0; i<5; i++) g_free(str[i]);
 	}
 	else
-		final_message = g_strdup_printf("%s\n%s\n%s", msg_head, disable_function_key, message->str);
+		final_message = g_strdup_printf("%s\n%s\n%s", msg_head, disable_key_binding, message->str);
 
 	g_string_free (message, TRUE);
 	return final_message;
