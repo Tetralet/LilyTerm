@@ -7,30 +7,24 @@ msgstr ""
 "Project-Id-Version: LilyTerm 0.9.9\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-04-02 21:05+0800\n"
-"PO-Revision-Date: 2011-07-04 20:14+0300\n"
+"PO-Revision-Date: 2012-04-02 23:55+0300\n"
 "Last-Translator: Vladimir Smolyar <v_2e@ukr.net>\n"
 "Language-Team: Russian\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: \n"
 "X-Poedit-Language: Russian\n"
 
 #: console.c:121
-#, fuzzy, c-format
-#| msgid "Please report bug to %s. Thank you for using %s!"
+#, c-format
 msgid "Please report bug at <%s>.\n"
-msgstr ""
-"Пожалуйста, сообщайте об ошибках на %s.\n"
-"Благодарим за использование %s!"
+msgstr "Пожалуйста, сообщайте об ошибках на <%s>.\n"
 
 #: console.c:122 dialog.c:861
-#, fuzzy, c-format
-#| msgid "Please report bug to %s. Thank you for using %s!"
+#, c-format
 msgid "Thank you for using %s!"
-msgstr ""
-"Пожалуйста, сообщайте об ошибках на %s.\n"
-"Благодарим за использование %s!"
+msgstr "Благодарим за использование %s!"
 
 #: console.c:140
 #, c-format
@@ -69,12 +63,12 @@ msgstr ""
 "запуске.\n"
 
 #: console.c:146
-#, fuzzy
-#| msgid "Use -g/--geometry {geometry} to specify the geometry of window.\n"
 msgid ""
 "Use -g/--geometry {WIDTHxHEIGHT[+-]XOFFSET[+-]YOFFSET} to specify the "
 "geometry of window.\n"
-msgstr "Используйте -g/--geometry {геометрия} для указания геометрии окна.\n"
+msgstr ""
+"Используйте -g/--geometry {ШИРИНАxВЫСОТА[+-]ГОР.СМЕЩЕНИЕ[+-]ВЕРТ.СМЕЩЕНИЕ} "
+"для указания геометрии окна.\n"
 
 #: console.c:147
 msgid "Use -l/-ls/--login to make the shell invoked as a login shell.\n"
@@ -105,8 +99,7 @@ msgstr ""
 "\n"
 
 #: console.c:159
-#, fuzzy, c-format
-#| msgid "The %s system config is: %s/%s\n"
+#, c-format
 msgid "The %s system configure file is: %s/%s\n"
 msgstr "Общесистемная конфигурация %s: %s/%s\n"
 
@@ -121,225 +114,162 @@ msgid "Your %s profile is: "
 msgstr "Ваш профиль %s:"
 
 #: console.c:229
-#, fuzzy
-#| msgid "Erase Binding"
 msgid "Default key binding:"
-msgstr "Привязка для стирания"
+msgstr "Комбинация клавиш по умолчанию:"
 
 #. TRANSLATE NOTE: Please be care of the spacing when translating the following key binding description.
 #. TRANSLATE NOTE: Please check it in [Right Click Menu] -> [Usage] -> [Key binding] page after translating.
 #: console.c:232
-#, fuzzy
-#| msgid ""
-#| "  * <Ctrl><`>\t\tDisable/Enable hyperlinks, function keys and right click "
-#| "menu.\n"
 msgid ""
 "  * <Ctrl><`>           Disable/Enable hyperlinks, function keys and right "
 "click menu."
 msgstr ""
-"  * <Ctrl><`>\t\tЗапретить/Разрешить гиперссылки, сочетания клавиш и меню "
-"правой кнопки мыши\n"
+"  * <Ctrl><`>           Запретить/Разрешить гиперссылки, сочетания клавиш и "
+"меню правой кнопки мыши."
 
 #: console.c:234
-#, fuzzy
-#| msgid "  * <Ctrl><T/Q>\t\tAdd a New tab/Close current tab.\n"
 msgid "  * <Ctrl><T>           Add a New tab with current directory.\n"
-msgstr "  * <Ctrl><T/Q>\t\tДобавить новую вкладку/Закрыть текущую вкладку\n"
+msgstr "  * <Ctrl><T>          Добавить новую вкладку в текущем каталоге.\n"
 
 #: console.c:235
-#, fuzzy
-#| msgid "  * <Ctrl><PgUp/PgDn>\tSwitch to Prev/Next tab.\n"
 msgid "  * <Ctrl><PgUp/PgDn>   Switch to Prev/Next tab.\n"
-msgstr "  * <Ctrl><PgUp/PgDn>\tПерейти на предыдущую/следующую вкладку\n"
+msgstr "  * <Ctrl><PgUp/PgDn>   Перейти на предыдущую/следующую вкладку.\n"
 
 #: console.c:236
-#, fuzzy
-#| msgid "  * <Ctrl><Home/End>\tSwitch to First/Last tab.\n"
 msgid "  * <Ctrl><Home/End>    Switch to First/Last tab.\n"
-msgstr "  * <Ctrl><Home/End>\tПерейти на первую/последнюю вкладку\n"
+msgstr "  * <Ctrl><Home/End>    Перейти на первую/последнюю вкладку.\n"
 
 #: console.c:237
-#, fuzzy
-#| msgid "  * <Ctrl><[/]>\t\tMove current tab Forward/Backward.\n"
 msgid "  * <Ctrl><[/]>         Move current tab Forward/Backward.\n"
-msgstr "  * <Ctrl><[/]>\t\tПреместить текущую вкладку вперёд/назад\n"
+msgstr "  * <Ctrl><[/]>         Преместить текущую вкладку вперёд/назад.\n"
 
 #: console.c:238
-#, fuzzy
-#| msgid "  * <Ctrl><Up/Down>\tMove current tab to First/Last.\n"
 msgid "  * <Ctrl><Up/Down>     Move current tab to First/Last.\n"
-msgstr "  * <Ctrl><Up/Down>\tПереместить текущую вкладку в начало/конец\n"
+msgstr "  * <Ctrl><Up/Down>     Переместить текущую вкладку в начало/конец.\n"
 
 #: console.c:239
-#, fuzzy
-#| msgid "  * <Ctrl><F1~F12>\tSwitch to 1st ~ 12th tab.\n"
 msgid "  * <Ctrl><F1~F12>      Switch to 1st ~ 12th tab.\n"
-msgstr "  * <Ctrl><F1~F12>\tПерейти на 1ю - 12ю вкладку\n"
+msgstr "  * <Ctrl><F1~F12>     Перейти на 1ю - 12ю вкладку.\n"
 
 #: console.c:240
-#, fuzzy
-#| msgid ""
-#| "  * <Ctrl><+/-/Enter>\tIncrease/Decrease/Reset the font size of current "
-#| "tab.\n"
 msgid ""
 "  * <Ctrl><+/-/Enter>   Increase/Decrease/Reset the font size of current "
 "tab.\n"
 msgstr ""
-"  * <Ctrl><+/-/Enter>\tУвеличить/уменьшить/сбросить размер шрифта в текущей "
-"вкладке\n"
+"  * <Ctrl><+/-/Enter>   Увеличить/уменьшить/сбросить размер шрифта в текущей "
+"вкладке.\n"
 
 #: console.c:241
-#, fuzzy
-#| msgid ""
-#| "  * <Shift><Left/Right>\tEmulate a mouse Scroll Up/Down event on Vte "
-#| "Terminal box.\n"
 msgid ""
 "  * <Shift><Left/Right> Emulate a mouse Scroll Up/Down event on Vte Terminal "
 "box.\n"
 msgstr ""
-"  * <Shift><Left/Right>\tЭмулировать прокрутку мыши вверх/вниз в окне "
+"  * <Shift><Left/Right> Эмулировать прокрутку мыши вверх/вниз в окне "
 "терминала Vtе.\n"
 
 #: console.c:242
-#, fuzzy
-#| msgid ""
-#| "  * <Shift><Up/Down>\tAsks to Scroll Up/Down 1 line on Vte Terminal box.\n"
 msgid ""
 "  * <Shift><Up/Down>    Asks to Scroll Up/Down 1 line on Vte Terminal box.\n"
 msgstr ""
-"  * <Shift><Up/Down>\tЗапрашивает прокрутку вверх/вниз на 1 строку в окне "
+"  * <Shift><Up/Down>    Запрашивает прокрутку вверх/вниз на 1 строку в окне "
 "терминала Vte.\n"
 
 #: console.c:243
-#, fuzzy
-#| msgid ""
-#| "  * <Shift><PgUp/PgDn>\tGtk+ default behavior, Scroll Up/Down on Vte "
-#| "Terminal box.\n"
 msgid ""
 "  * <Shift><PgUp/PgDn>  Gtk+ default behavior, Scroll Up/Down on Vte "
 "Terminal box.\n"
 msgstr ""
-"  * <Shift><PgUp/PgDn>\tПоведение Gtk+ по умолчанию, прокрутка вверх/вниз в "
+"  * <Shift><PgUp/PgDn>  Поведение Gtk+ по умолчанию, прокрутка вверх/вниз в "
 "окне терминала Vte.\n"
 
 #: console.c:244
-#, fuzzy
-#| msgid ""
-#| "  * <Shift><Home/End>\tGtk+ default behavior, Scroll the Terminal box to "
-#| "to Top/Bottom.\n"
 msgid ""
 "  * <Shift><Home/End>   Gtk+ default behavior, Scroll the Terminal box to to "
 "Top/Bottom.\n"
 msgstr ""
-"  * <Shift><Home/End>\tПоведение Gtk+ по умолчанию, прокрутка в начало/конец "
-"окна терминала Vte.\n"
+"  * <Shift><Home/End>   Поведение Gtk+ по умолчанию, прокрутка в начало/"
+"конец окна терминала Vte.\n"
 
 #: console.c:245
-#, fuzzy
-#| msgid ""
-#| "  * <Alt><F11/Enter>\tSwitch between fullwindow/unfullwindow and "
-#| "fullscreen/unfullscreen state.\n"
 msgid ""
 "  * <Alt><F11/Enter>    Switch between fullwindow/unfullwindow and "
 "fullscreen/unfullscreen state.\n"
 msgstr ""
-"  * <Alt><F11/Enter>\tРазвернуть/свернуть окно и переключение полноэкранного "
-"режима\n"
+"  * <Alt><F11/Enter>    Развернуть/свернуть окно и переключение "
+"полноэкранного режима.\n"
 
 #: console.c:246
-#, fuzzy
-#| msgid "  * <Ctrl><O>\t\tSelect all the text in the Vte Terminal box.\n"
 msgid ""
 "  * <Ctrl><F>           Find text in the Vte Terminal box. Use <F3>/"
 "<Shift><F3> to find Next/Prev.\n"
-msgstr "  * <Ctrl><O>\t\tВыделить весь текст в окне терминала Vte\n"
+msgstr ""
+"  * <Ctrl><F>           Поиск текста в окне терминала Vte. <F3>/<Shift><F3> "
+"- поиск Вперёд/Назад.\n"
 
 #: console.c:247
-#, fuzzy
-#| msgid "  * <Ctrl><O>\t\tSelect all the text in the Vte Terminal box.\n"
 msgid "  * <Ctrl><O>           Select all the text in the Vte Terminal box.\n"
-msgstr "  * <Ctrl><O>\t\tВыделить весь текст в окне терминала Vte\n"
+msgstr "  * <Ctrl><O>           Выделить весь текст в окне терминала Vte.\n"
 
 #: console.c:248
-#, fuzzy
-#| msgid ""
-#| "  * <Ctrl><Del/Ins>\tCopy the text to clipboard / Paste the text in "
-#| "clipboard.\n"
 msgid ""
 "  * <Ctrl><Del/Ins>     Copy the text to clipboard / Paste the text in "
 "clipboard.\n"
 msgstr ""
-"  * <Ctrl><Del/Ins>\tСкопировать текст в буфер обмена / Вставить текст из "
+"  * <Ctrl><Del/Ins>     Скопировать текст в буфер обмена / Вставить текст из "
 "буфера обмена.\n"
 
 #: console.c:249
-#, fuzzy
-#| msgid ""
-#| "  * <Ctrl><Del/Ins>\tCopy the text to clipboard / Paste the text in "
-#| "clipboard.\n"
 msgid ""
 "  * <Shift><Del/Ins>    Copy the text to primary clipboard / Paste the text "
 "in primary clipboard.\n"
 msgstr ""
-"  * <Ctrl><Del/Ins>\tСкопировать текст в буфер обмена / Вставить текст из "
+"  * <Shift<Del/Ins>    Скопировать текст в буфер обмена / Вставить текст из "
 "буфера обмена.\n"
 
 #: console.c:250
-#, fuzzy
-#| msgid "\t\t\t(i.e. Emulate a middle button mouse click to paste the text)"
 msgid ""
 "                        (i.e. Emulate a middle button mouse click to copy/"
 "paste the text)\n"
 msgstr ""
-"\t\t\t(т.е. эмулировать нажатие средней клавиши мыши для вставки текста)"
+"                        (т.е. эмулировать нажатие средней клавиши мыши для "
+"вставки текста)\n"
 
 #: console.c:252
 msgid "Some key bindings that disabled by default but maybe useful:\n"
-msgstr ""
+msgstr "Некоторые полезные сочетания клавиш, отключённые по умолчанию:\n"
 
 #: console.c:253
-#, fuzzy
-#| msgid "  * <Ctrl><T/Q>\t\tAdd a New tab/Close current tab.\n"
 msgid "  * <Ctrl><Q>           Trying to close current tab.\n"
-msgstr "  * <Ctrl><T/Q>\t\tДобавить новую вкладку/Закрыть текущую вкладку\n"
+msgstr "  * <Ctrl><T/Q>           Закрыть текущую вкладку.\n"
 
 #: console.c:254
-#, fuzzy
-#| msgid "\t\t\t(Using <Ctrl><D> or 'exit' to close tabs is recommended)\n"
 msgid ""
 "                        (Using <Ctrl><D> or 'exit' to close tabs is "
 "recommended)\n"
 msgstr ""
-"\t\t\t(Рекомендуется закрывать вкладки при помощи <Ctrl><D> или команды "
-"'exit')\n"
+"                        (Рекомендуется закрывать вкладки при помощи "
+"<Ctrl><D> или команды 'exit')\n"
 
 #: console.c:255
 msgid "  * <Ctrl><N>           Open a new window with current directory.\n"
-msgstr ""
+msgstr "  * <Ctrl><N>           Открыть новое окно с текущим каталогом.\n"
 
 #: console.c:256
-#, fuzzy
-#| msgid "  * <Ctrl><E>\t\tRename current tab.\n"
 msgid "  * <Ctrl><E>           Rename the current tab.\n"
-msgstr "  * <Ctrl><E>\t\tПереименовать текущую вкладку\n"
+msgstr "  * <Ctrl><E>           Переименовать текущую вкладку.\n"
 
 #: console.c:263
-#, fuzzy, c-format
-#| msgid ""
-#| "Default shortcut key: (It may custom or disable by right click menu [Set "
-#| "function key value])"
+#, c-format
 msgid "TIP: These key bindings may custom or disable by right click menu [%s]."
 msgstr ""
-"Быстрые клавиши по умолчанию: (Их можно выбрать или отключить в пункте меню\n"
-"правой кнопки мыши [Установить сочетания клавиш])"
+"Подсказка: Это сочетания клавиш можно выбрать или отключить в контекстном "
+"меню [%s]."
 
 #: console.c:263 menu.c:397
 msgid "Set key binding"
-msgstr ""
+msgstr "Установить сочетание клавиш"
 
 #: dialog.c:98 dialog.c:2739 menu.c:2511
-#, fuzzy
-#| msgid "The following error is occurred:"
 msgid "The following error occurred:"
 msgstr "Возникла следующая ошибка:"
 
@@ -380,34 +310,32 @@ msgid "Use Perl compatible regular expressions"
 msgstr "Использовать регулярные выражения Perl"
 
 #: dialog.c:293 dialog.c:352
-#, fuzzy
-#| msgid "Select all the text in the Vte Terminal box."
 msgid "Paste texts to every Vte Terminal"
-msgstr "Выбрать весь текст в окне терминала Vte."
+msgstr "Вставить текст во все терминалы Vte"
 
 #: dialog.c:311
-#, fuzzy
-#| msgid "Please input the Label Name of this tab:"
 msgid "Please input the texts that will be paste to the Vte Terminals:"
-msgstr "Пожалуйста, введите название для этой вкладки:"
+msgstr "Пожалуйста, введите текст для вставки в терминалы Vte:"
 
 #: dialog.c:312
 msgid "Text:"
-msgstr ""
+msgstr "Текст:"
 
 #: dialog.c:321
 msgid "Append a <NewLine> to the end of the text."
-msgstr ""
+msgstr "Добавить перевод строки в конец текста."
 
 #: dialog.c:343
 msgid "Grab keys"
-msgstr ""
+msgstr "Захватить клавиши"
 
 #: dialog.c:349
 msgid ""
 "Paste the grabbed key to the Vte Terminals.\n"
 "It will be useful if you want to paste combined keys, like <Ctrl><C>."
 msgstr ""
+"Вставить захваченную клавишу в терминалы Vte.\n"
+"Это полезно, когда вы хотите вставить комбинацию клавиш, как <Ctrl><C>."
 
 #: dialog.c:372 dialog.c:741
 msgid "Key Value:"
@@ -415,7 +343,7 @@ msgstr " Значение сочетания клавиш: "
 
 #: dialog.c:378
 msgid "Entry"
-msgstr ""
+msgstr "Содержимое"
 
 #: dialog.c:383
 msgid "Add new locales and set the default locale"
@@ -425,17 +353,12 @@ msgstr "Добавление новых локализаций и установ
 #. TRANSLATE NOTE: For example, replace "zh_TW" with "ru_RU", replace "zh_TW.Big5" with "ru_RU.KOI8-R",
 #. TRANSLATE NOTE: or replace "zh_TW.UTF-8" with "ru_RU.UTF-8".
 #: dialog.c:402
-#, fuzzy
-#| msgid ""
-#| "The default locale used when initing a vte terminal.\n"
-#| "You may use \"zh_TW\", \"zh_TW.Big5\", or \"zh_TW.UTF-8\" here."
 msgid ""
 "The default locale used when initing a Vte Terminal.\n"
 "You may use \"zh_TW\", \"zh_TW.Big5\", or \"zh_TW.UTF-8\" here."
 msgstr ""
 "Локализация, используемая по умолчанию при инициализации терминала Vte.\n"
-"Например, можно использовать \"ru_RU\", \"ru_RU.KOI8-R\", или \"ru_RU.UTF-8"
-"\"."
+"Например, можно использовать \"ru_RU\", \"ru_RU.KOI8-R\" или \"ru_RU.UTF-8\"."
 
 #: dialog.c:406
 msgid "Default locale:"
@@ -451,8 +374,8 @@ msgid ""
 "You may want to use \"UTF-8\" here if you have no locale data installed."
 msgstr ""
 "Список локализаций в меню правой кнопки мыши, разделённых пробелами.\n"
-"Например, можно использовать \"ru_RU\", \"ru_RU.KOI8-R\", или \"ru_RU.UTF-8"
-"\".\n"
+"Например, можно использовать \"ru_RU\", \"ru_RU.KOI8-R\", или \"ru_RU."
+"UTF-8\".\n"
 "Если данные о локализациях не установлены, можно использовать \"UTF-8\"."
 
 #: dialog.c:418
@@ -493,15 +416,11 @@ msgid "those tabs"
 msgstr "эти вкладки"
 
 #: dialog.c:654
-#, fuzzy
-#| msgid ""
-#| "You may press <Ctrl + Alt + Shift> + <any key> here\n"
-#| "to get the key value used for the function key."
 msgid ""
 "You may press <Ctrl + Alt + Shift + Win> + <any key> here\n"
 "to get the key value used for the key binding."
 msgstr ""
-"Вы можете нажать <Ctrl + Alt + Shift> + <клавиша> здесь,\n"
+"Вы можете нажать <Ctrl + Alt + Shift + Win> + <клавиша> здесь,\n"
 "чтобы получить значение сочетания клавиш."
 
 #: dialog.c:656
@@ -513,10 +432,8 @@ msgid "Function Key Name"
 msgstr "Имя комбинации клавиш"
 
 #: dialog.c:713
-#, fuzzy
-#| msgid "Erase Binding"
 msgid "Key Bindings"
-msgstr "Привязка для стирания"
+msgstr "Комбинация клавиш"
 
 #: dialog.c:721
 msgid "Key Group: "
@@ -536,20 +453,16 @@ msgid "Usage for %s %s"
 msgstr "Использование для %s %s"
 
 #: dialog.c:807
-#, fuzzy
-#| msgid "Don't forget to save your settings after making any change!\n"
 msgid "Don't forget to save your settings after making any change!"
-msgstr "Не забудьте сохранить настройки после изменения их!\n"
+msgstr "Не забудьте сохранить настройки после изменения их!"
 
 #: dialog.c:810 menu.c:393
 msgid "Usage"
 msgstr "Использование"
 
 #: dialog.c:814
-#, fuzzy
-#| msgid "Erase Binding"
 msgid "Key binding"
-msgstr "Привязка для стирания"
+msgstr "Комбинация клавиш"
 
 #. TRANSLATE NOTE: The following license declaration is just a notice, not full license text.
 #. TRANSLATE NOTE: The full GPLv3 license text is included in LilyTerm source code.
@@ -574,59 +487,72 @@ msgid ""
 "You should have received a copy of the GNU General Public License\n"
 "along with %s.  If not, see <http://www.gnu.org/licenses/>."
 msgstr ""
+"Copyright (c) %s-%s  %s.  Все права защищены.\n"
+"\n"
+"%s является свободным программным обеспечением; вы можете распространять\n"
+"её и/или изменять по условиям Универсальной общественной лицензии GNU в "
+"виде,\n"
+" опубликованном Фондом свободного программного обеспечения; как версии 3, "
+"так и (по вашему усмотрению) любой более поздней версии.\n"
+"%s распространяется в надежде, что она будет полезной, но БЕЗ КАКОЙ-ЛИБО\n"
+"ГАРАНТИИ; даже без подразумеваемой гарантии ТОВАРНОЙ ПРИГОДНОСТИ\n"
+"или СООТВЕТСТВИЯ КОНКРЕТНОМУ НАЗНАЧЕНИЮ. Для более детальной\n"
+"информации см. Универсальную общественную лицензию GNU.\n"
+"Вы должны были получить копию Универсальной общественной лицензии GNU\n"
+"вместе с %s; если нет, то посетите <http://www.gnu.org/licenses/>."
 
 #: dialog.c:835
 msgid "License"
-msgstr ""
+msgstr "Лицензия"
 
 #: dialog.c:849
 msgid "Translators"
-msgstr ""
+msgstr "Переводчики"
 
 #: dialog.c:852
 #, c-format
 msgid "%s (Main site)"
-msgstr ""
+msgstr "%s (главная страница)"
 
 #: dialog.c:853
 #, c-format
 msgid "%s (Traditional Chinese site)"
-msgstr ""
+msgstr "%s (страница на традиционном китайском)"
 
 #: dialog.c:854
 #, c-format
 msgid "%s (Github site)"
-msgstr ""
+msgstr "%s (страница на Github)"
 
 #. TRANSLATE NOTE: Please be care of the spacing when translating the following site informatoins.
 #. TRANSLATE NOTE: Please check it in [Right Click Menu] -> [Usage] -> [About] page after translating.
 #: dialog.c:857
 #, c-format
 msgid "Blog:   %s"
-msgstr ""
+msgstr "Блог:   %s"
 
 #: dialog.c:858
 #, c-format
 msgid "Wiki:   %s"
-msgstr ""
+msgstr "Вики:   %s"
 
 #: dialog.c:859
 #, c-format
 msgid "Issues: %s"
-msgstr ""
+msgstr "Ошибки: %s"
 
 #: dialog.c:860
 #, c-format
 msgid "IRC:    %s"
-msgstr ""
+msgstr "IRC:    %s"
 
 #: dialog.c:867
 msgid "Homepage:"
-msgstr ""
+msgstr "Сайт программы:"
 
 #: dialog.c:870
 msgid "About"
-msgstr ""
+msgstr "О программе"
 
 #: dialog.c:886
 #, c-format
@@ -703,20 +629,16 @@ msgid "Using <Ctrl><D> or 'exit' to close tabs is recommended"
 msgstr "Рекомендуется закрывать вкладки при помощи <Ctrl><D> или 'exit'"
 
 #: dialog.c:1104
-#, fuzzy
-#| msgid "Confirm to close a tab with child proccess"
 msgid "Confirm to close a tab with child process"
-msgstr "Подтверждение закрытия вкладки с дочерним процессом"
+msgstr "Подтвердите закрытие вкладки с дочерним процессом"
 
 #: dialog.c:1127
 msgid "The following programs are still running under this window:"
 msgstr "В этом окне всё ещё выполняются следующие команды:"
 
 #: dialog.c:1133
-#, fuzzy
-#| msgid "Confirm to close a window with child proccess"
 msgid "Confirm to close a window with child process"
-msgstr "Подтверждение закрытия окна с дочерними процессами"
+msgstr "Подтвердите закрытие окна с дочерними процессами"
 
 #: dialog.c:1153
 #, c-format
@@ -729,26 +651,20 @@ msgid "The following programs are still running under %s:"
 msgstr "В %s всё ещё выполняются следующие программы:"
 
 #: dialog.c:1184
-#, fuzzy
-#| msgid "Select all the text in the Vte Terminal box."
 msgid "Trying to paste the following texts to the Vte Terminal:"
-msgstr "Выбрать весь текст в окне терминала Vte."
+msgstr "Попытка вставить следующий текст в терминал Vte:"
 
 #: dialog.c:1191
-#, fuzzy
-#| msgid "Select all the text in the Vte Terminal box."
 msgid "Confirm to paste texts to the Vte Terminal"
-msgstr "Выбрать весь текст в окне терминала Vte."
+msgstr "Подтвердите вставку текста в терминала Vte."
 
 #: dialog.c:1209
 msgid "Join and paste"
-msgstr ""
+msgstr "Объединить и вставить"
 
 #: dialog.c:1216 menu.c:211
-#, fuzzy
-#| msgid "Copy to clipboard."
 msgid "Clipboard"
-msgstr "Скопировать в буфер обмена"
+msgstr "Буфер обмена"
 
 #: dialog.c:2283
 #, c-format
@@ -805,11 +721,7 @@ msgid "Disable all the function keys of [%s] group."
 msgstr "Запретить все сочетания клавиш группы [%s]."
 
 #: main.c:607
-#, fuzzy, c-format
-#| msgid ""
-#| "The data got from socket seems incorrect.\n"
-#| "If you just updated %s recently,\n"
-#| "Please close all the windows of %s and try again."
+#, c-format
 msgid ""
 "The data got from socket seems incorrect.\n"
 "\n"
@@ -820,6 +732,10 @@ msgid ""
 "Please close all the windows of %s and try again."
 msgstr ""
 "Данные, полученные из сокета, похоже, неверны.\n"
+"\n"
+"Полученная версия сокета: %s\n"
+"Ожидаемая версия сокета: %s\n"
+"\n"
 "Если вы недавно обновили %s,\n"
 "пожалуйста, закройте все окна %s и попробуйте снова."
 
@@ -872,10 +788,8 @@ msgid "Change ANSI color theme"
 msgstr "Изменить схему цветов ANSI"
 
 #: menu.c:123
-#, fuzzy
-#| msgid "Change colors"
 msgid "Invert color"
-msgstr "Изменить цвета"
+msgstr "Инвертировать цвета"
 
 #. TRANSLATE NOTE: Please translate the "System default (SCHEME)" into "System default" (in your language).
 #. TRANSLATE NOTE: Some language will have trouble if here is "System default" only.
@@ -893,10 +807,8 @@ msgid "User custom"
 msgstr "Пользовательская"
 
 #: menu.c:173
-#, fuzzy
-#| msgid "Background saturation"
 msgid "Background"
-msgstr "Насыщенность фона"
+msgstr "Фон"
 
 #: menu.c:179
 msgid "Transparent window"
@@ -931,20 +843,16 @@ msgid "Copy"
 msgstr "Копировать"
 
 #: menu.c:224
-#, fuzzy
-#| msgid "Copy to clipboard."
 msgid "View clipboard"
-msgstr "Скопировать в буфер обмена"
+msgstr "Просмотреть буфер обмена"
 
 #: menu.c:228
 msgid "Paste"
 msgstr "Вставить"
 
 #: menu.c:235
-#, fuzzy
-#| msgid "Copy to clipboard."
 msgid "View primary clipboard"
-msgstr "Скопировать в буфер обмена"
+msgstr "Просмотреть основной буфер обмена"
 
 #: menu.c:246
 msgid "Scrollback lines"
@@ -959,14 +867,12 @@ msgid "Misc"
 msgstr "Разное "
 
 #: menu.c:263
-#, fuzzy
-#| msgid "Select all the text in the Vte Terminal box."
 msgid "Paste to every Vte Terminal"
-msgstr "Выбрать весь текст в окне терминала Vte."
+msgstr "Вставить во все Vte терминалы."
 
 #: menu.c:266
 msgid "Launch file manager"
-msgstr ""
+msgstr "Запустить файловый менеджер"
 
 #: menu.c:272
 msgid "Erase Binding"
@@ -989,14 +895,12 @@ msgid "Audible bell"
 msgstr "Звуковой сигнал"
 
 #: menu.c:309
-#, fuzzy
-#| msgid "Audible bell"
 msgid "Visible bell"
-msgstr "Звуковой сигнал"
+msgstr "Визуальный сигнал"
 
 #: menu.c:313
 msgid "Urgent bell"
-msgstr ""
+msgstr "Экстренный сигнал"
 
 #: menu.c:323
 msgid "Switch input methods"
@@ -1011,16 +915,12 @@ msgid "Hide the tabs bar"
 msgstr "Спрятать панель вкладок"
 
 #: menu.c:351
-#, fuzzy
-#| msgid "Show the tabs bar"
 msgid "Always show the tabs bar"
-msgstr "Показать панель вкладок"
+msgstr "Всегда показывать панель вкладок"
 
 #: menu.c:358
-#, fuzzy
-#| msgid "Hide the tabs bar"
 msgid "Always hide the tabs bar"
-msgstr "Спрятать панель вкладок"
+msgstr "Всегда прятать панель вкладок"
 
 #: menu.c:368
 msgid "Increase window size"
@@ -1076,10 +976,8 @@ msgid "Save settings as..."
 msgstr "Сохранить настройки как..."
 
 #: menu.c:1682
-#, fuzzy
-#| msgid "Save settings"
 msgid "Reload settings"
-msgstr "Сохранить настройки"
+msgstr "Перезагрузить настройки"
 
 #: menu.c:1717
 #, c-format
@@ -1122,23 +1020,22 @@ msgstr "Прокручивать фоновый рисунок вместе с �
 
 #: menu.c:2345
 msgid "Open File"
-msgstr ""
+msgstr "Открыть файл"
 
 #: menu.c:2347
 msgid "Save File"
-msgstr ""
+msgstr "Сохранить файл"
 
 #: menu.c:2509
-#, fuzzy, c-format
-#| msgid "The following error is occurred:"
+#, c-format
 msgid "The following error occurred: %s"
-msgstr "Возникла следующая ошибка:"
+msgstr "Возникла следующая ошибка: %s"
 
 #. TRANSLATE NOTE: The "↲" is a replace character for <Enter> (<CR>, or <New Line>).
 #. TRANSLATE NOTE: You may translate it into something like "¶", "↵" or "↩".
 #: misc.c:563
 msgid "↲"
-msgstr ""
+msgstr "↲"
 
 #: notebook.c:665
 msgid "Error while creating the child process:"
@@ -1314,11 +1211,11 @@ msgstr "Перейти прямо на %d-ю вкладку."
 
 #: profile.c:782
 msgid "New window"
-msgstr ""
+msgstr "Новое окно"
 
 #: profile.c:784
 msgid "Open a new window with current dir."
-msgstr ""
+msgstr "Открыть новое окно для текущего каталога."
 
 #: profile.c:786
 msgid "Select all"
@@ -1462,19 +1359,19 @@ msgstr "обычного текста"
 
 #: profile.c:907
 msgid "Shift"
-msgstr ""
+msgstr "Shift"
 
 #: profile.c:911
 msgid "Ctrl"
-msgstr ""
+msgstr "Ctrl"
 
 #: profile.c:913
 msgid "Alt"
-msgstr ""
+msgstr "Alt"
 
 #: profile.c:923
 msgid "Win"
-msgstr ""
+msgstr "Win"
 
 #: profile.c:2550
 msgid "The target file does NOT exist"
@@ -1542,10 +1439,11 @@ msgstr "\tОкно №%d, Страница №%d: (%d) %s\n"
 msgid "\tPage #%d: (%d) %s\n"
 msgstr "\tСтраница №%d: (%d) %s\n"
 
-#, fuzzy
-#~| msgid "Please report bug to %s. Thank you for using %s!"
-#~ msgid "Thank you for using %s!\n"
+#~ msgid ""
+#~ "\n"
+#~ "Please report bug to %s. Thank you for using %s!"
 #~ msgstr ""
+#~ "\n"
 #~ "Пожалуйста, сообщайте об ошибках на %s.\n"
 #~ "Благодарим за использование %s!"
 
@@ -1559,38 +1457,5 @@ msgstr "\tСтраница №%d: (%d) %s\n"
 #~ msgid "Shortcut Key"
 #~ msgstr "Сочетание клавиш"
 
-#, fuzzy
-#~| msgid "Continue anyway?"
-#~ msgid "Continue anyway?\n"
-#~ msgstr "Всё равно продолжить?"
-
-#~ msgid ""
-#~ "\n"
-#~ "Please report bug to %s. Thank you for using %s!"
-#~ msgstr ""
-#~ "\n"
-#~ "Пожалуйста, сообщайте об ошибках на %s.\n"
-#~ "Благодарим за использование %s!"
-
-#, fuzzy
-#~| msgid ""
-#~| "%s is a libvte based X Terminal Emulator.\n"
-#~| "\n"
-#~ msgid "A light and easy to use libvte based X Terminal Emulator"
-#~ msgstr ""
-#~ "%s - это эмулятор терминала, основанный на libvte.\n"
-#~ "\n"
-
 #~ msgid "Set function key value"
 #~ msgstr "Установить сочетания клавиш"
-
-#, fuzzy
-#~| msgid "Paste the text"
-#~ msgid "Paste to every vte"
-#~ msgstr "Вставить текст"
-
-#~ msgid "Change the Opacity of window:"
-#~ msgstr "Изменить прозрачность окна:"
-
-#~ msgid "The locale \"%s\" seems NOT supported by your system!"
-#~ msgstr "Локализация \"%s\", похоже, НЕ поддерживается вашей системой!"
