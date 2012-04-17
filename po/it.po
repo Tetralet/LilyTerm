@@ -10,10 +10,10 @@ msgstr ""
 "PO-Revision-Date: 2012-04-02 23:05+0200\n"
 "Last-Translator: Marco Paolone <marcopaolone@gmail.com>\n"
 "Language-Team: Italian <IT@li.org>\n"
+"Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: it\n"
 
 #: console.c:121
 #, c-format
@@ -400,10 +400,8 @@ msgid "Change the foreground color in terminal"
 msgstr "Cambia il colore di primo piano nel terminale"
 
 #: dialog.c:479
-#, fuzzy
-#| msgid "Change the background color in terminal"
 msgid "Change the cursor color in terminal"
-msgstr "Cambia il colore di sfondo nel terminale"
+msgstr "Cambia il colore del cursore nel terminale"
 
 #: dialog.c:515 menu.c:116
 #, c-format
@@ -772,10 +770,8 @@ msgid "Change the foreground color"
 msgstr "Cambia colore di primo piano"
 
 #: menu.c:94
-#, fuzzy
-#| msgid "Change the background color"
 msgid "Change the cursor color"
-msgstr "Cambia colore di sfondo"
+msgstr "Cambia colore del cursore"
 
 #: menu.c:98
 msgid "Change the background color"
@@ -886,7 +882,7 @@ msgstr "Combinazione per comando Erase"
 
 #: menu.c:294
 msgid "Cursor Shape"
-msgstr ""
+msgstr "Forma del cursor"
 
 #: menu.c:311
 msgid "Dim text when inactive"
@@ -978,10 +974,8 @@ msgid "Other settings..."
 msgstr "Altre impostazioni..."
 
 #: menu.c:1743
-#, fuzzy
-#| msgid "Save settings as..."
 msgid "Save settings automatically"
-msgstr "Salva impostazioni come..."
+msgstr "Salva impostazioni automaticamente"
 
 #: menu.c:1748
 msgid "Save settings"
