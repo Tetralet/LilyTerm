@@ -5,10 +5,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 0.9.9~final4\n"
+"Project-Id-Version: 0.9.9~final5\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-04-07 18:08+0800\n"
-"PO-Revision-Date: 2012-04-02 20:18+0100\n"
+"PO-Revision-Date: 2012-04-11 19:31+0100\n"
 "Last-Translator: Mario Blättermann <mario.blaettermann@gmail.com>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -40,8 +40,8 @@ msgstr ""
 
 #: console.c:141
 msgid ""
-"Use -e/-x/--execute {Command} to run a command when starting up. (Must be "
-"the final option).\n"
+"Use -e/-x/--execute {Command} to run a command when starting up. (Must be the "
+"final option).\n"
 msgstr ""
 "Verwenden Sie -e/-x/--execute {Befehl}, um einen Befehl beim Start "
 "auszuführen.\n"
@@ -96,8 +96,7 @@ msgid ""
 "Use -u/--user_profile {%s} to use a specified profile.\n"
 "\n"
 msgstr ""
-"Verwenden Sie -u/--user_profile {%s}, um ein bestimmtes Profil zu "
-"verwenden.\n"
+"Verwenden Sie -u/--user_profile {%s}, um ein bestimmtes Profil zu verwenden.\n"
 "\n"
 
 #: console.c:159
@@ -126,8 +125,7 @@ msgid ""
 "  * <Ctrl><`>           Disable/Enable hyperlinks, function keys and right "
 "click menu."
 msgstr ""
-"  * <Strg><`>                        Deaktivieren/Aktivieren der "
-"Hyperlinks,\n"
+"  * <Strg><`>                        Deaktivieren/Aktivieren der Hyperlinks,\n"
 "                                     Funktionstasten und des Rechtsklickmenüs"
 
 #: console.c:234
@@ -139,8 +137,7 @@ msgstr ""
 #: console.c:235
 msgid "  * <Ctrl><PgUp/PgDn>   Switch to Prev/Next tab.\n"
 msgstr ""
-"  * <Strg><Bild auf/Bild ab>         Zum vorherigen/nächsten Reiter "
-"wechseln\n"
+"  * <Strg><Bild auf/Bild ab>         Zum vorherigen/nächsten Reiter wechseln\n"
 
 #: console.c:236
 msgid "  * <Ctrl><Home/End>    Switch to First/Last tab.\n"
@@ -189,8 +186,8 @@ msgstr ""
 
 #: console.c:243
 msgid ""
-"  * <Shift><PgUp/PgDn>  Gtk+ default behavior, Scroll Up/Down on Vte "
-"Terminal box.\n"
+"  * <Shift><PgUp/PgDn>  Gtk+ default behavior, Scroll Up/Down on Vte Terminal "
+"box.\n"
 msgstr ""
 "  * <Umschalt><Bild auf/Bild ab>     Gtk+Standardverhalten, im Vte-Terminal "
 "nach oben/unten rollen.\n"
@@ -205,8 +202,8 @@ msgstr ""
 
 #: console.c:245
 msgid ""
-"  * <Alt><F11/Enter>    Switch between fullwindow/unfullwindow and "
-"fullscreen/unfullscreen state.\n"
+"  * <Alt><F11/Enter>    Switch between fullwindow/unfullwindow and fullscreen/"
+"unfullscreen state.\n"
 msgstr ""
 "  * <Alt><F11/Eingabe>               Zwischen Vollbild- und Fenstermodus "
 "sowie\n"
@@ -420,10 +417,8 @@ msgid "Change the foreground color in terminal"
 msgstr "Vordergrundfarbe des Terminals ändern"
 
 #: dialog.c:479
-#, fuzzy
-#| msgid "Change the background color in terminal"
 msgid "Change the cursor color in terminal"
-msgstr "Hintergrundfarbe des Terminals ändern"
+msgstr "Farbe der Eingabemarke des Terminals ändern"
 
 #: dialog.c:515 menu.c:116
 #, c-format
@@ -530,8 +525,8 @@ msgstr ""
 "%s wurde mit dem Ziel veröffentlicht, dass Sie es nützlich finden,\n"
 "jedoch OHNE JEDWEDE GARANTIE, sogar ohne eine implizite Garantie\n"
 "der VERKAUFBARKEIT oder der NUTZBARKEIT FÜR EINEN SPEZIELLEN ZWECK.\n"
-"Schauen Sie für weitere Informationen bitte in der GNU General Public "
-"License (GNU GPL) nach.\n"
+"Schauen Sie für weitere Informationen bitte in der GNU General Public License "
+"(GNU GPL) nach.\n"
 "\n"
 "Mit %s sollten Sie außerdem eine Kopie der GNU General Public License "
 "erhalten\n"
@@ -810,10 +805,8 @@ msgid "Change the foreground color"
 msgstr "Vordergrundfarbe ändern"
 
 #: menu.c:94
-#, fuzzy
-#| msgid "Change the background color"
 msgid "Change the cursor color"
-msgstr "Hintergrundfarbe ändern"
+msgstr "Farbe der Eingabemarke ändern"
 
 #: menu.c:98
 msgid "Change the background color"
@@ -924,7 +917,7 @@ msgstr "Bindung lösen"
 
 #: menu.c:294
 msgid "Cursor Shape"
-msgstr ""
+msgstr "Eingabemarke"
 
 #: menu.c:311
 msgid "Dim text when inactive"
@@ -1016,10 +1009,8 @@ msgid "Other settings..."
 msgstr "Andere Einstellungen …"
 
 #: menu.c:1743
-#, fuzzy
-#| msgid "Save settings as..."
 msgid "Save settings automatically"
-msgstr "Einstellungen speichern unter …"
+msgstr "Einstellungen automatisch speichern"
 
 #: menu.c:1748
 msgid "Save settings"
@@ -1067,8 +1058,7 @@ msgstr "Die folgenden Einstellungen können nicht angewendet werden"
 #: menu.c:2222
 msgid "Disable: Trying to use [Transparent Background] instead."
 msgstr ""
-"Deaktivieren: Stattdessen versuchen, [Transparenten Hintergrund] zu "
-"verwenden."
+"Deaktivieren: Stattdessen versuchen, [Transparenten Hintergrund] zu verwenden."
 
 #: menu.c:2228
 msgid "Scroll the background image along with the text"
