@@ -63,7 +63,7 @@
 	* A race condition segfault bug if the locale settings is incorrect and the
 	  -e option is failed at the same time.
 	* The profile path in help message may not updated after saving the profile.
-	  Thanks 夢見草 for report this bug.
+	  Thanks 夢見草 for reporting this bug.
 	* Some translation strings missed.
 	  Thanks Vladimir Smolyar and Niels Martignène for reporting this bug.
 
@@ -99,11 +99,11 @@
 	* The default function key of 'Copy the text to clipboard' is changed
 	  into 'Ctrl Delete', and the default function key of 'Paste the text
 	  in clipboard' is changed into 'Ctrl Insert',
-	  Thanks Renato for report this bug.
+	  Thanks Renato for reporting this bug.
 	* The profile option 'window_opacity', 'background_saturation',
 	  'font_resize_ratio', 'window_resize_ratio', 'brightness' and
 	  'inactive_brightness' won't be saved correctly under it_IT locale.
-	  VERY THANKS to Marco Paolone for report this strange bug.
+	  VERY THANKS to Marco Paolone for reporting this strange bug.
 
   New Feature:
 	* Applied new Flemish/Dutch translations.
@@ -225,7 +225,7 @@
 	* Better compatibility for vte (0.25.1) and gtk (< 2.10).
 	* Added csh, dash, ksh, tcsh, and zsh to foreground_program_whitelist
 	  and background_program_whitelist.
-	  Thanks nasofe for report this bug.
+	  Thanks nasofe for reporting this bug.
 	* Better behavior when there is no '/proc' or the '/proc' is empty.
 	* Better behavior if the child process has became zombie or exited
 	  immediately.
@@ -242,7 +242,7 @@
 	* Better compatibility for gtk (2.8 ~ 2.20) and vte (0.16 ~ 0.24).
 	* The default value for scrollback_lines sets back to 1024.
 	  scrollback_lines = -1 only works under vte > 0.22.3.
-	  Very thanks 蒜頭 for report this bug.
+	  Very thanks 蒜頭 for reporting this bug.
 
   New Feature:
 	* Applied new Spanish translation.
@@ -261,7 +261,7 @@
 	* Fix a segfault bug when saving settings if the 1st page was closed.
 	* Closing a tab that is not on focus with clicking the [X] button on
 	  it may cause wrong tab to be focus.
-	  VERY THANKS to caleb for report this bug.
+	  VERY THANKS to caleb for reporting this bug.
 	* LilyTerm will confirm twice if there is a foreground running program
 	  in a tab when closing it.
 
@@ -446,7 +446,7 @@
 	* Function keys don't work with ibus >= 1.1.0.20090508.
 	  ibus will modify the value of key->state causing lilyterm could not
 	  get correct key value.
-	  VERY THANKS to nasofe for report this bug. (0.9.7~pre11)
+	  VERY THANKS to nasofe for reporting this bug. (0.9.7~pre11)
 	* Better behavior if there were " " in environments or -e option.
 	  (0.9.7~pre13)
 	* Sometimes the tab name won't update to pwd when exiting from a
@@ -469,7 +469,7 @@
 	* The tabs bar won't be shown when changing the tab's color if it was
 	  set to hidden manual. (0.9.7~pre17)
 	* The geometry may be incorrect when recover from fullscreen.
-	  Thanks BV1AL for report this bug. (0.9.7~pre18)
+	  Thanks BV1AL for reporting this bug. (0.9.7~pre18)
 	* Can't launch the later LilyTerm window in current pwd. (0.9.7~pre18)
 	* Using <Ctrl><Q> to closing current tab may show incorrect running
 	  foreground cmdline on dialog. (0.9.7~pre19)
@@ -480,18 +480,18 @@
 	* A strange "dialog(3): menu_active_window = NULL" dialog when logout
 	  from X. (0.9.7~pre20)
 	* Can't use relative path to specify the profile.
-	  Thanks BV1AL for report this bug. (0.9.7~pre20)
+	  Thanks BV1AL for reporting this bug. (0.9.7~pre20)
 	* Don't take the parameter after -e option. (0.9.7~pre20)
 	* The default key for "Hide window decoration and full screen" changed
-	  to <Alt><F11>. Thanks BV1AL for report this bug. (0.9.7~pre21)
+	  to <Alt><F11>. Thanks BV1AL for reporting this bug. (0.9.7~pre21)
 	* Add "src/profile.c" to po/POTFILES.in.
-	  Thanks oahong for report this bug. (0.9.7)
+	  Thanks oahong for reporting this bug. (0.9.7)
 	* Bold text will also be dim when lost focus. (0.9.7)
 	* The geometry may be incorrect when draging a page. (0.9.7)
 	* The text of running command for hyperlink on error dialog will be
 	  separated with space (not tab). (0.9.7)
 	* Better compatibility with hyperlink. Now it supports "," and ";" in the
-	  URL. Thanks BV1AL for report this bug. (0.9.7)
+	  URL. Thanks BV1AL for reporting this bug. (0.9.7)
 
   New Feature:
 	* New menu item: [Copy URL], [Copy] and [Paste], But it is disabled

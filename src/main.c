@@ -601,15 +601,15 @@ gboolean read_socket(GIOChannel *channel, GIOCondition condition, gpointer user_
 		if ((datas==NULL) || compare_strings(SOCKET_DATA_VERSION, datas[0], TRUE))
 		{
 			// The SOCKET_DATA_VERSION != the data sent via socket
-			gchar *recieved_socket_version = NULL;
-			if (datas) recieved_socket_version = datas[0];
+			gchar *received_socket_version = NULL;
+			if (datas) received_socket_version = datas[0];
 
 			gchar *message = g_strdup_printf(_("The data got from socket seems incorrect.\n\n"
-							   "\tRecieved socket version: %s\n"
+							   "\tReceived socket version: %s\n"
 							   "\tExpected socket version: %s\n\n"
 							   "If you just updated %s recently,\n"
 							   "Please close all the windows of %s and try again."),
-							   recieved_socket_version, SOCKET_DATA_VERSION,
+							   received_socket_version, SOCKET_DATA_VERSION,
 							   PACKAGE, PACKAGE);
 			error_dialog(NULL,
 				     _("The format of socket data is out of date"),

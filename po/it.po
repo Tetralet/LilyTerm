@@ -6,14 +6,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LilyTerm 0.9.9~pre4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-04-07 18:08+0800\n"
+"POT-Creation-Date: 2012-04-23 00:25+0800\n"
 "PO-Revision-Date: 2012-04-02 23:05+0200\n"
 "Last-Translator: Marco Paolone <marcopaolone@gmail.com>\n"
 "Language-Team: Italian <IT@li.org>\n"
-"Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: it\n"
 
 #: console.c:121
 #, c-format
@@ -719,11 +719,19 @@ msgid "Disable all the function keys of [%s] group."
 msgstr "Disabilita tutti i tasti funzione del gruppo [%s]"
 
 #: main.c:607
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "The data got from socket seems incorrect.\n"
+#| "\n"
+#| "\tRecieved socket version: %s\n"
+#| "\tExpected socket version: %s\n"
+#| "\n"
+#| "If you just updated %s recently,\n"
+#| "Please close all the windows of %s and try again."
 msgid ""
 "The data got from socket seems incorrect.\n"
 "\n"
-"\tRecieved socket version: %s\n"
+"\tReceived socket version: %s\n"
 "\tExpected socket version: %s\n"
 "\n"
 "If you just updated %s recently,\n"
