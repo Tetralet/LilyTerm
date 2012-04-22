@@ -722,8 +722,7 @@ gboolean update_page_name(GtkWidget *window, GtkWidget *vte, gchar *page_name, G
 	}
 #endif
 	// we should update window title if page name changed.
-	if (win_data->window_title_shows_current_page && (! custom_window_title))
-		check_and_update_window_title(win_data, custom_window_title, page_no, custom_page_name, page_name);
+	check_and_update_window_title(win_data, custom_window_title, page_no, custom_page_name, page_name);
 
 	// g_debug("(update_page_name): page_name_updated = %d", page_name_updated);
 	return page_name_updated;
@@ -740,6 +739,8 @@ void check_and_update_window_title(struct Window *win_data, gboolean custom_wind
 #ifdef DEFENSIVE
 	if ((win_data==NULL) || (win_data->notebook==NULL)) return;
 #endif
+	if ((win_data->window_title_shows_current_page == FALSE) || (custom_window_title == TRUE)) return;
+
 	gint current_page_no = gtk_notebook_get_current_page(GTK_NOTEBOOK(win_data->notebook));
 
 	// we only update the window title for current page

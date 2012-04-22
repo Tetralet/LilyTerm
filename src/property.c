@@ -682,13 +682,9 @@ void apply_new_win_data_to_page (struct Window *win_data_orig,
 	if ((win_data_orig->window_title_shows_current_page != win_data->window_title_shows_current_page) ||
 	    (win_data_orig->window_title_append_package_name != win_data->window_title_append_package_name))
 	{
-		if (win_data->window_title_shows_current_page)
-			check_and_update_window_title(win_data, page_data->custom_window_title,
-						      page_data->page_no+1, page_data->custom_page_name,
-						      page_data->page_name);
-		else
-			check_and_update_window_title(win_data, TRUE, page_data->page_no+1,
-						      PACKAGE, NULL);
+		check_and_update_window_title(win_data, page_data->custom_window_title,
+					      page_data->page_no+1, page_data->custom_page_name,
+					      page_data->page_name);
 		// g_debug("FINAL: New window title = %s", gtk_window_get_title(GTK_WINDOW(win_data->window)));
 	}
 
