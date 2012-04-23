@@ -13,8 +13,8 @@ VERSION = 0.9.9
 LANG_LIST ?= de fr es it nl pl ru sk tr uk zh_CN zh_TW
 
 YEAR = $(shell date +%Y)
-ECHO = $(shell whereis -b echo | awk '{print $$2}')
-PRINTF = $(shell whereis -b printf | awk '{print $$2}')
+ECHO = $(shell which echo)
+PRINTF = $(shell which printf)
 
 PREFIX = /usr/local
 ETCDIR = $(PREFIX)/etc/xdg

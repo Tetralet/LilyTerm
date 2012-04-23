@@ -25,9 +25,9 @@ if [ -z "$CFLAGS" ]; then
   CFLAGS="-Wall -O -g"
 fi
 
-MAKE=`whereis -b make | awk '{print $2}'`
-ECHO=`whereis -b echo | awk '{print $2}'`
-PRINTF=`whereis -b printf | awk '{print $2}'`
+MAKE=`which make`
+ECHO=`which echo`
+PRINTF=`which printf`
 
 ERR()
 {
@@ -83,7 +83,7 @@ if [ "$1" = "-h" -o "$1" = "--help" -o "$1" = "-help" ]; then
   exit 0
 fi
 
-PKGCONFIG=`whereis -b pkg-config | awk '{print $2}'`
+PKGCONFIG=`which pkg-config`
 if [ -z "$PKGCONFIG" ]; then
   $ECHO ""
   ERR "ERROR: pkg-config package is needed to run this configure script. ABORT!\n"
@@ -239,7 +239,7 @@ fi
 
 if [ "$NLS" = 'Y' ]; then
   $ECHO -n "... testing Native Language Support : "
-  GETTEXT=`whereis -b msgfmt | awk '{print $2}'`
+  GETTEXT=`which msgfmt`
   if [ -z "$GETTEXT" ]; then
     if [ $NLS_SPC -eq 1 ]; then
       ERR "not found. Please install gettext package. ABORT!\n"
@@ -297,7 +297,7 @@ fi
 if [ "$STRIP" = 'Y' ]; then
   IMPORTANT "STRIP     = $STRIP\n"
 fi
-CHECK_CC=`whereis -b $CC | awk '{print $2}'`
+CHECK_CC=`which "$CC"`
 if [ -n "$CHECK_CC" ]; then
   if [ "$CC" != 'gcc' ]; then
     IMPORTANT "CC        = $CC\n"
