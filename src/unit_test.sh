@@ -66,8 +66,8 @@ for opt do
 	esac
 done
 
-ECHO=`whereis -b echo | awk '{print $2}'`
-PRINTF=`whereis -b printf | awk '{print $2}'`
+ECHO=`which echo`
+PRINTF=`which printf`
 
 CHECK_INCLUDES=`$ECHO "$INCLUDES" | grep -- '-DUNIT_TEST'`
 if [ -z "$CHECK_INCLUDES" ]; then
@@ -79,7 +79,7 @@ if [ -z "$CHECK_INCLUDES" ]; then
 fi
 
 
-PKGCONFIG=`whereis -b pkg-config | awk '{print $2}'`
+PKGCONFIG=`which pkg-config`
 if [ -z "$PKGCONFIG" ]; then
 	$PRINTF "\x1b\x5b1;31m** ERROR: Command pkg-config is not found!\x1b\x5b0m\n"
 	exit 1

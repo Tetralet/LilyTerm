@@ -20,7 +20,7 @@
 include ../.default
 -include ../.config
 
-PKGCONFIG := $(shell whereis -b pkg-config | awk '{print $$2}')
+PKGCONFIG := $(shell which pkg-config)
 
 VTE ?= ""
 

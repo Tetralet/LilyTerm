@@ -4,7 +4,7 @@ include ../.default
 PO_LIST ?= $(LANG_LIST:=.po)
 MO_LIST ?= $(LANG_LIST:=.mo)
 
-XGETTEXT := $(shell whereis -b xgettext | awk '{print $$2}')
+XGETTEXT := $(shell which xgettext)
 ifneq ($(XGETTEXT), )
 
 XGETTEXT_PARAMETER = -k_
@@ -31,7 +31,7 @@ endif
 
 endif
 
-MSGCMP := $(shell whereis -b msgcmp | awk '{print $$2}')
+MSGCMP := $(shell which msgcmp)
 ifneq ($(MSGCMP), )
 
 SUPPORT_USE_UNTRANSLATED = $(shell $(MSGCMP) --help | grep -q -- '--use-untranslated' && echo Y)
@@ -41,7 +41,7 @@ endif
 
 endif
 
-MSGMERGE := $(shell whereis -b msgmerge | awk '{print $$2}')
+MSGMERGE := $(shell which msgmerge)
 ifneq ($(MSGMERGE), )
 
 SUPPORT_PREVIOUS = $(shell $(MSGMERGE) --help | grep -q -- '--previous' && echo Y)
@@ -51,8 +51,8 @@ endif
 
 endif
 
-MSGFMT := $(shell whereis -b msgfmt | awk '{print $$2}')
-TOUCH := $(shell whereis -b touch | awk '{print $$2}')
+MSGFMT := $(shell which msgfmt)
+TOUCH := $(shell which touch)
 
 .PHONY: all
 all: $(MO_LIST)
