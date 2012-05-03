@@ -387,6 +387,7 @@ void init_window_parameters(struct Window *win_data)
 	// win_data->menuitem_hide_tabs_bar;
 	// win_data->menuitem_hide_scroll_bar;
 	win_data->show_copy_paste_menu = TRUE;
+	win_data->embedded_copy_paste_menu = TRUE;
 	// win_data->menuitem_copy;
 	// win_data->menuitem_paste;
 	// win_data->menuitem_clipboard;
@@ -1373,6 +1374,12 @@ void get_user_settings(struct Window *win_data, const gchar *encoding)
 						    "main",
 						    "show_copy_paste_menu",
 						    win_data->show_copy_paste_menu);
+
+			win_data->embedded_copy_paste_menu =
+				check_boolean_value(keyfile,
+						    "main",
+						    "embedded_copy_paste_menu",
+						    win_data->embedded_copy_paste_menu);
 
 			win_data->audible_bell = check_boolean_value(keyfile,
 								     "main",
@@ -2372,6 +2379,9 @@ GString *save_user_settings(GtkWidget *widget, struct Window *win_data)
 	g_string_append_printf(contents,"# Shows copy/paste menu on right click menu.\n"
 					"show_copy_paste_menu = %d\n\n",
 					win_data->show_copy_paste_menu);
+	g_string_append_printf(contents,"# Embed the copy/paste menu to the main menu.\n"
+					"embedded_copy_paste_menu = %d\n\n",
+					win_data->embedded_copy_paste_menu);
 	g_string_append_printf(contents,"# Sets whether or not the terminal will beep\n"
 					"# when the child outputs the \"bl\" sequence.\n"
 					"audible_bell = %d\n\n", win_data->audible_bell);

@@ -733,6 +733,7 @@ struct Window
 	GtkWidget *menuitem_hide_scroll_bar;
 
 	gboolean show_copy_paste_menu;
+	gboolean embedded_copy_paste_menu;
 	GtkWidget *menuitem_copy;
 	GtkWidget *menuitem_paste;
 	GtkWidget *menuitem_clipboard;

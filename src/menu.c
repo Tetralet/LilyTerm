@@ -215,7 +215,11 @@ gboolean create_menu(struct Window *win_data)
 
 	if (win_data->show_copy_paste_menu)
 	{
-		GtkWidget *clip_sub_menu = create_sub_item (win_data->menu, _("Clipboard"), GTK_STOCK_EDIT);
+		GtkWidget *clip_sub_menu = NULL;
+		if (win_data->embedded_copy_paste_menu)
+			clip_sub_menu = win_data->menu;
+		else
+			clip_sub_menu = create_sub_item (win_data->menu, _("Clipboard"), GTK_STOCK_EDIT);
 
 		if (win_data->enable_hyperlink)
 			// copy_url
@@ -227,16 +231,16 @@ gboolean create_menu(struct Window *win_data)
 		win_data->menuitem_copy = create_menu_item (IMAGE_MENU_ITEM, clip_sub_menu, _("Copy"), NULL, GTK_STOCK_COPY,
 							    (GSourceFunc)copy_clipboard, win_data);
 
-		win_data->menuitem_clipboard = create_menu_item (IMAGE_MENU_ITEM, clip_sub_menu,
-							     _("View clipboard"), NULL, GTK_STOCK_FILE,
-							     (GSourceFunc)view_clipboard, win_data);
-
 		// paste
 		win_data->menuitem_paste = create_menu_item (IMAGE_MENU_ITEM, clip_sub_menu, _("Paste"), NULL, GTK_STOCK_PASTE,
 							     (GSourceFunc)paste_clipboard, win_data);
 
 		// ----------------------------------------
 		add_separator_menu (clip_sub_menu);
+
+		win_data->menuitem_clipboard = create_menu_item (IMAGE_MENU_ITEM, clip_sub_menu,
+							         _("View clipboard"), NULL, GTK_STOCK_FILE,
+							         (GSourceFunc)view_clipboard, win_data);
 
 		win_data->menuitem_primary = create_menu_item (IMAGE_MENU_ITEM, clip_sub_menu,
 							       _("View primary clipboard"), NULL, GTK_STOCK_FILE,

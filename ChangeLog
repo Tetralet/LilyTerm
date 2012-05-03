@@ -1,4 +1,10 @@
 2012-04-04 Lu, Chao-Ming (Tetralet) <tetralet@gmail.com>
+  New Feature:
+	* Added a new option "embedded_copy_paste_menu" to embed the copy/paste
+	  menu to the main right click menu.
+	  VERY THANKS to Slavko for this great idea.
+
+2012-04-04 Lu, Chao-Ming (Tetralet) <tetralet@gmail.com>
   Trying to migrate to GTK3+ but failed. Still having big trouble in handling geometry.
 
   New Feature:

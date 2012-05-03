@@ -2518,6 +2518,7 @@ void dump_data (struct Window *win_data, struct Page *page_data)
 	g_debug("- win_data->menuitem_hide_tabs_bar = %p", win_data->menuitem_hide_tabs_bar);
 	g_debug("- win_data->menuitem_hide_scroll_bar = %p", win_data->menuitem_hide_scroll_bar);
 	g_debug("- win_data->show_copy_paste_menu = %d", win_data->show_copy_paste_menu);
+	g_debug("- win_data->embedded_copy_paste_menu = %d", win_data->embedded_copy_paste_menu);
 	g_debug("- win_data->menuitem_copy = %p", win_data->menuitem_copy);
 	g_debug("- win_data->menuitem_paste = %p", win_data->menuitem_paste);
 	g_debug("- win_data->menuitem_clipboard = %p", win_data->menuitem_clipboard);
