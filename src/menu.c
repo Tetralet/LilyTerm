@@ -672,19 +672,13 @@ void set_urgent_bell(GtkWidget *menuitem_urgent_bell, struct Window *win_data)
 #endif
 	// win_data->urgent_bell = GTK_CHECK_MENU_ITEM(menuitem_urgent_bell)->active;
 	if (menuitem_urgent_bell)
+	{
 		win_data->urgent_bell = gtk_check_menu_item_get_active (GTK_CHECK_MENU_ITEM(menuitem_urgent_bell));
 
-	// Don't do urgent bell if settings is not changed,
-	// Or win_data->urgent_bell = true but the windows is on focus. It will done in window_lost_focus().
-	extern gboolean menu_activated;
-	extern gint dialog_activated;
-	// g_debug("win_data->urgent_bell = %d, win_data->urgent_bell_status = %d, "
-	//	"win_data->lost_focus = %d, menu_activated = %d, dialog_activated = %d",
-	//	win_data->urgent_bell, win_data->urgent_bell_status, win_data->lost_focus, menu_activated, dialog_activated);
-	if ((win_data->urgent_bell_status == win_data->urgent_bell) ||
-	    (win_data->urgent_bell && ((win_data->lost_focus == FALSE) ||
-	    			       menu_activated || dialog_activated)))
-		return;
+		// Don't do urgent bell if settings is not changed,
+		if (win_data->urgent_bell_status == win_data->urgent_bell)
+			return;
+	}
 
 	gint i;
 	struct Page *page_data = NULL;
@@ -708,8 +702,12 @@ void set_vte_urgent_bell(struct Window *win_data, struct Page *page_data)
 #ifdef DEFENSIVE
 	if ((win_data==NULL) || (page_data==NULL)) return;
 #endif
-
-	if (win_data->urgent_bell)
+	extern gboolean menu_activated;
+	extern gint dialog_activated;
+	// g_debug("win_data->urgent_bell = %d, win_data->lost_focus = %d, menu_activated = %d, dialog_activated = %d",
+	//	win_data->urgent_bell, win_data->lost_focus, menu_activated, dialog_activated);
+	
+	if (win_data->urgent_bell && win_data->lost_focus && (menu_activated == FALSE) && (dialog_activated == FALSE))
 	{
 		// g_debug("set_vte_urgent_bell: get page_data->urgent_bell_handler_id = %ld", page_data->urgent_bell_handler_id);
 		if (page_data->urgent_bell_handler_id==0)
