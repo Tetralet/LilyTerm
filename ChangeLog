@@ -6,6 +6,9 @@
   FIX:
 	* Urgent bell should be disabled if the window is getting focus.
 	  VERY THANKS to daspostloch for reporting this bug.
+	* Respect the PATH environment, or the -e option won't work if the command
+	  is not in /usr/bin.
+	  VERY THANKS to Douglas McFadzean for reporting this bug.
 
 2012-04-04 Lu, Chao-Ming (Tetralet) <tetralet@gmail.com>
   Trying to migrate to GTK3+ but failed. Still having big trouble in handling geometry.

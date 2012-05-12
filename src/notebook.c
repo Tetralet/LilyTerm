@@ -244,7 +244,19 @@ struct Page *add_page(struct Window *win_data,
 	extern char **environ;
 	gchar **old_environ = environ;
 	extern gchar **empty_environ;
+
+	gchar *PATH = NULL;
+	if (win_data->command)
+	{
+		environ = new_environs;
+		PATH = (char*)g_getenv("PATH");
+		// g_debug("add_page(): get PATH = %s", PATH);
+	}
+
+	// FIXME: Why clear the environ here?
 	environ = empty_environ;
+	if (win_data->command) setenv("PATH", PATH, TRUE);
+
 	gboolean argv_need_be_free = FALSE;
 	gchar **argv = get_argv(win_data, &argv_need_be_free);
 	gchar **final_argv = argv;
@@ -327,12 +339,12 @@ struct Page *add_page(struct Window *win_data,
 		g_free(final_argv_str);
 	}
 
-	// g_debug("add_page(): new_environs = %p", new_environs);
-	// print_array("add_page(): new_environs", new_environs);
-	// g_debug("page_data->pwd = %s", page_data->pwd);
-	// print_array("add_page(): final_argv", final_argv);
-	// g_debug("win_data->login_shell = %d", win_data->login_shell);
-	// g_debug("spawn_flags = %d", spawn_flags);
+	// g_debug("vte_terminal_fork_command_full(): pty_flags = %d", VTE_PTY_DEFAULT);
+	// g_debug("vte_terminal_fork_command_full(): working_directory = %s", page_data->pwd);
+	// print_array("vte_terminal_fork_command_full(): real_arg", final_argv);
+	// print_array("vte_terminal_fork_command_full(): envv", new_environs);
+	// g_debug("vte_terminal_fork_command_full(): win_data->login_shell = %d", win_data->login_shell);
+	// g_debug("vte_terminal_fork_command_full(): spawn_flags = %d", spawn_flags);
 
 	fork_stats = vte_terminal_fork_command_full (VTE_TERMINAL(page_data->vte),
 						     VTE_PTY_DEFAULT,
