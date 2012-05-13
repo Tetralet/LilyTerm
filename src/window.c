@@ -46,7 +46,7 @@ GtkNotebook *new_window(int argc,
 			char *argv[],
 			gchar *shell,
 			gchar *environment,
-			gchar *local_list,
+			gchar *locale_list,
 			gchar *PWD,
 			gchar *HOME,
 			gchar *VTE_CJK_WIDTH_STR,
@@ -130,7 +130,7 @@ GtkNotebook *new_window(int argc,
 		win_data->wmclass_class[0] += ('A' - 'a');
 	gtk_window_set_wmclass(GTK_WINDOW(win_data->window), win_data->wmclass_name, win_data->wmclass_class);
 
-	win_data->runtime_locale_list = g_strdup(local_list);
+	win_data->runtime_locale_list = g_strdup(locale_list);
 	win_data->runtime_encoding = g_strdup(encoding);
 	win_data->runtime_LC_MESSAGES = g_strdup(lc_messages);
 	// g_debug("win_data->runtime_encoding = %s", win_data->runtime_encoding);
@@ -175,6 +175,7 @@ GtkNotebook *new_window(int argc,
 					active_win_data->command = win_data->command;
 					active_win_data->argv = win_data->argv;
 					active_win_data->argc = win_data->argc;
+					active_win_data->hold = win_data->hold;
 
 					gchar *FINAL_encoding = encoding;
 					if ( (! encoding_overwrite_profile) &&
@@ -816,6 +817,11 @@ gboolean window_option(struct Window *win_data, gchar *encoding, int argc, char 
 		else if ((!strcmp(argv[i], "-l")) || (!strcmp(argv[i], "-ls")) || (!strcmp(argv[i], "--login")))
 		{
 			win_data->login_shell = 1;
+		}
+		else if ((!strcmp(argv[i], "-H")) || (!strcmp(argv[i], "--hold")))
+		{
+			g_debug("Set win_data->hold to TRUE!!");
+			win_data->hold = TRUE;
 		}
 		else if ((!strcmp(argv[i], "-e")) || (!strcmp(argv[i], "-x")) || (!strcmp(argv[i], "--execute")))
 		{
@@ -2146,7 +2152,7 @@ GtkNotebook *create_window (GtkNotebook *notebook, GtkWidget *page, gint x, gint
 	//			  char *argv[],
 	//			  gchar *shell,
 	//			  gchar *environment,
-	//			  gchar *local_list,
+	//			  gchar *locale_list,
 	//			  gchar *PWD,
 	//			  gchar *HOME,
 	//			  gchar *VTE_CJK_WIDTH_STR,
@@ -2419,6 +2425,7 @@ void dump_data (struct Window *win_data, struct Page *page_data)
 	g_debug("- win_data->argc = %d", win_data->argc);
 	print_array("win_data->argv", win_data->argv);
 	g_debug("- win_data->command = %s", win_data->command);
+	g_debug("- win_data->hold = %d", win_data->hold);
 	g_debug("- win_data->init_tab_number = %d", win_data->init_tab_number);
 	g_debug("- win_data->login_shell = %d", win_data->login_shell);
 	g_debug("- win_data->init_dir = %s", win_data->init_dir);
@@ -2842,6 +2849,7 @@ void win_data_dup(struct Window *win_data_orig, struct Window *win_data)
 	// win_data->argc;
 	// win_data->argv;
 	// win_data->command;
+	// win_data->hold = FALSE;
 	win_data->init_tab_number = 1;
 	// win_data->login_shell;
 	win_data->subitem_new_window_from_list = NULL;

@@ -458,7 +458,8 @@ struct Page *add_page(struct Window *win_data,
 	gtk_widget_set_no_show_all(page_data->scroll_bar, TRUE);
 
 	// the close page event
-	g_signal_connect(G_OBJECT(page_data->vte), "child_exited", G_CALLBACK(close_page), 0);
+	if (! (win_data->hold && win_data->command))
+		g_signal_connect(G_OBJECT(page_data->vte), "child_exited", G_CALLBACK(close_page), 0);
 
 	// when get focus, update `current_vte', hints, and window title
 	g_signal_connect(G_OBJECT(page_data->vte), "grab-focus", G_CALLBACK(vte_grab_focus), NULL);
@@ -718,6 +719,7 @@ void clear_arg(struct Window *win_data)
 	// print_array("clear_arg(): win_data->argv", win_data->argv);
 
 	win_data->command = NULL;
+	win_data->hold = FALSE;
 	win_data->argc = 0;
 	win_data->argv = NULL;
 }
@@ -1608,7 +1610,7 @@ gboolean open_url_with_external_command (gchar *url, gint tag, struct Window *wi
 			//			char *argv[],
 			//			gchar *shell,
 			//			gchar *environment,
-			//			gchar *local_list,
+			//			gchar *locale_list,
 			//			gchar *PWD,
 			//			gchar *HOME,
 			//			gchar *VTE_CJK_WIDTH_STR,

@@ -182,7 +182,7 @@ int main( int   argc,
 	// g_debug("Got environ_str (in main.c) = %s", environ_str);
 	selection_clipboard = gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
 	selection_primary = gtk_clipboard_get(GDK_SELECTION_PRIMARY);
-	system_locale_list = get_local_list();
+	system_locale_list = get_locale_list();
 	// g_debug("Got system_locale_list = %s", system_locale_list);
 	init_LC_CTYPE = g_strdup(get_default_LC_DATA(LC_CTYPE));
 	// g_debug("Got init_LC_CTYPE = %s", init_LC_CTYPE);
@@ -205,7 +205,7 @@ int main( int   argc,
 	//			char *argv[],
 	//			gchar *shell,
 	//			gchar *environment,
-	//			gchar *local_list,
+	//			gchar *locale_list,
 	//			gchar *PWD,
 	//			gchar *HOME,
 	//			gchar *VTE_CJK_WIDTH_STR,
@@ -398,7 +398,7 @@ gboolean send_socket( int   argc,
 	gsize len;
 	extern gchar **environ;
 
-	gchar *local_list = get_local_list();
+	gchar *locale_list = get_locale_list();
 
 	const gchar *VTE_CJK_WIDTH_STR = g_getenv("VTE_CJK_WIDTH");
 	// VTE_CJK_WIDTH can't = NULL
@@ -430,7 +430,7 @@ gboolean send_socket( int   argc,
 	// g_debug("argv_str = %s", argv_str);
 
 	// g_debug("SEND DATA: SOCKET_DATA_VERSION = %s", SOCKET_DATA_VERSION);
-	// g_debug("SEND DATA: local_list = %s", local_list);
+	// g_debug("SEND DATA: locale_list = %s", locale_list);
 	// g_debug("SEND DATA: encoding = %s", encoding);
 	// g_debug("SEND DATA: PWD = %s", PWD);
 	// g_debug("SEND DATA: VTE_CJK_WIDTH_STR = %s", VTE_CJK_WIDTH_STR);
@@ -444,7 +444,7 @@ gboolean send_socket( int   argc,
 	gchar *arg_str = g_strdup_printf("%s\x10%s\x10%s\x10%s\x10%s\x10%s\x10%s\x10%s\x10%s\x10%s\x10%s\x10%s\x10",
 			 		 SOCKET_DATA_VERSION,
 					 shell,
-					 local_list,
+					 locale_list,
 					 encoding,
 					 lc_messages,
 					 pwd,
@@ -455,7 +455,7 @@ gboolean send_socket( int   argc,
 					 environ_str,
 					 argv_str);
 	// g_debug("arg_str = %s", arg_str);
-	g_free(local_list);
+	g_free(locale_list);
 	g_free(encoding);
 	g_free(lc_messages);
 	g_free(environ_str);
@@ -632,7 +632,7 @@ gboolean read_socket(GIOChannel *channel, GIOCondition condition, gpointer user_
 			// print_array("\targv", argv);
 			// g_debug("\tSHELL = %s", datas[1]);
 			// g_debug("\tenvironments = %s", datas[10]);
-			// g_debug("\tlocal_list = %s", datas[2]);
+			// g_debug("\tlocale_list = %s", datas[2]);
 			// g_debug("\tPWD = %s", datas[5]);
 			// g_debug("\tHOME = %s", datas[6]);
 			// g_debug("\tVTE_CJK_WIDTH_STR = %s", datas[7]);
@@ -645,7 +645,7 @@ gboolean read_socket(GIOChannel *channel, GIOCondition condition, gpointer user_
 			//			char *argv[],
 			//			gchar *shell,					// 1
 			//			gchar *environment,				// 10
-			//			gchar *local_list,				// 2
+			//			gchar *locale_list,				// 2
 			//			gchar *PWD,					// 5
 			//			gchar *HOME,					// 6
 			//			gchar *VTE_CJK_WIDTH_STR,			// 7
@@ -861,10 +861,10 @@ void quit_gtk()
 	if (gtk_main_level()) gtk_main_quit();
 }
 
-gchar *get_local_list()
+gchar *get_locale_list()
 {
 #ifdef DETAIL
-	g_debug("! Launch get_local_list()!");
+	g_debug("! Launch get_locale_list()!");
 #endif
 #ifdef OUT_OF_MEMORY
 #  undef g_getenv

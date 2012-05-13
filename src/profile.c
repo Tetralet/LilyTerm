@@ -314,6 +314,7 @@ void init_window_parameters(struct Window *win_data)
 	// win_data->argc;
 	// win_data->argv;
 	// win_data->command;
+	// win_data->hold;
 	// win_data->init_tab_number;
 	// win_data->init_dir;
 	// win_data->login_shell;

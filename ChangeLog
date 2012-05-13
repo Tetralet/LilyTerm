@@ -1,8 +1,12 @@
-2012-04-04 Lu, Chao-Ming (Tetralet) <tetralet@gmail.com>
+2012-05-13 Lu, Chao-Ming (Tetralet) <tetralet@gmail.com>
   New Feature:
 	* Added a new option "embedded_copy_paste_menu" to embed the copy/paste
 	  menu to the main right click menu.
 	  VERY THANKS to Slavko for this great idea.
+	* Added a new command line option [-H/--hold], may hold the terminal window
+	  open when the command following -e/-x terminated.
+	  VERY THANKS to Douglas McFadzean for this great idea.
+
   FIX:
 	* Urgent bell should be disabled if the window is getting focus.
 	  VERY THANKS to daspostloch for reporting this bug.

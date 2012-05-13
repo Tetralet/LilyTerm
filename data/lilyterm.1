@@ -8,7 +8,7 @@ LilyTerm \- A light and eazy-to-use terminal emulator for X.
 .ad l
 .SH SYNOPSIS
 .HP 9
-\fBlilyterm\fR [\fB-?\fR | \fB-h\fR | \fB--help\fR] [\fB-v\fR | \fB--version\fR] [\fB-d\fR \fIDIRECTORY\fR | \fB--directory\fR \fIDIRECTORY\fR] [\fB-g\fR \fIGEOMETRY\fR | \fB--geometry\fR \fIGEOMETRY\fR] [\fB-l\fR | \fB-ls\fR | \fB--login\fR] [\fB-p\fR | \fB--profile\fR] [\fB-s\fR | \fB--separate\fR] [\fB-T\fR \fITITLE\fR | \fB--title\fR \fITITLE\fR] [\fB-t\fR \fINUMBER\fR | \fB--tab\fR \fINUMBER\fR] [\fB-u\fR \fIPROFILE\fR | \fB--user_profile\fR \fIPROFILE\fR] [\fB-e\fR \fICOMMAND\fR | \fB-x\fR \fICOMMAND\fR | \fB--execute\fR \fICOMMAND\fR]
+\fBlilyterm\fR [\fB-?\fR | \fB-h\fR | \fB--help\fR] [\fB-v\fR | \fB--version\fR] [\fB-d\fR \fIDIRECTORY\fR | \fB--directory\fR \fIDIRECTORY\fR] [\fB-g\fR \fIGEOMETRY\fR | \fB--geometry\fR \fIGEOMETRY\fR] [\fB-l\fR | \fB-ls\fR | \fB--login\fR] [\fB-H\fR | \fB--hold\fR] [\fB-p\fR | \fB--profile\fR] [\fB-s\fR | \fB--separate\fR] [\fB-T\fR \fITITLE\fR | \fB--title\fR \fITITLE\fR] [\fB-t\fR \fINUMBER\fR | \fB--tab\fR \fINUMBER\fR] [\fB-u\fR \fIPROFILE\fR | \fB--user_profile\fR \fIPROFILE\fR] [\fB-e\fR \fICOMMAND\fR | \fB-x\fR \fICOMMAND\fR | \fB--execute\fR \fICOMMAND\fR]
 .SH DESCRIPTION
 LilyTerm is a terminal emulator for the X Window System, based on the \fBlibvte\fR library, and aims to be fast and lightweight.
 .SH OPTIONS
@@ -38,6 +38,11 @@ A reasonable example value is "80x24+0+0", witch means "width x height {+-} xoff
 \fB-l\fR | \fB-ls\fR | \fB--login\fR
 .RS 4
 Make the shell invoked as a login shell.
+.RE
+.PP
+\fB-H\fR | \fB--hold\fR
+.RS 4
+Hold the terminal window open when the command following -e/-x terminated.
 .RE
 .PP
 \fB-p\fR | \fB--profile\fR

@@ -82,7 +82,7 @@
 //	define get_help_message(x) NULL
 //	define get_help_message_key_binding(x) NULL
 //	define get_help_message_usage(x,y) NULL
-//	define get_local_list(x) NULL
+//	define get_locale_list(x) NULL
 //	define get_proc_data(x,y,z) NULL
 //	define get_profile(x) NULL
 //	define get_resize_font(x,y) NULL
@@ -569,6 +569,7 @@ struct Window
 	// Will set to NULL after used.
 	// * Do NOT free it *
 	gchar *command;
+	gboolean hold;
 	// For -t option
 	gint init_tab_number;
 	// For -d option
