@@ -135,8 +135,9 @@ gchar *get_help_message_usage(gchar *profile, gboolean convert_to_html)
 #endif
 	GString *help_message = g_string_new(NULL);
 
-	g_string_append_printf(help_message,
-					_("%s is a libvte based X Terminal Emulator.\n\n"), PACKAGE);
+	// TRANSLATE NOTE: Please be care of the length of the following usage translation,
+	// TRANSLATE NOTE: It should be shorter than 80 columns.
+	g_string_append_printf(help_message, _("%s is a libvte based X Terminal Emulator.\n\n"), PACKAGE);
 	g_string_append(help_message,  _("Use -e/-x/--execute {Command} to run a command. (Must be the final option).\n"));
 	g_string_append(help_message,  _("Use -T/--title {title} to specify the window title.\n"));
 	g_string_append(help_message,  _("Use -t/--tab {number} to open multi tabs when starting up.\n"));

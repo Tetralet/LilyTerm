@@ -865,6 +865,7 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 				   "Mario Blättermann: German translation.\n"
 				   "Niels Martignène: Franch translation.\n"
 				   "P.L. Francisco: Spanish translation.\n"
+				   "Rafael Ferreira: Portuguese translation.\n"
 				   "Samed Beyribey: Turkish translation.\n"
 				   "Slavko: Slovak translation.\n"
 				   "Vladimir Smolyar: Russian and Ukrainian translations.";
