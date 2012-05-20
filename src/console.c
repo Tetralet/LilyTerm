@@ -137,14 +137,13 @@ gchar *get_help_message_usage(gchar *profile, gboolean convert_to_html)
 
 	g_string_append_printf(help_message,
 					_("%s is a libvte based X Terminal Emulator.\n\n"), PACKAGE);
-	g_string_append(help_message,  _("Use -e/-x/--execute {Command} to run a command when starting up."
-					  " (Must be the final option).\n"));
+	g_string_append(help_message,  _("Use -e/-x/--execute {Command} to run a command. (Must be the final option).\n"));
 	g_string_append(help_message,  _("Use -T/--title {title} to specify the window title.\n"));
 	g_string_append(help_message,  _("Use -t/--tab {number} to open multi tabs when starting up.\n"));
 	g_string_append(help_message,  _("Use -d/--directory {directory} to specify the init directory when starting up.\n"));
-	g_string_append(help_message,  _("Use -g/--geometry {WIDTHxHEIGHT[+-]XOFFSET[+-]YOFFSET} to specify the geometry of window.\n"));
+	g_string_append(help_message,  _("Use -g/--geometry {WIDTHxHEIGHT[+-]XOFFSET[+-]YOFFSET} to specify the geometry.\n"));
 	g_string_append(help_message,  _("Use -l/-ls/--login to make the shell invoked as a login shell.\n"));
-	g_string_append(help_message,  _("Use -H/--hold to hold the terminal window open when the command following -e/-x terminated.\n"));
+	g_string_append(help_message,  _("Use -H/--hold to hold the terminal window open when -e/-x command terminated.\n"));
 //	g_string_append(help_message,  _("\t\t\tThis option will be ignored when using with -e/-x/--execute option.\n"));
 	g_string_append(help_message,  _("Use -s/--separate to run in separate process.\n"));
 	g_string_append(help_message,  _("Use -v/--version to show the version information.\n"));
@@ -220,7 +219,7 @@ gchar *get_help_message_key_binding(gboolean convert_to_html)
 	gchar *msg_head = _("Default key binding:");
 	// TRANSLATE NOTE: Please be care of the spacing when translating the following key binding description.
 	// TRANSLATE NOTE: Please check it in [Right Click Menu] -> [Usage] -> [Key binding] page after translating.
-	gchar *disable_key_binding = _("  * <Ctrl><`>           Disable/Enable hyperlinks, function keys and right click menu.");
+	gchar *disable_key_binding = _("  * <Ctrl><`>           Disable/Enable hyperlinks, function keys and menu.");
 	GString *message = g_string_new(NULL);
 	g_string_append(message, _("  * <Ctrl><T>           Add a New tab with current directory.\n"));
 	g_string_append(message, _("  * <Ctrl><PgUp/PgDn>   Switch to Prev/Next tab.\n"));
@@ -229,16 +228,17 @@ gchar *get_help_message_key_binding(gboolean convert_to_html)
 	g_string_append(message, _("  * <Ctrl><Up/Down>     Move current tab to First/Last.\n"));
 	g_string_append(message, _("  * <Ctrl><F1~F12>      Switch to 1st ~ 12th tab.\n"));
 	g_string_append(message, _("  * <Ctrl><+/-/Enter>   Increase/Decrease/Reset the font size of current tab.\n"));
-	g_string_append(message, _("  * <Shift><Left/Right> Emulate a mouse Scroll Up/Down event on Vte Terminal box.\n"));
-	g_string_append(message, _("  * <Shift><Up/Down>    Asks to Scroll Up/Down 1 line on Vte Terminal box.\n"));
-	g_string_append(message, _("  * <Shift><PgUp/PgDn>  Gtk+ default behavior, Scroll Up/Down on Vte Terminal box.\n"));
-	g_string_append(message, _("  * <Shift><Home/End>   Gtk+ default behavior, Scroll the Terminal box to Top/Bottom.\n"));
-	g_string_append(message, _("  * <Alt><F11/Enter>    Switch between fullwindow/unfullwindow and fullscreen/unfullscreen state.\n"));
-	g_string_append(message, _("  * <Ctrl><F>           Find text in the Vte Terminal box. Use <F3>/<Shift><F3> to find Next/Prev.\n"));
-	g_string_append(message, _("  * <Ctrl><O>           Select all the text in the Vte Terminal box.\n"));
-	g_string_append(message, _("  * <Ctrl><Del/Ins>     Copy the text to clipboard / Paste the text in clipboard.\n"));
-	g_string_append(message, _("  * <Shift><Del/Ins>    Copy the text to primary clipboard / Paste the text in primary clipboard.\n"));
-	g_string_append(message, _("                        (i.e. Emulate a middle button mouse click to copy/paste the text)\n"));
+	g_string_append(message, _("  * <Shift><Left/Right> Emulate a mouse Scroll Up/Down event on terminal.\n"));
+	g_string_append(message, _("  * <Shift><Up/Down>    Asks to Scroll Up/Down 1 line on terminal.\n"));
+	g_string_append(message, _("  * <Shift><PgUp/PgDn>  Gtk+ default behavior, Scroll Up/Down on terminal.\n"));
+	g_string_append(message, _("  * <Shift><Home/End>   Gtk+ default behavior, Scroll terminal to Top/Bottom.\n"));
+	g_string_append(message, _("  * <Alt><F11/Enter>    Switch between full/unfullwindow and full/unfullscreen.\n"));
+	g_string_append(message, _("  * <Ctrl><F>           Find text in the terminal.\n"
+				   "                        Use <F3>/<Shift><F3> to find Next/Prev.\n"));
+	g_string_append(message, _("  * <Ctrl><O>           Select all the text in the terminal.\n"));
+	g_string_append(message, _("  * <Ctrl><Del/Ins>     Copy/Paste the text in clipboard.\n"));
+	g_string_append(message, _("  * <Shift><Del/Ins>    Copy/Paste the text in primary clipboard.\n"));
+	g_string_append(message, _("                        (i.e. Emulate middle button mouse click to Copy/Paste)\n"));
 	g_string_append(message,"\n");
 	g_string_append(message, _("Some key bindings that disabled by default but maybe useful:\n"));
 	g_string_append(message, _("  * <Ctrl><Q>           Trying to close current tab.\n"));
