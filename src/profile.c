@@ -808,7 +808,7 @@ void init_key_bindings()
 	system_keys[KEY_SELECT_ALL].comment = "# Select all the text in the Vte Terminal box.";
 	system_keys[KEY_SELECT_ALL].translation = _("Select all the text in the Vte Terminal box.");
 	// copy the text to clipboard
-	system_keys[KEY_COPY_CLIPBOARD].topic = _("Copy to clipboard.");
+	system_keys[KEY_COPY_CLIPBOARD].topic = _("Copy to clipboard");
 	system_keys[KEY_COPY_CLIPBOARD].comment = "# Copy the text to clipboard.";
 	system_keys[KEY_COPY_CLIPBOARD].translation = _("Copy the text to clipboard.");
 	// paste the text in clipboard

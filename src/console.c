@@ -149,7 +149,7 @@ gchar *get_help_message_usage(gchar *profile, gboolean convert_to_html)
 //	g_string_append(help_message,  _("\t\t\tThis option will be ignored when using with -e/-x/--execute option.\n"));
 	g_string_append(help_message,  _("Use -s/--separate to run in separate process.\n"));
 	g_string_append(help_message,  _("Use -v/--version to show the version information.\n"));
-	g_string_append(help_message,  _("Use -p/--profile to got a profile sample.\n"));
+	g_string_append(help_message,  _("Use -p/--profile to get a profile sample.\n"));
 	g_string_append_printf(help_message,
 					_("Use -u/--user_profile {%s} to use a specified profile.\n\n"), SYS_PROFILE);
 	const char * const *system_dirs = g_get_system_config_dirs();
@@ -242,7 +242,7 @@ gchar *get_help_message_key_binding(gboolean convert_to_html)
 	g_string_append(message, _("  * <Shift><Left/Right> Emulate a mouse Scroll Up/Down event on Vte Terminal box.\n"));
 	g_string_append(message, _("  * <Shift><Up/Down>    Asks to Scroll Up/Down 1 line on Vte Terminal box.\n"));
 	g_string_append(message, _("  * <Shift><PgUp/PgDn>  Gtk+ default behavior, Scroll Up/Down on Vte Terminal box.\n"));
-	g_string_append(message, _("  * <Shift><Home/End>   Gtk+ default behavior, Scroll the Terminal box to to Top/Bottom.\n"));
+	g_string_append(message, _("  * <Shift><Home/End>   Gtk+ default behavior, Scroll the Terminal box to Top/Bottom.\n"));
 	g_string_append(message, _("  * <Alt><F11/Enter>    Switch between fullwindow/unfullwindow and fullscreen/unfullscreen state.\n"));
 	g_string_append(message, _("  * <Ctrl><F>           Find text in the Vte Terminal box. Use <F3>/<Shift><F3> to find Next/Prev.\n"));
 	g_string_append(message, _("  * <Ctrl><O>           Select all the text in the Vte Terminal box.\n"));
