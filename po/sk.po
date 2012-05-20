@@ -8,14 +8,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: lilyterm 0.9.9~rc9\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-04-23 00:25+0800\n"
+"POT-Creation-Date: 2012-04-18 21:32+0200\n"
 "PO-Revision-Date: 2012-04-03 21:06+0200\n"
 "Last-Translator: Slavko <linux@slavino.sk>\n"
 "Language-Team: slovenčina <debian-l10n-slovak@lists.debian.org>\n"
+"Language: sk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: sk\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 "X-POFile-SpellExtra: Vte Blog kill UTF-8 soketu pts libvte SIGKILL devpts\n"
 "X-POFile-SpellExtra: title version tj ls Emulovať exit Perlom Github\n"
@@ -216,7 +216,7 @@ msgid ""
 "  * <Ctrl><Del/Ins>     Copy the text to clipboard / Paste the text in "
 "clipboard.\n"
 msgstr ""
-"  * <Ctrl><Del/Ins>     Kopírovať text do schránky / Vložiť text zo "
+"  * <Ctrl><Del/Ins>      Kopírovať text do schránky / Vložiť text zo "
 "schránky.\n"
 
 #: console.c:249
@@ -268,7 +268,7 @@ msgstr ""
 
 #: console.c:263 menu.c:420
 msgid "Set key binding"
-msgstr "nastaviť kláv. skratky"
+msgstr "Nastaviť kláv. skratky"
 
 #: dialog.c:99 dialog.c:2784 menu.c:2586
 msgid "The following error occurred:"
@@ -395,10 +395,8 @@ msgid "Change the foreground color in terminal"
 msgstr "Zmeniť farbu písma v termináli"
 
 #: dialog.c:479
-#, fuzzy
-#| msgid "Change the background color in terminal"
 msgid "Change the cursor color in terminal"
-msgstr "Zmeniť farbu pozadia pozadia v termináli"
+msgstr "Zmeniť farbu kurzora v termináli"
 
 #: dialog.c:515 menu.c:116
 #, c-format
@@ -468,7 +466,7 @@ msgstr "Použitie"
 
 #: dialog.c:837
 msgid "Key binding"
-msgstr "Klávesová skratka"
+msgstr "Klávesové skratky"
 
 #. TRANSLATE NOTE: The following license declaration is just a notice, not full license text.
 #. TRANSLATE NOTE: The full GPLv3 license text is included in LilyTerm source code.
@@ -727,15 +725,7 @@ msgid "Disable all the function keys of [%s] group."
 msgstr "Vypnúť všetky funkčné klávesy skupiny [%s]."
 
 #: main.c:607
-#, fuzzy, c-format
-#| msgid ""
-#| "The data got from socket seems incorrect.\n"
-#| "\n"
-#| "\tRecieved socket version: %s\n"
-#| "\tExpected socket version: %s\n"
-#| "\n"
-#| "If you just updated %s recently,\n"
-#| "Please close all the windows of %s and try again."
+#, c-format
 msgid ""
 "The data got from socket seems incorrect.\n"
 "\n"
@@ -786,10 +776,8 @@ msgid "Change the foreground color"
 msgstr "Zmeniť farbu popredia"
 
 #: menu.c:94
-#, fuzzy
-#| msgid "Change the background color"
 msgid "Change the cursor color"
-msgstr "Zmeniť farbu pozadia"
+msgstr "Zmeniť farbu kurzora"
 
 #: menu.c:98
 msgid "Change the background color"
@@ -900,7 +888,7 @@ msgstr "Väzba mazania"
 
 #: menu.c:294
 msgid "Cursor Shape"
-msgstr ""
+msgstr "Tvar kurzora"
 
 #: menu.c:311
 msgid "Dim text when inactive"
@@ -992,10 +980,8 @@ msgid "Other settings..."
 msgstr "Ďalšie nastavenia..."
 
 #: menu.c:1743
-#, fuzzy
-#| msgid "Save settings as..."
 msgid "Save settings automatically"
-msgstr "Uložiť nastavenia ako..."
+msgstr "Uložiť nastavenia automaticky"
 
 #: menu.c:1748
 msgid "Save settings"
