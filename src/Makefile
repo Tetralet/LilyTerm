@@ -72,6 +72,7 @@ INCLUDES = -DBINARY=\"$(BINARY)\" \
 	   -DISSUES=\"$(ISSUES)\" \
 	   -DIRC=\"$(IRC)\" \
 	   -DYEAR=\"$(YEAR)\" \
+	   -DETCDIR=\"$(ETCDIR)\" \
 	   -DLOCALEDIR=\"$(LOCALEDIR)\" \
 	   -DICONDIR=\"$(ICONDIR)\"
 

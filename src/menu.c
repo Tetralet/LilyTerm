@@ -1362,7 +1362,6 @@ void select_font(GtkWidget *widget, struct Window *win_data)
 #  undef g_strdup_printf
 #  undef g_strsplit
 #  undef g_strsplit_set
-#  undef g_get_system_config_dirs
 #endif
 
 gboolean refresh_locale_and_encoding_list(struct Window *win_data)
@@ -1805,34 +1804,24 @@ gboolean create_profile_menu_list(GtkWidget *sub_menu, const gchar *stock_id, GS
 	g_free(menu_label);
 
 	// System Profile
-	const char * const *system_dirs = g_get_system_config_dirs();
-	if (system_dirs)
-	{
-		gpointer system_func_data;
-		if (func_data==GINT_TO_POINTER(NEW_WINDOW_FROM_PROFILE))
-			system_func_data = GINT_TO_POINTER(NEW_WINDOW_FROM_SYSTEM_PROFILE);
-		else
-			system_func_data = GINT_TO_POINTER(LOAD_FROM_SYSTEM_PROFILE);
+	gpointer system_func_data;
+	if (func_data==GINT_TO_POINTER(NEW_WINDOW_FROM_PROFILE))
+		system_func_data = GINT_TO_POINTER(NEW_WINDOW_FROM_SYSTEM_PROFILE);
+	else
+		system_func_data = GINT_TO_POINTER(LOAD_FROM_SYSTEM_PROFILE);
 
-		gint j;
-		for (j=0; system_dirs[j] != NULL; j++)
-		{
-			gchar *sys_profile = g_strdup_printf("%s/%s", system_dirs[j], SYS_PROFILE);
-			if (g_file_test(sys_profile, G_FILE_TEST_EXISTS))
-			{
-				// TRANSLATE NOTE: Please translate the "System default (PROFILE)" into "System default" (in your language).
-				// TRANSLATE NOTE: Some language will have trouble if here is "System default" only.
-				// TRANSLATE NOTE: Contrast it with "System default (SCHEME)" (See above).
-				if (compare_strings("System default (PROFILE)", _("System default (PROFILE)"), TRUE))
-					create_menu_item (IMAGE_MENU_ITEM, sub_menu, _("System default (PROFILE)"),
-							  sys_profile, stock_id, (GSourceFunc)func, system_func_data);
-				else
-					create_menu_item (IMAGE_MENU_ITEM, sub_menu, "System default",
-							  sys_profile, stock_id, (GSourceFunc)func, system_func_data);
-				create_separator = TRUE;
-			}
-			g_free(sys_profile);
-		}
+	if (g_file_test(SYS_PROFILE, G_FILE_TEST_EXISTS))
+	{
+		// TRANSLATE NOTE: Please translate the "System default (PROFILE)" into "System default" (in your language).
+		// TRANSLATE NOTE: Some language will have trouble if here is "System default" only.
+		// TRANSLATE NOTE: Contrast it with "System default (SCHEME)" (See above).
+		if (compare_strings("System default (PROFILE)", _("System default (PROFILE)"), TRUE))
+			create_menu_item (IMAGE_MENU_ITEM, sub_menu, _("System default (PROFILE)"),
+					  SYS_PROFILE, stock_id, (GSourceFunc)func, system_func_data);
+		else
+			create_menu_item (IMAGE_MENU_ITEM, sub_menu, "System default",
+					  SYS_PROFILE, stock_id, (GSourceFunc)func, system_func_data);
+		create_separator = TRUE;
 	}
 	if (create_separator) add_separator_menu(sub_menu);
 #ifdef DEFENSIVE
@@ -1873,7 +1862,6 @@ FINISH:
 	#define g_strdup_printf(...) NULL
 	#define g_strsplit fake_g_strsplit
 	#define g_strsplit_set(x,y,z) NULL
-	#define g_get_system_config_dirs() NULL
 #endif
 
 void apply_profile_from_file_dialog(GtkWidget *menu_item, Apply_Profile_Type type)

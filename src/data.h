@@ -28,7 +28,6 @@
 #ifdef OUT_OF_MEMORY
 // GString *g_string_append()
 // GString *g_string_prepend()
-	#define g_get_system_config_dirs() NULL
 // 	#define g_dir_read_name(x) NULL
 	#define g_get_tmp_dir() NULL
 // 	#define g_get_user_config_dir() NULL
@@ -101,7 +100,8 @@
 // for key value
 #include <gdk/gdkkeysyms.h>
 
-#define SYS_PROFILE BINARY ".conf"
+#define PROFILE BINARY ".conf"
+#define SYS_PROFILE ETCDIR "/" PROFILE
 #define USER_PROFILE "default.conf"
 #define SOCKET_DATA_VERSION PACKAGE "-0.9.9~rc6"
 #define PROFILE_FORMAT_VERSION "0.9.9"

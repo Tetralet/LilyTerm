@@ -1111,20 +1111,10 @@ gchar *get_user_profile_path(struct Window *win_data, int argc, char *argv[])
 	{
 		profile = load_profile_from_dir(profile_dir, USER_PROFILE);
 		if (profile==NULL)
-		{
-			const char * const *system_dirs = g_get_system_config_dirs();
-			if (system_dirs)
-			{
-				for (i=0; system_dirs[i] != NULL; i++)
-				{
-					profile = load_profile_from_dir(system_dirs[i], SYS_PROFILE);
-					if (profile) break;
-				}
-			}
-			//if (profile==NULL)
-			//	g_debug("Sorry, can not find any profile. use program defaults.");
-		}
+			profile = load_profile_from_dir(ETCDIR, PROFILE);
 	}
+	// if (profile==NULL)
+	//	g_message("Sorry, Can not find any profile. Using program defaults.");
 	return profile;
 }
 

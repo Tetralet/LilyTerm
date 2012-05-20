@@ -134,7 +134,6 @@ gchar *get_help_message_usage(gchar *profile, gboolean convert_to_html)
 		profile, convert_to_html);
 #endif
 	GString *help_message = g_string_new(NULL);
-	gint i;
 
 	g_string_append_printf(help_message,
 					_("%s is a libvte based X Terminal Emulator.\n\n"), PACKAGE);
@@ -151,14 +150,9 @@ gchar *get_help_message_usage(gchar *profile, gboolean convert_to_html)
 	g_string_append(help_message,  _("Use -v/--version to show the version information.\n"));
 	g_string_append(help_message,  _("Use -p/--profile to get a profile sample.\n"));
 	g_string_append_printf(help_message,
-					_("Use -u/--user_profile {%s} to use a specified profile.\n\n"), SYS_PROFILE);
-	const char * const *system_dirs = g_get_system_config_dirs();
-	if (system_dirs)
-	{
-		for (i=0; system_dirs[i] != NULL; i++)
-			g_string_append_printf(help_message,
-					_("The %s system configure file is: %s/%s\n"), PACKAGE, system_dirs[i], SYS_PROFILE);
-	}
+					_("Use -u/--user_profile {%s} to use a specified profile.\n\n"), PROFILE);
+	g_string_append_printf(help_message,
+					_("The %s system configure file is: %s\n"), PACKAGE, SYS_PROFILE);
 
 	gchar *current_profile = NULL;
 	// g_debug("get_help_message_usage(): profile = %s", profile);
@@ -192,11 +186,7 @@ gchar *get_help_message_usage(gchar *profile, gboolean convert_to_html)
 			current_profile = new_current_profile;
 		}
 
-		gchar *profile_message;
-		if (system_dirs)
-			profile_message = g_strdup_printf(_("And your %s profile is: "), PACKAGE);
-		else
-			profile_message = g_strdup_printf(_("Your %s profile is: "), PACKAGE);
+		gchar *profile_message = g_strdup_printf(_("And your %s profile is: "), PACKAGE);
 #ifdef DEFENSIVE
 		if (profile_message)
 #endif
