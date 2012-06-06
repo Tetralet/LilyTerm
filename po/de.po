@@ -5,10 +5,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 0.9.9~final5\n"
+"Project-Id-Version: 0.9.9.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-05-20 23:40+0800\n"
-"PO-Revision-Date: 2012-04-11 19:31+0100\n"
+"PO-Revision-Date: 2012-05-24 20:50+0100\n"
 "Last-Translator: Mario Blättermann <mario.blaettermann@gmail.com>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -41,10 +41,6 @@ msgstr ""
 "\n"
 
 #: console.c:141
-#, fuzzy
-#| msgid ""
-#| "Use -e/-x/--execute {Command} to run a command when starting up. (Must be "
-#| "the final option).\n"
 msgid ""
 "Use -e/-x/--execute {Command} to run a command. (Must be the final option).\n"
 msgstr ""
@@ -70,10 +66,6 @@ msgstr ""
 "festzulegen.\n"
 
 #: console.c:145
-#, fuzzy
-#| msgid ""
-#| "Use -g/--geometry {WIDTHxHEIGHT[+-]XOFFSET[+-]YOFFSET} to specify the "
-#| "geometry of window.\n"
 msgid ""
 "Use -g/--geometry {WIDTHxHEIGHT[+-]XOFFSET[+-]YOFFSET} to specify the "
 "geometry.\n"
@@ -91,6 +83,8 @@ msgid ""
 "Use -H/--hold to hold the terminal window open when -e/-x command "
 "terminated.\n"
 msgstr ""
+"Verwenden Sie -H/--hold, um das Terminalfenster offen zu halten, wenn -e/-x "
+"Befehl beendet ist.\n"
 
 #: console.c:149
 msgid "Use -s/--separate to run in separate process.\n"
@@ -102,8 +96,6 @@ msgid "Use -v/--version to show the version information.\n"
 msgstr "Verwenden Sie -v/--version, um die Versionsinformationen anzuzeigen.\n"
 
 #: console.c:151
-#, fuzzy
-#| msgid "Use -p/--profile to got a profile sample.\n"
 msgid "Use -p/--profile to get a profile sample.\n"
 msgstr "Verwenden Sie -p/--profile für eine Beispielkonfiguration.\n"
 
@@ -113,15 +105,13 @@ msgid ""
 "Use -u/--user_profile {%s} to use a specified profile.\n"
 "\n"
 msgstr ""
-"Verwenden Sie -u/--user_profile {%s}, um ein bestimmtes Profil zu "
-"verwenden.\n"
+"Verwenden Sie -u/--user_profile {%s}, um ein bestimmtes Profil zu verwenden.\n"
 "\n"
 
 #: console.c:155
-#, fuzzy, c-format
-#| msgid "The %s system configure file is: %s/%s\n"
+#, c-format
 msgid "The %s system configure file is: %s\n"
-msgstr "Die systemweite Konfiguration von %s: %s/%s\n"
+msgstr "Die systemweite Konfiguration von %s: %s\n"
 
 #: console.c:189
 #, c-format
@@ -135,15 +125,10 @@ msgstr "Standard-Tastenkürzel:"
 #. TRANSLATE NOTE: Please be care of the spacing when translating the following key binding description.
 #. TRANSLATE NOTE: Please check it in [Right Click Menu] -> [Usage] -> [Key binding] page after translating.
 #: console.c:223
-#, fuzzy
-#| msgid ""
-#| "  * <Ctrl><`>           Disable/Enable hyperlinks, function keys and "
-#| "right click menu."
 msgid ""
 "  * <Ctrl><`>           Disable/Enable hyperlinks, function keys and menu."
 msgstr ""
-"  * <Strg><`>                        Deaktivieren/Aktivieren der "
-"Hyperlinks,\n"
+"  * <Strg><`>                        Deaktivieren/Aktivieren der Hyperlinks,\n"
 "                                     Funktionstasten und des Rechtsklickmenüs"
 
 #: console.c:225
@@ -155,8 +140,7 @@ msgstr ""
 #: console.c:226
 msgid "  * <Ctrl><PgUp/PgDn>   Switch to Prev/Next tab.\n"
 msgstr ""
-"  * <Strg><Bild auf/Bild ab>         Zum vorherigen/nächsten Reiter "
-"wechseln\n"
+"  * <Strg><Bild auf/Bild ab>         Zum vorherigen/nächsten Reiter wechseln\n"
 
 #: console.c:227
 msgid "  * <Ctrl><Home/End>    Switch to First/Last tab.\n"
@@ -189,10 +173,6 @@ msgstr ""
 "verkleinern/zurücksetzen\n"
 
 #: console.c:232
-#, fuzzy
-#| msgid ""
-#| "  * <Shift><Left/Right> Emulate a mouse Scroll Up/Down event on Vte "
-#| "Terminal box.\n"
 msgid ""
 "  * <Shift><Left/Right> Emulate a mouse Scroll Up/Down event on terminal.\n"
 msgstr ""
@@ -200,20 +180,12 @@ msgstr ""
 "im Vte-Terminal emulieren.\n"
 
 #: console.c:233
-#, fuzzy
-#| msgid ""
-#| "  * <Shift><Up/Down>    Asks to Scroll Up/Down 1 line on Vte Terminal "
-#| "box.\n"
 msgid "  * <Shift><Up/Down>    Asks to Scroll Up/Down 1 line on terminal.\n"
 msgstr ""
-"  * <Umschalt><Rauf/Runter>          Eine Zeile im Vte-Terminal nach oben/"
-"unten rollen\n"
+"  * <Umschalt><Rauf/Runter>          Eine Zeile im Terminal nach oben/unten "
+"rollen\n"
 
 #: console.c:234
-#, fuzzy
-#| msgid ""
-#| "  * <Shift><PgUp/PgDn>  Gtk+ default behavior, Scroll Up/Down on Vte "
-#| "Terminal box.\n"
 msgid ""
 "  * <Shift><PgUp/PgDn>  Gtk+ default behavior, Scroll Up/Down on terminal.\n"
 msgstr ""
@@ -221,10 +193,6 @@ msgstr ""
 "nach oben/unten rollen.\n"
 
 #: console.c:235
-#, fuzzy
-#| msgid ""
-#| "  * <Shift><Home/End>   Gtk+ default behavior, Scroll the Terminal box to "
-#| "to Top/Bottom.\n"
 msgid ""
 "  * <Shift><Home/End>   Gtk+ default behavior, Scroll terminal to Top/"
 "Bottom.\n"
@@ -233,10 +201,6 @@ msgstr ""
 "ganz nach oben/unten rollen.\n"
 
 #: console.c:236
-#, fuzzy
-#| msgid ""
-#| "  * <Alt><F11/Enter>    Switch between fullwindow/unfullwindow and "
-#| "fullscreen/unfullscreen state.\n"
 msgid ""
 "  * <Alt><F11/Enter>    Switch between full/unfullwindow and full/"
 "unfullscreen.\n"
@@ -247,57 +211,39 @@ msgstr ""
 "umschalten\n"
 
 #: console.c:237
-#, fuzzy
-#| msgid ""
-#| "  * <Ctrl><F>           Find text in the Vte Terminal box. Use <F3>/"
-#| "<Shift><F3> to find Next/Prev.\n"
 msgid ""
 "  * <Ctrl><F>           Find text in the terminal.\n"
 "                        Use <F3>/<Shift><F3> to find Next/Prev.\n"
 msgstr ""
-"  * <Strg><F>                        Text im Vte-Terminal suchen. Mit <F3>/"
-"<Umschalt><F3> nächsten/vorherigen suchen.\n"
+"  * <Strg><F>                        Text im Vte-Terminal suchen.\n"
+"                                     Mit <F3>/<Umschalt><F3> nächsten/"
+"vorherigen suchen.\n"
 
 #: console.c:239
-#, fuzzy
-#| msgid ""
-#| "  * <Ctrl><O>           Select all the text in the Vte Terminal box.\n"
 msgid "  * <Ctrl><O>           Select all the text in the terminal.\n"
 msgstr ""
 "  * <Strg><O>                        Gesamten Inhalt des Vte-Terminals "
-"auswählen\n"
+"auswählen.\n"
 
 #: console.c:240
-#, fuzzy
-#| msgid ""
-#| "  * <Ctrl><Del/Ins>     Copy the text to clipboard / Paste the text in "
-#| "clipboard.\n"
 msgid "  * <Ctrl><Del/Ins>     Copy/Paste the text in clipboard.\n"
 msgstr ""
 "  * <Strg><Entf/Einfg>               Text in Zwischenablage kopieren oder "
 "einfügen.\n"
 
 #: console.c:241
-#, fuzzy
-#| msgid ""
-#| "  * <Shift><Del/Ins>    Copy the text to primary clipboard / Paste the "
-#| "text in primary clipboard.\n"
 msgid "  * <Shift><Del/Ins>    Copy/Paste the text in primary clipboard.\n"
 msgstr ""
-"  * <Strg><Entf/Einfg>               Text in die primäre Zwischenablage "
+"  * <Umschalt><Entf/Einfg>           Text in die primäre Zwischenablage "
 "kopieren oder einfügen.\n"
 
 #: console.c:242
-#, fuzzy
-#| msgid ""
-#| "                        (i.e. Emulate a middle button mouse click to copy/"
-#| "paste the text)\n"
 msgid ""
 "                        (i.e. Emulate middle button mouse click to Copy/"
 "Paste)\n"
 msgstr ""
 "                                     (Emuliert die mittlere Maustaste, um "
-"Text einzufügen)\n"
+"Text zu kopieren/einzufügen)\n"
 
 #: console.c:244
 msgid "Some key bindings that disabled by default but maybe useful:\n"
@@ -576,8 +522,8 @@ msgstr ""
 "%s wurde mit dem Ziel veröffentlicht, dass Sie es nützlich finden,\n"
 "jedoch OHNE JEDWEDE GARANTIE, sogar ohne eine implizite Garantie\n"
 "der VERKAUFBARKEIT oder der NUTZBARKEIT FÜR EINEN SPEZIELLEN ZWECK.\n"
-"Schauen Sie für weitere Informationen bitte in der GNU General Public "
-"License (GNU GPL) nach.\n"
+"Schauen Sie für weitere Informationen bitte in der GNU General Public License "
+"(GNU GPL) nach.\n"
 "\n"
 "Mit %s sollten Sie außerdem eine Kopie der GNU General Public License "
 "erhalten\n"
@@ -803,15 +749,7 @@ msgid "Disable all the function keys of [%s] group."
 msgstr "Alle Funktionstasten der Gruppe [%s] deaktivieren."
 
 #: main.c:607
-#, fuzzy, c-format
-#| msgid ""
-#| "The data got from socket seems incorrect.\n"
-#| "\n"
-#| "\tRecieved socket version: %s\n"
-#| "\tExpected socket version: %s\n"
-#| "\n"
-#| "If you just updated %s recently,\n"
-#| "Please close all the windows of %s and try again."
+#, c-format
 msgid ""
 "The data got from socket seems incorrect.\n"
 "\n"
@@ -1117,8 +1055,7 @@ msgstr "Die folgenden Einstellungen können nicht angewendet werden"
 #: menu.c:2212
 msgid "Disable: Trying to use [Transparent Background] instead."
 msgstr ""
-"Deaktivieren: Stattdessen versuchen, [Transparenten Hintergrund] zu "
-"verwenden."
+"Deaktivieren: Stattdessen versuchen, [Transparenten Hintergrund] zu verwenden."
 
 #: menu.c:2218
 msgid "Scroll the background image along with the text"
@@ -1332,8 +1269,6 @@ msgid "Select all the text in the Vte Terminal box."
 msgstr "Gesamten Inhalt des Vte-Terminals auswählen."
 
 #: profile.c:811
-#, fuzzy
-#| msgid "Copy to clipboard."
 msgid "Copy to clipboard"
 msgstr "In die Zwischenablage kopieren"
 
