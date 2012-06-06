@@ -1,5 +1,5 @@
-2012-06-05 Lu, Chao-Ming (Tetralet) <tetralet@gmail.com>
-  It is a hotfix version of 0.9.9.
+2012-06-06 Lu, Chao-Ming (Tetralet) <tetralet@gmail.com>
+  Version 0.9.9.1, it is a hotfix version of 0.9.9.
 
   New Feature:
 	* Added a new option "embedded_copy_paste_menu" to embed the copy/paste
@@ -8,6 +8,10 @@
 	* Added a new command line option [-H/--hold], may hold the terminal window
 	  open when the command following -e/-x terminated.
 	  VERY THANKS to Douglas McFadzean for this great idea.
+	* Applied new Portuguese translation. VERY THANKS to Rafael Ferreira!
+	* de.po, ru.po, uk.po, sk.po, it.po and pt_BR.po have been updated.
+	  Very thanks to Mario Blttermann, Vladimir Smolyar, Slavko, Marco Paolone,
+	  and Rafael Ferreira for the translation!
 
   FIX:
 	* Urgent bell should be disabled if the window is getting focus.
@@ -15,10 +19,19 @@
 	* Respect to the PATH environment, or the -e option won't work if the command
 	  is not in /usr/bin.
 	  VERY THANKS to Douglas McFadzean for reporting this bug.
+	* Added a missed '\' before '-' in the manpage file.
+	  VERY THANKS to Slavko for the patch.
+	* Update the ansi color codes of xterm theme.
+	  Very thanks to caleb for reporting this bug!
+	* Short the help messages to fit in 80 columns.
+	  VERY THANKS to Rafael Ferreira for reporting this bug.
+	* Using ETCDIR instead of g_get_system_config_dirs().
+	  VERY THANKS to Rafael Ferreira for reporting this bug!
 	* The settings for [always show/hide the tabs bar] don't be saved as excepted.
 	  VERY THANKS to BV1AL for reporting this bug.
 
 2012-04-04 Lu, Chao-Ming (Tetralet) <tetralet@gmail.com>
+  Version 0.9.9.
   Trying to migrate to GTK3+ but failed. Still having big trouble in handling geometry.
 
   New Feature:
