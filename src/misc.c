@@ -254,7 +254,7 @@ gchar *get_default_LC_DATA(gint LC_TYPE)
 gchar *get_encoding_from_locale(const gchar *locale)
 {
 #ifdef DETAIL
-	g_debug("! Launch get_encoding_from_locale()");
+	g_debug("! Launch get_encoding_from_locale() with locale = %s", locale);
 #endif
 #ifdef OUT_OF_MEMORY
 #  undef g_strdup
