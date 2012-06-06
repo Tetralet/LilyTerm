@@ -1,7 +1,9 @@
-2012-05-13 Lu, Chao-Ming (Tetralet) <tetralet@gmail.com>
+2012-06-05 Lu, Chao-Ming (Tetralet) <tetralet@gmail.com>
+  It is a hotfix version of 0.9.9.
+
   New Feature:
 	* Added a new option "embedded_copy_paste_menu" to embed the copy/paste
-	  menu to the main right click menu.
+	  menu to the main right click menu, and is enabled by default.
 	  VERY THANKS to Slavko for this great idea.
 	* Added a new command line option [-H/--hold], may hold the terminal window
 	  open when the command following -e/-x terminated.
@@ -10,9 +12,11 @@
   FIX:
 	* Urgent bell should be disabled if the window is getting focus.
 	  VERY THANKS to daspostloch for reporting this bug.
-	* Respect the PATH environment, or the -e option won't work if the command
+	* Respect to the PATH environment, or the -e option won't work if the command
 	  is not in /usr/bin.
 	  VERY THANKS to Douglas McFadzean for reporting this bug.
+	* The settings for [always show/hide the tabs bar] don't be saved as excepted.
+	  VERY THANKS to BV1AL for reporting this bug.
 
 2012-04-04 Lu, Chao-Ming (Tetralet) <tetralet@gmail.com>
   Trying to migrate to GTK3+ but failed. Still having big trouble in handling geometry.

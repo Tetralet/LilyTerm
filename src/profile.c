@@ -2437,10 +2437,10 @@ GString *save_user_settings(GtkWidget *widget, struct Window *win_data)
 					"# Left it blank: Hide when fullscreen, or tabs number = 1.\n");
 	switch (win_data->show_tabs_bar)
 	{
-		case FORCE_ON:
+		case FORCE_OFF:
 			g_string_append(contents, "show_tabs_bar = 0\n\n");
 			break;
-		case FORCE_OFF:
+		case FORCE_ON:
 			g_string_append(contents, "show_tabs_bar = 1\n\n");
 			break;
 		default:
