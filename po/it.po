@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: LilyTerm 0.9.9~pre4\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-05-20 23:40+0800\n"
-"PO-Revision-Date: 2012-04-02 23:05+0200\n"
+"PO-Revision-Date: 2012-05-21 22:47+0200\n"
 "Last-Translator: Marco Paolone <marcopaolone@gmail.com>\n"
 "Language-Team: Italian <IT@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -37,15 +37,11 @@ msgstr ""
 "\n"
 
 #: console.c:141
-#, fuzzy
-#| msgid ""
-#| "Use -e/-x/--execute {Command} to run a command when starting up. (Must be "
-#| "the final option).\n"
 msgid ""
 "Use -e/-x/--execute {Command} to run a command. (Must be the final option).\n"
 msgstr ""
-"Usare -e/-x/--execute {comando} per eseguire un comando all'avvio. (Deve "
-"essere l'opzione finale).\n"
+"Usare -e/-x/--execute {comando} per eseguire un comando. (Deve essere "
+"l'opzione finale).\n"
 
 #: console.c:142
 msgid "Use -T/--title {title} to specify the window title.\n"
@@ -64,10 +60,6 @@ msgstr ""
 "all'avvio.\n"
 
 #: console.c:145
-#, fuzzy
-#| msgid ""
-#| "Use -g/--geometry {WIDTHxHEIGHT[+-]XOFFSET[+-]YOFFSET} to specify the "
-#| "geometry of window.\n"
 msgid ""
 "Use -g/--geometry {WIDTHxHEIGHT[+-]XOFFSET[+-]YOFFSET} to specify the "
 "geometry.\n"
@@ -84,6 +76,8 @@ msgid ""
 "Use -H/--hold to hold the terminal window open when -e/-x command "
 "terminated.\n"
 msgstr ""
+"Usare -H/--hold per mantenere la finestra del terminale aperta al "
+"termine dell'esecuzione di un comando con -e/-x.\n"
 
 #: console.c:149
 msgid "Use -s/--separate to run in separate process.\n"
@@ -94,8 +88,6 @@ msgid "Use -v/--version to show the version information.\n"
 msgstr "Usare -v/--version per visualizzare le informazioni di versione.\n"
 
 #: console.c:151
-#, fuzzy
-#| msgid "Use -p/--profile to got a profile sample.\n"
 msgid "Use -p/--profile to get a profile sample.\n"
 msgstr "Usare -p/--profile per impostare un profilo di esempio.\n"
 
@@ -109,10 +101,9 @@ msgstr ""
 "\n"
 
 #: console.c:155
-#, fuzzy, c-format
-#| msgid "The %s system configure file is: %s/%s\n"
+#, c-format
 msgid "The %s system configure file is: %s\n"
-msgstr "Il file di configurazione di sistema di %s è: %s/%s\n"
+msgstr "Il file di configurazione di sistema di %s è: %s\n"
 
 #: console.c:189
 #, c-format
@@ -126,15 +117,11 @@ msgstr "Combinazioni tasti predefinite:"
 #. TRANSLATE NOTE: Please be care of the spacing when translating the following key binding description.
 #. TRANSLATE NOTE: Please check it in [Right Click Menu] -> [Usage] -> [Key binding] page after translating.
 #: console.c:223
-#, fuzzy
-#| msgid ""
-#| "  * <Ctrl><`>           Disable/Enable hyperlinks, function keys and "
-#| "right click menu."
 msgid ""
 "  * <Ctrl><`>           Disable/Enable hyperlinks, function keys and menu."
 msgstr ""
-"  * <Ctrl><`>\t\t Disabilita/Abilita collegamenti ipertestuali, tasti "
-"funzione e menu del tasto destro."
+"  * <Ctrl><`>           Disabilita/Abilita collegamenti ipertestuali, "
+"tasti funzione e menu del tasto destro."
 
 #: console.c:225
 msgid "  * <Ctrl><T>           Add a New tab with current directory.\n"
@@ -173,54 +160,34 @@ msgstr ""
 "della scheda corrente.\n"
 
 #: console.c:232
-#, fuzzy
-#| msgid ""
-#| "  * <Shift><Left/Right> Emulate a mouse Scroll Up/Down event on Vte "
-#| "Terminal box.\n"
 msgid ""
 "  * <Shift><Left/Right> Emulate a mouse Scroll Up/Down event on terminal.\n"
 msgstr ""
 "  * <Maiusc><Sinistra/Destra> Emula un evento scorrimento in alto/basso del "
-"mouse in un box Terminale Vte.\n"
+"mouse nel terminale.\n"
 
 #: console.c:233
-#, fuzzy
-#| msgid ""
-#| "  * <Shift><Up/Down>    Asks to Scroll Up/Down 1 line on Vte Terminal "
-#| "box.\n"
 msgid "  * <Shift><Up/Down>    Asks to Scroll Up/Down 1 line on terminal.\n"
 msgstr ""
-"  * <Maiusc><Su/Giù>     Chiede di scorrere in alto/basso di una riga in un "
-"box terminale Vte.\n"
+"  * <Maiusc><Su/Giù>     Chiede di scorrere in alto/basso di una riga nel "
+"terminale.\n"
 
 #: console.c:234
-#, fuzzy
-#| msgid ""
-#| "  * <Shift><PgUp/PgDn>  Gtk+ default behavior, Scroll Up/Down on Vte "
-#| "Terminal box.\n"
 msgid ""
 "  * <Shift><PgUp/PgDn>  Gtk+ default behavior, Scroll Up/Down on terminal.\n"
 msgstr ""
-"  * <Maiusc><PgSu/PgGiu> Comportamento predefinito di Gtk+, scorre in alto/"
-"basso in un box terminale vte.\n"
+"  * <Maiusc><PgSu/PgGiu>  Comportamento predefinito di Gtk+, scorre in alto/"
+"basso nel terminale.\n"
 
 #: console.c:235
-#, fuzzy
-#| msgid ""
-#| "  * <Shift><Home/End>   Gtk+ default behavior, Scroll the Terminal box to "
-#| "to Top/Bottom.\n"
 msgid ""
 "  * <Shift><Home/End>   Gtk+ default behavior, Scroll terminal to Top/"
 "Bottom.\n"
 msgstr ""
-"  * <Maiusc><Home/Fine>  Comportamento predefinito di Gtk+, scorre il box "
-"del terminale in alto/basso.\n"
+"  * <Maiusc><Home/Fine>   Comportamento predefinito di Gtk+, scorre il "
+"terminale in alto/basso.\n"
 
 #: console.c:236
-#, fuzzy
-#| msgid ""
-#| "  * <Alt><F11/Enter>    Switch between fullwindow/unfullwindow and "
-#| "fullscreen/unfullscreen state.\n"
 msgid ""
 "  * <Alt><F11/Enter>    Switch between full/unfullwindow and full/"
 "unfullscreen.\n"
@@ -229,57 +196,37 @@ msgstr ""
 "e schermo intero/uscita da schermo intero.\n"
 
 #: console.c:237
-#, fuzzy
-#| msgid ""
-#| "  * <Ctrl><F>           Find text in the Vte Terminal box. Use <F3>/"
-#| "<Shift><F3> to find Next/Prev.\n"
 msgid ""
 "  * <Ctrl><F>           Find text in the terminal.\n"
 "                        Use <F3>/<Shift><F3> to find Next/Prev.\n"
 msgstr ""
-"  * <Ctrl><F>           Trova il testo nel box del terminale Vte. Usare <F3>/"
-"<Maiusc><F3> per trovare il successivo/precedente.\n"
+"  * <Ctrl><F>           Trova il testo nel terminale.\n"
+"                        Usare <F3>/<Maiusc><F3> per trovare il "
+"successivo/precedente.\n"
 
 #: console.c:239
-#, fuzzy
-#| msgid ""
-#| "  * <Ctrl><O>           Select all the text in the Vte Terminal box.\n"
 msgid "  * <Ctrl><O>           Select all the text in the terminal.\n"
-msgstr ""
-"  * <Ctrl><O>            Seleziona tutto il testo nel box del terminale "
-"Vte.\n"
+msgstr "  * <Ctrl><O>           Seleziona tutto il testo nel terminale.\n"
 
 #: console.c:240
-#, fuzzy
-#| msgid ""
-#| "  * <Ctrl><Del/Ins>     Copy the text to clipboard / Paste the text in "
-#| "clipboard.\n"
 msgid "  * <Ctrl><Del/Ins>     Copy/Paste the text in clipboard.\n"
 msgstr ""
-"  * <Ctrl><Del/Ins>\t Copia il testo negli appunti / incolla il testo dagli "
+"  * <Ctrl><Del/Ins>     Copia il testo negli appunti / incolla il testo dagli "
 "appunti.\n"
 
 #: console.c:241
-#, fuzzy
-#| msgid ""
-#| "  * <Shift><Del/Ins>    Copy the text to primary clipboard / Paste the "
-#| "text in primary clipboard.\n"
 msgid "  * <Shift><Del/Ins>    Copy/Paste the text in primary clipboard.\n"
 msgstr ""
-"  * <Maiusc><Del/Ins>\t Copia il testo negli appunti / incolla il testo "
+"  * <Maiusc><Del/Ins>    Copia il testo negli appunti / incolla il testo "
 "dagli appunti principali.\n"
 
 #: console.c:242
-#, fuzzy
-#| msgid ""
-#| "                        (i.e. Emulate a middle button mouse click to copy/"
-#| "paste the text)\n"
 msgid ""
 "                        (i.e. Emulate middle button mouse click to Copy/"
 "Paste)\n"
 msgstr ""
-"\t\t\t (es. emula un click del tasto centrale del mouse per incollare il "
-"testo)\n"
+"                        (es. emula un click del tasto centrale del mouse "
+"per incollare il testo)\n"
 
 #: console.c:244
 msgid "Some key bindings that disabled by default but maybe useful:\n"
@@ -767,15 +714,7 @@ msgid "Disable all the function keys of [%s] group."
 msgstr "Disabilita tutti i tasti funzione del gruppo [%s]"
 
 #: main.c:607
-#, fuzzy, c-format
-#| msgid ""
-#| "The data got from socket seems incorrect.\n"
-#| "\n"
-#| "\tRecieved socket version: %s\n"
-#| "\tExpected socket version: %s\n"
-#| "\n"
-#| "If you just updated %s recently,\n"
-#| "Please close all the windows of %s and try again."
+#, c-format
 msgid ""
 "The data got from socket seems incorrect.\n"
 "\n"
@@ -1154,8 +1093,8 @@ msgstr "Disabilita/abilita funzioni"
 #: profile.c:738
 msgid "Disable/Enable hyperlinks, function keys and right click menu."
 msgstr ""
-"Disabilita/abilita collegamenti ipertestuali, tasti funzione e menu del "
-"tasto destro."
+"Disabilita/abilita collegamenti ipertestuali, tasti funzione e menu "
+"del tasto destro."
 
 #: profile.c:740
 msgid "Add new tab"
@@ -1292,8 +1231,6 @@ msgid "Select all the text in the Vte Terminal box."
 msgstr "Seleziona tutto il testo nel box Terminale Vte."
 
 #: profile.c:811
-#, fuzzy
-#| msgid "Copy to clipboard."
 msgid "Copy to clipboard"
 msgstr "Copia negli appunti"
 
