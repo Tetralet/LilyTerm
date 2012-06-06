@@ -105,7 +105,8 @@ msgid ""
 "Use -u/--user_profile {%s} to use a specified profile.\n"
 "\n"
 msgstr ""
-"Verwenden Sie -u/--user_profile {%s}, um ein bestimmtes Profil zu verwenden.\n"
+"Verwenden Sie -u/--user_profile {%s}, um ein bestimmtes Profil zu "
+"verwenden.\n"
 "\n"
 
 #: console.c:155
@@ -128,7 +129,8 @@ msgstr "Standard-Tastenkürzel:"
 msgid ""
 "  * <Ctrl><`>           Disable/Enable hyperlinks, function keys and menu."
 msgstr ""
-"  * <Strg><`>                        Deaktivieren/Aktivieren der Hyperlinks,\n"
+"  * <Strg><`>                        Deaktivieren/Aktivieren der "
+"Hyperlinks,\n"
 "                                     Funktionstasten und des Rechtsklickmenüs"
 
 #: console.c:225
@@ -140,7 +142,8 @@ msgstr ""
 #: console.c:226
 msgid "  * <Ctrl><PgUp/PgDn>   Switch to Prev/Next tab.\n"
 msgstr ""
-"  * <Strg><Bild auf/Bild ab>         Zum vorherigen/nächsten Reiter wechseln\n"
+"  * <Strg><Bild auf/Bild ab>         Zum vorherigen/nächsten Reiter "
+"wechseln\n"
 
 #: console.c:227
 msgid "  * <Ctrl><Home/End>    Switch to First/Last tab.\n"
@@ -522,8 +525,8 @@ msgstr ""
 "%s wurde mit dem Ziel veröffentlicht, dass Sie es nützlich finden,\n"
 "jedoch OHNE JEDWEDE GARANTIE, sogar ohne eine implizite Garantie\n"
 "der VERKAUFBARKEIT oder der NUTZBARKEIT FÜR EINEN SPEZIELLEN ZWECK.\n"
-"Schauen Sie für weitere Informationen bitte in der GNU General Public License "
-"(GNU GPL) nach.\n"
+"Schauen Sie für weitere Informationen bitte in der GNU General Public "
+"License (GNU GPL) nach.\n"
 "\n"
 "Mit %s sollten Sie außerdem eine Kopie der GNU General Public License "
 "erhalten\n"
@@ -1055,7 +1058,8 @@ msgstr "Die folgenden Einstellungen können nicht angewendet werden"
 #: menu.c:2212
 msgid "Disable: Trying to use [Transparent Background] instead."
 msgstr ""
-"Deaktivieren: Stattdessen versuchen, [Transparenten Hintergrund] zu verwenden."
+"Deaktivieren: Stattdessen versuchen, [Transparenten Hintergrund] zu "
+"verwenden."
 
 #: menu.c:2218
 msgid "Scroll the background image along with the text"

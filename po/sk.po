@@ -46,9 +46,6 @@ msgstr ""
 "\n"
 
 #: console.c:141
-#| msgid ""
-#| "Use -e/-x/--execute {Command} to run a command when starting up. (Must be "
-#| "the final option).\n"
 msgid ""
 "Use -e/-x/--execute {Command} to run a command. (Must be the final option).\n"
 msgstr ""
@@ -72,9 +69,6 @@ msgstr ""
 "štarte.\n"
 
 #: console.c:145
-#| msgid ""
-#| "Use -g/--geometry {WIDTHxHEIGHT[+-]XOFFSET[+-]YOFFSET} to specify the "
-#| "geometry of window.\n"
 msgid ""
 "Use -g/--geometry {WIDTHxHEIGHT[+-]XOFFSET[+-]YOFFSET} to specify the "
 "geometry.\n"
@@ -102,7 +96,6 @@ msgid "Use -v/--version to show the version information.\n"
 msgstr "Použite -v/--version na zobrazenie informácií o verzii.\n"
 
 #: console.c:151
-#| msgid "Use -p/--profile to got a profile sample.\n"
 msgid "Use -p/--profile to get a profile sample.\n"
 msgstr "Použite -p/--profile na získanie vzorového profilu.\n"
 
@@ -117,7 +110,6 @@ msgstr ""
 
 #: console.c:155
 #, c-format
-#| msgid "The %s system configure file is: %s/%s\n"
 msgid "The %s system configure file is: %s\n"
 msgstr "Systémový konfiguračný súbor %s je: %s\n"
 
@@ -133,9 +125,6 @@ msgstr "Predvolená skratka:"
 #. TRANSLATE NOTE: Please be care of the spacing when translating the following key binding description.
 #. TRANSLATE NOTE: Please check it in [Right Click Menu] -> [Usage] -> [Key binding] page after translating.
 #: console.c:223
-#| msgid ""
-#| "  * <Ctrl><`>           Disable/Enable hyperlinks, function keys and "
-#| "right click menu."
 msgid ""
 "  * <Ctrl><`>           Disable/Enable hyperlinks, function keys and menu."
 msgstr ""
@@ -176,9 +165,6 @@ msgstr ""
 "záložky.\n"
 
 #: console.c:232
-#| msgid ""
-#| "  * <Shift><Left/Right> Emulate a mouse Scroll Up/Down event on Vte "
-#| "Terminal box.\n"
 msgid ""
 "  * <Shift><Left/Right> Emulate a mouse Scroll Up/Down event on terminal.\n"
 msgstr ""
@@ -186,18 +172,12 @@ msgstr ""
 "termináli.\n"
 
 #: console.c:233
-#| msgid ""
-#| "  * <Shift><Up/Down>    Asks to Scroll Up/Down 1 line on Vte Terminal "
-#| "box.\n"
 msgid "  * <Shift><Up/Down>    Asks to Scroll Up/Down 1 line on terminal.\n"
 msgstr ""
 "  * <Shift><Up/Down>    Požiadať o Rolovanie hore/Dole o 1 riadok v "
 "termináli.\n"
 
 #: console.c:234
-#| msgid ""
-#| "  * <Shift><PgUp/PgDn>  Gtk+ default behavior, Scroll Up/Down on Vte "
-#| "Terminal box.\n"
 msgid ""
 "  * <Shift><PgUp/PgDn>  Gtk+ default behavior, Scroll Up/Down on terminal.\n"
 msgstr ""
@@ -205,9 +185,6 @@ msgstr ""
 "termináli.\n"
 
 #: console.c:235
-#| msgid ""
-#| "  * <Shift><Home/End>   Gtk+ default behavior, Scroll the Terminal box to "
-#| "to Top/Bottom.\n"
 msgid ""
 "  * <Shift><Home/End>   Gtk+ default behavior, Scroll terminal to Top/"
 "Bottom.\n"
@@ -216,9 +193,6 @@ msgstr ""
 "Začiatok/Koniec.\n"
 
 #: console.c:236
-#| msgid ""
-#| "  * <Alt><F11/Enter>    Switch between fullwindow/unfullwindow and "
-#| "fullscreen/unfullscreen state.\n"
 msgid ""
 "  * <Alt><F11/Enter>    Switch between full/unfullwindow and full/"
 "unfullscreen.\n"
@@ -227,9 +201,6 @@ msgstr ""
 "obrazovka.\n"
 
 #: console.c:237
-#| msgid ""
-#| "  * <Ctrl><F>           Find text in the Vte Terminal box. Use <F3>/"
-#| "<Shift><F3> to find Next/Prev.\n"
 msgid ""
 "  * <Ctrl><F>           Find text in the terminal.\n"
 "                        Use <F3>/<Shift><F3> to find Next/Prev.\n"
@@ -238,29 +209,18 @@ msgstr ""
 "                        Použite <F3>/<Shift><F3> na ďalší/predošlý.\n"
 
 #: console.c:239
-#| msgid ""
-#| "  * <Ctrl><O>           Select all the text in the Vte Terminal box.\n"
 msgid "  * <Ctrl><O>           Select all the text in the terminal.\n"
 msgstr "  * <Ctrl><O>           Vybrať všetok text v okne terminálu.\n"
 
 #: console.c:240
-#| msgid ""
-#| "  * <Ctrl><Del/Ins>     Copy the text to clipboard / Paste the text in "
-#| "clipboard.\n"
 msgid "  * <Ctrl><Del/Ins>     Copy/Paste the text in clipboard.\n"
 msgstr "  * <Ctrl><Del/Ins>      Kopírovať/Vvložiť text v schránke.\n"
 
 #: console.c:241
-#| msgid ""
-#| "  * <Shift><Del/Ins>    Copy the text to primary clipboard / Paste the "
-#| "text in primary clipboard.\n"
 msgid "  * <Shift><Del/Ins>    Copy/Paste the text in primary clipboard.\n"
 msgstr "  * <Ctrl><Del/Ins>    Kopírovať/Vložiť text v primárnej schránke.\n"
 
 #: console.c:242
-#| msgid ""
-#| "                        (i.e. Emulate a middle button mouse click to copy/"
-#| "paste the text)\n"
 msgid ""
 "                        (i.e. Emulate middle button mouse click to Copy/"
 "Paste)\n"
@@ -1273,7 +1233,6 @@ msgid "Select all the text in the Vte Terminal box."
 msgstr "vyberie všetok text v okne Vte Terminálu"
 
 #: profile.c:811
-#| msgid "Copy to clipboard."
 msgid "Copy to clipboard"
 msgstr "Kopírovať do schránky"
 
