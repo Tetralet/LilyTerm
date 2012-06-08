@@ -33,7 +33,7 @@ else
 fi
 ECHO=`whereis -b echo | awk '{print $2}'`
 PRINTF=`whereis -b printf | awk '{print $2}'`
-EXPR=`whereis -b expr | awk '{print $2}'`
+WC=`whereis -b wc | awk '{print $2}'`
 
 ERR()
 {
@@ -64,13 +64,12 @@ CHECK_MESSAGE()
 {
   DOTS=30
   $ECHO -n "  Checking "
-  NORMAL $*
+  NORMAL "$*"
   $ECHO -n " "
-  word=`$ECHO "$*" | wc -m`
-  total=$($EXPR $DOTS - `$ECHO "$*" | wc -m`)
+  total=$(($DOTS-`$ECHO "$*" | wc -m`))
   while [ $total -ge 0 ]; do
     $ECHO -n "."
-    total=`$EXPR $total - 1`
+    total=$(($total-1))
   done
   $ECHO -n " "
 }
