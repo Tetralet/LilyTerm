@@ -184,9 +184,9 @@ int main( int   argc,
 	selection_primary = gtk_clipboard_get(GDK_SELECTION_PRIMARY);
 	system_locale_list = get_locale_list();
 	// g_debug("Got system_locale_list = %s", system_locale_list);
-	init_LC_CTYPE = g_strdup(get_default_LC_DATA(LC_CTYPE));
+	init_LC_CTYPE = g_strdup(get_default_lc_data(LC_CTYPE));
 	// g_debug("Got init_LC_CTYPE = %s", init_LC_CTYPE);
-	init_LC_MESSAGES = g_strdup(get_default_LC_DATA(LC_MESSAGES));
+	init_LC_MESSAGES = g_strdup(get_default_lc_data(LC_MESSAGES));
 	// g_debug("init_LC_MESSAGES = %s", init_LC_MESSAGES);
 	init_encoding = (gchar *)get_encoding_from_locale(NULL);
 	if (! compare_strings(init_encoding, "ANSI_X3.4-1968", TRUE))
@@ -412,7 +412,7 @@ gboolean send_socket( int   argc,
 		encoding = g_strdup("UTF-8");
 	}
 	// g_debug("Got encoding = %s in send_socket...", encoding);
-	gchar *lc_messages = g_strdup(get_default_LC_DATA(LC_MESSAGES));
+	gchar *lc_messages = g_strdup(get_default_lc_data(LC_MESSAGES));
 
 	gchar *environ_str = convert_array_to_string(environ, '\t');
 	// print_array("! send_socket() environ", environ);

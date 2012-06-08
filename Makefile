@@ -42,11 +42,11 @@ ifeq ($(NLS), Y)
 endif
 	@ if [ -z "`ls -A "$(DESTDIR)/$(PREFIX)"`" ]; then \
 		$(ECHO) "===========================================" ; \
-		$(PRINTF) "\x1b\x5b1;31m** WARNING: \"$(DESTDIR)/$(PREFIX)\" is empty. Please remove it manually if necessary.\x1b\x5b0m\n" ; \
+		$(PRINTF) "\033[1;31m** WARNING: \"$(DESTDIR)/$(PREFIX)\" is empty. Please remove it manually if necessary.\033[0m\n" ; \
 		$(ECHO) "===========================================" ; \
 	fi
 distclean: clean
 	@ if [ -f .config ]; then \
-		$(PRINTF) "\x1b\x5b1;35m** deleting .config...\x1b\x5b0m\n" ; \
+		$(PRINTF) "\033[1;35m** deleting .config...\033[0m\n" ; \
 		rm .config ; \
 	fi

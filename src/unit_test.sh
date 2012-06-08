@@ -17,7 +17,7 @@
 # along with LilyTerm.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-#!/bin/bash
+#!/bin/sh
 
 INCLUDES="$1"
 
@@ -81,7 +81,7 @@ fi
 
 PKGCONFIG=`whereis -b pkg-config | awk '{print $2}'`
 if [ -z "$PKGCONFIG" ]; then
-	$PRINTF "\x1b\x5b1;31m** ERROR: Command pkg-config is not found!\x1b\x5b0m\n"
+	$PRINTF "\033[1;31m** ERROR: Command pkg-config is not found!\033[0m\n"
 	exit 1
 fi
 
@@ -89,7 +89,7 @@ VTE=`$PKGCONFIG --exists 'vte' && $ECHO 'vte'`
 if [ "$VTE" = "vte" ]; then
   GTK=`$PKGCONFIG --exists 'gtk+-2.0' && $ECHO 'gtk+-2.0'`
   if [ "$GTK" != "gtk+-2.0" ]; then
-    $PRINTF "\x1b\x5b1;31m** ERROR: You need GTK+2 to run this unit test program!\x1b\x5b0m\n"
+    $PRINTF "\033[1;31m** ERROR: You need GTK+2 to run this unit test program!\033[0m\n"
     exit 1
   fi
 else
@@ -97,11 +97,11 @@ else
   if [ "$VTE" = "vte-2.90" ]; then
     GTK=`$PKGCONFIG --exists 'gtk+-3.0' && $ECHO 'gtk+-3.0'`
     if [ "$GTK" != "gtk+-3.0" ]; then
-      $PRINTF "\x1b\x5b1;31m** ERROR: You need GTK+3 to run this unit test program!\x1b\x5b0m\n"
+      $PRINTF "\033[1;31m** ERROR: You need GTK+3 to run this unit test program!\033[0m\n"
       exit 1
     fi
   else
-    $PRINTF "\x1b\x5b1;31m** ERROR: You need VTE to run this unit test program!\x1b\x5b0m\n"
+    $PRINTF "\033[1;31m** ERROR: You need VTE to run this unit test program!\033[0m\n"
     exit 1
   fi
 fi
@@ -195,7 +195,7 @@ for DATA in `cat $LIB_LISTS | sed '/^\/\*/,/ \*\/$/d' | sed -e 's/[ \t]*\/\*[ \t
 					# sed -e 's/^.* \**\([^ ]*\)/\1/g': clear the declare, like "gchar **"
 					FUNC_NAME=`echo $STR | sed -e 's/_SPACE_/ /g' | sed -e 's/^ *//g' | sed -e 's/ *$//g' | sed -e 's/^.* \**\([^ ]*\)/\1/g'`
 					# echo "GOT FUNC_NAME = $FUNC_NAME"
-					$PRINTF "\x1b\x5b1;36m$FUNC_NAME(): \x1b[1;33m** Createing unit_test.c...\x1b\x5b0m\n"
+					$PRINTF "\033[1;36m$FUNC_NAME(): \033[1;33m** Createing unit_test.c...\033[0m\n"
 				fi
 				;;
 			1)
@@ -437,15 +437,15 @@ EOF
 }
 EOF
 	if [ $TEST_SCRIPT_ONLY -eq 0 ]; then
-		$PRINTF "\x1b\x5b1;36m$FUNC_NAME(): \x1b[1;33m** Compiling unit_test.o...\x1b\x5b0m\n"
+		$PRINTF "\033[1;36m$FUNC_NAME(): \033[1;33m** Compiling unit_test.o...\033[0m\n"
 		$CC $CFLAGS $INCLUDES -c unit_test.c `$PKGCONFIG --cflags $GTK $VTE` || exit 1
-		$PRINTF "\x1b\x5b1;36m$FUNC_NAME(): \x1b[1;33m** Compiling unit_test...\x1b\x5b0m\n"
+		$PRINTF "\033[1;36m$FUNC_NAME(): \033[1;33m** Compiling unit_test...\033[0m\n"
 		$CC $CFLAGS $INCLUDES -o unit_test $OBJ `$PKGCONFIG --cflags --libs $GTK $VTE` || exit 1
 		# if [ $? != 0 ]; then exit 1; fi
 
 		if [ $BUILD_ONLY -eq 0 ]; then
 			if [ $RUN_GDB -eq 1 ]; then
-				$PRINTF "\x1b\x5b1;36m$FUNC_NAME(): \x1b[1;33m** Testing with gdb...\x1b\x5b0m\n"
+				$PRINTF "\033[1;36m$FUNC_NAME(): \033[1;33m** Testing with gdb...\033[0m\n"
 				if [ -n "$SPECIFIC_FUNCTION" ]; then
 					gdb -batch -x ./gdb_batch --args ./unit_test $GTK_DEBUG
 				else
@@ -456,14 +456,14 @@ EOF
 						cat /tmp/lilyterm_$FUNC_NAME.log >> gdb.log
 						echo "" >> gdb.log
 					else
-						$PRINTF "\x1b\x5b1;36m$FUNC_NAME(): \x1b[1;33m** Program exited normally. Clear log...\x1b\x5b0m\n"
+						$PRINTF "\033[1;36m$FUNC_NAME(): \033[1;33m** Program exited normally. Clear log...\033[0m\n"
 					fi
 					rm /tmp/lilyterm_$FUNC_NAME.log
 				fi
 			fi
 
 			if [ $RUN_VALGRIND -eq 1 ]; then
-				$PRINTF "\x1b\x5b1;36m$FUNC_NAME(): \x1b[1;33m** Testing with valgrind...\x1b\x5b0m\n"
+				$PRINTF "\033[1;36m$FUNC_NAME(): \033[1;33m** Testing with valgrind...\033[0m\n"
 				echo "Testing $FUNC_NAME() with valgrind..." >> valgrind.log
 				valgrind --leak-check=full ./unit_test >> valgrind.log 2>&1
 				echo "" >> valgrind.log

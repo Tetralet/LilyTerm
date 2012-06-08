@@ -63,13 +63,13 @@ update-po: pot $(PO_LIST)
 .PHONY: pot
 pot:
 ifeq ($(XGETTEXT), )
-	@ $(PRINTF) "\x1b\x5b1;31mERROR: 'xgettext' command can NOT found!\x1b\x5b0m\n"
-	@ $(PRINTF) "\x1b\x5b1;31mERROR: gettext package is needed to make pot. ABORT!\x1b\x5b0m\n"
+	@ $(PRINTF) "\033[1;31mERROR: 'xgettext' command can NOT found!\033[0m\n"
+	@ $(PRINTF) "\033[1;31mERROR: gettext package is needed to make pot. ABORT!\033[0m\n"
 	@ exit 1
 endif
 ifeq ($(MSGCMP), )
-	@ $(PRINTF) "\x1b\x5b1;31mERROR: 'msgcmp' command can NOT found!\x1b\x5b0m\n"
-	@ $(PRINTF) "\x1b\x5b1;31mERROR: gettext package is needed to make pot. ABORT!\x1b\x5b0m\n"
+	@ $(PRINTF) "\033[1;31mERROR: 'msgcmp' command can NOT found!\033[0m\n"
+	@ $(PRINTF) "\033[1;31mERROR: gettext package is needed to make pot. ABORT!\033[0m\n"
 	@ exit 1
 endif
 	@ cd ../src ; \
@@ -80,7 +80,7 @@ endif
 	@ if ($(MSGCMP) $(MSGCMP_PARAMETER) $(BINARY).pot $(BINARY).po > /dev/null 2>&1) then \
 		rm $(BINARY).po ; \
 	else \
-		$(PRINTF) "\x1b\x5b1;36m** creating $(BINARY).pot...\x1b\x5b0m\n" ; \
+		$(PRINTF) "\033[1;36m** creating $(BINARY).pot...\033[0m\n" ; \
 		mv $(BINARY).po $(BINARY).pot ; \
 		echo "" ; \
 	fi
@@ -96,27 +96,27 @@ po: $(PO_LIST)
 
 %.po: $(BINARY).pot
 ifeq ($(MSGMERGE), )
-	@ $(PRINTF) "\x1b\x5b1;31mERROR: 'msgmerge' command can NOT found!\x1b\x5b0m\n"
-	@ $(PRINTF) "\x1b\x5b1;31mERROR: gettext package is needed to make po files. ABORT!\x1b\x5b0m\n"
+	@ $(PRINTF) "\033[1;31mERROR: 'msgmerge' command can NOT found!\033[0m\n"
+	@ $(PRINTF) "\033[1;31mERROR: gettext package is needed to make po files. ABORT!\033[0m\n"
 	@ exit 1
 endif
-	@ $(PRINTF) "\x1b\x5b1;33m** msgmerge $@...\x1b\x5b0m\n"
+	@ $(PRINTF) "\033[1;33m** msgmerge $@...\033[0m\n"
 	-@ $(MSGMERGE) $(MSGMERGE_PARAMETER) $@ $< -o $@
 
 %.mo: %.po $(BINARY).pot
 ifeq ($(MSGFMT), )
-	@ $(PRINTF) "\x1b\x5b1;31mERROR: 'msgfmt' command can NOT found!\x1b\x5b0m\n"
-	@ $(PRINTF) "\x1b\x5b1;31mERROR: gettext package is needed to make mo files. ABORT!\x1b\x5b0m\n"
+	@ $(PRINTF) "\033[1;31mERROR: 'msgfmt' command can NOT found!\033[0m\n"
+	@ $(PRINTF) "\033[1;31mERROR: gettext package is needed to make mo files. ABORT!\033[0m\n"
 	@ exit 1
 endif
-	@ $(PRINTF) "\x1b\x5b1;33m** creating $@...\x1b\x5b0m\n"
+	@ $(PRINTF) "\033[1;33m** creating $@...\033[0m\n"
 	-@ $(MSGFMT) --check --statistics $< -o $@
 
 .PHONY: clean
 clean:
 	@ for FILE in $(MO_LIST); do \
 		if [ -f $$FILE ]; then \
-			$(PRINTF) "\x1b\x5b1;35m** deleting $$FILE...\x1b\x5b0m\n" ; \
+			$(PRINTF) "\033[1;35m** deleting $$FILE...\033[0m\n" ; \
 			rm $$FILE ; \
 		fi ; \
 	done
@@ -126,7 +126,7 @@ install: all
 	@ for FILE in $(LANG_LIST); do \
 		if [ -f $$FILE.mo ]; then \
 			install -d $(DESTDIR)/$(LOCALEDIR)/$$FILE/LC_MESSAGES/ ; \
-			$(PRINTF) "\x1b\x5b1;33m** installing $$FILE.mo to $(DESTDIR)/$(LOCALEDIR)/$$FILE/LC_MESSAGES/...\x1b\x5b0m\n" ; \
+			$(PRINTF) "\033[1;33m** installing $$FILE.mo to $(DESTDIR)/$(LOCALEDIR)/$$FILE/LC_MESSAGES/...\033[0m\n" ; \
 			install -m 644 $$FILE.mo $(DESTDIR)/$(LOCALEDIR)/$$FILE/LC_MESSAGES/$(BINARY).mo ; \
 		fi ; \
 	done
@@ -135,15 +135,15 @@ install: all
 uninstall:
 	@ - for FILE in $(LANG_LIST); do \
 		if [ -f $(DESTDIR)/$(LOCALEDIR)/$$FILE/LC_MESSAGES/$(BINARY).mo ]; then \
-			$(PRINTF) "\x1b\x5b1;35m** deleting $(DESTDIR)/$(LOCALEDIR)/$$FILE/LC_MESSAGES/$(BINARY).mo...\x1b\x5b0m\n" ; \
+			$(PRINTF) "\033[1;35m** deleting $(DESTDIR)/$(LOCALEDIR)/$$FILE/LC_MESSAGES/$(BINARY).mo...\033[0m\n" ; \
 			rm "$(DESTDIR)/$(LOCALEDIR)/$$FILE/LC_MESSAGES/$(BINARY).mo" ; \
 			DirName="$(DESTDIR)/$(LOCALEDIR)/$$FILE/LC_MESSAGES/" ; \
 			until [ -n "`ls -A $$DirName`" -o "$$DirName" = "$(DESTDIR)/$(PREFIX)" ]; do \
-				$(PRINTF) "\x1b\x5b1;35m** deleting $$DirName...\x1b\x5b0m\n" ; \
+				$(PRINTF) "\033[1;35m** deleting $$DirName...\033[0m\n" ; \
 				rmdir "$$DirName" ; \
 				DirName=`dirname $$DirName` ; \
 			done \
 		else \
-			$(PRINTF) "\x1b\x5b1;31m** $(DESTDIR)/$(LOCALEDIR)/$$FILE is NOT exist!\x1b\x5b0m\n" ; \
+			$(PRINTF) "\033[1;31m** $(DESTDIR)/$(LOCALEDIR)/$$FILE is NOT exist!\033[0m\n" ; \
 		fi ; \
 	done

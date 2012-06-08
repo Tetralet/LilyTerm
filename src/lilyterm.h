@@ -38,7 +38,7 @@ gchar *get_VTE_CJK_WIDTH_str(gint VTE_CJK_WIDTH);
 gint get_default_VTE_CJK_WIDTH();
 void restore_SYSTEM_VTE_CJK_WIDTH_STR();
 void set_env(const gchar *variable, const gchar *value, gboolean overwrite);
-gchar *get_default_LC_DATA(gint LC_TYPE);
+gchar *get_default_lc_data(gint LC_TYPE);
 gchar *get_encoding_from_locale(const gchar *locale);
 gboolean check_string_in_array(gchar *str, gchar **lists);
 gchar *get_proc_data(pid_t pid, gchar *file, gsize *length);

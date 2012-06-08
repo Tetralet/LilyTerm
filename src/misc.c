@@ -214,38 +214,38 @@ void set_env(const gchar *variable, const gchar *value, gboolean overwrite)
 
 // get default locale from environ
 // The returned string CAN NOT be free()!
-gchar *get_default_LC_DATA(gint LC_TYPE)
+gchar *get_default_lc_data(gint lc_type)
 {
 #ifdef DETAIL
-	g_debug("! Launch get_default_LC_DATA() with LC_TYPE= %d", LC_TYPE);
+	g_debug("! Launch get_default_lc_data() with lc_type= %d", lc_type);
 #endif
-	char *LC_DATA;
-	switch (LC_TYPE)
+	char *lc_data;
+	switch (lc_type)
 	{
 		case LC_CTYPE:
-			LC_DATA = (char*)g_getenv("LC_CTYPE");
+			lc_data = (char*)g_getenv("LC_CTYPE");
 			break;
 		case LC_MESSAGES:
-			LC_DATA = (char*)g_getenv("LC_MESSAGES");
+			lc_data = (char*)g_getenv("LC_MESSAGES");
 			break;
 		default:
 #ifdef FATAL
-			print_switch_out_of_range_error_dialog("get_default_LC_DATA", "LC_TYPE", LC_TYPE);
+			print_switch_out_of_range_error_dialog("get_default_lc_data", "lc_type", lc_type);
 #endif
 			return "";
 	}
-	char *LC_ALL = (char*)g_getenv("LC_ALL");
-	char *LANG = (char*)g_getenv("LANG");
+	char *lc_all = (char*)g_getenv("LC_ALL");
+	char *lang = (char*)g_getenv("LANG");
 
-	if ( (!LC_DATA) && LANG)
-		LC_DATA = LANG;
+	if ( (!lc_data) && lang)
+		lc_data = lang;
 
-	if (LC_ALL)
-		LC_DATA = LC_ALL;
+	if (lc_all)
+		lc_data = lc_all;
 
-//	g_debug("Get LC_DATA = %s", LC_DATA);
-	if (LC_DATA)
-		return LC_DATA;
+//	g_debug("Get lc_data = %s", lc_data);
+	if (lc_data)
+		return lc_data;
 	else
 		return "";
 }

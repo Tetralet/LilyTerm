@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 PACKAGE=`grep "^PACKAGE = " .default | awk -F ' = ' '{print $2}'`
 PREFIX=`grep "^PREFIX = " .default | awk -F ' = ' '{print $2}'`
@@ -25,33 +25,38 @@ if [ -z "$CFLAGS" ]; then
   CFLAGS="-Wall -O -g"
 fi
 
+MAKE=`whereis -b gmake | awk '{print $2}'`
+if [ -z "$MAKE" ]; then
 MAKE=`whereis -b make | awk '{print $2}'`
+else
+  GMAKE="$MAKE"
+fi
 ECHO=`whereis -b echo | awk '{print $2}'`
 PRINTF=`whereis -b printf | awk '{print $2}'`
 
 ERR()
 {
-  $PRINTF "\x1b\x5b1;31m$1\x1b\x5b0m" >&2
+  $PRINTF "\033[1;31m$1\033[0m" >&2
 }
 
 WARN()
 {
-  $PRINTF "\x1b\x5b1;35m$1\x1b\x5b0m"
+  $PRINTF "\033[1;35m$1\033[0m"
 }
 
 INFO()
 {
-  $PRINTF "\x1b\x5b1;36m$1\x1b\x5b0m"
+  $PRINTF "\033[1;36m$1\033[0m"
 }
 
 IMPORTANT()
 {
-  $PRINTF "\x1b\x5b1;33m$1\x1b\x5b0m"
+  $PRINTF "\033[1;33m$1\033[0m"
 }
 
 NORMAL()
 {
-  $PRINTF "\x1b\x5b1;32m$1\x1b\x5b0m"
+  $PRINTF "\033[1;32m$1\033[0m"
 }
 
 if [ "$1" = "-h" -o "$1" = "--help" -o "$1" = "-help" ]; then
@@ -310,8 +315,12 @@ if [ "$CFLAGS" != '-Wall -O -g' ]; then
 else
   $ECHO "CFLAGS    = $CFLAGS"
 fi
+if [ -n "$GMAKE" ]; then
+   IMPORTANT "MAKE      = $MAKE\n"
+else
 if [ -z "$MAKE" ]; then
  ERR "MAKE      = $MAKE\n"
+fi
 fi
 $ECHO "GTK       = $GTK"
 $ECHO "VTE       = $VTE"
@@ -321,6 +330,13 @@ if [ "$GNOME_CONTROL_CENTER" = 'Y' ]; then
 fi
 INFO "===========================================\n"
 $ECHO ""
+if [ -n "$GMAKE" ]; then
+   WARN "Please use \`"
+   IMPORTANT "gmake"
+   WARN "' instead of \`"
+   IMPORTANT "make"
+   WARN "' to compile $PACKAGE\!\!\n\n"
+fi
 
 $ECHO "PREFIX = $PREFIX" > .config
 $ECHO "ETCDIR = $ETCDIR" >> .config
