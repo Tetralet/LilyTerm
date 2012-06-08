@@ -66,7 +66,7 @@ CHECK_MESSAGE()
   $ECHO -n "  Checking "
   NORMAL "$*"
   $ECHO -n " "
-  total=$(($DOTS-`$ECHO "$*" | wc -m`))
+  total=$(($DOTS-`$ECHO "$*" | $WC -m`))
   while [ $total -ge 0 ]; do
     $ECHO -n "."
     total=$(($total-1))
