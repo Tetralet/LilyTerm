@@ -33,30 +33,62 @@ else
 fi
 ECHO=`whereis -b echo | awk '{print $2}'`
 PRINTF=`whereis -b printf | awk '{print $2}'`
+EXPR=`whereis -b expr | awk '{print $2}'`
 
 ERR()
 {
-  $PRINTF "\033[1;31m$1\033[0m" >&2
+  $PRINTF "\033[1;31m$*\033[0m" >&2
 }
 
 WARN()
 {
-  $PRINTF "\033[1;35m$1\033[0m"
+  $PRINTF "\033[1;35m$*\033[0m"
 }
 
 INFO()
 {
-  $PRINTF "\033[1;36m$1\033[0m"
+  $PRINTF "\033[1;36m$*\033[0m"
 }
 
 IMPORTANT()
 {
-  $PRINTF "\033[1;33m$1\033[0m"
+  $PRINTF "\033[1;33m$*\033[0m"
 }
 
 NORMAL()
 {
-  $PRINTF "\033[1;32m$1\033[0m"
+  $PRINTF "\033[1;32m$*\033[0m"
+}
+
+CHECK_MESSAGE()
+{
+  DOTS=30
+  $ECHO -n "  Checking "
+  NORMAL $*
+  $ECHO -n " "
+  word=`$ECHO "$*" | wc -m`
+  total=$($EXPR $DOTS - `$ECHO "$*" | wc -m`)
+  while [ $total -ge 0 ]; do
+    $ECHO -n "."
+    total=`$EXPR $total - 1`
+  done
+  $ECHO -n " "
+}
+
+PACKAGE_MESSAGE()
+{
+  ERR "\n\n  Please install \""
+  WARN "$*"
+  ERR "\" package. ABORT!\n\n"
+}
+
+VERSION_MESSAGE()
+{
+  ERR "$1  ERROR: "
+  WARN "$2"
+  ERR " > "
+  WARN "$3"
+  ERR " is needed to build $PACKAGE. ABORT!\n\n"
 }
 
 if [ "$1" = "-h" -o "$1" = "--help" -o "$1" = "-help" ]; then
@@ -90,9 +122,7 @@ fi
 
 PKGCONFIG=`whereis -b pkg-config | awk '{print $2}'`
 if [ -z "$PKGCONFIG" ]; then
-  $ECHO ""
-  ERR "ERROR: pkg-config package is needed to run this configure script. ABORT!\n"
-  $ECHO ""
+  ERR "\n  ERROR: pkg-config package is needed to run this configure script. ABORT!\n\n"
   exit 1
 fi
 
@@ -136,9 +166,9 @@ for opt do
       GNOME_CONTROL_CENTER=N
       ;;
     *)
-      $ECHO ""
-      ERR "ERROR: invalid option \"$opt\". ABORT!\n"
-      $ECHO ""
+      ERR "\n  ERROR: invalid option \""
+      WARN "$opt"
+      ERR "\". ABORT!\n\n"
       exit 1
       ;;
   esac
@@ -150,59 +180,59 @@ $ECHO ""
 
 $PKGCONFIG --exists 'glib-2.0 >= 2.12' > /dev/null 2>&1
 if [ $? != 0 ]; then
-  ERR "ERROR: Glib > 2.12 is needed to build $PACKAGE.\n"
-  $ECHO ""
+  VERSION_MESSAGE "" "Glib" "2.12"
   exit 1
 fi
 
 # ---- GTK ---- #
 
 if [ "$GTK" = "gtk+-2.0" ]; then
-  $ECHO -n "... testing GTK+2    : "
+  CHECK_MESSAGE 'GTK+2'
 else
-  $ECHO -n "... testing GTK+3    : "
+  CHECK_MESSAGE 'GTK+3'
 fi
 
 $PKGCONFIG --cflags $GTK > /dev/null 2>&1
 if [ $? != 0 ]; then
   if [ "$GTK" = "gtk+-2.0" -a $GTK_SPC -eq 0 ]; then
-    $ECHO "not found. Trying GTK+3..."
+    $ECHO "[NO]. Trying GTK+3..."
     GTK=gtk+-3.0
-    $ECHO -n "... testing GTK+3    : "
+    CHECK_MESSAGE 'GTK+3'
     $PKGCONFIG --cflags $GTK > /dev/null 2>&1
     if [ $? != 0 ]; then
-      ERR "not found. Please install libgtk2.0-dev/libgtk-3-dev package. ABORT!\n"
-      $ECHO ""
+      ERR "[NG]"
+      PACKAGE_MESSAGE "libgtk2.0-dev/libgtk-3-dev"
       exit 1
     else
-      WARN "found. But using Gtk+3 to build $PACKAGE is NOT recommend.\n"
+      WARN "[OK]. But using Gtk+3 to build $PACKAGE is NOT recommend.\n"
     fi
   else
     if [ "$GTK" = "gtk+-2.0" ]; then
-      ERR "not found. Please install libgtk2.0-dev package. ABORT!\n"
+      ERR "[NG]"
+      PACKAGE_MESSAGE "libgtk2.0-dev"
     else
-      ERR "not found. Please install libgtk-3-dev package. ABORT!\n"
+      ERR "[NG]"
+      PACKAGE_MESSAGE "libgtk-3-dev"
     fi
-    $ECHO ""
     exit 1
   fi
 else
   if [ "$GTK" = gtk+-2.0 ]; then
     $PKGCONFIG --exists 'gtk+-2.0 >= 2.8' > /dev/null 2>&1
     if [ $? != 0 ]; then
-      ERR "ERROR: Gtk+2 > 2.8 is needed to build $PACKAGE.\n"
-      $ECHO ""
+      ERR "[NG]"
+      VERSION_MESSAGE "\n\n" "Gtk+2" "2.8"
       exit 1
     fi
 
     $PKGCONFIG --exists 'gtk+-2.0 < 2.12' > /dev/null 2>&1
     if [ $? != 0 ]; then
-      INFO "found.\n"
+      INFO "[OK]\n"
     else
-      WARN "found. But using Gtk+2 > 2.12 is recommend to build $PACKAGE.\n"
+      WARN "[OK]. But using Gtk+2 > 2.12 is recommend to build $PACKAGE.\n"
     fi
   else
-    WARN "found. But using Gtk+3 to build $PACKAGE is NOT recommend.\n"
+    WARN "[OK]. But using Gtk+3 to build $PACKAGE is NOT recommend.\n"
   fi
 fi
 
@@ -210,51 +240,52 @@ fi
 # ---- VTE ---- #
 
 if [ "$GTK" = 'gtk+-2.0' ]; then
-  $ECHO -n "... testing VTE      : "
+  CHECK_MESSAGE 'VTE'
   VTE=vte
 else
-  $ECHO -n "... testing VTE 0.29 : "
+  CHECK_MESSAGE 'VTE 0.29'
   VTE=vte-2.90
 fi
 
 $PKGCONFIG --cflags $VTE > /dev/null 2>&1
 if [ $? != 0 ]; then
   if [ "$GTK" = 'gtk+-2.0' ]; then
-    ERR "not found. Please install libvte-dev package. ABORT!\n"
+    ERR "[NG]"
+    PACKAGE_MESSAGE "libvte-dev"
   else
-    ERR "not found. Please install libvte-2.90-dev package. ABORT!\n"
+    ERR "[NG]"
+    PACKAGE_MESSAGE "libvte-2.90-dev"
   fi
-  $ECHO ""
   exit 1
 else
-  if [ "$GTK" = 'vte' ]; then
+  if [ "$VTE" = 'vte' ]; then
     $PKGCONFIG --exists 'vte >= 0.12' > /dev/null 2>&1
     if [ $? != 0 ]; then
-      ERR "ERROR: VTE > 0.12 is needed to build $PACKAGE.\n"
-      $ECHO ""
+      ERR "[NG]"
+      VERSION_MESSAGE "\n\n" "VTE" "0.12"
       exit 1
     fi
   fi
 
-  INFO "found.\n"
+  INFO "[OK]\n"
 fi
 
 
 # ---- NLS ---- #
 
 if [ "$NLS" = 'Y' ]; then
-  $ECHO -n "... testing Native Language Support : "
+  CHECK_MESSAGE 'Native Language Support'
   GETTEXT=`whereis -b msgfmt | awk '{print $2}'`
   if [ -z "$GETTEXT" ]; then
     if [ $NLS_SPC -eq 1 ]; then
-      ERR "not found. Please install gettext package. ABORT!\n"
-      $ECHO ""
+      ERR "[NG]"
+      PACKAGE_MESSAGE "gettext"
       exit 1
     fi
-    WARN "not found.\n"
+    WARN "[NO]\n"
     NLS=N
   else
-    INFO "found.\n"
+    INFO "[OK]\n"
   fi
 fi
 
@@ -262,18 +293,18 @@ fi
 # ---- GNOME_CONTROL_CENTER ---- #
 
 if [ "$GNOME_CONTROL_CENTER" = 'Y' ]; then
-  $ECHO -n "... testing Gnome Control Center    : "
+  CHECK_MESSAGE 'Gnome Control Center'
   GNOME_CONTROL_CENTER_DIR=`pkg-config --variable=defappsdir --define-variable=datadir='$(DATADIR)' gnome-default-applications`
   if [ $? != 0 ]; then
     if [ $GNOME_CONTROL_CENTER_SPC -eq 1 ]; then
-      ERR "not found. Please install gnome-control-center-dev package. ABORT!\n"
-      $ECHO ""
+      ERR "[NG]"
+      PACKAGE_MESSAGE "gnome-control-center-dev"
       exit 1
     fi
-    WARN "not found.\n"
+    WARN "[NO]\n"
     GNOME_CONTROL_CENTER=N
   else
-    INFO "found.\n"
+    INFO "[OK]\n"
   fi
 fi
 
@@ -281,57 +312,57 @@ $ECHO ""
 
 # ---- REPORT ---- #
 
-INFO "===========================================\n"
-IMPORTANT "PREFIX    = $PREFIX\n"
-IMPORTANT "ETCDIR    = $ETCDIR\n"
+INFO "=================================================\n"
+IMPORTANT "  PREFIX    = $PREFIX\n"
+IMPORTANT "  ETCDIR    = $ETCDIR\n"
 if [ "$DEBUG" = 'Y' ]; then
-  IMPORTANT "DEBUG     = $DEBUG\n"
+  IMPORTANT "  DEBUG     = $DEBUG\n"
 else
-  $ECHO "DEBUG     = $DEBUG"
+  $ECHO "  DEBUG     = $DEBUG"
 fi
 if [ "$NLS" = 'N' ]; then
-  IMPORTANT "NLS       = $NLS\n"
+  IMPORTANT "  NLS       = $NLS\n"
 else
-  $ECHO "NLS       = $NLS"
+  $ECHO "  NLS       = $NLS"
 fi
 if [ "$SAFEMODE" = 'N' ]; then
-  IMPORTANT "SAFEMODE  = $SAFEMODE\n"
+  IMPORTANT "  SAFEMODE  = $SAFEMODE\n"
 else
-  $ECHO "SAFEMODE  = $SAFEMODE"
+  $ECHO "  SAFEMODE  = $SAFEMODE"
 fi
 if [ "$STRIP" = 'Y' ]; then
-  IMPORTANT "STRIP     = $STRIP\n"
+  IMPORTANT "  STRIP     = $STRIP\n"
 fi
 CHECK_CC=`whereis -b $CC | awk '{print $2}'`
 if [ -n "$CHECK_CC" ]; then
   if [ "$CC" != 'gcc' ]; then
-    IMPORTANT "CC        = $CC\n"
+    IMPORTANT "  CC        = $CC\n"
   fi
 else
-  ERR "CC        = $CC\n"
+  ERR "  CC        = $CC\n"
 fi
 if [ "$CFLAGS" != '-Wall -O -g' ]; then
-  IMPORTANT "CFLAGS    = $CFLAGS\n"
+  IMPORTANT "  CFLAGS    = $CFLAGS\n"
 else
-  $ECHO "CFLAGS    = $CFLAGS"
+  $ECHO "  CFLAGS    = $CFLAGS"
 fi
 if [ -n "$GMAKE" ]; then
-   IMPORTANT "MAKE      = $MAKE\n"
+   IMPORTANT "  MAKE      = $MAKE\n"
 else
 if [ -z "$MAKE" ]; then
- ERR "MAKE      = $MAKE\n"
+ ERR "  MAKE      = $MAKE\n"
 fi
 fi
-$ECHO "GTK       = $GTK"
-$ECHO "VTE       = $VTE"
+$ECHO "  GTK       = $GTK"
+$ECHO "  VTE       = $VTE"
 if [ "$GNOME_CONTROL_CENTER" = 'Y' ]; then
-  IMPORTANT "GNOME_CONTROL_CENTER     = $GNOME_CONTROL_CENTER\n"
-  IMPORTANT "GNOME_CONTROL_CENTER_DIR = $GNOME_CONTROL_CENTER_DIR\n"
+  IMPORTANT "  GNOME_CONTROL_CENTER     = $GNOME_CONTROL_CENTER\n"
+  IMPORTANT "  GNOME_CONTROL_CENTER_DIR = $GNOME_CONTROL_CENTER_DIR\n"
 fi
-INFO "===========================================\n"
+INFO "=================================================\n"
 $ECHO ""
 if [ -n "$GMAKE" ]; then
-   WARN "Please use \`"
+   WARN "Please be sure to use \`"
    IMPORTANT "gmake"
    WARN "' instead of \`"
    IMPORTANT "make"
