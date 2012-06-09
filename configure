@@ -121,7 +121,9 @@ fi
 
 PKGCONFIG=`whereis -b pkg-config | awk '{print $2}'`
 if [ -z "$PKGCONFIG" ]; then
-  ERR "\n  ERROR: pkg-config package is needed to run this configure script. ABORT!\n\n"
+  ERR "\n  ERROR: \`"
+  WARN "pkg-config"
+  ERR "' package is needed to run this configure script. ABORT!\n\n"
   exit 1
 fi
 
@@ -165,10 +167,9 @@ for opt do
       GNOME_CONTROL_CENTER=N
       ;;
     *)
-      ERR "\n  ERROR: invalid option \""
-      WARN "$opt"
-      ERR "\". ABORT!\n\n"
-      exit 1
+      WARN "\n  WARN: invalid option \""
+      IMPORTANT "$opt"
+      WARN "\" !!\n"
       ;;
   esac
 done
