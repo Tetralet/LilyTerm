@@ -293,17 +293,17 @@ fi
 # ---- GNOME_CONTROL_CENTER ---- #
 
 if [ "$GNOME_CONTROL_CENTER" = 'Y' ]; then
-  CHECK_MESSAGE 'Gnome Control Center'
   GNOME_CONTROL_CENTER_DIR=`pkg-config --variable=defappsdir --define-variable=datadir='$(DATADIR)' gnome-default-applications`
   if [ $? != 0 ]; then
     if [ $GNOME_CONTROL_CENTER_SPC -eq 1 ]; then
+      CHECK_MESSAGE 'Gnome Control Center'
       ERR "[NG]"
       PACKAGE_MESSAGE "gnome-control-center-dev"
       exit 1
     fi
-    WARN "[NO]\n"
     GNOME_CONTROL_CENTER=N
   else
+    CHECK_MESSAGE 'Gnome Control Center'
     INFO "[OK]\n"
   fi
 fi
