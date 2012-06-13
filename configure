@@ -367,7 +367,7 @@ fi
 
 $ECHO "PREFIX = $PREFIX" > .config
 $ECHO "ETCDIR = $ETCDIR" >> .config
-if [ "`uname`" == "FreeBSD" -o "`uname`" == "OpenBSD" ]; then
+if [ "`uname`" = "FreeBSD" -o "`uname`" = "OpenBSD" ]; then
 	$ECHO "MANDIR = \$(PREFIX)/man/man1" >> .config
 fi
 $ECHO "NLS = $NLS" >> .config
