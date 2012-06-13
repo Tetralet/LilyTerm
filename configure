@@ -91,6 +91,7 @@ VERSION_MESSAGE()
 }
 
 if [ "$1" = "-h" -o "$1" = "--help" -o "$1" = "-help" ]; then
+  $ECHO ""
   WARN "Usage: $0 [OPTION]... [VAR=VALUE]...\n"
   $ECHO ""
   $ECHO "Installation directories:"
@@ -105,14 +106,9 @@ if [ "$1" = "-h" -o "$1" = "--help" -o "$1" = "-help" ]; then
   $ECHO "  `INFO '--disable-nls'`       : disable Native Language Support `NORMAL '[default: enable]'`"
   $ECHO "  `INFO '--disable-safe-mode'` : disable run in safe mode `NORMAL '[default: enable]'`"
   $ECHO ""
-  $ECHO "run \``IMPORTANT 'make'`' to build $PACKAGE, include binary, data and translations."
-  $ECHO "run \``IMPORTANT 'make src'`' to build $PACKAGE binary files."
-  $ECHO "run \``IMPORTANT 'make data'`' to build $PACKAGE data files."
-  $ECHO "run \``IMPORTANT 'make po'`' to build $PACKAGE translation files."
-  $ECHO ""
   $ECHO "run \``IMPORTANT 'make clean'`' to clean $PACKAGE builded files."
   $ECHO "run \``IMPORTANT 'make distclean'`' to clean $PACKAGE builded and configure files."
-  $ECHO ""
+  $ECHO "run \``IMPORTANT 'make'`' to build $PACKAGE, include binary, data and translations."
   $ECHO "run \``IMPORTANT 'make install'`' to install $PACKAGE to your system."
   $ECHO "run \``IMPORTANT 'make uninstall'`' to unstall $PACKAGE in `NORMAL "$PREFIX"` from your system."
   $ECHO ""
@@ -371,6 +367,9 @@ fi
 
 $ECHO "PREFIX = $PREFIX" > .config
 $ECHO "ETCDIR = $ETCDIR" >> .config
+if [ "`uname`" == "FreeBSD" -o "`uname`" == "OpenBSD" ]; then
+	$ECHO "MANDIR = \$(PREFIX)/man/man1" >> .config
+fi
 $ECHO "NLS = $NLS" >> .config
 $ECHO "DEBUG = $DEBUG" >> .config
 $ECHO "NLS = $NLS" >> .config
