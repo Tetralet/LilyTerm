@@ -4,7 +4,7 @@ include ../.default
 PO_LIST ?= $(LANG_LIST:=.po)
 MO_LIST ?= $(LANG_LIST:=.mo)
 
-XGETTEXT := $(shell whereis -b xgettext | awk '{print $$2}')
+XGETTEXT := $(shell whereis -b "xgettext" | tr -s ' ' '\n' | grep "bin/""xgettext""$$" | head -n 1)
 ifneq ($(XGETTEXT), )
 
 XGETTEXT_PARAMETER = -k_
@@ -31,7 +31,7 @@ endif
 
 endif
 
-MSGCMP := $(shell whereis -b msgcmp | awk '{print $$2}')
+MSGCMP := $(shell whereis -b "msgcmp" | tr -s ' ' '\n' | grep "bin/""msgcmp""$$" | head -n 1)
 ifneq ($(MSGCMP), )
 
 SUPPORT_USE_UNTRANSLATED = $(shell $(MSGCMP) --help | grep -q -- '--use-untranslated' && echo Y)
@@ -41,7 +41,7 @@ endif
 
 endif
 
-MSGMERGE := $(shell whereis -b msgmerge | awk '{print $$2}')
+MSGMERGE := $(shell whereis -b "msgmerge" | tr -s ' ' '\n' | grep "bin/""msgmerge""$$" | head -n 1)
 ifneq ($(MSGMERGE), )
 
 SUPPORT_PREVIOUS = $(shell $(MSGMERGE) --help | grep -q -- '--previous' && echo Y)
@@ -51,8 +51,8 @@ endif
 
 endif
 
-MSGFMT := $(shell whereis -b msgfmt | awk '{print $$2}')
-TOUCH := $(shell whereis -b touch | awk '{print $$2}')
+MSGFMT := $(shell whereis -b "msgfmt" | tr -s ' ' '\n' | grep "bin/""msgfmt""$$" | head -n 1)
+TOUCH := $(shell whereis -b "touch" | tr -s ' ' '\n' | grep "bin/""touch""$$" | head -n 1)
 
 .PHONY: all
 all: $(MO_LIST)

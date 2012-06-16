@@ -20,7 +20,7 @@
 include ../.default
 -include ../.config
 
-PKGCONFIG := $(shell whereis -b pkg-config | awk '{print $$2}')
+PKGCONFIG := $(shell whereis -b "pkg-config" | tr -s ' ' '\n' | grep "bin/""pkg-config""$$" | head -n 1)
 
 VTE ?= ""
 
@@ -178,7 +178,7 @@ memory: $(BINARY)
 
 .PHONY: clean
 clean:
-	-@ for FileName in $(BINARY) $(BINARY)_dev $(BINARY)_dbg $(OBJ) unit_test unit_test.[co] gdb_batch gdb.log valgrind.log ; \
+	-@ for FileName in $(BINARY) $(BINARY)_dev $(BINARY)_dbg $(OBJ) unit_test unit_test.[co] gdb_batch gdb.log valgrind.log vgcore.*; \
 	do \
 		if [ -f "$$FileName" ]; then \
 			$(PRINTF) "\033[1;35m** deleting $$FileName...\033[0m\n"; \

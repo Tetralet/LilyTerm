@@ -28,10 +28,21 @@ BUILD_ONLY=0
 LIB_LISTS="lilyterm.h"
 FUNCTION_FOUND=0
 
+ECHO=`whereis -b "echo" | tr -s ' ' '\n' | grep "bin/""echo""$" | head -n 1`
+PRINTF=`whereis -b "printf" | tr -s ' ' '\n' | grep "bin/""printf""$" | head -n 1`
+CAT=`whereis -b "cat" | tr -s ' ' '\n' | grep "bin/""cat""$" | head -n 1`
+GDB=`whereis -b "gdb" | tr -s ' ' '\n' | grep "bin/""gdb""$" | head -n 1`
+VALGRIND=`whereis -b "valgrind" | tr -s ' ' '\n' | grep "bin/""valgrind""$" | head -n 1`
+
+MAKE=`whereis -b "gmake" | tr -s ' ' '\n' | grep "bin/""gmake""$" | head -n 1`                                                                        
+if [ -z "$MAKE" ]; then
+	MAKE=`whereis -b "make" | tr -s ' ' '\n' | grep "bin/""make""$" | head -n 1`
+fi
+
 for opt do
 	case "$opt" in
 		--help)
-			echo "Usage: sh $0 INCLUDES --test_all --enable-glib-debugger --enable-gtk-debugger --enable-gdb --enable-valgrind --specific_function=FUNCTION_NAME --skip_function=FUNCTION_NAME --create_program_only --build_program_only"
+			$ECHO "Usage: sh $0 INCLUDES --test_all --enable-glib-debugger --enable-gtk-debugger --enable-gdb --enable-valgrind --specific_function=FUNCTION_NAME --skip_function=FUNCTION_NAME --create_program_only --build_program_only"
 			exit 0
 			;;
 		--test_all)
@@ -51,11 +62,11 @@ for opt do
 			RUN_VALGRIND=1
 			;;
 		--specific_function=*)
-			SPECIFIC_FUNCTION=`echo $opt | cut -d '=' -f 2`
+			SPECIFIC_FUNCTION=`$ECHO $opt | cut -d '=' -f 2`
 			LIB_LISTS="*.h"
 			;;
 		--skip_function=*)
-			SKIP_FUNCTION=`echo $opt | cut -d '=' -f 2`
+			SKIP_FUNCTION=`$ECHO $opt | cut -d '=' -f 2`
 			;;
 		--create_program_only)
 			TEST_SCRIPT_ONLY=1
@@ -66,20 +77,17 @@ for opt do
 	esac
 done
 
-ECHO=`whereis -b echo | awk '{print $2}'`
-PRINTF=`whereis -b printf | awk '{print $2}'`
-
 CHECK_INCLUDES=`$ECHO "$INCLUDES" | grep -- '-DUNIT_TEST'`
 if [ -z "$CHECK_INCLUDES" ]; then
 	if [ -f lilyterm -o -f lilyterm-dbg -o -f lilyterm_dev ]; then
-		make clean
+		$MAKE clean
 	fi
-	make uto
+	$MAKE uto
 	INCLUDES="-DDEFENSIVE -DDEBUG -DFATAL -DDEVELOP -DUNIT_TEST"
 fi
 
 
-PKGCONFIG=`whereis -b pkg-config | awk '{print $2}'`
+PKGCONFIG=`whereis -b "pkg-config" | tr -s ' ' '\n' | grep "bin/""pkg-config""$" | head -n 1`
 if [ -z "$PKGCONFIG" ]; then
 	$PRINTF "\033[1;31m** ERROR: Command pkg-config is not found!\033[0m\n"
 	exit 1
@@ -116,7 +124,7 @@ fi
 
 OBJ="menu.o profile.o dialog.o pagename.o notebook.o font.o property.o window.o misc.o console.o main.o unit_test.o"
 
-cat > gdb_batch << EOF
+$CAT > gdb_batch << EOF
 run
 backtrace full
 info registers
@@ -139,7 +147,7 @@ EOF
 # sed -e 's/[\t ][\t ]*/_SPACE_/g': convert <Tab> and <Space> to "_SAPCE_" again
 # sed -e '/_SPACE_(_SPACE_)_SPACE_/d': clear something like [ blah ( )  ]
 
-for DATA in `cat $LIB_LISTS | sed '/^\/\*/,/ \*\/$/d' | sed -e 's/[ \t]*\/\*[ \t]*.*[ \t]*\*\///g' | sed -e 's/[ \t]*\/\/.*//g' | sed -e '/^[ \t]*#.*/d' | sed '/^[ \t]*typedef.*;[ \t]*$/d' | sed '/^[ \t]*typedef enum/,/}.*;[ \t]*$/d' | tr -d '\n' | sed -e 's/[\t ][\t ]*/_SPACE_/g' | sed -e 's/;/;\n/g' | sed -e 's/_SPACE_/ /g' | sed -e '/[ \t]*struct.*{/,/.*}[ \t]*;/d' | sed -e 's/ *\([)(,]\) */ \1 /g' | sed -e 's/[\t ][\t ]*/_SPACE_/g' | sed -e '/_SPACE_(_SPACE_)_SPACE_/d'`; do
+for DATA in `$CAT $LIB_LISTS | sed '/^\/\*/,/ \*\/$/d' | sed -e 's/[ \t]*\/\*[ \t]*.*[ \t]*\*\///g' | sed -e 's/[ \t]*\/\/.*//g' | sed -e '/^[ \t]*#.*/d' | sed '/^[ \t]*typedef.*;[ \t]*$/d' | sed '/^[ \t]*typedef enum/,/}.*;[ \t]*$/d' | tr -d '\n' | sed -e 's/[\t ][\t ]*/_SPACE_/g' | sed -e 's/;/;\n/g' | sed -e 's/_SPACE_/ /g' | sed -e '/[ \t]*struct.*{/,/.*}[ \t]*;/d' | sed -e 's/ *\([)(,]\) */ \1 /g' | sed -e 's/[\t ][\t ]*/_SPACE_/g' | sed -e '/_SPACE_(_SPACE_)_SPACE_/d'`; do
 
 	if [ $FUNCTION_FOUND -eq 1 ]; then
 		break
@@ -147,7 +155,7 @@ for DATA in `cat $LIB_LISTS | sed '/^\/\*/,/ \*\/$/d' | sed -e 's/[ \t]*\/\*[ \t
 
 	if [ -n "$SKIP_FUNCTION" ]; then
 		CHECK_STR="_SPACE_\**"$SKIP_FUNCTION"_SPACE_"
-		CHECK_PROGRAM=`echo "$DATA" | grep "$CHECK_STR"`
+		CHECK_PROGRAM=`$ECHO "$DATA" | grep "$CHECK_STR"`
 		if [ -n "$CHECK_PROGRAM" ]; then
 			continue
 		fi
@@ -155,7 +163,7 @@ for DATA in `cat $LIB_LISTS | sed '/^\/\*/,/ \*\/$/d' | sed -e 's/[ \t]*\/\*[ \t
 
 	if [ -n "$SPECIFIC_FUNCTION" ]; then
 		CHECK_STR="_SPACE_\**"$SPECIFIC_FUNCTION"_SPACE_"
-		CHECK_PROGRAM=`echo "$DATA" | grep "$CHECK_STR"`
+		CHECK_PROGRAM=`$ECHO "$DATA" | grep "$CHECK_STR"`
 		if [ -z "$CHECK_PROGRAM" ]; then
 			continue
 		else
@@ -166,24 +174,24 @@ for DATA in `cat $LIB_LISTS | sed '/^\/\*/,/ \*\/$/d' | sed -e 's/[ \t]*\/\*[ \t
 	MAX_VAR=-1
 	unset FULL_FUNCTION
 
-	# echo "Got original data = $DATA"
+	# $ECHO "Got original data = $DATA"
 	# sed -e 's/_SPACE_\([)(,]\)_SPACE_/ \1 /g': convert _SPACE_)(,_SPACE_ to " ) " " ( " or " , "
 	# sed -e 's/ , / /g': convert " , " to " "
 	# sed -e 's/const_SPACE_//g': clear const_SPACE_
-	DATA_STR=`echo $DATA | sed -e 's/_SPACE_\([)(,]\)/ \1/g' | sed -e 's/\([)(,]\)_SPACE_/\1 /g' | sed -e 's/ , / /g' | sed -e 's/const_SPACE_//g'`
-	# echo "GOT DATA_STR = $DATA_STR" 1>&2
+	DATA_STR=`$ECHO $DATA | sed -e 's/_SPACE_\([)(,]\)/ \1/g' | sed -e 's/\([)(,]\)_SPACE_/\1 /g' | sed -e 's/ , / /g' | sed -e 's/const_SPACE_//g'`
+	# $ECHO "GOT DATA_STR = $DATA_STR" 1>&2
 	START=0
 	END=0
 	VAR=-1
 
 	for STR in $DATA_STR; do
-		# echo "GOT and Checking STR='$STR'"
+		# $ECHO "GOT and Checking STR='$STR'"
 		case $START in
 			0)
 				if [ "$STR" = "(" ]; then
 					START=1
 					FUNCTION="("
-					# echo "GOT FUNCTION = $FUNCTION"
+					# $ECHO "GOT FUNCTION = $FUNCTION"
 				else
 					# Got the function name.
 					unset FUNC_STAR
@@ -193,27 +201,27 @@ for DATA in `cat $LIB_LISTS | sed '/^\/\*/,/ \*\/$/d' | sed -e 's/[ \t]*\/\*[ \t
 					# sed -e 's/^ *//g': clear the leading <Space>
 					# sed -e 's/ *$//g': clear the end <Space>
 					# sed -e 's/^.* \**\([^ ]*\)/\1/g': clear the declare, like "gchar **"
-					FUNC_NAME=`echo $STR | sed -e 's/_SPACE_/ /g' | sed -e 's/^ *//g' | sed -e 's/ *$//g' | sed -e 's/^.* \**\([^ ]*\)/\1/g'`
-					# echo "GOT FUNC_NAME = $FUNC_NAME"
+					FUNC_NAME=`$ECHO $STR | sed -e 's/_SPACE_/ /g' | sed -e 's/^ *//g' | sed -e 's/ *$//g' | sed -e 's/^.* \**\([^ ]*\)/\1/g'`
+					# $ECHO "GOT FUNC_NAME = $FUNC_NAME"
 					$PRINTF "\033[1;36m$FUNC_NAME(): \033[1;33m** Createing unit_test.c...\033[0m\n"
 				fi
 				;;
 			1)
 				if [ "$STR" = ")" ]; then
-					FUNCTION=`echo $FUNCTION | sed -e 's/,*$/)/g'`
+					FUNCTION=`$ECHO $FUNCTION | sed -e 's/,*$/)/g'`
 					START=2
 					continue
 				fi
-				# echo "CHECKING: GOT FUNCTION = $FUNCTION"
-				# echo "Testing $STR..." 1>&2
+				# $ECHO "CHECKING: GOT FUNCTION = $FUNCTION"
+				# $ECHO "Testing $STR..." 1>&2
 
 				# sed -e 's/_SPACE_/ /g': convert "_SAPCE_" to <Space>
 				# sed -e 's/^\(.* \**\) *\([^][ ]*\)\([[]*\)[^][ ]*\([]]*\)/\1\3\4/g': convert "gchar *profile[A]" to gchar *[]
 				# sed -e 's/^ *//g': clear the leading <Space>
 				# sed -e 's/ *$//g': clear the end <Space>
 				# sed -e 's/^.* \**\([^ ]*\)/\1/g': clear the variable
-				STR=`echo $STR | sed -e 's/_SPACE_/ /g' | sed -e 's/^\(.* \**\) *\([^][ ]*\)\([[]*\)[^][ ]*\([]]*\)/\1\3\4/g' | sed -e 's/^ *//g' | sed -e 's/ *$//g' | sed -e 's/ *\*/*/g'`
-				# echo "GOT and Testing \"$STR\"..." 1>&2
+				STR=`$ECHO $STR | sed -e 's/_SPACE_/ /g' | sed -e 's/^\(.* \**\) *\([^][ ]*\)\([[]*\)[^][ ]*\([]]*\)/\1\3\4/g' | sed -e 's/^ *//g' | sed -e 's/ *$//g' | sed -e 's/ *\*/*/g'`
+				# $ECHO "GOT and Testing \"$STR\"..." 1>&2
 				case $STR in
 					'...')
 						;;
@@ -258,7 +266,7 @@ for DATA in `cat $LIB_LISTS | sed '/^\/\*/,/ \*\/$/d' | sed -e 's/[ \t]*\/\*[ \t
 								FUNCTION="$FUNCTION V$VAR,"
 								;;
 							'gboolean*' | 'gint*' | 'guint*' | 'gsize*')
-								NO_STAR_STR=`echo $STR | sed -e 's/\*$//g'`
+								NO_STAR_STR=`$ECHO $STR | sed -e 's/\*$//g'`
 								FUNC_STAR="$FUNC_STAR\n$SPACE""for (V[$VAR]=0; V[$VAR]<2; V[$VAR]++) {"
 								FUNC_STAR="$FUNC_STAR\n$SPACE""_SPACE_""$NO_STAR_STR V$VAR = V[$VAR];"
 								FUNC_STAR="$FUNC_STAR\n$SPACE""_SPACE_""$STR G$VAR = NULL;"
@@ -311,7 +319,7 @@ for DATA in `cat $LIB_LISTS | sed '/^\/\*/,/ \*\/$/d' | sed -e 's/[ \t]*\/\*[ \t
 								FUN_DATA="$FUN_DATA$SPACE""_SPACE_""g_free(V$VAR);\n"
 								;;
 							'struct Dialog*' | 'struct Window*' | 'struct Page*' | 'struct Color_Data*' | 'struct Preview*')
-								STRUCT=`echo $STR | sed -e 's/struct \(.*\)\*/\1/g'`
+								STRUCT=`$ECHO $STR | sed -e 's/struct \(.*\)\*/\1/g'`
 								FUNC_STAR="$FUNC_STAR\n$SPACE""for (V[$VAR]=0; V[$VAR]<2; V[$VAR]++) {"
 								FUNC_STAR="$FUNC_STAR\n$SPACE""_SPACE_""struct $STRUCT *V$VAR = NULL;\n""$SPACE""_SPACE_""if (V[$VAR]) V$VAR = g_new0(struct $STRUCT, 1);"
 								FUNCTION="$FUNCTION V$VAR,"
@@ -365,20 +373,20 @@ for DATA in `cat $LIB_LISTS | sed '/^\/\*/,/ \*\/$/d' | sed -e 's/[ \t]*\/\*[ \t
 								FUN_DATA="$SPACE""_SPACE_""if (V$VAR) gtk_widget_destroy(V$VAR);\n"
 								;;
 							*)
-								echo "ERROR: $STR NOT Found!" 1>&2
+								$ECHO "ERROR: $STR NOT Found!" 1>&2
 								exit
 								;;
 						esac
 						FUNC_END="$FUN_DATA$SPACE}\n$FUNC_END"
 						unset FUN_DATA
-						# echo "Got FUNC_STAR = $FUNC_STAR"
-						# echo "Got FUNC_END = $FUNC_END" 1>&2
+						# $ECHO "Got FUNC_STAR = $FUNC_STAR"
+						# $ECHO "Got FUNC_END = $FUNC_END" 1>&2
 						;;
 					')')
-						FUNCTION=`echo $FUNCTION | sed -e 's/,$/)/g'`
+						FUNCTION=`$ECHO $FUNCTION | sed -e 's/,$/)/g'`
 						;;
 					*)
-						echo "ERROR: \"$STR\" NOT Found!" 1>&2
+						$ECHO "ERROR: \"$STR\" NOT Found!" 1>&2
 						exit
 						;;
 				esac
@@ -389,21 +397,21 @@ for DATA in `cat $LIB_LISTS | sed '/^\/\*/,/ \*\/$/d' | sed -e 's/[ \t]*\/\*[ \t
 						FUNCTION="$FUNCTION;"
 						;;
 					*)
-						echo "ERROR: \"$STR\" NOT Found!" 1>&2
+						$ECHO "ERROR: \"$STR\" NOT Found!" 1>&2
 						exit
 						;;
 				esac
 				;;
 			*)
-				echo "ERROR: \"$START\" is out of range!" 1>&2
+				$ECHO "ERROR: \"$START\" is out of range!" 1>&2
 		esac
 	done
 
-	# echo "GOT FULL_FUNCTION = $FULL_FUNCTION" 1>&2
-	# echo "GOT FUNC_STAR = $FUNC_STAR" 1>&2
-	# echo "GOT FUNCTION = $FUNCTION" 1>&2
-	# echo "GOT FUNC_END = $FUNC_END" 1>&2
-	FUNCTION=`echo $FUNCTION | sed -e 's/^( /(/g'`
+	# $ECHO "GOT FULL_FUNCTION = $FULL_FUNCTION" 1>&2
+	# $ECHO "GOT FUNC_STAR = $FUNC_STAR" 1>&2
+	# $ECHO "GOT FUNCTION = $FUNCTION" 1>&2
+	# $ECHO "GOT FUNC_END = $FUNC_END" 1>&2
+	FUNCTION=`$ECHO $FUNCTION | sed -e 's/^( /(/g'`
 	FUNCTION="$SPACE""_SPACE_""$FUNC_NAME$FUNCTION"
 	FULL_FUNCTION="$FULL_FUNCTION\n  g_debug(\"UNIT TEST: testing $FUNC_NAME()...\");"
 	FULL_FUNCTION="$FULL_FUNCTION$FUNC_STAR\n$FUNCTION\n$FUNC_END"
@@ -412,27 +420,27 @@ for DATA in `cat $LIB_LISTS | sed '/^\/\*/,/ \*\/$/d' | sed -e 's/[ \t]*\/\*[ \t
 
 	grep "include <.*>" *.h | cut -f 2 -d : | sed -e 's/^[ \t]//g' | sort | uniq > unit_test.c
 	for FILE in *.h; do
-		echo "#include \"$FILE\"" >> unit_test.c
+		$ECHO "#include \"$FILE\"" >> unit_test.c
 	done
 
-	cat >> unit_test.c << EOF
+	$CAT >> unit_test.c << EOF
 
 int main(int argc, char *argv[])
 {
 EOF
 	if [ $MAX_VAR -gt 0 ]; then
-		cat >> unit_test.c << EOF
+		$CAT >> unit_test.c << EOF
   gint V[$MAX_VAR];
 EOF
 fi
-	cat >> unit_test.c << EOF
+	$CAT >> unit_test.c << EOF
   gtk_init(&argc, &argv);
 EOF
 
-	# echo "GOT FULL_FUNCTION = $FULL_FUNCTION"
-	echo "$FULL_FUNCTION" | sed -e 's/\\n/\n/g' | sed -e 's/_SPACE_/  /g' >> unit_test.c
+	# $ECHO "GOT FULL_FUNCTION = $FULL_FUNCTION"
+	$ECHO "$FULL_FUNCTION" | sed -e 's/\\n/\n/g' | sed -e 's/_SPACE_/  /g' >> unit_test.c
 
-	cat >> unit_test.c << EOF
+	$CAT >> unit_test.c << EOF
   return 0;
 }
 EOF
@@ -445,16 +453,16 @@ EOF
 
 		if [ $BUILD_ONLY -eq 0 ]; then
 			if [ $RUN_GDB -eq 1 ]; then
-				$PRINTF "\033[1;36m$FUNC_NAME(): \033[1;33m** Testing with gdb...\033[0m\n"
+				$PRINTF "\033[1;36m$FUNC_NAME(): \033[1;33m** Testing with $GDB...\033[0m\n"
 				if [ -n "$SPECIFIC_FUNCTION" ]; then
-					gdb -batch -x ./gdb_batch --args ./unit_test $GTK_DEBUG
+					$GDB -batch -x ./gdb_batch --args ./unit_test $GTK_DEBUG
 				else
-					echo "Testing $FUNC_NAME() with gdb..." > /tmp/lilyterm_$FUNC_NAME.log
-					gdb -batch -x ./gdb_batch --args ./unit_test $GTK_DEBUG  >> /tmp/lilyterm_$FUNC_NAME.log 2>&1
+					$ECHO "Testing $FUNC_NAME() with $GDB..." > /tmp/lilyterm_$FUNC_NAME.log
+					$GDB -batch -x ./gdb_batch --args ./unit_test $GTK_DEBUG  >> /tmp/lilyterm_$FUNC_NAME.log 2>&1
 					CHECK_STR=`tail -n 4 /tmp/lilyterm_$FUNC_NAME.log | grep 'exited normally'`
 					if [ -z "$CHECK_STR" ]; then
-						cat /tmp/lilyterm_$FUNC_NAME.log >> gdb.log
-						echo "" >> gdb.log
+						$CAT /tmp/lilyterm_$FUNC_NAME.log >> gdb.log
+						$ECHO "" >> gdb.log
 					else
 						$PRINTF "\033[1;36m$FUNC_NAME(): \033[1;33m** Program exited normally. Clear log...\033[0m\n"
 					fi
@@ -464,13 +472,13 @@ EOF
 
 			if [ $RUN_VALGRIND -eq 1 ]; then
 				$PRINTF "\033[1;36m$FUNC_NAME(): \033[1;33m** Testing with valgrind...\033[0m\n"
-				echo "Testing $FUNC_NAME() with valgrind..." >> valgrind.log
-				valgrind --leak-check=full ./unit_test >> valgrind.log 2>&1
-				echo "" >> valgrind.log
+				$ECHO "Testing $FUNC_NAME() with $VALGRIND..." >> valgrind.log
+				$VALGRIND --leak-check=full ./unit_test >> valgrind.log 2>&1
+				$ECHO "" >> valgrind.log
 			fi
 		fi
 	fi
-	echo ""
+	$ECHO ""
 done
 
 if [ -f ./gdb_batch ]; then

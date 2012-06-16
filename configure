@@ -25,15 +25,15 @@ if [ -z "$CFLAGS" ]; then
   CFLAGS="-Wall -O -g"
 fi
 
-MAKE=`whereis -b gmake | awk '{print $2}'`
+MAKE=`whereis -b "gmake" | tr -s ' ' '\n' | grep "bin/""gmake""$" | head -n 1`
 if [ -z "$MAKE" ]; then
-MAKE=`whereis -b make | awk '{print $2}'`
+MAKE=`whereis -b "make" | tr -s ' ' '\n' | grep "bin/""make""$" | head -n 1`
 else
   GMAKE="$MAKE"
 fi
-ECHO=`whereis -b echo | awk '{print $2}'`
-PRINTF=`whereis -b printf | awk '{print $2}'`
-WC=`whereis -b wc | awk '{print $2}'`
+ECHO=`whereis -b "echo" | tr -s ' ' '\n' | grep "bin/""echo""$" | head -n 1`
+PRINTF=`whereis -b "printf" | tr -s ' ' '\n' | grep "bin/""printf""$" | head -n 1`
+WC=`whereis -b "wc" | tr -s ' ' '\n' | grep "bin/""wc""$" | head -n 1`
 
 ERR()
 {
@@ -115,7 +115,7 @@ if [ "$1" = "-h" -o "$1" = "--help" -o "$1" = "-help" ]; then
   exit 0
 fi
 
-PKGCONFIG=`whereis -b pkg-config | awk '{print $2}'`
+PKGCONFIG=`whereis -b "pkg-config" | tr -s ' ' '\n' | grep "bin/""pkg-config""$" | head -n 1`
 if [ -z "$PKGCONFIG" ]; then
   ERR "\n  ERROR: \`"
   WARN "pkg-config"
@@ -271,7 +271,7 @@ fi
 
 if [ "$NLS" = 'Y' ]; then
   CHECK_MESSAGE 'Native Language Support'
-  GETTEXT=`whereis -b msgfmt | awk '{print $2}'`
+  GETTEXT=`whereis -b "msgfmt" | tr -s ' ' '\n' | grep "bin/""msgfmt""$" | head -n 1`
   if [ -z "$GETTEXT" ]; then
     if [ $NLS_SPC -eq 1 ]; then
       ERR "[NG]"
@@ -311,6 +311,9 @@ $ECHO ""
 INFO "=================================================\n"
 IMPORTANT "  PREFIX    = $PREFIX\n"
 IMPORTANT "  ETCDIR    = $ETCDIR\n"
+if [ "`uname`" = "FreeBSD" -o "`uname`" = "OpenBSD" ]; then
+	IMPORTANT "  MANDIR    = \$(PREFIX)/man/man1\n"
+fi
 if [ "$DEBUG" = 'Y' ]; then
   IMPORTANT "  DEBUG     = $DEBUG\n"
 else
@@ -329,7 +332,7 @@ fi
 if [ "$STRIP" = 'Y' ]; then
   IMPORTANT "  STRIP     = $STRIP\n"
 fi
-CHECK_CC=`whereis -b $CC | awk '{print $2}'`
+CHECK_CC=`whereis -b "$CC" | tr -s ' ' '\n' | grep "bin/""$CC""$" | head -n 1`
 if [ -n "$CHECK_CC" ]; then
   if [ "$CC" != 'gcc' ]; then
     IMPORTANT "  CC        = $CC\n"
@@ -343,7 +346,7 @@ else
   $ECHO "  CFLAGS    = $CFLAGS"
 fi
 if [ -n "$GMAKE" ]; then
-   IMPORTANT "  MAKE      = $MAKE\n"
+  IMPORTANT "  MAKE      = $MAKE\n"
 else
 if [ -z "$MAKE" ]; then
  ERR "  MAKE      = $MAKE\n"
@@ -358,11 +361,11 @@ fi
 INFO "=================================================\n"
 $ECHO ""
 if [ -n "$GMAKE" ]; then
-   WARN "Please be sure to use \`"
-   IMPORTANT "gmake"
-   WARN "' instead of \`"
-   IMPORTANT "make"
-   WARN "' to compile $PACKAGE\!\!\n\n"
+  WARN "Please be sure to use \`"
+  IMPORTANT "gmake"
+  WARN "' instead of \`"
+  IMPORTANT "make"
+  WARN "' to compile $PACKAGE\!\!\n\n"
 fi
 
 $ECHO "PREFIX = $PREFIX" > .config
