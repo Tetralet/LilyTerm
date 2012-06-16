@@ -668,7 +668,7 @@ void set_urgent_bell(GtkWidget *menuitem_urgent_bell, struct Window *win_data)
 	g_debug("! Launch set_urgent_bell() with win_data = %p", win_data);
 #endif
 #ifdef DEFENSIVE
-	if (win_data==NULL) return;
+	if ((win_data==NULL) || (win_data->notebook==NULL)) return;
 #endif
 	// win_data->urgent_bell = GTK_CHECK_MENU_ITEM(menuitem_urgent_bell)->active;
 	if (menuitem_urgent_bell)

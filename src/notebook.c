@@ -1122,6 +1122,9 @@ void dim_vte_text (struct Window *win_data, struct Page *page_data, gint dim_tex
 
 	// g_debug("CHECK: dim_vte = %d, page_data->vte_is_inactivated = %d", dim_vte, page_data->vte_is_inactivated);
 
+#ifdef DEFENSIVE
+	if (page_data->vte==NULL) return;
+#endif
 	// for performance, if the vte was dimmed already, don't dim it again.
 	if (page_data->vte_is_inactivated != dim_vte)
 	{
