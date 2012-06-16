@@ -1,3 +1,18 @@
+2012-06-16 Lu, Chao-Ming (Tetralet) <tetralet@gmail.com>
+  Version 0.9.9.2, it is a hotfix version of 0.9.9.1.
+
+  New Feature:
+	* More lovely configure script output.
+	* Better compatible with `hier' file systems used by FreeBSD/OpenBSD.
+	* Better compatible with FreeBSD.
+
+  FIX:
+	* Smarter 'whereis' commands for finding the full path of a program.
+	  Very thanks to Enlik for reporting this bug. close #11.
+	* Use '=' in the configure test expression.
+	  Very thanks to Enlik for reporting this bug.
+	* Don't exit if invalid option is given when running configure script.
+
 2012-06-06 Lu, Chao-Ming (Tetralet) <tetralet@gmail.com>
   Version 0.9.9.1, it is a hotfix version of 0.9.9.
 
