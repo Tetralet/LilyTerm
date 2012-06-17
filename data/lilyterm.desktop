@@ -16,4 +16,4 @@ Exec=lilyterm
 Icon=lilyterm
 Type=Application
 Terminal=false
-Categories=GTK;Utility;TerminalEmulator;
+Categories=GTK;Utility;System;TerminalEmulator;
