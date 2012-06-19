@@ -52,7 +52,7 @@ CFLAGS ?= -Wall -Werror -Os
 #	 -DG_DISABLE_SINGLE_INCLUDES -DGDK_DISABLE_DEPRECATED \
 #	 -DGDK_DISABLE_SINGLE_INCLUDES -DGTK_DISABLE_DEPRECATED \
 #	 -DGTK_DISABLE_SINGLE_INCLUDES -DGSEAL_ENABLE
-LDFLAGS = -L$(prefix)/local/lib
+LDFLAGS += -L$(prefix)/local/lib
 OBJ_PKG_CMD = $(PKGCONFIG) --cflags $(GTK) $(VTE)
 BINARY_PKG_CMD = $(PKGCONFIG) --cflags --libs $(GTK) $(VTE)
 SOURCE_FILES = menu.c profile.c dialog.c pagename.c notebook.c font.c \
@@ -75,6 +75,10 @@ INCLUDES = -DBINARY=\"$(BINARY)\" \
 	   -DETCDIR=\"$(ETCDIR)\" \
 	   -DLOCALEDIR=\"$(LOCALEDIR)\" \
 	   -DICONDIR=\"$(ICONDIR)\"
+
+ifeq ($(BSD), 1)
+	INCLUDES += -DBSD
+endif
 
 .PHONY: all
 all: default
@@ -188,11 +192,11 @@ clean:
 
 %.o: %.c %.h data.h $(BINARY).h
 	@ $(PRINTF) "\033[1;33m** compiling $@...\033[0m\n"
-	@ $(CC) $(CFLAGS) $(INCLUDES) -c $< `$(OBJ_PKG_CMD)`
+	@ $(CC) $(CPPFLAGS) $(CFLAGS) $(INCLUDES) -c $< `$(OBJ_PKG_CMD)`
 
 $(BINARY): $(OBJ)
 	@ $(PRINTF) "\033[1;36m** compiling $(BINARY)...\033[0m\n"
-	@ $(CC) $(LDFLAGS) $(CFLAGS) -o $(BINARY) $(OBJ) `$(BINARY_PKG_CMD)`
+	@ $(CC) $(LDFLAGS) $(CPPFLAGS) $(CFLAGS) -o $(BINARY) $(OBJ) `$(BINARY_PKG_CMD)`
 
 .PHONY: data
 data: debug

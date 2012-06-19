@@ -5,6 +5,12 @@ PREFIX=`grep "^PREFIX = " .default | awk -F ' = ' '{print $2}'`
 DATADIR=`grep "^DATADIR = " .default | awk -F ' = ' '{print $2}'`
 ETCDIR=`grep "^ETCDIR = " .default | awk -F ' = ' '{print $2}'`
 
+BSD=0
+UNAME="`uname`"
+if [ "$UNAME" = "FreeBSD" -o "$UNAME" = "OpenBSD" -o "$UNAME" = "NetBSD" ]; then
+	BSD=1
+fi
+
 GTK=gtk+-2.0
 
 DEBUG=N
@@ -311,7 +317,7 @@ $ECHO ""
 INFO "=================================================\n"
 IMPORTANT "  PREFIX    = $PREFIX\n"
 IMPORTANT "  ETCDIR    = $ETCDIR\n"
-if [ "`uname`" = "FreeBSD" -o "`uname`" = "OpenBSD" ]; then
+if [ $BSD -eq 1 ]; then
 	IMPORTANT "  MANDIR    = \$(PREFIX)/man/man1\n"
 fi
 if [ "$DEBUG" = 'Y' ]; then
@@ -340,11 +346,18 @@ if [ -n "$CHECK_CC" ]; then
 else
   ERR "  CC        = $CC\n"
 fi
+if [ -n "$CPPFLAGS" ]; then
+  IMPORTANT "  CPPFLAGS  = $CPPFLAGS\n"
+fi
 if [ "$CFLAGS" != '-Wall -O -g' ]; then
   IMPORTANT "  CFLAGS    = $CFLAGS\n"
 else
   $ECHO "  CFLAGS    = $CFLAGS"
 fi
+if [ -n "$LDFLAGS" ]; then
+  IMPORTANT "  LDFLAGS   = $LDFLAGS\n"
+fi
+
 if [ -n "$GMAKE" ]; then
   IMPORTANT "  MAKE      = $MAKE\n"
 else
@@ -368,9 +381,10 @@ if [ -n "$GMAKE" ]; then
   WARN "' to compile $PACKAGE\!\!\n\n"
 fi
 
-$ECHO "PREFIX = $PREFIX" > .config
+$ECHO "BSD = $BSD" > .config
+$ECHO "PREFIX = $PREFIX" >> .config
 $ECHO "ETCDIR = $ETCDIR" >> .config
-if [ "`uname`" = "FreeBSD" -o "`uname`" = "OpenBSD" ]; then
+if [ $BSD -eq 1 ]; then
 	$ECHO "MANDIR = \$(PREFIX)/man/man1" >> .config
 fi
 $ECHO "NLS = $NLS" >> .config
@@ -379,7 +393,9 @@ $ECHO "NLS = $NLS" >> .config
 $ECHO "SAFEMODE = $SAFEMODE" >> .config
 $ECHO "STRIP = $STRIP" >> .config
 $ECHO "CC = $CC" >> .config
+$ECHO "CPPFLAGS = $CPPFLAGS" >> .config
 $ECHO "CFLAGS = $CFLAGS" >> .config
+$ECHO "LDFLAGS = $LDFLAGS" >> .config
 $ECHO "MAKE = $MAKE" >> .config
 $ECHO "GTK = $GTK" >> .config
 $ECHO "VTE = $VTE" >> .config

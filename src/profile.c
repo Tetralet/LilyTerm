@@ -2589,7 +2589,11 @@ GString *save_user_settings(GtkWidget *widget, struct Window *win_data)
 	// g_debug("save_user_settings(): profile = %s", profile);
 
 	// g_debug("\n%s", contents->str);
+#ifdef BSD
 	gchar *real_file_name = realpath((const gchar *)profile, NULL);
+#else
+	gchar *real_file_name = canonicalize_file_name((const gchar *)profile);
+#endif
 	if (real_file_name==NULL)
 	{
 		//if (access(profile, F_OK))
