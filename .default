@@ -22,6 +22,6 @@ BINDIR = $(PREFIX)/bin
 DATADIR = $(PREFIX)/share
 MANDIR = $(DATADIR)/man/man1
 DOCDIR = $(DATADIR)/doc/$(BINARY)
+EXAMPLES_DIR = $(DATADIR)/doc/$(BINARY)/examples
 LOCALEDIR = $(DATADIR)/locale
 ICONDIR = $(DATADIR)/pixmaps
-

@@ -317,9 +317,6 @@ $ECHO ""
 INFO "=================================================\n"
 IMPORTANT "  PREFIX    = $PREFIX\n"
 IMPORTANT "  ETCDIR    = $ETCDIR\n"
-if [ $BSD -eq 1 ]; then
-	IMPORTANT "  MANDIR    = \$(PREFIX)/man/man1\n"
-fi
 if [ "$DEBUG" = 'Y' ]; then
   IMPORTANT "  DEBUG     = $DEBUG\n"
 else
@@ -367,6 +364,10 @@ fi
 fi
 $ECHO "  GTK       = $GTK"
 $ECHO "  VTE       = $VTE"
+if [ $BSD -eq 1 ]; then
+  IMPORTANT "  MANDIR       = \$(PREFIX)/man/man1\n"
+  IMPORTANT "  EXAMPLES_DIR = \$(DATADIR)/examples/\$(BINARY)\n"
+fi
 if [ "$GNOME_CONTROL_CENTER" = 'Y' ]; then
   IMPORTANT "  GNOME_CONTROL_CENTER     = $GNOME_CONTROL_CENTER\n"
   IMPORTANT "  GNOME_CONTROL_CENTER_DIR = $GNOME_CONTROL_CENTER_DIR\n"
@@ -386,6 +387,7 @@ $ECHO "PREFIX = $PREFIX" >> .config
 $ECHO "ETCDIR = $ETCDIR" >> .config
 if [ $BSD -eq 1 ]; then
 	$ECHO "MANDIR = \$(PREFIX)/man/man1" >> .config
+	$ECHO "EXAMPLES_DIR = \$(DATADIR)/examples/\$(BINARY)" >> .config
 fi
 $ECHO "NLS = $NLS" >> .config
 $ECHO "DEBUG = $DEBUG" >> .config

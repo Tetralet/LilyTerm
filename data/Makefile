@@ -2,7 +2,6 @@ include ../.default
 -include ../.config
 
 DESKTOP_DIR ?= $(DATADIR)/applications
-EXAMPLES_DIR ?= $(DATADIR)/doc/$(BINARY)/examples
 GNOME_CONTROL_CENTER ?= Y
 GNOME_CONTROL_CENTER_DIR ?= $(DATADIR)/gnome-control-center/default-apps
 
@@ -12,18 +11,18 @@ ifeq ($(MAIN_BINARY), )
 MAIN_BINARY = $(BINARY)
 endif
 
-FileList = $(DESTDIR)/$(ETCDIR)/$(BINARY).conf \
-	   $(DESTDIR)/$(DOCDIR)/AUTHORS \
-	   $(DESTDIR)/$(DOCDIR)/COPYING \
-	   $(DESTDIR)/$(DOCDIR)/ChangeLog \
-	   $(DESTDIR)/$(MANDIR)/$(BINARY).1.gz \
-	   $(DESTDIR)/$(DESKTOP_DIR)/$(BINARY).desktop \
-	   $(DESTDIR)/$(ICONDIR)/$(BINARY).png \
-	   $(DESTDIR)/$(ICONDIR)/$(BINARY).xpm \
-	   $(DESTDIR)/$(EXAMPLES_DIR)/$(BINARY).conf
+RomveFileList = $(DESTDIR)/$(ETCDIR)/$(BINARY).conf \
+		$(DESTDIR)/$(DOCDIR)/AUTHORS \
+		$(DESTDIR)/$(DOCDIR)/COPYING \
+		$(DESTDIR)/$(DOCDIR)/ChangeLog \
+		$(DESTDIR)/$(MANDIR)/$(BINARY).1.gz \
+		$(DESTDIR)/$(DESKTOP_DIR)/$(BINARY).desktop \
+		$(DESTDIR)/$(ICONDIR)/$(BINARY).png \
+		$(DESTDIR)/$(ICONDIR)/$(BINARY).xpm \
+		$(DESTDIR)/$(EXAMPLES_DIR)/$(BINARY).conf
 ifeq ($(GNOME_CONTROL_CENTER), Y)
 ifneq ($(GNOME_CONTROL_CENTER_DIR), )
-FileList += $(DESTDIR)/$(GNOME_CONTROL_CENTER_DIR)/$(BINARY).xml
+RomveFileList += $(DESTDIR)/$(GNOME_CONTROL_CENTER_DIR)/$(BINARY).xml
 endif
 endif
 
@@ -93,7 +92,7 @@ endif
 
 .PHONY: uninstall
 uninstall:
-	@ - for FileName in $(FileList) ; do \
+	@ - for FileName in $(RomveFileList) ; do \
 		if [ -f "$$FileName" ]; then \
 			$(PRINTF) "\033[1;35m** deleting $$FileName...\033[0m\n" ; \
 			rm -f "$$FileName" ; \
