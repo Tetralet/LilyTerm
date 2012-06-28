@@ -196,7 +196,7 @@ gboolean create_menu(struct Window *win_data)
 					   GINT_TO_POINTER (CHANGE_THE_OPACITY_OF_WINDOW_WHEN_INACTIVE));
 
 			// ----------------------------------------
-			add_separator_menu (win_data->menu);
+			add_separator_menu (background_sub_menu);
 		}
 #endif
 		// Transparent Background
