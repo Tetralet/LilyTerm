@@ -65,7 +65,6 @@ INCLUDES = -DBINARY=\"$(BINARY)\" \
 	   -DPACKAGE=\"$(PACKAGE)\" \
 	   -DBUGREPORT=\"$(BUGREPORT)\" \
 	   -DMAINSITE=\"$(MAINSITE)\" \
-	   -DTCSITE=\"$(TCSITE)\" \
 	   -DGITHUBURL=\"$(GITHUBURL)\" \
 	   -DBLOG=\"$(BLOG)\" \
 	   -DWIKI=\"$(WIKI)\" \

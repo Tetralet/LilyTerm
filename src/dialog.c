@@ -874,7 +874,6 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 
 			// About
 			str[9]  = g_strdup_printf (_("%s (Main site)"), MAINSITE);
-			str[10] = g_strdup_printf (_("%s (Traditional Chinese site)"), TCSITE);
 			str[11] = g_strdup_printf (_("%s (Github site)"), GITHUBURL);
 			// TRANSLATE NOTE: Please be care of the spacing when translating the following site informatoins.
 			// TRANSLATE NOTE: Please check it in [Right Click Menu] -> [Usage] -> [About] page after translating.

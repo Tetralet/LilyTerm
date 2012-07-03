@@ -3,7 +3,6 @@ BINARY = lilyterm
 AUTHOR = Lu, Chao-Ming (Tetralet)
 BUGREPORT = tetrlet@gmail.com
 MAINSITE = http://lilyterm.luna.com.tw/index.html
-TCSITE = http://lilyterm.luna.com.tw/index_cht.html
 GITHUBURL = https://github.com/Tetralet/LilyTerm
 BLOG = http://tetralet.luna.com.tw
 WIKI = https://github.com/Tetralet/LilyTerm/wiki
@@ -13,8 +12,8 @@ VERSION = 0.9.9
 LANG_LIST ?= de fr es it nl pl pt_BR ru sk tr uk zh_CN zh_TW
 
 YEAR = $(shell date +%Y)
-ECHO = $(shell whereis -b echo | awk '{print $$2}')
-PRINTF = $(shell whereis -b printf | awk '{print $$2}')
+ECHO = $(shell whereis -b "echo" | tr -s ' ' '\n' | grep "bin/""echo""$" | head -n 1)
+PRINTF = $(shell whereis -b "printf" | tr -s ' ' '\n' | grep "bin/""printf""$" | head -n 1)
 
 PREFIX = /usr/local
 ETCDIR = $(PREFIX)/etc/xdg
