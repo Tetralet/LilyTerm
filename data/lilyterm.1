@@ -1,7 +1,7 @@
 .\" Process this file with
 .\" groff -man -Tascii lilyterm.1
 .\"
-.TH LilyTerm 1 "March 2012" "LilyTerm 0.9.9" "A light and eazy-to-use terminal emulator"
+.TH LilyTerm 1 "June 2012" "LilyTerm 0.9.9" "A light and eazy-to-use terminal emulator"
 .SH NAME
 LilyTerm \- A light and eazy-to-use terminal emulator for X.
 .\" Disable justification (adjust text to left margin only)
@@ -84,18 +84,8 @@ The following key bindings may custom or disable by the right click menu \fB[Set
 Disable/Enable hyperlinks, function keys and right click menu for temporary.
 
 .TP
-.BI <Ctrl><T/Q>
-Add a New tab with current directory/Close current tab (had been disabled by default).
-.br
-\fIUsing \fR\fB<Ctrl><D>\fR\fI or '\fR\fBexit\fR\fI' to close tabs is recommended.\fR
-
-.TP
-.BI <Ctrl><E>
-Rename the current tab. (had been disabled by default)
-
-.TP
-.BI <Ctrl><N>
-Open a new window with current directory. (had been disabled by default)
+.BI <Ctrl><T>
+Add a New tab with current directory.
 
 .TP
 .BI <Ctrl><PgUp/PgDn>
@@ -151,6 +141,22 @@ Copy the text to primary clipboard / Paste the text in primary clipboard.
 .br
 i.e. Emulate a middle button mouse click to copy/paste the text.
 .RE
+
+Some key bindings that disabled by default but maybe useful:
+
+.TP
+.BI <Ctrl><Q>
+Close current tab.
+.br
+\fIUsing \fR\fB<Ctrl><D>\fR\fI or '\fR\fBexit\fR\fI' to close tabs is recommended.\fR
+
+.TP
+.BI <Ctrl><N>
+Open a new window with current directory. (had been disabled by default)
+
+.TP
+.BI <Ctrl><E>
+Rename the current tab. (had been disabled by default)
 
 .SH FILE
 .PP
@@ -237,6 +243,18 @@ or
 stty \-ixon
 .RE
 
+.RE
+
+.PP
+\fBBSD Users:\fR
+
+.RS 4
+Please mount the procfs before launch LilyTerm:
+
+.RS 4
+mount -t procfs procfs /proc
+.RE
+
 .SH ENVIRONMENT
 .PP
 .PD 0
@@ -254,24 +272,41 @@ In LilyTerm, you may set the VTE_CJK_WIDTH of a new tab to 'wide' with right cli
 
 .TP
 .BI PROMPT_COMMAND
-Customs the "Window Title" for bash.
+Customs the "Window Title" for shell.
 .br
-The following is a reasonable example for ~/.bashrc:
+The following is a reasonable example ~/.bashrc for bash:
 .RS 19
 .br
 
 case $TERM in
 .br
-xterm*)
-    PROMPT_COMMAND='echo \-ne "\\033]0;${HOSTNAME}: ${PWD}\\007"'
-    ;;
+    xterm*)
+        PROMPT_COMMAND='echo \-ne "\\033]0;${HOSTNAME}: ${PWD}\\007"'
+        ;;
 .br
-*)
-    ;;
+    *)
+        ;;
 .br
 esac
 
 .br
+.RE
+.RS 15
+The following is a reasonable example ~/.cshrc for csh/tcsh:
+.RS 4
+.br
+
+switch ($TERM)
+    case "xterm*":
+        setenv TITLE "%{\\033]0;%m: %~\\007%}"
+        breaksw
+.br
+endsw
+
+set prompt = "${TITLE}%# "
+
+.br
+.RE
 .RE
 .RS 15
 Please visit \fIhttp://tldp.org/HOWTO/Xterm-Title.html\fR for more details.
