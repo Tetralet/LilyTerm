@@ -798,7 +798,7 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 		}
 		case USAGE_MESSAGE:						// 5
 		{
-			gchar *str[19] = {NULL};
+			gchar *str[18] = {NULL};
 			gchar *temp_str;
 
 			// Create dialog
@@ -873,29 +873,26 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 			dialog_data->operate[3] = add_text_to_notebook(notebook, _("Translators"), GTK_STOCK_CONVERT, str[8]);
 
 			// About
-			str[9]  = g_strdup_printf (_("%s (Main site)"), MAINSITE);
-			str[11] = g_strdup_printf (_("%s (Github site)"), GITHUBURL);
 			// TRANSLATE NOTE: Please be care of the spacing when translating the following site informatoins.
 			// TRANSLATE NOTE: Please check it in [Right Click Menu] -> [Usage] -> [About] page after translating.
-			str[12] = g_strdup_printf (_("Blog:   %s"), BLOG);
-			str[13] = g_strdup_printf (_("Wiki:   %s"), WIKI);
-			str[14] = g_strdup_printf (_("Issues: %s"), ISSUES);
-			str[15] = g_strdup_printf (_("IRC:    %s"), IRC);
-			str[16] = g_strdup_printf (_("Thank you for using %s!"), PACKAGE);
-			str[17] = g_strdup_printf ("%s <%s>\n\n%s\n"
-						   "\t%s\n"
-						   "\t%s\n"
-						   "\t%s\n\n"
-						   "%s\n\n%s\n\n%s\n\n%s\n\n%s",
-						   AUTHOR, BUGREPORT, _("Homepage:"), str[9] ,str[10], str[11],
-						   str[12], str[13], str[14], str[15], str[16]);
-			str[18] = convert_text_to_html(&str[17], FALSE, NULL, "tt", NULL);
-			dialog_data->operate[4] = add_text_to_notebook(notebook, _("About"), GTK_STOCK_ABOUT, str[18]);
+			str[9]  = g_strdup_printf (_("HomePage: %s"), MAINSITE);
+			str[10] = g_strdup_printf (_("Github:   %s"), GITHUBURL);
+			str[11] = g_strdup_printf (_("Blog:     %s"), BLOG);
+			str[12] = g_strdup_printf (_("Wiki:     %s"), WIKI);
+			str[13] = g_strdup_printf (_("Issues:   %s"), ISSUES);
+			str[14] = g_strdup_printf (_("IRC:      %s"), IRC);
+			str[15] = g_strdup_printf (_("Thank you for using %s!"), PACKAGE);
+			str[16] = g_strdup_printf ("%s <%s>\n\n%s\n%s\n"
+						   "%s\n%s\n\n%s",
+						   AUTHOR, BUGREPORT, str[9] ,str[10], str[13],
+						   str[14], str[15]);
+			str[17] = convert_text_to_html(&str[16], FALSE, NULL, "tt", NULL);
+			dialog_data->operate[4] = add_text_to_notebook(notebook, _("About"), GTK_STOCK_ABOUT, str[17]);
 
 			show_usage_text(notebook, NULL, 0, dialog_data);
 			g_signal_connect(G_OBJECT(notebook), "switch-page", G_CALLBACK(show_usage_text), dialog_data);
 
-			for (i=0; i<19; i++) g_free(str[i]);
+			for (i=0; i<18; i++) g_free(str[i]);
 
 			break;
 		}
