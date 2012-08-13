@@ -20,7 +20,7 @@
 include ../.default
 -include ../.config
 
-PKGCONFIG := $(shell whereis -b "pkg-config" | tr -s ' ' '\n' | grep "bin/""pkg-config""$$" | head -n 1)
+PKGCONFIG := $(shell whereis "pkg-config" | tr -s ' ' '\n' | grep "bin/""pkg-config""$$" | head -n 1)
 
 VTE ?= ""
 

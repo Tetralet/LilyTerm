@@ -164,7 +164,7 @@ gboolean monitor_cmdline(struct Page *page_data)
 	else
 	{
 		page_name_changed = check_cmdline(page_data, page_data->displayed_tpgid);
-		
+
 		if ((page_name_changed)	&& page_data->check_root_privileges)
 			page_data->is_root = check_is_root(page_data->current_tpgid);
 	}

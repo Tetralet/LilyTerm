@@ -706,7 +706,7 @@ void set_vte_urgent_bell(struct Window *win_data, struct Page *page_data)
 	extern gint dialog_activated;
 	// g_debug("win_data->urgent_bell = %d, win_data->lost_focus = %d, menu_activated = %d, dialog_activated = %d",
 	//	win_data->urgent_bell, win_data->lost_focus, menu_activated, dialog_activated);
-	
+
 	if (win_data->urgent_bell && win_data->lost_focus && (menu_activated == FALSE) && (dialog_activated == FALSE))
 	{
 		// g_debug("set_vte_urgent_bell: get page_data->urgent_bell_handler_id = %ld", page_data->urgent_bell_handler_id);
