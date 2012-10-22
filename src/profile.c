@@ -394,7 +394,7 @@ void init_window_parameters(struct Window *win_data)
 	// win_data->menuitem_clipboard;
 	// win_data->menuitem_primary;
 	win_data->foreground_color = g_strdup("white");
-	win_data->cursor_color_str = g_strdup("cyan");
+	win_data->cursor_color_str = g_strdup("#55B5E7");
 	win_data->background_color = g_strdup("black");
 	// win_data->fg_color;
 	// win_data->fg_color_inactive;

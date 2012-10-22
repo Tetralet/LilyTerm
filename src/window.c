@@ -2664,6 +2664,8 @@ void dump_data (struct Window *win_data, struct Page *page_data)
 	gchar *cmdline = get_cmdline(page_data->pid);
 	g_debug("- page_data->pid = %d, cmdline = %s", page_data->pid, cmdline);
 	g_free(cmdline);
+	g_debug("- page_data row x col = (%ld x %ld)", vte_terminal_get_row_count(VTE_TERMINAL(page_data->vte)),
+						       vte_terminal_get_column_count(VTE_TERMINAL(page_data->vte)));
 	cmdline = get_cmdline(page_data->current_tpgid);
 	g_debug("- page_data->current_tpgid = %d, cmdline = %s", page_data->current_tpgid, cmdline);
 	g_free(cmdline);

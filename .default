@@ -1,5 +1,7 @@
 PACKAGE = LilyTerm
 BINARY = lilyterm
+VERSION = 0.9.9.2
+
 AUTHOR = Lu, Chao-Ming (Tetralet)
 BUGREPORT = tetrlet@gmail.com
 MAINSITE = http://lilyterm.luna.com.tw/
@@ -8,8 +10,8 @@ BLOG = http://tetralet.luna.com.tw
 WIKI = https://github.com/Tetralet/LilyTerm/wiki
 ISSUES = https://github.com/Tetralet/LilyTerm/issues
 IRC = \#hime@freenode.net
-VERSION = 0.9.9
-LANG_LIST ?= de fr es it nl pl pt_BR ru sk tr uk zh_CN zh_TW
+
+LANG_LIST = de fr es it nl pl pt_BR ru sk tr uk zh_CN zh_TW
 
 YEAR = $(shell date +%Y)
 ECHO = $(shell whereis "echo" | tr -s ' ' '\n' | grep "bin/""echo""$$" | head -n 1)

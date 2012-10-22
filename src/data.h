@@ -21,9 +21,16 @@
 #ifndef DATA_H
 #define DATA_H
 
-
 #include <gtk/gtk.h>
 #include <vte/vte.h>
+
+//
+// **************************** data.h ****************************
+//
+
+#ifdef HAVE_CONFIG_H
+# include "config.h"
+#endif
 
 #ifdef OUT_OF_MEMORY
 // GString *g_string_append()
