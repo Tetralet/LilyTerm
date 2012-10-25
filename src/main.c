@@ -587,7 +587,7 @@ gboolean read_socket(GIOChannel *channel, GIOCondition condition, gpointer user_
 
 	if (g_io_channel_read_line (channel, &data, &len, &term, &error) == G_IO_STATUS_ERROR)
 		return socket_fault(7, error, channel, TRUE);
-	// g_debug("Read %u bytes from Lilyterm socket: '%s'", len, data);
+	// g_debug("Read %ld bytes from Lilyterm socket: '%s'", len, data);
 	if (len > 0)
 	{
 		//	     0			 1     2	   3	    4		5   6	 7		   8		9	      10      11

@@ -141,6 +141,7 @@ gchar *get_help_message_usage(gchar *profile, gboolean convert_to_html)
 	g_string_append(help_message,  _("Use -e/-x/--execute {Command} to run a command. (Must be the final option).\n"));
 	g_string_append(help_message,  _("Use -T/--title {title} to specify the window title.\n"));
 	g_string_append(help_message,  _("Use -t/--tab {number} to open multi tabs when starting up.\n"));
+	g_string_append(help_message,  _("Use -n/--tab_names {tab names} to specify tab names, separate with <space>.\n"));
 	g_string_append(help_message,  _("Use -d/--directory {directory} to specify the init directory when starting up.\n"));
 	g_string_append(help_message,  _("Use -g/--geometry {WIDTHxHEIGHT[+-]XOFFSET[+-]YOFFSET} to specify the geometry.\n"));
 	g_string_append(help_message,  _("Use -l/-ls/--login to make the shell invoked as a login shell.\n"));

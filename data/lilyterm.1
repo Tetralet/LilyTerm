@@ -1,14 +1,14 @@
 .\" Process this file with
 .\" groff -man -Tascii lilyterm.1
 .\"
-.TH LilyTerm 1 "June 2012" "LilyTerm 0.9.9" "A light and eazy-to-use terminal emulator"
+.TH LilyTerm 1 "October 2012" "LilyTerm 0.9.9.3" "A light and eazy-to-use terminal emulator"
 .SH NAME
 LilyTerm \- A light and eazy-to-use terminal emulator for X.
 .\" Disable justification (adjust text to left margin only)
 .ad l
 .SH SYNOPSIS
 .HP 9
-\fBlilyterm\fR [\fB-?\fR | \fB-h\fR | \fB--help\fR] [\fB-v\fR | \fB--version\fR] [\fB-d\fR \fIDIRECTORY\fR | \fB--directory\fR \fIDIRECTORY\fR] [\fB-g\fR \fIGEOMETRY\fR | \fB--geometry\fR \fIGEOMETRY\fR] [\fB-l\fR | \fB-ls\fR | \fB--login\fR] [\fB-H\fR | \fB--hold\fR] [\fB-p\fR | \fB--profile\fR] [\fB-s\fR | \fB--separate\fR] [\fB-T\fR \fITITLE\fR | \fB--title\fR \fITITLE\fR] [\fB-t\fR \fINUMBER\fR | \fB--tab\fR \fINUMBER\fR] [\fB-u\fR \fIPROFILE\fR | \fB--user_profile\fR \fIPROFILE\fR] [\fB-e\fR \fICOMMAND\fR | \fB-x\fR \fICOMMAND\fR | \fB--execute\fR \fICOMMAND\fR]
+\fBlilyterm\fR [\fB-?\fR | \fB-h\fR | \fB--help\fR] [\fB-v\fR | \fB--version\fR] [\fB-d\fR \fIDIRECTORY\fR | \fB--directory\fR \fIDIRECTORY\fR] [\fB-g\fR \fIGEOMETRY\fR | \fB--geometry\fR \fIGEOMETRY\fR] [\fB-l\fR | \fB-ls\fR | \fB--login\fR] [\fB-H\fR | \fB--hold\fR] [\fB-p\fR | \fB--profile\fR] [\fB-s\fR | \fB--separate\fR] [\fB-T\fR \fITITLE\fR | \fB--title\fR \fITITLE\fR] [\fB-n\fR \fITAB NAMES\fR | \fB--tab_names\fR \fITAB NAMES\fR] [\fB-t\fR \fINUMBER\fR | \fB--tab\fR \fINUMBER\fR] [\fB-u\fR \fIPROFILE\fR | \fB--user_profile\fR \fIPROFILE\fR] [\fB-e\fR \fICOMMAND\fR | \fB-x\fR \fICOMMAND\fR | \fB--execute\fR \fICOMMAND\fR]
 .SH DESCRIPTION
 LilyTerm is a terminal emulator for the X Window System, based on the \fBlibvte\fR library, and aims to be fast and lightweight.
 .SH OPTIONS
@@ -58,6 +58,11 @@ Run in separate process.
 \fB-T\fR \fITITLE\fR | \fB--title\fR \fITITLE\fR
 .RS 4
 Specify the window title.
+.RE
+.PP
+\fB-n\fR \fITAB NAMES\fR | \fB--tab_names\fR \fITAB NAMES\fR
+.RS 4
+Specify the tab names, separate with <Space>.
 .RE
 .PP
 \fB-t\fR \fINUMBER\fR | \fB--tab\fR \fINUMBER\fR

@@ -342,12 +342,17 @@ void init_window_parameters(struct Window *win_data)
 	// win_data->current_vte;
 	win_data->window_title_shows_current_page = TRUE;
 	win_data->window_title_append_package_name = TRUE;
-	// win_data->custom_window_title;
+	// win_data->custom_window_title_str;
 	// win_data->window_title_tpgid;
 	// 0: do NOT use rgba
 	// 1: force to use rgba
 	// 2: decide by gdk_screen_is_composited()
 	// if (! win_data->use_rgba) win_data->use_rgba = 2;
+	// win_data->custom_tab_names_str;
+	// win_data->custom_tab_names_strs;
+	// win_data->custom_tab_names_current;
+	// win_data->custom_tab_names_total;
+
 	win_data->use_rgba_orig = 2;
 #ifdef ENABLE_RGBA
 	win_data->transparent_window = 2;

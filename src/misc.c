@@ -426,6 +426,20 @@ gchar **split_string(const gchar *str, const gchar *split, gint max_tokens)
 	return datas;
 }
 
+gint count_char_in_string(const gchar *str, const gchar split)
+{
+#ifdef FULL
+	g_debug("! Launch count_char_in_string with str = %s, split = %c", str, split);
+#endif
+	if (str==NULL) return -1;
+
+	gint i = -1, count = 0;
+	while (str[++i])
+		if (str[i]==split) count++;
+
+	return count;
+}
+
 gchar **get_pid_stat(pid_t pid, gint max_tokens)
 {
 #ifdef FULL

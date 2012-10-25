@@ -368,9 +368,14 @@ struct Page *add_page(struct Window *win_data,
 	g_strfreev(new_environs);
 	// treat '-e option' as `custom_page_name'
 	// print_array ("win_data->argv", win_data->argv);
-	if (win_data->argv )
+	if (win_data->argv || (win_data->custom_tab_names_total > win_data->custom_tab_names_current))
 	{
-		if (win_data->page_shows_current_cmdline)
+		if (win_data->custom_tab_names_total > win_data->custom_tab_names_current)
+		{
+			page_data->custom_page_name = g_strdup(win_data->custom_tab_names_strs[win_data->custom_tab_names_current]);
+			win_data->custom_tab_names_current++;
+		}
+		else if (win_data->page_shows_current_cmdline)
 			page_data->custom_page_name = get_cmdline(page_data->pid);
 		else
 			page_data->custom_page_name = convert_array_to_string(win_data->argv, ' ');

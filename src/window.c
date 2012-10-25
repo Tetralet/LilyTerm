@@ -777,11 +777,13 @@ gboolean window_option(struct Window *win_data, gchar *encoding, int argc, char 
 	// g_debug("Got win_data->profile = %s", win_data->profile);
 
 	gint i;
+	gint getting_tab_name_argc = -1;
 	for (i=0; i<argc; i++)
 	{
 #ifdef DEFENSIVE
 		if (argv[i]==NULL) break;
 #endif
+
 		// g_debug("%2d (Total %d): %s",i, argc, argv[i]);
 		if ((!strcmp(argv[i], "-T")) || (!strcmp(argv[i], "--title")))
 		{
@@ -794,14 +796,14 @@ gboolean window_option(struct Window *win_data, gchar *encoding, int argc, char 
 				if (window_title)
 				{
 #endif
-					win_data->custom_window_title = window_title;
-					update_window_title(win_data->window, win_data->custom_window_title,
+					win_data->custom_window_title_str = window_title;
+					update_window_title(win_data->window, win_data->custom_window_title_str,
 							    win_data->window_title_append_package_name);
 #ifdef DEFENSIVE
 				}
 #endif
 				// g_debug("The title of LilyTerm is specified to %s",
-				//	win_data->custom_window_title);
+				//	win_data->custom_window_title_str);
 			}
 		}
 		else if ((!strcmp(argv[i], "-t")) || (!strcmp(argv[i], "--tab")))
@@ -919,7 +921,7 @@ gboolean window_option(struct Window *win_data, gchar *encoding, int argc, char 
 			}
 			// g_debug("+ Init LilyTerm with directory %s !", win_data->init_dir);
 		}
-		if ((!strcmp(argv[i], "-g")) || (!strcmp(argv[i], "--geometry")))
+		else if ((!strcmp(argv[i], "-g")) || (!strcmp(argv[i], "--geometry")))
 		{
 			if (++i==argc)
 				g_critical("missing window title after -g/--geometry!\n");
@@ -932,6 +934,30 @@ gboolean window_option(struct Window *win_data, gchar *encoding, int argc, char 
 		}
 		else if (!strcmp(argv[i], "--safe-mode"))
 			safe_mode=TRUE;
+		else if ((!strcmp(argv[i], "-n")) || (!strcmp(argv[i], "--tab_names")))
+		{
+			if (i==(argc-1))
+				g_critical("missing tab names after -n/--tab_names!\n");
+			getting_tab_name_argc = i+1;
+		}
+		else if (getting_tab_name_argc==i)
+		{
+			if (win_data->custom_tab_names_str == NULL)
+				win_data->custom_tab_names_str = g_string_new(argv[i]);
+			else
+				g_string_append_printf(win_data->custom_tab_names_str, "%c%s", '\x10', argv[i]);
+			getting_tab_name_argc = i+1;
+		}
+	}
+
+	if (win_data->custom_tab_names_str)
+	{
+		win_data->custom_tab_names_strs = split_string(win_data->custom_tab_names_str->str, "\x10", -1);
+		win_data->custom_tab_names_total = count_char_in_string(win_data->custom_tab_names_str->str, '\x10') + 1;
+		// g_debug("Got win_data->custom_tab_names_str = %s win_data->custom_tab_names_total = %d",
+		//	win_data->custom_tab_names_str->str, win_data->custom_tab_names_total);
+		if (win_data->init_tab_number<win_data->custom_tab_names_total)
+			win_data->init_tab_number = win_data->custom_tab_names_total;
 	}
 
 	return TRUE;
@@ -1756,8 +1782,7 @@ void clear_win_data(struct Window *win_data)
 	int i;
 
 	g_free(win_data->environment);
-	if (win_data->warned_locale_list)
-		g_string_free(win_data->warned_locale_list, TRUE);
+	if (win_data->warned_locale_list) g_string_free(win_data->warned_locale_list, TRUE);
 	g_free(win_data->runtime_encoding);
 	g_free(win_data->default_encoding);
 	g_free(win_data->default_locale);
@@ -1775,7 +1800,7 @@ void clear_win_data(struct Window *win_data)
 	g_free(win_data->init_dir);
 	g_free(win_data->geometry);
 	g_free(win_data->profile);
-	g_free(win_data->custom_window_title);
+	g_free(win_data->custom_window_title_str);
 	for (i=0; i<KEYS; i++)
 		g_free(win_data->user_keys[i].value);
 	for (i=0; i<COMMAND; i++)
@@ -1785,6 +1810,8 @@ void clear_win_data(struct Window *win_data)
 		g_strfreev(win_data->user_command[i].environments);
 		g_free(win_data->user_command[i].locale);
 	}
+	if (win_data->custom_tab_names_str) g_string_free(win_data->custom_tab_names_str, TRUE);
+	g_strfreev(win_data->custom_tab_names_strs);
 
 	g_free(win_data->foreground_color);
 	g_free(win_data->cursor_color_str);
@@ -2452,7 +2479,10 @@ void dump_data (struct Window *win_data, struct Page *page_data)
 	g_debug("- win_data->current_vte = %p", win_data->current_vte);
 	g_debug("- win_data->window_title_shows_current_page = %d", win_data->window_title_shows_current_page);
 	g_debug("- win_data->window_title_append_package_name = %d", win_data->window_title_append_package_name);
-	g_debug("- win_data->custom_window_title = %s", win_data->custom_window_title);
+	g_debug("- win_data->custom_window_title_str = %s", win_data->custom_window_title_str);
+	if (win_data->custom_tab_names_str)
+		g_debug("- win_data->win_data->custom_tab_names_str = %s", win_data->custom_tab_names_str->str);
+	print_array("win_data->custom_tab_names_strs", win_data->custom_tab_names_strs);
 	// g_debug("- win_data->update_window_title_only = %d", win_data->update_window_title_only);
 	g_debug("- win_data->window_title_tpgid = %d", win_data->window_title_tpgid);
 	g_debug("- win_data->use_rgba = %d", win_data->use_rgba);
@@ -2883,12 +2913,16 @@ void win_data_dup(struct Window *win_data_orig, struct Window *win_data)
 	// win_data->show_close_button_on_all_tab;
 	win_data->current_vte = NULL;
 	// win_data->window_title_shows_current_page;
-	if (win_data->custom_window_title)
+	if (win_data->custom_window_title_str)
 	{
-		win_data->custom_window_title = g_strdup(win_data_orig->custom_window_title);
-		update_window_title(win_data->window, win_data->custom_window_title,
+		win_data->custom_window_title_str = g_strdup(win_data_orig->custom_window_title_str);
+		update_window_title(win_data->window, win_data->custom_window_title_str,
 				    win_data->window_title_append_package_name);
 	}
+
+	win_data->custom_tab_names_str = NULL;
+	win_data->custom_tab_names_strs = NULL;
+
 	win_data->window_title_tpgid=0;
 	if (win_data_orig->use_rgba == -1) win_data->use_rgba = 1;
 	// win_data->use_rgba_orig;

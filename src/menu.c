@@ -2049,7 +2049,9 @@ void apply_profile_from_file(const gchar *path, Apply_Profile_Type type)
 		win_data->init_dir = g_strdup(win_data_backup->init_dir);
 		win_data->environment = g_strdup(win_data_backup->environment);
 		win_data->login_shell = win_data_backup->login_shell;
-		win_data->custom_window_title = g_strdup(win_data_backup->custom_window_title);
+		win_data->custom_window_title_str = g_strdup(win_data_backup->custom_window_title_str);
+		win_data->custom_tab_names_str = NULL;
+		win_data->custom_tab_names_strs = NULL;
 		win_data->window_title_tpgid = win_data_backup->window_title_tpgid;
 		// win_data->update_hints will setted to 1 in apply_font_to_every_vte()
 		// win_data->update_hints = win_data_backup->update_hints;

@@ -633,11 +633,17 @@ struct Window
 	gboolean window_title_append_package_name;
 	// The title specified by -T option.
 	// Please see http://www.debian.org/doc/debian-policy/ch-customized-programs.html#s11.8.3 for more details
-	gchar *custom_window_title;
+	gchar *custom_window_title_str;
 	// Only used to change the color of tab when launch the adjesting color dialog
 	// gboolean update_window_title_only;
 	// the pid of showing on the Window title
 	pid_t window_title_tpgid;
+
+	// The custom tab titles from -n option.
+	GString *custom_tab_names_str;
+	gchar **custom_tab_names_strs;
+	gint custom_tab_names_current;
+	gint custom_tab_names_total;
 
 	// -1: rgba is inited already
 	//  0: do NOT use rgba

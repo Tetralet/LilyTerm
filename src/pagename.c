@@ -115,7 +115,7 @@ void init_monitor_cmdline_datas(struct Window *win_data, struct Page *page_data)
 	page_data->keep_vte_size = &(win_data->keep_vte_size);
 	page_data->current_vte = &(win_data->current_vte);
 	// page_data->update_window_title_only = &(win_data->update_window_title_only);
-	page_data->custom_window_title = (win_data->custom_window_title != NULL);
+	page_data->custom_window_title = (win_data->custom_window_title_str != NULL);
 }
 
 
@@ -638,7 +638,7 @@ gboolean update_page_name(GtkWidget *window, GtkWidget *vte, gchar *page_name, G
 	// 0xfe = 11,111,110
 	// g_debug("win_data->keep_vte_size = %x", win_data->keep_vte_size);
 #ifdef USE_GTK2_GEOMETRY_METHOD
-	if (!(win_data->keep_vte_size&0xfffc))
+	if ((!(win_data->keep_vte_size&0xfffc)) || (!gtk_widget_get_mapped(win_data->window)))
 	{
 #endif
 		// g_debug("Updating %d page name to %s...", page_no, page_name);
@@ -713,18 +713,24 @@ gboolean update_page_name(GtkWidget *window, GtkWidget *vte, gchar *page_name, G
 			// g_debug("Updated the tab name to %s!", page_name);
 			page_name_updated = TRUE;
 		}
+#ifdef DEBUG
 		// else
 		//	g_debug("!!! the window is lost focus, don't update the tab name");
-
+#endif
 		// free the data
 		g_free(label_name);
 #ifdef USE_GTK2_GEOMETRY_METHOD
 	}
+#   ifdef DEBUG
+	// else
+	//	g_debug("!!! the window is renaming, don't update the tab name");
+#   endif
 #endif
 	// we should update window title if page name changed.
 	check_and_update_window_title(win_data, custom_window_title, page_no, custom_page_name, page_name);
 
 	// g_debug("(update_page_name): page_name_updated = %d", page_name_updated);
+
 	return page_name_updated;
 }
 
