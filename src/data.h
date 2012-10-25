@@ -119,6 +119,8 @@
 #define SYSTEM_COLUMN 80
 #define SYSTEM_ROW 24
 
+#define gdk_color_parse(x,y) gdk_color_parse(g_strstrip((gchar*)(x)),y)
+
 #if ! GTK_CHECK_VERSION(2,9,0)
     #ifndef GDK_SUPER_MASK
 	#define GDK_SUPER_MASK 1<<26
