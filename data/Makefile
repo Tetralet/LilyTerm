@@ -30,14 +30,14 @@ endif
 all: $(BINARY).conf $(BINARY).1.gz
 
 $(BINARY).conf:
-	@ if [ ! -f ../src/$(BINARY) -a \
-	     ! -f ../src/$(BINARY)_dbg -a \
-	     ! -f ../src/$(BINARY)_dev ]; then \
-		cd ../src ; \
-		$(MAKE) ; \
-	fi
-	@ $(PRINTF) "\033[1;33m** creating $(BINARY).conf...\033[0m\n"
-	@ ../src/$(MAIN_BINARY) -p > $(BINARY).conf
+	# @ if [ ! -f ../src/$(BINARY) -a \
+	#     ! -f ../src/$(BINARY)_dbg -a \
+	#     ! -f ../src/$(BINARY)_dev ]; then \
+	#	cd ../src ; \
+	#	$(MAKE) ; \
+	# fi
+	# @ $(PRINTF) "\033[1;33m** creating $(BINARY).conf...\033[0m\n"
+	# @ ../src/$(MAIN_BINARY) -p > $(BINARY).conf
 
 $(BINARY).1.gz:
 	@ if [ -f $(BINARY).1 ]; then \
@@ -47,10 +47,10 @@ $(BINARY).1.gz:
 
 .PHONY: clean
 clean:
-	@ if [ -f $(BINARY).conf ]; then \
-		$(PRINTF) "\033[1;35m** deleteing $(BINARY).conf...\033[0m\n" ; \
-		rm $(BINARY).conf ; \
-	fi
+	@ # @ if [ -f $(BINARY).conf ]; then \
+	#	$(PRINTF) "\033[1;35m** deleteing $(BINARY).conf...\033[0m\n" ; \
+	#	rm $(BINARY).conf ; \
+	# fi
 	@ if [ -f $(BINARY).1.gz ]; then \
 		$(PRINTF) "\033[1;35m** unziping $(BINARY).1...\033[0m\n" ; \
 		gzip -d  $(BINARY).1.gz ; \
