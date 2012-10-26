@@ -138,20 +138,21 @@ gchar *get_help_message_usage(gchar *profile, gboolean convert_to_html)
 	// TRANSLATE NOTE: Please be care of the length of the following usage translation,
 	// TRANSLATE NOTE: It should be shorter than 80 columns.
 	g_string_append_printf(help_message, _("%s is a libvte based X Terminal Emulator.\n\n"), PACKAGE);
-	g_string_append(help_message,  _("Use -e/-x/--execute {Command} to run a command. (Must be the final option).\n"));
-	g_string_append(help_message,  _("Use -T/--title {title} to specify the window title.\n"));
-	g_string_append(help_message,  _("Use -t/--tab {number} to open multi tabs when starting up.\n"));
-	g_string_append(help_message,  _("Use -n/--tab_names {tab names} to specify tab names, separate with <space>.\n"));
-	g_string_append(help_message,  _("Use -d/--directory {directory} to specify the init directory when starting up.\n"));
-	g_string_append(help_message,  _("Use -g/--geometry {WIDTHxHEIGHT[+-]XOFFSET[+-]YOFFSET} to specify the geometry.\n"));
-	g_string_append(help_message,  _("Use -l/-ls/--login to make the shell invoked as a login shell.\n"));
-	g_string_append(help_message,  _("Use -H/--hold to hold the terminal window open when -e/-x command terminated.\n"));
-//	g_string_append(help_message,  _("\t\t\tThis option will be ignored when using with -e/-x/--execute option.\n"));
-	g_string_append(help_message,  _("Use -s/--separate to run in separate process.\n"));
-	g_string_append(help_message,  _("Use -v/--version to show the version information.\n"));
-	g_string_append(help_message,  _("Use -p/--profile to get a profile sample.\n"));
+	g_string_append(help_message,   _("Use -T/--title {title} to specify the window title.\n"));
+	g_string_append(help_message,   _("Use -t/--tab {number} to open multi tabs when starting up.\n"));
+	g_string_append(help_message,   _("Use -n/--tab_names {tab names} to specify tab names, separate with <space>.\n"));
+	g_string_append(help_message,   _("Use -d/--directory {directory} to specify the init directory when starting up.\n"));
+	g_string_append(help_message,   _("Use -g/--geometry {WIDTHxHEIGHT[+-]XOFFSET[+-]YOFFSET} to specify the geometry.\n"));
+	g_string_append(help_message,   _("Use -l/-ls/--login to make the shell invoked as a login shell.\n"));
+	g_string_append(help_message,   _("Use -H/--hold to hold the terminal window open when -e/-x command terminated.\n"));
+//	g_string_append(help_message,   _("\t\t\tThis option will be ignored when using with -e/-x/--execute option.\n"));
+	g_string_append(help_message,   _("Use -s/--separate to run in separate process.\n"));
+	g_string_append(help_message,   _("Use -j/--join to integrate new created tabs to the last accessed window.\n"));
+	g_string_append(help_message,   _("Use -p/--profile to get a profile sample.\n"));
 	g_string_append_printf(help_message,
-					_("Use -u/--user_profile {%s} to use a specified profile.\n\n"), PROFILE);
+					_("Use -u/--user_profile {%s} to use a specified profile.\n"), PROFILE);
+	g_string_append(help_message,   _("Use -v/--version to show the version information.\n"));
+	g_string_append(help_message,   _("Use -e/-x/--execute {Command} to run a command. (Must be the final option).\n\n"));
 	g_string_append_printf(help_message,
 					_("The %s system configure file is: %s\n"), PACKAGE, SYS_PROFILE);
 

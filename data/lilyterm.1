@@ -8,7 +8,21 @@ LilyTerm \- A light and eazy-to-use terminal emulator for X.
 .ad l
 .SH SYNOPSIS
 .HP 9
-\fBlilyterm\fR [\fB-?\fR | \fB-h\fR | \fB--help\fR] [\fB-v\fR | \fB--version\fR] [\fB-d\fR \fIDIRECTORY\fR | \fB--directory\fR \fIDIRECTORY\fR] [\fB-g\fR \fIGEOMETRY\fR | \fB--geometry\fR \fIGEOMETRY\fR] [\fB-l\fR | \fB-ls\fR | \fB--login\fR] [\fB-H\fR | \fB--hold\fR] [\fB-p\fR | \fB--profile\fR] [\fB-s\fR | \fB--separate\fR] [\fB-T\fR \fITITLE\fR | \fB--title\fR \fITITLE\fR] [\fB-n\fR \fITAB NAMES\fR | \fB--tab_names\fR \fITAB NAMES\fR] [\fB-t\fR \fINUMBER\fR | \fB--tab\fR \fINUMBER\fR] [\fB-u\fR \fIPROFILE\fR | \fB--user_profile\fR \fIPROFILE\fR] [\fB-e\fR \fICOMMAND\fR | \fB-x\fR \fICOMMAND\fR | \fB--execute\fR \fICOMMAND\fR]
+\fBlilyterm\fR
+[\fB-?\fR | \fB-h\fR | \fB--help\fR]
+[\fB-T\fR \fITITLE\fR | \fB--title\fR \fITITLE\fR]
+[\fB-t\fR \fINUMBER\fR | \fB--tab\fR \fINUMBER\fR]
+[\fB-n\fR \fITAB NAMES\fR | \fB--tab_names\fR \fITAB NAMES\fR]
+[\fB-d\fR \fIDIRECTORY\fR | \fB--directory\fR \fIDIRECTORY\fR]
+[\fB-g\fR \fIGEOMETRY\fR | \fB--geometry\fR \fIGEOMETRY\fR]
+[\fB-l\fR | \fB-ls\fR | \fB--login\fR]
+[\fB-H\fR | \fB--hold\fR]
+[\fB-s\fR | \fB--separate\fR]
+[\fB-j\fR | \fB--join\fR]
+[\fB-p\fR | \fB--profile\fR]
+[\fB-u\fR \fIPROFILE\fR | \fB--user_profile\fR \fIPROFILE\fR]
+[\fB-v\fR | \fB--version\fR]
+[\fB-e\fR \fICOMMAND\fR | \fB-x\fR \fICOMMAND\fR | \fB--execute\fR \fICOMMAND\fR]
 .SH DESCRIPTION
 LilyTerm is a terminal emulator for the X Window System, based on the \fBlibvte\fR library, and aims to be fast and lightweight.
 .SH OPTIONS
@@ -18,9 +32,19 @@ LilyTerm is a terminal emulator for the X Window System, based on the \fBlibvte\
 Display a brief help message.
 .RE
 .PP
-\fB-v\fR | \fB--version\fR
+\fB-T\fR \fITITLE\fR | \fB--title\fR \fITITLE\fR
 .RS 4
-Show the version information.
+Specify the window title.
+.RE
+.PP
+\fB-t\fR \fINUMBER\fR | \fB--tab\fR \fINUMBER\fR
+.RS 4
+Open multi tabs when starting up.
+.RE
+.PP
+\fB-n\fR \fITAB NAMES\fR | \fB--tab_names\fR \fITAB NAMES\fR
+.RS 4
+Specify the tab names, separate with <Space>.
 .RE
 .PP
 \fB-d\fR \fIDIRECTORY\fR | \fB--directory\fR \fIDIRECTORY\fR
@@ -45,34 +69,31 @@ Make the shell invoked as a login shell.
 Hold the terminal window open when the command following -e/-x terminated.
 .RE
 .PP
-\fB-p\fR | \fB--profile\fR
-.RS 4
-Got a profile sample.
-.RE
-.PP
 \fB-s\fR | \fB--separate\fR
 .RS 4
 Run in separate process.
 .RE
 .PP
-\fB-T\fR \fITITLE\fR | \fB--title\fR \fITITLE\fR
+\fB-j\fR | \fB--join\fR
 .RS 4
-Specify the window title.
+Integrate new created tabs to the last accessed window.
+.br
+It may be useful for launching multi commands with LilyTerm in a shell script.
 .RE
 .PP
-\fB-n\fR \fITAB NAMES\fR | \fB--tab_names\fR \fITAB NAMES\fR
+\fB-p\fR | \fB--profile\fR
 .RS 4
-Specify the tab names, separate with <Space>.
-.RE
-.PP
-\fB-t\fR \fINUMBER\fR | \fB--tab\fR \fINUMBER\fR
-.RS 4
-Open multi tabs when starting up.
+Got a profile sample.
 .RE
 .PP
 \fB-u\fR \fIPROFILE\fR | \fB--user_profile\fR \fIPROFILE\fR
 .RS 4
 Use a specified profile.
+.RE
+.PP
+\fB-v\fR | \fB--version\fR
+.RS 4
+Show the version information.
 .RE
 .PP
 \fB-e\fR \fICOMMAND\fR | \fB-x\fR \fICOMMAND\fR | \fB--execute\fR \fICOMMAND\fR
@@ -157,11 +178,11 @@ Close current tab.
 
 .TP
 .BI <Ctrl><N>
-Open a new window with current directory. (had been disabled by default)
+Open a new window with current directory.
 
 .TP
 .BI <Ctrl><E>
-Rename the current tab. (had been disabled by default)
+Rename the current tab.
 
 .SH FILE
 .PP
