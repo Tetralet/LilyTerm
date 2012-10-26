@@ -953,6 +953,8 @@ gboolean window_option(struct Window *win_data, gchar *encoding, int argc, char 
 		}
 		else if (!strcmp(argv[i], "--safe-mode"))
 			safe_mode=TRUE;
+		else if ((!strcmp(argv[i], "-j")) || (!strcmp(argv[i], "--join")))
+			win_data->join_as_new_tab = TRUE;
 		else if ((!strcmp(argv[i], "-n")) || (!strcmp(argv[i], "--tab_names")))
 		{
 			if (i==(argc-1))
@@ -967,8 +969,6 @@ gboolean window_option(struct Window *win_data, gchar *encoding, int argc, char 
 				win_data->custom_tab_names_str = g_string_new(argv[i]);
 			getting_tab_name_argc = i+1;
 		}
-		else if ((!strcmp(argv[i], "-j")) || (!strcmp(argv[i], "--join")))
-			win_data->join_as_new_tab = TRUE;
 	}
 
 	if (win_data->custom_tab_names_str)
