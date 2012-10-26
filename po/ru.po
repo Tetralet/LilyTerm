@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LilyTerm 0.9.9\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-10-25 14:53+0800\n"
+"POT-Creation-Date: 2012-10-26 16:52+0800\n"
 "PO-Revision-Date: 2012-05-22 17:20+0300\n"
 "Last-Translator: Vladimir Smolyar <v_2e@ukr.net>\n"
 "Language-Team: Russian\n"
@@ -38,29 +38,21 @@ msgstr ""
 "\n"
 
 #: console.c:141
-msgid ""
-"Use -e/-x/--execute {Command} to run a command. (Must be the final option).\n"
-msgstr ""
-"Используйте -e/-x/--execute {команда} для выполнения команды при запуске "
-"программы.\n"
-"(Должно быть последним параметром).\n"
-
-#: console.c:142
 msgid "Use -T/--title {title} to specify the window title.\n"
 msgstr "Используйте -T/--title {заголовок} для указания заголовка окна.\n"
 
-#: console.c:143
+#: console.c:142
 msgid "Use -t/--tab {number} to open multi tabs when starting up.\n"
 msgstr ""
 "Используйте -t/--tab {количество} для открытия нескольких вкладок при "
 "запуске программы.\n"
 
-#: console.c:144
+#: console.c:143
 msgid ""
 "Use -n/--tab_names {tab names} to specify tab names, separate with <space>.\n"
 msgstr ""
 
-#: console.c:145
+#: console.c:144
 msgid ""
 "Use -d/--directory {directory} to specify the init directory when starting "
 "up.\n"
@@ -68,7 +60,7 @@ msgstr ""
 "Используйте -d/--directory {каталог} для указания начального каталога при "
 "запуске.\n"
 
-#: console.c:146
+#: console.c:145
 msgid ""
 "Use -g/--geometry {WIDTHxHEIGHT[+-]XOFFSET[+-]YOFFSET} to specify the "
 "geometry.\n"
@@ -76,13 +68,13 @@ msgstr ""
 "Используйте -g/--geometry {ШИРИНАxВЫСОТА[+-]ГОР.СМЕЩЕНИЕ[+-]ВЕРТ.СМЕЩЕНИЕ} "
 "для указания геометрии окна.\n"
 
-#: console.c:147
+#: console.c:146
 msgid "Use -l/-ls/--login to make the shell invoked as a login shell.\n"
 msgstr ""
 "Используйте -l/-ls/--login для открытия оболочки входа в систему (ввода "
 "логина).\n"
 
-#: console.c:148
+#: console.c:147
 msgid ""
 "Use -H/--hold to hold the terminal window open when -e/-x command "
 "terminated.\n"
@@ -90,76 +82,95 @@ msgstr ""
 "Используйте -H/--hold для удержания окна терминала открытым после выполнения "
 "команды по -e/-x .\n"
 
-#: console.c:150
+#: console.c:149
 msgid "Use -s/--separate to run in separate process.\n"
 msgstr "Используйте -s/--separate для запуска отдельного процесса.\n"
 
-#: console.c:151
-msgid "Use -v/--version to show the version information.\n"
+#: console.c:150
+msgid ""
+"Use -j/--join to integrate new created tabs to the last accessed window.\n"
 msgstr ""
-"Используйте -v/--version для отображения информации о версии программы.\n"
 
-#: console.c:152
+#: console.c:151
 msgid "Use -p/--profile to get a profile sample.\n"
 msgstr "Используйте -p/--profile для получения образца профиля.\n"
 
-#: console.c:154
-#, c-format
-msgid ""
-"Use -u/--user_profile {%s} to use a specified profile.\n"
-"\n"
+#: console.c:153
+#, fuzzy, c-format
+#| msgid ""
+#| "Use -u/--user_profile {%s} to use a specified profile.\n"
+#| "\n"
+msgid "Use -u/--user_profile {%s} to use a specified profile.\n"
 msgstr ""
 "Используйте -u/--user_profile {%s} для выбора определённого профиля.\n"
 "\n"
 
-#: console.c:156
+#: console.c:154
+msgid "Use -v/--version to show the version information.\n"
+msgstr ""
+"Используйте -v/--version для отображения информации о версии программы.\n"
+
+#: console.c:155
+#, fuzzy
+#| msgid ""
+#| "Use -e/-x/--execute {Command} to run a command. (Must be the final "
+#| "option).\n"
+msgid ""
+"Use -e/-x/--execute {Command} to run a command. (Must be the final option).\n"
+"\n"
+msgstr ""
+"Используйте -e/-x/--execute {команда} для выполнения команды при запуске "
+"программы.\n"
+"(Должно быть последним параметром).\n"
+
+#: console.c:157
 #, c-format
 msgid "The %s system configure file is: %s\n"
 msgstr "Общесистемная конфигурация %s: %s\n"
 
-#: console.c:190
+#: console.c:191
 #, c-format
 msgid "And your %s profile is: "
 msgstr "Ваш профиль %s:"
 
-#: console.c:221
+#: console.c:222
 msgid "Default key binding:"
 msgstr "Комбинация клавиш по умолчанию:"
 
 #. TRANSLATE NOTE: Please be care of the spacing when translating the following key binding description.
 #. TRANSLATE NOTE: Please check it in [Right Click Menu] -> [Usage] -> [Key binding] page after translating.
-#: console.c:224
+#: console.c:225
 msgid ""
 "  * <Ctrl><`>           Disable/Enable hyperlinks, function keys and menu."
 msgstr ""
 "  * <Ctrl><`>           Запретить/Разрешить гиперссылки, сочетания клавиш и "
 "меню правой кнопки мыши."
 
-#: console.c:226
+#: console.c:227
 msgid "  * <Ctrl><T>           Add a New tab with current directory.\n"
 msgstr "  * <Ctrl><T>          Добавить новую вкладку в текущем каталоге.\n"
 
-#: console.c:227
+#: console.c:228
 msgid "  * <Ctrl><PgUp/PgDn>   Switch to Prev/Next tab.\n"
 msgstr "  * <Ctrl><PgUp/PgDn>   Перейти на предыдущую/следующую вкладку.\n"
 
-#: console.c:228
+#: console.c:229
 msgid "  * <Ctrl><Home/End>    Switch to First/Last tab.\n"
 msgstr "  * <Ctrl><Home/End>    Перейти на первую/последнюю вкладку.\n"
 
-#: console.c:229
+#: console.c:230
 msgid "  * <Ctrl><[/]>         Move current tab Forward/Backward.\n"
 msgstr "  * <Ctrl><[/]>         Преместить текущую вкладку вперёд/назад.\n"
 
-#: console.c:230
+#: console.c:231
 msgid "  * <Ctrl><Up/Down>     Move current tab to First/Last.\n"
 msgstr "  * <Ctrl><Up/Down>     Переместить текущую вкладку в начало/конец.\n"
 
-#: console.c:231
+#: console.c:232
 msgid "  * <Ctrl><F1~F12>      Switch to 1st ~ 12th tab.\n"
 msgstr "  * <Ctrl><F1~F12>     Перейти на 1ю - 12ю вкладку.\n"
 
-#: console.c:232
+#: console.c:233
 msgid ""
 "  * <Ctrl><+/-/Enter>   Increase/Decrease/Reset the font size of current "
 "tab.\n"
@@ -167,26 +178,26 @@ msgstr ""
 "  * <Ctrl><+/-/Enter>   Увеличить/уменьшить/сбросить размер шрифта в текущей "
 "вкладке.\n"
 
-#: console.c:233
+#: console.c:234
 msgid ""
 "  * <Shift><Left/Right> Emulate a mouse Scroll Up/Down event on terminal.\n"
 msgstr ""
 "  * <Shift><Left/Right> Эмулировать прокрутку мыши вверх/вниз в терминале.\n"
 
-#: console.c:234
+#: console.c:235
 msgid "  * <Shift><Up/Down>    Asks to Scroll Up/Down 1 line on terminal.\n"
 msgstr ""
 "  * <Shift><Up/Down>    Запрашивает прокрутку вверх/вниз на 1 строку в "
 "терминале.\n"
 
-#: console.c:235
+#: console.c:236
 msgid ""
 "  * <Shift><PgUp/PgDn>  Gtk+ default behavior, Scroll Up/Down on terminal.\n"
 msgstr ""
 "  * <Shift><PgUp/PgDn>  Поведение Gtk+ по умолчанию, прокрутка вверх/вниз в "
 "терминале.\n"
 
-#: console.c:236
+#: console.c:237
 msgid ""
 "  * <Shift><Home/End>   Gtk+ default behavior, Scroll terminal to Top/"
 "Bottom.\n"
@@ -194,7 +205,7 @@ msgstr ""
 "  * <Shift><Home/End>   Поведение Gtk+ по умолчанию, прокрутка в начало/"
 "конец.\n"
 
-#: console.c:237
+#: console.c:238
 msgid ""
 "  * <Alt><F11/Enter>    Switch between full/unfullwindow and full/"
 "unfullscreen.\n"
@@ -202,7 +213,7 @@ msgstr ""
 "  * <Alt><F11/Enter>    Развернуть/свернуть окно и переключение "
 "полноэкранного режима.\n"
 
-#: console.c:238
+#: console.c:239
 msgid ""
 "  * <Ctrl><F>           Find text in the terminal.\n"
 "                        Use <F3>/<Shift><F3> to find Next/Prev.\n"
@@ -210,23 +221,23 @@ msgstr ""
 "  * <Ctrl><F>           Поиск текста в терминале.\n"
 "                        <F3>/<Shift><F3> - поиск Вперёд/Назад.\n"
 
-#: console.c:240
+#: console.c:241
 msgid "  * <Ctrl><O>           Select all the text in the terminal.\n"
 msgstr "  * <Ctrl><O>           Выделить весь текст в терминалt.\n"
 
-#: console.c:241
+#: console.c:242
 msgid "  * <Ctrl><Del/Ins>     Copy/Paste the text in clipboard.\n"
 msgstr ""
 "  * <Ctrl><Del/Ins>     Скопировать текст в буфер обмена / Вставить текст из "
 "буфера обмена.\n"
 
-#: console.c:242
+#: console.c:243
 msgid "  * <Shift><Del/Ins>    Copy/Paste the text in primary clipboard.\n"
 msgstr ""
 "  * <Shift<Del/Ins>    Скопировать текст в главный буфер обмена / Вставить "
 "текст из главного буфера обмена.\n"
 
-#: console.c:243
+#: console.c:244
 msgid ""
 "                        (i.e. Emulate middle button mouse click to Copy/"
 "Paste)\n"
@@ -234,15 +245,15 @@ msgstr ""
 "                        (т.е. эмулировать нажатие средней клавиши мыши для "
 "вставки текста)\n"
 
-#: console.c:245
+#: console.c:246
 msgid "Some key bindings that disabled by default but maybe useful:\n"
 msgstr "Некоторые полезные сочетания клавиш, отключённые по умолчанию:\n"
 
-#: console.c:246
+#: console.c:247
 msgid "  * <Ctrl><Q>           Trying to close current tab.\n"
 msgstr "  * <Ctrl><T/Q>           Закрыть текущую вкладку.\n"
 
-#: console.c:247
+#: console.c:248
 msgid ""
 "                        (Using <Ctrl><D> or 'exit' to close tabs is "
 "recommended)\n"
@@ -250,22 +261,22 @@ msgstr ""
 "                        (Рекомендуется закрывать вкладки при помощи "
 "<Ctrl><D> или команды 'exit')\n"
 
-#: console.c:248
+#: console.c:249
 msgid "  * <Ctrl><N>           Open a new window with current directory.\n"
 msgstr "  * <Ctrl><N>           Открыть новое окно с текущим каталогом.\n"
 
-#: console.c:249
+#: console.c:250
 msgid "  * <Ctrl><E>           Rename the current tab.\n"
 msgstr "  * <Ctrl><E>           Переименовать текущую вкладку.\n"
 
-#: console.c:256
+#: console.c:257
 #, c-format
 msgid "TIP: These key bindings may custom or disable by right click menu [%s]."
 msgstr ""
 "Подсказка: Это сочетания клавиш можно выбрать или отключить в контекстном "
 "меню [%s]."
 
-#: console.c:256 menu.c:424
+#: console.c:257 menu.c:424
 msgid "Set key binding"
 msgstr "Установить сочетание клавиш"
 
@@ -1442,12 +1453,12 @@ msgstr ""
 msgid "The profile is invalid!"
 msgstr "Профиль неверен!"
 
-#: window.c:713
+#: window.c:732
 #, c-format
 msgid "\tWindow #%d, Page #%d: (%d) %s\n"
 msgstr "\tОкно №%d, Страница №%d: (%d) %s\n"
 
-#: window.c:717
+#: window.c:736
 #, c-format
 msgid "\tPage #%d: (%d) %s\n"
 msgstr "\tСтраница №%d: (%d) %s\n"

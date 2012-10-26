@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LilyTerm \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-10-25 14:53+0800\n"
+"POT-Creation-Date: 2012-10-26 16:52+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -36,193 +36,197 @@ msgid ""
 msgstr ""
 
 #: console.c:141
-msgid ""
-"Use -e/-x/--execute {Command} to run a command. (Must be the final option).\n"
-msgstr ""
-
-#: console.c:142
 msgid "Use -T/--title {title} to specify the window title.\n"
 msgstr ""
 
-#: console.c:143
+#: console.c:142
 msgid "Use -t/--tab {number} to open multi tabs when starting up.\n"
 msgstr ""
 
-#: console.c:144
+#: console.c:143
 msgid ""
 "Use -n/--tab_names {tab names} to specify tab names, separate with <space>.\n"
 msgstr ""
 
-#: console.c:145
+#: console.c:144
 msgid ""
 "Use -d/--directory {directory} to specify the init directory when starting "
 "up.\n"
 msgstr ""
 
-#: console.c:146
+#: console.c:145
 msgid ""
 "Use -g/--geometry {WIDTHxHEIGHT[+-]XOFFSET[+-]YOFFSET} to specify the "
 "geometry.\n"
 msgstr ""
 
-#: console.c:147
+#: console.c:146
 msgid "Use -l/-ls/--login to make the shell invoked as a login shell.\n"
 msgstr ""
 
-#: console.c:148
+#: console.c:147
 msgid ""
 "Use -H/--hold to hold the terminal window open when -e/-x command "
 "terminated.\n"
 msgstr ""
 
-#: console.c:150
+#: console.c:149
 msgid "Use -s/--separate to run in separate process.\n"
 msgstr ""
 
-#: console.c:151
-msgid "Use -v/--version to show the version information.\n"
+#: console.c:150
+msgid ""
+"Use -j/--join to integrate new created tabs to the last accessed window.\n"
 msgstr ""
 
-#: console.c:152
+#: console.c:151
 msgid "Use -p/--profile to get a profile sample.\n"
 msgstr ""
 
-#: console.c:154
+#: console.c:153
 #, c-format
+msgid "Use -u/--user_profile {%s} to use a specified profile.\n"
+msgstr ""
+
+#: console.c:154
+msgid "Use -v/--version to show the version information.\n"
+msgstr ""
+
+#: console.c:155
 msgid ""
-"Use -u/--user_profile {%s} to use a specified profile.\n"
+"Use -e/-x/--execute {Command} to run a command. (Must be the final option).\n"
 "\n"
 msgstr ""
 
-#: console.c:156
+#: console.c:157
 #, c-format
 msgid "The %s system configure file is: %s\n"
 msgstr ""
 
-#: console.c:190
+#: console.c:191
 #, c-format
 msgid "And your %s profile is: "
 msgstr ""
 
-#: console.c:221
+#: console.c:222
 msgid "Default key binding:"
 msgstr ""
 
 #. TRANSLATE NOTE: Please be care of the spacing when translating the following key binding description.
 #. TRANSLATE NOTE: Please check it in [Right Click Menu] -> [Usage] -> [Key binding] page after translating.
-#: console.c:224
+#: console.c:225
 msgid ""
 "  * <Ctrl><`>           Disable/Enable hyperlinks, function keys and menu."
 msgstr ""
 
-#: console.c:226
+#: console.c:227
 msgid "  * <Ctrl><T>           Add a New tab with current directory.\n"
 msgstr ""
 
-#: console.c:227
+#: console.c:228
 msgid "  * <Ctrl><PgUp/PgDn>   Switch to Prev/Next tab.\n"
 msgstr ""
 
-#: console.c:228
+#: console.c:229
 msgid "  * <Ctrl><Home/End>    Switch to First/Last tab.\n"
 msgstr ""
 
-#: console.c:229
+#: console.c:230
 msgid "  * <Ctrl><[/]>         Move current tab Forward/Backward.\n"
 msgstr ""
 
-#: console.c:230
+#: console.c:231
 msgid "  * <Ctrl><Up/Down>     Move current tab to First/Last.\n"
 msgstr ""
 
-#: console.c:231
+#: console.c:232
 msgid "  * <Ctrl><F1~F12>      Switch to 1st ~ 12th tab.\n"
 msgstr ""
 
-#: console.c:232
+#: console.c:233
 msgid ""
 "  * <Ctrl><+/-/Enter>   Increase/Decrease/Reset the font size of current "
 "tab.\n"
 msgstr ""
 
-#: console.c:233
+#: console.c:234
 msgid ""
 "  * <Shift><Left/Right> Emulate a mouse Scroll Up/Down event on terminal.\n"
 msgstr ""
 
-#: console.c:234
+#: console.c:235
 msgid "  * <Shift><Up/Down>    Asks to Scroll Up/Down 1 line on terminal.\n"
 msgstr ""
 
-#: console.c:235
+#: console.c:236
 msgid ""
 "  * <Shift><PgUp/PgDn>  Gtk+ default behavior, Scroll Up/Down on terminal.\n"
 msgstr ""
 
-#: console.c:236
+#: console.c:237
 msgid ""
 "  * <Shift><Home/End>   Gtk+ default behavior, Scroll terminal to Top/"
 "Bottom.\n"
 msgstr ""
 
-#: console.c:237
+#: console.c:238
 msgid ""
 "  * <Alt><F11/Enter>    Switch between full/unfullwindow and full/"
 "unfullscreen.\n"
 msgstr ""
 
-#: console.c:238
+#: console.c:239
 msgid ""
 "  * <Ctrl><F>           Find text in the terminal.\n"
 "                        Use <F3>/<Shift><F3> to find Next/Prev.\n"
 msgstr ""
 
-#: console.c:240
+#: console.c:241
 msgid "  * <Ctrl><O>           Select all the text in the terminal.\n"
 msgstr ""
 
-#: console.c:241
+#: console.c:242
 msgid "  * <Ctrl><Del/Ins>     Copy/Paste the text in clipboard.\n"
 msgstr ""
 
-#: console.c:242
+#: console.c:243
 msgid "  * <Shift><Del/Ins>    Copy/Paste the text in primary clipboard.\n"
 msgstr ""
 
-#: console.c:243
+#: console.c:244
 msgid ""
 "                        (i.e. Emulate middle button mouse click to Copy/"
 "Paste)\n"
 msgstr ""
 
-#: console.c:245
+#: console.c:246
 msgid "Some key bindings that disabled by default but maybe useful:\n"
 msgstr ""
 
-#: console.c:246
+#: console.c:247
 msgid "  * <Ctrl><Q>           Trying to close current tab.\n"
 msgstr ""
 
-#: console.c:247
+#: console.c:248
 msgid ""
 "                        (Using <Ctrl><D> or 'exit' to close tabs is "
 "recommended)\n"
 msgstr ""
 
-#: console.c:248
+#: console.c:249
 msgid "  * <Ctrl><N>           Open a new window with current directory.\n"
 msgstr ""
 
-#: console.c:249
+#: console.c:250
 msgid "  * <Ctrl><E>           Rename the current tab.\n"
 msgstr ""
 
-#: console.c:256
+#: console.c:257
 #, c-format
 msgid "TIP: These key bindings may custom or disable by right click menu [%s]."
 msgstr ""
 
-#: console.c:256 menu.c:424
+#: console.c:257 menu.c:424
 msgid "Set key binding"
 msgstr ""
 
@@ -1324,12 +1328,12 @@ msgstr ""
 msgid "The profile is invalid!"
 msgstr ""
 
-#: window.c:713
+#: window.c:732
 #, c-format
 msgid "\tWindow #%d, Page #%d: (%d) %s\n"
 msgstr ""
 
-#: window.c:717
+#: window.c:736
 #, c-format
 msgid "\tPage #%d: (%d) %s\n"
 msgstr ""

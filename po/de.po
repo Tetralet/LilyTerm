@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.9.9.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-10-25 14:53+0800\n"
+"POT-Creation-Date: 2012-10-26 16:52+0800\n"
 "PO-Revision-Date: 2012-05-24 20:50+0100\n"
 "Last-Translator: Mario Blättermann <mario.blaettermann@gmail.com>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
@@ -41,28 +41,20 @@ msgstr ""
 "\n"
 
 #: console.c:141
-msgid ""
-"Use -e/-x/--execute {Command} to run a command. (Must be the final option).\n"
-msgstr ""
-"Verwenden Sie -e/-x/--execute {Befehl}, um einen Befehl beim Start "
-"auszuführen.\n"
-"          Dies muss als letzte Option angegeben werden.\n"
-
-#: console.c:142
 msgid "Use -T/--title {title} to specify the window title.\n"
 msgstr "Verwenden Sie -T/--title {Titel}, um den Fenstertitel festzulegen.\n"
 
-#: console.c:143
+#: console.c:142
 msgid "Use -t/--tab {number} to open multi tabs when starting up.\n"
 msgstr ""
 "Verwenden Sie -t/--tab {Anzahl}, um mehrere Reiter beim Start zu öffnen.\n"
 
-#: console.c:144
+#: console.c:143
 msgid ""
 "Use -n/--tab_names {tab names} to specify tab names, separate with <space>.\n"
 msgstr ""
 
-#: console.c:145
+#: console.c:144
 msgid ""
 "Use -d/--directory {directory} to specify the init directory when starting "
 "up.\n"
@@ -70,7 +62,7 @@ msgstr ""
 "Verwenden Sie -d/--directory {Ordner}, um den beim Start zu öffnenden Ordner "
 "festzulegen.\n"
 
-#: console.c:146
+#: console.c:145
 msgid ""
 "Use -g/--geometry {WIDTHxHEIGHT[+-]XOFFSET[+-]YOFFSET} to specify the "
 "geometry.\n"
@@ -78,12 +70,12 @@ msgstr ""
 "Verwenden Sie -g/--geometry {BREITExHÖHE[+-]X-VERSATZ[+-]Y-VERSATZ}, um die "
 "Fenstergeometrie festzulegen.\n"
 
-#: console.c:147
+#: console.c:146
 msgid "Use -l/-ls/--login to make the shell invoked as a login shell.\n"
 msgstr ""
 "Verwenden Sie -l/-ls/--login, um diese Shell als Anmeldeshell zu starten.\n"
 
-#: console.c:148
+#: console.c:147
 msgid ""
 "Use -H/--hold to hold the terminal window open when -e/-x command "
 "terminated.\n"
@@ -91,46 +83,65 @@ msgstr ""
 "Verwenden Sie -H/--hold, um das Terminalfenster offen zu halten, wenn -e/-x "
 "Befehl beendet ist.\n"
 
-#: console.c:150
+#: console.c:149
 msgid "Use -s/--separate to run in separate process.\n"
 msgstr ""
 "Verwenden Sie -s/--separate zur Ausführung in einem separaten Prozess.\n"
 
-#: console.c:151
-msgid "Use -v/--version to show the version information.\n"
-msgstr "Verwenden Sie -v/--version, um die Versionsinformationen anzuzeigen.\n"
+#: console.c:150
+msgid ""
+"Use -j/--join to integrate new created tabs to the last accessed window.\n"
+msgstr ""
 
-#: console.c:152
+#: console.c:151
 msgid "Use -p/--profile to get a profile sample.\n"
 msgstr "Verwenden Sie -p/--profile für eine Beispielkonfiguration.\n"
 
-#: console.c:154
-#, c-format
-msgid ""
-"Use -u/--user_profile {%s} to use a specified profile.\n"
-"\n"
+#: console.c:153
+#, fuzzy, c-format
+#| msgid ""
+#| "Use -u/--user_profile {%s} to use a specified profile.\n"
+#| "\n"
+msgid "Use -u/--user_profile {%s} to use a specified profile.\n"
 msgstr ""
 "Verwenden Sie -u/--user_profile {%s}, um ein bestimmtes Profil zu "
 "verwenden.\n"
 "\n"
 
-#: console.c:156
+#: console.c:154
+msgid "Use -v/--version to show the version information.\n"
+msgstr "Verwenden Sie -v/--version, um die Versionsinformationen anzuzeigen.\n"
+
+#: console.c:155
+#, fuzzy
+#| msgid ""
+#| "Use -e/-x/--execute {Command} to run a command. (Must be the final "
+#| "option).\n"
+msgid ""
+"Use -e/-x/--execute {Command} to run a command. (Must be the final option).\n"
+"\n"
+msgstr ""
+"Verwenden Sie -e/-x/--execute {Befehl}, um einen Befehl beim Start "
+"auszuführen.\n"
+"          Dies muss als letzte Option angegeben werden.\n"
+
+#: console.c:157
 #, c-format
 msgid "The %s system configure file is: %s\n"
 msgstr "Die systemweite Konfiguration von %s: %s\n"
 
-#: console.c:190
+#: console.c:191
 #, c-format
 msgid "And your %s profile is: "
 msgstr "Ihr %s-Benutzerprofil: "
 
-#: console.c:221
+#: console.c:222
 msgid "Default key binding:"
 msgstr "Standard-Tastenkürzel:"
 
 #. TRANSLATE NOTE: Please be care of the spacing when translating the following key binding description.
 #. TRANSLATE NOTE: Please check it in [Right Click Menu] -> [Usage] -> [Key binding] page after translating.
-#: console.c:224
+#: console.c:225
 msgid ""
 "  * <Ctrl><`>           Disable/Enable hyperlinks, function keys and menu."
 msgstr ""
@@ -138,41 +149,41 @@ msgstr ""
 "Hyperlinks,\n"
 "                                     Funktionstasten und des Rechtsklickmenüs"
 
-#: console.c:226
+#: console.c:227
 msgid "  * <Ctrl><T>           Add a New tab with current directory.\n"
 msgstr ""
 "  * <Strg><T>                        Neuen Reiter im aktuellen Ordner "
 "hinzufügen\n"
 
-#: console.c:227
+#: console.c:228
 msgid "  * <Ctrl><PgUp/PgDn>   Switch to Prev/Next tab.\n"
 msgstr ""
 "  * <Strg><Bild auf/Bild ab>         Zum vorherigen/nächsten Reiter "
 "wechseln\n"
 
-#: console.c:228
+#: console.c:229
 msgid "  * <Ctrl><Home/End>    Switch to First/Last tab.\n"
 msgstr ""
 "  * <Strg><Pos1/Ende>                Zum ersten/letzten Reiter wechseln\n"
 
-#: console.c:229
+#: console.c:230
 msgid "  * <Ctrl><[/]>         Move current tab Forward/Backward.\n"
 msgstr ""
 "  * <Strg></>                        Aktuellen Reiter nach links/rechts "
 "verschieben\n"
 
-#: console.c:230
+#: console.c:231
 msgid "  * <Ctrl><Up/Down>     Move current tab to First/Last.\n"
 msgstr ""
 "  * <Strg><Rauf/Runter>              Aktuellen Reiter ganz nach links/rechts "
 "verschieben\n"
 
-#: console.c:231
+#: console.c:232
 msgid "  * <Ctrl><F1~F12>      Switch to 1st ~ 12th tab.\n"
 msgstr ""
 "  * <Strg><F1~F12>                   Zum ersten ~ zwölften Reiter springen\n"
 
-#: console.c:232
+#: console.c:233
 msgid ""
 "  * <Ctrl><+/-/Enter>   Increase/Decrease/Reset the font size of current "
 "tab.\n"
@@ -180,27 +191,27 @@ msgstr ""
 "  * <Strg><+/-/Eingabe>              Schrift im aktuellen Reiter vergrößern/"
 "verkleinern/zurücksetzen\n"
 
-#: console.c:233
+#: console.c:234
 msgid ""
 "  * <Shift><Left/Right> Emulate a mouse Scroll Up/Down event on terminal.\n"
 msgstr ""
 "  * <Umschalt><Links/Rechts>         Bedienung des Mausrades nach oben/unten "
 "im Vte-Terminal emulieren.\n"
 
-#: console.c:234
+#: console.c:235
 msgid "  * <Shift><Up/Down>    Asks to Scroll Up/Down 1 line on terminal.\n"
 msgstr ""
 "  * <Umschalt><Rauf/Runter>          Eine Zeile im Terminal nach oben/unten "
 "rollen\n"
 
-#: console.c:235
+#: console.c:236
 msgid ""
 "  * <Shift><PgUp/PgDn>  Gtk+ default behavior, Scroll Up/Down on terminal.\n"
 msgstr ""
 "  * <Umschalt><Bild auf/Bild ab>     Gtk+Standardverhalten, im Vte-Terminal "
 "nach oben/unten rollen.\n"
 
-#: console.c:236
+#: console.c:237
 msgid ""
 "  * <Shift><Home/End>   Gtk+ default behavior, Scroll terminal to Top/"
 "Bottom.\n"
@@ -208,7 +219,7 @@ msgstr ""
 "  * <Umschalt><Pos1/Ende>            Gtk+-Standardverhalten, im Vte-Terminal "
 "ganz nach oben/unten rollen.\n"
 
-#: console.c:237
+#: console.c:238
 msgid ""
 "  * <Alt><F11/Enter>    Switch between full/unfullwindow and full/"
 "unfullscreen.\n"
@@ -218,7 +229,7 @@ msgstr ""
 "                                     maximiertem/unmaximierten Modus "
 "umschalten\n"
 
-#: console.c:238
+#: console.c:239
 msgid ""
 "  * <Ctrl><F>           Find text in the terminal.\n"
 "                        Use <F3>/<Shift><F3> to find Next/Prev.\n"
@@ -227,25 +238,25 @@ msgstr ""
 "                                     Mit <F3>/<Umschalt><F3> nächsten/"
 "vorherigen suchen.\n"
 
-#: console.c:240
+#: console.c:241
 msgid "  * <Ctrl><O>           Select all the text in the terminal.\n"
 msgstr ""
 "  * <Strg><O>                        Gesamten Inhalt des Vte-Terminals "
 "auswählen.\n"
 
-#: console.c:241
+#: console.c:242
 msgid "  * <Ctrl><Del/Ins>     Copy/Paste the text in clipboard.\n"
 msgstr ""
 "  * <Strg><Entf/Einfg>               Text in Zwischenablage kopieren oder "
 "einfügen.\n"
 
-#: console.c:242
+#: console.c:243
 msgid "  * <Shift><Del/Ins>    Copy/Paste the text in primary clipboard.\n"
 msgstr ""
 "  * <Umschalt><Entf/Einfg>           Text in die primäre Zwischenablage "
 "kopieren oder einfügen.\n"
 
-#: console.c:243
+#: console.c:244
 msgid ""
 "                        (i.e. Emulate middle button mouse click to Copy/"
 "Paste)\n"
@@ -253,19 +264,19 @@ msgstr ""
 "                                     (Emuliert die mittlere Maustaste, um "
 "Text zu kopieren/einzufügen)\n"
 
-#: console.c:245
+#: console.c:246
 msgid "Some key bindings that disabled by default but maybe useful:\n"
 msgstr ""
 "Folgende Tastenkürzel sind per Vorgabe deaktiviert, aber vielleicht dennoch "
 "nützlich:\n"
 
-#: console.c:246
+#: console.c:247
 msgid "  * <Ctrl><Q>           Trying to close current tab.\n"
 msgstr ""
 "  * <Strg><Q>                        Versuchen, den aktuellen Reiter zu "
 "schließen\n"
 
-#: console.c:247
+#: console.c:248
 msgid ""
 "                        (Using <Ctrl><D> or 'exit' to close tabs is "
 "recommended)\n"
@@ -273,24 +284,24 @@ msgstr ""
 "                                     (<Strg><D> oder »Beenden« wird zum "
 "Schließen von Reitern empfohlen)\n"
 
-#: console.c:248
+#: console.c:249
 msgid "  * <Ctrl><N>           Open a new window with current directory.\n"
 msgstr ""
 "  * <Strg><N>                        Ein neues Fenster im aktuellen Ordner "
 "öffnen.\n"
 
-#: console.c:249
+#: console.c:250
 msgid "  * <Ctrl><E>           Rename the current tab.\n"
 msgstr "  * <Strg><E>                        Aktuellen Reiter umbenennen.\n"
 
-#: console.c:256
+#: console.c:257
 #, c-format
 msgid "TIP: These key bindings may custom or disable by right click menu [%s]."
 msgstr ""
 "Hinweis: Diese Tastenkürzel können im Kontextmenü deaktiviert\n"
 "         oder geändert werden [%s]."
 
-#: console.c:256 menu.c:424
+#: console.c:257 menu.c:424
 msgid "Set key binding"
 msgstr "Tastenkürzel festlegen"
 
@@ -1470,12 +1481,12 @@ msgstr ""
 msgid "The profile is invalid!"
 msgstr "Das Profil ist ungültig"
 
-#: window.c:713
+#: window.c:732
 #, c-format
 msgid "\tWindow #%d, Page #%d: (%d) %s\n"
 msgstr "\tFenster #%d, Seite #%d: (%d) %s\n"
 
-#: window.c:717
+#: window.c:736
 #, c-format
 msgid "\tPage #%d: (%d) %s\n"
 msgstr "\tSeite #%d: (%d) %s\n"

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LilyTerm 0.9.6\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-10-25 14:53+0800\n"
+"POT-Creation-Date: 2012-10-26 16:52+0800\n"
 "PO-Revision-Date: 2010-12-14 19:09+0200\n"
 "Last-Translator: Samed Beyribey <ras0ir@eventualis.org>\n"
 "Language-Team: GNU-TR <tr@li.org>\n"
@@ -43,31 +43,20 @@ msgstr ""
 "\n"
 
 #: console.c:141
-#, fuzzy
-#| msgid ""
-#| "Use -e/-x/--execute {Command} to run a command when starting up. (Must be "
-#| "the final option).\n"
-msgid ""
-"Use -e/-x/--execute {Command} to run a command. (Must be the final option).\n"
-msgstr ""
-"Açılışta bir programın çalıştırılması için -e / -x / --execute {Komut} "
-"kullanın. (Bu parametre en son kullanılmalıdır).\n"
-
-#: console.c:142
 msgid "Use -T/--title {title} to specify the window title.\n"
 msgstr "Pencere başlığını belirlemek için -T/--title {başlık} kullanın.\n"
 
-#: console.c:143
+#: console.c:142
 msgid "Use -t/--tab {number} to open multi tabs when starting up.\n"
 msgstr ""
 "Açılışta birden fazla sekme oluşturmak için -t / --tab {sayı} kullanın.\n"
 
-#: console.c:144
+#: console.c:143
 msgid ""
 "Use -n/--tab_names {tab names} to specify tab names, separate with <space>.\n"
 msgstr ""
 
-#: console.c:145
+#: console.c:144
 msgid ""
 "Use -d/--directory {directory} to specify the init directory when starting "
 "up.\n"
@@ -75,7 +64,7 @@ msgstr ""
 "Açılışta içerisinde işlem yapılacak dizini belirtmek için -d/--directory "
 "{dizin} kullanın.\n"
 
-#: console.c:146
+#: console.c:145
 #, fuzzy
 #| msgid "Use -g/--geometry {geometry} to specify the geometry of window.\n"
 msgid ""
@@ -84,51 +73,69 @@ msgid ""
 msgstr ""
 "Pencerenin boyutlarını değiştirmek için -g/--geometry {boyut} kullanın.\n"
 
-#: console.c:147
+#: console.c:146
 msgid "Use -l/-ls/--login to make the shell invoked as a login shell.\n"
 msgstr "Kabuğu giriş kabuğu olarak belirlemek için -l/-ls/--login kullanın.\n"
 
-#: console.c:148
+#: console.c:147
 msgid ""
 "Use -H/--hold to hold the terminal window open when -e/-x command "
 "terminated.\n"
 msgstr ""
 
-#: console.c:150
+#: console.c:149
 msgid "Use -s/--separate to run in separate process.\n"
 msgstr "Ayrı süreçlerde çalıştırmak için -s/--seperate kullanın.\n"
 
-#: console.c:151
-msgid "Use -v/--version to show the version information.\n"
-msgstr "Sürüm bilgisini görüntülemek için -v/--version kullanın.\n"
+#: console.c:150
+msgid ""
+"Use -j/--join to integrate new created tabs to the last accessed window.\n"
+msgstr ""
 
-#: console.c:152
+#: console.c:151
 #, fuzzy
 #| msgid "Use -p/--profile to got a profile sample.\n"
 msgid "Use -p/--profile to get a profile sample.\n"
 msgstr "Profil örneğini görüntülemek için -p/--profile kullanın.\n"
 
-#: console.c:154
-#, c-format
-msgid ""
-"Use -u/--user_profile {%s} to use a specified profile.\n"
-"\n"
+#: console.c:153
+#, fuzzy, c-format
+#| msgid ""
+#| "Use -u/--user_profile {%s} to use a specified profile.\n"
+#| "\n"
+msgid "Use -u/--user_profile {%s} to use a specified profile.\n"
 msgstr ""
 "Belirli bir profil kullanmak için -u/--user_profile {%s} kullanın.\n"
 "\n"
 
-#: console.c:156
+#: console.c:154
+msgid "Use -v/--version to show the version information.\n"
+msgstr "Sürüm bilgisini görüntülemek için -v/--version kullanın.\n"
+
+#: console.c:155
+#, fuzzy
+#| msgid ""
+#| "Use -e/-x/--execute {Command} to run a command when starting up. (Must be "
+#| "the final option).\n"
+msgid ""
+"Use -e/-x/--execute {Command} to run a command. (Must be the final option).\n"
+"\n"
+msgstr ""
+"Açılışta bir programın çalıştırılması için -e / -x / --execute {Komut} "
+"kullanın. (Bu parametre en son kullanılmalıdır).\n"
+
+#: console.c:157
 #, fuzzy, c-format
 #| msgid "The %s system config is: %s/%s\n"
 msgid "The %s system configure file is: %s\n"
 msgstr "%s sistem geneli yapılandırma dosyası: %s/%s\n"
 
-#: console.c:190
+#: console.c:191
 #, c-format
 msgid "And your %s profile is: "
 msgstr "%s profiliniz:"
 
-#: console.c:221
+#: console.c:222
 #, fuzzy
 #| msgid "Erase Binding"
 msgid "Default key binding:"
@@ -136,7 +143,7 @@ msgstr "Erase Binding"
 
 #. TRANSLATE NOTE: Please be care of the spacing when translating the following key binding description.
 #. TRANSLATE NOTE: Please check it in [Right Click Menu] -> [Usage] -> [Key binding] page after translating.
-#: console.c:224
+#: console.c:225
 #, fuzzy
 #| msgid ""
 #| "  * <Ctrl><`>\t\tDisable/Enable hyperlinks, function keys and right click "
@@ -147,43 +154,43 @@ msgstr ""
 "  * <Ctrl><`>\t\tBağlantıları, fonksiyon tuşlarını ve sağ tıklama ile açılan "
 "menüyü etkinleştirir/devredışı bırakır.\n"
 
-#: console.c:226
+#: console.c:227
 #, fuzzy
 #| msgid "  * <Ctrl><T/Q>\t\tAdd a New tab/Close current tab.\n"
 msgid "  * <Ctrl><T>           Add a New tab with current directory.\n"
 msgstr "  * <Ctrl><T/Q>\t\tYeni Sekme Açar/Mevcut sekmeyi kapatır.\n"
 
-#: console.c:227
+#: console.c:228
 #, fuzzy
 #| msgid "  * <Ctrl><PgUp/PgDn>\tSwitch to Prev/Next tab.\n"
 msgid "  * <Ctrl><PgUp/PgDn>   Switch to Prev/Next tab.\n"
 msgstr "  * <Ctrl><PgUp/PgDn>\tÖnceki/Sonraki sekmeye geçiş yapar.\n"
 
-#: console.c:228
+#: console.c:229
 #, fuzzy
 #| msgid "  * <Ctrl><Home/End>\tSwitch to First/Last tab.\n"
 msgid "  * <Ctrl><Home/End>    Switch to First/Last tab.\n"
 msgstr "  * <Ctrl><Home/End>\tİlk/Son sekmeye geçiş yapar.\n"
 
-#: console.c:229
+#: console.c:230
 #, fuzzy
 #| msgid "  * <Ctrl><[/]>\t\tMove current tab Forward/Backward.\n"
 msgid "  * <Ctrl><[/]>         Move current tab Forward/Backward.\n"
 msgstr "  * <Ctrl><[/]>\t\tSekmenin yerini değiştirir.\n"
 
-#: console.c:230
+#: console.c:231
 #, fuzzy
 #| msgid "  * <Ctrl><Up/Down>\tMove current tab to First/Last.\n"
 msgid "  * <Ctrl><Up/Down>     Move current tab to First/Last.\n"
 msgstr "  * <Ctrl><Up/Down>\tMevcut sekmeyi en başa veya en sona taşır.\n"
 
-#: console.c:231
+#: console.c:232
 #, fuzzy
 #| msgid "  * <Ctrl><F1~F12>\tSwitch to 1st ~ 12th tab.\n"
 msgid "  * <Ctrl><F1~F12>      Switch to 1st ~ 12th tab.\n"
 msgstr "  * <Ctrl><F1~F12>\t1 ile 12. sekmeler arasında geçiş yapar.\n"
 
-#: console.c:232
+#: console.c:233
 #, fuzzy
 #| msgid ""
 #| "  * <Ctrl><+/-/Enter>\tIncrease/Decrease/Reset the font size of current "
@@ -195,7 +202,7 @@ msgstr ""
 "  * <Ctrl><+/-/Enter>\tMevcut sekmenin yazıtipi boyutunu Artırır/Azaltır/"
 "Sıfırlar.\n"
 
-#: console.c:233
+#: console.c:234
 #, fuzzy
 #| msgid ""
 #| "  * <Shift><Left/Right>\tEmulate a mouse Scroll Up/Down event on Vte "
@@ -206,7 +213,7 @@ msgstr ""
 "  * <Shift><Sol/Sağ>\tVte terminalinde farenin yukarı/aşağı kaydırma tuşunu "
 "taklit eder.\n"
 
-#: console.c:234
+#: console.c:235
 #, fuzzy
 #| msgid ""
 #| "  * <Shift><Up/Down>\tAsks to Scroll Up/Down 1 line on Vte Terminal box.\n"
@@ -215,7 +222,7 @@ msgstr ""
 "  * <Shift><Yukarı/Aşağı>\tVte terminalinde 1 satır aşağı/yukarı kaydırma "
 "yapar.\n"
 
-#: console.c:235
+#: console.c:236
 #, fuzzy
 #| msgid ""
 #| "  * <Shift><PgUp/PgDn>\tGtk+ default behavior, Scroll Up/Down on Vte "
@@ -226,7 +233,7 @@ msgstr ""
 "  * <Shift><PgUp/PgDn>\tGtk+ öntanımlı davranışı, terminalde yukarı/aşağı "
 "gider.\n"
 
-#: console.c:236
+#: console.c:237
 #, fuzzy
 #| msgid ""
 #| "  * <Shift><Home/End>\tGtk+ default behavior, Scroll the Terminal box to "
@@ -238,7 +245,7 @@ msgstr ""
 "  * <Shift><Home/End>\tGtk+ öntanımlı davranışı, terminalde en üste/alta "
 "gider.\n"
 
-#: console.c:237
+#: console.c:238
 #, fuzzy
 #| msgid ""
 #| "  * <Alt><F11/Enter>\tSwitch between fullwindow/unfullwindow and "
@@ -250,7 +257,7 @@ msgstr ""
 "  * <Alt><F11/Enter>\tTam ekran moduna giriş yapar/Tam ekran modundan çıkış "
 "yapar\n"
 
-#: console.c:238
+#: console.c:239
 #, fuzzy
 #| msgid "  * <Ctrl><O>\t\tSelect all the text in the Vte Terminal box.\n"
 msgid ""
@@ -258,13 +265,13 @@ msgid ""
 "                        Use <F3>/<Shift><F3> to find Next/Prev.\n"
 msgstr "  * <Ctrl><O>\t\tVte Terminalindeki tüm yazıları seçer.\n"
 
-#: console.c:240
+#: console.c:241
 #, fuzzy
 #| msgid "  * <Ctrl><O>\t\tSelect all the text in the Vte Terminal box.\n"
 msgid "  * <Ctrl><O>           Select all the text in the terminal.\n"
 msgstr "  * <Ctrl><O>\t\tVte Terminalindeki tüm yazıları seçer.\n"
 
-#: console.c:241
+#: console.c:242
 #, fuzzy
 #| msgid ""
 #| "  * <Ctrl><Del/Ins>\tCopy the text to clipboard / Paste the text in "
@@ -273,7 +280,7 @@ msgid "  * <Ctrl><Del/Ins>     Copy/Paste the text in clipboard.\n"
 msgstr ""
 "  * <Ctrl><Del/Ins>\tYazıyı panoya kopyalar / Panodaki yazıyı yapıştırır.\n"
 
-#: console.c:242
+#: console.c:243
 #, fuzzy
 #| msgid ""
 #| "  * <Ctrl><Del/Ins>\tCopy the text to clipboard / Paste the text in "
@@ -282,7 +289,7 @@ msgid "  * <Shift><Del/Ins>    Copy/Paste the text in primary clipboard.\n"
 msgstr ""
 "  * <Ctrl><Del/Ins>\tYazıyı panoya kopyalar / Panodaki yazıyı yapıştırır.\n"
 
-#: console.c:243
+#: console.c:244
 #, fuzzy
 #| msgid "\t\t\t(i.e. Emulate a middle button mouse click to paste the text)"
 msgid ""
@@ -290,17 +297,17 @@ msgid ""
 "Paste)\n"
 msgstr "\t\t\t(ör. Yapıştırmak için farenin orta tuşunun yaptığı işlemi yapar)"
 
-#: console.c:245
+#: console.c:246
 msgid "Some key bindings that disabled by default but maybe useful:\n"
 msgstr ""
 
-#: console.c:246
+#: console.c:247
 #, fuzzy
 #| msgid "  * <Ctrl><T/Q>\t\tAdd a New tab/Close current tab.\n"
 msgid "  * <Ctrl><Q>           Trying to close current tab.\n"
 msgstr "  * <Ctrl><T/Q>\t\tYeni Sekme Açar/Mevcut sekmeyi kapatır.\n"
 
-#: console.c:247
+#: console.c:248
 #, fuzzy
 #| msgid "\t\t\t(Using <Ctrl><D> or 'exit' to close tabs is recommended)\n"
 msgid ""
@@ -310,17 +317,17 @@ msgstr ""
 "\t\t\t(Sekmeleri <Ctrl><D> veya 'exit' kullanarak kapatmanız tavsiye "
 "edilir)\n"
 
-#: console.c:248
+#: console.c:249
 msgid "  * <Ctrl><N>           Open a new window with current directory.\n"
 msgstr ""
 
-#: console.c:249
+#: console.c:250
 #, fuzzy
 #| msgid "  * <Ctrl><E>\t\tRename current tab.\n"
 msgid "  * <Ctrl><E>           Rename the current tab.\n"
 msgstr "  * <Ctrl><E>\t\tMevcut sekmeyi yeniden adlandırır.\n"
 
-#: console.c:256
+#: console.c:257
 #, fuzzy, c-format
 #| msgid ""
 #| "Default shortcut key: (It may custom or disable by right click menu [Set "
@@ -330,7 +337,7 @@ msgstr ""
 "Öntanımlı kısayol tuşu: (Sağ tık menüsünden değiştirilebilir/kaldırılabilir "
 "[Fonksiyon tuşu değeri])"
 
-#: console.c:256 menu.c:424
+#: console.c:257 menu.c:424
 msgid "Set key binding"
 msgstr ""
 
@@ -1547,12 +1554,12 @@ msgstr ""
 msgid "The profile is invalid!"
 msgstr "Profil geçersiz!"
 
-#: window.c:713
+#: window.c:732
 #, c-format
 msgid "\tWindow #%d, Page #%d: (%d) %s\n"
 msgstr "\tPencere #%d, Sayfa #%d: (%d) %s\n"
 
-#: window.c:717
+#: window.c:736
 #, c-format
 msgid "\tPage #%d: (%d) %s\n"
 msgstr "\tSayfa #%d: (%d) %s\n"

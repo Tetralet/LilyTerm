@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LilyTerm 0.9.9\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-10-25 14:53+0800\n"
+"POT-Creation-Date: 2012-10-26 16:52+0800\n"
 "PO-Revision-Date: 2012-04-03 15:35+0100\n"
 "Last-Translator: Niels Martignène <niels.martignene@gmail.com>\n"
 "Language-Team: French <LL@li.org>\n"
@@ -33,38 +33,27 @@ msgstr ""
 "\n"
 
 #: console.c:141
-#, fuzzy
-#| msgid ""
-#| "Use -e/-x/--execute {Command} to run a command when starting up. (Must be "
-#| "the final option).\n"
-msgid ""
-"Use -e/-x/--execute {Command} to run a command. (Must be the final option).\n"
-msgstr ""
-"Utilisez -e/-x/--execute {commande} pour exécuter une commande au lancement "
-"(doit être la dernière option).\n"
-
-#: console.c:142
 msgid "Use -T/--title {title} to specify the window title.\n"
 msgstr "Utilisez -T/--title {titre} pour modifier le titre de la fenêtre.\n"
 
-#: console.c:143
+#: console.c:142
 msgid "Use -t/--tab {number} to open multi tabs when starting up.\n"
 msgstr ""
 "Utilisez -t/--tab {nombre} pour ouvrir plusieurs onglets au démarrage.\n"
 
-#: console.c:144
+#: console.c:143
 msgid ""
 "Use -n/--tab_names {tab names} to specify tab names, separate with <space>.\n"
 msgstr ""
 
-#: console.c:145
+#: console.c:144
 msgid ""
 "Use -d/--directory {directory} to specify the init directory when starting "
 "up.\n"
 msgstr ""
 "Utilisez -d/--directory {répertoire} pour modifier le répertoire courant.\n"
 
-#: console.c:146
+#: console.c:145
 #, fuzzy
 #| msgid ""
 #| "Use -g/--geometry {WIDTHxHEIGHT[+-]XOFFSET[+-]YOFFSET} to specify the "
@@ -76,58 +65,76 @@ msgstr ""
 "Utilisez -g/--geometry {LARGEURxHAUTEUR[+-]DÉCALAGE_X[+-]DÉCALAGE_Y} pour "
 "spécifier la géométrie de la fenêtre.\n"
 
-#: console.c:147
+#: console.c:146
 msgid "Use -l/-ls/--login to make the shell invoked as a login shell.\n"
 msgstr ""
 "Utilisez -l/-ls/--login pour invoquer le shell en tant que shell de login.\n"
 
-#: console.c:148
+#: console.c:147
 msgid ""
 "Use -H/--hold to hold the terminal window open when -e/-x command "
 "terminated.\n"
 msgstr ""
 
-#: console.c:150
+#: console.c:149
 msgid "Use -s/--separate to run in separate process.\n"
 msgstr "Utilisez -s/--separate pour utiliser un processus séparé.\n"
 
-#: console.c:151
-msgid "Use -v/--version to show the version information.\n"
-msgstr "Utilisez -v/--version pour afficher les informations de version.\n"
+#: console.c:150
+msgid ""
+"Use -j/--join to integrate new created tabs to the last accessed window.\n"
+msgstr ""
 
-#: console.c:152
+#: console.c:151
 #, fuzzy
 #| msgid "Use -p/--profile to got a profile sample.\n"
 msgid "Use -p/--profile to get a profile sample.\n"
 msgstr "Utilisez -p/--profile pour créer un exemple de profil.\n"
 
-#: console.c:154
-#, c-format
-msgid ""
-"Use -u/--user_profile {%s} to use a specified profile.\n"
-"\n"
+#: console.c:153
+#, fuzzy, c-format
+#| msgid ""
+#| "Use -u/--user_profile {%s} to use a specified profile.\n"
+#| "\n"
+msgid "Use -u/--user_profile {%s} to use a specified profile.\n"
 msgstr ""
 "Utilisez -u/--user_profile {%s} pour utiliser le profil spécifié.\n"
 "\n"
 
-#: console.c:156
+#: console.c:154
+msgid "Use -v/--version to show the version information.\n"
+msgstr "Utilisez -v/--version pour afficher les informations de version.\n"
+
+#: console.c:155
+#, fuzzy
+#| msgid ""
+#| "Use -e/-x/--execute {Command} to run a command when starting up. (Must be "
+#| "the final option).\n"
+msgid ""
+"Use -e/-x/--execute {Command} to run a command. (Must be the final option).\n"
+"\n"
+msgstr ""
+"Utilisez -e/-x/--execute {commande} pour exécuter une commande au lancement "
+"(doit être la dernière option).\n"
+
+#: console.c:157
 #, fuzzy, c-format
 #| msgid "The %s system configure file is: %s/%s\n"
 msgid "The %s system configure file is: %s\n"
 msgstr "La configuration système de %s est dans: %s/%s\n"
 
-#: console.c:190
+#: console.c:191
 #, c-format
 msgid "And your %s profile is: "
 msgstr "Votre profil %s est :"
 
-#: console.c:221
+#: console.c:222
 msgid "Default key binding:"
 msgstr "Raccourcis claviers par défaut :"
 
 #. TRANSLATE NOTE: Please be care of the spacing when translating the following key binding description.
 #. TRANSLATE NOTE: Please check it in [Right Click Menu] -> [Usage] -> [Key binding] page after translating.
-#: console.c:224
+#: console.c:225
 #, fuzzy
 #| msgid ""
 #| "  * <Ctrl><`>           Disable/Enable hyperlinks, function keys and "
@@ -138,35 +145,35 @@ msgstr ""
 "  * <Ctrl><`>           Désactiver/activer les hyperliens, les raccourcis et "
 "le menu contextuel."
 
-#: console.c:226
+#: console.c:227
 msgid "  * <Ctrl><T>           Add a New tab with current directory.\n"
 msgstr ""
 "  * <Ctrl><T>           Ouvrir un nouvel onglet dans le répertoire courant.\n"
 
-#: console.c:227
+#: console.c:228
 msgid "  * <Ctrl><PgUp/PgDn>   Switch to Prev/Next tab.\n"
 msgstr "  * <Ctrl><PgUp/PgDn>   Basculer vers l'onglet précédent/suivant.\n"
 
-#: console.c:228
+#: console.c:229
 msgid "  * <Ctrl><Home/End>    Switch to First/Last tab.\n"
 msgstr "  * <Ctrl><Home/End>    Basculer vers le premier/dernier onglet.\n"
 
-#: console.c:229
+#: console.c:230
 msgid "  * <Ctrl><[/]>         Move current tab Forward/Backward.\n"
 msgstr ""
 "  * <Ctrl><[/]>         Déplacer l'onglet courant vers la gauche ou la "
 "droite.\n"
 
-#: console.c:230
+#: console.c:231
 msgid "  * <Ctrl><Up/Down>     Move current tab to First/Last.\n"
 msgstr ""
 "  * <Ctrl><Up/Down>     Déplacer l'onglet courant en premier ou en dernier.\n"
 
-#: console.c:231
+#: console.c:232
 msgid "  * <Ctrl><F1~F12>      Switch to 1st ~ 12th tab.\n"
 msgstr "  * <Ctrl><F1~F12>      Basculer vers l'onglet 1 à 12.\n"
 
-#: console.c:232
+#: console.c:233
 msgid ""
 "  * <Ctrl><+/-/Enter>   Increase/Decrease/Reset the font size of current "
 "tab.\n"
@@ -174,7 +181,7 @@ msgstr ""
 "  * <Ctrl><+/-/Enter>   Augmenter/Diminuer/Remettre à zéro la taille de "
 "police de l'onglet courant.\n"
 
-#: console.c:233
+#: console.c:234
 #, fuzzy
 #| msgid ""
 #| "  * <Shift><Left/Right> Emulate a mouse Scroll Up/Down event on Vte "
@@ -184,7 +191,7 @@ msgid ""
 msgstr ""
 "  * <Shift><Left/Right> Émuler un défilement de souris sur le terminal.\n"
 
-#: console.c:234
+#: console.c:235
 #, fuzzy
 #| msgid ""
 #| "  * <Shift><Up/Down>    Asks to Scroll Up/Down 1 line on Vte Terminal "
@@ -194,7 +201,7 @@ msgstr ""
 "  * <Shift><Up/Down>    Effectuer un défilement d'une ligne vers le haut ou "
 "le bas.\n"
 
-#: console.c:235
+#: console.c:236
 #, fuzzy
 #| msgid ""
 #| "  * <Shift><PgUp/PgDn>  Gtk+ default behavior, Scroll Up/Down on Vte "
@@ -205,7 +212,7 @@ msgstr ""
 "  * <Shift><PgUp/PgDn>  Comportement par défaut de Gtk+, défilement vers le "
 "haut ou le bas.\n"
 
-#: console.c:236
+#: console.c:237
 #, fuzzy
 #| msgid ""
 #| "  * <Shift><Home/End>   Gtk+ default behavior, Scroll the Terminal box to "
@@ -217,7 +224,7 @@ msgstr ""
 "  * <Shift><Home/End>   Comportement par défaut de Gtk+, défilement au début "
 "ou à la fin.\n"
 
-#: console.c:237
+#: console.c:238
 #, fuzzy
 #| msgid ""
 #| "  * <Alt><F11/Enter>    Switch between fullwindow/unfullwindow and "
@@ -229,7 +236,7 @@ msgstr ""
 "  * <Alt><F11/Enter>    Basculer entre les modes maximisé/normal et plein "
 "écran/normal.\n"
 
-#: console.c:238
+#: console.c:239
 #, fuzzy
 #| msgid ""
 #| "  * <Ctrl><F>           Find text in the Vte Terminal box. Use <F3>/"
@@ -241,14 +248,14 @@ msgstr ""
 "  * <Ctrl><F>           Rechercher dans le terminal courant. Utilisez <F3>/"
 "<Shift><F3> pour aller au précédent/suivant.\n"
 
-#: console.c:240
+#: console.c:241
 #, fuzzy
 #| msgid ""
 #| "  * <Ctrl><O>           Select all the text in the Vte Terminal box.\n"
 msgid "  * <Ctrl><O>           Select all the text in the terminal.\n"
 msgstr "  * <Ctrl><O>           Sélectionner tout le texte du terminal.\n"
 
-#: console.c:241
+#: console.c:242
 #, fuzzy
 #| msgid ""
 #| "  * <Ctrl><Del/Ins>     Copy the text to clipboard / Paste the text in "
@@ -258,7 +265,7 @@ msgstr ""
 "  * <Ctrl><Del/Ins>     Copier le texte vers le presse-papiers / Coller le "
 "texte du presse-papiers.\n"
 
-#: console.c:242
+#: console.c:243
 #, fuzzy
 #| msgid ""
 #| "  * <Shift><Del/Ins>    Copy the text to primary clipboard / Paste the "
@@ -268,7 +275,7 @@ msgstr ""
 "  * <Shift><Del/Ins>    Copier le texte vers le sélecteur primaire / Coller "
 "le texte du sélecteur primaire.\n"
 
-#: console.c:243
+#: console.c:244
 #, fuzzy
 #| msgid ""
 #| "                        (i.e. Emulate a middle button mouse click to copy/"
@@ -280,15 +287,15 @@ msgstr ""
 "                        (i.e. Simuler un clic du milieu pour copier/coller "
 "le texte)\n"
 
-#: console.c:245
+#: console.c:246
 msgid "Some key bindings that disabled by default but maybe useful:\n"
 msgstr "Raccourcis potentiellement utiles mais désactivés par défaut :\n"
 
-#: console.c:246
+#: console.c:247
 msgid "  * <Ctrl><Q>           Trying to close current tab.\n"
 msgstr "  * <Ctrl><Q>           Fermer l'onglet courant.\n"
 
-#: console.c:247
+#: console.c:248
 msgid ""
 "                        (Using <Ctrl><D> or 'exit' to close tabs is "
 "recommended)\n"
@@ -296,24 +303,24 @@ msgstr ""
 "                        (Utilisez de préférence <Ctrl><D> ou 'exit' pour "
 "fermer les onglets)\n"
 
-#: console.c:248
+#: console.c:249
 msgid "  * <Ctrl><N>           Open a new window with current directory.\n"
 msgstr ""
 "  * <Ctrl><N>           Ouvrir une nouvelle fenêtre dans le répertoire "
 "courant.\n"
 
-#: console.c:249
+#: console.c:250
 msgid "  * <Ctrl><E>           Rename the current tab.\n"
 msgstr "  * <Ctrl><E>           Renommer l'onglet courant.\n"
 
-#: console.c:256
+#: console.c:257
 #, c-format
 msgid "TIP: These key bindings may custom or disable by right click menu [%s]."
 msgstr ""
 "Conseil : Ces raccourcis par défaut peuvent être modifier ou désactiver via "
 "le menu contextuel [%s]."
 
-#: console.c:256 menu.c:424
+#: console.c:257 menu.c:424
 msgid "Set key binding"
 msgstr "Modifier les raccourcis claviers"
 
@@ -1481,12 +1488,12 @@ msgstr ""
 msgid "The profile is invalid!"
 msgstr "Le profil n'est pas valide !"
 
-#: window.c:713
+#: window.c:732
 #, c-format
 msgid "\tWindow #%d, Page #%d: (%d) %s\n"
 msgstr "\tFenêtre #%d, Page #%d: (%d) %s\n"
 
-#: window.c:717
+#: window.c:736
 #, c-format
 msgid "\tPage #%d: (%d) %s\n"
 msgstr "\tOnglet #%d: (%d) %s\n"
