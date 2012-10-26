@@ -868,6 +868,7 @@ struct Window
 	gchar *execute_command_whitelist;
 	gchar **execute_command_whitelists;
 	gboolean execute_command_in_new_tab;
+	gboolean join_as_new_tab;
 	gchar *foreground_program_whitelist;
 	gchar **foreground_program_whitelists;
 	gchar *background_program_whitelist;

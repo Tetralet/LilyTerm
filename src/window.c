@@ -155,7 +155,7 @@ GtkNotebook *new_window(int argc,
 		// if (-e option) and (win_data->execute_command_in_new_tab)...
 		// g_debug("last_active_window = %p, win_data->argc = %d, win_data->execute_command_in_new_tab = %d",
 		//	last_active_window, win_data->argc, win_data->execute_command_in_new_tab);
-		if ((last_active_window) && (win_data->argc) && (win_data->execute_command_in_new_tab))
+		if ((last_active_window) && (((win_data->argc) && (win_data->execute_command_in_new_tab)) || win_data->join_as_new_tab))
 		{
 			// g_debug ("Run the -e option on the new tab of current window!");
 			gint i, init_tab_number = win_data->init_tab_number;
@@ -967,6 +967,8 @@ gboolean window_option(struct Window *win_data, gchar *encoding, int argc, char 
 				win_data->custom_tab_names_str = g_string_new(argv[i]);
 			getting_tab_name_argc = i+1;
 		}
+		else if ((!strcmp(argv[i], "-j")) || (!strcmp(argv[i], "--join")))
+			win_data->join_as_new_tab = TRUE;
 	}
 
 	if (win_data->custom_tab_names_str)
@@ -2674,6 +2676,7 @@ void dump_data (struct Window *win_data, struct Page *page_data)
 	g_debug("- win_data->execute_command_whitelist = %s", win_data->execute_command_whitelist);
 	print_array("win_data->execute_command_whitelists", win_data->execute_command_whitelists);
 	g_debug("- win_data->execute_command_in_new_tab = %d", win_data->execute_command_in_new_tab);
+	g_debug("- win_data->join_as_new_tab = %d", win_data->join_as_new_tab);
 	g_debug("- win_data->foreground_program_whitelist = %s", win_data->foreground_program_whitelist);
 	print_array("win_data->foreground_program_whitelists", win_data->foreground_program_whitelists);
 	g_debug("- win_data->background_program_whitelist = %s", win_data->background_program_whitelist);
@@ -3100,6 +3103,7 @@ void win_data_dup(struct Window *win_data_orig, struct Window *win_data)
 	win_data->execute_command_whitelists = split_string(win_data->execute_command_whitelist, " ", -1);
 
 	// win_data->execute_command_in_new_tab;
+	// win_data->join_as_new_tab;
 	win_data->foreground_program_whitelist = g_strdup(win_data_orig->foreground_program_whitelist);
 	win_data->foreground_program_whitelists = split_string(win_data->foreground_program_whitelist, " ", -1);
 	win_data->background_program_whitelist = g_strdup(win_data_orig->background_program_whitelist);
