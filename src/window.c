@@ -177,6 +177,25 @@ GtkNotebook *new_window(int argc,
 					active_win_data->argc = win_data->argc;
 					active_win_data->hold = win_data->hold;
 
+					if (win_data->custom_tab_names_str)
+					{
+						if (active_win_data->custom_tab_names_str)
+						{
+							g_string_append_printf(active_win_data->custom_tab_names_str, "%c%s", '\x10',
+									       win_data->custom_tab_names_str->str);
+							g_strfreev(active_win_data->custom_tab_names_strs);
+						}
+						else
+							active_win_data->custom_tab_names_str = g_string_new(win_data->custom_tab_names_str->str);
+
+						active_win_data->custom_tab_names_strs = split_string(active_win_data->custom_tab_names_str->str, "\x10", -1);
+						active_win_data->custom_tab_names_total = count_char_in_string(active_win_data->custom_tab_names_str->str, '\x10') + 1;
+						// g_debug("(%p): Got win_data->custom_tab_names_str = %s win_data->custom_tab_names_total = %d "
+						//	"win_data->custom_tab_names_current = %d",
+						//	active_win_data, active_win_data->custom_tab_names_str->str,
+						//	active_win_data->custom_tab_names_total, win_data->custom_tab_names_current);
+					}
+
 					gchar *FINAL_encoding = encoding;
 					if ( (! encoding_overwrite_profile) &&
 					     win_data->default_encoding &&
@@ -784,7 +803,7 @@ gboolean window_option(struct Window *win_data, gchar *encoding, int argc, char 
 		if (argv[i]==NULL) break;
 #endif
 
-		// g_debug("%2d (Total %d): %s",i, argc, argv[i]);
+		// g_debug("(%p): %2d (Total %d): %s", win_data, i, argc, argv[i]);
 		if ((!strcmp(argv[i], "-T")) || (!strcmp(argv[i], "--title")))
 		{
 			if (++i==argc)
@@ -822,7 +841,7 @@ gboolean window_option(struct Window *win_data, gchar *encoding, int argc, char 
 		}
 		else if ((!strcmp(argv[i], "-H")) || (!strcmp(argv[i], "--hold")))
 		{
-			g_debug("Set win_data->hold to TRUE!!");
+			// g_debug("Set win_data->hold to TRUE!!");
 			win_data->hold = TRUE;
 		}
 		else if ((!strcmp(argv[i], "-e")) || (!strcmp(argv[i], "-x")) || (!strcmp(argv[i], "--execute")))
@@ -942,10 +961,10 @@ gboolean window_option(struct Window *win_data, gchar *encoding, int argc, char 
 		}
 		else if (getting_tab_name_argc==i)
 		{
-			if (win_data->custom_tab_names_str == NULL)
-				win_data->custom_tab_names_str = g_string_new(argv[i]);
-			else
+			if (win_data->custom_tab_names_str)
 				g_string_append_printf(win_data->custom_tab_names_str, "%c%s", '\x10', argv[i]);
+			else
+				win_data->custom_tab_names_str = g_string_new(argv[i]);
 			getting_tab_name_argc = i+1;
 		}
 	}
@@ -954,8 +973,8 @@ gboolean window_option(struct Window *win_data, gchar *encoding, int argc, char 
 	{
 		win_data->custom_tab_names_strs = split_string(win_data->custom_tab_names_str->str, "\x10", -1);
 		win_data->custom_tab_names_total = count_char_in_string(win_data->custom_tab_names_str->str, '\x10') + 1;
-		// g_debug("Got win_data->custom_tab_names_str = %s win_data->custom_tab_names_total = %d",
-		//	win_data->custom_tab_names_str->str, win_data->custom_tab_names_total);
+		// g_debug("(%p): Got win_data->custom_tab_names_str = %s win_data->custom_tab_names_total = %d",
+		//	win_data, win_data->custom_tab_names_str->str, win_data->custom_tab_names_total);
 		if (win_data->init_tab_number<win_data->custom_tab_names_total)
 			win_data->init_tab_number = win_data->custom_tab_names_total;
 	}
