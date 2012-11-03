@@ -165,7 +165,7 @@ gboolean create_menu(struct Window *win_data)
 				set_menuitem_label(win_data->menuitem_theme[i], _("grayscale"));
 				break;
 			case THEME-1:
-				// g_debug("win_data->using_custom_color = %d", win_data->using_custom_color);
+				// g_debug("win_data->custom_color = %d", win_data->custom_color);
 				set_menuitem_label(win_data->menuitem_theme[i], _("User custom"));
 				gtk_widget_set_name(win_data->menuitem_theme[i], win_data->color_theme_str);
 				break;
@@ -1056,18 +1056,18 @@ void set_ansi_theme(GtkWidget *menuitem, GdkColor color[COLOR])
 #endif
 	}
 
-	if (win_data->using_custom_color == FALSE)
+	if (win_data->custom_color == FALSE)
 	{
 		if (menuitem == win_data->menuitem_invert_color)
-			win_data->using_custom_color = TRUE;
+			win_data->custom_color = TRUE;
 		else
 		{
-			win_data->using_custom_color = win_data->color_theme_str[0];
-			if (win_data->color_brightness) win_data->using_custom_color = TRUE;
-			if (win_data->color_brightness != win_data->color_brightness_inactive) win_data->using_custom_color = TRUE;
+			win_data->custom_color = win_data->color_theme_str[0];
+			if (win_data->color_brightness) win_data->custom_color = TRUE;
+			if (win_data->color_brightness != win_data->color_brightness_inactive) win_data->custom_color = TRUE;
 		}
 		// init the init_user_color(struct Window *win_data)
-		if (win_data->using_custom_color) init_user_color(win_data);
+		if (win_data->custom_color) init_user_color(win_data);
 	}
 
 	gint i;
@@ -1080,7 +1080,7 @@ void set_ansi_theme(GtkWidget *menuitem, GdkColor color[COLOR])
 	}
 	else
 	{
-		if (win_data->using_custom_color)
+		if (win_data->custom_color)
 		{
 			for (i=0; i<COLOR; i++)
 				win_data->color_orig[i] = color[i];

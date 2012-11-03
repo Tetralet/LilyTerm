@@ -1944,7 +1944,7 @@ void notebook_page_added (GtkNotebook *notebook, GtkWidget *child, guint page_nu
 #endif
 
 		// if the color of current vte is "inactive", light up it!
-//		if (win_data->using_custom_color &&
+//		if (win_data->custom_color &&
 //		    (win_data->color_brightness != win_data->color_brightness_inactive) &&
 //		    (! menu_activated) &&
 //		    (! dialog_activated))
@@ -2591,8 +2591,8 @@ void dump_data (struct Window *win_data, struct Page *page_data)
 	g_debug("- win_data->color_theme_str = %s", win_data->color_theme_str);
 	g_debug("- win_data->invert_color = %d", win_data->invert_color);
 	g_debug("- win_data->menuitem_invert_color = %p", win_data->menuitem_invert_color);
-	g_debug("- win_data->using_custom_color = %d", win_data->using_custom_color);
-	// g_debug("- win_data->using_custom_color_orig = %d", win_data->using_custom_color_orig);
+	g_debug("- win_data->custom_color = %d", win_data->custom_color);
+	// g_debug("- win_data->custom_color_orig = %d", win_data->custom_color_orig);
 	for (i=0; i<COLOR; i++)
 	{
 		g_debug("- win_data->color_value[%d] = %s", i, win_data->color_value[i]);
@@ -3027,7 +3027,7 @@ void win_data_dup(struct Window *win_data_orig, struct Window *win_data)
 	for (i=0; i<THEME; i++)
 		win_data->menuitem_theme[i] = NULL;
 	win_data->current_menuitem_theme = NULL;
-	// win_data->using_custom_color;
+	// win_data->custom_color;
 	// win_data->color_brightness;
 	// win_data->color_brightness_inactive;
 

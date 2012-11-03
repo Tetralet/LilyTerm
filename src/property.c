@@ -237,10 +237,10 @@ void set_vte_color(struct Window *win_data, struct Page *page_data)
 #endif
 	// set font/background colors
 	vte_terminal_set_default_colors(VTE_TERMINAL(page_data->vte));
-	// g_debug("win_data->using_custom_color = %d", win_data->using_custom_color);
-	if (win_data->using_custom_color)
+	// g_debug("win_data->custom_color = %d", win_data->custom_color);
+	if (win_data->custom_color)
 	{
-		// g_debug("win_data->using_custom_color = %d", win_data->using_custom_color);
+		// g_debug("win_data->custom_color = %d", win_data->custom_color);
 		vte_terminal_set_colors(VTE_TERMINAL(page_data->vte),
 					&(win_data->fg_color),
 					&(win_data->bg_color),
@@ -593,7 +593,7 @@ void apply_new_win_data_to_page (struct Window *win_data_orig,
 	if (compare_color(&(win_data_orig->fg_color), &(win_data->fg_color)) ||
 	    compare_color(&(win_data_orig->cursor_color), &(win_data->cursor_color)) ||
 	    compare_color(&(win_data_orig->bg_color), &(win_data->bg_color)) ||
-	    (win_data_orig->using_custom_color != win_data->using_custom_color) ||
+	    (win_data_orig->custom_color != win_data->custom_color) ||
 	    (win_data_orig->color_brightness != win_data->color_brightness))
 	    	update_color = TRUE;
 

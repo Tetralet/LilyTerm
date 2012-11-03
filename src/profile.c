@@ -412,7 +412,7 @@ void init_window_parameters(struct Window *win_data)
 	// win_data->menuitem_invert_color;
 	// win_data->menuitem_theme;
 	// win_data->current_menuitem_theme;
-	// win_data->using_custom_color;
+	// win_data->custom_color;
 	// win_data->color[COLOR];
 	// win_data->color_inactive[COLOR];
 	// win_data->color_orig[COLOR];
@@ -1031,7 +1031,7 @@ void init_user_color(struct Window *win_data)
 		{
 			// g_debug("Get win_data->color_theme_str = %s", win_data->color_theme_str);
 			palette = color_theme[i].color;
-			win_data->using_custom_color = TRUE;
+			win_data->custom_color = TRUE;
 			current_theme = i;
 			break;
 		}
@@ -1044,7 +1044,7 @@ void init_user_color(struct Window *win_data)
 		color_theme[THEME-1].color[i] = color_theme[current_theme].color[i];
 	}
 
-	if (! win_data->using_custom_color)
+	if (! win_data->custom_color)
 	{
 		g_free(win_data->color_theme_str);
 		win_data->color_theme_str = g_strdup("");
@@ -1578,7 +1578,7 @@ void get_user_settings(struct Window *win_data, const gchar *encoding)
 				//	i, color[i].name, i, win_data->color_value[i]);
 				if (compare_strings(win_data->color_value[i], "", FALSE))
 				{
-					win_data->using_custom_color = TRUE;
+					win_data->custom_color = TRUE;
 					custom_color = TRUE;
 					check_color_value(color[i].name, win_data->color_value[i],
 							  &(win_data->color_orig[i]));
@@ -1664,9 +1664,9 @@ void get_user_settings(struct Window *win_data, const gchar *encoding)
 		while (win_data->splited_page_names[win_data->max_page_names_no]!=NULL)
 			win_data->max_page_names_no++;
 
-	if (win_data->color_brightness) win_data->using_custom_color = TRUE;
+	if (win_data->color_brightness) win_data->custom_color = TRUE;
 	if (win_data->color_brightness_inactive>-2)
-		win_data->using_custom_color = TRUE;
+		win_data->custom_color = TRUE;
 	else
 	{
 		win_data->dim_text = FALSE;

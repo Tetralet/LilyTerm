@@ -773,9 +773,9 @@ struct Window
 	GtkWidget *menuitem_theme[THEME];
 	GtkWidget *current_menuitem_theme;
 
-	// using_custom_color = TRUE: use vte_terminal_set_colors() to set the color of vte.
-	// using_custom_color = FALSE: use vte_terminal_set_color_foreground/background().
-	gboolean using_custom_color;
+	// custom_color = TRUE: use vte_terminal_set_colors() to set the color of vte.
+	// custom_color = FALSE: use vte_terminal_set_color_foreground/background().
+	gboolean custom_color;
 	// color[] and color_orig[] will always be initd when creating a window.
 	GdkColor color[COLOR];
 	GdkColor color_inactive[COLOR];
@@ -1119,7 +1119,7 @@ struct Dialog
 	gboolean original_dim_window;
 #endif
 	gboolean original_transparent_background;
-	gboolean original_using_custom_color;
+	gboolean original_custom_color;
 	gdouble original_color_brightness;
 	gboolean original_dim_text;
 	GdkColor original_fg_color;
