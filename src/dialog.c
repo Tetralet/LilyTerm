@@ -1022,8 +1022,8 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 		case ADJUST_THE_BRIGHTNESS_OF_ANSI_COLORS_WHEN_INACTIVE:	// 26
 		{
 			g_object_set_data(G_OBJECT(win_data->current_vte), "Dialog", dialog_data);
-			dialog_data->original_custom_color = win_data->custom_color;
-			win_data->custom_color = TRUE;
+			dialog_data->original_use_set_color_fg_bg = win_data->use_set_color_fg_bg;
+			win_data->use_set_color_fg_bg = TRUE;
 			dialog_data->original_color_brightness = win_data->color_brightness;
 			dialog_data->original_fg_color = win_data->fg_color;
 
@@ -1595,8 +1595,8 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 					recover_page_colors(dialog_data->window, page_data->window, page_data->notebook);
 					break;
 				case ADJUST_THE_BRIGHTNESS_OF_ANSI_COLORS_USED_IN_TERMINAL:
-					// g_debug("win_data->custom_color = %d", win_data->custom_color);
-					// g_debug("win_data->custom_color_orig = %d", win_data->custom_color_orig);
+					// g_debug("win_data->use_set_color_fg_bg = %d", win_data->use_set_color_fg_bg);
+					// g_debug("win_data->use_set_color_fg_bg_orig = %d", win_data->use_set_color_fg_bg_orig);
 					// g_debug("dialog_data->original_color_brightness = %0.3f", dialog_data->original_color_brightness);
 					win_data->color_brightness = dialog_data->original_color_brightness;
 					win_data->fg_color = dialog_data->original_fg_color;
@@ -1610,11 +1610,11 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 					if (page_data==NULL) goto DESTROY_WINDOW;
 #endif
 
-					win_data->custom_color = dialog_data->original_custom_color;
+					win_data->use_set_color_fg_bg = dialog_data->original_use_set_color_fg_bg;
 					set_vte_color(win_data, page_data);
 					break;
 				case ADJUST_THE_BRIGHTNESS_OF_ANSI_COLORS_WHEN_INACTIVE:
-					win_data->custom_color = dialog_data->original_custom_color;
+					win_data->use_set_color_fg_bg = dialog_data->original_use_set_color_fg_bg;
 					win_data->color_brightness = dialog_data->original_color_brightness;
 					win_data->fg_color = dialog_data->original_fg_color;
 					set_new_ansi_color(win_data);
@@ -2749,7 +2749,7 @@ void error_dialog(GtkWidget *window, gchar *title_translation, gchar *title,
 
 	gchar *utf8_message = convert_str_to_utf8(message, encoding);
 #ifdef UNIT_TEST
-	g_debug("%s", utf8_message);
+	g_message("%s", utf8_message);
 #else
 	struct Dialog dialog_data;
 

@@ -1944,7 +1944,7 @@ void notebook_page_added (GtkNotebook *notebook, GtkWidget *child, guint page_nu
 #endif
 
 		// if the color of current vte is "inactive", light up it!
-//		if (win_data->custom_color &&
+//		if (win_data->use_set_color_fg_bg &&
 //		    (win_data->color_brightness != win_data->color_brightness_inactive) &&
 //		    (! menu_activated) &&
 //		    (! dialog_activated))
@@ -2591,8 +2591,10 @@ void dump_data (struct Window *win_data, struct Page *page_data)
 	g_debug("- win_data->color_theme_str = %s", win_data->color_theme_str);
 	g_debug("- win_data->invert_color = %d", win_data->invert_color);
 	g_debug("- win_data->menuitem_invert_color = %p", win_data->menuitem_invert_color);
-	g_debug("- win_data->custom_color = %d", win_data->custom_color);
-	// g_debug("- win_data->custom_color_orig = %d", win_data->custom_color_orig);
+	g_debug("- win_data->use_set_color_fg_bg = %d", win_data->use_set_color_fg_bg);
+	// g_debug("- win_data->use_set_color_fg_bg_orig = %d", win_data->use_set_color_fg_bg_orig);
+	g_debug("- win_data->have_custom_color = %d", win_data->have_custom_color);
+	g_debug("- win_data->use_custom_theme = %d", win_data->use_custom_theme);
 	for (i=0; i<COLOR; i++)
 	{
 		g_debug("- win_data->color_value[%d] = %s", i, win_data->color_value[i]);
@@ -2609,7 +2611,7 @@ void dump_data (struct Window *win_data, struct Page *page_data)
 		print_color(temp_str, &(win_data->color_orig[i]));
 		g_free(temp_str);
 	}
-	for (i=0; i<THEME; i++)
+	for (i=0; i<THEME*2; i++)
 	{
 		g_debug("- win_data->menuitem_theme[%d] = %p", i, win_data->menuitem_theme[i]);
 		if (win_data->menuitem_theme[i])
@@ -2716,8 +2718,11 @@ void dump_data (struct Window *win_data, struct Page *page_data)
 	gchar *cmdline = get_cmdline(page_data->pid);
 	g_debug("- page_data->pid = %d, cmdline = %s", page_data->pid, cmdline);
 	g_free(cmdline);
-	g_debug("- page_data row x col = (%ld x %ld)", vte_terminal_get_row_count(VTE_TERMINAL(page_data->vte)),
-						       vte_terminal_get_column_count(VTE_TERMINAL(page_data->vte)));
+#ifdef DEFENSIVE
+	if (page_data->vte)
+#endif
+		g_debug("- page_data row x col = (%ld x %ld)", vte_terminal_get_row_count(VTE_TERMINAL(page_data->vte)),
+							       vte_terminal_get_column_count(VTE_TERMINAL(page_data->vte)));
 	cmdline = get_cmdline(page_data->current_tpgid);
 	g_debug("- page_data->current_tpgid = %d, cmdline = %s", page_data->current_tpgid, cmdline);
 	g_free(cmdline);
@@ -3024,10 +3029,12 @@ void win_data_dup(struct Window *win_data_orig, struct Window *win_data)
 		win_data->color_inactive[i] = win_data_orig->color_inactive[i];
 		win_data->color_orig[i] = win_data_orig->color_orig[i];
 	}
-	for (i=0; i<THEME; i++)
+	for (i=0; i<THEME*2; i++)
 		win_data->menuitem_theme[i] = NULL;
 	win_data->current_menuitem_theme = NULL;
-	// win_data->custom_color;
+	// win_data->use_set_color_fg_bg;
+	// win_data->have_custom_color;
+	// win_data->use_custom_theme;
 	// win_data->color_brightness;
 	// win_data->color_brightness_inactive;
 

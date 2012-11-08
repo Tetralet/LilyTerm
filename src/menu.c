@@ -23,7 +23,7 @@
 extern GList *window_list;
 extern GtkWidget *menu_active_window;
 extern struct Page_Color page_color[PAGE_COLOR];
-extern struct Color_Theme color_theme[THEME];
+extern struct Color_Theme system_color_theme[THEME];
 extern struct Erase_Binding erase_binding[ERASE_BINDING];
 #ifdef ENABLE_CURSOR_SHAPE
 extern struct Cursor_Shape cursor_shape[CURSOR_SHAPE];
@@ -133,46 +133,12 @@ gboolean create_menu(struct Window *win_data)
 	GSList *theme_group = NULL;
 	// g_debug("win_data->color_theme_str = %s", win_data->color_theme_str);
 	for (i=0; i<THEME; i++)
+		theme_group = create_theme_menu_items(win_data, sub_menu, theme_group, i, 0);
+	if (win_data->have_custom_color)
 	{
-		win_data->menuitem_theme[i] = add_radio_menuitem_to_sub_menu (theme_group,
-									      sub_menu,
-									      color_theme[i].name,
-									      (GSourceFunc)set_ansi_theme,
-									      color_theme[i].color);
-		theme_group = gtk_radio_menu_item_get_group (GTK_RADIO_MENU_ITEM (win_data->menuitem_theme[i]));
-		// g_debug("Checking win_data->color_theme_str (%s) and color_theme[i].name (%s)",
-		//	win_data->color_theme_str, color_theme[i].name);
-		if (win_data->current_menuitem_theme==NULL)
-		{
-			// g_debug("Comparing [%s] and [%s]...", win_data->color_theme_str, color_theme[i].name);
-			if (! compare_strings(win_data->color_theme_str, color_theme[i].name, FALSE))
-				win_data->current_menuitem_theme = win_data->menuitem_theme[i];
-			// g_debug("Got win_data->current_menuitem_theme = %p (%ld)", win_data->current_menuitem_theme, i);
-		}
-		switch (i)
-		{
-			case 0:
-				// TRANSLATE NOTE: Please translate the "System default (SCHEME)" into "System default" (in your language).
-				// TRANSLATE NOTE: Some language will have trouble if here is "System default" only.
-				// TRANSLATE NOTE: Contrast it with "System default (PROFILE)" (See below)
-				if (compare_strings("System default (SCHEME)", _("System default (SCHEME)"), TRUE))
-					set_menuitem_label(win_data->menuitem_theme[i], _("System default (SCHEME)"));
-				else
-					set_menuitem_label(win_data->menuitem_theme[i], "System default");
-				gtk_widget_set_name(win_data->menuitem_theme[i], "");
-				break;
-			case THEME-2:
-				set_menuitem_label(win_data->menuitem_theme[i], _("grayscale"));
-				break;
-			case THEME-1:
-				// g_debug("win_data->custom_color = %d", win_data->custom_color);
-				set_menuitem_label(win_data->menuitem_theme[i], _("User custom"));
-				gtk_widget_set_name(win_data->menuitem_theme[i], win_data->color_theme_str);
-				break;
-		}
-		// g_debug("Set the color theme %s (%p) to %p...",
-		//	color_theme[i].name, win_data->menuitem_theme[i], color_theme[i].color);
-
+		add_separator_menu (sub_menu);
+		for (i=0; i<THEME; i++)
+			theme_group = create_theme_menu_items(win_data, sub_menu, theme_group, i, 1);
 	}
 
 	if (win_data->show_background_menu)
@@ -239,8 +205,8 @@ gboolean create_menu(struct Window *win_data)
 		add_separator_menu (clip_sub_menu);
 
 		win_data->menuitem_clipboard = create_menu_item (IMAGE_MENU_ITEM, clip_sub_menu,
-							         _("View clipboard"), NULL, GTK_STOCK_FILE,
-							         (GSourceFunc)view_clipboard, win_data);
+								 _("View clipboard"), NULL, GTK_STOCK_FILE,
+								 (GSourceFunc)view_clipboard, win_data);
 
 		win_data->menuitem_primary = create_menu_item (IMAGE_MENU_ITEM, clip_sub_menu,
 							       _("View primary clipboard"), NULL, GTK_STOCK_FILE,
@@ -449,6 +415,72 @@ gboolean create_menu(struct Window *win_data)
 #endif
 
 	return TRUE;
+}
+
+GSList *create_theme_menu_items(struct Window *win_data, GtkWidget *sub_menu, GSList *theme_group, gint current_theme, gint custom_theme)
+{
+#ifdef DETAIL
+	g_debug("! Launch create_theme_menu_items() with win_data = %p, sub_menu = %p, theme_group = %p, current_theme = %d, custom_theme = %d",
+		win_data, sub_menu, theme_group, current_theme, custom_theme);
+#endif
+#ifdef DEFENSIVE
+	if (win_data==NULL) return NULL;
+#endif
+	gchar *item_label = NULL;
+	switch (current_theme)
+	{
+		case 0:
+			// TRANSLATE NOTE: Please translate the "System default (SCHEME)" into "System default" (in your language).
+			// TRANSLATE NOTE: Some language will have trouble if here is "System default" only.
+			// TRANSLATE NOTE: Contrast it with "System default (PROFILE)" (See below)
+			if (compare_strings("System default (SCHEME)", _("System default (SCHEME)"), TRUE))
+				item_label = _("System default (SCHEME)");
+			else
+				item_label = "System default";
+			break;
+		case THEME-1:
+			item_label = _("grayscale");
+			break;
+		default:
+			item_label = system_color_theme[current_theme].name;
+	}
+
+	if (custom_theme) item_label = g_strdup_printf(_("%s + custom"), item_label);
+
+	GdkColor *color = system_color_theme[current_theme].color;
+	if (custom_theme) color = win_data->custom_color_theme[current_theme].color;
+	win_data->menuitem_theme[current_theme + custom_theme*THEME] = add_radio_menuitem_to_sub_menu (theme_group,
+												       sub_menu,
+												       item_label,
+												       (GSourceFunc)set_ansi_theme,
+												       color);
+#ifdef DEFENSIVE
+	if (win_data->menuitem_theme[current_theme]==NULL) return NULL;
+#endif
+		theme_group = gtk_radio_menu_item_get_group (GTK_RADIO_MENU_ITEM (win_data->menuitem_theme[current_theme]));
+
+	// g_debug("Checking win_data->color_theme_str (%s) and color_theme[current_theme].name (%s)",
+	//	win_data->color_theme_str, color_theme[current_theme].name);
+
+	if ((win_data->current_menuitem_theme==NULL) && (win_data->use_custom_theme == custom_theme))
+	{
+		// g_debug("Comparing [%s] and [%s]...", win_data->color_theme_str, system_color_theme[current_theme].name);
+		if (! compare_strings(win_data->color_theme_str, system_color_theme[current_theme].name, FALSE))
+			win_data->current_menuitem_theme = win_data->menuitem_theme[current_theme + custom_theme*THEME];
+	}
+	// g_debug("Got win_data->current_menuitem_theme = %p (%d), created (%p)",
+		win_data->current_menuitem_theme, current_theme, win_data->menuitem_theme[current_theme + custom_theme*THEME]);
+
+
+	// g_debug("Set the color theme %s (%p) to %p...",
+	//	system_color_theme[current_theme].name, win_data->menuitem_theme[current_theme], system_color_theme[current_theme].color);
+
+	if (current_theme==0)
+		gtk_widget_set_name(win_data->menuitem_theme[current_theme], "");
+
+	if (custom_theme) g_free(item_label);
+
+	return theme_group;
 }
 
 void clean_scrollback_lines(GtkWidget *widget, struct Window *win_data)
@@ -1056,18 +1088,18 @@ void set_ansi_theme(GtkWidget *menuitem, GdkColor color[COLOR])
 #endif
 	}
 
-	if (win_data->custom_color == FALSE)
+	if (win_data->use_set_color_fg_bg == FALSE)
 	{
 		if (menuitem == win_data->menuitem_invert_color)
-			win_data->custom_color = TRUE;
+			win_data->use_set_color_fg_bg = TRUE;
 		else
 		{
-			win_data->custom_color = win_data->color_theme_str[0];
-			if (win_data->color_brightness) win_data->custom_color = TRUE;
-			if (win_data->color_brightness != win_data->color_brightness_inactive) win_data->custom_color = TRUE;
+			win_data->use_set_color_fg_bg = win_data->color_theme_str[0];
+			if (win_data->color_brightness) win_data->use_set_color_fg_bg = TRUE;
+			if (win_data->color_brightness != win_data->color_brightness_inactive) win_data->use_set_color_fg_bg = TRUE;
 		}
 		// init the init_user_color(struct Window *win_data)
-		if (win_data->custom_color) init_user_color(win_data);
+		if (win_data->use_set_color_fg_bg) init_user_color(win_data);
 	}
 
 	gint i;
@@ -1075,12 +1107,12 @@ void set_ansi_theme(GtkWidget *menuitem, GdkColor color[COLOR])
 	{
 		if (win_data->color_orig==NULL)
 			for (i=0; i<COLOR; i++)
-				win_data->color_orig[i] = color_theme[0].color[i];
+				win_data->color_orig[i] = system_color_theme[0].color[i];
 		switch_color(win_data);
 	}
 	else
 	{
-		if (win_data->custom_color)
+		if (win_data->use_set_color_fg_bg)
 		{
 			for (i=0; i<COLOR; i++)
 				win_data->color_orig[i] = color[i];
@@ -1112,7 +1144,7 @@ void set_auto_save(GtkWidget *menuitem, struct Window *win_data)
 	g_debug("! Launch set_auto_save() with menuitem = %p, win_data = %p", menuitem, win_data);
 #endif
 #ifdef DEFENSIVE
-	if (win_data==NULL) return;
+	if ((win_data==NULL) || (menuitem==NULL)) return;
 #endif
 	win_data->auto_save = gtk_check_menu_item_get_active (GTK_CHECK_MENU_ITEM(menuitem));
 	// g_debug("Set win_data->auto_save to %d", win_data->auto_save);
@@ -1738,6 +1770,9 @@ void create_load_profile_from_menu_items(GtkWidget *sub_menu, const gchar *stock
 #ifdef DETAIL
 	g_debug("! Launch create_load_profile_from_menu_items() with sub_menu = %p, "
 		"stock_id = %s", sub_menu, stock_id);
+#endif
+#ifdef DEFENSIVE
+	if (win_data==NULL) return;
 #endif
 	// Profile
 	//menu_item = gtk_image_menu_item_new_with_label(_("Profile sample"));

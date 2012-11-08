@@ -36,7 +36,7 @@ struct Color color[COLOR] = {{0}};
 struct Page_Color page_color[PAGE_COLOR] = {{0}};
 gchar *restricted_locale_message = NULL;
 
-struct Color_Theme color_theme[THEME] =
+struct Color_Theme system_color_theme[THEME] =
 	{{"",
 	  {{ 0, 0x0000, 0x0000, 0x0000 },
 	   { 0, 0xc0c0, 0x0000, 0x0000 },
@@ -155,24 +155,7 @@ struct Color_Theme color_theme[THEME] =
 	   { 0, 0x5050, 0x5050, 0x5050 },
 	   { 0, 0xaaaa, 0xaaaa, 0xaaaa },
 	   { 0, 0xa5a5, 0xa5a5, 0xa5a5 },
-	   { 0, 0xffff, 0xffff, 0xffff }}},
-	 {"Custom",
-	  {{ 0, 0x0000, 0x0000, 0x0000 },
-	   { 0, 0x0000, 0x0000, 0x0000 },
-	   { 0, 0x0000, 0x0000, 0x0000 },
-	   { 0, 0x0000, 0x0000, 0x0000 },
-	   { 0, 0x0000, 0x0000, 0x0000 },
-	   { 0, 0x0000, 0x0000, 0x0000 },
-	   { 0, 0x0000, 0x0000, 0x0000 },
-	   { 0, 0x0000, 0x0000, 0x0000 },
-	   { 0, 0x0000, 0x0000, 0x0000 },
-	   { 0, 0x0000, 0x0000, 0x0000 },
-	   { 0, 0x0000, 0x0000, 0x0000 },
-	   { 0, 0x0000, 0x0000, 0x0000 },
-	   { 0, 0x0000, 0x0000, 0x0000 },
-	   { 0, 0x0000, 0x0000, 0x0000 },
-	   { 0, 0x0000, 0x0000, 0x0000 },
-	   { 0, 0x0000, 0x0000, 0x0000 }}}};
+	   { 0, 0xffff, 0xffff, 0xffff }}}};
 
 #ifdef ENABLE_VTE_ERASE_TTY
 struct Erase_Binding erase_binding[ERASE_BINDING] =
@@ -412,7 +395,9 @@ void init_window_parameters(struct Window *win_data)
 	// win_data->menuitem_invert_color;
 	// win_data->menuitem_theme;
 	// win_data->current_menuitem_theme;
-	// win_data->custom_color;
+	// win_data->use_set_color_fg_bg;
+	// win_data->have_custom_color;
+	// win_data->use_custom_theme;
 	// win_data->color[COLOR];
 	// win_data->color_inactive[COLOR];
 	// win_data->color_orig[COLOR];
@@ -1019,37 +1004,49 @@ void init_user_color(struct Window *win_data)
 #ifdef DEFENSIVE
 	if (win_data==NULL) return;
 #endif
-	GdkColor *palette = color_theme[DEFAULT_THEME].color;
+	GdkColor *palette = system_color_theme[DEFAULT_THEME].color;
 	// g_debug("Got win_data->color_theme_str = %s", win_data->color_theme_str);
 
-	gint i;
+	gint i, j;
 
-	gint current_theme = 0;
-	for (i=1; i<THEME-1; i++)
+	// gint current_theme = 0;
+	// copy colors from color_theme to custom_color_theme
+	for (i=0; i<THEME; i++)
 	{
-		if (!compare_strings(win_data->color_theme_str, color_theme[i].name, FALSE))
+		// g_debug("(%p) Set win_data->custom_color_theme[%d]->name = %s", win_data, i, system_color_theme[i].name);
+		win_data->custom_color_theme[i].name = system_color_theme[i].name;
+		for (j=0; j<COLOR; j++)
+			win_data->custom_color_theme[i].color[j] = system_color_theme[i].color[j];
+	}
+
+	// find the palette for win_data->color_theme_str
+	for (i=1; i<THEME; i++)
+	{
+		if (!compare_strings(win_data->color_theme_str, system_color_theme[i].name, FALSE))
 		{
 			// g_debug("Get win_data->color_theme_str = %s", win_data->color_theme_str);
-			palette = color_theme[i].color;
-			win_data->custom_color = TRUE;
-			current_theme = i;
+			palette = system_color_theme[i].color;
+			win_data->use_set_color_fg_bg = TRUE;
+			// current_theme = i;
 			break;
 		}
 	}
 
-	for (i=0; i<COLOR; i++)
-	{
-		// g_debug("Set color_theme[%d].color[%d] = color_theme[%d].color[%d]",
-		//	THEME-1, i, current_theme, i);
-		color_theme[THEME-1].color[i] = color_theme[current_theme].color[i];
-	}
+	// copy the palette for win_data->color_theme_str to color_theme[Cutsom][]
+	// for (i=0; i<COLOR; i++)
+	// {
+	//	// g_debug("Set color_theme[%d].color[%d] = color_theme[%d].color[%d]",
+	//	//	THEME-1, i, current_theme, i);
+	//	color_theme[THEME-1].color[i] = color_theme[current_theme].color[i];
+	// }
 
-	if (! win_data->custom_color)
+	if (! win_data->use_set_color_fg_bg)
 	{
 		g_free(win_data->color_theme_str);
 		win_data->color_theme_str = g_strdup("");
 	}
 
+	// init the win_data->color_orig datas.
 	for (i=0; i<COLOR; i++)
 	{
 		win_data->color_orig[i] = *(palette++);
@@ -1564,10 +1561,10 @@ void get_user_settings(struct Window *win_data, const gchar *encoding)
 			// g_debug("get_user_settings: Got win_data->color_theme_str = %s", win_data->color_theme_str);
 
 			win_data->invert_color = check_boolean_value(keyfile, "color", "invert_color", win_data->invert_color);
+			win_data->use_custom_theme = check_boolean_value(keyfile, "color", "custom_theme", win_data->use_custom_theme);
 
 			init_user_color(win_data);
 
-			gboolean custom_color = FALSE;
 			for (i=0; i<COLOR; i++)
 			{
 				win_data->color_value[i] = check_string_value(keyfile, "color",
@@ -1578,21 +1575,26 @@ void get_user_settings(struct Window *win_data, const gchar *encoding)
 				//	i, color[i].name, i, win_data->color_value[i]);
 				if (compare_strings(win_data->color_value[i], "", FALSE))
 				{
-					win_data->custom_color = TRUE;
-					custom_color = TRUE;
-					check_color_value(color[i].name, win_data->color_value[i],
-							  &(win_data->color_orig[i]));
-					//g_debug("win_data->color_value[%d] = %s, "
-					//	"win_data->color[%d] = %x, %x, %x, %x",
-					//	i, win_data->color_value[i], i,
-					//	win_data->color[i].pixel, win_data->color[i].red,
-					//	win_data->color[i].green, win_data->color[i].blue );
+					GdkColor tmp_color;
+
+					if (check_color_value(color[i].name, win_data->color_value[i], &tmp_color))
+					{
+						win_data->use_set_color_fg_bg = TRUE;
+						win_data->have_custom_color = TRUE;
+						gint j;
+						for (j=0; j<THEME; j++)
+							win_data->custom_color_theme[j].color[i] = tmp_color;
+						if (win_data->use_custom_theme)
+							win_data->color_orig[i] = tmp_color;
+
+						//g_debug("win_data->color_value[%d] = %s, "
+						//	"win_data->color[%d] = %x, %x, %x, %x",
+						//	i, win_data->color_value[i], i,
+						//	win_data->color[i].pixel, win_data->color[i].red,
+						//	win_data->color[i].green, win_data->color[i].blue );
+					}
+
 				}
-			}
-			if (custom_color)
-			{
-				g_free(win_data->color_theme_str);
-				win_data->color_theme_str = g_strdup("Custom");
 			}
 
 			win_data->color_brightness = check_double_value(keyfile,
@@ -1664,9 +1666,9 @@ void get_user_settings(struct Window *win_data, const gchar *encoding)
 		while (win_data->splited_page_names[win_data->max_page_names_no]!=NULL)
 			win_data->max_page_names_no++;
 
-	if (win_data->color_brightness) win_data->custom_color = TRUE;
+	if (win_data->color_brightness) win_data->use_set_color_fg_bg = TRUE;
 	if (win_data->color_brightness_inactive>-2)
-		win_data->custom_color = TRUE;
+		win_data->use_set_color_fg_bg = TRUE;
 	else
 	{
 		win_data->dim_text = FALSE;
@@ -2020,16 +2022,18 @@ gchar *check_string_value(GKeyFile *keyfile, const gchar *group_name,
 	return setting;
 }
 
-void check_color_value (const gchar *key_name, const gchar *color_name, GdkColor *color)
+gboolean check_color_value (const gchar *key_name, const gchar *color_name, GdkColor *color)
 {
 #ifdef DETAIL
 	g_debug("! Launch check_color_value() with key_name = %s, color_name = %s, color = %p",
 		key_name, color_name, color);
 #endif
 #ifdef DEFENSIVE
-	if ((key_name==NULL) || (color_name==NULL)) return;
+	if ((key_name==NULL) || (color_name==NULL)) return FALSE;
 #endif
-	if( ! gdk_color_parse(color_name, color))
+	if (gdk_color_parse(color_name, color))
+		return TRUE;
+	else
 	{
 #ifdef UNIT_TEST
 		g_message("\"%s = %s\" is not a valid color value! Please check!",
@@ -2039,6 +2043,7 @@ void check_color_value (const gchar *key_name, const gchar *color_name, GdkColor
 			  key_name, color_name);
 #endif
 	}
+	return FALSE;
 }
 
 // return TRUE if 'key_name' is a valid key or NULL; or it will return FALSE.
@@ -2518,6 +2523,8 @@ GString *save_user_settings(GtkWidget *widget, struct Window *win_data)
 		g_string_append(contents, "theme = \n\n");
 	g_string_append_printf(contents,"# Invert the ansi colors, like invert the darkred to red, darkblue to bule.\n"
 					"invert_color = %d\n\n", win_data->invert_color);
+	g_string_append_printf(contents,"# Enable the custom colors specified with Color# below.\n"
+					"custom_theme = %d\n\n", win_data->use_custom_theme);
 	g_string_append_printf(contents,"# The brightness for ansi colors used in terminal.\n"
 					"brightness = %1.3f\n\n", win_data->color_brightness);
 	g_string_append_printf(contents,"# The brightness for ansi colors used in terminal when inactive.\n"

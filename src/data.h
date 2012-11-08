@@ -111,7 +111,7 @@
 #define SYS_PROFILE ETCDIR "/" PROFILE
 #define USER_PROFILE "default.conf"
 #define SOCKET_DATA_VERSION PACKAGE "-0.9.9~rc6"
-#define PROFILE_FORMAT_VERSION "0.9.9"
+#define PROFILE_FORMAT_VERSION "0.9.9.3"
 #define NOTEBOOK_GROUP 8
 #define ICON_PATH ICONDIR G_DIR_SEPARATOR_S BINARY ".png"
 #define NULL_DEVICE "/dev/null"
@@ -448,7 +448,7 @@ struct Color
 	gchar *comment;
 };
 
-#define THEME 8
+#define THEME 7
 #define DEFAULT_THEME 0
 struct Color_Theme
 {
@@ -766,16 +766,19 @@ struct Window
 	GdkColor bg_color;
 
 	// color datas
+	struct Color_Theme custom_color_theme[THEME];
 	gchar *color_theme_str;
 	gchar *color_value[COLOR];
 	gboolean invert_color;
 	GtkWidget *menuitem_invert_color;
-	GtkWidget *menuitem_theme[THEME];
+	GtkWidget *menuitem_theme[THEME*2];
 	GtkWidget *current_menuitem_theme;
 
-	// custom_color = TRUE: use vte_terminal_set_colors() to set the color of vte.
-	// custom_color = FALSE: use vte_terminal_set_color_foreground/background().
-	gboolean custom_color;
+	// use_set_color_fg_bg = TRUE: use vte_terminal_set_colors() to set the color of vte.
+	// use_set_color_fg_bg = FALSE: use vte_terminal_set_color_foreground/background().
+	gboolean use_set_color_fg_bg;
+	gboolean have_custom_color;;
+	gboolean use_custom_theme;
 	// color[] and color_orig[] will always be initd when creating a window.
 	GdkColor color[COLOR];
 	GdkColor color_inactive[COLOR];
@@ -1119,7 +1122,7 @@ struct Dialog
 	gboolean original_dim_window;
 #endif
 	gboolean original_transparent_background;
-	gboolean original_custom_color;
+	gboolean original_use_set_color_fg_bg;
 	gdouble original_color_brightness;
 	gboolean original_dim_text;
 	GdkColor original_fg_color;

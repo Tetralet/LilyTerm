@@ -76,6 +76,6 @@ glong check_integer_value(GKeyFile *keyfile, const gchar *group_name, const gcha
 			  Check_Max check_max, glong max);
 gchar *check_string_value(GKeyFile *keyfile, const gchar *group_name,
 			  const gchar *key, gchar *original_value, Check_Empty enable_empty);
-void check_color_value (const gchar *key_name, const gchar *color_name, GdkColor *color);
+gboolean check_color_value (const gchar *key_name, const gchar *color_name, GdkColor *color);
 gboolean accelerator_parse(const gchar *key_name, const gchar *key_value, guint *key, guint *mods);
 void create_save_failed_dialog(struct Window *win_data, gchar *message);

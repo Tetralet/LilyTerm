@@ -16,6 +16,8 @@
 #	make memory: compile lilyeterm_dev for memory lack testing.
 #	make data: compile po and $(BINARY).conf files.
 #
+# grep 'g_debug *( *" *[^\!@+\?-]' * | grep -v '\/\/'
+# 
 
 include ../.default
 -include ../.config

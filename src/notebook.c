@@ -1122,7 +1122,7 @@ void dim_vte_text (struct Window *win_data, struct Page *page_data, gint dim_tex
 	}
 
 	// Sometimes we should to force light up the vte
-	if ((! win_data->custom_color))
+	if ((! win_data->use_set_color_fg_bg))
 		dim_vte = FALSE;
 
 	// g_debug("CHECK: dim_vte = %d, page_data->vte_is_inactivated = %d", dim_vte, page_data->vte_is_inactivated);
