@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LilyTerm 0.9.9\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-10-26 16:52+0800\n"
+"POT-Creation-Date: 2012-11-08 12:31+0800\n"
 "PO-Revision-Date: 2012-05-22 17:20+0300\n"
 "Last-Translator: Vladimir Smolyar <v_2e@ukr.net>\n"
 "Language-Team: Russian\n"
@@ -276,15 +276,15 @@ msgstr ""
 "Подсказка: Это сочетания клавиш можно выбрать или отключить в контекстном "
 "меню [%s]."
 
-#: console.c:257 menu.c:424
+#: console.c:257 menu.c:390
 msgid "Set key binding"
 msgstr "Установить сочетание клавиш"
 
-#: dialog.c:99 dialog.c:2781 menu.c:2578
+#: dialog.c:99 dialog.c:2781 menu.c:2613
 msgid "The following error occurred:"
 msgstr "Возникла следующая ошибка:"
 
-#: dialog.c:164 menu.c:356
+#: dialog.c:164 menu.c:322
 msgid "Rename this tab"
 msgstr "Переименование текущей вкладки"
 
@@ -296,7 +296,7 @@ msgstr "Пожалуйста, введите название для этой в
 msgid "Label Name:"
 msgstr "Название:"
 
-#: dialog.c:195 profile.c:757
+#: dialog.c:195 profile.c:742
 msgid "Find string"
 msgstr "Найти строку"
 
@@ -471,7 +471,7 @@ msgstr "Использование для %s %s"
 msgid "Don't forget to save your settings after making any change!"
 msgstr "Не забудьте сохранить настройки после изменения их!"
 
-#: dialog.c:833 menu.c:420
+#: dialog.c:833 menu.c:386
 msgid "Usage"
 msgstr "Использование"
 
@@ -674,7 +674,7 @@ msgstr "Подтвердите вставку текста в терминала
 msgid "Join and paste"
 msgstr "Объединить и вставить"
 
-#: dialog.c:1236 menu.c:222
+#: dialog.c:1236 menu.c:188
 msgid "Clipboard"
 msgstr "Буфер обмена"
 
@@ -767,7 +767,7 @@ msgstr "Новая вкладка"
 msgid "New tab with specified locale"
 msgstr "Новая вкладка с указанной локализацией"
 
-#: menu.c:70 menu.c:2130
+#: menu.c:70 menu.c:2165
 msgid "New window with specified profile"
 msgstr "Новое окно с указанным профилем"
 
@@ -807,203 +807,205 @@ msgstr "Изменить схему цветов ANSI"
 msgid "Invert color"
 msgstr "Инвертировать цвета"
 
-#. TRANSLATE NOTE: Please translate the "System default (SCHEME)" into "System default" (in your language).
-#. TRANSLATE NOTE: Some language will have trouble if here is "System default" only.
-#. TRANSLATE NOTE: Contrast it with "System default (PROFILE)" (See below)
-#: menu.c:158 menu.c:159
-msgid "System default (SCHEME)"
-msgstr "Системная по умолчанию"
-
-#: menu.c:165
-msgid "grayscale"
-msgstr "градации серого"
-
-#: menu.c:169
-msgid "User custom"
-msgstr "Пользовательская"
-
-#: menu.c:180
+#: menu.c:146
 msgid "Background"
 msgstr "Фон"
 
-#: menu.c:186
+#: menu.c:152
 msgid "Transparent window"
 msgstr "Прозрачное окно"
 
-#: menu.c:191
+#: menu.c:157
 msgid "Window opacity"
 msgstr "Прозрачность окна"
 
-#: menu.c:194
+#: menu.c:160
 msgid "Window opacity when inactive"
 msgstr "Прозрачность неактивного окна"
 
-#: menu.c:203
+#: menu.c:169
 msgid "Transparent background"
 msgstr "Прозрачный фон"
 
-#: menu.c:206
+#: menu.c:172
 msgid "Background saturation"
 msgstr "Насыщенность фона"
 
-#: menu.c:210
+#: menu.c:176
 msgid "Set background image"
 msgstr "Установить фоновый рисунок"
 
-#: menu.c:226
+#: menu.c:192
 msgid "Copy URL"
 msgstr "Скопировать URL"
 
-#: menu.c:231
+#: menu.c:197
 msgid "Copy"
 msgstr "Копировать"
 
-#: menu.c:235
+#: menu.c:201
 msgid "Paste"
 msgstr "Вставить"
 
-#: menu.c:242
+#: menu.c:208
 msgid "View clipboard"
 msgstr "Просмотреть буфер обмена"
 
-#: menu.c:246
+#: menu.c:212
 msgid "View primary clipboard"
 msgstr "Просмотреть основной буфер обмена"
 
-#: menu.c:257
+#: menu.c:223
 msgid "Scrollback lines"
 msgstr "Обратная прокрутка строк"
 
-#: menu.c:266
+#: menu.c:232
 msgid "Clean scrollback lines"
 msgstr "Очистить строки обратной прокрутки"
 
-#: menu.c:272 profile.c:729
+#: menu.c:238 profile.c:714
 msgid "Misc"
 msgstr "Разное "
 
-#: menu.c:274
+#: menu.c:240
 msgid "Paste to every Vte Terminal"
 msgstr "Вставить во все Vte терминалы."
 
-#: menu.c:277
+#: menu.c:243
 msgid "Launch file manager"
 msgstr "Запустить файловый менеджер"
 
-#: menu.c:283
+#: menu.c:249
 msgid "Erase Binding"
 msgstr "Привязка для стирания"
 
-#: menu.c:298
+#: menu.c:264
 msgid "Cursor Shape"
 msgstr "Форма курсора"
 
-#: menu.c:315
+#: menu.c:281
 msgid "Dim text when inactive"
 msgstr "Потускнение текста в неактивном режиме"
 
-#: menu.c:320
+#: menu.c:286
 msgid "Dim window when inactive"
 msgstr "Потускнение неактивного окна"
 
-#: menu.c:325
+#: menu.c:291
 msgid "Cursor blinks"
 msgstr "Мигание курсора"
 
-#: menu.c:332
+#: menu.c:298
 msgid "Audible bell"
 msgstr "Звуковой сигнал"
 
-#: menu.c:336
+#: menu.c:302
 msgid "Visible bell"
 msgstr "Визуальный сигнал"
 
-#: menu.c:340
+#: menu.c:306
 msgid "Urgent bell"
 msgstr "Экстренный сигнал"
 
-#: menu.c:350
+#: menu.c:316
 msgid "Switch input methods"
 msgstr "Переключение методов ввода"
 
-#: menu.c:365
+#: menu.c:331
 msgid "Show the tabs bar"
 msgstr "Показать панель вкладок"
 
-#: menu.c:371
+#: menu.c:337
 msgid "Hide the tabs bar"
 msgstr "Спрятать панель вкладок"
 
-#: menu.c:378
+#: menu.c:344
 msgid "Always show the tabs bar"
 msgstr "Всегда показывать панель вкладок"
 
-#: menu.c:385
+#: menu.c:351
 msgid "Always hide the tabs bar"
 msgstr "Всегда прятать панель вкладок"
 
-#: menu.c:395
+#: menu.c:361
 msgid "Increase window size"
 msgstr "Увеличить размер окна"
 
-#: menu.c:398
+#: menu.c:364
 msgid "Decrease window size"
 msgstr "Уменьшить размер окна"
 
-#: menu.c:405
+#: menu.c:371
 msgid "Reset to user custom font/size"
 msgstr "Сбросить шрифт на пользовательский"
 
-#: menu.c:408
+#: menu.c:374
 msgid "Reset to system font/size"
 msgstr "Сбросить шрифт на системный"
 
-#: menu.c:413
+#: menu.c:379
 msgid "Reset the content"
 msgstr "Сбросить содержимое"
 
-#: menu.c:428
+#: menu.c:394
 msgid "User profile"
 msgstr "Пользовательский профиль"
 
-#: menu.c:436
+#: menu.c:402
 #, c-format
 msgid "Quit %s"
 msgstr "Выйти из %s"
 
-#: menu.c:920
+#. TRANSLATE NOTE: Please translate the "System default (SCHEME)" into "System default" (in your language).
+#. TRANSLATE NOTE: Some language will have trouble if here is "System default" only.
+#. TRANSLATE NOTE: Contrast it with "System default (PROFILE)" (See below)
+#: menu.c:436 menu.c:437
+msgid "System default (SCHEME)"
+msgstr "Системная по умолчанию"
+
+#: menu.c:442
+msgid "grayscale"
+msgstr "градации серого"
+
+#: menu.c:448
+#, fuzzy, c-format
+#| msgid "User custom"
+msgid "%s + custom"
+msgstr "Пользовательская"
+
+#: menu.c:952
 msgid " (Wide)"
 msgstr "(широкий)"
 
-#: menu.c:1343
+#: menu.c:1375
 msgid "Font Selection"
 msgstr "Выбор шрифта"
 
-#: menu.c:1641 menu.c:1648
+#: menu.c:1673 menu.c:1680
 msgid "Add other locales..."
 msgstr "Добавить другие локализации..."
 
-#: menu.c:1732 menu.c:1779
+#: menu.c:1764 menu.c:1814
 msgid "Other settings..."
 msgstr "Другие настройки..."
 
-#: menu.c:1744
+#: menu.c:1779
 msgid "Save settings automatically"
 msgstr "Автоматически сохранять настройки"
 
-#: menu.c:1749
+#: menu.c:1784
 msgid "Save settings"
 msgstr "Сохранить настройки"
 
-#: menu.c:1752
+#: menu.c:1787
 msgid "Save settings as..."
 msgstr "Сохранить настройки как..."
 
-#: menu.c:1758
+#: menu.c:1793
 msgid "Reload settings"
 msgstr "Перезагрузить настройки"
 
-#: menu.c:1793
+#: menu.c:1828
 #, c-format
 msgid "%s default"
 msgstr "%s по умолчанию"
@@ -1011,11 +1013,11 @@ msgstr "%s по умолчанию"
 #. TRANSLATE NOTE: Please translate the "System default (PROFILE)" into "System default" (in your language).
 #. TRANSLATE NOTE: Some language will have trouble if here is "System default" only.
 #. TRANSLATE NOTE: Contrast it with "System default (SCHEME)" (See above).
-#: menu.c:1818 menu.c:1819
+#: menu.c:1853 menu.c:1854
 msgid "System default (PROFILE)"
 msgstr "Системный по умолчанию"
 
-#: menu.c:2126
+#: menu.c:2161
 #, c-format
 msgid ""
 "The following settings:\n"
@@ -1030,27 +1032,27 @@ msgstr ""
 "НЕ могут быть применены к терминалам в текущем окне\n"
 "Используйте вместо этого [%s]."
 
-#: menu.c:2132
+#: menu.c:2167
 msgid "The following settings can NOT be applied"
 msgstr "Следующие параметры НЕ могут быть применены"
 
-#: menu.c:2214
+#: menu.c:2249
 msgid "Disable: Trying to use [Transparent Background] instead."
 msgstr "Запрещено: Попробуйте использовать [Прозрачный фон] вместо этого."
 
-#: menu.c:2220
+#: menu.c:2255
 msgid "Scroll the background image along with the text"
 msgstr "Прокручивать фоновый рисунок вместе с текстом"
 
-#: menu.c:2412
+#: menu.c:2447
 msgid "Open File"
 msgstr "Открыть файл"
 
-#: menu.c:2414
+#: menu.c:2449
 msgid "Save File"
 msgstr "Сохранить файл"
 
-#: menu.c:2576
+#: menu.c:2611
 #, c-format
 msgid "The following error occurred: %s"
 msgstr "Возникла следующая ошибка: %s"
@@ -1077,344 +1079,344 @@ msgstr ""
 msgid "Error when creating child process"
 msgstr "Ошибка создания дочернего процесса"
 
-#: profile.c:730
+#: profile.c:715
 msgid "Tab operation"
 msgstr "Управление вкладками "
 
-#: profile.c:731
+#: profile.c:716
 msgid "Switch tab"
 msgstr "Переключение вкладок "
 
-#: profile.c:732
+#: profile.c:717
 msgid "Move tab"
 msgstr "Перемещение вкладок "
 
-#: profile.c:733
+#: profile.c:718
 msgid "Switch to #? tab"
 msgstr "Переход на ?-ю вкладку "
 
-#: profile.c:734
+#: profile.c:719
 msgid "Text operation"
 msgstr "Операции с текстом "
 
-#: profile.c:735
+#: profile.c:720
 msgid "Scroll up/down"
 msgstr "Прокрутка вверх/вниз "
 
-#: profile.c:736
+#: profile.c:721
 msgid "Font"
 msgstr "Шрифт "
 
-#: profile.c:741
+#: profile.c:726
 msgid "Disable/Enable functions"
 msgstr "Запретить/Разрешить функции"
 
-#: profile.c:743
+#: profile.c:728
 msgid "Disable/Enable hyperlinks, function keys and right click menu."
 msgstr ""
 "Запретить/Разрешить гиперссылки, сочетания \n"
 "клавиш и меню правой кнопки мыши."
 
-#: profile.c:745
+#: profile.c:730
 msgid "Add new tab"
 msgstr "Добавить новую вкладку"
 
-#: profile.c:747
+#: profile.c:732
 msgid "Add a new tab."
 msgstr "Добавить новую вкладку."
 
-#: profile.c:749
+#: profile.c:734
 msgid "Close tab"
 msgstr "Закрыть вкладку"
 
-#: profile.c:751
+#: profile.c:736
 msgid "Close current tab."
 msgstr "Закрыть текущую вкладку."
 
-#: profile.c:753
+#: profile.c:738
 msgid "Rename page name"
 msgstr "Переименовать страницу"
 
-#: profile.c:755
+#: profile.c:740
 msgid "Rename the page name of current tab."
 msgstr "Изменить имя страницы для данной вкладки."
 
-#: profile.c:759
+#: profile.c:744
 msgid "Find the strings matching the search regex."
 msgstr "Найти строки по шаблону."
 
-#: profile.c:760
+#: profile.c:745
 msgid "Find previous"
 msgstr "Найти предыдущее"
 
-#: profile.c:762
+#: profile.c:747
 msgid "Find the previous string matching the search regex."
 msgstr "Найти предыдущую строку по шаблону поиска."
 
-#: profile.c:763
+#: profile.c:748
 msgid "Find next"
 msgstr "Найти следующее"
 
-#: profile.c:765
+#: profile.c:750
 msgid "Find the next string matching the search regex."
 msgstr "Найти следующую строку по шаблону поиска."
 
-#: profile.c:767
+#: profile.c:752
 msgid "Switch to prev tab"
 msgstr "Перейти на предыдущую вкладку"
 
-#: profile.c:769
+#: profile.c:754
 msgid "Switch to prev tab."
 msgstr "Перейти на предыдущую вкладку."
 
-#: profile.c:771
+#: profile.c:756
 msgid "Switch to next tab"
 msgstr "Перейти на следующую вкладку"
 
-#: profile.c:773
+#: profile.c:758
 msgid "Switch to next tab."
 msgstr "Перейти на следующую вкладку."
 
-#: profile.c:775
+#: profile.c:760
 msgid "Switch to first tab"
 msgstr "Перейти на первую вкладку"
 
-#: profile.c:777
+#: profile.c:762
 msgid "Switch to first tab."
 msgstr "Перейти на первую вкладку."
 
-#: profile.c:779
+#: profile.c:764
 msgid "Switch to last tab"
 msgstr "Перейти на последнюю вкладку"
 
-#: profile.c:781
+#: profile.c:766
 msgid "Switch to last tab."
 msgstr "Перейти на последнюю вкладку."
 
-#: profile.c:783
+#: profile.c:768
 msgid "Move page forward"
 msgstr "Переместить страницу вперёд"
 
-#: profile.c:785
+#: profile.c:770
 msgid "Move current page forward."
 msgstr "Переместить текущую страницу вперёд."
 
-#: profile.c:787
+#: profile.c:772
 msgid "Move page backward"
 msgstr "Переместить страницу назад"
 
-#: profile.c:789
+#: profile.c:774
 msgid "Move current page backward."
 msgstr "Переместить текущую страницу назад."
 
-#: profile.c:791
+#: profile.c:776
 msgid "Move page to first"
 msgstr "Сделать страницу первой"
 
-#: profile.c:793
+#: profile.c:778
 msgid "Move current page to first."
 msgstr "Сделать текущую страницу первой."
 
-#: profile.c:795
+#: profile.c:780
 msgid "Move page to last"
 msgstr "Сделать страницу последней"
 
-#: profile.c:797
+#: profile.c:782
 msgid "Move current page to last."
 msgstr "Сделать текущую страницу последней."
 
-#: profile.c:802
+#: profile.c:787
 #, c-format
 msgid "Switch to #%d tab"
 msgstr "Перейти на %d-ю вкладку"
 
-#: profile.c:804
+#: profile.c:789
 #, c-format
 msgid "Switch #%d tab directly."
 msgstr "Перейти прямо на %d-ю вкладку."
 
-#: profile.c:808
+#: profile.c:793
 msgid "New window"
 msgstr "Новое окно"
 
-#: profile.c:810
+#: profile.c:795
 msgid "Open a new window with current dir."
 msgstr "Открыть новое окно для текущего каталога."
 
-#: profile.c:812
+#: profile.c:797
 msgid "Select all"
 msgstr "Выбрать всё"
 
-#: profile.c:814
+#: profile.c:799
 msgid "Select all the text in the Vte Terminal box."
 msgstr "Выбрать весь текст в окне терминала Vte."
 
-#: profile.c:816
+#: profile.c:801
 msgid "Copy to clipboard"
 msgstr "Скопировать в буфер обмена"
 
-#: profile.c:818
+#: profile.c:803
 msgid "Copy the text to clipboard."
 msgstr "Скопировать текст в буфер обмена."
 
-#: profile.c:820
+#: profile.c:805
 msgid "Paste the text"
 msgstr "Вставить текст"
 
-#: profile.c:822
+#: profile.c:807
 msgid "Paste the text in clipboard."
 msgstr "Вставить текст из буфера обмена."
 
-#: profile.c:824
+#: profile.c:809
 msgid "Increase font size"
 msgstr "Увеличить размер шрифта"
 
-#: profile.c:826
+#: profile.c:811
 msgid "Increase the font size of current tab."
 msgstr "Увеличить размер шрифта на текущей вкладке."
 
-#: profile.c:828
+#: profile.c:813
 msgid "Decrease font size"
 msgstr "Уменьшить размер шрифта"
 
-#: profile.c:830
+#: profile.c:815
 msgid "Decrease the font size of current tab."
 msgstr "Уменьшить размер шрифта на текущей вкладке."
 
-#: profile.c:832
+#: profile.c:817
 msgid "Reset font size"
 msgstr "Сбросить размер шрфита"
 
-#: profile.c:834
+#: profile.c:819
 msgid "Reset the font of current tab to original size."
 msgstr ""
 "Сбросить размер шрифта текущей вкладки\n"
 "к начальному значению."
 
-#: profile.c:836
+#: profile.c:821
 msgid "Maximum the window"
 msgstr "Максимизировать окно"
 
-#: profile.c:838
+#: profile.c:823
 msgid "Try to maximum the window to use all available space on your display."
 msgstr ""
 "Попробовать максимизировать окно для использования\n"
 "всего доступного пространства вашего экрана."
 
-#: profile.c:840
+#: profile.c:825
 msgid "Full screen"
 msgstr "Полноэкранный режим"
 
-#: profile.c:842
+#: profile.c:827
 msgid "Asks to place window in the fullscreen/unfullscreen state."
 msgstr "Запросить перевод окна в полноэкранный/обычный режим"
 
-#: profile.c:844
+#: profile.c:829
 msgid "Scroll up"
 msgstr "Прокрутка вверх"
 
-#: profile.c:846
+#: profile.c:831
 msgid "Emulate a mouse scroll up event on Vte Terminal box."
 msgstr ""
 "Эмулировать прокрутку мыши вверх\n"
 "в окне терминала Vte."
 
-#: profile.c:848
+#: profile.c:833
 msgid "Scroll down"
 msgstr "Прокрутка вниз"
 
-#: profile.c:850
+#: profile.c:835
 msgid "Emulate a mouse scroll down event on Vte Terminal box."
 msgstr ""
 "Эмулировать прокрутку мыши вниз\n"
 "в окне терминала Vte."
 
-#: profile.c:852
+#: profile.c:837
 msgid "Scroll up 1 line"
 msgstr "Прокрутка вверх на 1 строку"
 
-#: profile.c:854
+#: profile.c:839
 msgid "Asks to scroll up 1 line on Vte Terminal box."
 msgstr ""
 "Запрашивает прокрутку на 1 строку вверх\n"
 "в окне терминала Vte."
 
-#: profile.c:856
+#: profile.c:841
 msgid "Scroll down 1 line"
 msgstr "Прокрутка вниз на 1 строку"
 
-#: profile.c:858
+#: profile.c:843
 msgid "Asks to scroll down 1 line on Vte Terminal box."
 msgstr ""
 "Запрашивает прокрутку вниз на 1 строку\n"
 "в окне терминала Vte."
 
-#: profile.c:864
+#: profile.c:849
 msgid "Dump runtime debug data"
 msgstr "Дамп данных отладки"
 
-#: profile.c:866
+#: profile.c:851
 msgid "Dump the runtime data of LilyTerm for debug."
 msgstr "Дамп данных для отладки LilyTerm."
 
-#: profile.c:894
+#: profile.c:879
 msgid "Window Title"
 msgstr "заголовка окна"
 
-#: profile.c:895
+#: profile.c:880
 msgid "Running Command"
 msgstr "выполняющейся команды"
 
-#: profile.c:896
+#: profile.c:881
 msgid "Current Dir"
 msgstr "текущего каталога"
 
-#: profile.c:897
+#: profile.c:882
 msgid "Custom Tab Name"
 msgstr "пользовательского имени вкладки"
 
-#: profile.c:898
+#: profile.c:883
 msgid "Root Privileges"
 msgstr "привилегий администратора"
 
-#: profile.c:899
+#: profile.c:884
 msgid "Normal Text"
 msgstr "обычного текста"
 
-#: profile.c:933
+#: profile.c:918
 msgid "Shift"
 msgstr "Shift"
 
-#: profile.c:937
+#: profile.c:922
 msgid "Ctrl"
 msgstr "Ctrl"
 
-#: profile.c:939
+#: profile.c:924
 msgid "Alt"
 msgstr "Alt"
 
-#: profile.c:949
+#: profile.c:934
 msgid "Win"
 msgstr "Win"
 
-#: profile.c:2607
+#: profile.c:2614
 msgid "The target file does NOT exist"
 msgstr "Файл назначения НЕ существует"
 
-#: profile.c:2618
+#: profile.c:2625
 msgid "The target file is a directory"
 msgstr "Файл назначения является каталогом"
 
-#: profile.c:2666
+#: profile.c:2673
 #, c-format
 msgid "Error while writing profile '%s':"
 msgstr "Ошибка записи профиля '%s':"
 
-#: profile.c:2671
+#: profile.c:2678
 msgid "Error when writing profile"
 msgstr "Ошибка записи профиля"
 
-#: profile.c:2811
+#: profile.c:2818
 msgid ""
 "Some entry in profile is added, removed, or changed in this version.\n"
 "Please use [Save settings] on the right click menu to save your settings,\n"
@@ -1425,7 +1427,7 @@ msgstr ""
 "чтобы сохранить ваши настройки, и отредактируйте его вручную при "
 "необходимости.\n"
 
-#: profile.c:2817
+#: profile.c:2824
 #, c-format
 msgid ""
 "%s\n"
@@ -1434,11 +1436,11 @@ msgstr ""
 "%s\n"
 "Ваш профиль - %s."
 
-#: profile.c:2820
+#: profile.c:2827
 msgid "The format of your profile is out of date"
 msgstr "Формат вашего профиля устарел"
 
-#: profile.c:2848 profile.c:2851
+#: profile.c:2855 profile.c:2858
 #, c-format
 msgid ""
 "The profile \"%s\" is invalid:\n"
@@ -1449,7 +1451,7 @@ msgstr ""
 "\n"
 "\t%s"
 
-#: profile.c:2859
+#: profile.c:2866
 msgid "The profile is invalid!"
 msgstr "Профиль неверен!"
 

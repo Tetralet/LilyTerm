@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LilyTerm 0.9.9\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-10-26 16:52+0800\n"
+"POT-Creation-Date: 2012-11-08 12:31+0800\n"
 "PO-Revision-Date: 2008-03-21 00:30+0800\n"
 "Last-Translator: Tetralet <tetralet@gmail.com>\n"
 "Language-Team: Tetralet <tetralet@gmail.com>\n"
@@ -86,9 +86,9 @@ msgid "Use -p/--profile to get a profile sample.\n"
 msgstr "使用 -p/--profile 以取得設定檔範例。\n"
 
 #: console.c:153
+#, c-format
 msgid "Use -u/--user_profile {%s} to use a specified profile.\n"
-msgstr ""
-"使用 -u/--user_profile {%s} 來指定使用某個特定的設定檔。\n"
+msgstr "使用 -u/--user_profile {%s} 來指定使用某個特定的設定檔。\n"
 
 #: console.c:154
 msgid "Use -v/--version to show the version information.\n"
@@ -98,7 +98,9 @@ msgstr "使用 -v/--version 來顯示版本資訊。\n"
 msgid ""
 "Use -e/-x/--execute {Command} to run a command. (Must be the final option).\n"
 "\n"
-msgstr "使用 -e/-x/--execute {指令} 來執行某一特定程式。（須為最後一個選項）\n\n"
+msgstr ""
+"使用 -e/-x/--execute {指令} 來執行某一特定程式。（須為最後一個選項）\n"
+"\n"
 
 #: console.c:157
 #, c-format
@@ -234,15 +236,15 @@ msgstr "  * <Ctrl><E>           更改目前分頁的名稱。\n"
 msgid "TIP: These key bindings may custom or disable by right click menu [%s]."
 msgstr "小技巧：這些功能鍵可經由滑鼠右鍵選單【%s】來自訂或關閉。"
 
-#: console.c:257 menu.c:424
+#: console.c:257 menu.c:390
 msgid "Set key binding"
 msgstr "設定功能鍵"
 
-#: dialog.c:99 dialog.c:2781 menu.c:2578
+#: dialog.c:99 dialog.c:2781 menu.c:2613
 msgid "The following error occurred:"
 msgstr "發生了以下的錯誤："
 
-#: dialog.c:164 menu.c:356
+#: dialog.c:164 menu.c:322
 msgid "Rename this tab"
 msgstr "更改此分頁的名稱"
 
@@ -254,7 +256,7 @@ msgstr "請輸入這個分頁的名稱："
 msgid "Label Name:"
 msgstr "分頁名稱："
 
-#: dialog.c:195 profile.c:757
+#: dialog.c:195 profile.c:742
 msgid "Find string"
 msgstr "尋找字串"
 
@@ -428,7 +430,7 @@ msgstr "%s %s 的使用說明"
 msgid "Don't forget to save your settings after making any change!"
 msgstr "在進行了任何更動之後，別忘了儲存您的設定！"
 
-#: dialog.c:833 menu.c:420
+#: dialog.c:833 menu.c:386
 msgid "Usage"
 msgstr "使用說明"
 
@@ -622,7 +624,7 @@ msgstr "確認是否要將文字貼入 Vte 終端機視窗裡"
 msgid "Join and paste"
 msgstr "合併後貼上"
 
-#: dialog.c:1236 menu.c:222
+#: dialog.c:1236 menu.c:188
 msgid "Clipboard"
 msgstr "剪貼簿"
 
@@ -713,7 +715,7 @@ msgstr "新分頁"
 msgid "New tab with specified locale"
 msgstr "以特定 locale 開新分頁"
 
-#: menu.c:70 menu.c:2130
+#: menu.c:70 menu.c:2165
 msgid "New window with specified profile"
 msgstr "使用特定設定檔開啟新視窗"
 
@@ -753,203 +755,203 @@ msgstr "改變 ANSI 顏色主題"
 msgid "Invert color"
 msgstr "顏色反轉"
 
-#. TRANSLATE NOTE: Please translate the "System default (SCHEME)" into "System default" (in your language).
-#. TRANSLATE NOTE: Some language will have trouble if here is "System default" only.
-#. TRANSLATE NOTE: Contrast it with "System default (PROFILE)" (See below)
-#: menu.c:158 menu.c:159
-msgid "System default (SCHEME)"
-msgstr "系統預設值"
-
-#: menu.c:165
-msgid "grayscale"
-msgstr "灰階"
-
-#: menu.c:169
-msgid "User custom"
-msgstr "使用者自訂"
-
-#: menu.c:180
+#: menu.c:146
 msgid "Background"
 msgstr "背景"
 
-#: menu.c:186
+#: menu.c:152
 msgid "Transparent window"
 msgstr "透明視窗"
 
-#: menu.c:191
+#: menu.c:157
 msgid "Window opacity"
 msgstr "視窗透明度"
 
-#: menu.c:194
+#: menu.c:160
 msgid "Window opacity when inactive"
 msgstr "未作用時將視窗變暗"
 
-#: menu.c:203
+#: menu.c:169
 msgid "Transparent background"
 msgstr "透明背景"
 
-#: menu.c:206
+#: menu.c:172
 msgid "Background saturation"
 msgstr "背景透明度"
 
-#: menu.c:210
+#: menu.c:176
 msgid "Set background image"
 msgstr "設定背景圖片"
 
-#: menu.c:226
+#: menu.c:192
 msgid "Copy URL"
 msgstr "複製 URL"
 
-#: menu.c:231
+#: menu.c:197
 msgid "Copy"
 msgstr "複製"
 
-#: menu.c:235
+#: menu.c:201
 msgid "Paste"
 msgstr "貼上"
 
-#: menu.c:242
+#: menu.c:208
 msgid "View clipboard"
 msgstr "檢視剪貼簿"
 
-#: menu.c:246
+#: menu.c:212
 msgid "View primary clipboard"
 msgstr "檢視主要剪貼簿"
 
-#: menu.c:257
+#: menu.c:223
 msgid "Scrollback lines"
 msgstr "歷史捲軸"
 
-#: menu.c:266
+#: menu.c:232
 msgid "Clean scrollback lines"
 msgstr "清除歷史捲軸"
 
-#: menu.c:272 profile.c:729
+#: menu.c:238 profile.c:714
 msgid "Misc"
 msgstr "雜項"
 
-#: menu.c:274
+#: menu.c:240
 msgid "Paste to every Vte Terminal"
 msgstr "貼至所有的 Vte 終端機視窗"
 
-#: menu.c:277
+#: menu.c:243
 msgid "Launch file manager"
 msgstr "呼叫檔案管理程式"
 
-#: menu.c:283
+#: menu.c:249
 msgid "Erase Binding"
 msgstr "刪除鍵值"
 
-#: menu.c:298
+#: menu.c:264
 msgid "Cursor Shape"
 msgstr "遊標形狀"
 
-#: menu.c:315
+#: menu.c:281
 msgid "Dim text when inactive"
 msgstr "未作用時將文字變暗"
 
-#: menu.c:320
+#: menu.c:286
 msgid "Dim window when inactive"
 msgstr "未作用時將視窗變暗"
 
-#: menu.c:325
+#: menu.c:291
 msgid "Cursor blinks"
 msgstr "遊標閃爍"
 
-#: menu.c:332
+#: menu.c:298
 msgid "Audible bell"
 msgstr "發出嗶聲"
 
-#: menu.c:336
+#: menu.c:302
 msgid "Visible bell"
 msgstr "發出嗶聲時閃爍螢幕"
 
-#: menu.c:340
+#: menu.c:306
 msgid "Urgent bell"
 msgstr "發出嗶聲時閃爍視窗"
 
-#: menu.c:350
+#: menu.c:316
 msgid "Switch input methods"
 msgstr "切換輸入法"
 
-#: menu.c:365
+#: menu.c:331
 msgid "Show the tabs bar"
 msgstr "顯示分頁列"
 
-#: menu.c:371
+#: menu.c:337
 msgid "Hide the tabs bar"
 msgstr "隱藏分頁列"
 
-#: menu.c:378
+#: menu.c:344
 msgid "Always show the tabs bar"
 msgstr "總是顯示分頁列"
 
-#: menu.c:385
+#: menu.c:351
 msgid "Always hide the tabs bar"
 msgstr "總是隱藏分頁列"
 
-#: menu.c:395
+#: menu.c:361
 msgid "Increase window size"
 msgstr "放大視窗"
 
-#: menu.c:398
+#: menu.c:364
 msgid "Decrease window size"
 msgstr "縮小視窗"
 
-#: menu.c:405
+#: menu.c:371
 msgid "Reset to user custom font/size"
 msgstr "重置為使用者自訂的字型及大小"
 
-#: menu.c:408
+#: menu.c:374
 msgid "Reset to system font/size"
 msgstr "重置為系統字型及大小"
 
-#: menu.c:413
+#: menu.c:379
 msgid "Reset the content"
 msgstr "重置分頁的內容"
 
-#: menu.c:428
+#: menu.c:394
 msgid "User profile"
 msgstr "使用者設定檔"
 
-#: menu.c:436
+#: menu.c:402
 #, c-format
 msgid "Quit %s"
 msgstr "關閉 %s"
 
-#: menu.c:920
+#. TRANSLATE NOTE: Please translate the "System default (SCHEME)" into "System default" (in your language).
+#. TRANSLATE NOTE: Some language will have trouble if here is "System default" only.
+#. TRANSLATE NOTE: Contrast it with "System default (PROFILE)" (See below)
+#: menu.c:436 menu.c:437
+msgid "System default (SCHEME)"
+msgstr "系統預設值"
+
+#: menu.c:442
+msgid "grayscale"
+msgstr "灰階"
+
+#: menu.c:448
+msgid "%s + custom"
+msgstr "%s + 自訂"
+
+#: menu.c:952
 msgid " (Wide)"
 msgstr "（寬）"
 
-#: menu.c:1343
+#: menu.c:1375
 msgid "Font Selection"
 msgstr "選擇字型"
 
-#: menu.c:1641 menu.c:1648
+#: menu.c:1673 menu.c:1680
 msgid "Add other locales..."
 msgstr "新增其它的 locale..."
 
-#: menu.c:1732 menu.c:1779
+#: menu.c:1764 menu.c:1814
 msgid "Other settings..."
 msgstr "其它設定檔…"
 
-#: menu.c:1744
+#: menu.c:1779
 msgid "Save settings automatically"
 msgstr "自動儲存設定"
 
-#: menu.c:1749
+#: menu.c:1784
 msgid "Save settings"
 msgstr "儲存設定"
 
-#: menu.c:1752
+#: menu.c:1787
 msgid "Save settings as..."
 msgstr "儲存設定為…"
 
-#: menu.c:1758
+#: menu.c:1793
 msgid "Reload settings"
 msgstr "重新載入設定"
 
-#: menu.c:1793
+#: menu.c:1828
 #, c-format
 msgid "%s default"
 msgstr "%s 預設值"
@@ -957,11 +959,11 @@ msgstr "%s 預設值"
 #. TRANSLATE NOTE: Please translate the "System default (PROFILE)" into "System default" (in your language).
 #. TRANSLATE NOTE: Some language will have trouble if here is "System default" only.
 #. TRANSLATE NOTE: Contrast it with "System default (SCHEME)" (See above).
-#: menu.c:1818 menu.c:1819
+#: menu.c:1853 menu.c:1854
 msgid "System default (PROFILE)"
 msgstr "系統預設值"
 
-#: menu.c:2126
+#: menu.c:2161
 #, c-format
 msgid ""
 "The following settings:\n"
@@ -976,27 +978,27 @@ msgstr ""
 "無法套用至這個視窗裡的終端機。\n"
 "請替而使用【%s】。"
 
-#: menu.c:2132
+#: menu.c:2167
 msgid "The following settings can NOT be applied"
 msgstr "無法套用以下設定"
 
-#: menu.c:2214
+#: menu.c:2249
 msgid "Disable: Trying to use [Transparent Background] instead."
 msgstr "關閉：試著替而使用【透明背景】。"
 
-#: menu.c:2220
+#: menu.c:2255
 msgid "Scroll the background image along with the text"
 msgstr "隨著文字捲動背景圖片"
 
-#: menu.c:2412
+#: menu.c:2447
 msgid "Open File"
 msgstr "開啟檔案"
 
-#: menu.c:2414
+#: menu.c:2449
 msgid "Save File"
 msgstr "儲存檔案"
 
-#: menu.c:2576
+#: menu.c:2611
 #, c-format
 msgid "The following error occurred: %s"
 msgstr "發生了以下的錯誤：%s"
@@ -1023,330 +1025,330 @@ msgstr ""
 msgid "Error when creating child process"
 msgstr "在建立子行程時發生錯誤"
 
-#: profile.c:730
+#: profile.c:715
 msgid "Tab operation"
 msgstr "分頁操作"
 
-#: profile.c:731
+#: profile.c:716
 msgid "Switch tab"
 msgstr "切換分頁"
 
-#: profile.c:732
+#: profile.c:717
 msgid "Move tab"
 msgstr "搬移分頁"
 
-#: profile.c:733
+#: profile.c:718
 msgid "Switch to #? tab"
 msgstr "切換至 #? 分頁"
 
-#: profile.c:734
+#: profile.c:719
 msgid "Text operation"
 msgstr "文字操作"
 
-#: profile.c:735
+#: profile.c:720
 msgid "Scroll up/down"
 msgstr "向上/下捲動"
 
-#: profile.c:736
+#: profile.c:721
 msgid "Font"
 msgstr "字型"
 
-#: profile.c:741
+#: profile.c:726
 msgid "Disable/Enable functions"
 msgstr "關閉/啟用功能"
 
-#: profile.c:743
+#: profile.c:728
 msgid "Disable/Enable hyperlinks, function keys and right click menu."
 msgstr "關閉/啟用超連結、功能鍵，及右鍵選單。"
 
-#: profile.c:745
+#: profile.c:730
 msgid "Add new tab"
 msgstr "新增分頁"
 
-#: profile.c:747
+#: profile.c:732
 msgid "Add a new tab."
 msgstr "新增一個分頁。"
 
-#: profile.c:749
+#: profile.c:734
 msgid "Close tab"
 msgstr "關閉分頁"
 
-#: profile.c:751
+#: profile.c:736
 msgid "Close current tab."
 msgstr "關閉當前的分頁。"
 
-#: profile.c:753
+#: profile.c:738
 msgid "Rename page name"
 msgstr "更改分頁名稱"
 
-#: profile.c:755
+#: profile.c:740
 msgid "Rename the page name of current tab."
 msgstr "更改當前分頁的名稱。"
 
-#: profile.c:759
+#: profile.c:744
 msgid "Find the strings matching the search regex."
 msgstr "尋找符合搜尋規則的字串。"
 
-#: profile.c:760
+#: profile.c:745
 msgid "Find previous"
 msgstr "尋找上一個"
 
-#: profile.c:762
+#: profile.c:747
 msgid "Find the previous string matching the search regex."
 msgstr "尋找上一個符合搜尋規則的字串。"
 
-#: profile.c:763
+#: profile.c:748
 msgid "Find next"
 msgstr "尋找下一個"
 
-#: profile.c:765
+#: profile.c:750
 msgid "Find the next string matching the search regex."
 msgstr "尋找下一個符合搜尋規則的字串。"
 
-#: profile.c:767
+#: profile.c:752
 msgid "Switch to prev tab"
 msgstr "切換至上個分頁"
 
-#: profile.c:769
+#: profile.c:754
 msgid "Switch to prev tab."
 msgstr "切換至上個分頁。"
 
-#: profile.c:771
+#: profile.c:756
 msgid "Switch to next tab"
 msgstr "切換至下個分頁"
 
-#: profile.c:773
+#: profile.c:758
 msgid "Switch to next tab."
 msgstr "切換至下個分頁。"
 
-#: profile.c:775
+#: profile.c:760
 msgid "Switch to first tab"
 msgstr "切換至第一個分頁"
 
-#: profile.c:777
+#: profile.c:762
 msgid "Switch to first tab."
 msgstr "切換至第一個分頁。"
 
-#: profile.c:779
+#: profile.c:764
 msgid "Switch to last tab"
 msgstr "切換至最後一個分頁"
 
-#: profile.c:781
+#: profile.c:766
 msgid "Switch to last tab."
 msgstr "切換至最後一個分頁。"
 
-#: profile.c:783
+#: profile.c:768
 msgid "Move page forward"
 msgstr "往前移動分頁"
 
-#: profile.c:785
+#: profile.c:770
 msgid "Move current page forward."
 msgstr "往前移動該分頁。"
 
-#: profile.c:787
+#: profile.c:772
 msgid "Move page backward"
 msgstr "往後移動分頁"
 
-#: profile.c:789
+#: profile.c:774
 msgid "Move current page backward."
 msgstr "往後移動該分頁。"
 
-#: profile.c:791
+#: profile.c:776
 msgid "Move page to first"
 msgstr "將分頁移至第一頁"
 
-#: profile.c:793
+#: profile.c:778
 msgid "Move current page to first."
 msgstr "將該分頁移至第一頁。"
 
-#: profile.c:795
+#: profile.c:780
 msgid "Move page to last"
 msgstr "將分頁移至最後一頁"
 
-#: profile.c:797
+#: profile.c:782
 msgid "Move current page to last."
 msgstr "將該分頁移至最後一頁。"
 
-#: profile.c:802
+#: profile.c:787
 #, c-format
 msgid "Switch to #%d tab"
 msgstr "切換至第 %d 分頁"
 
-#: profile.c:804
+#: profile.c:789
 #, c-format
 msgid "Switch #%d tab directly."
 msgstr "直接切換至第 %d 分頁。"
 
-#: profile.c:808
+#: profile.c:793
 msgid "New window"
 msgstr "新視窗"
 
-#: profile.c:810
+#: profile.c:795
 msgid "Open a new window with current dir."
 msgstr "以當前目錄開啟新視窗。"
 
-#: profile.c:812
+#: profile.c:797
 msgid "Select all"
 msgstr "全選"
 
-#: profile.c:814
+#: profile.c:799
 msgid "Select all the text in the Vte Terminal box."
 msgstr "全選 Vte 終端機視窗裡的文字。"
 
-#: profile.c:816
+#: profile.c:801
 msgid "Copy to clipboard"
 msgstr "複製至剪貼簿。"
 
-#: profile.c:818
+#: profile.c:803
 msgid "Copy the text to clipboard."
 msgstr "將文字複製至剪貼簿。"
 
-#: profile.c:820
+#: profile.c:805
 msgid "Paste the text"
 msgstr "貼上文字"
 
-#: profile.c:822
+#: profile.c:807
 msgid "Paste the text in clipboard."
 msgstr "貼上剪貼簿中的文字。"
 
-#: profile.c:824
+#: profile.c:809
 msgid "Increase font size"
 msgstr "放大字體"
 
-#: profile.c:826
+#: profile.c:811
 msgid "Increase the font size of current tab."
 msgstr "放大目前分頁的字體。"
 
-#: profile.c:828
+#: profile.c:813
 msgid "Decrease font size"
 msgstr "縮小字體"
 
-#: profile.c:830
+#: profile.c:815
 msgid "Decrease the font size of current tab."
 msgstr "縮小目前分頁的字體。"
 
-#: profile.c:832
+#: profile.c:817
 msgid "Reset font size"
 msgstr "重置字體大小"
 
-#: profile.c:834
+#: profile.c:819
 msgid "Reset the font of current tab to original size."
 msgstr "將目前分頁的字體重置為原始大小。"
 
-#: profile.c:836
+#: profile.c:821
 msgid "Maximum the window"
 msgstr "視窗放至最大"
 
-#: profile.c:838
+#: profile.c:823
 msgid "Try to maximum the window to use all available space on your display."
 msgstr "將視窗放至最大以使用您所有的顯示空間。"
 
-#: profile.c:840
+#: profile.c:825
 msgid "Full screen"
 msgstr "全螢幕"
 
-#: profile.c:842
+#: profile.c:827
 msgid "Asks to place window in the fullscreen/unfullscreen state."
 msgstr "試著讓視窗在全螢幕/正常螢幕中切換。"
 
-#: profile.c:844
+#: profile.c:829
 msgid "Scroll up"
 msgstr "向上捲動"
 
-#: profile.c:846
+#: profile.c:831
 msgid "Emulate a mouse scroll up event on Vte Terminal box."
 msgstr "在 Vte 終端機視窗裡模擬一個滑鼠滾輪向上捲動事件。"
 
-#: profile.c:848
+#: profile.c:833
 msgid "Scroll down"
 msgstr "向下捲動"
 
-#: profile.c:850
+#: profile.c:835
 msgid "Emulate a mouse scroll down event on Vte Terminal box."
 msgstr "在 Vte 終端機視窗裡模擬一個滑鼠滾輪向下捲動事件。"
 
-#: profile.c:852
+#: profile.c:837
 msgid "Scroll up 1 line"
 msgstr "向上捲動一行"
 
-#: profile.c:854
+#: profile.c:839
 msgid "Asks to scroll up 1 line on Vte Terminal box."
 msgstr "試著在 Vte 終端機視窗裡向上捲動一行。"
 
-#: profile.c:856
+#: profile.c:841
 msgid "Scroll down 1 line"
 msgstr "向下捲動一行"
 
-#: profile.c:858
+#: profile.c:843
 msgid "Asks to scroll down 1 line on Vte Terminal box."
 msgstr "試著在 Vte 終端機視窗裡向下捲動一行。"
 
-#: profile.c:864
+#: profile.c:849
 msgid "Dump runtime debug data"
 msgstr "印出即時除錯資訊"
 
-#: profile.c:866
+#: profile.c:851
 msgid "Dump the runtime data of LilyTerm for debug."
 msgstr "印出 LilyTerm 的即時資訊以利除錯。"
 
-#: profile.c:894
+#: profile.c:879
 msgid "Window Title"
 msgstr "視窗標題"
 
-#: profile.c:895
+#: profile.c:880
 msgid "Running Command"
 msgstr "正在執行的指令"
 
-#: profile.c:896
+#: profile.c:881
 msgid "Current Dir"
 msgstr "目前的目錄"
 
-#: profile.c:897
+#: profile.c:882
 msgid "Custom Tab Name"
 msgstr "自訂的分頁名稱"
 
-#: profile.c:898
+#: profile.c:883
 msgid "Root Privileges"
 msgstr "Root 權限"
 
-#: profile.c:899
+#: profile.c:884
 msgid "Normal Text"
 msgstr "一般文字"
 
-#: profile.c:933
+#: profile.c:918
 msgid "Shift"
 msgstr "Shift"
 
-#: profile.c:937
+#: profile.c:922
 msgid "Ctrl"
 msgstr "Ctrl"
 
-#: profile.c:939
+#: profile.c:924
 msgid "Alt"
 msgstr "Alt"
 
-#: profile.c:949
+#: profile.c:934
 msgid "Win"
 msgstr "Win"
 
-#: profile.c:2607
+#: profile.c:2614
 msgid "The target file does NOT exist"
 msgstr "目的地檔案並不存在"
 
-#: profile.c:2618
+#: profile.c:2625
 msgid "The target file is a directory"
 msgstr "目的地檔案是個目錄"
 
-#: profile.c:2666
+#: profile.c:2673
 #, c-format
 msgid "Error while writing profile '%s':"
 msgstr "在寫入設定檔 %s 時發生錯誤："
 
-#: profile.c:2671
+#: profile.c:2678
 msgid "Error when writing profile"
 msgstr "在寫入設定檔時發生錯誤"
 
-#: profile.c:2811
+#: profile.c:2818
 msgid ""
 "Some entry in profile is added, removed, or changed in this version.\n"
 "Please use [Save settings] on the right click menu to save your settings,\n"
@@ -1356,7 +1358,7 @@ msgstr ""
 "請使用右鍵選單中的【儲存設定】來儲存您的設定，\n"
 "並視形況加以修改。\n"
 
-#: profile.c:2817
+#: profile.c:2824
 #, c-format
 msgid ""
 "%s\n"
@@ -1365,11 +1367,11 @@ msgstr ""
 "%s\n"
 "您的個人設定檔為：%s。"
 
-#: profile.c:2820
+#: profile.c:2827
 msgid "The format of your profile is out of date"
 msgstr "您的設定檔格式已過舊"
 
-#: profile.c:2848 profile.c:2851
+#: profile.c:2855 profile.c:2858
 #, c-format
 msgid ""
 "The profile \"%s\" is invalid:\n"
@@ -1380,7 +1382,7 @@ msgstr ""
 "\n"
 "\t%s"
 
-#: profile.c:2859
+#: profile.c:2866
 msgid "The profile is invalid!"
 msgstr "設定檔無效！"
 
