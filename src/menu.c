@@ -468,8 +468,8 @@ GSList *create_theme_menu_items(struct Window *win_data, GtkWidget *sub_menu, GS
 		if (! compare_strings(win_data->color_theme_str, system_color_theme[current_theme].name, FALSE))
 			win_data->current_menuitem_theme = win_data->menuitem_theme[current_theme + custom_theme*THEME];
 	}
-	// g_debug("Got win_data->current_menuitem_theme = %p (%d), created (%p)",
-		win_data->current_menuitem_theme, current_theme, win_data->menuitem_theme[current_theme + custom_theme*THEME]);
+        // g_debug("Got win_data->current_menuitem_theme = %p (%d), created (%p)",
+	//	win_data->current_menuitem_theme, current_theme, win_data->menuitem_theme[current_theme + custom_theme*THEME]);
 
 
 	// g_debug("Set the color theme %s (%p) to %p...",
