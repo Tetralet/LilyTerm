@@ -17,6 +17,8 @@
  * along with LilyTerm.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <locale.h>
+
 #include "notebook.h"
 
 // GtkWidget *current_vte=NULL;
