@@ -17,6 +17,8 @@
  * along with LilyTerm.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <locale.h>
+
 #include "dialog.h"
 #define TEMPSTR 6
 
