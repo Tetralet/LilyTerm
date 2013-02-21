@@ -60,7 +60,7 @@ struct Page *add_page(struct Window *win_data,
 		      gchar *locale,
 		      gchar *environments,
 		      gchar *user_environ,
-		      gchar *VTE_CJK_WIDTH_STR,
+		      const gchar *VTE_CJK_WIDTH_STR,
 		      gboolean add_to_next)
 {
 #ifdef DETAIL
@@ -77,14 +77,14 @@ struct Page *add_page(struct Window *win_data,
 			locale, user_environ, VTE_CJK_WIDTH_STR);
 #endif
 
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if (win_data==NULL) return NULL;
 #endif
 
 // ---- Clone the page_data ---- //
 
 	struct Page *page_data = g_new0(struct Page, 1);
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if (page_data==NULL) return NULL;
 #endif
 	// g_debug ("init page_date = %p!!!", page_data);
@@ -133,7 +133,7 @@ struct Page *add_page(struct Window *win_data,
 	{
 		g_free(page_data->environ);
 		page_data->environ = g_strdup(user_environ);
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 		if (environ_str && environ_str->len)
 #else
 		if (environ_str->len)
@@ -141,14 +141,14 @@ struct Page *add_page(struct Window *win_data,
 			environ_str = g_string_append(environ_str, "\t");
 		g_string_append_printf (environ_str, "%s", user_environ);
 	}
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if (environ_str && environ_str->len)
 #else
 	if (environ_str->len)
 #endif
 		environ_str = g_string_append(environ_str, "\t");
 
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if (win_data->emulate_term == NULL)
 		g_string_append_printf (environ_str, "TERM=xterm");
 	else
@@ -177,7 +177,7 @@ struct Page *add_page(struct Window *win_data,
 
 	if (page_data->VTE_CJK_WIDTH_STR && (page_data->VTE_CJK_WIDTH_STR[0] != '\0'))
 	{
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 		if (environ_str && environ_str->len)
 #else
 		if (environ_str->len)
@@ -190,7 +190,7 @@ struct Page *add_page(struct Window *win_data,
 
 	// g_debug("final (in add_page) : environ_str = %s", environ_str->str);
 	gchar **new_environs = NULL;
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 		if (environ_str && environ_str->len)
 #else
 		if (environ_str->len)
@@ -210,7 +210,7 @@ struct Page *add_page(struct Window *win_data,
 	g_object_set_data(G_OBJECT(page_data->vte), "Page_Data", page_data);
 
 	// g_debug("call set_encoding() by %p to %s", page_data->vte, page_data->encoding_str);
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if (page_data->encoding_str && (page_data->encoding_str[0]!='\0'))
 #endif
 		vte_terminal_set_encoding(VTE_TERMINAL(page_data->vte), page_data->encoding_str);
@@ -247,11 +247,11 @@ struct Page *add_page(struct Window *win_data,
 	gchar **old_environ = environ;
 	extern gchar **empty_environ;
 
-	gchar *PATH = NULL;
+	const gchar *PATH = NULL;
 	if (win_data->command)
 	{
 		environ = new_environs;
-		PATH = (char*)g_getenv("PATH");
+		PATH = g_getenv("PATH");
 		// g_debug("add_page(): get PATH = %s", PATH);
 	}
 
@@ -307,7 +307,7 @@ struct Page *add_page(struct Window *win_data,
 
 	login_shell_str[0] = win_data->shell;
 	// g_debug("win_data->shell = %s", win_data->shell);
-#  ifdef DEFENSIVE
+#  ifdef SAFEMODE
 	if (login_shell_str[0]==NULL) login_shell_str[0] = "/bin/sh";
 #  endif
 	if (win_data->argv==NULL)
@@ -329,7 +329,7 @@ struct Page *add_page(struct Window *win_data,
 		gchar *final_argv_str = g_strdup_printf("%s\x10%s", win_data->command, argv_str);
 		final_argv = split_string(final_argv_str, "\x10", -1);
 		final_argv_need_be_free = TRUE;
-#  ifdef DEFENSIVE
+#  ifdef SAFEMODE
 		if (final_argv==NULL)
 		{
 			final_argv = full_argv;
@@ -427,7 +427,7 @@ struct Page *add_page(struct Window *win_data,
 
 	// Get current vte size. for init a new tab.
 	glong column=SYSTEM_COLUMN, row=SYSTEM_ROW;
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if (page_data_prev && (page_data_prev->vte))
 #else
 	if (page_data_prev)
@@ -480,7 +480,7 @@ struct Page *add_page(struct Window *win_data,
 	//		 G_CALLBACK(vte_paste_clipboard), GDK_SELECTION_PRIMARY);
 
 //	GdkColor root_color;
-//	gdk_color_parse("#FFFAFE", &root_color);
+//	dirty_gdk_color_parse("#FFFAFE", &root_color);
 //	gtk_widget_modify_bg(notebook, GTK_STATE_NORMAL, &root_color);
 
 // ---- Init other datas of the page ---- //
@@ -508,7 +508,7 @@ struct Page *add_page(struct Window *win_data,
 	page_data->window = NULL;
 	// g_debug("page_data->vte = %p", page_data->vte);
 	// g_debug("win_data->current_vte = %p", win_data->current_vte);
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if (page_data->notebook) {
 #endif
 		page_data->page_no = gtk_notebook_append_page(GTK_NOTEBOOK(page_data->notebook),
@@ -526,7 +526,7 @@ struct Page *add_page(struct Window *win_data,
 								page_data_prev->page_no + 1);
 			// g_debug("New Page No after move to next to prev page = %d", page_data->page_no);
 		}
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	}
 #endif
 	win_data->current_vte = page_data->vte;
@@ -590,13 +590,13 @@ struct Page *add_page(struct Window *win_data,
 		    (compare_strings(init_encoding, "UTF-8", FALSE)))
 			create_utf8_child_process_failed_dialog (win_data, arg_str, runtime_locale_encoding);
 		else
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 		{
 			if (error)
 #endif
 				create_child_process_failed_dialog(win_data, error->message,
 								   win_data->runtime_encoding);
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 		}
 		if (error)
 #endif
@@ -623,13 +623,13 @@ gchar **get_argv(struct Window *win_data, gboolean *argv_need_be_free)
 #ifdef DETAIL
 	g_debug("! Launch get_argv()! with win_data = %p", win_data);
 #endif
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if ((win_data==NULL) || (argv_need_be_free==NULL)) return NULL;
 #endif
 	gchar **argv = win_data->argv;
 	*argv_need_be_free = FALSE;
 
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if ((argv==NULL) && win_data->shell && (win_data->shell[0]!='\0'))
 #else
 	if ((argv==NULL) && (win_data->shell[0]!='\0'))
@@ -637,7 +637,7 @@ gchar **get_argv(struct Window *win_data, gboolean *argv_need_be_free)
 	{
 		argv = split_string(win_data->shell, " ", -1);
 		*argv_need_be_free = TRUE;
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	}
 
 	if (argv==NULL)
@@ -673,7 +673,7 @@ void create_child_process_failed_dialog(struct Window *win_data, gchar *message,
 	g_debug("! Launch create_child_process_failed_dialog() with message = %s, encoding = %s",
 		message, encoding);
 #endif
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if (win_data==NULL) return;
 #endif
 	gint i;
@@ -699,7 +699,7 @@ void create_child_process_failed_dialog(struct Window *win_data, gchar *message,
 	//	g_debug("temp_str[%d] = %s", i, temp_str[i]);
 	// error_dialog(GtkWidget *window, gchar *title, gchar *icon, gchar *message, gchar *encoding)
 	GtkWidget *window = NULL;
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if (win_data)
 #endif
 		window = win_data->window;
@@ -719,7 +719,7 @@ void clear_arg(struct Window *win_data)
 #ifdef DETAIL
 	g_debug("! Launch clear_arg()");
 #endif
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if (win_data==NULL) return;
 #endif
 	// g_debug("clear_arg(): win_data->command = %s, win_data->argc = %d", win_data->command, win_data->argc);
@@ -736,11 +736,11 @@ void label_size_request (GtkWidget *label, GtkRequisition *requisition, struct P
 #ifdef DETAIL
 	g_debug("! Launch label_size_request() with page_data = %p", page_data);
 #endif
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if ((page_data==NULL) || (page_data->window==NULL)) return;
 #endif
 	struct Window *win_data = (struct Window *)g_object_get_data(G_OBJECT(page_data->window), "Win_Data");
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if (win_data==NULL) return;
 #endif
 	// g_debug("label_size_request(): launch keep_window_size()!");
@@ -769,7 +769,7 @@ gboolean close_page(GtkWidget *vte, gint close_type)
 	g_debug("! Launch close_page() with vte = %p, and close_type = %d, force_to_quit = %d",
 		vte, close_type, force_to_quit);
 #endif
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if (vte==NULL) return FALSE;
 #endif
 	if (close_type==2)
@@ -777,13 +777,13 @@ gboolean close_page(GtkWidget *vte, gint close_type)
 
 	struct Page *page_data = (struct Page *)g_object_get_data(G_OBJECT(vte), "Page_Data");
 	// g_debug("Get page_data = %p, pid = %d, vte = %p when closing page!", page_data, page_data->pid, vte);
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if ((page_data==NULL) || (page_data->window==NULL)) return FALSE;
 #endif
 
 	struct Window *win_data = (struct Window *)g_object_get_data(G_OBJECT(page_data->window),
 									     "Win_Data");
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if (win_data==NULL) return FALSE;
 #endif
 
@@ -794,14 +794,14 @@ gboolean close_page(GtkWidget *vte, gint close_type)
 		if (process_data==NULL)
 		{
 			process_data = g_new0(struct Process_Data, PID_MAX_DEFAULT);
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 			if (process_data)
 			{
 #endif
 				child_process_list = get_child_process_list(0, 0, 0, child_process_list,
 									    page_data->pid, win_data, FALSE);
 				clean_process_data();
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 			}
 #endif
 		}
@@ -814,7 +814,7 @@ gboolean close_page(GtkWidget *vte, gint close_type)
 				    ((process_data[i].window==0) || (process_data[i].window==page_data->window)))
 				{
 					gchar *cmdline = get_cmdline(i);
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 					if (cmdline)
 #endif
 						g_string_append_printf(child_process_list ,"\t(%d) %s\n", i, cmdline);
@@ -861,7 +861,7 @@ gboolean close_page(GtkWidget *vte, gint close_type)
 	}
 
 	// Confirm to close tab if it have child process...
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if ((! force_to_quit) &&
 	    (child_process_list && child_process_list->len) &&
 	    (! win_data->kill_color_demo_vte))
@@ -898,7 +898,7 @@ gboolean close_page(GtkWidget *vte, gint close_type)
 		g_signal_handler_disconnect(G_OBJECT(page_data->vte), page_data->urgent_bell_handler_id);
 
 	// kill running shell
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if (using_kill && child_process_list && child_process_list->len)
 #else
 	if (using_kill && child_process_list->len)
@@ -971,16 +971,16 @@ void vte_grab_focus(GtkWidget *vte, gpointer user_data)
 #ifdef DETAIL
 	g_debug("! Launch vte_grab_focus() with vte = %p", vte);
 #endif
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if (vte==NULL) return;
 #endif
 	// g_debug("vte = %p grub focus !", vte);
 	struct Page *page_data = (struct Page *)g_object_get_data(G_OBJECT(vte), "Page_Data");
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if (page_data==NULL) return;
 #endif
 	struct Window *win_data = (struct Window *)g_object_get_data(G_OBJECT(page_data->window), "Win_Data");
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if (win_data==NULL) return;
 #endif
 	// g_debug("Get win_data = %p (page_data->window = %p) when vte grab focus!", win_data, page_data->window);
@@ -1001,7 +1001,7 @@ void vte_grab_focus(GtkWidget *vte, gpointer user_data)
 		{
 			struct Page *prev_data = (struct Page *)g_object_get_data(
 								G_OBJECT(win_data->current_vte), "Page_Data");
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 			if (prev_data)
 			{
 #endif
@@ -1024,7 +1024,7 @@ void vte_grab_focus(GtkWidget *vte, gpointer user_data)
 							  prev_data->encoding_str, prev_data->custom_window_title,
 							  FALSE);
 				}
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 			}
 #endif
 		}
@@ -1085,7 +1085,7 @@ void dim_vte_text (struct Window *win_data, struct Page *page_data, gint dim_tex
 	g_debug("! Launch dim_vte_text() with win_data = %p, page_data = %p, dim_text = %d",
 		win_data, page_data, dim_text);
 #endif
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if (win_data==NULL) return;
 #endif
 	// The page_data==NULL && win_data->current_vte==NULL when -e options failed.
@@ -1123,39 +1123,24 @@ void dim_vte_text (struct Window *win_data, struct Page *page_data, gint dim_tex
 		}
 	}
 
-	// Sometimes we should to force light up the vte
-	if ((! win_data->use_set_color_fg_bg))
-		dim_vte = FALSE;
+	// FIXME: Sometimes we should to force light up the vte
+	// if ((! win_data->use_set_color_fg_bg))
+	//	dim_vte = FALSE;
 
 	// g_debug("CHECK: dim_vte = %d, page_data->vte_is_inactivated = %d", dim_vte, page_data->vte_is_inactivated);
 
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if (page_data->vte==NULL) return;
 #endif
 	// for performance, if the vte was dimmed already, don't dim it again.
 	if (page_data->vte_is_inactivated != dim_vte)
 	{
 		if (dim_vte)
-		{
-			vte_terminal_set_colors(VTE_TERMINAL(page_data->vte),
-						&(win_data->fg_color_inactive),
-						&(win_data->bg_color),
-						win_data->color_inactive,
-						16);
-			vte_terminal_set_color_bold (VTE_TERMINAL(page_data->vte), &(win_data->fg_color_inactive));
-		}
+			set_vte_color(page_data->vte, TRUE, win_data->cursor_color,  win_data->color_inactive, TRUE);
 		else
-		{
-			vte_terminal_set_colors(VTE_TERMINAL(page_data->vte),
-						&(win_data->fg_color),
-						&(win_data->bg_color),
-						win_data->color,
-						16);
-			vte_terminal_set_color_bold (VTE_TERMINAL(page_data->vte), &(win_data->fg_color));
-		}
+			set_vte_color(page_data->vte, TRUE, win_data->cursor_color,  win_data->color, TRUE);
 		page_data->vte_is_inactivated = dim_vte;
 	}
-	vte_terminal_set_color_cursor(VTE_TERMINAL(page_data->vte), &(win_data->cursor_color));
 	// g_debug("FINAL: dim_vte = %d, page_data->vte_is_inactivated = %d", dim_vte, page_data->vte_is_inactivated);
 }
 
@@ -1164,19 +1149,19 @@ gboolean vte_button_press(GtkWidget *vte, GdkEventButton *event, gpointer user_d
 #ifdef DETAIL
 	g_debug("! Launch vte_button_press() for vte %p", vte);
 #endif
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if (vte==NULL) return FALSE;
 #endif
 	// We may click mouse button on a lost focus window to popup it's Menu
 	// So that we should find the active_window via page_data
 	struct Page *page_data = (struct Page *)g_object_get_data(G_OBJECT(vte), "Page_Data");
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if ((page_data==NULL) || (event==NULL)) return FALSE;
 #endif
 	menu_active_window = page_data->window;
 	// g_debug("set menu_active_window = %p", menu_active_window);
 	struct Window *win_data = (struct Window *)g_object_get_data(G_OBJECT(page_data->window), "Win_Data");
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if (win_data==NULL) return FALSE;
 #endif
 	// g_debug ("Get win_data = %d in show_menu", win_data);
@@ -1234,14 +1219,14 @@ gboolean vte_button_press(GtkWidget *vte, GdkEventButton *event, gpointer user_d
 										    page_data->encoding_str,
 										    (GSourceFunc)set_encoding,
 										    NULL);
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 						if (menuitem)
 						{
 #endif
 							gtk_widget_show (menuitem);
 							gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM(menuitem),
 											TRUE);
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 						}
 #endif
 					}
@@ -1256,25 +1241,26 @@ gboolean vte_button_press(GtkWidget *vte, GdkEventButton *event, gpointer user_d
 		refresh_profile_list(win_data);
 
 		win_data->checking_menu_item = TRUE;
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 		if (win_data->current_menuitem_theme)
 #endif
 			gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM(win_data->current_menuitem_theme), TRUE);
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 		if (win_data->current_menuitem_erase_binding)
 #endif
 			gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM(win_data->current_menuitem_erase_binding), TRUE);
 #ifdef ENABLE_CURSOR_SHAPE
-#  ifdef DEFENSIVE
+#  ifdef SAFEMODE
 		if (win_data->current_menuitem_cursor_shape)
 #  endif
 			gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM(win_data->current_menuitem_cursor_shape), TRUE);
 #endif
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 		if (win_data->menuitem_invert_color)
 #endif
 			gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM(win_data->menuitem_invert_color), win_data->invert_color);
-#ifdef DEFENSIVE
+		// g_debug("vte_button_press(): set win_data->menuitem_invert_color(%p) to %d", win_data->menuitem_invert_color, win_data->invert_color);
+#ifdef SAFEMODE
 		if (win_data->menuitem_auto_save)
 #endif
 			gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM(win_data->menuitem_auto_save), win_data->auto_save);
@@ -1284,7 +1270,7 @@ gboolean vte_button_press(GtkWidget *vte, GdkEventButton *event, gpointer user_d
 		{
 #ifdef ENABLE_RGBA
 			if (win_data->use_rgba == -1)
-#  ifdef DEFENSIVE
+#  ifdef SAFEMODE
 				if (win_data->menuitem_trans_win)
 #  endif
 					// GTK_CHECK_MENU_ITEM(win_data->menuitem_trans_win)->active =
@@ -1298,7 +1284,7 @@ gboolean vte_button_press(GtkWidget *vte, GdkEventButton *event, gpointer user_d
 			//	      "background-transparent", &transparent,
 			//	      NULL);
 			// GTK_CHECK_MENU_ITEM(win_data->menuitem_trans_bg)->active = transparent;
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 			if (win_data->menuitem_trans_bg)
 #endif
 				// GTK_CHECK_MENU_ITEM(win_data->menuitem_trans_bg)->active =
@@ -1347,7 +1333,7 @@ gboolean vte_button_press(GtkWidget *vte, GdkEventButton *event, gpointer user_d
 		// if (page_data->use_scrollback_lines)
 		// GTK_CHECK_MENU_ITEM(win_data->menuitem_scrollback_lines)->active = page_data->use_scrollback_lines;
 		if (win_data->dim_text)
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 			if (win_data->menuitem_dim_text)
 #endif
 				// GTK_CHECK_MENU_ITEM(win_data->menuitem_dim_text)->active = win_data->dim_text;
@@ -1355,7 +1341,7 @@ gboolean vte_button_press(GtkWidget *vte, GdkEventButton *event, gpointer user_d
 								win_data->dim_text);
 #ifdef ENABLE_RGBA
 		if ((win_data->dim_window) && (win_data->use_rgba == -1))
-#  ifdef DEFENSIVE
+#  ifdef SAFEMODE
 			if (win_data->menuitem_dim_window)
 #  endif
 				// GTK_CHECK_MENU_ITEM(win_data->menuitem_dim_window)->active = win_data->dim_window;
@@ -1434,14 +1420,14 @@ gboolean open_url_with_external_command (gchar *url, gint tag, struct Window *wi
 	g_debug("! Launch open_url_with_external_command() with url = %s, tag = %d, win_data = %p, page_data = %p",
 		url, tag, win_data, page_data);
 #endif
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if ((win_data==NULL) || (page_data==NULL)) return FALSE;
 #endif
 
 	gchar *full_command = g_strdup_printf("%s\t%s", win_data->user_command[tag].command, url);
 	// g_debug ("full_command = %s", full_command);
 	gchar **argv = split_string(full_command, "\t", -1);
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if (argv==NULL)
 	{
 		g_free(full_command);
@@ -1465,7 +1451,7 @@ gboolean open_url_with_external_command (gchar *url, gint tag, struct Window *wi
 			// g_debug("win_data->user_command[tag].locale = %s",
 			//	 win_data->user_command[tag].locale);
 			gchar *locale = page_data->locale;
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 			if (win_data->user_command[tag].locale &&
 			    (win_data->user_command[tag].locale[0] != '\0'))
 #else
@@ -1526,7 +1512,7 @@ gboolean open_url_with_external_command (gchar *url, gint tag, struct Window *wi
 				g_string_append_printf (environ_str,
 							"\t%s",
 							win_data->user_command[tag].environ);
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 			if (win_data->user_command[tag].locale &&
 			    win_data->user_command[tag].locale[0] != '\0')
 #else
@@ -1539,7 +1525,7 @@ gboolean open_url_with_external_command (gchar *url, gint tag, struct Window *wi
 							win_data->user_command[tag].locale);
 			// g_debug("gdk_spawn_on_screen_with_pipes: environ_str = %s", environ_str->str);
 			gchar **new_environs = NULL;
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 			if (environ_str && environ_str->len)
 #else
 			if (environ_str->len)
@@ -1594,7 +1580,7 @@ gboolean open_url_with_external_command (gchar *url, gint tag, struct Window *wi
 			gchar **new_argv = split_string(new_command, "\t", -1);
 			// g_debug("encoding = %s", encoding);
 			gchar *locale = win_data->default_locale;
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 			if (win_data->user_command[tag].locale &&
 			    (win_data->user_command[tag].locale[0]!='\0'))
 #else
@@ -1694,7 +1680,7 @@ gchar *get_url(GdkEventButton *event, struct Page *page_data, gint *tag)
 	else
 		g_debug("! Launch get_url() with page_data = %p", page_data);
 #endif
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if ((page_data==NULL) || (event==NULL)) return NULL;
 #endif
 	gint pad_x=0, pad_y=0;
@@ -1717,7 +1703,7 @@ void page_data_dup(struct Page *page_data_prev, struct Page *page_data)
 #ifdef DETAIL
 	g_debug("! Launch page_data_dup() with page_data_prev = %p, page_data = %p", page_data_prev, page_data);
 #endif
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if ((page_data==NULL) || (page_data_prev==NULL)) return;
 #endif
 	memcpy( page_data, page_data_prev, sizeof(* page_data_prev));
@@ -1786,7 +1772,7 @@ struct Page *get_page_data_from_nth_page(struct Window *win_data, guint page_no)
 #ifdef DETAIL
 	g_debug("! Launch get_page_data_from_nth_page() with win_data = %p, page_no = %d", win_data, page_no);
 #endif
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if ((win_data==NULL) || (win_data->notebook==NULL)) return NULL;
 #endif
 	GtkWidget *vte = (GtkWidget *)g_object_get_data(G_OBJECT(gtk_notebook_get_tab_label(

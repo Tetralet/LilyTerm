@@ -26,7 +26,7 @@ gchar *convert_array_to_string(gchar **array, gchar separator)
 #ifdef DETAIL
 	g_debug("! Launch convert_array_to_string()");
 #endif
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if (array==NULL) return NULL;
 #endif
 	GString *array_str = g_string_new (NULL);
@@ -203,7 +203,7 @@ void set_env(const gchar *variable, const gchar *value, gboolean overwrite)
 #ifdef DETAIL
 	g_debug("! Launch set_env() with variable = %s, value = %s, overwrite = %d", variable, value, overwrite);
 #endif
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if ((variable==NULL) || (variable[0]=='\0')) return;
 #endif
 	if (value)
@@ -214,19 +214,19 @@ void set_env(const gchar *variable, const gchar *value, gboolean overwrite)
 
 // get default locale from environ
 // The returned string CAN NOT be free()!
-gchar *get_default_lc_data(gint lc_type)
+const gchar *get_default_lc_data(gint lc_type)
 {
 #ifdef DETAIL
 	g_debug("! Launch get_default_lc_data() with lc_type= %d", lc_type);
 #endif
-	char *lc_data;
+	const char *lc_data;
 	switch (lc_type)
 	{
 		case LC_CTYPE:
-			lc_data = (char*)g_getenv("LC_CTYPE");
+			lc_data = g_getenv("LC_CTYPE");
 			break;
 		case LC_MESSAGES:
-			lc_data = (char*)g_getenv("LC_MESSAGES");
+			lc_data = g_getenv("LC_MESSAGES");
 			break;
 		default:
 #ifdef FATAL
@@ -234,8 +234,8 @@ gchar *get_default_lc_data(gint lc_type)
 #endif
 			return "";
 	}
-	char *lc_all = (char*)g_getenv("LC_ALL");
-	char *lang = (char*)g_getenv("LANG");
+	const char *lc_all = g_getenv("LC_ALL");
+	const char *lang = g_getenv("LANG");
 
 	if ( (!lc_data) && lang)
 		lc_data = lang;
@@ -275,7 +275,7 @@ gboolean check_string_in_array(gchar *str, gchar **lists)
 #ifdef DETAIL
 	g_debug("! Launch check_string_in_array() with str = %s", str);
 #endif
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if ((str==NULL) || (lists==NULL)) return FALSE;
 #endif
 	gint i=-1;
@@ -399,7 +399,7 @@ gchar **split_string(const gchar *str, const gchar *split, gint max_tokens)
 #ifdef FULL
 	g_debug("! Launch split_string with str = %s, split = %s, max_tokens = %d", str, split, max_tokens);
 #endif
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if ((str==NULL) || (split==NULL) || (split[0]=='\0')) return NULL;
 #endif
 	// g_debug("contents = %s", contents);
@@ -410,7 +410,7 @@ gchar **split_string(const gchar *str, const gchar *split, gint max_tokens)
 	//	g_debug("Got data[%d] = %s", i, datas[i]);
 	// g_debug("Got i = %d in split_string()", i);
 	// i = -1;
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if ( datas && (max_tokens>0))
 #else
 	if (max_tokens>0)
@@ -462,7 +462,7 @@ gchar *convert_text_to_html(StrAddr **text, gboolean free_text, gchar *color, St
 	g_debug("! Launch convert_text_to_html() with text = %s, color = %s, tag = %s",
 		*text, color, tag);
 #endif
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if ((text==NULL) || (*text==NULL)) return NULL;
 #endif
 	gchar *markup_escape_text = g_markup_escape_text(*text, -1);
@@ -490,7 +490,7 @@ gchar *convert_text_to_html(StrAddr **text, gboolean free_text, gchar *color, St
 	if (free_text)
 	{
 		g_free(*text);
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 		*text = NULL;
 #endif
 	}
@@ -504,7 +504,7 @@ gchar *join_strings_to_string(const gchar separator, const gint total, const Str
 	g_debug("! Launch join_strings_to_string() with separator = '%c', total = %d",
 		separator, total);
 #endif
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if (separator=='\0') return NULL;
 #endif
 	GString *strings = g_string_new ("");
@@ -624,6 +624,23 @@ gchar *colorful_max_new_lines(gchar *string, gint max, gint output_line)
 	return NULL;
 }
 
+gboolean dirty_gdk_color_parse(const gchar *spec, GdkColor *color)
+{
+#ifdef DETAIL
+	g_debug("! Launch dirty_gdk_color_parse() with spec = %s", spec);
+#endif
+	if (spec==NULL) return FALSE;
+
+	gchar *new_spec = g_strdup(spec);
+#ifdef OUT_OF_MEMORY
+	if (new_spec==NULL) return FALSE;
+#endif
+	new_spec = g_strstrip(new_spec);
+	gboolean response = gdk_color_parse(new_spec, color);
+	g_free(new_spec);
+	return response;
+}
+
 #if defined(OUT_OF_MEMORY) || defined(UNIT_TEST)
 gchar *fake_g_strdup(const gchar *str)
 {
@@ -702,5 +719,8 @@ gchar** fake_g_strsplit(const gchar *string, const gchar *delimiter, gint max_to
 
 #  define g_strsplit fake_g_strsplit
 }
+
+// A very dirty fix for unit test error.
+gchar **g_listenv (void) { return NULL; }
 
 #endif

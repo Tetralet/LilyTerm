@@ -119,8 +119,6 @@
 #define SYSTEM_COLUMN 80
 #define SYSTEM_ROW 24
 
-#define gdk_color_parse(x,y) gdk_color_parse(g_strstrip((gchar*)(x)),y)
-
 #if ! GTK_CHECK_VERSION(2,9,0)
     #ifndef GDK_SUPER_MASK
 	#define GDK_SUPER_MASK 1<<26
@@ -395,6 +393,11 @@ typedef enum {
 	PAGE_METHOD_REFRESH,
 } Page_Update_Method;
 
+typedef enum {
+	ANSI_THEME_INVERT_COLOR,
+	ANSI_THEME_SET_ANSI_THEME,
+} Set_ANSI_Theme_Type;
+
 // KeyValue: only need to init once when LilyTerm starts.
 // so that we don't need to free them.
 struct KeyValue
@@ -446,12 +449,14 @@ struct Color
 {
 	gchar *name;
 	gchar *comment;
+	gchar *translation;
 };
 
 #define THEME 7
 #define DEFAULT_THEME 0
 struct Color_Theme
 {
+	gint index;
 	gchar *name;
 	GdkColor color[COLOR];
 };
@@ -757,34 +762,34 @@ struct Window
 
 // ---- the color used in vte ---- //
 
-	gchar *foreground_color;
 	gchar *cursor_color_str;
-	gchar *background_color;
-	GdkColor fg_color;
 	GdkColor cursor_color;
-	GdkColor fg_color_inactive;
-	GdkColor bg_color;
 
 	// color datas
-	struct Color_Theme custom_color_theme[THEME];
-	gchar *color_theme_str;
-	gchar *color_value[COLOR];
+	gint color_theme_index;
 	gboolean invert_color;
+	gdouble color_brightness;
+	gdouble color_brightness_inactive;
+
+	struct Color_Theme custom_color_theme[THEME];
+	// the adjusted (include invert_color and color_brightness for color themes) colors
+	GdkColor color[COLOR];
+	// the adjusted (include invert_color and color_brightness_inactive for color themes) colors
+	GdkColor color_inactive[COLOR];
+
+	// color[] and color_orig[] will always be initd when creating a window.
+	GtkWidget *ansi_color_sub_menu;
+	GtkWidget *ansi_color_menuitem;
 	GtkWidget *menuitem_invert_color;
 	GtkWidget *menuitem_theme[THEME*2];
 	GtkWidget *current_menuitem_theme;
 
-	// use_set_color_fg_bg = TRUE: use vte_terminal_set_colors() to set the color of vte.
-	// use_set_color_fg_bg = FALSE: use vte_terminal_set_color_foreground/background().
-	gboolean use_set_color_fg_bg;
+	// default_vte_color = TRUE: use vte_terminal_set_color_foreground/background().
+	// default_vte_color = FALSE: use vte_terminal_set_colors() to set the color of vte.
+	// gboolean default_vte_color_theme;
+	// default_vte_color_theme = ! (color_theme_index || invert_color || color_brightness || color_brightness_inactive)
 	gboolean have_custom_color;;
 	gboolean use_custom_theme;
-	// color[] and color_orig[] will always be initd when creating a window.
-	GdkColor color[COLOR];
-	GdkColor color_inactive[COLOR];
-	GdkColor color_orig[COLOR];
-	gdouble color_brightness;
-	gdouble color_brightness_inactive;
 
 // ---- tabs on notebook ---- //
 
@@ -893,6 +898,7 @@ struct Window
 	gboolean confirmed_profile_is_invalid;
 
 	gchar *temp_data;
+	gint temp_index;
 };
 
 
@@ -1081,10 +1087,11 @@ typedef enum {
 	FIND_STRING,
 	ADD_NEW_LOCALES,
 	CHANGE_THE_FOREGROUND_COLOR,
+	CHANGE_THE_ANSI_COLORS,
+	CHANGE_THE_BACKGROUND_COLOR,
 	CHANGE_THE_CURSOR_COLOR,
 	ADJUST_THE_BRIGHTNESS_OF_ANSI_COLORS_USED_IN_TERMINAL,
 	ADJUST_THE_BRIGHTNESS_OF_ANSI_COLORS_WHEN_INACTIVE,
-	CHANGE_THE_BACKGROUND_COLOR,
 	CHANGE_BACKGROUND_SATURATION,
 	CHANGE_THE_OPACITY_OF_WINDOW,
 	CHANGE_THE_OPACITY_OF_WINDOW_WHEN_INACTIVE,
@@ -1107,39 +1114,5 @@ typedef enum {
 	SET_KEY_BINDING,
 	USAGE_MESSAGE,
 } Dialog_Type_Flags;
-
-struct Dialog
-{
-	GtkWidget *window;
-	GtkWidget *operate[5];
-	GtkWidget *box;
-	GtkWidget *title_label;
-
-#ifdef ENABLE_RGBA
-	gboolean original_transparent_window;
-	gdouble original_window_opacity;
-	gdouble original_window_opacity_inactive;
-	gboolean original_dim_window;
-#endif
-	gboolean original_transparent_background;
-	gboolean original_use_set_color_fg_bg;
-	gdouble original_color_brightness;
-	gboolean original_dim_text;
-	GdkColor original_fg_color;
-	gint original_update_method[PAGE_COLOR+1];
-
-	// For restore to original count of tabs when change the color of tab names.
-	gint total_page;
-	gint current_page_no;
-
-	gboolean tab_1_is_bold;
-
-	GtkWidget *treeview;
-	gint KeyTree[KEYS][KEYS];
-	gint current_key_index;
-
-	gchar *user_key_value[KEYS];
-};
-
 
 #endif

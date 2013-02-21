@@ -63,7 +63,10 @@ void new_tab_with_locale(GtkWidget *local_menuitem, gboolean VTE_CJK_WIDTH);
 GtkWidget *check_name_in_menuitem(GtkWidget *sub_menu, const gchar *name, gboolean case_sensitive);
 void set_trans_bg(GtkWidget *menuitem_trans_bg, struct Window *win_data);
 void set_trans_win(GtkWidget *widget, GtkWidget *window);
-void set_ansi_theme(GtkWidget *menuitem, GdkColor color[COLOR]);
+void invert_color_theme(GtkWidget *menuitem, struct Window *win_data);
+void select_ansi_theme(GtkWidget *menuitem, gint index);
+void set_ansi_theme(GtkWidget *menuitem, Set_ANSI_Theme_Type type, gboolean use_custom_theme, gboolean invert_color,
+                    gint theme_index, struct Window *win_data);
 void set_auto_save(GtkWidget *menuitem, struct Window *win_data);
 void set_erase_binding (GtkWidget *menuitem, gint value);
 #ifdef ENABLE_CURSOR_SHAPE

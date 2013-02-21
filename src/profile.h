@@ -33,6 +33,10 @@
 
 #include "lilyterm.h"
 
+#define DEFAULT_FOREGROUND_COLOR "white"
+#define DEFAULT_BACKGROUND_COLOR "black"
+#define DEFAULT_CURSOR_COLOR "#44738B"
+
 typedef enum {
 	DISABLE_EMPTY_STR,
 	ENABLE_EMPTY_STR,
@@ -64,7 +68,6 @@ void init_page_color_data();
 void init_page_color_data_comment();
 void init_mod_keys();
 void init_colors();
-void init_user_color_data(struct Window *win_data);
 gchar *load_profile_from_dir(const gchar *dir, const gchar* profile);
 gdouble check_double_value(GKeyFile *keyfile, const gchar *group_name, const gchar *key, const gdouble default_value,
 			   Check_Empty enable_empty, gdouble empty_value,
@@ -75,7 +78,7 @@ glong check_integer_value(GKeyFile *keyfile, const gchar *group_name, const gcha
 			  Check_Zero enable_zero, Check_Min check_min, glong min,
 			  Check_Max check_max, glong max);
 gchar *check_string_value(GKeyFile *keyfile, const gchar *group_name,
-			  const gchar *key, gchar *original_value, Check_Empty enable_empty);
-gboolean check_color_value (const gchar *key_name, const gchar *color_name, GdkColor *color);
+			  const gchar *key, gchar *original_value, gboolean free_original_value, Check_Empty enable_empty);
+gboolean check_color_value (const gchar *key_name, const gchar *color_name, GdkColor *color, const GdkColor *default_color);
 gboolean accelerator_parse(const gchar *key_name, const gchar *key_value, guint *key, guint *mods);
 void create_save_failed_dialog(struct Window *win_data, gchar *message);

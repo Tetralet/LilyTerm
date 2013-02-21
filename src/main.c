@@ -34,9 +34,9 @@ gchar *system_locale_list;
 gchar *init_LC_CTYPE;
 gchar *init_encoding;
 gchar *init_LC_MESSAGES;
-gchar *SYSTEM_VTE_CJK_WIDTH_STR = NULL;
+const gchar *SYSTEM_VTE_CJK_WIDTH_STR = NULL;
 
-gchar *wmclass_name = NULL;
+const gchar *wmclass_name = NULL;
 gchar *wmclass_class = NULL;
 const gchar *shell = NULL;
 const gchar *pwd = NULL;
@@ -130,7 +130,7 @@ int main( int   argc,
 
 	pwd = g_getenv("PWD");
 	// pwd = g_get_current_dir();
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if (pwd==NULL) pwd = g_strdup("");
 #endif
 	// g_debug("Got $PWD = %s", pwd);
@@ -140,7 +140,7 @@ int main( int   argc,
 
 	// deal the command line options
 	command_option(argc, argv);
-	if (wmclass_name==NULL) wmclass_name = (char*)g_getenv("RESOURCE_NAME");
+	if (wmclass_name==NULL) wmclass_name = g_getenv("RESOURCE_NAME");
 	if (wmclass_name==NULL) wmclass_name = "";
 	if (wmclass_class==NULL) wmclass_class = "";
 	// g_debug("Got wmclass_name = %s, wmclass_class = %s", wmclass_name, wmclass_class);
@@ -195,7 +195,7 @@ int main( int   argc,
 		init_encoding = g_strdup("UTF-8");
 	}
 	// g_debug("init_encoding = %s", init_encoding);
-	SYSTEM_VTE_CJK_WIDTH_STR = (char *) g_getenv("VTE_CJK_WIDTH");
+	SYSTEM_VTE_CJK_WIDTH_STR = g_getenv("VTE_CJK_WIDTH");
 	// g_debug ("Got SYSTEM_VTE_CJK_WIDTH_STR = %s", SYSTEM_VTE_CJK_WIDTH_STR);
 	// FIXME: signal(SIGCHLD, SIG_IGN);
 	// The first window of LilyTerm
@@ -316,7 +316,7 @@ gboolean init_socket_data()
 	address.sun_family = AF_UNIX;
 
 	const gchar *tmp_dir = g_get_tmp_dir();
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if (tmp_dir)
 	{
 #endif
@@ -332,7 +332,7 @@ gboolean init_socket_data()
 			   tmp_dir ,BINARY, g_get_user_name(), display);
 #endif
 		g_free(display);
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	}
 #endif
 	address.sun_path[UNIX_PATH_MAX-1] = address.sun_path[UNIX_PATH_MAX-2] = '\0';
@@ -358,7 +358,7 @@ gboolean set_fd_non_block(gint *fd)
 	else
 		g_debug("! Launch set_fd_non_block() with fd = (%p)!", fd);
 #endif
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if (fd==NULL) return FALSE;
 #endif
 	GError *error = NULL;
@@ -418,7 +418,7 @@ gboolean send_socket( int   argc,
 	// print_array("! send_socket() environ", environ);
 	// g_debug("environ_str = %s", environ_str);
 	gchar *argv_str = convert_array_to_string(argv, '\x10');
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	gboolean need_free_argv_str = TRUE;
 	if (argv_str==NULL) argv_str=g_strdup("");
 	if (argv_str==NULL)
@@ -459,13 +459,13 @@ gboolean send_socket( int   argc,
 	g_free(encoding);
 	g_free(lc_messages);
 	g_free(environ_str);
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if (need_free_argv_str)
 #endif
 		g_free(argv_str);
 
 	// write data!
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if (fcntl(socket_fd, F_GETFL) < 0) return FALSE;
 #endif
 	GIOChannel *channel = g_io_channel_unix_new(socket_fd);
@@ -476,7 +476,7 @@ gboolean send_socket( int   argc,
 		return socket_fault(9, error, channel, TRUE);
 	g_io_channel_set_buffered (channel, FALSE);
 
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if ((arg_str == NULL) ||
 	    (g_io_channel_write_chars(channel, arg_str, -1, &len, &error)==G_IO_STATUS_ERROR))
 #else
@@ -541,7 +541,7 @@ gboolean accept_socket(GIOChannel *source, GIOCondition condition, gpointer user
 #ifdef DETAIL
 	g_debug("! Launch accept_socket() to accept the request from client !");
 #endif
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if (source==NULL) return FALSE;
 #endif
 
@@ -576,7 +576,7 @@ gboolean read_socket(GIOChannel *channel, GIOCondition condition, gpointer user_
 #ifdef DETAIL
 	g_debug("! Launch read_socket() to read data !");
 #endif
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if (channel==NULL) return FALSE;
 #endif
 
@@ -726,19 +726,19 @@ gboolean socket_fault(int type, GError *error, GIOChannel *channel, gboolean unr
 			G_WARNING("Error when running fcntl command on socket!");
 			break;
 		case 9:
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 			if (error)
 #endif
 				G_WARNING("Error when setting the encoding of channel: %s", error->message);
 			break;
 		case 10:
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 			if (error)
 #endif
 				G_WARNING("Error when shutdowning a channel: %s", error->message);
 			break;
 		case 11:
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 			if (error)
 #endif
 				G_WARNING("Error when writing data to the channel: %s", error->message);
@@ -747,7 +747,7 @@ gboolean socket_fault(int type, GError *error, GIOChannel *channel, gboolean unr
 			G_WARNING("Can NOT create a channel for this socket");
 			break;
 		case 13:
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 			if (error)
 #endif
 				G_WARNING("Error when flushing the write buffer for the channel: %s", error->message);
@@ -808,7 +808,7 @@ void main_quit(GtkWidget *widget, struct Window *win_data)
 	// g_debug("Total window = %d", g_list_length(window_list));
 	if (g_list_length(window_list)==1)
 	{
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 		// g_debug ("main_quit(): win_data==NULL, call gtk_main_quit()");
 		if (win_data==NULL) return quit_gtk();
 #endif
@@ -825,7 +825,7 @@ void main_quit(GtkWidget *widget, struct Window *win_data)
 		{
 			temp_win_data = win_list->data;
 			child_process_list = close_multi_tabs(temp_win_data, i);
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 			if (child_process_list)
 #endif
 				g_string_append (all_process_list, child_process_list->str);
@@ -835,7 +835,7 @@ void main_quit(GtkWidget *widget, struct Window *win_data)
 		}
 
 		// g_debug("Got all_process_list =%s", all_process_list->str);
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 		if ((all_process_list==NULL) || (all_process_list->len==0) ||
 		    (display_child_process_dialog (all_process_list, win_data,
 						   CONFIRM_TO_EXIT_WITH_CHILD_PROCESS)))

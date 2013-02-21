@@ -4,7 +4,7 @@
 #	make clean: delete lilyterm binary files.
 #	make debug: compile lilyeterm_dbg with CLAGS -g.
 #	make dev: compile lilyeterm_dev with CLAGS -g.
-#	make ddev: compile lilyeterm_dev with -DDEFENSIVE compile option.
+#	make ddev: compile lilyeterm_dev with -DSAFEMODE compile option.
 #	make ut: run a tiny unit testing script with gdb debug information.
 #	make uto: build *.o binary files for using in the unit testing programs.
 #	make utb: build the the unit testing programs only.
@@ -88,7 +88,7 @@ ifeq ($(STRIP), Y)
 endif
 
 .PHONY: default
-default: CFLAGS := $(CFLAGS) -DDEFENSIVE
+default: CFLAGS := $(CFLAGS) -DSAFEMODE
 default: INCLUDES := $(INCLUDES) -DAUTHOR=\"$(AUTHOR_CONVERT)\" -DVERSION=\"$(VERSION)\ \($(date)\)\"
 ifeq ($(DEBUG), Y)
 default: INCLUDES += -DDEBUG -DFATAL
@@ -114,7 +114,7 @@ develop: $(BINARY)
 ddev: defensive-develop
 .PHONY: defensive-develop
 defensive-develop: CFLAGS := $(CFLAGS) -g
-defensive-develop: INCLUDES := $(INCLUDES) -DAUTHOR=\"$(AUTHOR_CONVERT)\" -DDEFENSIVE -DDEBUG -DFATAL -DDEVELOP -DVERSION=\"$(VERSION)\ Develop\ Version\ \($(date)\)\"
+defensive-develop: INCLUDES := $(INCLUDES) -DAUTHOR=\"$(AUTHOR_CONVERT)\" -DSAFEMODE -DDEBUG -DFATAL -DDEVELOP -DVERSION=\"$(VERSION)\ Develop\ Version\ \($(date)\)\"
 defensive-develop: BINARY := $(BINARY)_dev
 defensive-develop: $(BINARY)
 
@@ -140,7 +140,7 @@ geometry: $(BINARY)
 ut: unit_test
 .PHONY: unit_test
 unit_test: CFLAGS := $(CFLAGS) -g
-unit_test: INCLUDES := $(INCLUDES) -DAUTHOR=\"$(PACKAGE)\" -DDEFENSIVE -DDEBUG -DFATAL -DDEVELOP -DUNIT_TEST -DVERSION=\"$(VERSION)_UNIT_TEST_$(date)\"
+unit_test: INCLUDES := $(INCLUDES) -DAUTHOR=\"$(PACKAGE)\" -DSAFEMODE -DDEBUG -DFATAL -DDEVELOP -DUNIT_TEST -DVERSION=\"$(VERSION)_UNIT_TEST_$(date)\"
 unit_test: $(OBJ)
 	@ sh unit_test.sh "$(INCLUDES)" --enable-gdb --test_all
 
@@ -148,14 +148,14 @@ unit_test: $(OBJ)
 uto: unit_test_object
 .PHONY: unit_test_object
 unit_test_object: CFLAGS := $(CFLAGS) -g
-unit_test_object: INCLUDES := $(INCLUDES) -DAUTHOR=\"$(PACKAGE)\" -DDEFENSIVE -DGEOMETRY -DDEBUG -DFATAL -DDEVELOP -DDETAIL -DFULL -DUNIT_TEST -DVERSION=\"$(VERSION)_UNIT_TEST_$(date)\"
+unit_test_object: INCLUDES := $(INCLUDES) -DAUTHOR=\"$(PACKAGE)\" -DSAFEMODE -DGEOMETRY -DDEBUG -DFATAL -DDEVELOP -DDETAIL -DFULL -DUNIT_TEST -DVERSION=\"$(VERSION)_UNIT_TEST_$(date)\"
 unit_test_object: $(OBJ)
 
 .PHONY: utb
 utb: unit_test_build
 .PHONY: unit_test_build
 unit_test_build: CFLAGS := $(CFLAGS) -g
-unit_test_build: INCLUDES := $(INCLUDES) -DAUTHOR=\"$(PACKAGE)\" -DDEFENSIVE -DGEOMETRY -DDEBUG -DFATAL -DDEVELOP -DDETAIL -DFULL -DUNIT_TEST -DVERSION=\"$(VERSION)_UNIT_TEST_$(date)\"
+unit_test_build: INCLUDES := $(INCLUDES) -DAUTHOR=\"$(PACKAGE)\" -DSAFEMODE -DGEOMETRY -DDEBUG -DFATAL -DDEVELOP -DDETAIL -DFULL -DUNIT_TEST -DVERSION=\"$(VERSION)_UNIT_TEST_$(date)\"
 unit_test_build: $(OBJ)
 	@ sh unit_test.sh "$(INCLUDES)" --build_program_only
 
@@ -163,7 +163,7 @@ unit_test_build: $(OBJ)
 utd: unit_test_debug
 .PHONY: unit_test_debug
 unit_test_debug: CFLAGS := $(CFLAGS) -g
-unit_test_debug: INCLUDES := $(INCLUDES) -DAUTHOR=\"$(PACKAGE)\" -DDEFENSIVE -DGEOMETRY -DDEBUG -DFATAL -DDEVELOP -DDETAIL -DFULL -DUNIT_TEST -DVERSION=\"$(VERSION)_UNIT_TEST_$(date)\"
+unit_test_debug: INCLUDES := $(INCLUDES) -DAUTHOR=\"$(PACKAGE)\" -DSAFEMODE -DGEOMETRY -DDEBUG -DFATAL -DDEVELOP -DDETAIL -DFULL -DUNIT_TEST -DVERSION=\"$(VERSION)_UNIT_TEST_$(date)\"
 unit_test_debug: $(OBJ)
 	@ sh unit_test.sh "$(INCLUDES)" --enable-glib-debugger --enable-gtk-debugger --enable-gdb
 
@@ -171,13 +171,13 @@ unit_test_debug: $(OBJ)
 utf: unit_test_full
 .PHONY: unit_test_full
 unit_test_full: CFLAGS := $(CFLAGS) -g
-unit_test_full: INCLUDES := $(INCLUDES) -DAUTHOR=\"$(PACKAGE)\" -DDEFENSIVE -DDEBUG -DFATAL -DDEVELOP -DUNIT_TEST -DVERSION=\"$(VERSION)_UNIT_TEST_$(date)\"
+unit_test_full: INCLUDES := $(INCLUDES) -DAUTHOR=\"$(PACKAGE)\" -DSAFEMODE -DDEBUG -DFATAL -DDEVELOP -DUNIT_TEST -DVERSION=\"$(VERSION)_UNIT_TEST_$(date)\"
 unit_test_full: $(OBJ)
 	@ sh unit_test.sh "$(INCLUDES)" --enable-glib-debugger --enable-gtk-debugger --enable-gdb --enable-valgrind
 
 .PHONY: memory
 memory: CFLAGS = -Wall -Wformat -Wformat-security -Werror=format-security -O2
-memory: INCLUDES := $(INCLUDES) -DAUTHOR=\"$(AUTHOR_CONVERT)\" -DDEBUG -DFATAL -DDEVELOP -DDEFENSIVE -DOUT_OF_MEMORY -DVERSION=\"$(VERSION)\ Develop\ Version\ \($(date)\)\"
+memory: INCLUDES := $(INCLUDES) -DAUTHOR=\"$(AUTHOR_CONVERT)\" -DDEBUG -DFATAL -DDEVELOP -DSAFEMODE -DOUT_OF_MEMORY -DVERSION=\"$(VERSION)\ Develop\ Version\ \($(date)\)\"
 memory: BINARY := $(BINARY)_dev
 memory: $(BINARY)
 

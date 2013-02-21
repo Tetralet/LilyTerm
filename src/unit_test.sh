@@ -82,10 +82,9 @@ if [ -z "$CHECK_INCLUDES" ]; then
 	if [ -f lilyterm -o -f lilyterm-dbg -o -f lilyterm_dev ]; then
 		$MAKE clean
 	fi
-	$MAKE uto
-	INCLUDES="-DDEFENSIVE -DDEBUG -DFATAL -DDEVELOP -DUNIT_TEST"
+	$MAKE uto || exit 1
+	INCLUDES="-DSAFEMODE -DDEBUG -DFATAL -DDEVELOP -DUNIT_TEST"
 fi
-
 
 PKGCONFIG=`whereis "pkg-config" | tr -s ' ' '\n' | grep "bin/""pkg-config""$" | head -n 1`
 if [ -z "$PKGCONFIG" ]; then
@@ -119,7 +118,7 @@ if [ -z "$CC" ]; then
 fi
 
 if [ -z "$CFLAGS" ]; then
-  CFLAGS="-Wall -Werror -Os -g"
+  CFLAGS="-Wall -Werror -O -g"
 fi
 
 OBJ="menu.o profile.o dialog.o pagename.o notebook.o font.o property.o window.o misc.o console.o main.o unit_test.o"
@@ -131,6 +130,15 @@ info registers
 thread apply all backtrace
 quit
 EOF
+
+if [ -f gdb.log ]; then
+	$PRINTF "\n\033[1;36mDeleting gdb.log...\033[0m\n\n"
+	rm -f gdb.log
+fi
+if [ -f valgrind.log ]; then
+	$PRINTF "\n\033[1;36mDeleting valgrind.log...\033[0m\n\n"
+	rm -f valgrind.log
+fi
 
 # sed '/^\/\*/,/ \*\/$/d': Delete [ /* blah ... blah */ ] (multi lines)
 # sed -e 's/[ \t]*\/\*[ \t]*.*[ \t]*\*\///g': Delete [ /* blah ... blah */ ] (single line)
@@ -242,7 +250,7 @@ for DATA in `$CAT $LIB_LISTS | sed '/^\/\*/,/ \*\/$/d' | sed -e 's/[ \t]*\/\*[ \
 								FUN_DATA="$SPACE""g_key_file_free(V$VAR);\n"
 								;;
 							'GdkColor')
-								FUNC_STAR="$FUNC_STAR\n$SPACE""GdkColor V$VAR;\n$SPACE""gdk_color_parse (\"dark\", &V$VAR);"
+								FUNC_STAR="$FUNC_STAR\n$SPACE""GdkColor V$VAR;\n$SPACE""V$VAR.red=0xFFFF;\n$SPACE""V$VAR.green=0xFFFF;\n$SPACE""V$VAR.blue=0xFFFF;"
 								FUNCTION="$FUNCTION V$VAR,"
 								;;
 						esac
@@ -253,7 +261,7 @@ for DATA in `$CAT $LIB_LISTS | sed '/^\/\*/,/ \*\/$/d' | sed -e 's/[ \t]*\/\*[ \
 						unset FUN_DATA
 						SPACE=$OLD_SPACE
 						;;
-					'gboolean' | 'gchar' | 'guint' | 'GtkScrollType' | 'gint' | 'pid_t' | 'int' | 'gsize' | 'glong' | 'GdkColor' | 'Dialog_Button_Type' | 'Dialog_Find_Type' | 'Dialog_Type_Flags' | 'Font_Name_Type' | 'Font_Reset_Type' | 'Switch_Type' | 'Font_Set_Type' | 'GtkFileChooserAction' | 'GIOCondition' | 'Check_Zero' | 'Check_Max' | 'Check_Min' | 'Check_Empty' | 'Menu_Itemn_Type' | 'Apply_Profile_Type' | 'Clipboard_Type' | 'gchar*' | 'char*' | 'StrLists*' | 'StrAddr**' | 'gdouble' | 'struct Dialog*' | 'struct Window*' | 'struct Page*' | 'struct Color_Data*' | 'struct Preview*' | 'GtkButton*' | 'GtkCellRenderer*' | 'GtkRange*' | 'gchar**' | 'char*[]' | 'char**' | 'gsize*' | 'GString*' | 'GtkNotebook*' | 'GdkColor*' | 'VteTerminal*'  | 'gboolean*' | 'gint*' | 'guint*')
+					'gboolean' | 'gchar' | 'guint' | 'GtkScrollType' | 'gint' | 'pid_t' | 'int' | 'gsize' | 'glong' | 'GdkColor' | 'Dialog_Button_Type' | 'Dialog_Find_Type' | 'Dialog_Type_Flags' | 'Font_Name_Type' | 'Font_Reset_Type' | 'Switch_Type' | 'Font_Set_Type' | 'Set_ANSI_Theme_Type' | 'GtkFileChooserAction' | 'GIOCondition' | 'Check_Zero' | 'Check_Max' | 'Check_Min' | 'Check_Empty' | 'Menu_Itemn_Type' | 'Apply_Profile_Type' | 'Clipboard_Type' | 'gchar*' | 'char*' | 'StrLists*' | 'StrAddr**' | 'gdouble' | 'struct Dialog*' | 'struct Window*' | 'struct Page*' | 'struct Color_Data*' | 'struct Preview*' | 'GtkButton*' | 'GtkCellRenderer*' | 'GtkRange*' | 'gchar**' | 'char*[]' | 'char**' | 'gsize*' | 'GString*' | 'GtkNotebook*' | 'GdkColor*' | 'VteTerminal*'  | 'gboolean*' | 'gint*' | 'guint*')
 						SPACE="$SPACE""_SPACE_"
 						VAR=`expr $VAR + 1`
 						if [ $MAX_VAR -le $VAR ]; then
@@ -273,7 +281,7 @@ for DATA in `$CAT $LIB_LISTS | sed '/^\/\*/,/ \*\/$/d' | sed -e 's/[ \t]*\/\*[ \
 								FUNC_STAR="$FUNC_STAR\n$SPACE""_SPACE_""if (V[$VAR]) G$VAR = ($STR)&(V$VAR);"
 								FUNCTION="$FUNCTION G$VAR,"
 								;;
-							'Dialog_Button_Type' | 'Dialog_Find_Type' | 'Dialog_Type_Flags' | 'Font_Name_Type' | 'Font_Reset_Type' | 'Switch_Type' | 'Font_Set_Type' | 'Check_Zero' | 'Check_Max' | 'Check_Min' | 'Check_Empty' | 'Menu_Itemn_Type' | 'Apply_Profile_Type' | 'Clipboard_Type')
+							'Dialog_Button_Type' | 'Dialog_Find_Type' | 'Dialog_Type_Flags' | 'Font_Name_Type' | 'Font_Reset_Type' | 'Switch_Type' | 'Font_Set_Type' | 'Set_ANSI_Theme_Type' | 'Check_Zero' | 'Check_Max' | 'Check_Min' | 'Check_Empty' | 'Menu_Itemn_Type' | 'Apply_Profile_Type' | 'Clipboard_Type')
 								LAST=`grep -B 1 "$STR;" *.h | head -n 1 | sed -e 's/^.*[ \t][ \t]*\([^ \t]*\),.*/\1/g'`
 								FUNC_STAR="$FUNC_STAR\n$SPACE""for (V[$VAR]=0; V[$VAR]<=$LAST; V[$VAR]++) {"
 								FUNC_STAR="$FUNC_STAR\n$SPACE""_SPACE_""$STR V$VAR = V[$VAR];"
@@ -363,7 +371,7 @@ for DATA in `$CAT $LIB_LISTS | sed '/^\/\*/,/ \*\/$/d' | sed -e 's/[ \t]*\/\*[ \
 								;;
 							'GdkColor*')
 								FUNC_STAR="$FUNC_STAR\n$SPACE""for (V[$VAR]=0; V[$VAR]<2; V[$VAR]++) {"
-								FUNC_STAR="$FUNC_STAR\n$SPACE""_SPACE_""GdkColor *V$VAR = NULL;\n$SPACE""_SPACE_""GdkColor dark;\n""$SPACE""_SPACE_""if (V[$VAR]) {\n$SPACE""_SPACE__SPACE_""gdk_color_parse (\"dark\", &dark);\n$SPACE""_SPACE__SPACE_""V$VAR = &dark;\n""$SPACE""_SPACE_""}"
+								FUNC_STAR="$FUNC_STAR\n$SPACE""_SPACE_""GdkColor *V$VAR = NULL;\n$SPACE""_SPACE_""GdkColor color;\n""$SPACE""_SPACE_""if (V[$VAR]) {\n$SPACE""_SPACE__SPACE_""color.red=0xFFFF;\n$SPACE""_SPACE__SPACE_""color.green=0xFFFF;\n$SPACE""_SPACE__SPACE_""color.blue=0xFFFF;\n$SPACE""_SPACE__SPACE_""V$VAR = &color;\n""$SPACE""_SPACE_""}"
 								FUNCTION="$FUNCTION V$VAR,"
 								;;
 							'VteTerminal*')

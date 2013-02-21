@@ -21,54 +21,48 @@
 
 extern gboolean proc_exist;
 extern struct Command command[COMMAND];
+extern struct Color_Theme system_color_theme[THEME];
 
-void adjust_ansi_color(GdkColor color[COLOR], GdkColor color_orig[COLOR], gdouble color_brightness, gboolean invert_color)
+void create_theme_color_data(GdkColor color[COLOR], GdkColor color_orig[COLOR], gdouble color_brightness, gboolean invert_color, gboolean default_vte_theme)
 {
 #ifdef DETAIL
-	g_debug("! Launch adjust_ansi_color() with color_brightness = %f, invert_color = %d",  color_brightness, invert_color);
+	g_debug("! Launch create_theme_color_data() with color = %p, color_orig = %p, color_brightness = %3f, invert_color = %d",
+		color, color_orig, color_brightness, invert_color);
 #endif
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if ((color==NULL) || (color_orig==NULL)) return;
 #endif
-	// g_debug("Get win_data = %d when set background saturation!", win_data);
-	color_brightness = CLAMP(color_brightness, -1, 1);
-
-	gint i;
-	if (invert_color)
+	if (! default_vte_theme)
 	{
-		gint half = COLOR/2;
-		for (i=0; i<half; i++)
+		// g_debug("Get win_data = %d when set background saturation!", win_data);
+		color_brightness = CLAMP(color_brightness, -1, 1);
+
+		gint i;
+		for (i=1; i<COLOR-1; i++)
 		{
-			adjust_ansi_color_severally(&color[i], &color_orig[i+half], color_brightness);
-			adjust_ansi_color_severally(&color[i+half], &color_orig[i], color_brightness);
+			// g_debug("adjuset the color of %d", get_color_index(invert_color, i));
+			adjust_ansi_color(&color[i], &color_orig[get_color_index(invert_color, i)], color_brightness);
+			// print_color(get_color_index(invert_color, i), "create_theme_color_data(): color_orig ", color_orig[i]);
+			// print_color(i, "create_theme_color_data(): new: color ", color[i]);
 		}
 	}
-	else
-	{
-		for (i=0; i<COLOR; i++)
-		{
-			adjust_ansi_color_severally(&color[i], &color_orig[i], color_brightness);
-			//g_debug("color_orig[%d] = %x, %x, %x",
-			//	i,
-			//	color_orig[i].red,
-			//	color_orig[i].green,
-			//	color_orig[i].blue);
 
-			//g_debug("color[%d] = %x, %x, %x",
-			//	i,
-			//	color[i].red,
-			//	color[i].green,
-			//	color[i].blue);
-		}
-	}
+	// The fg_color and bg_color will not affect by color_brightness
+	color[COLOR-1] = color_orig[get_color_index(invert_color, COLOR-1)];
+	// print_color(get_color_index(invert_color, COLOR-1), "create_theme_color_data(): fg color_orig ", color_orig[COLOR-1]);
+	// print_color(COLOR-1, "create_theme_color_data(): new: fg color ", color[COLOR-1]);
+	color[0] = color_orig[get_color_index(invert_color, 0)];
+	// print_color(get_color_index(invert_color, 0), "create_theme_color_data(): bg color_orig ", color_orig[0]);
+	// print_color(0, "create_theme_color_data(): new: bg color ", color[0]);
 }
 
-void adjust_ansi_color_severally(GdkColor *color, GdkColor *color_orig, gdouble color_brightness)
+void adjust_ansi_color(GdkColor *color, GdkColor *color_orig, gdouble color_brightness)
 {
 #ifdef DETAIL
-	g_debug("! Launch adjust_ansi_color_severally()");
+	g_debug("! Launch adjust_ansi_color() with color = %p, color_orig = %p, color_brightness = %3f",
+		color, color_orig, color_brightness);
 #endif
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if ((color==NULL) || (color_orig==NULL)) return;
 #endif
 	if (color_brightness>=0)
@@ -85,21 +79,36 @@ void adjust_ansi_color_severally(GdkColor *color, GdkColor *color_orig, gdouble 
 	}
 }
 
-void set_color_brightness(struct Window *win_data)
+void generate_all_color_datas(struct Window *win_data)
 {
 #ifdef DETAIL
-	g_debug("! Launch set_color_brightness() with win_data = %p", win_data);
+	g_debug("! Launch generate_all_color_datas() with win_data = %p", win_data);
 #endif
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if (win_data==NULL) return;
 #endif
-	// g_debug("win_data->color_brightness = %3f", win_data->color_brightness);
-	win_data->fg_color_inactive = get_inactive_color (win_data->fg_color,
-							  win_data->color_brightness_inactive,
-							  win_data->color_brightness);
-	adjust_ansi_color(win_data->color, win_data->color_orig, win_data->color_brightness, win_data->invert_color);
-	adjust_ansi_color(win_data->color_inactive, win_data->color_orig, win_data->color_brightness_inactive, win_data->invert_color);
+	GdkColor *temp_color = get_current_color_theme(win_data);
+
+	gboolean default_vte_theme = use_default_vte_theme(win_data);
+	create_theme_color_data(win_data->color, temp_color, win_data->color_brightness, win_data->invert_color, default_vte_theme);
+	create_theme_color_data(win_data->color_inactive, temp_color, win_data->color_brightness_inactive, win_data->invert_color, default_vte_theme);
 }
+
+GdkColor *get_current_color_theme(struct Window *win_data)
+{
+#ifdef DETAIL
+	g_debug("! Launch current_color_theme() with win_data = %p", win_data);
+#endif
+#ifdef SAFEMODE
+	if (win_data==NULL) return NULL;
+#endif
+	// g_debug("win_data->use_custom_theme = %d", win_data->use_custom_theme);
+	if (win_data->use_custom_theme)
+		return win_data->custom_color_theme[win_data->color_theme_index].color;
+	else
+		return system_color_theme[win_data->color_theme_index].color;
+}
+
 
 // to init a new page
 void init_new_page(struct Window *win_data,
@@ -111,12 +120,12 @@ void init_new_page(struct Window *win_data,
 	g_debug("! Launch init_new_page() with win_data = %p, page_data = %p, "
 		" column = %ld, row = %ld", win_data, page_data, column, row);
 #endif
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if ((win_data==NULL) || (page_data==NULL) || (page_data->vte==NULL)) return;
 #endif
 	// g_debug("Get win_data = %d when initing new page!", win_data);
 
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if (page_data->font_name)
 	{
 #endif
@@ -125,7 +134,7 @@ void init_new_page(struct Window *win_data,
 		vte_terminal_set_font_from_string_full (VTE_TERMINAL(page_data->vte),
 							page_data->font_name,
 							win_data->font_anti_alias);
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	}
 #endif
 	//g_debug("Got font size from %s: %d", font_name, pango_font_description_get_size (
@@ -133,7 +142,7 @@ void init_new_page(struct Window *win_data,
 
 	// set terminal size
 	// g_debug("Set the vte size to: %dx%d", column, row);
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if (page_data->vte)
 #endif
 		vte_terminal_set_size(VTE_TERMINAL(page_data->vte), column, row);
@@ -143,7 +152,7 @@ void init_new_page(struct Window *win_data,
 		win_data->window, page_data->vte, win_data->keep_vte_size, column, row);
 #  endif
 
-	set_vte_color(win_data, page_data);
+	set_vte_color(page_data->vte, use_default_vte_theme(win_data), win_data->cursor_color, win_data->color, FALSE);
 
 	// set transparent
 	set_background_saturation(NULL, 0, win_data->background_saturation, page_data->vte);
@@ -182,7 +191,7 @@ void set_cursor_blink(struct Window *win_data, struct Page *page_data)
 #ifdef DETAIL
 	g_debug("! Launch set_cursor_blink() with win_data = %p, page_data = %p", win_data, page_data);
 #endif
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if ((win_data==NULL) || (page_data==NULL) || (page_data->vte==NULL)) return;
 #endif
 	// g_debug("set_cursor_blink(): win_data->cursor_blinks = %d", win_data->cursor_blinks);
@@ -200,7 +209,7 @@ void set_hyprelink(struct Window *win_data, struct Page *page_data)
 #ifdef DETAIL
 	g_debug("! Launch set_hyprelink() with win_data = %p, page_data = %p", win_data, page_data);
 #endif
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if ((win_data==NULL) || (page_data==NULL) || (page_data->vte==NULL)) return;
 #endif
 	if (win_data->enable_hyperlink && win_data->enable_key_binding)
@@ -227,54 +236,51 @@ void set_hyprelink(struct Window *win_data, struct Page *page_data)
 		vte_terminal_match_clear_all(VTE_TERMINAL(page_data->vte));
 }
 
-void set_vte_color(struct Window *win_data, struct Page *page_data)
+void set_vte_color(GtkWidget *vte, gboolean default_vte_color, GdkColor cursor_color, GdkColor color[COLOR], gboolean update_fg_only)
 {
 #ifdef DETAIL
-	g_debug("! Launch set_vte_color() with win_data = %p, page_data = %p", win_data, page_data);
+	g_debug("! Launch set_vte_color() with vte = %p, default_vte_color_theme = %d,  color = %p",
+		vte, default_vte_color, color);
 #endif
-#ifdef DEFENSIVE
-	if ((win_data==NULL) || (page_data==NULL) || (page_data->vte==NULL)) return;
+#ifdef SAFEMODE
+	if ((vte==NULL) || (color ==NULL)) return;
 #endif
 	// set font/background colors
-	vte_terminal_set_default_colors(VTE_TERMINAL(page_data->vte));
-	// g_debug("win_data->use_set_color_fg_bg = %d", win_data->use_set_color_fg_bg);
-	if (win_data->use_set_color_fg_bg)
+
+	// gint i;
+	// for (i=0; i< COLOR; i++)
+	//	print_color(i, "set_vte_color():", color[i]);
+
+	if (! update_fg_only)
 	{
-		// g_debug("win_data->use_set_color_fg_bg = %d", win_data->use_set_color_fg_bg);
-		vte_terminal_set_colors(VTE_TERMINAL(page_data->vte),
-					&(win_data->fg_color),
-					&(win_data->bg_color),
-					win_data->color, 16);
+		vte_terminal_set_default_colors(VTE_TERMINAL(vte));
+
+		if (default_vte_color)
+			vte_terminal_set_color_background(VTE_TERMINAL(vte), &(color[0]));
+		else
+			vte_terminal_set_colors(VTE_TERMINAL(vte), &(color[COLOR-1]), &(color[0]), color, 16);
+
+		vte_terminal_set_background_tint_color (VTE_TERMINAL(vte), &(color[0]));
 	}
-	else
-	{
-		vte_terminal_set_color_foreground(VTE_TERMINAL(page_data->vte), &(win_data->fg_color));
-		vte_terminal_set_color_background(VTE_TERMINAL(page_data->vte), &(win_data->bg_color));
-	}
-	vte_terminal_set_color_cursor(VTE_TERMINAL(page_data->vte), &(win_data->cursor_color));
-	vte_terminal_set_color_bold (VTE_TERMINAL(page_data->vte), &(win_data->fg_color));
-	vte_terminal_set_background_tint_color (VTE_TERMINAL(page_data->vte), &(win_data->bg_color));
+
+	if (default_vte_color | update_fg_only)
+		vte_terminal_set_color_foreground(VTE_TERMINAL(vte), &(color[COLOR-1]));
+	
+	vte_terminal_set_colors(VTE_TERMINAL(vte), &(color[COLOR-1]), &(color[0]), color, 16);
+
+	if (! update_fg_only)
+		vte_terminal_set_color_cursor(VTE_TERMINAL(vte), &(cursor_color));
 }
 
-void switch_color(struct Window *win_data)
+gboolean use_default_vte_theme(struct Window *win_data)
 {
 #ifdef DETAIL
-	g_debug("! Launch switch_color() with win_data = %p", win_data);
+	g_debug("! Launch use_default_vte_theme() with win_data = %p", win_data);
 #endif
-#ifdef DEFENSIVE
-	if ((win_data==NULL)) return;
+#ifdef SAFEMODE
+	if (win_data==NULL) return TRUE;
 #endif
-	GdkColor tmp_color = win_data->fg_color;
-	win_data->fg_color = win_data->bg_color;
-	win_data->bg_color = tmp_color;
-
-	gchar *color = win_data->foreground_color;
-	win_data->foreground_color = win_data->background_color;
-	win_data->background_color = color;
-
-	gdouble color_brightness = win_data->color_brightness;
-	win_data->color_brightness = win_data->color_brightness_inactive;
-	win_data->color_brightness_inactive = color_brightness;
+	return ! (win_data->color_theme_index || win_data->invert_color || win_data->color_brightness || win_data->color_brightness_inactive);
 }
 
 void set_page_width(struct Window *win_data, struct Page *page_data)
@@ -282,7 +288,7 @@ void set_page_width(struct Window *win_data, struct Page *page_data)
 #ifdef DETAIL
 	g_debug("! Launch set_page_width() with win_data = %p, page_data = %p", win_data, page_data);
 #endif
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if ((win_data==NULL) || (page_data==NULL) || (page_data->label_text==NULL)) return;
 #endif
 	gtk_label_set_width_chars(GTK_LABEL(page_data->label_text), win_data->page_width);
@@ -293,7 +299,7 @@ void pack_vte_and_scroll_bar_to_hbox(struct Window *win_data, struct Page *page_
 #ifdef DETAIL
 	g_debug("! Launch pack_vte_and_scroll_bar_to_hbox() with win_data = %p, page_data = %p", win_data, page_data);
 #endif
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if ((win_data==NULL) || (page_data==NULL) || (page_data->hbox==NULL)) return;
 #endif
 	if (win_data->scroll_bar_position)
@@ -315,7 +321,7 @@ gboolean check_show_or_hide_scroll_bar(struct Window *win_data)
 #ifdef DETAIL
 	g_debug("! Launch check_show_or_hide_scroll_bar() with win_data = %p", win_data);
 #endif
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if (win_data==NULL) return FALSE;
 #endif
 	gboolean show = FALSE;
@@ -342,7 +348,7 @@ void show_and_hide_scroll_bar(struct Page *page_data, gboolean show_scroll_bar)
 #ifdef DETAIL
 	g_debug("! Launch hide_scroll_bar() with page_data = %p", page_data);
 #endif
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if ((page_data==NULL) || (page_data->scroll_bar==NULL)) return;
 #endif
 	if (show_scroll_bar)
@@ -356,7 +362,7 @@ void add_remove_page_timeout_id(struct Window *win_data, struct Page *page_data)
 #ifdef DETAIL
 	g_debug("! Launch add_remove_page_timeout_id() with win_data = %p, page_data = %p", win_data, page_data);
 #endif
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if ((win_data==NULL) || (page_data==NULL)) return;
 #endif
 	if (page_data->timeout_id)
@@ -381,7 +387,7 @@ void add_remove_window_title_changed_signal(struct Page *page_data)
 #ifdef DETAIL
 	g_debug("! Launch add_remove_window_title_changed_signal() with page_data = %p", page_data);
 #endif
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if (page_data==NULL) return;
 #endif
 	if (page_data->page_shows_window_title)
@@ -400,15 +406,15 @@ gboolean set_background_saturation(GtkRange *range, GtkScrollType scroll, gdoubl
 #ifdef DETAIL
 	g_debug("! Launch set_background_saturation() with value = %f, vte = %p", value, vte);
 #endif
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if (vte==NULL) return FALSE;
 #endif
 	struct Page *page_data = (struct Page *)g_object_get_data(G_OBJECT(vte), "Page_Data");
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if (page_data==NULL || (page_data->window==NULL)) return FALSE;
 #endif
 	struct Window *win_data = (struct Window *)g_object_get_data(G_OBJECT(page_data->window), "Win_Data");
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if (win_data==NULL) return FALSE;
 #endif
 	// g_debug("Get win_data = %d when set background saturation!", win_data);
@@ -447,7 +453,7 @@ gboolean set_background_saturation(GtkRange *range, GtkScrollType scroll, gdoubl
 			vte_terminal_set_background_saturation( VTE_TERMINAL(vte), 0);
 	}
 
-	vte_terminal_set_background_tint_color (VTE_TERMINAL(page_data->vte), &(win_data->bg_color));
+	vte_terminal_set_background_tint_color (VTE_TERMINAL(page_data->vte), &(win_data->color[0]));
 	return FALSE;
 }
 
@@ -457,7 +463,7 @@ gboolean set_window_opacity(GtkRange *range, GtkScrollType scroll, gdouble value
 #ifdef DETAIL
 	g_debug("! Launch set_window_opacity() with value = %f, win_data = %p", value, win_data);
 #endif
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if (win_data==NULL) return FALSE;
 #endif
 	// g_debug("Get win_data = %d when set window opacity!", win_data);
@@ -479,7 +485,7 @@ gboolean set_window_opacity(GtkRange *range, GtkScrollType scroll, gdouble value
 // set the window hints information
 void window_resizable(GtkWidget *window, GtkWidget *vte, gint set_hints_inc)
 {
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if ((window==NULL) || (vte==NULL)) return;
 #endif
 #ifdef DETAIL
@@ -541,24 +547,24 @@ void fake_vte_terminal_get_padding(VteTerminal *vte, gint *width, gint *height)
 #ifdef DETAIL
 	g_debug("! Launch fake_vte_terminal_get_padding() with vte = %p", vte);
 #endif
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if (vte==NULL) return;
 #endif
 	GtkBorder *inner_border = NULL;
 	gtk_widget_style_get(GTK_WIDGET(vte), "inner-border", &inner_border, NULL);
-#  ifdef DEFENSIVE
+#  ifdef SAFEMODE
 	if (inner_border)
 	{
 #  endif
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 		if (width)
 #endif
 			*width = inner_border->left + inner_border->right;
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 		if (height)
 #endif
 			*height = inner_border->top + inner_border->bottom;
-#  ifdef DEFENSIVE
+#  ifdef SAFEMODE
 	}
 #  endif
 	gtk_border_free (inner_border);
@@ -573,7 +579,7 @@ void apply_new_win_data_to_page (struct Window *win_data_orig,
 	g_debug("! Launch apply_new_win_data_to_page() with win_data_orig = %p, win_data = %p, page_data = %p",
 		win_data_orig, win_data, page_data);
 #endif
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if ((win_data_orig==NULL) || (win_data==NULL) || (page_data==NULL) || (page_data->vte==NULL)) return;
 #endif
 	// if (win_data_orig->use_rgba != win_data->use_rgba)
@@ -590,24 +596,21 @@ void apply_new_win_data_to_page (struct Window *win_data_orig,
 // ---- the color used in vte ---- //
 	gboolean update_color = FALSE;
 
-	if (compare_color(&(win_data_orig->fg_color), &(win_data->fg_color)) ||
-	    compare_color(&(win_data_orig->cursor_color), &(win_data->cursor_color)) ||
-	    compare_color(&(win_data_orig->bg_color), &(win_data->bg_color)) ||
-	    (win_data_orig->use_set_color_fg_bg != win_data->use_set_color_fg_bg) ||
+	if (compare_color(&(win_data_orig->cursor_color), &(win_data->cursor_color)) ||
 	    (win_data_orig->have_custom_color != win_data->have_custom_color) ||
 	    (win_data_orig->use_custom_theme != win_data->use_custom_theme) ||
 	    (win_data_orig->color_brightness != win_data->color_brightness))
 	    	update_color = TRUE;
 
 	gint i;
-	if ( ! update_color)
+	if (! update_color && (win_data->use_custom_theme))
 	{
 		for (i=0; i<COLOR; i++)
 			if (compare_color(&(win_data_orig->color[i]), &(win_data->color[i])))
 				update_color = TRUE;
 	}
 	if (update_color)
-		set_vte_color(win_data, page_data);
+		set_vte_color(page_data->vte, use_default_vte_theme(win_data), win_data->cursor_color, win_data->color, FALSE);
 
 // ---- tabs on notebook ---- //
 
@@ -724,7 +727,7 @@ void apply_new_win_data_to_page (struct Window *win_data_orig,
 		g_object_unref(page_data->scroll_bar);
 	}
 
-	if (compare_color(&(win_data_orig->bg_color), &(win_data->bg_color)) ||
+	if (compare_color(&(win_data_orig->color[0]), &(win_data->color[0])) ||
 	    (win_data_orig->transparent_background != win_data->transparent_background) ||
 	    (win_data_orig->background_saturation != win_data->background_saturation) ||
 	    (win_data_orig->scroll_background != win_data->scroll_background) ||
@@ -763,12 +766,13 @@ gboolean compare_color(GdkColor *a, GdkColor *b)
 	g_debug("! Launch compare_color()!");
 #endif
 
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if ((a==NULL) && (b==NULL)) return FALSE;
 	if ((a==NULL) || (b==NULL)) return TRUE;
 #endif
-	if ((a->pixel != b->pixel) ||
-	    (a->red != b->red) ||
+	// g_debug("compare_color(): Comparing %04X %04X %04X %04X and %04X %04X %04X %04X",
+	//	a->pixel, a->red, a->green, a->blue, b->pixel, b->red, b->green, b->blue);
+	if ((a->red != b->red) ||
 	    (a->green != b->green ) ||
 	    (a->blue != b->blue))
 		return TRUE;
@@ -782,17 +786,17 @@ void set_widget_thickness(GtkWidget *widget, gint thickness)
 	g_debug("! Launch set_widget_thickness() with widget = %p, thickness = %d!", widget, thickness);
 #endif
 
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if (widget==NULL) return;
 #endif
 	GtkRcStyle *rc_style = gtk_rc_style_new();
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if (rc_style)
 	{
 #endif
 		rc_style->xthickness = rc_style->ythickness = thickness;
 		gtk_widget_modify_style(widget, rc_style);
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	}
 #endif
 	g_object_unref(rc_style);

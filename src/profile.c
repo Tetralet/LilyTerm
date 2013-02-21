@@ -37,7 +37,7 @@ struct Page_Color page_color[PAGE_COLOR] = {{0}};
 gchar *restricted_locale_message = NULL;
 
 struct Color_Theme system_color_theme[THEME] =
-	{{"",
+	{{0, "",
 	  {{ 0, 0x0000, 0x0000, 0x0000 },
 	   { 0, 0xc0c0, 0x0000, 0x0000 },
 	   { 0, 0x0000, 0xc0c0, 0x0000 },
@@ -54,7 +54,7 @@ struct Color_Theme system_color_theme[THEME] =
 	   { 0, 0xffff, 0x3f3f, 0xffff },
 	   { 0, 0x3f3f, 0xffff, 0xffff },
 	   { 0, 0xffff, 0xffff, 0xffff }}},
-	 {"tango",
+	 {1, "tango",
 	  {{ 0, 0x2e2e, 0x3434, 0x3636 },
 	   { 0, 0xcccc, 0x0000, 0x0000 },
 	   { 0, 0x4e4e, 0x9a9a, 0x0606 },
@@ -71,7 +71,7 @@ struct Color_Theme system_color_theme[THEME] =
 	   { 0, 0xadad, 0x7f7f, 0xa8a8 },
 	   { 0, 0x3434, 0xe2e2, 0xe2e2 },
 	   { 0, 0xeeee, 0xeeee, 0xecec }}},
-	 {"linux",
+	 {2, "linux",
 	  {{ 0, 0x0000, 0x0000, 0x0000 },
 	   { 0, 0xaaaa, 0x0000, 0x0000 },
 	   { 0, 0x0000, 0xaaaa, 0x0000 },
@@ -88,7 +88,7 @@ struct Color_Theme system_color_theme[THEME] =
 	   { 0, 0xffff, 0x5555, 0xffff },
 	   { 0, 0x5555, 0xffff, 0xffff },
 	   { 0, 0xffff, 0xffff, 0xffff }}},
-	 {"xterm",
+	 {3, "xterm",
 	  {{ 0, 0x0000, 0x0000, 0x0000 },
 	   { 0, 0xcdcd, 0x0000, 0x0000 },
 	   { 0, 0x0000, 0xcdcd, 0x0000 },
@@ -105,7 +105,7 @@ struct Color_Theme system_color_theme[THEME] =
 	   { 0, 0xffff, 0x0000, 0xffff },
 	   { 0, 0x0000, 0xffff, 0xffff },
 	   { 0, 0xffff, 0xffff, 0xffff }}},
-	 {"rxvt",
+	 {4, "rxvt",
 	  {{ 0, 0x0000, 0x0000, 0x0000 },
 	   { 0, 0xcdcd, 0x0000, 0x0000 },
 	   { 0, 0x0000, 0xcdcd, 0x0000 },
@@ -122,7 +122,7 @@ struct Color_Theme system_color_theme[THEME] =
 	   { 0, 0xffff, 0x0000, 0xffff },
 	   { 0, 0x0000, 0xffff, 0xffff },
 	   { 0, 0xffff, 0xffff, 0xffff }}},
-	 {"solarized",
+	 {5, "solarized",
 	  {{ 0, 0x1d1d, 0x1c1c, 0x1a1a },
 	   { 0, 0xb0b0, 0x2828, 0x2525 },
 	   { 0, 0x4f4f, 0x7a7a, 0x0000 },
@@ -139,7 +139,7 @@ struct Color_Theme system_color_theme[THEME] =
 	   { 0, 0xdbdb, 0x3838, 0x8686 },
 	   { 0, 0x2e2e, 0xb3b3, 0xa8a8 },
 	   { 0, 0xf1f1, 0xeaea, 0xd7d7 }}},
-	 {"grayscale",
+	 {6, "grayscale",
 	  {{ 0, 0x0000, 0x0000, 0x0000 },
 	   { 0, 0x3f3f, 0x3f3f, 0x3f3f },
 	   { 0, 0x4444, 0x4444, 0x4444 },
@@ -251,7 +251,7 @@ void init_user_command(struct Window *win_data)
 #ifdef DETAIL
 	g_debug("! Launch init_user_command() for win_data %p", win_data);
 #endif
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 		if (win_data==NULL) return;
 #endif
 
@@ -275,7 +275,7 @@ void init_window_parameters(struct Window *win_data)
 #ifdef DETAIL
 	g_debug("! Launch init_window_parameters() with win_data = %p", win_data);
 #endif
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 		if (win_data==NULL) return;
 #endif
 	// win_data->environment;
@@ -381,9 +381,7 @@ void init_window_parameters(struct Window *win_data)
 	// win_data->menuitem_paste;
 	// win_data->menuitem_clipboard;
 	// win_data->menuitem_primary;
-	win_data->foreground_color = g_strdup("white");
-	win_data->cursor_color_str = g_strdup("#55B5E7");
-	win_data->background_color = g_strdup("black");
+	win_data->cursor_color_str = g_strdup("");
 	// win_data->fg_color;
 	// win_data->fg_color_inactive;
 	// win_data->cursor_color;
@@ -395,9 +393,10 @@ void init_window_parameters(struct Window *win_data)
 	// win_data->menuitem_invert_color;
 	// win_data->menuitem_theme;
 	// win_data->current_menuitem_theme;
-	// win_data->use_set_color_fg_bg;
 	// win_data->have_custom_color;
 	// win_data->use_custom_theme;
+	// win_data->ansi_color_sub_menu;
+	// win_data->ansi_color_menuitem;
 	// win_data->color[COLOR];
 	// win_data->color_inactive[COLOR];
 	// win_data->color_orig[COLOR];
@@ -500,7 +499,7 @@ void init_page_parameters(struct Window *win_data, struct Page *page_data)
 #ifdef DETAIL
 	g_debug("! Launch init_page_parameters() with win_data = %p, page_data = %p", win_data, page_data);
 #endif
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if ((win_data==NULL) || (page_data==NULL)) return;
 #endif
 	// g_debug("Set page_data->window = win_data->window in init_page_parameters()");
@@ -555,7 +554,7 @@ void init_user_keys(struct Window *win_data)
 #ifdef DETAIL
 	g_debug("! Launch init_user_keys() with win_data = %p", win_data);
 #endif
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if (win_data==NULL) return;
 #endif
 	// for disable/enable the function keys
@@ -958,14 +957,14 @@ void init_colors()
 #ifdef DETAIL
 	g_debug("! Launch init_colors()");
 #endif
-	color[0].comment = "# The ANSI color code for Normal Black";
-	color[1].comment = "# The ANSI color code for Normal Red";
-	color[2].comment = "# The ANSI color code for Normal Green";
-	color[3].comment = "# The ANSI color code for Normal Yellow";
-	color[4].comment = "# The ANSI color code for Normal Blue";
-	color[5].comment = "# The ANSI color code for Normal Magenta";
-	color[6].comment = "# The ANSI color code for Normal Cyan";
-	color[7].comment = "# The ANSI color code for Normal White";
+	color[0].comment = "# The ANSI color code for Dark Black";
+	color[1].comment = "# The ANSI color code for Dark Red";
+	color[2].comment = "# The ANSI color code for Dark Green";
+	color[3].comment = "# The ANSI color code for Dark Yellow";
+	color[4].comment = "# The ANSI color code for Dark Blue";
+	color[5].comment = "# The ANSI color code for Dark Magenta";
+	color[6].comment = "# The ANSI color code for Dark Cyan";
+	color[7].comment = "# The ANSI color code for Dark White";
 	color[8].comment = "# The ANSI color code for Bright Black";
 	color[9].comment = "# The ANSI color code for Bright Red";
 	color[10].comment = "# The ANSI color code for Bright Green";
@@ -975,87 +974,57 @@ void init_colors()
 	color[14].comment = "# The ANSI color code for Bright Cyan";
 	color[15].comment = "# The ANSI color code for Bright White";
 
+	color[0].translation = _("Background Color");
+	color[1].translation = _("Dark Red");
+	color[2].translation = _("Dark Green");
+	color[3].translation = _("Dark Yellow");
+	color[4].translation = _("Dark Blue");
+	color[5].translation = _("Dark Magenta");
+	color[6].translation = _("Dark Cyan");
+	color[7].translation = _("Dark White");
+	color[8].translation = _("Bright Black");
+	color[9].translation = _("Bright Red");
+	color[10].translation = _("Bright Green");
+	color[11].translation = _("Bright Yellow");
+	color[12].translation = _("Bright Blue");
+	color[13].translation = _("Bright Magenta");
+	color[14].translation = _("Bright Cyan");
+	color[15].translation = _("Foreground Color");
+
 	gint i;
-	for (i=0; i<16; i++)
+	for (i=0; i<COLOR; i++)
 		color[i].name = g_strdup_printf("Color%d", i);
 }
 
-void init_user_color_data(struct Window *win_data)
-{
-#ifdef DETAIL
-	g_debug("! Launch init_user_color_data() with win_data = %p", win_data);
-#endif
-#ifdef DEFENSIVE
-	if (win_data==NULL) return;
-#endif
-	// FIXME: should we use win_data->color_theme_str = NULL here?
-	// win_data->color_theme_str = g_strdup(color_theme[DEFAULT_THEME].name);
-	win_data->color_theme_str = g_strdup("");
-	int i;
-	for (i=0; i<COLOR; i++)
-		win_data->color_value[i] = g_strdup("");
-}
-
-void init_user_color(struct Window *win_data)
+void init_user_color(struct Window *win_data, gchar *theme_name)
 {
 #ifdef DETAIL
 	g_debug("! Launch init_user_color() with win_data = %p", win_data);
 #endif
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if (win_data==NULL) return;
 #endif
-	GdkColor *palette = system_color_theme[DEFAULT_THEME].color;
-	// g_debug("Got win_data->color_theme_str = %s", win_data->color_theme_str);
-
 	gint i, j;
 
-	// gint current_theme = 0;
-	// copy colors from color_theme to custom_color_theme
+	// copy colors from system_color_theme to custom_color_theme
 	for (i=0; i<THEME; i++)
 	{
 		// g_debug("(%p) Set win_data->custom_color_theme[%d]->name = %s", win_data, i, system_color_theme[i].name);
+		win_data->custom_color_theme[i].index = system_color_theme[i].index + COLOR;
 		win_data->custom_color_theme[i].name = system_color_theme[i].name;
 		for (j=0; j<COLOR; j++)
 			win_data->custom_color_theme[i].color[j] = system_color_theme[i].color[j];
 	}
 
-	// find the palette for win_data->color_theme_str
+	// find the palette for theme_name
 	for (i=1; i<THEME; i++)
 	{
-		if (!compare_strings(win_data->color_theme_str, system_color_theme[i].name, FALSE))
+		if (!compare_strings(theme_name, system_color_theme[i].name, FALSE))
 		{
 			// g_debug("Get win_data->color_theme_str = %s", win_data->color_theme_str);
-			palette = system_color_theme[i].color;
-			win_data->use_set_color_fg_bg = TRUE;
-			// current_theme = i;
+			win_data->color_theme_index = i;
 			break;
 		}
-	}
-
-	// copy the palette for win_data->color_theme_str to color_theme[Cutsom][]
-	// for (i=0; i<COLOR; i++)
-	// {
-	//	// g_debug("Set color_theme[%d].color[%d] = color_theme[%d].color[%d]",
-	//	//	THEME-1, i, current_theme, i);
-	//	color_theme[THEME-1].color[i] = color_theme[current_theme].color[i];
-	// }
-
-	if (! win_data->use_set_color_fg_bg)
-	{
-		g_free(win_data->color_theme_str);
-		win_data->color_theme_str = g_strdup("");
-	}
-
-	// init the win_data->color_orig datas.
-	for (i=0; i<COLOR; i++)
-	{
-		win_data->color_orig[i] = *(palette++);
-		//g_debug("win_data->color_orig[%d] = %x, %x, %x, %x",
-		//	i,
-		//	win_data->color_orig[i].pixel,
-		//	win_data->color_orig[i].red,
-		//	win_data->color_orig[i].green,
-		//	win_data->color_orig[i].blue);
 	}
 }
 
@@ -1068,13 +1037,13 @@ gchar *get_user_profile_path(struct Window *win_data, int argc, char *argv[])
 	gint i;
 	gchar *profile=NULL;
 
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if (argv)
 	{
 #endif
 		for (i=0; i<argc; i++)
 		{
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 			if (argv[i] == NULL) continue;
 #endif
 			if ((!strcmp(argv[i], "-u")) || (!strcmp(argv[i], "--user_profile")))
@@ -1105,7 +1074,7 @@ gchar *get_user_profile_path(struct Window *win_data, int argc, char *argv[])
 				 (!strcmp(argv[i], "--execute")))
 				break;
 		}
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	}
 #endif
 	// trying to got witch profile to use
@@ -1126,11 +1095,11 @@ gchar *load_profile_from_dir(const gchar *dir, const gchar* profile)
 #ifdef DETAIL
 	g_debug("! Launch load_profile_from_dir() with dir = %s", dir);
 #endif
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if ((dir==NULL) || (profile==NULL)) return NULL;
 #endif
 	gchar *profile_path = g_strdup_printf("%s/%s", dir, profile);
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if (profile_path && g_file_test(profile_path , G_FILE_TEST_EXISTS))
 #else
 	if ( g_file_test(profile_path , G_FILE_TEST_EXISTS))
@@ -1151,7 +1120,7 @@ void get_user_settings(struct Window *win_data, const gchar *encoding)
 	g_debug("! Launch get_user_settings() with win_data = %p, encoding = %s",
 		win_data, encoding);
 #endif
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if (win_data==NULL) return;
 #endif
 #ifdef OUT_OF_MEMORY
@@ -1166,7 +1135,6 @@ void get_user_settings(struct Window *win_data, const gchar *encoding)
 	init_window_parameters(win_data);
 	init_user_keys(win_data);
 	init_user_command(win_data);
-	init_user_color_data(win_data);
 
 	static gboolean static_data_inited = FALSE;
 	if (! static_data_inited)
@@ -1187,6 +1155,8 @@ void get_user_settings(struct Window *win_data, const gchar *encoding)
 	GKeyFile *keyfile = g_key_file_new();
 	// g_debug ("Using the profile: %s ", profile);
 
+	gchar *fg_color_str = NULL, *bg_color_str = NULL, *color_theme_str = NULL;
+	
 	// g_debug("safe_mode = %d", safe_mode);
 	if (win_data->profile != NULL && (! safe_mode))
 	{
@@ -1196,8 +1166,8 @@ void get_user_settings(struct Window *win_data, const gchar *encoding)
 
 			win_data->auto_save = check_boolean_value(keyfile, "main", "auto_save", win_data->auto_save);
 
-			win_data->default_font_name = check_string_value(keyfile, "main", "font_name",
-									 win_data->default_font_name, DISABLE_EMPTY_STR);
+			win_data->default_font_name = check_string_value(keyfile, "main", "font_name", win_data->default_font_name,
+									 TRUE, DISABLE_EMPTY_STR);
 
 			PangoFontDescription *font_desc = pango_font_description_from_string(win_data->default_font_name);
 			if ((pango_font_description_get_size(font_desc)/PANGO_SCALE)==0)
@@ -1245,17 +1215,17 @@ void get_user_settings(struct Window *win_data, const gchar *encoding)
 									  win_data->scroll_background);
 
 			win_data->background_image = check_string_value(keyfile, "main", "background_image",
-									win_data->background_image, DISABLE_EMPTY_STR);
+									win_data->background_image, TRUE, DISABLE_EMPTY_STR);
 
 			win_data->foreground_program_whitelist = check_string_value(keyfile, "main",
 										    "foreground_program_whitelist",
 										    win_data->foreground_program_whitelist,
-										    ENABLE_EMPTY_STR);
+										    TRUE, ENABLE_EMPTY_STR);
 
 			win_data->background_program_whitelist = check_string_value(keyfile, "main",
 										    "background_program_whitelist",
 										    win_data->background_program_whitelist,
-										    ENABLE_EMPTY_STR);
+										    TRUE, ENABLE_EMPTY_STR);
 
 			win_data->confirm_to_paste = check_boolean_value(keyfile, "main",
 									 "confirm_to_paste", win_data->confirm_to_paste);
@@ -1263,7 +1233,7 @@ void get_user_settings(struct Window *win_data, const gchar *encoding)
 			win_data->paste_texts_whitelist = check_string_value(keyfile, "main",
 									    "paste_texts_whitelist",
 									    win_data->paste_texts_whitelist,
-									    ENABLE_EMPTY_STR);
+									    TRUE, ENABLE_EMPTY_STR);
 
 			win_data->confirm_to_close_multi_tabs = check_boolean_value(keyfile, "main",
 										    "confirm_to_close_multi_tabs",
@@ -1274,14 +1244,12 @@ void get_user_settings(struct Window *win_data, const gchar *encoding)
 			win_data->show_color_selection_menu = check_boolean_value(keyfile, "main",
 						"show_color_selection_menu", win_data->show_color_selection_menu);
 
-			win_data->foreground_color = check_string_value(keyfile, "main", "foreground_color",
-									win_data->foreground_color, DISABLE_EMPTY_STR);
+			fg_color_str = check_string_value(keyfile, "main", "foreground_color", DEFAULT_FOREGROUND_COLOR, FALSE, DISABLE_EMPTY_STR);
+
+			bg_color_str = check_string_value(keyfile, "main", "background_color", DEFAULT_BACKGROUND_COLOR, FALSE, DISABLE_EMPTY_STR);
 
 			win_data->cursor_color_str = check_string_value(keyfile, "main", "cursor_color",
-									win_data->cursor_color_str, DISABLE_EMPTY_STR);
-
-			win_data->background_color = check_string_value(keyfile, "main", "background_color",
-									win_data->background_color, DISABLE_EMPTY_STR);
+									win_data->cursor_color_str, FALSE, DISABLE_EMPTY_STR);
 
 			win_data->show_resize_menu = check_boolean_value(keyfile, "main", "show_resize_menu",
 									 win_data->show_resize_menu);
@@ -1300,7 +1268,7 @@ void get_user_settings(struct Window *win_data, const gchar *encoding)
 									   CHECK_MIN, 0, NO_CHECK_MAX, 0);
 
 			win_data->word_chars = check_string_value(keyfile, "main", "word_chars", win_data->word_chars,
-								  ENABLE_EMPTY_STR);
+								  FALSE, ENABLE_EMPTY_STR);
 
 			win_data->scrollback_lines = check_integer_value(keyfile,
 									  "main",
@@ -1410,11 +1378,11 @@ void get_user_settings(struct Window *win_data, const gchar *encoding)
 								     CHECK_MAX, CURSOR_SHAPE);
 #endif
 			win_data->locales_list = check_string_value( keyfile, "main", "locales_list",
-								     win_data->locales_list, ENABLE_EMPTY_STR);
+								     win_data->locales_list, FALSE, ENABLE_EMPTY_STR);
 			// g_debug("Got locales_list = %s from user's profile!", value);
 
 			win_data->emulate_term = check_string_value( keyfile, "main", "emulate_term",
-							     win_data->emulate_term, DISABLE_EMPTY_STR);
+							     win_data->emulate_term, FALSE, DISABLE_EMPTY_STR);
 
 			win_data->VTE_CJK_WIDTH = check_integer_value( keyfile, "main", "VTE_CJK_WIDTH",
 								       win_data->VTE_CJK_WIDTH,
@@ -1424,7 +1392,7 @@ void get_user_settings(struct Window *win_data, const gchar *encoding)
 								       CHECK_MAX, 2);
 
 			if (win_data->geometry == NULL)
-				win_data->geometry = check_string_value(keyfile, "main", "geometry", win_data->geometry, ENABLE_EMPTY_STR);
+				win_data->geometry = check_string_value(keyfile, "main", "geometry", win_data->geometry, TRUE, ENABLE_EMPTY_STR);
 
 			win_data->page_width = check_integer_value( keyfile, "page", "page_width",
 								    win_data->page_width,
@@ -1460,10 +1428,10 @@ void get_user_settings(struct Window *win_data, const gchar *encoding)
 								     win_data->fill_tabs_bar);
 
 
-			win_data->page_name = check_string_value(keyfile, "page", "page_name", win_data->page_name, DISABLE_EMPTY_STR);
+			win_data->page_name = check_string_value(keyfile, "page", "page_name", win_data->page_name, TRUE, DISABLE_EMPTY_STR);
 
 			win_data->page_names = check_string_value(keyfile, "page", "page_names",
-								  win_data->page_names, ENABLE_EMPTY_STR);
+								  win_data->page_names, TRUE, ENABLE_EMPTY_STR);
 
 			win_data->reuse_page_names = check_boolean_value(keyfile, "page", "reuse_page_names",
 									 win_data->reuse_page_names);
@@ -1512,6 +1480,7 @@ void get_user_settings(struct Window *win_data, const gchar *encoding)
 										  "page",
 										  page_color[i].name,
 										  win_data->user_page_color[i],
+										  TRUE,
 										  DISABLE_EMPTY_STR);
 
 			// g_debug("Key Value: Shift=%x, NumLock=%x, Control=%x, Mod1=%x,"
@@ -1533,7 +1502,7 @@ void get_user_settings(struct Window *win_data, const gchar *encoding)
 			for (i=0; i<COMMAND; i++)
 			{
 				win_data->user_command[i].command = check_string_value(keyfile,	"command",
-						command[i].name, win_data->user_command[i].command, DISABLE_EMPTY_STR);
+						command[i].name, win_data->user_command[i].command, TRUE, DISABLE_EMPTY_STR);
 				win_data->user_command[i].method = check_integer_value(
 						keyfile, "command", command[i].method_name,
 						win_data->user_command[i].method,
@@ -1542,7 +1511,7 @@ void get_user_settings(struct Window *win_data, const gchar *encoding)
 						CHECK_MIN, 0,
 						CHECK_MAX, 2);
 				win_data->user_command[i].environ = check_string_value(keyfile, "command",
-						command[i].environ_name, win_data->user_command[i].environ, DISABLE_EMPTY_STR);
+						command[i].environ_name, win_data->user_command[i].environ, TRUE, DISABLE_EMPTY_STR);
 				win_data->user_command[i].VTE_CJK_WIDTH = check_integer_value(
 						keyfile, "command", command[i].VTE_CJK_WIDTH_name,
 						win_data->user_command[i].VTE_CJK_WIDTH,
@@ -1551,41 +1520,34 @@ void get_user_settings(struct Window *win_data, const gchar *encoding)
 						CHECK_MIN, 0,
 						CHECK_MAX, 2);
 				win_data->user_command[i].locale = check_string_value(keyfile, "command",
-						command[i].locale_name, win_data->user_command[i].locale, DISABLE_EMPTY_STR);
+						command[i].locale_name, win_data->user_command[i].locale, TRUE, DISABLE_EMPTY_STR);
 				//g_debug("command[i].name = %s (%d)",
 				//	win_data->user_command[i].command, win_data->user_command[i].method);
 			}
 
-			win_data->color_theme_str = check_string_value(keyfile, "color", "theme",
-								   win_data->color_theme_str, ENABLE_EMPTY_STR);
-			// g_debug("get_user_settings: Got win_data->color_theme_str = %s", win_data->color_theme_str);
+			color_theme_str = check_string_value(keyfile, "color", "theme", NULL, FALSE, ENABLE_EMPTY_STR);
+			// g_debug("get_user_settings: Got color_theme_str = %s", color_theme_str);
+			init_user_color(win_data, color_theme_str);
 
 			win_data->invert_color = check_boolean_value(keyfile, "color", "invert_color", win_data->invert_color);
 			win_data->use_custom_theme = check_boolean_value(keyfile, "color", "custom_theme", win_data->use_custom_theme);
 
-			init_user_color(win_data);
-
-			for (i=0; i<COLOR; i++)
+			gchar *color_value;
+			for (i=1; i<COLOR-1; i++)
 			{
-				win_data->color_value[i] = check_string_value(keyfile, "color",
-									      color[i].name,
-									      win_data->color_value[i],
-									      DISABLE_EMPTY_STR);
-				// g_debug("color[%d].name = %s, color_value[%d] = %s",
-				//	i, color[i].name, i, win_data->color_value[i]);
-				if (compare_strings(win_data->color_value[i], "", FALSE))
+				color_value = check_string_value(keyfile, "color", color[i].name, NULL, FALSE, DISABLE_EMPTY_STR);
+				// g_debug("color[%d].name = %s, color_value = %s",
+				//	i, color[i].name, color_value);
+				if (color_value)
 				{
 					GdkColor tmp_color;
 
-					if (check_color_value(color[i].name, win_data->color_value[i], &tmp_color))
+					if (check_color_value(color[i].name, color_value, &tmp_color, NULL))
 					{
-						win_data->use_set_color_fg_bg = TRUE;
 						win_data->have_custom_color = TRUE;
 						gint j;
 						for (j=0; j<THEME; j++)
 							win_data->custom_color_theme[j].color[i] = tmp_color;
-						if (win_data->use_custom_theme)
-							win_data->color_orig[i] = tmp_color;
 
 						//g_debug("win_data->color_value[%d] = %s, "
 						//	"win_data->color[%d] = %x, %x, %x, %x",
@@ -1595,6 +1557,7 @@ void get_user_settings(struct Window *win_data, const gchar *encoding)
 					}
 
 				}
+				g_free(color_value);
 			}
 
 			win_data->color_brightness = check_double_value(keyfile,
@@ -1608,13 +1571,13 @@ void get_user_settings(struct Window *win_data, const gchar *encoding)
 										 "color",
 										 "inactive_brightness",
 										 win_data->color_brightness,
-										 ENABLE_EMPTY_STR, -3,
+										 ENABLE_EMPTY_STR, -2,
 										 CHECK_MIN, -1, CHECK_MAX, 1);
 		}
 		else
 		{
 			profile_is_invalid_dialog(error, win_data);
-			init_user_color(win_data);
+			init_user_color(win_data, color_theme_str);
 		}
 	}
 	else
@@ -1624,7 +1587,7 @@ void get_user_settings(struct Window *win_data, const gchar *encoding)
 #else
 		g_warning("Can NOT find any profile. Use program defaults.");
 #endif
-		init_user_color(win_data);
+		init_user_color(win_data, color_theme_str);
 		safe_mode = FALSE;
 	}
 
@@ -1655,26 +1618,24 @@ void get_user_settings(struct Window *win_data, const gchar *encoding)
 
 	// some defaults
 	win_data->splited_page_names = split_string(win_data->page_names, " ", -1);
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if (win_data->splited_page_names==NULL)
 		win_data->splited_page_names = g_strsplit("", " ", -1);
 #endif
 	win_data->max_page_names_no = 0;
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if (win_data->splited_page_names)
 #endif
 		while (win_data->splited_page_names[win_data->max_page_names_no]!=NULL)
 			win_data->max_page_names_no++;
 
-	if (win_data->color_brightness) win_data->use_set_color_fg_bg = TRUE;
-	if (win_data->color_brightness_inactive>-2)
-		win_data->use_set_color_fg_bg = TRUE;
-	else
+	if (win_data->color_brightness_inactive < -1)
 	{
 		win_data->dim_text = FALSE;
-		win_data->color_brightness_inactive = win_data->color_brightness;
+		win_data->color_brightness_inactive = -win_data->color_brightness;
 	}
-	// g_debug("win_data->dim_text = %d", win_data->dim_text);
+	// g_debug("win_data->dim_text = %d, win_data->color_brightness = %0.3f, win_data->color_brightness_inactive = %0.3f",
+	//	win_data->dim_text, win_data->color_brightness, win_data->color_brightness_inactive);
 
 #ifdef ENABLE_RGBA
 	// g_debug("Got win_data->window_opacity_inactive = %1.3f", win_data->window_opacity_inactive);
@@ -1690,19 +1651,67 @@ void get_user_settings(struct Window *win_data, const gchar *encoding)
 	// g_debug("FINAL: win_data->show_scroll_bar = %d", win_data->show_scroll_bar);
 	if (win_data->show_close_button_on_tab == 0) win_data->show_close_button_on_all_tabs = 0;
 	if (win_data->window_title_shows_current_page == 0) win_data->window_title_append_package_name = 0;
-	// g_debug("win_data->foreground_color = %s", win_data->foreground_color);
-	check_color_value ("foreground_color", win_data->foreground_color, &(win_data->fg_color));
-	check_color_value ("cursor_color", win_data->cursor_color_str, &(win_data->cursor_color));
-	check_color_value ("background_color", win_data->background_color, &(win_data->bg_color));
-	if (! compare_color(&(win_data->fg_color), &(win_data->bg_color)))
+
+	GdkColor fg_color, bg_color, cursor_color;
+
+	// g_debug("win_data->foreground_color = %s, win_data->background_color = %s, win_data->cursor_color_str = %s",
+	//	win_data->foreground_color, win_data->background_color, win_data->cursor_color_str);
+
+	// Get the color data from profile...
+	check_color_value ("foreground_color", fg_color_str, &(fg_color), &(system_color_theme[win_data->color_theme_index].color[COLOR-1]));
+	// print_color(COLOR-1, "Get fg_color from profile:", fg_color);
+	check_color_value ("foreground_color", bg_color_str, &(bg_color), &(system_color_theme[win_data->color_theme_index].color[0]));
+	// print_color(0, "Get bg_color from profile:", bg_color);
+	dirty_gdk_color_parse (DEFAULT_CURSOR_COLOR, &(cursor_color));
+	check_color_value ("cursor_color", win_data->cursor_color_str, &(win_data->cursor_color), &(cursor_color));
+	// print_color(-1, "Get cursor_color from profile:", cursor_color);
+
+	g_free(fg_color_str);
+	g_free(bg_color_str);
+
+	// if the fg_color == bg_color, revert to the default color.
+	if (! compare_color(&(fg_color), &(bg_color)))
 	{
-		gdk_color_parse ("white", &(win_data->fg_color));
-		gdk_color_parse ("dark", &(win_data->bg_color));
+		// print_color (-1, "invild fg_color = color; fg_color", fg_color);
+		// print_color (-1. "invild bg_color = color; bg_color", fg_color);
+		dirty_gdk_color_parse (DEFAULT_FOREGROUND_COLOR, &(fg_color));
+		dirty_gdk_color_parse (DEFAULT_BACKGROUND_COLOR, &(bg_color));
 	}
-	if (! compare_color(&(win_data->bg_color), &(win_data->cursor_color)))
-		gdk_color_parse ("cyan", &(win_data->cursor_color));
-	if (win_data->invert_color) switch_color(win_data);
-	set_color_brightness(win_data);
+
+	// check if using custom fg_color
+	if (compare_color(&(fg_color), &(system_color_theme[win_data->color_theme_index].color[COLOR-1])))
+	{
+		// print_color(-1, "get_user_settings(): fg_color", fg_color);
+		// print_color(-1, "get_user_settings(): win_data->color_orig[COLOR-1]",
+		//	    win_data->color_orig[COLOR-1]);
+		win_data->have_custom_color = TRUE;
+		for (i=0; i<THEME; i++)
+			win_data->custom_color_theme[i].color[COLOR-1] = fg_color;
+	}
+	
+	// check if using custom bg_color
+	if (compare_color(&(bg_color), &(system_color_theme[win_data->color_theme_index].color[0])))
+	{
+		// print_color(-1, "get_user_settings(): bg_color", bg_color);
+		// print_color(-1, "get_user_settings(): win_data->color_orig[0]",
+		//	    win_data->color_orig[0]);
+		win_data->have_custom_color = TRUE;
+		for (i=0; i<THEME; i++)
+			win_data->custom_color_theme[i].color[0] = bg_color;
+	}
+
+	// print_color(-1, "get_user_settings(): win_data->fg_color : ", win_data->fg_color);
+	// print_color(-1, "get_user_settings(): win_data->bg_color", win_data->bg_color);
+
+	// check if win_data->cursor_color == win_data->bg_color
+	if ((win_data->invert_color && (compare_color(&(bg_color), &(win_data->cursor_color)) == FALSE)) ||
+	    ((win_data->invert_color == FALSE) && (compare_color(&(fg_color), &(win_data->cursor_color)) == FALSE)))
+	{
+		// print_color (-1, "invild win_data->cursor_color", win_data->cursor_color);
+		dirty_gdk_color_parse (DEFAULT_CURSOR_COLOR, &(win_data->cursor_color));
+	}
+
+	generate_all_color_datas(win_data);
 
 	// g_debug("get_user_settings(): win_data->VTE_CJK_WIDTH_STR = %s", win_data->VTE_CJK_WIDTH_STR);
 	if ((win_data->VTE_CJK_WIDTH_STR == NULL) || (win_data->VTE_CJK_WIDTH_STR[0] == '\0'))
@@ -1777,7 +1786,7 @@ void init_prime_user_datas(struct Window *win_data)
 #ifdef DETAIL
 	g_debug("! Launch init_prime_user_datas() with win_data = %p!", win_data);
 #endif
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if (win_data==NULL) return;
 #endif
 	// g_debug("init_prime_user_datas(): win_data->login_shell = %d", win_data->login_shell);
@@ -1804,7 +1813,7 @@ void get_prime_user_settings(GKeyFile *keyfile, struct Window *win_data, gchar *
 		g_debug("! Launch get_prime_user_settings() with keyfile = %p, win_data = %p, encoding = %s!",
 			keyfile, win_data, encoding);
 #endif
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if ((keyfile==NULL) || (win_data==NULL)) return;
 #endif
 	if (win_data->login_shell < 0) return;
@@ -1825,6 +1834,7 @@ void get_prime_user_settings(GKeyFile *keyfile, struct Window *win_data, gchar *
 	win_data->execute_command_whitelist = check_string_value(keyfile, "main",
 					      "execute_command_whitelist",
 					      win_data->execute_command_whitelist,
+					      TRUE, 
 					      ENABLE_EMPTY_STR);
 	// g_debug("win_data->execute_command_whitelist for win_data (%p) updated!", win_data);
 
@@ -1834,9 +1844,9 @@ void get_prime_user_settings(GKeyFile *keyfile, struct Window *win_data, gchar *
 
 	// g_debug("ReGet new win_data->default_locale with original value: %s...", win_data->default_locale);
 	win_data->default_locale = check_string_value( keyfile, "main", "default_locale",
-						     win_data->default_locale, DISABLE_EMPTY_STR);
+						     win_data->default_locale, TRUE, DISABLE_EMPTY_STR);
 	// g_debug("win_data->default_locale = %s", win_data->default_locale);
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if ( win_data->default_locale && (win_data->default_locale[0]!='\0'))
 #else
 	if (win_data->default_locale[0]!='\0')
@@ -1866,7 +1876,7 @@ gboolean check_boolean_value(GKeyFile *keyfile, const gchar *group_name, const g
 	g_debug("! Launch check_boolean_value() with keyfile = %p, group_name = %s, key = %s, default_value = %d",
 		keyfile, group_name, key ,default_value);
 #endif
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if ((keyfile==NULL) || (group_name==NULL) || (key==NULL)) return FALSE;
 #endif
 	gchar *value = g_key_file_get_value(keyfile, group_name, key, NULL);
@@ -1896,7 +1906,7 @@ gdouble check_double_value(GKeyFile *keyfile, const gchar *group_name, const gch
 	g_debug("! Launch check_double_value() with keyfile = %p, group_name = %s, key = %s, default_value = %f",
 		keyfile, group_name, key, default_value);
 #endif
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if ((keyfile==NULL) || (group_name==NULL) || (key==NULL)) return 0;
 #endif
 	gchar *value = g_key_file_get_value(keyfile, group_name, key, NULL);
@@ -1949,7 +1959,7 @@ glong check_integer_value(GKeyFile *keyfile, const gchar *group_name, const gcha
 		keyfile, group_name, key, default_value, enable_empty, enable_zero,
 		check_min, min, check_max, max);
 #endif
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if ((keyfile==NULL) || (group_name==NULL) || (key==NULL)) return 0;
 #endif
 	gchar *value = g_key_file_get_value(keyfile, group_name, key, NULL);
@@ -1992,15 +2002,15 @@ FINISH:
 
 // original_value will be free() in check_string_value()
 // The returned string should be freed when no longer needed.
-gchar *check_string_value(GKeyFile *keyfile, const gchar *group_name,
-			  const gchar *key, gchar *original_value, Check_Empty enable_empty)
+gchar *check_string_value(GKeyFile *keyfile, const gchar *group_name, const gchar *key, gchar *original_value, 
+			  gboolean free_original_value, Check_Empty enable_empty)
 {
 #ifdef DETAIL
 	g_debug("! Launch check_string_value() with keyfile = %p, group_name = %s, "
 		"key = %s, original_value = %s (%p), enable_empty = %d",
 		keyfile, group_name, key, original_value, original_value, enable_empty);
 #endif
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if ((keyfile==NULL) || (group_name==NULL) || (key==NULL)) return NULL;
 #endif
 	gchar *setting = g_key_file_get_value(keyfile, group_name, key, NULL);
@@ -2011,38 +2021,49 @@ gchar *check_string_value(GKeyFile *keyfile, const gchar *group_name,
 		setting = NULL;
 	}
 
-	if (setting == NULL)
+	if ((setting == NULL) && (original_value))
 		setting = g_strdup(original_value);
 
 #ifndef UNIT_TEST
-	g_free(original_value);
+	if (free_original_value) g_free(original_value);
 #endif
 
 	// g_debug("Got key value \"%s = %s\"", key, setting);
 	return setting;
 }
 
-gboolean check_color_value (const gchar *key_name, const gchar *color_name, GdkColor *color)
+gboolean check_color_value (const gchar *key_name, const gchar *color_name, GdkColor *color, const GdkColor *default_color)
 {
 #ifdef DETAIL
 	g_debug("! Launch check_color_value() with key_name = %s, color_name = %s, color = %p",
 		key_name, color_name, color);
 #endif
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if ((key_name==NULL) || (color_name==NULL)) return FALSE;
 #endif
-	if (gdk_color_parse(color_name, color))
-		return TRUE;
-	else
+	if ((color_name) && (color_name[0]!='\0'))
 	{
-#ifdef UNIT_TEST
-		g_message("\"%s = %s\" is not a valid color value! Please check!",
-			  key_name, color_name);
-#else
-		g_warning("\"%s = %s\" is not a valid color value! Please check!",
-			  key_name, color_name);
-#endif
+		if (dirty_gdk_color_parse(color_name, color))
+		{
+			// print_color(-1, "check_color_value():", *color);
+			return TRUE;
+		}
 	}
+
+	if (color && default_color)
+	{
+		*color = *default_color;
+		// print_color(-1, "check_color_value():", *color);
+		return TRUE;
+	}
+	
+#ifdef UNIT_TEST
+	g_message("\"%s = %s\" is not a valid color value! Please check!",
+		  key_name, color_name);
+#else
+	g_warning("\"%s = %s\" is not a valid color value! Please check!",
+		  key_name, color_name);
+#endif
 	return FALSE;
 }
 
@@ -2057,7 +2078,7 @@ gboolean accelerator_parse (const gchar *key_name, const gchar *key_value, guint
 		g_debug("! Launch accelerator_parse() with key_name = %s, key_value = %s, key = (%p), mods = (%p)",
 			key_name, key_value, key, mods);
 #endif
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if ((key_name==NULL) || (key_value==NULL)) return FALSE;
 #endif
 	// key_value example: "Ctrl+Shift Home"
@@ -2081,7 +2102,7 @@ gboolean accelerator_parse (const gchar *key_name, const gchar *key_value, guint
 		{
 			functions = split_string(values[0], "+", -1);
 			// got the function key ("Ctrl+Shift" for example)
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 			if (functions)
 			{
 #endif
@@ -2095,7 +2116,7 @@ gboolean accelerator_parse (const gchar *key_name, const gchar *key_value, guint
 					}
 					i++;
 				}
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 			}
 #endif
 			// g_debug("masks = %x", tempmods);
@@ -2150,7 +2171,7 @@ gboolean accelerator_parse (const gchar *key_name, const gchar *key_value, guint
 	{
 		// NULL
 		// g_warning("We Got a NULL Key (%s)!\n", key_value);
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 		if ((key==NULL) || (mods==NULL)) goto FINISH;
 #endif
 		*key=GDK_KEY_VoidSymbol;
@@ -2172,14 +2193,14 @@ GString *save_user_settings(GtkWidget *widget, struct Window *win_data)
 	struct Page *page_data = NULL;
 	gint i;
 
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if (win_data && (win_data->current_vte))
 #else
 	if (win_data)
 #endif
 	{
 		page_data = (struct Page *)g_object_get_data(G_OBJECT(win_data->current_vte), "Page_Data");
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 		if (page_data==NULL) return NULL;
 #endif
 	}
@@ -2187,11 +2208,11 @@ GString *save_user_settings(GtkWidget *widget, struct Window *win_data)
 	{
 		// For -p command line option
 		win_data = g_new0(struct Window, 1);
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 		if (win_data==NULL) return NULL;
 #endif
 		page_data = g_new0(struct Page, 1);
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 		if (page_data==NULL)
 		{
 			g_free(win_data);
@@ -2207,14 +2228,10 @@ GString *save_user_settings(GtkWidget *widget, struct Window *win_data)
 		init_command();
 		init_user_command(win_data);
 		init_colors();
-		init_user_color_data(win_data);
 	}
 
 	gchar *lc_numeric = g_strdup((char*)g_getenv("LC_NUMERIC"));
 	setlocale(LC_NUMERIC, "C");
-
-	gboolean invert_color = win_data->invert_color;
-	if (invert_color) switch_color(win_data);
 
 	long column = 0, row = 0;
 	GString *contents = g_string_new("[main]\n\n");
@@ -2316,14 +2333,33 @@ GString *save_user_settings(GtkWidget *widget, struct Window *win_data)
 					"# and [Change the background color] on right click menu.\n"
 					"show_color_selection_menu = %d\n\n", win_data->show_color_selection_menu);
 	g_string_append_printf(contents,"# The normal text color used in vte terminal.\n"
-					"# You may use black, #000000 or #000000000000 here.\n"
-					"foreground_color = %s\n\n", win_data->foreground_color);
-	g_string_append_printf(contents,"# Sets the background color for text which is under the cursor.\n"
-					"# You may use black, #000000 or #000000000000 here.\n"
-					"cursor_color = %s\n\n", win_data->cursor_color_str);
+					"# You may use black, #000000 or #000000000000 here.\n");
+	
+	if (compare_color(&(win_data->custom_color_theme[win_data->color_theme_index].color[COLOR-1]),
+			  &(system_color_theme[win_data->color_theme_index].color[COLOR-1])))
+	{
+		gchar *color_str = gdk_color_to_string(&(win_data->custom_color_theme[win_data->color_theme_index].color[COLOR-1]));
+		g_string_append_printf(contents,"foreground_color = %s\n\n", color_str);
+		g_free (color_str);
+	}
+	else
+		g_string_append(contents,"foreground_color = \n\n");
+
 	g_string_append_printf(contents,"# The background color used in vte terminal.\n"
-					"# You may use black, #000000 or #000000000000 here.\n"
-					"background_color = %s\n\n", win_data->background_color);
+					"# You may use black, #000000 or #000000000000 here.\n");
+	if (compare_color(&(win_data->custom_color_theme[win_data->color_theme_index].color[0]),
+			  &(system_color_theme[win_data->color_theme_index].color[0])))
+	{
+		gchar *color_str = gdk_color_to_string(&(win_data->custom_color_theme[win_data->color_theme_index].color[0]));
+		g_string_append_printf(contents,"background_color = %s\n\n", color_str);
+		g_free (color_str);
+	}
+	else
+		g_string_append(contents,"background_color = \n\n");
+
+        g_string_append_printf(contents,"# Sets the background color for text which is under the cursor.\n"
+                                        "# You may use black, #000000 or #000000000000 here.\n"
+                                        "cursor_color = %s\n\n", win_data->cursor_color_str);                                                                
 	g_string_append_printf(contents,"# Shows [Increase window size], [Decrease window size],\n"
 					"# [Reset to default font/size] and [Reset to system font/size]\n"
 					"# on right click menu.\n"
@@ -2517,8 +2553,8 @@ GString *save_user_settings(GtkWidget *widget, struct Window *win_data)
 	g_string_append_printf(contents,"# The main ansi color theme used in vte.\n"
 					"# Possible values are linux, xterm, rxvt, and tango.\n"
 					"# or left it blank to use the default settings form libvte.\n");
-	if (compare_strings(win_data->color_theme_str, "Custom", TRUE))
-		g_string_append_printf(contents, "theme = %s\n\n", win_data->color_theme_str);
+	if (win_data->color_theme_index)
+		g_string_append_printf(contents, "theme = %s\n\n", system_color_theme[win_data->color_theme_index].name);
 	else
 		g_string_append(contents, "theme = \n\n");
 	g_string_append_printf(contents,"# Invert the ansi colors, like invert the darkred to red, darkblue to bule.\n"
@@ -2534,11 +2570,24 @@ GString *save_user_settings(GtkWidget *widget, struct Window *win_data)
 					"inactive_brightness = %1.3f\n\n", win_data->color_brightness_inactive);
 	else
 		g_string_append(contents, "inactive_brightness = \n\n");
-	for (i=0; i<COLOR; i++)
+
+	gchar *color_str;
+	for (i=1; i<COLOR-1; i++)
+	{
 		g_string_append_printf( contents,"%s\n"
-					"# You may use black, #000000 or #000000000000 here.\n"
-					"%s = %s\n\n",
-					color[i].comment, color[i].name, win_data->color_value[i]);
+					"# You may use black, #000000 or #000000000000 here.\n", color[i].comment);
+
+        	if (compare_color(&(win_data->custom_color_theme[win_data->color_theme_index].color[i]),
+                          &(system_color_theme[win_data->color_theme_index].color[i])))
+	        {    
+        	        color_str = gdk_color_to_string(&(win_data->custom_color_theme[win_data->color_theme_index].color[i]));
+                	g_string_append_printf(contents,"%s = %s\n\n",  color[i].name, color_str);
+	                g_free (color_str);
+        	}    
+	        else 
+			g_string_append_printf(contents,"%s = \n\n",  color[i].name);
+	}
+
 	g_string_append_printf(contents,"\n");
 
 	g_string_append_printf(contents,"[command]\n\n"
@@ -2576,8 +2625,6 @@ GString *save_user_settings(GtkWidget *widget, struct Window *win_data)
 		g_string_append_printf( contents,"%s = %s\n\n",
 					command[i].locale_name, win_data->user_command[i].locale);
 	}
-
-	if (invert_color) switch_color(win_data);
 
 	// g_debug("menu_active_window = %p", menu_active_window);
 	if (menu_active_window==NULL)
@@ -2627,7 +2674,7 @@ GString *save_user_settings(GtkWidget *widget, struct Window *win_data)
 	else
 	{
 		// g_debug("G_FILE_TEST_IS_REGULAR = TRUE");
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 		if ( contents &&
 		     (! g_file_set_contents(real_file_name, contents->str, -1, &error)))
 #else
@@ -2635,7 +2682,7 @@ GString *save_user_settings(GtkWidget *widget, struct Window *win_data)
 #endif
 		{
 			// g_debug("Error while writing profile '%s': %s", real_file_name, error->message);
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 			if (error)
 #endif
 				create_save_failed_dialog(win_data, error->message);
@@ -2662,7 +2709,7 @@ void create_save_failed_dialog(struct Window *win_data, gchar *message)
 #ifdef DETAIL
 	g_debug("! Launch create_save_failed_dialog() with win_data = %p, message = %s!", win_data, message);
 #endif
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if (win_data==NULL) return;
 #endif
 	GtkWidget *window = NULL;
@@ -2691,13 +2738,13 @@ gchar *get_profile()
 	g_debug("! Launch get_profile()");
 #endif
 	gchar *profile = g_strdup_printf("%s/%s", profile_dir, USER_PROFILE);
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if (profile && (g_mkdir_with_parents(profile_dir, 0700) < 0))
 #else
 	if (g_mkdir_with_parents(profile_dir, 0700))
 #endif
 	{
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 		g_message("Can NOT create the directory: %s", profile_dir);
 #else
 		g_critical("Can NOT create the directory: %s", profile_dir);
@@ -2720,7 +2767,7 @@ void init_rgba(struct Window *win_data)
 	else
 		g_debug("! Launch init_rgba() with win_data = %p", win_data);
 #endif
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if ((win_data==NULL) || (win_data->window==NULL)) return;
 #endif
 	if (win_data->use_rgba < 0) return;
@@ -2792,7 +2839,7 @@ void check_profile_version (GKeyFile *keyfile, struct Window *win_data)
 #ifdef DETAIL
 	g_debug("! Launch check_profile_version() with win_data = %p", win_data);
 #endif
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if ((keyfile==NULL) || (win_data==NULL)) return;
 #endif
 	GtkWidget *window = NULL;
@@ -2801,12 +2848,12 @@ void check_profile_version (GKeyFile *keyfile, struct Window *win_data)
 	// if (win_data->checked_profile_version)
 	if (checked_profile_version) return;
 	// Check the profile version
-	gchar *profile_version = check_string_value(keyfile, "main", "version", g_strdup(""), DISABLE_EMPTY_STR);
+	gchar *profile_version = check_string_value(keyfile, "main", "version", "", FALSE, DISABLE_EMPTY_STR);
 	// g_debug("PROFILE_FORMAT_VERSION = %s, and profile_version = %s",
 	//	PROFILE_FORMAT_VERSION,
 	//	profile_version);
 
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if (profile_version && (profile_version[0] != '\0') &&
 	    (compare_strings(PROFILE_FORMAT_VERSION, profile_version, TRUE)))
 #else
@@ -2844,7 +2891,7 @@ void profile_is_invalid_dialog(GError *error, struct Window *win_data)
 #ifdef DETAIL
 	g_debug("! Launch profile_is_invalid_dialog() with win_data = %p", win_data);
 #endif
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if ((error==NULL) || (win_data==NULL)) return;
 #endif
 	if (win_data->confirmed_profile_is_invalid) return;
@@ -2881,7 +2928,7 @@ void convert_string_to_user_key(gint i, gchar *value, struct Window *win_data)
 	g_debug("! Launch convert_string_to_user_key() with i = %d, value = %s, win_data = %p!",
 		i, value, win_data);
 #endif
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if (win_data==NULL) return;
 #endif
 

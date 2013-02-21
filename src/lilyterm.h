@@ -38,7 +38,7 @@ gchar *get_VTE_CJK_WIDTH_str(gint VTE_CJK_WIDTH);
 gint get_default_VTE_CJK_WIDTH();
 void restore_SYSTEM_VTE_CJK_WIDTH_STR();
 void set_env(const gchar *variable, const gchar *value, gboolean overwrite);
-gchar *get_default_lc_data(gint LC_TYPE);
+const gchar *get_default_lc_data(gint lc_type);
 gchar *get_encoding_from_locale(const gchar *locale);
 gboolean check_string_in_array(gchar *str, gchar **lists);
 gchar *get_proc_data(pid_t pid, gchar *file, gsize *length);
@@ -48,6 +48,7 @@ gchar **get_pid_stat(pid_t pid, gint max_tokens);
 gchar *convert_text_to_html(StrAddr **text, gboolean free_text, gchar *color, StrLists *tag, ...);
 gchar *join_strings_to_string(const gchar separator, const gint total, const StrLists *string, ...);
 gchar *colorful_max_new_lines(gchar *string, gint max, gint output_line);
+gboolean dirty_gdk_color_parse(const gchar *spec, GdkColor *color);
 #if defined(OUT_OF_MEMORY) || defined(UNIT_TEST)
 gchar *fake_g_strdup(const gchar *gchar);
 gchar *fake_g_strdup_printf(const StrLists *format, ...);
@@ -82,9 +83,9 @@ GtkNotebook *new_window(int argc,
 			gchar *locale_list,
 			gchar *PWD,
 			gchar *HOME,
-			gchar *VTE_CJK_WIDTH_STR,
+			const gchar *VTE_CJK_WIDTH_STR,
 			gboolean VTE_CJK_WIDTH_STR_overwrite_profile,
-			gchar *wmclass_name,
+			const gchar *wmclass_name,
 			gchar *wmclass_class,
 			gchar *user_environ,
 			gchar *encoding,
@@ -127,12 +128,14 @@ gboolean confirm_to_paste_form_clipboard(Clipboard_Type type, struct Window *win
 gboolean show_clipboard_dialog(Clipboard_Type type, struct Window *win_data,
 			       struct Page *page_data, Dialog_Type_Flags dialog_type);
 
+void print_color(gint no, gchar *name, GdkColor color);
+
 //
 // **************************** profile.c ****************************
 //
 
 void init_page_parameters(struct Window *win_data, struct Page *page_data);
-void init_user_color(struct Window *win_data);
+void init_user_color(struct Window *win_data, gchar *theme_name);
 void init_locale_restrict_data(gchar *lc_messages);
 GString *save_user_settings(GtkWidget *widget, struct Window *win_data);
 gchar *get_user_profile_path(struct Window *win_data, int argc, char *argv[]);
@@ -152,14 +155,15 @@ void init_rgba(struct Window *win_data);
 // **************************** property.c ****************************
 //
 
-void adjust_ansi_color(GdkColor color[COLOR], GdkColor color_orig[COLOR], gdouble color_brightness, gboolean invert_color);
-void adjust_ansi_color_severally(GdkColor *color, GdkColor *color_orig, gdouble color_brightness);
-void set_color_brightness(struct Window *win_data);
+void create_theme_color_data(GdkColor color[COLOR], GdkColor color_orig[COLOR], gdouble color_brightness, gboolean invert_color, gboolean default_vte_theme);
+void adjust_ansi_color(GdkColor *color, GdkColor *color_orig, gdouble color_brightness);
+void generate_all_color_datas(struct Window *win_data);
+GdkColor *get_current_color_theme(struct Window *win_data);
 void init_new_page(struct Window *win_data, struct Page *page_data, glong column, glong row);
 void set_cursor_blink(struct Window *win_data, struct Page *page_data);
 void set_hyprelink(struct Window *win_data, struct Page *page_data);
-void set_vte_color(struct Window *win_data, struct Page *page_data);
-void switch_color(struct Window *win_data);
+void set_vte_color(GtkWidget *vet, gboolean default_vte_color, GdkColor cursor_color, GdkColor color[COLOR], gboolean update_fg_only);
+gboolean use_default_vte_theme(struct Window *win_data);
 void set_page_width(struct Window *win_data, struct Page *page_data);
 void pack_vte_and_scroll_bar_to_hbox(struct Window *win_data, struct Page *page_data);
 void add_remove_page_timeout_id(struct Window *win_data, struct Page *page_data);
@@ -188,7 +192,7 @@ struct Page *add_page(struct Window *win_data,
 		      gchar *locale,
 		      gchar *environments,
 		      gchar *user_environ,
-		      gchar *VTE_CJK_WIDTH_STR,
+		      const gchar *VTE_CJK_WIDTH_STR,
 		      gboolean add_to_next);
 void dim_vte_text (struct Window *win_data, struct Page *page_data, gint dim_text);
 gboolean close_page(GtkWidget *vte, gint close_type);
@@ -245,6 +249,7 @@ void update_page_name_normal(StrAddr **page_name,
 //
 
 GtkResponseType dialog(GtkWidget *widget, gsize style);
+gint get_color_index(gboolean invert_color, gint index);
 gboolean find_str_in_vte(GtkWidget *vte, Dialog_Find_Type type);
 void set_markup_key_value(gboolean bold, gchar *color, gchar *key_value, GtkWidget *label);
 gboolean check_and_add_locale_to_warned_locale_list(struct Window *win_data, gchar *new_locale);
@@ -262,6 +267,7 @@ gchar *get_colorful_profile(struct Window *win_data);
 // **************************** menu.c ****************************
 //
 
+void recreate_theme_menu_items(struct Window *win_data);
 gboolean refresh_locale_and_encoding_list(struct Window *win_data);
 void set_encoding(GtkWidget *menuitem, gpointer user_data);
 gboolean create_menu(struct Window *win_data);

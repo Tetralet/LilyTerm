@@ -27,13 +27,13 @@ void set_vte_font(GtkWidget *widget, Font_Set_Type type)
 #ifdef DETAIL
 	g_debug("! Launch set_vte_font() with type = %d", type);
 #endif
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if (menu_active_window==NULL) return;
 #endif
 
 	// GtkWidget *vte = current_vte;
 	struct Window *win_data = (struct Window *)g_object_get_data(G_OBJECT(menu_active_window), "Win_Data");
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if (win_data==NULL) return;
 #endif
 	GtkWidget *vte = win_data->current_vte;
@@ -105,16 +105,16 @@ gchar *get_resize_font(GtkWidget *vte, Font_Name_Type type)
 #ifdef DETAIL
 	g_debug("! Launch get_resize_font() for vte %p with type %d", vte, type);
 #endif
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if (vte==NULL) return NULL;
 #endif
 	// we must insure that vte!=NULL
 	struct Page *page_data = (struct Page *)g_object_get_data(G_OBJECT(vte), "Page_Data");
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if (page_data==NULL) return NULL;
 #endif
 	struct Window *win_data = (struct Window *)g_object_get_data(G_OBJECT(page_data->window), "Win_Data");
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if (win_data==NULL) return NULL;
 #endif
 	// g_debug("Get win_data = %d when get resize font!", win_data);
@@ -175,7 +175,7 @@ gchar *get_resize_font(GtkWidget *vte, Font_Name_Type type)
 		case FONT_NAME_INCREASE:
 		case FONT_NAME_DECREASE:
 		{
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 			if (page_data->font_name==NULL) break;
 #endif
 			gint oldfontsize=0, fontsize=0;
@@ -296,7 +296,7 @@ void reset_vte_size(GtkWidget *vte, gchar *new_font_name, Font_Reset_Type type)
 	g_debug("! Launch reset_vte_size() with vte = %p, new_font_name = %s, type = %d",
 		vte, new_font_name, type);
 #endif
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if ((vte==NULL) || (new_font_name==NULL)) return;
 #endif
 
@@ -306,11 +306,11 @@ void reset_vte_size(GtkWidget *vte, gchar *new_font_name, Font_Reset_Type type)
 	// type 3, RESET_ALL_TO_SYSTEM: apply system column & row to every vte
 
 	struct Page *page_data = (struct Page *)g_object_get_data(G_OBJECT(vte), "Page_Data");
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if (page_data==NULL) return;
 #endif
 	struct Window *win_data = (struct Window *)g_object_get_data(G_OBJECT(page_data->window), "Win_Data");
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if (win_data==NULL) return;
 #endif
 	// g_debug("Get win_data = %d when reset vte size!", win_data);
@@ -362,12 +362,12 @@ void apply_font_to_every_vte(GtkWidget *window, gchar *new_font_name, glong colu
 	g_debug("! Launch apply_font_to_every_vte() with window = %p, new_font_name = %s,"
 		" column = %ld, row = %ld", window, new_font_name, column, row);
 #endif
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if ((window==NULL) || (new_font_name==NULL) || (column<1) || (row<1)) return;
 #endif
 	struct Window *win_data = (struct Window *)g_object_get_data(G_OBJECT(window), "Win_Data");
 	// g_debug("Get win_data = %d when apply font to every vte!", win_data);
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if (win_data==NULL) return;
 #endif
 
@@ -380,7 +380,7 @@ void apply_font_to_every_vte(GtkWidget *window, gchar *new_font_name, glong colu
 	for (i=0; i<gtk_notebook_get_n_pages(GTK_NOTEBOOK(win_data->notebook)); i++)
 	{
 		page_data = get_page_data_from_nth_page(win_data, i);
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 		if (page_data==NULL) continue;
 #endif
 #ifdef USE_GTK3_GEOMETRY_METHOD
@@ -443,7 +443,7 @@ gboolean check_if_every_vte_is_using_restore_font_name(struct Window *win_data)
 #ifdef DETAIL
 	g_debug("! Launch check_if_every_vte_is_using_restore_font_name() with win_data = %p", win_data);
 #endif
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if ((win_data==NULL) || (win_data->notebook==NULL)) return FALSE;
 #endif
 	if (win_data->restore_font_name == NULL)
@@ -456,7 +456,7 @@ gboolean check_if_every_vte_is_using_restore_font_name(struct Window *win_data)
 	for (i=0; i<gtk_notebook_get_n_pages(GTK_NOTEBOOK(win_data->notebook)); i++)
 	{
 		page_data = get_page_data_from_nth_page(win_data, i);
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 		if (page_data==NULL) continue;
 #endif
 		if (compare_strings(page_data->font_name, win_data->restore_font_name, TRUE))

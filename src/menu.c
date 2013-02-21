@@ -46,7 +46,7 @@ gboolean create_menu(struct Window *win_data)
 #  undef g_strsplit
 #  undef g_strsplit_set
 #endif
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if (win_data==NULL) return FALSE;
 #endif
 	GtkWidget *sub_menu=NULL;
@@ -90,20 +90,24 @@ gboolean create_menu(struct Window *win_data)
 		create_menu_item (IMAGE_MENU_ITEM, sub_menu, _("Change the foreground color"), NULL, GTK_STOCK_SELECT_COLOR,
 				  (GSourceFunc)dialog, GINT_TO_POINTER (CHANGE_THE_FOREGROUND_COLOR));
 
-		// Change the cursor color for every tab
-		create_menu_item (IMAGE_MENU_ITEM, sub_menu, _("Change the cursor color"), NULL, GTK_STOCK_SELECT_COLOR,
-				  (GSourceFunc)dialog, GINT_TO_POINTER (CHANGE_THE_CURSOR_COLOR));
+		// Change the foreground color for every tab
+		create_menu_item (IMAGE_MENU_ITEM, sub_menu, _("Change the ANSI colors"), NULL, GTK_STOCK_SELECT_COLOR,
+				  (GSourceFunc)dialog, GINT_TO_POINTER (CHANGE_THE_ANSI_COLORS));
 
 		// Change the background color for every tab
 		create_menu_item (IMAGE_MENU_ITEM, sub_menu, _("Change the background color"), NULL, GTK_STOCK_SELECT_COLOR,
 				  (GSourceFunc)dialog, GINT_TO_POINTER (CHANGE_THE_BACKGROUND_COLOR));
 
+		// Change the cursor color for every tab
+		create_menu_item (IMAGE_MENU_ITEM, sub_menu, _("Change the cursor color"), NULL, GTK_STOCK_SELECT_COLOR,
+				  (GSourceFunc)dialog, GINT_TO_POINTER (CHANGE_THE_CURSOR_COLOR));
+
 		// Change the background color for every tab
 		create_menu_item (IMAGE_MENU_ITEM, sub_menu, _("Adjust the brightness of ANSI colors"), NULL, GTK_STOCK_SELECT_COLOR,
 				  (GSourceFunc)dialog, GINT_TO_POINTER (ADJUST_THE_BRIGHTNESS_OF_ANSI_COLORS_USED_IN_TERMINAL));
-		create_menu_item (IMAGE_MENU_ITEM, sub_menu, _("Adjust the brightness when inactive"),
-				  NULL, GTK_STOCK_SELECT_COLOR, (GSourceFunc)dialog,
-				  GINT_TO_POINTER (ADJUST_THE_BRIGHTNESS_OF_ANSI_COLORS_WHEN_INACTIVE));
+
+		create_menu_item (IMAGE_MENU_ITEM, sub_menu, _("Adjust the brightness when inactive"),  NULL, GTK_STOCK_SELECT_COLOR,
+				  (GSourceFunc)dialog, GINT_TO_POINTER (ADJUST_THE_BRIGHTNESS_OF_ANSI_COLORS_WHEN_INACTIVE));
 
 		if (win_data->use_color_page)
 		{
@@ -126,20 +130,9 @@ gboolean create_menu(struct Window *win_data)
 	}
 #endif
 	// The ansi theme
-	sub_menu = create_sub_item (win_data->menu, _("Change ANSI color theme"), GTK_STOCK_SELECT_COLOR);
-	win_data->menuitem_invert_color = create_menu_item(CHECK_MENU_ITEM, sub_menu, _("Invert color"), NULL, NULL,
-							    (GSourceFunc)set_ansi_theme, win_data->color);
-	add_separator_menu (sub_menu);
-	GSList *theme_group = NULL;
-	// g_debug("win_data->color_theme_str = %s", win_data->color_theme_str);
-	for (i=0; i<THEME; i++)
-		theme_group = create_theme_menu_items(win_data, sub_menu, theme_group, i, 0);
-	if (win_data->have_custom_color)
-	{
-		add_separator_menu (sub_menu);
-		for (i=0; i<THEME; i++)
-			theme_group = create_theme_menu_items(win_data, sub_menu, theme_group, i, 1);
-	}
+	win_data->ansi_color_sub_menu = create_sub_item_subitem (_("Change ANSI color theme"), GTK_STOCK_SELECT_COLOR);
+	gtk_menu_shell_append (GTK_MENU_SHELL (win_data->menu), win_data->ansi_color_sub_menu);
+	recreate_theme_menu_items(win_data);
 
 	if (win_data->show_background_menu)
 	{
@@ -417,13 +410,51 @@ gboolean create_menu(struct Window *win_data)
 	return TRUE;
 }
 
+void recreate_theme_menu_items(struct Window *win_data)
+{
+#ifdef DETAIL
+	g_debug("! Launch recreate_theme_menu_items() with win_data = %p", win_data);
+#endif
+#ifdef SAFEMODE
+	if (win_data==NULL) return;
+#endif
+	if (win_data->ansi_color_menuitem)
+	{
+		gtk_widget_destroy(win_data->ansi_color_menuitem);
+		// g_debug("recreate_theme_menu_items(): set win_data->current_menuitem_theme = NULL");
+		win_data->current_menuitem_theme = NULL;
+	}
+	win_data->ansi_color_menuitem = gtk_menu_new ();
+#ifdef SAFEMODE
+	if (win_data->ansi_color_sub_menu)
+#endif
+		gtk_menu_item_set_submenu (GTK_MENU_ITEM (win_data->ansi_color_sub_menu), win_data->ansi_color_menuitem);
+	
+	win_data->menuitem_invert_color = create_menu_item(CHECK_MENU_ITEM, win_data->ansi_color_menuitem, _("Invert color"), NULL, NULL,
+							    (GSourceFunc)invert_color_theme, win_data);
+	add_separator_menu (win_data->ansi_color_menuitem);
+
+	gint i;
+	GSList *theme_group = NULL;
+	// g_debug("win_data->color_theme_str = %s", win_data->color_theme_str);
+	for (i=0; i<THEME; i++)
+		theme_group = create_theme_menu_items(win_data, win_data->ansi_color_menuitem, theme_group, i, 0);
+	if (win_data->have_custom_color)
+	{
+		add_separator_menu (win_data->ansi_color_menuitem);
+		for (i=0; i<THEME; i++)
+			theme_group = create_theme_menu_items(win_data, win_data->ansi_color_menuitem, theme_group, i, 1);
+	}
+	gtk_widget_show_all(win_data->ansi_color_menuitem);
+}
+
 GSList *create_theme_menu_items(struct Window *win_data, GtkWidget *sub_menu, GSList *theme_group, gint current_theme, gint custom_theme)
 {
 #ifdef DETAIL
 	g_debug("! Launch create_theme_menu_items() with win_data = %p, sub_menu = %p, theme_group = %p, current_theme = %d, custom_theme = %d",
 		win_data, sub_menu, theme_group, current_theme, custom_theme);
 #endif
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if (win_data==NULL) return NULL;
 #endif
 	gchar *item_label = NULL;
@@ -448,13 +479,18 @@ GSList *create_theme_menu_items(struct Window *win_data, GtkWidget *sub_menu, GS
 	if (custom_theme) item_label = g_strdup_printf(_("%s + custom"), item_label);
 
 	GdkColor *color = system_color_theme[current_theme].color;
-	if (custom_theme) color = win_data->custom_color_theme[current_theme].color;
+	gint index = system_color_theme[current_theme].index;
+	if (custom_theme)
+	{
+		color = win_data->custom_color_theme[current_theme].color;
+		index = win_data->custom_color_theme[current_theme].index;
+	}
 	win_data->menuitem_theme[current_theme + custom_theme*THEME] = add_radio_menuitem_to_sub_menu (theme_group,
 												       sub_menu,
 												       item_label,
-												       (GSourceFunc)set_ansi_theme,
-												       color);
-#ifdef DEFENSIVE
+												       (GSourceFunc)select_ansi_theme,
+												       GINT_TO_POINTER(index));
+#ifdef SAFEMODE
 	if (win_data->menuitem_theme[current_theme]==NULL) return NULL;
 #endif
 		theme_group = gtk_radio_menu_item_get_group (GTK_RADIO_MENU_ITEM (win_data->menuitem_theme[current_theme]));
@@ -465,12 +501,11 @@ GSList *create_theme_menu_items(struct Window *win_data, GtkWidget *sub_menu, GS
 	if ((win_data->current_menuitem_theme==NULL) && (win_data->use_custom_theme == custom_theme))
 	{
 		// g_debug("Comparing [%s] and [%s]...", win_data->color_theme_str, system_color_theme[current_theme].name);
-		if (! compare_strings(win_data->color_theme_str, system_color_theme[current_theme].name, FALSE))
+		if ((custom_theme == win_data->use_custom_theme) && (win_data->color_theme_index == current_theme))
 			win_data->current_menuitem_theme = win_data->menuitem_theme[current_theme + custom_theme*THEME];
 	}
-        // g_debug("Got win_data->current_menuitem_theme = %p (%d), created (%p)",
+	// g_debug("Got win_data->current_menuitem_theme = %p (%d), created (%p)",
 	//	win_data->current_menuitem_theme, current_theme, win_data->menuitem_theme[current_theme + custom_theme*THEME]);
-
 
 	// g_debug("Set the color theme %s (%p) to %p...",
 	//	system_color_theme[current_theme].name, win_data->menuitem_theme[current_theme], system_color_theme[current_theme].color);
@@ -488,7 +523,7 @@ void clean_scrollback_lines(GtkWidget *widget, struct Window *win_data)
 #ifdef DETAIL
 	g_debug("! Launch clean_scrollback_lines()!");
 #endif
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if ((win_data==NULL) || (win_data->current_vte==NULL)) return;
 #endif
 	vte_terminal_set_scrollback_lines (VTE_TERMINAL(win_data->current_vte), 0);
@@ -500,7 +535,7 @@ void copy_url_clipboard(GtkWidget *widget, gpointer user_data)
 #ifdef DETAIL
 	g_debug("! Launch copy_url_clipboard()!");
 #endif
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if (widget==NULL) return;
 #endif
 	if (gtk_widget_get_name(widget))
@@ -515,7 +550,7 @@ void copy_clipboard(GtkWidget *widget, struct Window *win_data)
 #ifdef DETAIL
 	g_debug("! Launch copy_clipboard()!");
 #endif
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if ((win_data==NULL) || (win_data->current_vte==NULL)) return;
 #endif
 	vte_terminal_copy_clipboard(VTE_TERMINAL(win_data->current_vte));
@@ -526,7 +561,7 @@ void paste_clipboard(GtkWidget *widget, struct Window *win_data)
 #ifdef DETAIL
 	g_debug("! Launch paste_clipboard()!");
 #endif
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if (win_data==NULL) return;
 #endif
 	// vte_terminal_paste_clipboard(VTE_TERMINAL(win_data->current_vte));
@@ -538,7 +573,7 @@ void paste_to_every_vte(GtkWidget *widget, struct Window *win_data)
 #ifdef DETAIL
 	g_debug("! Launch paste_clipboard()!");
 #endif
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if (win_data==NULL) return;
 #endif
 	gint type = PASTE_TEXTS_TO_EVERY_VTE_TERMINAL;
@@ -556,11 +591,11 @@ void open_current_dir_with_file_manager(GtkWidget *widget, struct Window *win_da
 #ifdef DETAIL
 	g_debug("! Launch open_current_dir_with_file_manager() with win_data = %p!", win_data);
 #endif
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if ((win_data==NULL) || (win_data->current_vte==NULL)) return;
 #endif
 	struct Page *page_data = (struct Page *)g_object_get_data(G_OBJECT(win_data->current_vte), "Page_Data");
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if (page_data==NULL) return;
 #endif
 	open_url_with_external_command (page_data->pwd, TAG_FILE, win_data, page_data);
@@ -571,7 +606,7 @@ void view_clipboard(GtkWidget *widget, struct Window *win_data)
 #ifdef DETAIL
 	g_debug("! Launch paste_clipboard()!");
 #endif
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if (win_data==NULL) return;
 #endif
 	show_clipboard_dialog(SELECTION_CLIPBOARD, win_data, NULL, VIEW_THE_CLIPBOARD);
@@ -582,7 +617,7 @@ void view_primary(GtkWidget *widget, struct Window *win_data)
 #ifdef DETAIL
 	g_debug("! Launch paste_clipboard()!");
 #endif
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if (win_data==NULL) return;
 #endif
 	show_clipboard_dialog(SELECTION_PRIMARY, win_data, NULL, VIEW_THE_CLIPBOARD);
@@ -593,7 +628,7 @@ void set_dim_text(GtkWidget *menuitem_dim_text, struct Window *win_data)
 #ifdef DETAIL
 	g_debug("! Launch set_dim_text() with win_data = %p", win_data);
 #endif
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if ((menuitem_dim_text==NULL) || (win_data==NULL)) return;
 #endif
 	// win_data->dim_text = GTK_CHECK_MENU_ITEM(menuitem_dim_text)->active;
@@ -607,7 +642,7 @@ void set_dim_window(GtkWidget *menuitem_dim_text, struct Window *win_data)
 #  ifdef DETAIL
 	g_debug("! Launch set_dim_window() with win_data = %p", win_data);
 #  endif
-#  ifdef DEFENSIVE
+#  ifdef SAFEMODE
 	if (win_data==NULL) return;
 	if (win_data->menuitem_dim_window==NULL) return;
 #  endif
@@ -622,7 +657,7 @@ void set_cursor_blinks(GtkWidget *menuitem_cursor_blinks, struct Window *win_dat
 #ifdef DETAIL
 	g_debug("! Launch set_cursor_blinks() with win_data = %p", win_data);
 #endif
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if ((menuitem_cursor_blinks==NULL) || (win_data==NULL)) return;
 #endif
 #ifdef USE_NEW_VTE_CURSOR_BLINKS_MODE
@@ -641,7 +676,7 @@ void set_cursor_blinks(GtkWidget *menuitem_cursor_blinks, struct Window *win_dat
 	for (i=0; i<gtk_notebook_get_n_pages(GTK_NOTEBOOK(win_data->notebook)); i++)
 	{
 		page_data = get_page_data_from_nth_page(win_data, i);
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 		if (page_data)
 #endif
 			set_cursor_blink(win_data, page_data);
@@ -653,7 +688,7 @@ void set_audible_bell(GtkWidget *menuitem_audible_bell, struct Window *win_data)
 #ifdef DETAIL
 	g_debug("! Launch set_audible_bell() with win_data = %p", win_data);
 #endif
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if ((menuitem_audible_bell==NULL) || (win_data==NULL)) return;
 #endif
 	// win_data->audible_bell = GTK_CHECK_MENU_ITEM(menuitem_audible_bell)->active;
@@ -664,7 +699,7 @@ void set_audible_bell(GtkWidget *menuitem_audible_bell, struct Window *win_data)
 	for (i=0; i<gtk_notebook_get_n_pages(GTK_NOTEBOOK(win_data->notebook)); i++)
 	{
 		page_data = get_page_data_from_nth_page(win_data, i);
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 		if (page_data)
 #endif
 			vte_terminal_set_audible_bell (VTE_TERMINAL(page_data->vte), win_data->audible_bell);
@@ -676,7 +711,7 @@ void set_visible_bell(GtkWidget *menuitem_visible_bell, struct Window *win_data)
 #ifdef DETAIL
 	g_debug("! Launch set_visible_bell() with win_data = %p", win_data);
 #endif
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if ((menuitem_visible_bell==NULL) || (win_data==NULL)) return;
 #endif
 	// win_data->visible_bell = GTK_CHECK_MENU_ITEM(menuitem_visible_bell)->active;
@@ -687,7 +722,7 @@ void set_visible_bell(GtkWidget *menuitem_visible_bell, struct Window *win_data)
 	for (i=0; i<gtk_notebook_get_n_pages(GTK_NOTEBOOK(win_data->notebook)); i++)
 	{
 		page_data = get_page_data_from_nth_page(win_data, i);
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 		if (page_data)
 #endif
 			vte_terminal_set_visible_bell (VTE_TERMINAL(page_data->vte), win_data->visible_bell);
@@ -699,7 +734,7 @@ void set_urgent_bell(GtkWidget *menuitem_urgent_bell, struct Window *win_data)
 #ifdef DETAIL
 	g_debug("! Launch set_urgent_bell() with win_data = %p", win_data);
 #endif
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if ((win_data==NULL) || (win_data->notebook==NULL)) return;
 #endif
 	// win_data->urgent_bell = GTK_CHECK_MENU_ITEM(menuitem_urgent_bell)->active;
@@ -718,7 +753,7 @@ void set_urgent_bell(GtkWidget *menuitem_urgent_bell, struct Window *win_data)
 	for (i=0; i<gtk_notebook_get_n_pages(GTK_NOTEBOOK(win_data->notebook)); i++)
 	{
 		page_data = get_page_data_from_nth_page(win_data, i);
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 		if (page_data)
 #endif
 			set_vte_urgent_bell(win_data, page_data);
@@ -731,7 +766,7 @@ void set_vte_urgent_bell(struct Window *win_data, struct Page *page_data)
 #ifdef DETAIL
 	g_debug("! Launch set_urgent_bell() with win_data = %p, page_data = %p", win_data, page_data);
 #endif
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if ((win_data==NULL) || (page_data==NULL)) return;
 #endif
 	extern gboolean menu_activated;
@@ -759,11 +794,11 @@ void urgent_beep(GtkWidget *window, struct Page *page_data)
 #ifdef DETAIL
 	g_debug("! Launch urgent_beep() with page_data = %p", page_data);
 #endif
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if ((page_data==NULL) || (page_data->window==NULL)) return;
 #endif
 	struct Window *win_data = (struct Window *)g_object_get_data(G_OBJECT(page_data->window), "Win_Data");
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if (win_data==NULL) return;
 #endif
 	if (win_data->urgent_bell_focus_in_event_id==0)
@@ -781,7 +816,7 @@ gboolean stop_urgency_hint(GtkWidget *window, GdkEvent *event, struct Window *wi
 #ifdef DETAIL
 	g_debug("! Launch stop_urgency_hint() with win_data= %p", win_data);
 #endif
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if (win_data==NULL) return FALSE;
 #endif
 	if (win_data->urgent_bell_focus_in_event_id)
@@ -805,11 +840,11 @@ void launch_hide_and_show_tabs_bar(GtkWidget *widget, Switch_Type show_tabs_bar)
 	if (menu_active_window==NULL)
 		return print_active_window_is_null_error_dialog("launch_hide_and_show_tabs_bar()");
 #endif
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if (menu_active_window==NULL) return;
 #endif
 	struct Window *win_data = (struct Window *)g_object_get_data(G_OBJECT(menu_active_window), "Win_Data");
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if (win_data==NULL) return;
 #endif
 	gint total_page = gtk_notebook_get_n_pages(GTK_NOTEBOOK(win_data->notebook));
@@ -853,7 +888,7 @@ GtkWidget *check_name_in_menuitem(GtkWidget *sub_menu, const gchar *name, gboole
 #ifdef OUT_OF_MEMORY
 #  undef gtk_widget_get_name
 #endif
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	// FIXME: if sub_menu == NULL...
 	if ((sub_menu==NULL) || (name==NULL)) return NULL;
 #endif
@@ -894,7 +929,7 @@ GtkWidget *add_radio_menuitem_to_sub_menu(GSList *encoding_group,
 	g_debug("! Launch add_radio_menuitem_to_sub_menu() with encoding_group = %p, sub_menu = %p, name = %s",
 		encoding_group, sub_menu, name);
 #endif
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if ((sub_menu==NULL) ||(name==NULL)) return NULL;
 #endif
 	GtkWidget *menu_item = gtk_radio_menu_item_new_with_label(encoding_group, name);
@@ -917,7 +952,7 @@ gint add_menuitem_to_locale_sub_menu(struct Window *win_data,
 #ifdef OUT_OF_MEMORY
 #  undef g_strdup_printf
 #endif
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if ((win_data==NULL) || (name==NULL)) return 0;
 #endif
 	gchar *encoding = get_encoding_from_locale(name);
@@ -956,7 +991,7 @@ gint add_menuitem_to_locale_sub_menu(struct Window *win_data,
 		// g_debug("Set the %d locale to %s", no, item_name);
 		gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(menu_item),
 					      gtk_image_new_from_stock(GTK_STOCK_DND_MULTIPLE, GTK_ICON_SIZE_MENU));
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 		if (win_data->locale_sub_menu)
 #endif
 			gtk_menu_shell_append(GTK_MENU_SHELL(win_data->locale_sub_menu), menu_item);
@@ -1000,7 +1035,7 @@ void reset_vte(GtkWidget *widget, struct Window *win_data)
 #ifdef DETAIL
 	g_debug("! Launch reset_vte()!");
 #endif
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if ((win_data==NULL) || (win_data->current_vte==NULL)) return;
 #endif
 	vte_terminal_reset(VTE_TERMINAL(win_data->current_vte), TRUE, FALSE);
@@ -1011,7 +1046,7 @@ void set_trans_bg(GtkWidget *menuitem_trans_bg, struct Window *win_data)
 #ifdef DETAIL
 	g_debug("! Launch set_trans_bg() for win_data %p", win_data);
 #endif
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if ((menuitem_trans_bg==NULL) || (win_data==NULL)) return;
 #endif
 	// win_data->transparent_background = GTK_CHECK_MENU_ITEM(menuitem_trans_bg)->active;
@@ -1023,7 +1058,7 @@ void set_trans_bg(GtkWidget *menuitem_trans_bg, struct Window *win_data)
 	for (i=0; i<gtk_notebook_get_n_pages(GTK_NOTEBOOK(win_data->notebook)); i++)
 	{
 		page_data = get_page_data_from_nth_page(win_data, i);
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 		if (page_data)
 #endif
 			set_background_saturation (NULL, 0, win_data->background_saturation, page_data->vte);
@@ -1037,11 +1072,11 @@ void set_trans_win(GtkWidget *widget, GtkWidget *window)
 #ifdef DETAIL
 	g_debug("! Launch set_trans_win() for window %p!", window);
 #endif
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if (window==NULL) return;
 #endif
 	struct Window *win_data = (struct Window *)g_object_get_data(G_OBJECT(window), "Win_Data");
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if (win_data==NULL) return;
 #endif
 	// g_debug("Get win_data = %d when set_trans_win!", win_data);
@@ -1052,89 +1087,122 @@ void set_trans_win(GtkWidget *widget, GtkWidget *window)
 }
 #endif
 
-void set_ansi_theme(GtkWidget *menuitem, GdkColor color[COLOR])
+void invert_color_theme(GtkWidget *menuitem, struct Window *win_data)
 {
 #ifdef DETAIL
-	g_debug("! Launch set_ansi_theme() with menuitem = %p!, color = %p", menuitem, color);
+	g_debug("! Launch invert_color_theme() with menuitem = %p", menuitem);
+#endif
+#ifdef SAFEMODE
+	if (win_data==NULL) return;
+#endif
+	if (win_data->checking_menu_item) return;
+
+        win_data->color_brightness = - win_data->color_brightness;
+        win_data->color_brightness_inactive = - win_data->color_brightness_inactive;
+	// g_debug("invert_color_theme(): win_data->color_brightness = %0.3f, win_data->color_brightness_inactive = %0.3f",                            
+	//	win_data->color_brightness, win_data->color_brightness_inactive);
+#ifdef SAFEMODE
+	if (menuitem)
+#endif
+		set_ansi_theme(menuitem, ANSI_THEME_INVERT_COLOR, win_data->use_custom_theme,
+			       gtk_check_menu_item_get_active (GTK_CHECK_MENU_ITEM(menuitem)), -1, win_data);
+}
+
+void select_ansi_theme(GtkWidget *menuitem, gint index)
+{
+#ifdef DETAIL
+	g_debug("! Launch select_ansi_theme() with menuitem = %p, index = %d", menuitem, index);
 #endif
 #ifdef FATAL
 	// g_debug("menu_active_window = %p", menu_active_window);
 	if (menu_active_window==NULL)
 		return print_active_window_is_null_error_dialog("set_ansi_theme()");
 #endif
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
+	if ((index < 0) || (index >= (COLOR*2))) return;
 	if (menu_active_window==NULL) return;
 #endif
 	struct Window *win_data = (struct Window *)g_object_get_data(G_OBJECT(menu_active_window), "Win_Data");
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if (win_data==NULL) return;
 #endif
-	// g_debug("menuitem = %p, and win_data->current_menuitem_theme = %p",
-	//	menuitem, win_data->current_menuitem_theme);
-	if (menuitem == win_data->menuitem_invert_color)
+	// g_debug("select_ansi_theme(): win_data->invert_color = %d", win_data->invert_color);
+	GdkColor *color;
+	if (index < COLOR)
 	{
-		gboolean invert_color = gtk_check_menu_item_get_active (GTK_CHECK_MENU_ITEM(menuitem));
+		color = system_color_theme[index].color;
+		set_ansi_theme(menuitem, ANSI_THEME_SET_ANSI_THEME, FALSE, win_data->invert_color, index, win_data);
+	}
+	else
+	{
+		color = win_data->custom_color_theme[index - COLOR].color;
+		set_ansi_theme(menuitem, ANSI_THEME_SET_ANSI_THEME, TRUE, win_data->invert_color, index - COLOR, win_data);
+	}
+}
+
+void set_ansi_theme(GtkWidget *menuitem, Set_ANSI_Theme_Type type, gboolean use_custom_theme, gboolean invert_color, 
+		    gint theme_index, struct Window *win_data)
+{
+#ifdef DETAIL
+	g_debug("! Launch set_ansi_theme() with type = %d, invert_color = %d, theme_index = %d, win_data = %p",
+		type, invert_color, theme_index, win_data);
+#endif
+#ifdef SAFEMODE
+	if (win_data==NULL) return;
+#endif
+	if (type == ANSI_THEME_INVERT_COLOR)
+	{
 		if (invert_color == win_data->invert_color) return;
 		win_data->invert_color = invert_color;
 	}
 	else
 	{
-		if ((win_data->checking_menu_item) || (menuitem == win_data->current_menuitem_theme)) return;
-
-		g_free(win_data->color_theme_str);
-		win_data->color_theme_str = g_strdup(gtk_widget_get_name(menuitem));
-#ifdef DEFENSIVE
-		if (win_data->color_theme_str==NULL) return;
-#endif
-	}
-
-	if (win_data->use_set_color_fg_bg == FALSE)
-	{
-		if (menuitem == win_data->menuitem_invert_color)
-			win_data->use_set_color_fg_bg = TRUE;
-		else
-		{
-			win_data->use_set_color_fg_bg = win_data->color_theme_str[0];
-			if (win_data->color_brightness) win_data->use_set_color_fg_bg = TRUE;
-			if (win_data->color_brightness != win_data->color_brightness_inactive) win_data->use_set_color_fg_bg = TRUE;
-		}
-		// init the init_user_color(struct Window *win_data)
-		if (win_data->use_set_color_fg_bg) init_user_color(win_data);
+		if ((win_data->checking_menu_item) ||
+		    ((win_data->use_custom_theme == use_custom_theme) && (win_data->color_theme_index == theme_index))) return;
+		win_data->color_theme_index = theme_index;
+		win_data->use_custom_theme = use_custom_theme;
 	}
 
 	gint i;
-	if (menuitem == win_data->menuitem_invert_color)
+
+	generate_all_color_datas (win_data);
+
+	struct Page *page_data = NULL;
+	gboolean default_vte_theme = use_default_vte_theme(win_data);
+
+	// g_debug("Get default_vte_theme = %d", default_vte_theme);
+
+	if (menuitem)
 	{
-		if (win_data->color_orig==NULL)
-			for (i=0; i<COLOR; i++)
-				win_data->color_orig[i] = system_color_theme[0].color[i];
-		switch_color(win_data);
+		for (i=0; i<gtk_notebook_get_n_pages(GTK_NOTEBOOK(win_data->notebook)); i++)
+		{
+			page_data = get_page_data_from_nth_page(win_data, i);
+#ifdef SAFEMODE
+			if (page_data)
+#endif
+				set_vte_color(page_data->vte, default_vte_theme, win_data->cursor_color, win_data->color, FALSE); 
+		}
+
+		if (menuitem != win_data->menuitem_invert_color)
+		{
+			// g_debug("Set the color theme to %s!", gtk_menu_item_get_label(GTK_MENU_ITEM(menuitem)));
+			win_data->current_menuitem_theme = menuitem;
+		}
 	}
 	else
 	{
-		if (win_data->use_set_color_fg_bg)
+#ifdef SAFEMODE
+		if (win_data->current_vte)
 		{
-			for (i=0; i<COLOR; i++)
-				win_data->color_orig[i] = color[i];
-		}
-	}
-
-	set_color_brightness (win_data);
-	struct Page *page_data = NULL;
-
-	for (i=0; i<gtk_notebook_get_n_pages(GTK_NOTEBOOK(win_data->notebook)); i++)
-	{
-		page_data = get_page_data_from_nth_page(win_data, i);
-#ifdef DEFENSIVE
-		if (page_data)
 #endif
-			set_vte_color(win_data, page_data);
-	}
-
-	if (menuitem != win_data->menuitem_invert_color)
-	{
-		// g_debug("Set the color theme to %s!", gtk_menu_item_get_label(GTK_MENU_ITEM(menuitem)));
-		win_data->current_menuitem_theme = menuitem;
+			struct Page *page_data = (struct Page *)g_object_get_data(G_OBJECT(win_data->current_vte), "Page_Data");
+#ifdef SAFEMODE
+			if (page_data)
+#endif
+				set_vte_color(page_data->vte, default_vte_theme, win_data->cursor_color, win_data->color, FALSE); 
+#ifdef SAFEMODE
+		}
+#endif
 	}
 }
 
@@ -1143,9 +1211,11 @@ void set_auto_save(GtkWidget *menuitem, struct Window *win_data)
 #ifdef DETAIL
 	g_debug("! Launch set_auto_save() with menuitem = %p, win_data = %p", menuitem, win_data);
 #endif
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if ((win_data==NULL) || (menuitem==NULL)) return;
 #endif
+	if (win_data->checking_menu_item) return;
+
 	win_data->auto_save = gtk_check_menu_item_get_active (GTK_CHECK_MENU_ITEM(menuitem));
 	// g_debug("Set win_data->auto_save to %d", win_data->auto_save);
 }
@@ -1160,11 +1230,11 @@ void set_erase_binding (GtkWidget *menuitem, gint value)
 	if (menu_active_window==NULL)
 		return print_active_window_is_null_error_dialog("set_erase_binding()");
 #endif
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if (menu_active_window==NULL) return;
 #endif
 	struct Window *win_data = (struct Window *)g_object_get_data(G_OBJECT(menu_active_window), "Win_Data");
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if (win_data==NULL) return;
 #endif
 	if ((win_data->checking_menu_item) || (win_data->erase_binding == value)) return;
@@ -1175,7 +1245,7 @@ void set_erase_binding (GtkWidget *menuitem, gint value)
 	for (i=0; i<gtk_notebook_get_n_pages(GTK_NOTEBOOK(win_data->notebook)); i++)
 	{
 		page_data = get_page_data_from_nth_page(win_data, i);
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 		if (page_data)
 #endif
 			vte_terminal_set_backspace_binding (VTE_TERMINAL(page_data->vte), win_data->erase_binding);
@@ -1194,11 +1264,11 @@ void set_cursor_shape (GtkWidget *menuitem, gint value)
 	if (menu_active_window==NULL)
 		return print_active_window_is_null_error_dialog("set_cursor_shape()");
 #endif
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if (menu_active_window==NULL) return;
 #endif
 	struct Window *win_data = (struct Window *)g_object_get_data(G_OBJECT(menu_active_window), "Win_Data");
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if (win_data==NULL) return;
 #endif
 	if ((win_data->checking_menu_item) || (win_data->cursor_shape == value)) return;
@@ -1209,7 +1279,7 @@ void set_cursor_shape (GtkWidget *menuitem, gint value)
 	for (i=0; i<gtk_notebook_get_n_pages(GTK_NOTEBOOK(win_data->notebook)); i++)
 	{
 		page_data = get_page_data_from_nth_page(win_data, i);
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 		if (page_data)
 #endif
 			vte_terminal_set_cursor_shape(VTE_TERMINAL(page_data->vte), win_data->cursor_shape);
@@ -1221,7 +1291,7 @@ void set_cursor_shape (GtkWidget *menuitem, gint value)
 // it is OK to use either zh_TW.Big5 or Big5 here
 void set_encoding(GtkWidget *menuitem, gpointer user_data)
 {
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if (menuitem==NULL) return;
 #endif
 	// g_debug("GTK_CHECK_MENU_ITEM(menuitem)->active = %d", GTK_CHECK_MENU_ITEM(menuitem)->active);
@@ -1235,18 +1305,18 @@ void set_encoding(GtkWidget *menuitem, gpointer user_data)
 	if (menu_active_window==NULL)
 		return print_active_window_is_null_error_dialog("set_encoding()");
 #endif
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if (menu_active_window==NULL) return;
 #endif
 	struct Window *win_data = (struct Window *)g_object_get_data(G_OBJECT(menu_active_window), "Win_Data");
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if (win_data==NULL) return;
 #endif
 	// No action when just right click the mouse
 	if (win_data->checking_menu_item) return;
 
 	struct Page *page_data = (struct Page *)g_object_get_data(G_OBJECT(win_data->current_vte), "Page_Data");
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if (page_data==NULL) return;
 #endif
 	const gchar *encoding = gtk_widget_get_name(menuitem);
@@ -1284,12 +1354,12 @@ void new_tab_with_locale(GtkWidget *locale_menuitem, gboolean VTE_CJK_WIDTH)
 	if (menu_active_window==NULL)
 		return print_active_window_is_null_error_dialog("new_tab_with_locale()");
 #endif
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if (menu_active_window==NULL) return;
 #endif
 	// g_debug("locale_menuitem->name = %s", gtk_widget_get_name(locale_menuitem);
 	struct Window *win_data = (struct Window *)g_object_get_data(G_OBJECT(menu_active_window), "Win_Data");
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if (win_data==NULL) return;
 #endif
 	// g_debug("Got the VTE_CJK_WIDTH = %s", gtk_widget_get_name(locale_menuitem);
@@ -1328,7 +1398,7 @@ void new_tab_with_locale(GtkWidget *locale_menuitem, gboolean VTE_CJK_WIDTH)
 	//		      gboolean run_once,
 	//		      gchar *VTE_CJK_WIDTH_STR,
 	//		      gboolean add_to_next)
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if (page_data)
 #endif
 		add_page(win_data,
@@ -1341,7 +1411,7 @@ void new_tab_with_locale(GtkWidget *locale_menuitem, gboolean VTE_CJK_WIDTH)
 			 NULL,
 			 get_VTE_CJK_WIDTH_str(VTE_CJK_WIDTH+1),
 			 TRUE);
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	else
 		add_page(win_data,
 			 NULL,
@@ -1365,17 +1435,17 @@ void select_font(GtkWidget *widget, struct Window *win_data)
 #ifdef DETAIL
 	g_debug("! Launch select_font() for win_data %p", win_data);
 #endif
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if ((win_data==NULL) || (win_data->current_vte==NULL)) return;
 #endif
 	struct Page *page_data = (struct Page *)g_object_get_data(G_OBJECT(win_data->current_vte), "Page_Data");
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if (page_data==NULL) return;
 #endif
 	GtkWidget *dialog = gtk_font_selection_dialog_new(_("Font Selection"));
 	gtk_window_set_transient_for(GTK_WINDOW(dialog), GTK_WINDOW(win_data->window));
 	// set the default font name in gtk_font_selection_dialog
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if (page_data->font_name)
 #endif
 		gtk_font_selection_dialog_set_font_name(GTK_FONT_SELECTION_DIALOG(dialog), page_data->font_name);
@@ -1401,7 +1471,7 @@ gboolean refresh_locale_and_encoding_list(struct Window *win_data)
 #ifdef DETAIL
 	g_debug("! Launch refresh_locale_and_encoding_list() for win_data = %p", win_data);
 #endif
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if (win_data==NULL) return FALSE;
 #endif
 	gboolean response = TRUE;
@@ -1410,7 +1480,7 @@ gboolean refresh_locale_and_encoding_list(struct Window *win_data)
 
 	for (i=0; i<3; i++)
 	{
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 		if (win_data->encoding_locale_menuitems[i])
 		{
 #endif
@@ -1418,7 +1488,7 @@ gboolean refresh_locale_and_encoding_list(struct Window *win_data)
 			// g_debug("Set not show win_data->encoding_locale_menuitems[%d] (%p)!",
 			//	i, win_data->encoding_locale_menuitems[i]);
 			gtk_widget_set_no_show_all(win_data->encoding_locale_menuitems[i], TRUE);
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 		}
 #endif
 	}
@@ -1443,7 +1513,7 @@ gboolean refresh_locale_and_encoding_list(struct Window *win_data)
 	// g_debug("Get current_encoding = %s", (gchar *)vte_terminal_get_encoding(
 	//								VTE_TERMINAL(win_data->current_vte)));
 	// g_debug("lc_all = %s", lc_all);
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if (supported_locales)
 	{
 #endif
@@ -1456,7 +1526,7 @@ gboolean refresh_locale_and_encoding_list(struct Window *win_data)
 			//	supported_locales[i], encoding);
 			if (encoding)
 			{
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 				if (encoding_list_from_locale)
 				{
 #endif
@@ -1465,7 +1535,7 @@ gboolean refresh_locale_and_encoding_list(struct Window *win_data)
 					else
 						g_string_append_printf(encoding_list_from_locale, "%s", encoding);
 				}
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 			}
 #endif
 			if (! compare_strings(encoding, "UTF-8", FALSE))
@@ -1474,7 +1544,7 @@ gboolean refresh_locale_and_encoding_list(struct Window *win_data)
 			i++;
 		}
 		setlocale(LC_CTYPE, init_LC_CTYPE);
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	}
 #endif
 	// g_debug("init_LC_CTYPE = %s, Recover to %s", init_LC_CTYPE, (char*)g_getenv("LC_CTYPE"));
@@ -1488,7 +1558,7 @@ gboolean refresh_locale_and_encoding_list(struct Window *win_data)
 
 	gchar *full_encodings_list;
 
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if (encoding_list_from_locale==NULL)
 	{
 		if (win_data->current_vte)
@@ -1516,7 +1586,7 @@ gboolean refresh_locale_and_encoding_list(struct Window *win_data)
 								     init_encoding,
 								     win_data->runtime_encoding,
 								     encoding_list_from_locale->str);
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 		else
 			full_encodings_list = join_strings_to_string(' ', 4,
 								     "UTF-8",
@@ -1530,13 +1600,13 @@ gboolean refresh_locale_and_encoding_list(struct Window *win_data)
 	gint count_encoding_menu=0;
 	gchar **supported_encodings = split_string(full_encodings_list, " ", -1);
 	// print_array ("supported_encodings", supported_encodings);
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if (supported_encodings)
 	{
 #endif
 		if (win_data->encoding_sub_menu) gtk_widget_destroy(win_data->encoding_sub_menu);
 		win_data->encoding_sub_menu = gtk_menu_new ();
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 		if (win_data->encoding_locale_menuitems[0])
 #endif
 			gtk_menu_item_set_submenu (GTK_MENU_ITEM (win_data->encoding_locale_menuitems[0]),
@@ -1572,7 +1642,7 @@ gboolean refresh_locale_and_encoding_list(struct Window *win_data)
 		{
 			// g_debug("Show win_data->encoding_locale_menuitems[0] (%p)!",
 			//	win_data->encoding_locale_menuitems[0]);
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 			if (win_data->encoding_locale_menuitems[0])
 #endif
 				gtk_widget_set_no_show_all(win_data->encoding_locale_menuitems[0], FALSE);
@@ -1584,7 +1654,7 @@ gboolean refresh_locale_and_encoding_list(struct Window *win_data)
 			win_data->encoding_sub_menu = NULL;
 		}
 		g_strfreev(supported_encodings);
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	}
 #endif
 	g_free(full_encodings_list);
@@ -1605,7 +1675,7 @@ gboolean refresh_locale_and_encoding_list(struct Window *win_data)
 			// g_debug("Set sub_menu_item = %p for win_data (%p)", sub_menu_item, win_data);
 			if (win_data->locale_sub_menu) gtk_widget_destroy(win_data->locale_sub_menu);
 			win_data->locale_sub_menu = gtk_menu_new ();
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 			if (sub_menu_item)
 #endif
 				gtk_menu_item_set_submenu (GTK_MENU_ITEM (sub_menu_item), win_data->locale_sub_menu);
@@ -1651,7 +1721,7 @@ gboolean refresh_locale_and_encoding_list(struct Window *win_data)
 				//		"sub_menu_item = %p for win_data (%p) is not a widget!",
 				//		sub_menu_item, win_data);
 #endif
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 				if (GTK_IS_WIDGET(sub_menu_item)==FALSE)
 				{
 					response = FALSE;
@@ -1681,7 +1751,7 @@ gboolean refresh_locale_and_encoding_list(struct Window *win_data)
 				  NULL, GTK_STOCK_ADD,  (GSourceFunc)dialog, GINT_TO_POINTER (ADD_NEW_LOCALES));
 	}
 	for (i=0; i<3; i++)
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 		if (win_data->encoding_locale_menuitems[i])
 #endif
 			gtk_widget_show_all(win_data->encoding_locale_menuitems[i]);
@@ -1698,7 +1768,7 @@ void refresh_profile_list (struct Window *win_data)
 #ifdef DETAIL
 	g_debug("! Launch refresh_profile_list() with win_data = %p", win_data);
 #endif
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if (win_data==NULL) return;
 #endif
 	long new_profile_dir_modtime = get_profile_dir_modtime();
@@ -1735,7 +1805,7 @@ GtkWidget *recreate_profile_menu_item(GtkWidget *menuitem, GtkWidget *subitem,
 	g_debug("! Launch recreate_profile_menu_item()! with menuitem = %p, subitem = %p, win_data = %p, "
 		"type = %d", menuitem, subitem, win_data, type);
 #endif
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if ((win_data==NULL) || (menuitem==NULL)) return NULL;
 #endif
 	// g_debug("Trying to destroy subitem (%p)!!", subitem);
@@ -1771,7 +1841,7 @@ void create_load_profile_from_menu_items(GtkWidget *sub_menu, const gchar *stock
 	g_debug("! Launch create_load_profile_from_menu_items() with sub_menu = %p, "
 		"stock_id = %s", sub_menu, stock_id);
 #endif
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if (win_data==NULL) return;
 #endif
 	// Profile
@@ -1794,13 +1864,13 @@ void create_load_profile_from_menu_items(GtkWidget *sub_menu, const gchar *stock
 			  (GSourceFunc)reload_settings, win_data);
 
 //	gchar *menu_label = g_strdup_printf(_("Apply to every %s window"), PACKAGE);
-//#ifdef DEFENSIVE
+//#ifdef SAFEMODE
 //	if (menu_label)
 //	{
 //#endif
 //		create_menu_item (IMAGE_MENU_ITEM, sub_menu, menu_label, NULL, GTK_STOCK_REFRESH,
 //				  (GSourceFunc)apply_to_every_window, win_data);
-//#ifdef DEFENSIVE
+//#ifdef SAFEMODE
 //	}
 //#endif
 //	g_free(menu_label);
@@ -1820,20 +1890,20 @@ gboolean create_profile_menu_list(GtkWidget *sub_menu, const gchar *stock_id, GS
 #ifdef DETAIL
 	g_debug("! Launch create_profile_menu_list() with sub_menu = %p, stock_id = %s", sub_menu, stock_id);
 #endif
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if (sub_menu==NULL) return FALSE;
 #endif
 	gboolean create_separator = FALSE;
 	// LilyTerm Buildin Configures
 	gchar *menu_label = g_strdup_printf(_("%s default"), PACKAGE);
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if (menu_label)
 	{
 #endif
 		create_menu_item (IMAGE_MENU_ITEM, sub_menu, menu_label, "", stock_id,
 				  (GSourceFunc)func, func_data);
 		create_separator = TRUE;
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	}
 #endif
 	g_free(menu_label);
@@ -1859,7 +1929,7 @@ gboolean create_profile_menu_list(GtkWidget *sub_menu, const gchar *stock_id, GS
 		create_separator = TRUE;
 	}
 	if (create_separator) add_separator_menu(sub_menu);
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if (profile_dir == NULL) return FALSE;
 #endif
 
@@ -1909,11 +1979,11 @@ void apply_profile_from_file_dialog(GtkWidget *menu_item, Apply_Profile_Type typ
 	if (menu_active_window==NULL)
 		return print_active_window_is_null_error_dialog("apply_profile_from_file_dialog()");
 #endif
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if (menu_active_window==NULL) return;
 #endif
 	struct Window *win_data = (struct Window *)g_object_get_data(G_OBJECT(menu_active_window), "Win_Data");
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if (win_data==NULL) return;
 #endif
 	GtkWidget *dialog;
@@ -1943,7 +2013,7 @@ void apply_profile_from_menu_item(GtkWidget *menu_item, Apply_Profile_Type type)
 	g_debug("! Launch apply_profile_from_menu_item() with menu_item= %p, type = %d", menu_item, type);
 #endif
 	// g_debug("The path of menu_item is %s", gtk_widget_get_name(menu_item));
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if (menu_item==NULL) return;
 #endif
 	apply_profile_from_file(gtk_widget_get_name(menu_item), type);
@@ -1954,7 +2024,7 @@ void apply_profile_from_file(const gchar *path, Apply_Profile_Type type)
 #ifdef DETAIL
 	g_debug("! Launch apply_profile_from_file() with path= %s, type = %d", path, type);
 #endif
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if (path==NULL) return;
 #endif
 	gint argc = 0;
@@ -1964,18 +2034,18 @@ void apply_profile_from_file(const gchar *path, Apply_Profile_Type type)
 	if (menu_active_window==NULL)
 		return print_active_window_is_null_error_dialog("apply_profile_from_file()");
 #endif
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if (menu_active_window==NULL) return;
 #endif
 	struct Window *win_data = (struct Window *)g_object_get_data(G_OBJECT(menu_active_window), "Win_Data");
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if (win_data==NULL) return;
 #endif
 
 	if ((type == NEW_WINDOW_FROM_PROFILE) || (type == NEW_WINDOW_FROM_SYSTEM_PROFILE))
 	{
 		gchar *argv_str = NULL;
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 		if ((path) && path[0])
 #else
 		if (path[0])
@@ -2001,7 +2071,7 @@ void apply_profile_from_file(const gchar *path, Apply_Profile_Type type)
 		// g_debug("! apply_profile_from_file(): argv_str = %s", argv_str);
 
 		gchar **argv = NULL;
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 		if (argv_str==NULL)
 			argc = 0;
 		else
@@ -2020,7 +2090,7 @@ void apply_profile_from_file(const gchar *path, Apply_Profile_Type type)
 	{
 		// gtk_widget_hide(menu_active_window);
 		struct Window *win_data_backup = g_new0(struct Window, 1);
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 		if (win_data_backup==NULL) return;
 #endif
 		// Switch the data in win_data_backup and win_data.
@@ -2035,7 +2105,7 @@ void apply_profile_from_file(const gchar *path, Apply_Profile_Type type)
 		win_data->notebook = win_data_backup->notebook;
 		win_data->current_vte = win_data_backup->current_vte;
 
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 		if ((path) && path[0])
 #else
 		if (path[0])
@@ -2124,7 +2194,7 @@ void apply_profile_from_file(const gchar *path, Apply_Profile_Type type)
 		//	win_data->startup_fullscreen, win_data_backup->startup_fullscreen);
 		if (win_data->startup_fullscreen != win_data_backup->startup_fullscreen)
 			deal_key_press(win_data->window, KEY_FULL_SCREEN, win_data);
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 		if (win_data->default_locale && (win_data->default_locale[0] != '\0') &&
 		    compare_strings(win_data->default_locale, win_data_backup->default_locale, TRUE))
 #else
@@ -2150,7 +2220,7 @@ void apply_profile_from_file(const gchar *path, Apply_Profile_Type type)
 		win_data->find_entry_bg_color = win_data_backup->find_entry_bg_color;
 		win_data->find_entry_current_bg_color = win_data_backup->find_entry_current_bg_color;
 
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 		if (invild_settings && invild_settings->len)
 #else
 		if (invild_settings->len)
@@ -2179,7 +2249,7 @@ void apply_profile_from_file(const gchar *path, Apply_Profile_Type type)
 		for (i=0; i<gtk_notebook_get_n_pages(GTK_NOTEBOOK(win_data->notebook)); i++)
 		{
 			page_data = get_page_data_from_nth_page(win_data, i);
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 			if (page_data==NULL) continue;
 #endif
 			if (page_data->page_update_method == PAGE_METHOD_WINDOW_TITLE) page_data->window_title_updated = 1;
@@ -2214,7 +2284,7 @@ void apply_profile_from_file(const gchar *path, Apply_Profile_Type type)
 
 		window_list = g_list_remove (window_list, win_data_backup);
 		clear_win_data(win_data_backup);
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 		win_data_backup = NULL;
 #endif
 		// gtk_widget_show_all(win_data->window);
@@ -2226,7 +2296,7 @@ void load_background_image_from_file(GtkWidget *widget, struct Window *win_data)
 #ifdef DETAIL
 	g_debug("! Launch load_background_from_file() with widget = %p, win_data = %p", widget, win_data);
 #endif
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if (win_data==NULL) return;
 #endif
 	gchar *background_image_path = "";
@@ -2236,7 +2306,7 @@ void load_background_image_from_file(GtkWidget *widget, struct Window *win_data)
 						    GTK_STOCK_OPEN, background_image_path);
 
 	struct Preview *preview = g_new0(struct Preview, 1);
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if (preview==NULL) return;
 #endif
 
@@ -2285,20 +2355,20 @@ void load_background_image_from_file(GtkWidget *widget, struct Window *win_data)
 		win_data->scroll_background = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(preview->scroll_background));
 		gint i;
 		struct Page *page_data = NULL;
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 		if (win_data->notebook)
 		{
 #endif
 			for (i=0; i<gtk_notebook_get_n_pages(GTK_NOTEBOOK(win_data->notebook)); i++)
 			{
 				page_data = get_page_data_from_nth_page(win_data, i);
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 				if (page_data)
 #endif
 					set_background_saturation (NULL, 0, win_data->background_saturation,
 								   page_data->vte);
 			}
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 		}
 #endif
 	}
@@ -2311,7 +2381,7 @@ void update_preview_image (GtkFileChooser *dialog, struct Preview *preview)
 #ifdef DETAIL
 	g_debug("! Launch update_preview_image() with dialog = %p, preview = %p!", dialog, preview);
 #endif
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if ((preview==NULL) || (dialog==NULL)) return;
 #endif
 	gchar *filename = preview->default_filename;
@@ -2377,7 +2447,7 @@ void reload_settings(GtkWidget *menu_item, struct Window *win_data)
 #ifdef DETAIL
 	g_debug("! Launch reload_settings() with win_data = %p", win_data);
 #endif
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if (win_data==NULL) return;
 #endif
 	// FIXME: NOT CHECKED!!!!
@@ -2413,12 +2483,12 @@ void save_user_settings_as(GtkWidget *widget, struct Window *win_data)
 #ifdef DETAIL
 	g_debug("! Launch save_user_settings_as() with win_data = %p", win_data);
 #endif
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if (win_data==NULL) return;
 #endif
 	gchar *profile = get_profile();
 	// g_debug("Get new profile = %s", profile);
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if (profile==NULL) return;
 #endif
 	GtkWidget *dialog;
@@ -2492,7 +2562,7 @@ GtkWidget *create_menu_item (Menu_Itemn_Type type, GtkWidget *sub_menu, const gc
 		"label_name = %s, stock_id = %s, func = %p, func_data = %p",
 		sub_menu, label, label_name, stock_id, func, func_data);
 #endif
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if ((label==NULL) || (sub_menu==NULL)) return NULL;
 #endif
 	GtkWidget *menu_item = NULL;
@@ -2524,7 +2594,7 @@ GtkWidget *create_sub_item (GtkWidget *menu, gchar *label, const gchar *stock_id
 #ifdef DETAIL
 	g_debug("! Launch create_sub_item() with menu = %p, label = %s, stock_id = %s", menu, label, stock_id);
 #endif
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if (label==NULL) return NULL;
 #endif
 	GtkWidget *menu_item = create_sub_item_subitem (label, stock_id);
@@ -2536,7 +2606,7 @@ GtkWidget *create_sub_item_subitem (gchar *label, const gchar *stock_id)
 #ifdef DETAIL
 	g_debug("! Launch create_sub_item_subitem() with label = %s, stock_id = %s", label, stock_id);
 #endif
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if (label==NULL) return NULL;
 #endif
 	GtkWidget *menu_item = gtk_image_menu_item_new_with_label(label);
@@ -2550,7 +2620,7 @@ GtkWidget *create_sub_item_submenu (GtkWidget *menu, GtkWidget *menu_item)
 #ifdef DETAIL
 	g_debug("! Launch create_sub_item() with menu = %p, menu_item = %p", menu, menu_item);
 #endif
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if (menu==NULL) return NULL;
 #endif
 	GtkWidget *sub_menu = gtk_menu_new ();
@@ -2564,7 +2634,7 @@ GtkWidget *add_separator_menu (GtkWidget *sub_menu)
 #ifdef DETAIL
 	g_debug("! Launch add_separator_menu() with sub_menu = %p", sub_menu);
 #endif
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if (sub_menu==NULL) return NULL;
 #endif
 	GtkWidget *menu_item = gtk_separator_menu_item_new();
@@ -2577,7 +2647,7 @@ long get_profile_dir_modtime()
 #ifdef DETAIL
 	g_debug("! Launch get_profile_dir_modtime()");
 #endif
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if (profile_dir==NULL) return -1;
 #endif
 	struct stat buffer;
@@ -2592,7 +2662,7 @@ void set_menuitem_label(GtkWidget *menu_item, gchar *text)
 #ifdef DETAIL
 	g_debug("! Launch set_menuitem_label() with menu_item = %p, text = %s!", menu_item, text);
 #endif
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if ((menu_item==NULL) || (text==NULL)) return;
 #endif
 	gtk_menu_item_set_label(GTK_MENU_ITEM(menu_item), text);
@@ -2604,7 +2674,7 @@ void print_active_window_is_null_error_dialog(gchar *function)
 	gchar *err_msg = g_strdup_printf("%s: menu_active_window = NULL\n\n"
 					 "Please report bug to %s, Thanks!",
 					 function, BUGREPORT);
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if (err_msg)
 #endif
 #ifdef UNIT_TEST

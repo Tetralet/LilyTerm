@@ -29,13 +29,13 @@ void command_option(int   argc,
 	g_debug("! Launch command_option()!");
 #endif
 
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if (argv==NULL) return;
 #endif
 	gint i;
 	for (i=0; i<argc; i++)
 	{
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 		if (argv[i]==NULL) break;
 #endif
 		// g_debug("%2d (Total %d): %s",i, argc, argv[i]);
@@ -59,7 +59,7 @@ void command_option(int   argc,
 		else if ((!strcmp(argv[i], "-p")) || (!strcmp(argv[i], "--profile")))
 		{
 			GString *settings = save_user_settings(NULL, NULL);
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 			if (settings)
 #endif
 				g_print("%s", settings->str);
@@ -106,13 +106,13 @@ gchar *get_help_message(gchar *profile)
 #endif
 	GString *help_message = g_string_new(NULL);
 	gchar *usage = get_help_message_usage(profile, FALSE);
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if (usage)
 #endif
 		g_string_append(help_message, usage);
 
 	gchar *key_binding = get_help_message_key_binding(FALSE);
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if (key_binding)
 #endif
 		g_string_append(help_message,  key_binding);
@@ -162,7 +162,7 @@ gchar *get_help_message_usage(gchar *profile, gboolean convert_to_html)
 		current_profile = g_strdup(profile);
 	else
 		current_profile = g_strdup_printf("%s/%s", profile_dir, USER_PROFILE);
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	if (current_profile)
 	{
 #endif
@@ -170,11 +170,11 @@ gchar *get_help_message_usage(gchar *profile, gboolean convert_to_html)
 		{
 			gchar *msg_str = g_string_free(help_message, FALSE);
 			gchar *new_help_message = convert_text_to_html (&msg_str, TRUE, NULL, "tt", NULL);
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 			if (new_help_message)
 #endif
 				help_message = g_string_new(new_help_message);
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 			else
 				help_message = g_string_new("");
 #endif
@@ -189,7 +189,7 @@ gchar *get_help_message_usage(gchar *profile, gboolean convert_to_html)
 		}
 
 		gchar *profile_message = g_strdup_printf(_("And your %s profile is: "), PACKAGE);
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 		if (profile_message)
 #endif
 			if (convert_to_html)
@@ -197,16 +197,16 @@ gchar *get_help_message_usage(gchar *profile, gboolean convert_to_html)
 
 		// g_debug("FINAL: profile_message = %s", profile_message);
 
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 		if (profile_message)
 #endif
 			g_string_append(help_message, profile_message);
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 		if (current_profile)
 #endif
 			g_string_append(help_message, current_profile);
 		g_free(profile_message);
-#ifdef DEFENSIVE
+#ifdef SAFEMODE
 	}
 #endif
 

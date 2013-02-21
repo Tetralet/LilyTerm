@@ -41,8 +41,44 @@ typedef enum {
 	BOX_VERTICALITY,
 } Box_Type;
 
-struct Color_Data
+struct Dialog
 {
+	GtkWidget *window;
+	GtkWidget *operate[5];
+	GtkWidget *box;
+	GtkWidget *title_label;
+
+#ifdef ENABLE_RGBA
+	gboolean original_transparent_window;
+	gdouble original_window_opacity;
+	gdouble original_window_opacity_inactive;
+	gboolean original_dim_window;
+#endif
+	gboolean original_transparent_background;
+	gboolean original_invert_color;
+	gboolean original_have_custom_color;
+	gboolean original_use_custom_theme;
+	gdouble original_color_brightness;
+	gdouble original_color_brightness_inactive;
+	gboolean original_dim_text;
+	gint original_update_method[PAGE_COLOR+1];
+	GtkWidget *ansi_table;
+	GtkWidget *color_button[COLOR];
+
+	// For restore to original count of tabs when change the color of tab names.
+	gint total_page;
+	gint current_page_no;
+
+	gboolean tab_1_is_bold;
+
+	GtkWidget *treeview;
+	gint KeyTree[KEYS][KEYS];
+	gint current_key_index;
+
+	gchar *user_key_value[KEYS];
+
+	// ---- color datas ----
+
 	// the function type.
 	gint type;
 	gboolean recover;
@@ -52,12 +88,19 @@ struct Color_Data
 
 	gchar *original_page_color;
 	GdkColor original_color;
+	// the color theme that will apply to current vte
+	GdkColor ansi_colors_orig[COLOR];
+	GdkColor ansi_colors[COLOR];
 	gchar *original_custom_page_name;
-	GdkColor color;
 
 	gboolean transparent_background;
 };
-
+void init_dialog_ansi_colors_from_win_data(struct Window *win_data, struct Dialog *dialog_data);
+void update_fg_bg_color(struct Window *win_data, GdkColor color, gboolean update_fg);
+void clear_custom_colors_data(struct Window *win_data, gboolean update_fg);
+void dialog_invert_color_theme(GtkWidget *menuitem, struct Window *win_data);
+void update_color_buttons(struct Window *win_data, struct Dialog *dialog_data);
+void update_ansi_color_info(GtkWidget *button, gint color_index);
 GtkWidget *create_label_with_text(GtkWidget *box, gboolean set_markup, gboolean selectable, gint max_width_chars, const gchar *text);
 GtkWidget *add_secondary_button(GtkWidget *dialog, const gchar *text, gint response_id, const gchar *stock_id);
 void paste_text_to_vte_terminal(GtkWidget *widget, struct Dialog *dialog_data);
@@ -74,8 +117,7 @@ GtkWidget *create_frame_widget( struct Dialog *dialog_data, gchar *label,
 				GtkWidget *label_widget, GtkWidget *child, guint padding);
 GtkWidget *create_button_with_image(gchar *label_text, const gchar *stock_id, gboolean set_tooltip_text,
 				    GSourceFunc func, gpointer func_data);
-void create_color_selection_widget(struct Dialog *dialog_data, struct Color_Data *color_data,
-				   Dialog_Type_Flags style, GSourceFunc func, gpointer func_data);
+void create_color_selection_widget(struct Dialog *dialog_data, Dialog_Type_Flags style, GSourceFunc func, gpointer func_data);
 void create_scale_widget(struct Dialog *dialog_data, gdouble min, gdouble max, gdouble step, gdouble value,
 			 GSourceFunc func, gpointer func_data);
 void create_SIGKILL_and_EXIT_widget(struct Dialog *dialog_data, gboolean create_entry_hbox,
@@ -87,7 +129,8 @@ gboolean clean_model_foreach(GtkTreeModel *model, GtkTreePath *path, GtkTreeIter
 void recover_page_colors(GtkWidget *dialog, GtkWidget *window, GtkWidget *notebook);
 gboolean set_ansi_color(GtkRange *range, GtkScrollType scroll, gdouble value, GtkWidget *vte);
 void adjest_vte_color (GtkColorSelection *colorselection, GtkWidget *vte);
-void set_new_ansi_color(struct Window *win_data);
+void set_new_ansi_color(GtkWidget *vte, GdkColor color_orig[COLOR], GdkColor color[COLOR],
+                        gdouble color_brightness, gboolean invert_color, gboolean default_vte_color, GdkColor cursor_color);
 void hide_combo_box_capital(GtkCellLayout *cell_layout, GtkCellRenderer *cell,
 			    GtkTreeModel *tree_model, GtkTreeIter *iter, gpointer data);
 void update_key_info (GtkTreeSelection *treeselection, struct Dialog *dialog_data);

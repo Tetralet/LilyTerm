@@ -1,5 +1,7 @@
 BUG:
 
+GtkWidget in unit test...
+
 [Open new tab with locale] -> [Set as default locale]
 
 check window_resizable

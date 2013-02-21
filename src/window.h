@@ -61,7 +61,6 @@ GtkNotebook *create_window(GtkNotebook *notebook, GtkWidget *page, gint x, gint 
 gboolean window_state_event(GtkWidget *widget, GdkEventWindowState *event, struct Window *win_data);
 #ifdef FATAL
 void dump_data(struct Window *win_data, struct Page *page_data);
-void print_color(gchar *name, GdkColor *color);
 #endif
 void win_data_dup(struct Window *win_data_orig, struct Window *win_data);
 gboolean fullscreen_show_hide_scroll_bar (struct Window *win_data);
