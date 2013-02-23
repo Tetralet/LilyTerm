@@ -1,3 +1,24 @@
+2013-02-23 Lu, Chao-Ming (Tetralet) <tetralet@gmail.com>
+  Version 0.9.9.3.
+
+  New Feature:
+	* Roll back autotools build system.
+	* Support for -n/--tab_names command line option to specify tab names,
+	  separate with <space>. Very Thanks daroczig for this idea.
+	* Added  a [-j/--join] command line option to integrate new created tabs
+	  to the last accessed window. VERY THANKS daroczig for this great idea.
+	* Implement a dialog for adjusting the colors of ANSI themes.
+	  Very Thanks PaBLoX-CL for this idea.
+	* Better behavior for setting ANSI color themes.
+
+  FIX:
+	* Better compatible with OpenBSD.
+	  Very thanks vext01 for reporting this bug.
+	* Fix compilation error due to missing comment.
+	  Very thanks Jekyll Wu for fixing this bug.
+	* Fix compilation failure by missing #includes.
+	  Very thanks Jekyll Wu for fixing this bug.
+
 2012-06-16 Lu, Chao-Ming (Tetralet) <tetralet@gmail.com>
   Version 0.9.9.2, it is a hotfix version of 0.9.9.1.
 
