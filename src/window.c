@@ -1834,8 +1834,6 @@ void clear_win_data(struct Window *win_data)
 	if (win_data->custom_tab_names_str) g_string_free(win_data->custom_tab_names_str, TRUE);
 	g_strfreev(win_data->custom_tab_names_strs);
 
-	g_free(win_data->cursor_color_str);
-
 	for (i=0; i<PAGE_COLOR; i++)
 		g_free(win_data->user_page_color[i]);
 	g_free(win_data->page_name);
@@ -2558,7 +2556,6 @@ void dump_data (struct Window *win_data, struct Page *page_data)
 	g_debug("- win_data->menuitem_paste = %p", win_data->menuitem_paste);
 	g_debug("- win_data->menuitem_clipboard = %p", win_data->menuitem_clipboard);
 	g_debug("- win_data->menuitem_primary = %p", win_data->menuitem_primary);
-	g_debug("- win_data->cursor_color_str = %s", win_data->cursor_color_str);
 	print_color(-1, "win_data->cursor_color", win_data->cursor_color);
 	for (i=0; i<THEME; i++)
 	{
@@ -2984,7 +2981,6 @@ void win_data_dup(struct Window *win_data_orig, struct Window *win_data)
 
 // ---- the color used in vte ---- //
 
-	win_data->cursor_color_str = g_strdup(win_data_orig->cursor_color_str);
 	// win_data->fg_color;
 	// win_data->fg_color_inactive;
 	// win_data->cursor_color;

@@ -762,7 +762,6 @@ struct Window
 
 // ---- the color used in vte ---- //
 
-	gchar *cursor_color_str;
 	GdkColor cursor_color;
 
 	// color datas

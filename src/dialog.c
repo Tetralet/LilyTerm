@@ -1462,9 +1462,6 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 							update_fg_bg_color(win_data, dialog_data->original_color, FALSE);
 							break;
 						case CHANGE_THE_CURSOR_COLOR:
-							g_free(win_data->cursor_color_str);
-							win_data->cursor_color_str =
-								gdk_color_to_string(&(dialog_data->original_color));
 							win_data->cursor_color = dialog_data->original_color;
 							break;
 						case CHANGE_THE_TEXT_COLOR_OF_WINDOW_TITLE:
