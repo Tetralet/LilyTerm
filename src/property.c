@@ -273,7 +273,10 @@ void set_vte_color(GtkWidget *vte, gboolean default_vte_color, GdkColor cursor_c
 	vte_terminal_set_colors(VTE_TERMINAL(vte), &(color[COLOR-1]), &(color[0]), color, 16);
 
 	if (! update_fg_only)
+	{
+		// print_color(-1, "set_vte_color(): cursor_color", cursor_color);
 		vte_terminal_set_color_cursor(VTE_TERMINAL(vte), &(cursor_color));
+	}
 }
 
 gboolean use_default_vte_theme(struct Window *win_data)

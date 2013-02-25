@@ -381,7 +381,6 @@ void init_window_parameters(struct Window *win_data)
 	// win_data->menuitem_paste;
 	// win_data->menuitem_clipboard;
 	// win_data->menuitem_primary;
-	win_data->cursor_color_str = g_strdup("");
 	// win_data->fg_color;
 	// win_data->fg_color_inactive;
 	// win_data->cursor_color;
@@ -1155,7 +1154,7 @@ void get_user_settings(struct Window *win_data, const gchar *encoding)
 	GKeyFile *keyfile = g_key_file_new();
 	// g_debug ("Using the profile: %s ", profile);
 
-	gchar *fg_color_str = NULL, *bg_color_str = NULL, *color_theme_str = NULL;
+	gchar *fg_color_str = NULL, *bg_color_str = NULL, *color_theme_str = NULL, *cursor_color_str = NULL;
 	
 	// g_debug("safe_mode = %d", safe_mode);
 	if (win_data->profile != NULL && (! safe_mode))
@@ -1248,8 +1247,7 @@ void get_user_settings(struct Window *win_data, const gchar *encoding)
 
 			bg_color_str = check_string_value(keyfile, "main", "background_color", DEFAULT_BACKGROUND_COLOR, FALSE, DISABLE_EMPTY_STR);
 
-			win_data->cursor_color_str = check_string_value(keyfile, "main", "cursor_color",
-									win_data->cursor_color_str, FALSE, DISABLE_EMPTY_STR);
+			cursor_color_str = check_string_value(keyfile, "main", "cursor_color", DEFAULT_CURSOR_COLOR, FALSE, DISABLE_EMPTY_STR);
 
 			win_data->show_resize_menu = check_boolean_value(keyfile, "main", "show_resize_menu",
 									 win_data->show_resize_menu);
@@ -1663,11 +1661,12 @@ void get_user_settings(struct Window *win_data, const gchar *encoding)
 	check_color_value ("foreground_color", bg_color_str, &(bg_color), &(system_color_theme[win_data->color_theme_index].color[0]));
 	// print_color(0, "Get bg_color from profile:", bg_color);
 	dirty_gdk_color_parse (DEFAULT_CURSOR_COLOR, &(cursor_color));
-	check_color_value ("cursor_color", win_data->cursor_color_str, &(win_data->cursor_color), &(cursor_color));
-	// print_color(-1, "Get cursor_color from profile:", cursor_color);
+	check_color_value ("cursor_color", cursor_color_str, &(win_data->cursor_color), &(cursor_color));
+	// print_color(-1, "Get cursor_color from profile:", win_data->cursor_color);
 
 	g_free(fg_color_str);
 	g_free(bg_color_str);
+	g_free(cursor_color_str);
 
 	// if the fg_color == bg_color, revert to the default color.
 	if (! compare_color(&(fg_color), &(bg_color)))
@@ -1704,8 +1703,8 @@ void get_user_settings(struct Window *win_data, const gchar *encoding)
 	// print_color(-1, "get_user_settings(): win_data->bg_color", win_data->bg_color);
 
 	// check if win_data->cursor_color == win_data->bg_color
-	if ((win_data->invert_color && (compare_color(&(bg_color), &(win_data->cursor_color)) == FALSE)) ||
-	    ((win_data->invert_color == FALSE) && (compare_color(&(fg_color), &(win_data->cursor_color)) == FALSE)))
+	if ((win_data->invert_color && (compare_color(&(fg_color), &(win_data->cursor_color)) == FALSE)) ||
+	    ((win_data->invert_color == FALSE) && (compare_color(&(bg_color), &(win_data->cursor_color)) == FALSE)))
 	{
 		// print_color (-1, "invild win_data->cursor_color", win_data->cursor_color);
 		dirty_gdk_color_parse (DEFAULT_CURSOR_COLOR, &(win_data->cursor_color));
@@ -2039,13 +2038,13 @@ gboolean check_color_value (const gchar *key_name, const gchar *color_name, GdkC
 		key_name, color_name, color);
 #endif
 #ifdef SAFEMODE
-	if ((key_name==NULL) || (color_name==NULL)) return FALSE;
+	if (color_name==NULL) return FALSE;
 #endif
 	if ((color_name) && (color_name[0]!='\0'))
 	{
 		if (dirty_gdk_color_parse(color_name, color))
 		{
-			// print_color(-1, "check_color_value():", *color);
+			// print_color(-1, "1. check_color_value():", *color);
 			return TRUE;
 		}
 	}
@@ -2053,7 +2052,7 @@ gboolean check_color_value (const gchar *key_name, const gchar *color_name, GdkC
 	if (color && default_color)
 	{
 		*color = *default_color;
-		// print_color(-1, "check_color_value():", *color);
+		// print_color(-1, "2. check_color_value():", *color);
 		return TRUE;
 	}
 	
@@ -2345,7 +2344,7 @@ GString *save_user_settings(GtkWidget *widget, struct Window *win_data)
 	else
 		g_string_append(contents,"foreground_color = \n\n");
 
-	g_string_append_printf(contents,"# The background color used in vte terminal.\n"
+	g_string_append(contents,"# The background color used in vte terminal.\n"
 					"# You may use black, #000000 or #000000000000 here.\n");
 	if (compare_color(&(win_data->custom_color_theme[win_data->color_theme_index].color[0]),
 			  &(system_color_theme[win_data->color_theme_index].color[0])))
@@ -2357,9 +2356,20 @@ GString *save_user_settings(GtkWidget *widget, struct Window *win_data)
 	else
 		g_string_append(contents,"background_color = \n\n");
 
-        g_string_append_printf(contents,"# Sets the background color for text which is under the cursor.\n"
-                                        "# You may use black, #000000 or #000000000000 here.\n"
-                                        "cursor_color = %s\n\n", win_data->cursor_color_str);                                                                
+	g_string_append(contents,"# Sets the background color for text which is under the cursor.\n"
+				 "# You may use black, #000000 or #000000000000 here.\n");
+	
+	GdkColor cursor_color;
+	dirty_gdk_color_parse(DEFAULT_CURSOR_COLOR, &cursor_color);
+	if (compare_color(&cursor_color, &(win_data->cursor_color)))
+	{
+		gchar *color_str = gdk_color_to_string(&(win_data->cursor_color));
+		g_string_append_printf(contents,"cursor_color = %s\n\n", color_str);
+		g_free (color_str);
+	}
+	else
+		g_string_append(contents,"cursor_color = \n\n");
+	
 	g_string_append_printf(contents,"# Shows [Increase window size], [Decrease window size],\n"
 					"# [Reset to default font/size] and [Reset to system font/size]\n"
 					"# on right click menu.\n"
@@ -2577,14 +2587,14 @@ GString *save_user_settings(GtkWidget *widget, struct Window *win_data)
 		g_string_append_printf( contents,"%s\n"
 					"# You may use black, #000000 or #000000000000 here.\n", color[i].comment);
 
-        	if (compare_color(&(win_data->custom_color_theme[win_data->color_theme_index].color[i]),
-                          &(system_color_theme[win_data->color_theme_index].color[i])))
-	        {    
-        	        color_str = gdk_color_to_string(&(win_data->custom_color_theme[win_data->color_theme_index].color[i]));
-                	g_string_append_printf(contents,"%s = %s\n\n",  color[i].name, color_str);
-	                g_free (color_str);
-        	}    
-	        else 
+		if (compare_color(&(win_data->custom_color_theme[win_data->color_theme_index].color[i]),
+			  &(system_color_theme[win_data->color_theme_index].color[i])))
+		{    
+			color_str = gdk_color_to_string(&(win_data->custom_color_theme[win_data->color_theme_index].color[i]));
+			g_string_append_printf(contents,"%s = %s\n\n",  color[i].name, color_str);
+			g_free (color_str);
+		}    
+		else 
 			g_string_append_printf(contents,"%s = \n\n",  color[i].name);
 	}
 
