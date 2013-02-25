@@ -478,13 +478,9 @@ GSList *create_theme_menu_items(struct Window *win_data, GtkWidget *sub_menu, GS
 
 	if (custom_theme) item_label = g_strdup_printf(_("%s + custom"), item_label);
 
-	GdkColor *color = system_color_theme[current_theme].color;
 	gint index = system_color_theme[current_theme].index;
 	if (custom_theme)
-	{
-		color = win_data->custom_color_theme[current_theme].color;
 		index = win_data->custom_color_theme[current_theme].index;
-	}
 	win_data->menuitem_theme[current_theme + custom_theme*THEME] = add_radio_menuitem_to_sub_menu (theme_group,
 												       sub_menu,
 												       item_label,
@@ -1127,17 +1123,10 @@ void select_ansi_theme(GtkWidget *menuitem, gint index)
 	if (win_data==NULL) return;
 #endif
 	// g_debug("select_ansi_theme(): win_data->invert_color = %d", win_data->invert_color);
-	GdkColor *color;
 	if (index < COLOR)
-	{
-		color = system_color_theme[index].color;
 		set_ansi_theme(menuitem, ANSI_THEME_SET_ANSI_THEME, FALSE, win_data->invert_color, index, win_data);
-	}
 	else
-	{
-		color = win_data->custom_color_theme[index - COLOR].color;
 		set_ansi_theme(menuitem, ANSI_THEME_SET_ANSI_THEME, TRUE, win_data->invert_color, index - COLOR, win_data);
-	}
 }
 
 void set_ansi_theme(GtkWidget *menuitem, Set_ANSI_Theme_Type type, gboolean use_custom_theme, gboolean invert_color, 

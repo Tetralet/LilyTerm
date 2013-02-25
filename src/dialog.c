@@ -1580,9 +1580,6 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 					{
 						// g_debug("win_data->color_brightness = %0.3f, win_data->color_brightness_inactive = %0.3f",
 						//	win_data->color_brightness, win_data->color_brightness_inactive);
-						GdkColor *temp_color = system_color_theme[win_data->color_theme_index].color;
-						if (win_data->use_custom_theme)
-							temp_color = win_data->custom_color_theme[win_data->color_theme_index].color;
 						gint i;
 						for (i=0; i<COLOR; i++)
 						{
