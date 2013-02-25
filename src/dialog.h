@@ -129,8 +129,8 @@ gboolean clean_model_foreach(GtkTreeModel *model, GtkTreePath *path, GtkTreeIter
 void recover_page_colors(GtkWidget *dialog, GtkWidget *window, GtkWidget *notebook);
 gboolean set_ansi_color(GtkRange *range, GtkScrollType scroll, gdouble value, GtkWidget *vte);
 void adjest_vte_color (GtkColorSelection *colorselection, GtkWidget *vte);
-void set_new_ansi_color(GtkWidget *vte, GdkColor color_orig[COLOR], GdkColor color[COLOR],
-                        gdouble color_brightness, gboolean invert_color, gboolean default_vte_color, GdkColor cursor_color);
+void set_new_ansi_color(GtkWidget *vte, GdkColor color_orig[COLOR], GdkColor color[COLOR], gdouble color_brightness,
+			gboolean invert_color, gboolean default_vte_color, GdkColor cursor_color, gboolean dim_fg_color);
 void hide_combo_box_capital(GtkCellLayout *cell_layout, GtkCellRenderer *cell,
 			    GtkTreeModel *tree_model, GtkTreeIter *iter, gpointer data);
 void update_key_info (GtkTreeSelection *treeselection, struct Dialog *dialog_data);

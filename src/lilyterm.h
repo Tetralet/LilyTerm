@@ -155,7 +155,8 @@ void init_rgba(struct Window *win_data);
 // **************************** property.c ****************************
 //
 
-void create_theme_color_data(GdkColor color[COLOR], GdkColor color_orig[COLOR], gdouble color_brightness, gboolean invert_color, gboolean default_vte_theme);
+void create_theme_color_data(GdkColor color[COLOR], GdkColor color_orig[COLOR], gdouble color_brightness, gboolean invert_color,
+			     gboolean default_vte_theme, gboolean dim_fg_color);
 void adjust_ansi_color(GdkColor *color, GdkColor *color_orig, gdouble color_brightness);
 void generate_all_color_datas(struct Window *win_data);
 GdkColor *get_current_color_theme(struct Window *win_data);

@@ -23,7 +23,8 @@ extern gboolean proc_exist;
 extern struct Command command[COMMAND];
 extern struct Color_Theme system_color_theme[THEME];
 
-void create_theme_color_data(GdkColor color[COLOR], GdkColor color_orig[COLOR], gdouble color_brightness, gboolean invert_color, gboolean default_vte_theme)
+void create_theme_color_data(GdkColor color[COLOR], GdkColor color_orig[COLOR], gdouble color_brightness, gboolean invert_color,
+			     gboolean default_vte_theme, gboolean dim_fg_color)
 {
 #ifdef DETAIL
 	g_debug("! Launch create_theme_color_data() with color = %p, color_orig = %p, color_brightness = %3f, invert_color = %d",
@@ -48,7 +49,10 @@ void create_theme_color_data(GdkColor color[COLOR], GdkColor color_orig[COLOR], 
 	}
 
 	// The fg_color and bg_color will not affect by color_brightness
-	color[COLOR-1] = color_orig[get_color_index(invert_color, COLOR-1)];
+	if (dim_fg_color)
+		adjust_ansi_color(&color[COLOR-1], &color_orig[get_color_index(invert_color, COLOR-1)], color_brightness);
+	else
+		color[COLOR-1] = color_orig[get_color_index(invert_color, COLOR-1)];
 	// print_color(get_color_index(invert_color, COLOR-1), "create_theme_color_data(): fg color_orig ", color_orig[COLOR-1]);
 	// print_color(COLOR-1, "create_theme_color_data(): new: fg color ", color[COLOR-1]);
 	color[0] = color_orig[get_color_index(invert_color, 0)];
@@ -90,8 +94,8 @@ void generate_all_color_datas(struct Window *win_data)
 	GdkColor *temp_color = get_current_color_theme(win_data);
 
 	gboolean default_vte_theme = use_default_vte_theme(win_data);
-	create_theme_color_data(win_data->color, temp_color, win_data->color_brightness, win_data->invert_color, default_vte_theme);
-	create_theme_color_data(win_data->color_inactive, temp_color, win_data->color_brightness_inactive, win_data->invert_color, default_vte_theme);
+	create_theme_color_data(win_data->color, temp_color, win_data->color_brightness, win_data->invert_color, default_vte_theme, FALSE);
+	create_theme_color_data(win_data->color_inactive, temp_color, win_data->color_brightness_inactive, win_data->invert_color, default_vte_theme, TRUE);
 }
 
 GdkColor *get_current_color_theme(struct Window *win_data)
