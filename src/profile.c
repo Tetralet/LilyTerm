@@ -2093,7 +2093,8 @@ gboolean accelerator_parse (const gchar *key_name, const gchar *key_value, guint
 	// g_debug ("Checking '%s' is \"\" or NULL...%d, %d, %d",
 	//	    key_value, key_value!=NULL, strlen(key_value)>0, g_ascii_strcasecmp(key_value, "NULL"));
 	// got the Function key first
-	if ( key_value && (key_value[0]!='\0') && ( compare_strings(key_value, "NULL", FALSE)))
+	// if ( key_value && (key_value[0]!='\0') && ( compare_strings(key_value, "NULL", FALSE)))
+	if (key_value && (key_value[0]!='\0'))
 	{
 		// g_debug ("Start to checking '%s' in accelerator_parse()...", key_value);
 		values = split_string(key_value, " ", -1);
@@ -2170,7 +2171,7 @@ gboolean accelerator_parse (const gchar *key_name, const gchar *key_value, guint
 	else
 	{
 		// NULL
-		// g_warning("We Got a NULL Key (%s)!\n", key_value);
+		// g_message("We Got a NULL Key (%s)!\n", key_value);
 #ifdef SAFEMODE
 		if ((key==NULL) || (mods==NULL)) goto FINISH;
 #endif
@@ -2936,8 +2937,8 @@ void profile_is_invalid_dialog(GError *error, struct Window *win_data)
 void convert_string_to_user_key(gint i, gchar *value, struct Window *win_data)
 {
 #ifdef DETAIL
-	g_debug("! Launch convert_string_to_user_key() with i = %d, value = %s, win_data = %p!",
-		i, value, win_data);
+	g_debug("! Launch convert_string_to_user_key() with i = %d, value = %s (%p), win_data = %p!",
+		i, value, value, win_data);
 #endif
 #ifdef SAFEMODE
 	if (win_data==NULL) return;
@@ -2948,8 +2949,7 @@ void convert_string_to_user_key(gint i, gchar *value, struct Window *win_data)
 		// g_debug("Got %s key = %s form profile.", pagekeys[i].name, value);
 		// g_debug("Call accelerator_parse() with system_keys[i].name = %s, value = %s (%p)",
 		//	system_keys[i].name, value, value);
-		if ((value[0]=='\0') ||
-		    accelerator_parse(system_keys[i].name, value,
+		if (accelerator_parse(system_keys[i].name, value,
 				      &(win_data->user_keys[i].key), &(win_data->user_keys[i].mods)))
 		{
 			g_free(win_data->user_keys[i].value);
