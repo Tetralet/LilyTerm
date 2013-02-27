@@ -1,3 +1,17 @@
+2013-02-28 Lu, Chao-Ming (Tetralet) <tetralet@gmail.com>
+  Version 0.9.9.4, it is a hotfix version of 0.9.9.3.
+
+  FIX:
+	* Also dim the foreground color when inactive.
+	* The cursor_color settings doesn't work correctly.
+	  Very thanks to aeglos for reporting this bug.
+	* The color of cursor should not been reset after changing the color of
+	  foreground color. Very thanks to aeglos and cmchao for reporting this bug.
+	* Don't try to clean the environs when launching LilyTerm.
+	  Very thanks to captnfab for reporting this bug.
+	* [Disable functions keys] didn't apply immediately.
+	* Fix several possible memory leaks and segfault errors.
+
 2013-02-23 Lu, Chao-Ming (Tetralet) <tetralet@gmail.com>
   Version 0.9.9.3.
 
