@@ -117,7 +117,7 @@ GtkWidget *create_frame_widget( struct Dialog *dialog_data, gchar *label,
 				GtkWidget *label_widget, GtkWidget *child, guint padding);
 GtkWidget *create_button_with_image(gchar *label_text, const gchar *stock_id, gboolean set_tooltip_text,
 				    GSourceFunc func, gpointer func_data);
-void create_color_selection_widget(struct Dialog *dialog_data, Dialog_Type_Flags style, GSourceFunc func, gpointer func_data);
+void create_color_selection_widget(struct Dialog *dialog_data, GSourceFunc func, gpointer func_data);
 void create_scale_widget(struct Dialog *dialog_data, gdouble min, gdouble max, gdouble step, gdouble value,
 			 GSourceFunc func, gpointer func_data);
 void create_SIGKILL_and_EXIT_widget(struct Dialog *dialog_data, gboolean create_entry_hbox,
@@ -128,7 +128,7 @@ gchar *deal_dialog_key_press_join_string(StrAddr **value, gchar *separator, gcha
 gboolean clean_model_foreach(GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *iter, gpointer userdata);
 void recover_page_colors(GtkWidget *dialog, GtkWidget *window, GtkWidget *notebook);
 gboolean set_ansi_color(GtkRange *range, GtkScrollType scroll, gdouble value, GtkWidget *vte);
-void adjest_vte_color (GtkColorSelection *colorselection, GtkWidget *vte);
+void adjust_vte_color (GtkColorSelection *colorselection, GtkWidget *vte);
 void set_new_ansi_color(GtkWidget *vte, GdkColor color_orig[COLOR], GdkColor color[COLOR], gdouble color_brightness,
 			gboolean invert_color, gboolean default_vte_color, GdkColor cursor_color, gboolean dim_fg_color);
 void hide_combo_box_capital(GtkCellLayout *cell_layout, GtkCellRenderer *cell,

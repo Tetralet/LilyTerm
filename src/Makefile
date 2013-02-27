@@ -17,7 +17,7 @@
 #	make data: compile po and $(BINARY).conf files.
 #
 # grep 'g_debug *( *" *[^\!@+\?-]' * | grep -v '\/\/'
-# 
+# ([cdfmnpw][aeior][naistgo][sltnucefpd].*\.c:[0-9]*)
 
 include ../.default
 -include ../.config

@@ -1266,7 +1266,7 @@ void get_user_settings(struct Window *win_data, const gchar *encoding)
 									   CHECK_MIN, 0, NO_CHECK_MAX, 0);
 
 			win_data->word_chars = check_string_value(keyfile, "main", "word_chars", win_data->word_chars,
-								  FALSE, ENABLE_EMPTY_STR);
+								  TRUE, ENABLE_EMPTY_STR);
 
 			win_data->scrollback_lines = check_integer_value(keyfile,
 									  "main",
@@ -1376,11 +1376,11 @@ void get_user_settings(struct Window *win_data, const gchar *encoding)
 								     CHECK_MAX, CURSOR_SHAPE);
 #endif
 			win_data->locales_list = check_string_value( keyfile, "main", "locales_list",
-								     win_data->locales_list, FALSE, ENABLE_EMPTY_STR);
+								     win_data->locales_list, TRUE, ENABLE_EMPTY_STR);
 			// g_debug("Got locales_list = %s from user's profile!", value);
 
 			win_data->emulate_term = check_string_value( keyfile, "main", "emulate_term",
-							     win_data->emulate_term, FALSE, DISABLE_EMPTY_STR);
+								     win_data->emulate_term, TRUE, DISABLE_EMPTY_STR);
 
 			win_data->VTE_CJK_WIDTH = check_integer_value( keyfile, "main", "VTE_CJK_WIDTH",
 								       win_data->VTE_CJK_WIDTH,
@@ -1666,6 +1666,7 @@ void get_user_settings(struct Window *win_data, const gchar *encoding)
 
 	g_free(fg_color_str);
 	g_free(bg_color_str);
+	g_free(color_theme_str);
 	g_free(cursor_color_str);
 
 	// if the fg_color == bg_color, revert to the default color.

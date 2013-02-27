@@ -439,7 +439,7 @@ void recreate_theme_menu_items(struct Window *win_data)
 	// g_debug("win_data->color_theme_str = %s", win_data->color_theme_str);
 	for (i=0; i<THEME; i++)
 		theme_group = create_theme_menu_items(win_data, win_data->ansi_color_menuitem, theme_group, i, 0);
-	if (win_data->have_custom_color)
+	if (win_data->have_custom_color || win_data->use_custom_theme)
 	{
 		add_separator_menu (win_data->ansi_color_menuitem);
 		for (i=0; i<THEME; i++)
@@ -494,9 +494,10 @@ GSList *create_theme_menu_items(struct Window *win_data, GtkWidget *sub_menu, GS
 	// g_debug("Checking win_data->color_theme_str (%s) and color_theme[current_theme].name (%s)",
 	//	win_data->color_theme_str, color_theme[current_theme].name);
 
-	if ((win_data->current_menuitem_theme==NULL) && (win_data->use_custom_theme == custom_theme))
+	if (win_data->current_menuitem_theme==NULL)
 	{
-		// g_debug("Comparing [%s] and [%s]...", win_data->color_theme_str, system_color_theme[current_theme].name);
+		// g_debug("custom_theme = %d, win_data->use_custom_theme = %d, win_data->color_theme_index = %d, current_theme = %d",
+		// 	custom_theme, win_data->use_custom_theme, win_data->color_theme_index, current_theme);
 		if ((custom_theme == win_data->use_custom_theme) && (win_data->color_theme_index == current_theme))
 			win_data->current_menuitem_theme = win_data->menuitem_theme[current_theme + custom_theme*THEME];
 	}
