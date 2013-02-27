@@ -29,7 +29,7 @@ GtkClipboard *selection_clipboard = NULL;
 GtkClipboard *selection_primary = NULL;
 
 // gchar *command_line_path;
-gchar **empty_environ;
+// gchar **empty_environ;
 gchar *system_locale_list;
 gchar *init_LC_CTYPE;
 gchar *init_encoding;
@@ -175,8 +175,9 @@ int main( int   argc,
 
 	// start LilyTerm
 
-	empty_environ = g_strsplit("", " ", -1);
+	// empty_environ = g_strsplit("", " ", -1);
 	extern gchar **environ;
+	// print_array("main(): environ", environ);
 	gchar *environ_str = convert_array_to_string(environ, '\t');
 	window_list = NULL;
 	// g_debug("Got environ_str (in main.c) = %s", environ_str);
@@ -278,7 +279,7 @@ int main( int   argc,
 	}
 
 	// g_free(pwd);
-	g_strfreev(empty_environ);
+	// g_strfreev(empty_environ);
 	g_free(environ_str);
 	g_free(init_encoding);
 	g_free(system_locale_list);
@@ -288,7 +289,7 @@ int main( int   argc,
 	g_free(init_LC_CTYPE);
 	g_free(init_LC_MESSAGES);
 #ifdef UNIT_TEST
-	empty_environ = NULL;
+	// empty_environ = NULL;
 	environ_str = NULL;
 	init_encoding = NULL;
 	system_locale_list = NULL;

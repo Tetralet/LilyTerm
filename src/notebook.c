@@ -243,21 +243,22 @@ struct Page *add_page(struct Window *win_data,
 	}
 	// g_debug("page_data->pwd = %s", page_data->pwd);
 
-	extern char **environ;
-	gchar **old_environ = environ;
-	extern gchar **empty_environ;
+	// extern char **environ;
+	// gchar **old_environ = environ;
+	// extern gchar **empty_environ;
+	// print_array("add_page(): environ:", environ);
 
-	const gchar *PATH = NULL;
-	if (win_data->command)
-	{
-		environ = new_environs;
-		PATH = g_getenv("PATH");
-		// g_debug("add_page(): get PATH = %s", PATH);
-	}
+	// const gchar *PATH = NULL;
+	// if (win_data->command)
+	// {
+	//	// environ = new_environs;
+	//	PATH = g_getenv("PATH");
+	//	// g_debug("add_page(): get PATH = %s", PATH);
+	//}
 
 	// FIXME: Why clear the environ here?
-	environ = empty_environ;
-	if (win_data->command) setenv("PATH", PATH, TRUE);
+	// environ = empty_environ;
+	// if (win_data->command) setenv("PATH", PATH, TRUE);
 
 	gboolean argv_need_be_free = FALSE;
 	gchar **argv = get_argv(win_data, &argv_need_be_free);
@@ -362,7 +363,7 @@ struct Page *add_page(struct Window *win_data,
 	login_shell_str[0] = NULL;
 #endif
 	if (argv_need_be_free) g_strfreev(argv);
-	environ = old_environ;
+	// environ = old_environ;
 
 	// g_debug("Got page_data->pid = %d", page_data->pid);
 	// page_data->pid_cmdline = get_cmdline(page_data->pid);
