@@ -605,6 +605,10 @@ void init_user_keys(struct Window *win_data)
 	win_data->user_keys[KEY_COPY_CLIPBOARD].value = g_strdup("Ctrl Delete");
 	// paste the text in clipboard
 	win_data->user_keys[KEY_PASTE_CLIPBOARD].value = g_strdup("Ctrl Insert");
+	// copy the text in primary clipboard
+	win_data->user_keys[KEY_COPY_PRIMARY].value = g_strdup("");
+	// paste the text in primary clipboard
+	win_data->user_keys[KEY_PASTE_PRIMARY].value = g_strdup("Shift Insert");
 	// Increase the font size
 	win_data->user_keys[KEY_INCREASE_FONT_SIZE].value = g_strdup("Ctrl equal");
 	// decrease the font size
@@ -620,8 +624,6 @@ void init_user_keys(struct Window *win_data)
 	win_data->user_keys[KEY_SCROLL_DOWN].value = g_strdup("Shift Right");
 	win_data->user_keys[KEY_SCROLL_UP_1_LINE].value = g_strdup("Shift Up");
 	win_data->user_keys[KEY_SCROLL_DOWN_1_LINE].value = g_strdup("Shift Down");
-	// paste the text in primary clipboard
-	win_data->user_keys[KEY_PASTE_PRIMARY].value = g_strdup("Shift Insert");
 #ifdef FATAL
 	// dump_data
 	win_data->user_keys[KEY_DUMP_DATA].value = g_strdup("Ctrl Print");
@@ -677,6 +679,10 @@ void init_key_bindings_name_and_group()
 	system_keys[KEY_COPY_CLIPBOARD].group = KEY_GROUP_TEXT;
 	system_keys[KEY_PASTE_CLIPBOARD].name = "paste_clipboard";
 	system_keys[KEY_PASTE_CLIPBOARD].group = KEY_GROUP_TEXT;
+	system_keys[KEY_COPY_PRIMARY].name = "copy_clipboard in primary";
+	system_keys[KEY_COPY_PRIMARY].group = KEY_GROUP_TEXT;
+	system_keys[KEY_PASTE_PRIMARY].name = "paste_clipboard in primary";
+	system_keys[KEY_PASTE_PRIMARY].group = KEY_GROUP_TEXT;
 	system_keys[KEY_INCREASE_FONT_SIZE].name = "increase_font_size";
 	system_keys[KEY_INCREASE_FONT_SIZE].group = KEY_GROUP_FONT;
 	system_keys[KEY_DECREASE_FONT_SIZE].name = "decrease_font_size";
@@ -695,8 +701,6 @@ void init_key_bindings_name_and_group()
 	system_keys[KEY_SCROLL_UP_1_LINE].group = KEY_GROUP_SCROLL;
 	system_keys[KEY_SCROLL_DOWN_1_LINE].name = "scroll_down_1_line";
 	system_keys[KEY_SCROLL_DOWN_1_LINE].group = KEY_GROUP_SCROLL;
-	system_keys[KEY_PASTE_PRIMARY].name = "paste_clipboard in primary";
-	system_keys[KEY_PASTE_PRIMARY].group = KEY_GROUP_NONE;
 #ifdef FATAL
 	system_keys[KEY_DUMP_DATA].name = "dump_data";
 	system_keys[KEY_DUMP_DATA].group = KEY_GROUP_MISC;
@@ -802,7 +806,15 @@ void init_key_bindings()
 	// paste the text in clipboard
 	system_keys[KEY_PASTE_CLIPBOARD].topic = _("Paste the text");
 	system_keys[KEY_PASTE_CLIPBOARD].comment = "# Paste the text in clipboard.";
-	system_keys[KEY_PASTE_CLIPBOARD].translation = _("Paste the text in clipboard.");
+	system_keys[KEY_PASTE_CLIPBOARD].translation = _("Paste the text in clipboard to the Vte Terminal box.");
+	// copy the text to primary clipboard
+	system_keys[KEY_COPY_PRIMARY].topic = _("Copy the text to primary clipboard");
+	system_keys[KEY_COPY_PRIMARY].comment = "# Copy the text to the primary clipboard.";
+	system_keys[KEY_COPY_PRIMARY].translation = _("Copy the text to the primary clipboard.\nNormally it is copied to the primary clipboard already\nwhen you selected some text with mouse.");
+	// paste the text in primary clipboard
+	system_keys[KEY_PASTE_PRIMARY].topic = _("Paste the text in primary clipboard");
+	system_keys[KEY_PASTE_PRIMARY].comment = "# Paste the text in the primary clipboard.";
+	system_keys[KEY_PASTE_PRIMARY].translation = _("Paste the text in the primary clipboard to the Vte Terminal box.\nThe default key binding is <Shift><Insert> in libvte if you disable it here.");
 	// Increase the font size
 	system_keys[KEY_INCREASE_FONT_SIZE].topic = _("Increase font size");
 	system_keys[KEY_INCREASE_FONT_SIZE].comment = "# Increase the font size of current tab.";
@@ -839,10 +851,6 @@ void init_key_bindings()
 	system_keys[KEY_SCROLL_DOWN_1_LINE].topic = _("Scroll down 1 line");
 	system_keys[KEY_SCROLL_DOWN_1_LINE].comment = "# Asks to scroll down 1 line on Vte Terminal box.";
 	system_keys[KEY_SCROLL_DOWN_1_LINE].translation = _("Asks to scroll down 1 line on Vte Terminal box.");
-	// paste the text in clipboard
-	system_keys[KEY_PASTE_PRIMARY].topic = "Paste the text in primary";
-	system_keys[KEY_PASTE_PRIMARY].comment = "# Paste the text in the primary clipboard.";
-	system_keys[KEY_PASTE_PRIMARY].translation = "Paste the text in the primary clipboard.";
 #ifdef FATAL
 	system_keys[KEY_DUMP_DATA].topic = _("Dump runtime debug data");
 	system_keys[KEY_DUMP_DATA].comment = "# Dump the runtime data of LilyTerm for debug.";

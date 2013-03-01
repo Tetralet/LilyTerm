@@ -1243,6 +1243,9 @@ gboolean deal_key_press(GtkWidget *window, gint type, struct Window *win_data)
 				vte_terminal_paste_clipboard(VTE_TERMINAL(win_data->current_vte));
 			break;
 		}
+		case KEY_COPY_PRIMARY:
+			vte_terminal_copy_primary(VTE_TERMINAL(win_data->current_vte));
+			break;
 		case KEY_PASTE_PRIMARY:
 		{
 			if (win_data->confirm_to_paste)

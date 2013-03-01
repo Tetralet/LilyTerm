@@ -872,8 +872,10 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 			//// GtkWidget *vbox = create_frame_widget(dialog_data, NULL, hbox, combo, 0);
 			GtkWidget *vbox = create_frame_widget(dialog_data, NULL, hbox, dialog_data->treeview, 0);
 			hbox = gtk_hbox_new (FALSE, 0);
+			GtkWidget *label_vbox = gtk_vbox_new (FALSE, 0);
 			label = gtk_label_new(_("Note: "));
-			gtk_box_pack_start (GTK_BOX(hbox), label, FALSE, FALSE, 0);
+			gtk_box_pack_start (GTK_BOX(label_vbox), label, FALSE, FALSE, 0);
+			gtk_box_pack_start (GTK_BOX(hbox), label_vbox, FALSE, FALSE, 0);
 			dialog_data->operate[1] = gtk_label_new(NULL);
 			set_markup_key_value(TRUE, "dark green", "", dialog_data->operate[1]);
 			gtk_box_pack_start (GTK_BOX(hbox), dialog_data->operate[1], FALSE, FALSE, 0);

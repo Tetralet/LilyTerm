@@ -274,9 +274,9 @@ typedef enum {
 } Key_Binding_Groups;
 
 #ifdef FATAL
-	#define KEYS 42
+	#define KEYS 43
 #else
-	#define KEYS 41
+	#define KEYS 42
 #endif
 
 typedef enum {
@@ -311,6 +311,7 @@ typedef enum {
 	KEY_SELECT_ALL,						// 27
 	KEY_COPY_CLIPBOARD,					// 28
 	KEY_PASTE_CLIPBOARD,					// 29
+	KEY_COPY_PRIMARY,					// NEW
 	KEY_PASTE_PRIMARY,					// 39
 	KEY_INCREASE_FONT_SIZE,					// 30
 	KEY_DECREASE_FONT_SIZE,					// 31
