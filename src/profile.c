@@ -2660,7 +2660,8 @@ GString *save_user_settings(GtkWidget *widget, struct Window *win_data)
 
 	// g_debug("\n%s", contents->str);
 #ifdef BSD
-	gchar *real_file_name = realpath((const gchar *)profile, NULL);
+	gchar resolved_patch[PATH_MAX+1];
+	gchar *real_file_name = g_strdup(realpath((const gchar *)profile, resolved_patch));
 #else
 	gchar *real_file_name = canonicalize_file_name((const gchar *)profile);
 #endif
