@@ -837,7 +837,11 @@ gboolean window_option(struct Window *win_data, gchar *encoding, int argc, char 
 		}
 		else if ((!strcmp(argv[i], "-l")) || (!strcmp(argv[i], "-ls")) || (!strcmp(argv[i], "--login")))
 		{
-			win_data->login_shell = 1;
+			win_data->login_shell = TRUE;
+		}
+		else if (!strcmp(argv[i], "-ut"))
+		{
+			win_data->utmp = TRUE;
 		}
 		else if ((!strcmp(argv[i], "-H")) || (!strcmp(argv[i], "--hold")))
 		{
@@ -2454,6 +2458,7 @@ void dump_data (struct Window *win_data, struct Page *page_data)
 	g_debug("- win_data->hold = %d", win_data->hold);
 	g_debug("- win_data->init_tab_number = %d", win_data->init_tab_number);
 	g_debug("- win_data->login_shell = %d", win_data->login_shell);
+	g_debug("- win_data->utmp = %d", win_data->utmp);
 	g_debug("- win_data->init_dir = %s", win_data->init_dir);
 	g_debug("- win_data->geometry = %s", win_data->geometry);
 	g_debug("- win_data->subitem_new_window_from_list = %p", win_data->subitem_new_window_from_list);
@@ -2642,6 +2647,7 @@ void dump_data (struct Window *win_data, struct Page *page_data)
 	g_debug("- win_data->cursor_shape = %d", win_data->cursor_shape);
 #endif
 	g_debug("- win_data->prime_user_datas_inited = %d", win_data->prime_user_datas_inited);
+	g_debug("- win_data->prime_user_settings_inited = %d", win_data->prime_user_settings_inited);
 	g_debug("- win_data->confirm_to_close_multi_tabs = %d", win_data->confirm_to_close_multi_tabs);
 	g_debug("- win_data->confirm_to_execute_command = %d", win_data->confirm_to_execute_command);
 	g_debug("- win_data->execute_command_whitelist = %s", win_data->execute_command_whitelist);
@@ -2886,6 +2892,7 @@ void win_data_dup(struct Window *win_data_orig, struct Window *win_data)
 	// win_data->hold = FALSE;
 	win_data->init_tab_number = 1;
 	// win_data->login_shell;
+	// win_data->utmp;
 	win_data->subitem_new_window_from_list = NULL;
 	win_data->menuitem_new_window_from_list = NULL;
 	win_data->subitem_load_profile_from_list = NULL;
@@ -3074,6 +3081,7 @@ void win_data_dup(struct Window *win_data_orig, struct Window *win_data)
 
 	// win_data->confirm_to_close_multi_tabs;
 	// win_data->prime_user_datas_inited;
+	// win_data->prime_user_settings_inited;
 	// win_data->confirm_to_execute_command;
 	win_data->execute_command_whitelist = g_strdup(win_data_orig->execute_command_whitelist);
 	// g_debug("win_data->execute_command_whitelist for win_data (%p) duped!", win_data);

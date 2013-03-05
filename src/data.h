@@ -590,12 +590,9 @@ struct Window
 	// For -d option
 	gchar *init_dir;
 	// For -l option
-	//  0: uninited
-	//  1: should be TURE
-	//  2: should be FALSE
-	// -1: TRUE, inited
-	// -2: FALSE, inited
-	gint login_shell;
+	gboolean login_shell;
+	// For -ut option
+	gboolean utmp;
 	gchar *geometry;
 
 	// If the profile is specify with -u option.
@@ -870,6 +867,7 @@ struct Window
 // ---- other ---- //
 
 	gboolean prime_user_datas_inited;
+	gboolean prime_user_settings_inited;
 
 	gboolean confirm_to_close_multi_tabs;
 	gboolean confirm_to_execute_command;

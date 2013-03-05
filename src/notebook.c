@@ -275,7 +275,7 @@ struct Page *add_page(struct Window *win_data,
 	// if (win_data->command==NULL) win_data->command = win_data->shell;
 	// if (win_data->command==NULL) win_data->command = "/bin/sh";
 
-	if ((win_data->argv==NULL) && (win_data->login_shell==-1)) final_argv = login_shell_str;
+	if ((win_data->argv==NULL) && (win_data->login_shell)) final_argv = login_shell_str;
 
 	// g_debug("win_data->command = %s", win_data->command);
 	// print_array("argv = ", argv);
@@ -287,9 +287,9 @@ struct Page *add_page(struct Window *win_data,
 						   final_argv,
 						   new_environs,
 						   page_data->pwd,
-						   TRUE,
-						   TRUE,
-						   TRUE);
+						   win_data->utmp,
+						   win_data->utmp,
+						   win_data->utmp);
 #else
 	// gboolean vte_terminal_fork_command_full (VteTerminal *terminal,
 	//					    VtePtyFlags pty_flags,
@@ -313,7 +313,7 @@ struct Page *add_page(struct Window *win_data,
 #  endif
 	if (win_data->argv==NULL)
 	{
-		if (win_data->login_shell==-1)
+		if (win_data->login_shell)
 		{
 			final_argv = login_shell_str;
 			final_argv_need_be_free = FALSE;
@@ -349,8 +349,12 @@ struct Page *add_page(struct Window *win_data,
 	// g_debug("vte_terminal_fork_command_full(): win_data->login_shell = %d", win_data->login_shell);
 	// g_debug("vte_terminal_fork_command_full(): spawn_flags = %d", spawn_flags);
 
+	gint pty_flags = VTE_PTY_DEFAULT;
+	if (win_data->utmp)
+		pty_flags = (VTE_PTY_NO_LASTLOG | VTE_PTY_NO_UTMP | VTE_PTY_NO_WTMP | VTE_PTY_DEFAULT);
+
 	fork_stats = vte_terminal_fork_command_full (VTE_TERMINAL(page_data->vte),
-						     VTE_PTY_DEFAULT,
+						     pty_flags,
 						     page_data->pwd,
 						     final_argv,
 						     new_environs,

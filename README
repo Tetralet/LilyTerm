@@ -2,12 +2,13 @@ NAME
        LilyTerm - A light and eazy-to-use terminal emulator for X.
 
 SYNOPSIS
-       lilyterm [-? | -h | --help] [-v | --version] [-d DIRECTORY | --direc
-                tory DIRECTORY] [-g GEOMETRY | --geometry GEOMETRY] [-l | -ls
-                | --login] [-p | --profile] [-s | --separate] [-T TITLE |
-                --title TITLE] [-t NUMBER | --tab NUMBER] [-u PROFILE |
-                --user_profile PROFILE] [-e COMMAND | -x COMMAND | --execute
-                COMMAND]
+       lilyterm [-? | -h | --help] [-T TITLE | --title TITLE] [-t NUMBER |
+		--tab NUMBER] [-n TAB NAMES | --tab_names TAB NAMES] [-d
+		DIRECTORY | --directory DIRECTORY] [-g GEOMETRY | --geometry
+		GEOMETRY] [-l | -ls | --login] [-ut] [-H | --hold] [-s |
+		--separate] [-j | --join] [-p | --profile] [-u PROFILE |
+		--user_profile PROFILE] [-v | --version] [-e COMMAND | -x COM
+		MAND | --execute COMMAND]
 
 DESCRIPTION
        LilyTerm is a terminal emulator for the X Window System, based on the
@@ -15,96 +16,114 @@ DESCRIPTION
 
 OPTIONS
        -? | -h | --help
-           Display a brief help message.
-
-       -v | --version
-           Show the version information.
-
-       -d DIRECTORY | --directory DIRECTORY
-           Specify the init directory when starting up.
-
-       -g GEOMETRY | --geometry GEOMETRY
-           Specify the geometry of window when starting.
-           A reasonable example value is "80x24+0+0", witch means "width x
-           height {+-} xoffset {+-} yoffset" (without space).
-
-       -l | -ls | --login
-           Make the shell invoked as a login shell.
-
-       -p | --profile
-           Got a profile sample.
-
-       -s | --separate
-           Run in separate process.
+	   Display a brief help message.
 
        -T TITLE | --title TITLE
-           Specify the window title.
+	   Specify the window title.
 
        -t NUMBER | --tab NUMBER
-           Open multi tabs when starting up.
+	   Open multi tabs when starting up.
+
+       -n TAB NAMES | --tab_names TAB NAMES
+	   Specify the tab names, separate with <Space>.
+
+       -d DIRECTORY | --directory DIRECTORY
+	   Specify the init directory when starting up.
+
+       -g GEOMETRY | --geometry GEOMETRY
+	   Specify the geometry of window when starting.
+	   A reasonable example value is "80x24+0+0", witch means "width x
+	   height {+-} xoffset {+-} yoffset" (without space).
+
+       -l | -ls | --login
+	   Make the shell invoked as a login shell.
+
+       -ut
+	   Disable recording the session in lastlog, utmp and wtmp.
+
+       -H | --hold
+	   Hold the terminal window open when the command following -e/-x ter
+	   minated.
+
+       -s | --separate
+	   Run in separate process.
+
+       -j | --join
+	   Integrate new created tabs to the last accessed window.
+	   It may be useful for launching multi commands with LilyTerm in a
+	   shell script.
+
+       -p | --profile
+	   Got a profile sample.
 
        -u PROFILE | --user_profile PROFILE
-           Use a specified profile.
+	   Use a specified profile.
+
+       -v | --version
+	   Show the version information.
 
        -e COMMAND | -x COMMAND | --execute COMMAND
-           Run a command when starting up. Must be the final option.
+	   Run a command when starting up. Must be the final option.
 
 
 KEYBOARD CONTROL
        The following key bindings may custom or disable by the right click
        menu [Set key binding].
 
-       <Ctrl><>           Disable/Enable hyperlinks, function keys and right
-                           click menu for temporary.
+       <Ctrl><> 	  Disable/Enable hyperlinks, function keys and right
+			   click menu for temporary.
 
-       <Ctrl><T/Q>         Add a New tab with current directory/Close current
-                           tab (had been disabled by default).
-                           Using <Ctrl><D> or exit to close tabs is
-                           recommended.
-
-       <Ctrl><E>           Rename the current tab. (had been disabled by
-                           default)
-
-       <Ctrl><N>           Open a new window with current directory. (had been
-                           disabled by default)
+       <Ctrl><T>	   Add a New tab with current directory.
 
        <Ctrl><PgUp/PgDn>   Switch to Prev/Next tab.
 
        <Ctrl><Home/End>    Switch to First/Last tab.
 
-       <Ctrl><[/]>         Move current tab Forward/Backward.
+       <Ctrl><[/]>	   Move current tab Forward/Backward.
 
-       <Ctrl><Up/Down>     Move current tab to First/Last.
+       <Ctrl><Up/Down>	   Move current tab to First/Last.
 
-       <Ctrl><F1~F12>      Switch to 1st ~ 12th tab.
+       <Ctrl><F1~F12>	   Switch to 1st ~ 12th tab.
 
-       <Ctrl><O>           Select all the text in the Vte Terminal box.
+       <Ctrl><O>	   Select all the text in the Vte Terminal box.
 
        <Ctrl><+/-/Enter>   Increase/Decrease/Reset the font size of current
-                           tab.
+			   tab.
 
        <Alt><F11/Enter>    Switch between fullwindow/unfullwindow and
-                           fullscreen/unfullscreen state.
+			   fullscreen/unfullscreen state.
 
        <Shift><Left/Right> Emulate a mouse Scroll Up/Down event on Vte Termi
-                           nal box.
+			   nal box.
 
        <Shift><Up/Down>    Asks to scroll Up/Down 1 line on Vte Terminal box.
 
        <Shift><PgUp/PgDn>  Asks to scroll Up/Down on Vte Terminal box.
 
        <Ctrl><Delete/Insert>
-                           Copy the text to clipboard / Paste the text in
-                           clipboard.
+			   Copy the text to clipboard / Paste the text in
+			   clipboard.
 
        <Shift><Delete/Insert>
-                           Copy the text to primary clipboard / Paste the text
-                           in primary clipboard.
-                           i.e. Emulate a middle button mouse click to
-                           copy/paste the text.
+			   Copy the text to primary clipboard / Paste the text
+			   in primary clipboard.
+			   i.e. Emulate a middle button mouse click to
+			   copy/paste the text.
+
+       Some key bindings that disabled by default but maybe useful:
+
+       <Ctrl><Q>
+	      Close current tab.
+	      Using <Ctrl><D> or exit to close tabs is recommended.
+
+       <Ctrl><N>
+	      Open a new window with current directory.
+
+       <Ctrl><E>
+	      Rename the current tab.
 
 FILE
-       /etc/xdg/lilyterm.conf          System configure file
+       /etc/xdg/lilyterm.conf	       System configure file
 
        ~/.config/lilyterm/default.conf Users profile.
 
@@ -114,77 +133,96 @@ FILE
 TIPS
        Display UTF-8 character under C locale
 
-           Execute the following command under LilyTerm:
+	   Execute the following command under LilyTerm:
 
-               bind "set convert-meta off"
-               bind "set output-meta on"
+	       bind "set convert-meta off"
+	       bind "set output-meta on"
 
-           And use the right click menu to set the text encoding to "UTF-8".
+	   And use the right click menu to set the text encoding to "UTF-8".
 
        Launch LilyTerm under a chroot jail
 
-           Extract xauth info to a file (under X):
+	   Extract xauth info to a file (under X):
 
-               xauth extract /PathToChroot/tmp/display $DISPLAY
+	       xauth extract /PathToChroot/tmp/display $DISPLAY
 
-           Mount the devpts device and /tmp (may not necessary) before chroot
-           into a chroot jail:
+	   Mount the devpts device and /tmp (may not necessary) before chroot
+	   into a chroot jail:
 
-               mount /dev/pts /PathToChroot/dev/pts -t devpts
-               mount -o bind /tmp /PathToChroot/tmp (may not necessary)
+	       mount /dev/pts /PathToChroot/dev/pts -t devpts
+	       mount -o bind /tmp /PathToChroot/tmp (may not necessary)
 
-           Merge the extracted xauth info and set the DISPLAY environ after
-           chroot into the chroot jail:
+	   Merge the extracted xauth info and set the DISPLAY environ after
+	   chroot into the chroot jail:
 
-               xauth merge /tmp/display
-               export DISPLAY=:0
+	       xauth merge /tmp/display
+	       export DISPLAY=:0
 
-           Launch LilyTerm directly, or run it under Xnest/Xephyr:
+	   Launch LilyTerm directly, or run it under Xnest/Xephyr:
 
-               xinit ~/.xinitrc -- /usr/bin/Xnest :1 -ac -geometry 800x600
+	       xinit ~/.xinitrc -- /usr/bin/Xnest :1 -ac -geometry 800x600
 
-           or
+	   or
 
-               xinit ~/.xinitrc -- /usr/bin/Xephyr :1 -ac -screen 800x600
+	       xinit ~/.xinitrc -- /usr/bin/Xephyr :1 -ac -screen 800x600
 
        <Ctrl><S> and <Ctrl><Q> dont work under VIM:
 
-           Use the following command to turn off flow-Control under
-           LilyTerm:
+	   Use the following command to turn off flow-Control under
+	   LilyTerm:
 
-               stty raw
+	       stty raw
 
-           or
+	   or
 
-               stty -ixon
+	       stty -ixon
+
+
+       BSD Users:
+
+	   Please mount the procfs before launch LilyTerm:
+
+	       mount -t procfs procfs /proc
 
 ENVIRONMENT
-       TERM           Sets what type of terminal attempts to emulate. Please
-                      always set to "xterm" under LilyTerm.
+       TERM	      Sets what type of terminal attempts to emulate. Please
+		      always set to "xterm" under LilyTerm.
 
        VTE_CJK_WIDTH  Controls the width of some ideographs should be "single
-                      width (narrow)" or "double width (wide)" in a vte temi
-                      nal.
-                      This environment should be set before creating a vte
-                      widget.
-                      In LilyTerm, you may set the VTE_CJK_WIDTH of a new tab
-                      to wide with right click menu New tab with specified
-                      locale -> xx_XX.UTF-8 (Wide) or UTF-8 (Wide).
+		      width (narrow)" or "double width (wide)" in a vte temi
+		      nal.
+		      This environment should be set before creating a vte
+		      widget.
+		      In LilyTerm, you may set the VTE_CJK_WIDTH of a new tab
+		      to wide with right click menu New tab with specified
+		      locale -> xx_XX.UTF-8 (Wide) or UTF-8 (Wide).
 
-       PROMPT_COMMAND Customs the "Window Title" for bash.
-                      The following is a reasonable example for ~/.bashrc:
+       PROMPT_COMMAND Customs the "Window Title" for shell.
+		      The following is a reasonable example ~/.bashrc for
+		      bash:
 
-                          case $TERM in
-                          xterm*)
-                              PROMPT_COMMAND=echo -ne "\033]0;${HOSTNAME}:
-                          ${PWD}\007"
-                              ;;
-                          *)
-                              ;;
-                          esac
+			  case $TERM in
+			      xterm*)
+				  PROMPT_COMMAND=echo -ne "\033]0;${HOST
+			  NAME}: ${PWD}\007"
+				  ;;
+			      *)
+				  ;;
+			  esac
 
-                      Please visit http://tldp.org/HOWTO/Xterm-Title.html for
-                      more details.
+		      The following is a reasonable example ~/.cshrc for
+		      csh/tcsh:
+
+			  switch ($TERM)
+			      case "xterm*":
+				  setenv TITLE "%{\033]0;%m: %~\007%}"
+				  breaksw
+			  endsw
+
+			  set prompt = "${TITLE}%# "
+
+		      Please visit http://tldp.org/HOWTO/Xterm-Title.html for
+		      more details.
 
 AUTHOR
        Lu, Chao-Ming (Tetralet) <tetralet@gmail.com>

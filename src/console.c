@@ -144,6 +144,7 @@ gchar *get_help_message_usage(gchar *profile, gboolean convert_to_html)
 	g_string_append(help_message,   _("Use -d/--directory {directory} to specify the init directory when starting up.\n"));
 	g_string_append(help_message,   _("Use -g/--geometry {WIDTHxHEIGHT[+-]XOFFSET[+-]YOFFSET} to specify the geometry.\n"));
 	g_string_append(help_message,   _("Use -l/-ls/--login to make the shell invoked as a login shell.\n"));
+	g_string_append(help_message,   _("Use -ut to disable recording the session in lastlog, utmp and wtmp.\n"));
 	g_string_append(help_message,   _("Use -H/--hold to hold the terminal window open when -e/-x command terminated.\n"));
 //	g_string_append(help_message,   _("\t\t\tThis option will be ignored when using with -e/-x/--execute option.\n"));
 	g_string_append(help_message,   _("Use -s/--separate to run in separate process.\n"));

@@ -1,7 +1,7 @@
 .\" Process this file with
 .\" groff -man -Tascii lilyterm.1
 .\"
-.TH LilyTerm 1 "October 2012" "LilyTerm 0.9.9.3" "A light and eazy-to-use terminal emulator"
+.TH LilyTerm 1 "March 2013" "LilyTerm 0.9.9.5" "A light and eazy-to-use terminal emulator"
 .SH NAME
 LilyTerm \- A light and eazy-to-use terminal emulator for X.
 .\" Disable justification (adjust text to left margin only)
@@ -16,6 +16,7 @@ LilyTerm \- A light and eazy-to-use terminal emulator for X.
 [\fB-d\fR \fIDIRECTORY\fR | \fB--directory\fR \fIDIRECTORY\fR]
 [\fB-g\fR \fIGEOMETRY\fR | \fB--geometry\fR \fIGEOMETRY\fR]
 [\fB-l\fR | \fB-ls\fR | \fB--login\fR]
+[\fB-ut\fR]
 [\fB-H\fR | \fB--hold\fR]
 [\fB-s\fR | \fB--separate\fR]
 [\fB-j\fR | \fB--join\fR]
@@ -62,6 +63,11 @@ A reasonable example value is "80x24+0+0", witch means "width x height {+-} xoff
 \fB-l\fR | \fB-ls\fR | \fB--login\fR
 .RS 4
 Make the shell invoked as a login shell.
+.RE
+.PP
+\fB-ut\fR
+.RS 4
+Disable recording the session in lastlog, utmp and wtmp.
 .RE
 .PP
 \fB-H\fR | \fB--hold\fR

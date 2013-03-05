@@ -301,6 +301,7 @@ void init_window_parameters(struct Window *win_data)
 	// win_data->init_tab_number;
 	// win_data->init_dir;
 	// win_data->login_shell;
+	// win_data->utmp;
 	// win_data->geometry;
 	// win_data->subitem_new_window_from_list;
 	// win_data->menuitem_new_window_from_list;
@@ -1797,8 +1798,8 @@ void init_prime_user_datas(struct Window *win_data)
 #ifdef SAFEMODE
 	if (win_data==NULL) return;
 #endif
-	// g_debug("init_prime_user_datas(): win_data->login_shell = %d", win_data->login_shell);
-	if ((win_data->login_shell < 0) || win_data->prime_user_datas_inited ) return;
+	// g_debug("init_prime_user_datas(): win_data->prime_user_datas_inited = %d", win_data->prime_user_datas_inited);
+	if (win_data->prime_user_datas_inited) return;
 
 	win_data->prime_user_datas_inited = TRUE;
 
@@ -1814,45 +1815,35 @@ void init_prime_user_datas(struct Window *win_data)
 void get_prime_user_settings(GKeyFile *keyfile, struct Window *win_data, gchar *encoding)
 {
 #ifdef DETAIL
-	if (win_data)
-		g_debug("! Launch get_prime_user_settings() with keyfile = %p, win_data = %p, encoding = %s, win_data->login_shell = %d!",
-			keyfile, win_data, encoding, win_data->login_shell);
-	else
-		g_debug("! Launch get_prime_user_settings() with keyfile = %p, win_data = %p, encoding = %s!",
-			keyfile, win_data, encoding);
+	g_debug("! Launch get_prime_user_settings() with keyfile = %p, win_data = %p, encoding = %s!",
+		keyfile, win_data, encoding);
 #endif
 #ifdef SAFEMODE
 	if ((keyfile==NULL) || (win_data==NULL)) return;
 #endif
-	if (win_data->login_shell < 0) return;
-
-	if (win_data->login_shell)
-		win_data->login_shell = -1;
-	else
-		win_data->login_shell = -2;
+	if (win_data->prime_user_settings_inited) return;
+	win_data->prime_user_settings_inited = TRUE;
 
 	// Check the profile version
 	check_profile_version (keyfile, win_data);
 
 	// Check if confirm_to_execute_command
-	win_data->confirm_to_execute_command = check_boolean_value(
-			keyfile, "main", "confirm_to_execute_command",
-			win_data->confirm_to_execute_command);
+	win_data->confirm_to_execute_command = check_boolean_value(keyfile, "main", "confirm_to_execute_command",
+								   win_data->confirm_to_execute_command);
 
 	win_data->execute_command_whitelist = check_string_value(keyfile, "main",
-					      "execute_command_whitelist",
-					      win_data->execute_command_whitelist,
-					      TRUE, 
-					      ENABLE_EMPTY_STR);
+							         "execute_command_whitelist",
+							         win_data->execute_command_whitelist,
+							         TRUE, 
+							         ENABLE_EMPTY_STR);
 	// g_debug("win_data->execute_command_whitelist for win_data (%p) updated!", win_data);
 
-	win_data->execute_command_in_new_tab = check_boolean_value(
-			keyfile, "main", "execute_command_in_new_tab",
-			win_data->execute_command_in_new_tab);
+	win_data->execute_command_in_new_tab = check_boolean_value(keyfile, "main", "execute_command_in_new_tab",
+								   win_data->execute_command_in_new_tab);
 
 	// g_debug("ReGet new win_data->default_locale with original value: %s...", win_data->default_locale);
-	win_data->default_locale = check_string_value( keyfile, "main", "default_locale",
-						     win_data->default_locale, TRUE, DISABLE_EMPTY_STR);
+	win_data->default_locale = check_string_value(keyfile, "main", "default_locale",
+						      win_data->default_locale, TRUE, DISABLE_EMPTY_STR);
 	// g_debug("win_data->default_locale = %s", win_data->default_locale);
 #ifdef SAFEMODE
 	if ( win_data->default_locale && (win_data->default_locale[0]!='\0'))
