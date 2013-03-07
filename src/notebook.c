@@ -394,7 +394,7 @@ struct Page *add_page(struct Window *win_data,
 	// create label
 	// g_debug("Creating label!!");
 
-	page_data->label=gtk_hbox_new(FALSE, 0);
+	page_data->label=dirty_gtk_hbox_new(FALSE, 0);
 	g_object_set_data(G_OBJECT(page_data->label), "VteBox", page_data->vte);
 	set_widget_thickness(page_data->label, 0);
 
@@ -428,7 +428,7 @@ struct Page *add_page(struct Window *win_data,
 	//	gtk_widget_hide (page_data->label_button);
 
 	// create a hbox
-	page_data->hbox = gtk_hbox_new(FALSE, 0);
+	page_data->hbox = dirty_gtk_hbox_new(FALSE, 0);
 
 	// Get current vte size. for init a new tab.
 	glong column=SYSTEM_COLUMN, row=SYSTEM_ROW;

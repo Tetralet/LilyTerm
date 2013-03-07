@@ -49,6 +49,8 @@ gchar *convert_text_to_html(StrAddr **text, gboolean free_text, gchar *color, St
 gchar *join_strings_to_string(const gchar separator, const gint total, const StrLists *string, ...);
 gchar *colorful_max_new_lines(gchar *string, gint max, gint output_line);
 gboolean dirty_gdk_color_parse(const gchar *spec, GdkColor *color);
+GtkWidget *dirty_gtk_vbox_new(gboolean homogeneous, gint spacing);
+GtkWidget *dirty_gtk_hbox_new(gboolean homogeneous, gint spacing);
 #if defined(OUT_OF_MEMORY) || defined(UNIT_TEST)
 gchar *fake_g_strdup(const gchar *gchar);
 gchar *fake_g_strdup_printf(const StrLists *format, ...);

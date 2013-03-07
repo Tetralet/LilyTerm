@@ -216,16 +216,17 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 				      BOX_VERTICALITY,
 				      5,
 				      dialog_data);
-			GtkWidget *hbox = gtk_hbox_new (FALSE, 0);
+			GtkWidget *hbox = dirty_gtk_hbox_new (FALSE, 0);
 			GtkWidget *label = gtk_label_new(_("Find: "));
 			gtk_box_pack_start (GTK_BOX(hbox), label, FALSE, FALSE, 0);
 			dialog_data->operate[0] = gtk_entry_new ();
 			g_signal_connect(G_OBJECT(dialog_data->operate[0]), "changed",
 						  G_CALLBACK(refresh_regex_settings), win_data);
 
-			// GtkRcStyle *rcstyle = gtk_widget_get_modifier_style(dialog_data->operate[0]);
-			GtkStyle *rcstyle = gtk_widget_get_style (dialog_data->operate[0]);
-			win_data->find_entry_bg_color = rcstyle->base[GTK_STATE_NORMAL];
+			GtkStyle *rc_style = gtk_widget_get_style (dialog_data->operate[0]);
+			win_data->find_entry_bg_color = rc_style->base[GTK_STATE_NORMAL];
+			g_object_unref(rc_style);
+
 			win_data->find_entry_current_bg_color = win_data->find_entry_bg_color;
 			// print_color("win_data->find_entry_bg_color", win_data->find_entry_bg_color);
 
@@ -248,7 +249,7 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 			gtk_box_pack_end (GTK_BOX(hbox), label, FALSE, FALSE, 0);
 			gtk_box_pack_start (GTK_BOX(dialog_data->box), hbox, FALSE, FALSE, 0);
 
-			hbox = gtk_hbox_new (FALSE, 15);
+			hbox = dirty_gtk_hbox_new (FALSE, 15);
 			gtk_box_pack_start (GTK_BOX(dialog_data->box), hbox, FALSE, FALSE, 0);
 
 			dialog_data->operate[1] = gtk_check_button_new_with_label(_("Case sensitive"));
@@ -268,7 +269,7 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 					 G_CALLBACK(refresh_regex_settings), win_data);
 			set_widget_can_not_get_focus(dialog_data->operate[1]);
 			set_widget_can_not_get_focus(dialog_data->operate[2]);
-			hbox = gtk_hbox_new (FALSE, 5);
+			hbox = dirty_gtk_hbox_new (FALSE, 5);
 			dialog_data->operate[3] = gtk_label_new(NULL);
 			gtk_widget_set_no_show_all (dialog_data->operate[3], TRUE);
 			gtk_box_pack_end (GTK_BOX(hbox), dialog_data->operate[3], FALSE, FALSE, 0);
@@ -323,7 +324,7 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 					 G_CALLBACK(paste_text_to_vte_terminal), dialog_data);
 
 			// Check Button: Append a <NewLine> to the end of the text
-			GtkWidget *hbox = gtk_hbox_new (FALSE, 5);
+			GtkWidget *hbox = dirty_gtk_hbox_new (FALSE, 5);
 			gtk_box_pack_start (GTK_BOX(dialog_data->box), hbox, FALSE, FALSE, 0);
 			dialog_data->operate[1] = gtk_check_button_new_with_label(_("Append a <NewLine> to the end of the text."));
 			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON(dialog_data->operate[1]), TRUE);
@@ -563,9 +564,9 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 
 			// ---- Create the Range Scale ----
 			GtkWidget *label = gtk_label_new(_("The brightness of ANSI colors:"));
-			GtkWidget *box = gtk_hbox_new (FALSE, 0);
+			GtkWidget *box = dirty_gtk_hbox_new (FALSE, 0);
 
-			GtkWidget *vbox = gtk_vbox_new (FALSE, 0);
+			GtkWidget *vbox = dirty_gtk_vbox_new (FALSE, 0);
 			gtk_box_pack_start (GTK_BOX(dialog_data->box), vbox, FALSE, FALSE, 10);
 
 			gtk_box_pack_start (GTK_BOX(box), label, FALSE, FALSE, 0);
@@ -579,7 +580,7 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 			dialog_data->original_color_brightness_inactive = win_data->color_brightness_inactive;
 
 			label = gtk_label_new(_("ANSI Colors:"));
-			box = gtk_hbox_new (FALSE, 0);
+			box = dirty_gtk_hbox_new (FALSE, 0);
 			gtk_box_pack_start (GTK_BOX(box), label, FALSE, FALSE, 0);
 
 			// ---- Create the [Invert Color] check button ----
@@ -862,7 +863,7 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 			g_signal_connect(G_OBJECT(tree_selection), "changed", G_CALLBACK(update_key_info), dialog_data);
 
 			// Add the combo box to frame
-			GtkWidget *hbox = gtk_hbox_new (FALSE, 0);
+			GtkWidget *hbox = dirty_gtk_hbox_new (FALSE, 0);
 			GtkWidget *label = gtk_label_new(_("Key Group: "));
 			gtk_box_pack_start (GTK_BOX(hbox), label, FALSE, FALSE, 0);
 			dialog_data->operate[0] = gtk_label_new(NULL);
@@ -871,8 +872,8 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 
 			//// GtkWidget *vbox = create_frame_widget(dialog_data, NULL, hbox, combo, 0);
 			GtkWidget *vbox = create_frame_widget(dialog_data, NULL, hbox, dialog_data->treeview, 0);
-			hbox = gtk_hbox_new (FALSE, 0);
-			GtkWidget *label_vbox = gtk_vbox_new (FALSE, 0);
+			hbox = dirty_gtk_hbox_new (FALSE, 0);
+			GtkWidget *label_vbox = dirty_gtk_vbox_new (FALSE, 0);
 			label = gtk_label_new(_("Note: "));
 			gtk_box_pack_start (GTK_BOX(label_vbox), label, FALSE, FALSE, 0);
 			gtk_box_pack_start (GTK_BOX(hbox), label_vbox, FALSE, FALSE, 0);
@@ -1482,8 +1483,8 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 #ifdef SAFEMODE
 								if (tmp_page_data==NULL) goto DESTROY_WINDOW;
 #endif
-								if (page_data->tab_color == win_data->user_page_color[page_color_type])
-									page_data->tab_color = new_color;
+								if (tmp_page_data->tab_color == win_data->user_page_color[page_color_type])
+									tmp_page_data->tab_color = new_color;
 							}
 
 							g_free(win_data->user_page_color[page_color_type]);
@@ -2181,11 +2182,19 @@ void refresh_regex(struct Window *win_data, struct Dialog *dialog_data)
 #  endif
 		if (update_bg_color)
 		{
+#  ifdef USING_GTK_RC_STYLE_NEW
 			GtkRcStyle *rc_style = gtk_rc_style_new();
 			rc_style->base[GTK_STATE_NORMAL] = win_data->find_entry_current_bg_color;
 			rc_style->color_flags[GTK_STATE_NORMAL] |= GTK_RC_BASE;
 			gtk_widget_modify_style (dialog_data->operate[0], rc_style);
 			g_object_unref(rc_style);
+#  else
+			GdkRGBA gdkrgba;
+			gchar *color_string = gdk_color_to_string(&(win_data->find_entry_current_bg_color));
+			gdk_rgba_parse (&gdkrgba, color_string);
+			gtk_widget_override_background_color(dialog_data->operate[0], 0, &gdkrgba);
+			g_free(color_string);
+#  endif
 		}
 #  ifdef SAFEMODE
 	}
@@ -2439,15 +2448,15 @@ void create_dialog(gchar *dialog_title_translation, gchar *dialog_title,  Dialog
 	gtk_container_set_border_width (GTK_CONTAINER (dialog_data->window), border_width);
 	gtk_dialog_set_default_response(GTK_DIALOG(dialog_data->window), response);
 
-	GtkWidget *main_hbox = gtk_hbox_new (FALSE, 5);
+	GtkWidget *main_hbox = dirty_gtk_hbox_new (FALSE, 5);
 	gtk_container_add (GTK_CONTAINER (gtk_dialog_get_content_area(GTK_DIALOG(dialog_data->window))), main_hbox);
-	GtkWidget *main_right_vbox = gtk_vbox_new (FALSE, 0);
+	GtkWidget *main_right_vbox = dirty_gtk_vbox_new (FALSE, 0);
 	gtk_box_pack_end (GTK_BOX(main_hbox), main_right_vbox, FALSE, FALSE, 0);
 
 
 	if (icon)
 	{
-		GtkWidget *icon_vbox = gtk_vbox_new (FALSE, 30);
+		GtkWidget *icon_vbox = dirty_gtk_vbox_new (FALSE, 30);
 		gtk_box_pack_start (GTK_BOX(main_hbox), icon_vbox, FALSE, FALSE, 10);
 		GtkWidget *icon_image = gtk_image_new_from_stock (icon, GTK_ICON_SIZE_DIALOG);
 		gtk_box_pack_start (GTK_BOX(icon_vbox), icon_image, FALSE, FALSE, 10);
@@ -2455,9 +2464,9 @@ void create_dialog(gchar *dialog_title_translation, gchar *dialog_title,  Dialog
 
 	GtkWidget *state_vbox =NULL;
 	if (title)
-		state_vbox = gtk_vbox_new (FALSE, 15);
+		state_vbox = dirty_gtk_vbox_new (FALSE, 15);
 	else
-		state_vbox = gtk_vbox_new (FALSE, 0);
+		state_vbox = dirty_gtk_vbox_new (FALSE, 0);
 
 	gtk_box_pack_start (GTK_BOX(main_hbox), state_vbox, TRUE, TRUE, 0);
 
@@ -2466,7 +2475,7 @@ void create_dialog(gchar *dialog_title_translation, gchar *dialog_title,  Dialog
 
 	if (state_bottom)
 	{
-		GtkWidget *state_bottom_hbox = gtk_hbox_new (FALSE, 3);
+		GtkWidget *state_bottom_hbox = dirty_gtk_hbox_new (FALSE, 3);
 		gtk_box_pack_end (GTK_BOX(state_vbox), state_bottom_hbox, FALSE, FALSE, 0);
 	}
 
@@ -2475,10 +2484,10 @@ void create_dialog(gchar *dialog_title_translation, gchar *dialog_title,  Dialog
 		switch (create_entry_hbox)
 		{
 			case BOX_HORIZONTAL:
-				dialog_data->box = gtk_hbox_new (FALSE, entry_hbox_spacing);
+				dialog_data->box = dirty_gtk_hbox_new (FALSE, entry_hbox_spacing);
 				break;
 			case BOX_VERTICALITY:
-				dialog_data->box = gtk_vbox_new (FALSE, entry_hbox_spacing);
+				dialog_data->box = dirty_gtk_vbox_new (FALSE, entry_hbox_spacing);
 				break;
 			default:
 #ifdef FATAL
@@ -2504,20 +2513,20 @@ GtkWidget *create_entry_widget (GtkWidget *box, gchar *contents, gchar *name, gc
 #ifdef SAFEMODE
 	if (box==NULL) return NULL;
 #endif
-	GtkWidget *mainbox = gtk_vbox_new(FALSE, 10);
+	GtkWidget *mainbox = dirty_gtk_vbox_new(FALSE, 10);
 
 	if (contents && contents[0]!='\0')
 	{
-		GtkWidget *hbox = gtk_hbox_new(FALSE, 0);
-		GtkWidget *vbox = gtk_vbox_new(FALSE, 0);
+		GtkWidget *hbox = dirty_gtk_hbox_new(FALSE, 0);
+		GtkWidget *vbox = dirty_gtk_vbox_new(FALSE, 0);
 		GtkWidget *label = gtk_label_new(contents);
 		gtk_box_pack_start(GTK_BOX(vbox), label, FALSE, FALSE, 0);
 		gtk_box_pack_start(GTK_BOX(hbox), vbox, FALSE, FALSE, 0);
 		gtk_box_pack_start(GTK_BOX(mainbox), hbox, FALSE, FALSE, 0);
 	}
 
-	GtkWidget *hbox = gtk_hbox_new(FALSE, 5);
-	GtkWidget *vbox = gtk_vbox_new(FALSE, 0);
+	GtkWidget *hbox = dirty_gtk_hbox_new(FALSE, 5);
+	GtkWidget *vbox = dirty_gtk_vbox_new(FALSE, 0);
 	GtkWidget *label = gtk_label_new(name);
 	gtk_box_pack_start (GTK_BOX(hbox), label, FALSE, FALSE, 0);
 	GtkWidget *entry = gtk_entry_new ();
@@ -2548,7 +2557,7 @@ GtkWidget *create_frame_widget (struct Dialog *dialog_data, gchar *label,
 	if (dialog_data->box!=NULL)
 #endif
 	gtk_box_pack_start (GTK_BOX(dialog_data->box), frame, FALSE, FALSE, padding);
-	GtkWidget *vbox = gtk_vbox_new (FALSE, 15);
+	GtkWidget *vbox = dirty_gtk_vbox_new (FALSE, 15);
 	gtk_container_set_border_width (GTK_CONTAINER (vbox), 10);
 	gtk_container_add (GTK_CONTAINER (frame), vbox);
 	if (child) gtk_box_pack_start (GTK_BOX(vbox), child, FALSE, FALSE, 0);
@@ -2592,7 +2601,7 @@ GtkWidget *create_hbox_with_text_and_image(gchar *text, const gchar *stock_id)
 	g_debug("! Launch create_hbox_with_text_and_image() with label_text = %s, stock_id = %s!",
 		text, stock_id);
 #endif
-	GtkWidget *hbox=gtk_hbox_new(FALSE, 0);
+	GtkWidget *hbox=dirty_gtk_hbox_new(FALSE, 0);
 	set_widget_thickness(hbox, 0);
 
 	GtkWidget *label = gtk_label_new(text);
@@ -2646,7 +2655,7 @@ void create_scale_widget(struct Dialog *dialog_data, gdouble min, gdouble max, g
 #ifdef SAFEMODE
 	if (dialog_data==NULL) return;
 #endif
-	GtkWidget *hbox1 = gtk_hbox_new (FALSE, 0);
+	GtkWidget *hbox1 = dirty_gtk_hbox_new (FALSE, 0);
 #ifdef SAFEMODE
 	if (dialog_data->box!=NULL)
 #endif
@@ -2672,7 +2681,7 @@ void create_scale_widget(struct Dialog *dialog_data, gdouble min, gdouble max, g
 	if (dialog_data->box!=NULL)
 #endif
 		gtk_box_pack_start (GTK_BOX(dialog_data->box), dialog_data->operate[0], TRUE, TRUE, 0);
-	GtkWidget *hbox2 = gtk_hbox_new (FALSE, 0);
+	GtkWidget *hbox2 = dirty_gtk_hbox_new (FALSE, 0);
 #ifdef SAFEMODE
 	if (dialog_data->box!=NULL)
 #endif
@@ -3511,11 +3520,11 @@ GtkWidget *add_text_to_notebook(GtkWidget *notebook, const gchar *label, const g
 #endif
 		set_widget_can_not_get_focus(text_label);
 
-	GtkWidget *hbox = gtk_hbox_new(FALSE, 0);
+	GtkWidget *hbox = dirty_gtk_hbox_new(FALSE, 0);
 	gtk_container_set_border_width(GTK_CONTAINER(hbox), 10);
 	gtk_box_pack_start(GTK_BOX(hbox), text_label, TRUE, TRUE, 0);
 
-	GtkWidget *label_hbox = gtk_hbox_new(FALSE, 0);
+	GtkWidget *label_hbox = dirty_gtk_hbox_new(FALSE, 0);
 	set_widget_thickness(label_hbox, 0);
 	GtkWidget *image = gtk_image_new_from_stock(stock_id, GTK_ICON_SIZE_MENU);
 	gtk_box_pack_start(GTK_BOX(label_hbox), image, FALSE, FALSE, 0);

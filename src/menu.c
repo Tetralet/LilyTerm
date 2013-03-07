@@ -1432,18 +1432,18 @@ void select_font(GtkWidget *widget, struct Window *win_data)
 #ifdef SAFEMODE
 	if (page_data==NULL) return;
 #endif
-	GtkWidget *dialog = gtk_font_selection_dialog_new(_("Font Selection"));
+	GtkWidget *dialog = gtk_font_chooser_dialog_new(_("Font Selection"), GTK_WINDOW(win_data->window));
 	gtk_window_set_transient_for(GTK_WINDOW(dialog), GTK_WINDOW(win_data->window));
 	// set the default font name in gtk_font_selection_dialog
 #ifdef SAFEMODE
 	if (page_data->font_name)
 #endif
-		gtk_font_selection_dialog_set_font_name(GTK_FONT_SELECTION_DIALOG(dialog), page_data->font_name);
+		gtk_font_chooser_set_font(GTK_FONT_CHOOSER(dialog), page_data->font_name);
 	if (gtk_dialog_run(GTK_DIALOG(dialog)) == GTK_RESPONSE_OK)
 	{
 		// g_debug("Trying to change font name!");
 		g_free(page_data->font_name);
-		page_data->font_name = gtk_font_selection_dialog_get_font_name(GTK_FONT_SELECTION_DIALOG(dialog));
+		page_data->font_name = gtk_font_chooser_get_font(GTK_FONT_CHOOSER(dialog));
 		set_vte_font(NULL, FONT_SET_TO_SELECTED);
 	}
 	gtk_widget_destroy(dialog);
@@ -2301,7 +2301,7 @@ void load_background_image_from_file(GtkWidget *widget, struct Window *win_data)
 	if (preview==NULL) return;
 #endif
 
-	preview->vbox = gtk_vbox_new (FALSE, 0);
+	preview->vbox = dirty_gtk_vbox_new (FALSE, 0);
 	preview->image = gtk_image_new();
 	g_signal_connect (dialog, "update-preview", G_CALLBACK (update_preview_image), preview);
 	gtk_box_pack_end (GTK_BOX(preview->vbox), preview->image, FALSE, FALSE, 0);
@@ -2318,7 +2318,7 @@ void load_background_image_from_file(GtkWidget *widget, struct Window *win_data)
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON(preview->scroll_background),
 				      win_data->scroll_background);
 
-	preview->mainbox = gtk_vbox_new (FALSE, 0);
+	preview->mainbox = dirty_gtk_vbox_new (FALSE, 0);
 	gtk_box_pack_start (GTK_BOX(preview->mainbox), preview->frame, FALSE, FALSE, 5);
 	gtk_box_pack_start (GTK_BOX(preview->mainbox), preview->scroll_background, FALSE, FALSE, 0);
 	gtk_file_chooser_set_extra_widget (GTK_FILE_CHOOSER(dialog), preview->mainbox);

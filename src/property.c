@@ -793,15 +793,33 @@ void set_widget_thickness(GtkWidget *widget, gint thickness)
 #ifdef SAFEMODE
 	if (widget==NULL) return;
 #endif
+
+#ifdef USING_GTK_RC_STYLE_NEW
+
 	GtkRcStyle *rc_style = gtk_rc_style_new();
-#ifdef SAFEMODE
+#   ifdef SAFEMODE
 	if (rc_style)
 	{
-#endif
+#   endif
 		rc_style->xthickness = rc_style->ythickness = thickness;
 		gtk_widget_modify_style(widget, rc_style);
-#ifdef SAFEMODE
+#   ifdef SAFEMODE
 	}
-#endif
+#   endif
 	g_object_unref(rc_style);
+#else
+	GtkCssProvider *css = gtk_css_provider_new ();
+	GtkStyleContext *context = gtk_widget_get_style_context(widget);
+	gchar *modified_style = g_strdup_printf("* {\n"
+						"   -GtkWidget-focus-line-width: 0;\n"
+						"   -GtkWidget-focus-padding: 0;\n"
+						"   padding: %dpx;\n"
+						"}",
+						thickness);
+	if (gtk_css_provider_load_from_data (css, modified_style, -1, NULL))
+		gtk_style_context_add_provider (context, GTK_STYLE_PROVIDER (css),
+						GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
+	g_object_unref (css);
+	g_free (modified_style);
+#endif
 }

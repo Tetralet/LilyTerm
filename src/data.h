@@ -186,10 +186,11 @@
 	#define EXIST_GTK_DIALOG_NO_SEPARATOR
 #endif
 #if ! GTK_CHECK_VERSION(2,91,0)
-	#define gtk_notebook_set_group_name(x, y) gtk_notebook_set_group(x, GINT_TO_POINTER (NOTEBOOK_GROUP))
+	#define gtk_notebook_set_group_name(x,y) gtk_notebook_set_group(x,GINT_TO_POINTER (NOTEBOOK_GROUP))
 #endif
 #if GTK_CHECK_VERSION(2,91,0)
 	#define USE_GDK_SCREEN_GET_RGBA_VISUAL
+	#define gtk_widget_get_child_requisition(x,y) gtk_widget_get_preferred_size(x,y,NULL)
 #endif
 #if GTK_CHECK_VERSION(2,91,1)
 	#define NO_RESIZE_GRIP
@@ -199,9 +200,16 @@
 	#define gtk_widget_hide_all(x) gtk_widget_hide(x)
 #endif
 #if GTK_CHECK_VERSION(2,91,5)
+	#define gtk_vscrollbar_new(x) gtk_scrollbar_new (GTK_ORIENTATION_VERTICAL,x)
 	#define USE_GTK3_GEOMETRY_METHOD
 #else
 	#define USE_GTK2_GEOMETRY_METHOD
+#endif
+#if GTK_CHECK_VERSION(2,91,6)
+	#define gtk_hscale_new_with_range(x,y,z) gtk_scale_new_with_range (GTK_ORIENTATION_HORIZONTAL,x,y,z)
+#endif
+#if ! GTK_CHECK_VERSION(2,91,6)
+	#define USING_GTK_RC_STYLE_NEW
 #endif
 #if GTK_CHECK_VERSION(2,91,7)
 	#define GTK3_LAME_GDK_SCREEN_IS_COMPOSITED
@@ -211,8 +219,19 @@
 	#define g_atexit(x) gtk_quit_add(0, (GtkFunction)x, NULL)
 #endif
 
+#if !GTK_CHECK_VERSION(3,1,12)
+	#define GTK_FONT_CHOOSER GTK_FONT_SELECTION_DIALOG
+	#define gtk_font_chooser_dialog_new(x,y) gtk_font_selection_dialog_new(x)
+	#define gtk_font_chooser_get_font gtk_font_selection_dialog_get_font_name
+	#define gtk_font_chooser_set_font gtk_font_selection_dialog_set_font_name
+#endif
+
+
 #if ! GLIB_CHECK_VERSION(2,14,0)
 	#define g_timeout_add_seconds(x,y,z) g_timeout_add(x*1000,y,z);
+#endif
+#if (GLIB_CHECK_VERSION(2,3,2) && GTK_CHECK_VERSION(2,99,0))
+	#define g_atexit atexit
 #endif
 
 #if defined(VTE_CHECK_VERSION)

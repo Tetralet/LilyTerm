@@ -641,6 +641,28 @@ gboolean dirty_gdk_color_parse(const gchar *spec, GdkColor *color)
 	return response;
 }
 
+GtkWidget *dirty_gtk_vbox_new(gboolean homogeneous, gint spacing)
+{
+#if GTK_CHECK_VERSION(2,90,0)
+	GtkWidget *box = gtk_box_new(GTK_ORIENTATION_VERTICAL, spacing);
+	gtk_box_set_homogeneous(GTK_BOX(box), homogeneous);
+#else
+	GtkWidget *box = gtk_vbox_new(homogeneous, spacing);
+#endif
+	return box;
+}
+
+GtkWidget *dirty_gtk_hbox_new(gboolean homogeneous, gint spacing)
+{
+#if GTK_CHECK_VERSION(2,90,0)
+	GtkWidget *box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, spacing);
+	gtk_box_set_homogeneous(GTK_BOX(box), homogeneous);
+#else
+	GtkWidget *box = gtk_hbox_new(homogeneous, spacing);
+#endif
+	return box;
+}
+
 #if defined(OUT_OF_MEMORY) || defined(UNIT_TEST)
 gchar *fake_g_strdup(const gchar *str)
 {
@@ -722,5 +744,4 @@ gchar** fake_g_strsplit(const gchar *string, const gchar *delimiter, gint max_to
 
 // A very dirty fix for unit test error.
 gchar **g_listenv (void) { return NULL; }
-
 #endif
