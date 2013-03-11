@@ -419,13 +419,15 @@ void apply_font_to_every_vte(GtkWidget *window, gchar *new_font_name, glong colu
 	// Don't need to call keep_gtk2_window_size() when fullscreen
 	switch (win_data->unfullscreen)
 	{
-		case 0:
-		case 2:
+		case FULLSCREEN_NORMAL:
+		case FULLSCREEN_UNFS_OK:
 #  ifdef GEOMETRY
 			g_debug("@ apply_font_to_every_vte(): Call keep_gtk2_window_size() with keep_vte_size = %x",
 				win_data->keep_vte_size);
 #  endif
 			keep_gtk2_window_size (win_data, page_data->vte, 0x380);
+			break;
+		default:
 			break;
 	}
 #endif

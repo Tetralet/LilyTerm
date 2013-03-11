@@ -418,6 +418,14 @@ typedef enum {
 	ANSI_THEME_SET_ANSI_THEME,
 } Set_ANSI_Theme_Type;
 
+typedef enum {
+	FULLSCREEN_UNFS_OK = 2,
+	FULLSCREEN_UNFS_ING = 1,
+	FULLSCREEN_NORMAL = 0,
+	FULLSCREEN_FS_ING = -1,
+	FULLSCREEN_FS_OK = -2,
+} FullScreen_Type;
+
 // KeyValue: only need to init once when LilyTerm starts.
 // so that we don't need to free them.
 struct KeyValue
@@ -641,7 +649,7 @@ struct Window
 	//  0: Normal
 	// >0: unfullscreening
 	// <0: fullscreening
-	gint unfullscreen;
+	FullScreen_Type unfullscreen;
 	Switch_Type show_tabs_bar;
 
 	// the component of a single window

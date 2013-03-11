@@ -1282,9 +1282,9 @@ gboolean deal_key_press(GtkWidget *window, gint type, struct Window *win_data)
 				gtk_window_unfullscreen(GTK_WINDOW(win_data->window));
 
 				if (win_data->startup_fullscreen)
-					win_data->unfullscreen = 1;
+					win_data->unfullscreen = FULLSCREEN_UNFS_ING;
 				else
-					win_data->unfullscreen = 2;
+					win_data->unfullscreen = FULLSCREEN_UNFS_OK;
 				// g_debug("deal_key_press (unfullscreen): win_data->true_fullscreen = %d", win_data->true_fullscreen);
 				win_data->true_fullscreen = FALSE;
 			}
@@ -1297,7 +1297,7 @@ gboolean deal_key_press(GtkWidget *window, gint type, struct Window *win_data)
 				if ((show_tabs_bar == FALSE) && (show_scroll_bar == FALSE))
 					gtk_window_fullscreen(GTK_WINDOW(win_data->window));
 
-				win_data->unfullscreen = -2;
+				win_data->unfullscreen = FULLSCREEN_FS_OK;
 				// g_debug("deal_key_press (fullscreen): win_data->true_fullscreen = %d", win_data->true_fullscreen);
 			}
 			break;
@@ -1585,12 +1585,12 @@ void window_size_allocate(GtkWidget *window, GtkAllocation *allocation, struct W
 	g_debug("@ window_size_allocate(for %p): Got keep_vte_size (final) = %x", window, win_data->keep_vte_size);
 #  endif
 
-	if ((win_data->keep_vte_size==0) && (win_data->unfullscreen>0))
+	if ((win_data->keep_vte_size==0) && (win_data->unfullscreen>FULLSCREEN_NORMAL))
 	{
 		// g_debug("Trying keep the size of window when unfullscreen, win_data->unfullscreen = %d", win_data->unfullscreen);
 		win_data->unfullscreen--;
 
-		if (win_data->unfullscreen == 0)
+		if (win_data->unfullscreen == FULLSCREEN_NORMAL)
 		{
 			// g_debug("window_size_allocate(): (2) launch window_resizable()! with window = %p!",
 			//	window);
@@ -1608,7 +1608,7 @@ void window_size_allocate(GtkWidget *window, GtkAllocation *allocation, struct W
 
 	// g_debug("win_data->keep_vte_size = %d, win_data->unfullscreen = %d",
 	//	win_data->keep_vte_size, win_data->unfullscreen);
-	if ((win_data->keep_vte_size==0) && (win_data->unfullscreen<0))
+	if ((win_data->keep_vte_size==0) && (win_data->unfullscreen<FULLSCREEN_NORMAL))
 	{
 		// g_debug("Trying keep the size of window when fullscreen, win_data->unfullscreen = %d", win_data->unfullscreen);
 		win_data->unfullscreen++;
