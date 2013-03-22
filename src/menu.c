@@ -89,7 +89,8 @@ gboolean create_menu(struct Window *win_data)
 		// Allow bold colors
 		win_data->menuitem_allow_bold_text = create_menu_item (CHECK_MENU_ITEM, sub_menu, _("Allow bold colors"), NULL, NULL,
 										(GSourceFunc)allow_bold_text, win_data);
-		gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM(win_data->menuitem_allow_bold_text), TRUE);                                 
+		gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM(win_data->menuitem_allow_bold_text), win_data->bold_text);                                 
+		set_bold_text(win_data, win_data->bold_text);
 
 		// Change the foreground color for every tab
 		create_menu_item (IMAGE_MENU_ITEM, sub_menu, _("Change the foreground color"), NULL, GTK_STOCK_SELECT_COLOR,
@@ -625,10 +626,16 @@ void view_primary(GtkWidget *widget, struct Window *win_data)
 	show_clipboard_dialog(SELECTION_PRIMARY, win_data, NULL, VIEW_THE_CLIPBOARD);
 }
 
+void set_bold_text(struct Window *win_data, gboolean bold)
+{
+	win_data->bold_text = bold;
+	vte_terminal_set_allow_bold(VTE_TERMINAL(win_data->current_vte), bold);
+}
+
 void allow_bold_text(GtkWidget *menu_item, struct Window *win_data)
 {
 	gboolean bold = gtk_check_menu_item_get_active (GTK_CHECK_MENU_ITEM(win_data->menuitem_allow_bold_text));
-	vte_terminal_set_allow_bold(VTE_TERMINAL(win_data->current_vte), bold);
+	set_bold_text(win_data, bold);
 }
 
 void set_dim_text(GtkWidget *menuitem_dim_text, struct Window *win_data)

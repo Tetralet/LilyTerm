@@ -848,6 +848,7 @@ struct Window
 
 // ---- font ---- //
 	// WRANING: font_anti_alias is no use since VTE 0.20.0
+	gboolean bold_text;
 	gboolean font_anti_alias;			/* Should be take care when drag to another window */
 	gchar *default_font_name;			/* Should be take care when drag to another window */
 	// Only using in <Ctrl><Enter>
