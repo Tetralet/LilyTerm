@@ -777,6 +777,7 @@ struct Window
 	GtkWidget *menuitem_always_hide_tabs_bar;
 	// the menuitem_hide_scroll_bar->active stores the boolean value of hide/show scroll_bar.
 	GtkWidget *menuitem_hide_scroll_bar;
+	GtkWidget *menuitem_allow_bold_text;
 
 	gboolean show_copy_paste_menu;
 	gboolean embedded_copy_paste_menu;

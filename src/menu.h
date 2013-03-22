@@ -76,6 +76,7 @@ GSList *create_theme_menu_items(struct Window *win_data, GtkWidget *sub_menu, GS
 void clean_scrollback_lines(GtkWidget *widget, struct Window *win_data);
 void reset_vte(GtkWidget *widget, struct Window *win_data);
 void select_font(GtkWidget *widget, struct Window *win_data);
+void allow_bold_text(GtkWidget *widget, struct Window *win_data);
 void set_dim_text(GtkWidget *menuitem_dim_text, struct Window *win_data);
 #ifdef ENABLE_RGBA
 void set_dim_window(GtkWidget *menuitem_dim_text, struct Window *win_data);
