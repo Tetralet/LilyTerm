@@ -356,6 +356,7 @@ void init_window_parameters(struct Window *win_data)
 	// win_data->menuitem_trans_win;
 #endif
 	// win_data->menuitem_trans_bg;
+	win_data->bold_text = TRUE;
 	win_data->show_color_selection_menu = TRUE;
 	win_data->show_resize_menu = TRUE;
 	win_data->font_resize_ratio = 0;
@@ -1173,6 +1174,8 @@ void get_user_settings(struct Window *win_data, const gchar *encoding)
 			get_prime_user_settings(keyfile, win_data, (gchar *)encoding);
 
 			win_data->auto_save = check_boolean_value(keyfile, "main", "auto_save", win_data->auto_save);
+
+			win_data->bold_text = check_boolean_value(keyfile, "main", "bold_text", win_data->bold_text);
 
 			win_data->default_font_name = check_string_value(keyfile, "main", "font_name", win_data->default_font_name,
 									 TRUE, DISABLE_EMPTY_STR);
@@ -2239,6 +2242,8 @@ GString *save_user_settings(GtkWidget *widget, struct Window *win_data)
 					"auto_save = %d\n\n", win_data->auto_save);
 	g_string_append_printf(contents,"# The version of this profile's format. DO NOT EDIT IT!\n"
 					"version = %s\n\n", PROFILE_FORMAT_VERSION);
+	g_string_append_printf(contents,"# Allow bold terminal text.\n"
+					"bold_text = %d\n\n", win_data->bold_text);
 	if (menu_active_window)
 	{
 		g_string_append_printf(contents,"# The default font name of vte terminal.\n"
