@@ -624,6 +624,24 @@ gchar *colorful_max_new_lines(gchar *string, gint max, gint output_line)
 	return NULL;
 }
 
+#if defined(GEOMETRY) || defined(UNIT_TEST)
+void widget_size_allocate (GtkWidget *widget, GtkAllocation *allocation, gchar *name)
+{
+#  ifdef DETAIL
+	g_debug("! Launch widget_size_allocate() with widget = %p, name = %s", widget, name);
+#  endif
+	// 200x200: the default size of a GtkWindow
+	gint ansi_color = ANSI_COLOR_BLACK;
+#ifdef SAFEMODE
+	if (allocation==NULL) return;
+#endif
+	if ((allocation->width <= 200) || (allocation->height <= 200))
+		ansi_color = ANSI_COLOR_RED;
+	fprintf(stderr, "\033[1;%dm!! %s_size_allocate(%p): the allocated size is %d x %d\033[0m\n",
+		ansi_color, name, widget, allocation->width, allocation->height);
+}
+#endif
+
 gboolean dirty_gdk_color_parse(const gchar *spec, GdkColor *color)
 {
 #ifdef DETAIL

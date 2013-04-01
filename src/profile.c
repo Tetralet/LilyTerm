@@ -318,7 +318,7 @@ void init_window_parameters(struct Window *win_data)
 	// win_data->true_fullscreen;
 	win_data->show_tabs_bar = AUTOMATIC;
 	// win_data->fullscreen_show_scroll_bar = 1;
-	// win_data->unfullscreen;
+	// win_data->window_status;
 	// win_data->window;
 	// win_data->notebook;
 	win_data->show_close_button_on_tab = TRUE;
@@ -347,7 +347,12 @@ void init_window_parameters(struct Window *win_data)
 #endif
 	win_data->enable_key_binding = TRUE;
 	// win_data->User_KeyValue user_keys[KEYS];
-	// win_data->update_hints;
+	// win_data->hints_type;
+	// win_data->resize_type;
+#ifdef USE_GTK3_GEOMETRY_METHOD
+	win_data->geometry_width = SYSTEM_COLUMN;
+	win_data->geometry_height = SYSTEM_ROW;
+#endif
 	win_data->lost_focus = FALSE;
 	// win_data->keep_vte_size;
 	// win_data->menu;
@@ -356,7 +361,6 @@ void init_window_parameters(struct Window *win_data)
 	// win_data->menuitem_trans_win;
 #endif
 	// win_data->menuitem_trans_bg;
-	win_data->bold_text = TRUE;
 	win_data->show_color_selection_menu = TRUE;
 	win_data->show_resize_menu = TRUE;
 	win_data->font_resize_ratio = 0;
@@ -370,6 +374,7 @@ void init_window_parameters(struct Window *win_data)
 	// win_data->menuitem_copy_url;
 	// win_data->menuitem_dim_text;
 	// win_data->menuitem_cursor_blinks;
+	// win_data->menuitem_allow_bold_text;
 	// win_data->menuitem_audible_bell;
 	// win_data->menuitem_visible_bell;
 	// win_data->menuitem_urgent_bell;
@@ -453,6 +458,7 @@ void init_window_parameters(struct Window *win_data)
 #else
 	win_data->cursor_blinks = TRUE;
 #endif
+	win_data->allow_bold_text = TRUE;
 	win_data->audible_bell = TRUE;
 	// win_data->visible_bell = FALSE;
 	win_data->urgent_bell = TRUE;
@@ -1165,7 +1171,7 @@ void get_user_settings(struct Window *win_data, const gchar *encoding)
 	// g_debug ("Using the profile: %s ", profile);
 
 	gchar *fg_color_str = NULL, *bg_color_str = NULL, *color_theme_str = NULL, *cursor_color_str = NULL;
-	
+
 	// g_debug("safe_mode = %d", safe_mode);
 	if (win_data->profile != NULL && (! safe_mode))
 	{
@@ -1174,8 +1180,6 @@ void get_user_settings(struct Window *win_data, const gchar *encoding)
 			get_prime_user_settings(keyfile, win_data, (gchar *)encoding);
 
 			win_data->auto_save = check_boolean_value(keyfile, "main", "auto_save", win_data->auto_save);
-
-			win_data->bold_text = check_boolean_value(keyfile, "main", "bold_text", win_data->bold_text);
 
 			win_data->default_font_name = check_string_value(keyfile, "main", "font_name", win_data->default_font_name,
 									 TRUE, DISABLE_EMPTY_STR);
@@ -1193,7 +1197,10 @@ void get_user_settings(struct Window *win_data, const gchar *encoding)
 
 			win_data->default_row = check_integer_value(keyfile, "main", "row", win_data->default_row,
 								    DISABLE_EMPTY_STR, SYSTEM_ROW, DISABLE_ZERO, CHECK_MIN, 1, NO_CHECK_MAX, 0);
-
+#ifdef USE_GTK3_GEOMETRY_METHOD
+			win_data->geometry_width = win_data->default_column;
+			win_data->geometry_height = win_data->default_row;
+#endif
 
 #ifdef ENABLE_RGBA
 			win_data->transparent_window = check_integer_value(keyfile, "main", "transparent_window",
@@ -1211,9 +1218,14 @@ void get_user_settings(struct Window *win_data, const gchar *encoding)
 									CHECK_MIN, 0, CHECK_MAX, 1);
 			// g_debug("Got win_data->window_opacity_inactive = %1.3f", win_data->window_opacity_inactive);
 #endif
+#ifdef USE_GTK2_GEOMETRY_METHOD
 			win_data->startup_fullscreen = check_boolean_value(keyfile, "main", "fullscreen",
 									   win_data->fullscreen);
-
+#endif
+#ifdef USE_GTK3_GEOMETRY_METHOD
+			gboolean fullscreen = check_boolean_value(keyfile, "main", "fullscreen", win_data->window_status);
+			if (fullscreen) win_data->window_status = WINDOW_START_WITH_FULL_SCREEN;
+#endif
 			win_data->transparent_background = check_integer_value(keyfile, "main", "transparent_background",
 							win_data->transparent_background, DISABLE_EMPTY_STR, 0, ENABLE_ZERO, CHECK_MIN, 0, CHECK_MAX, 2);
 
@@ -1339,6 +1351,8 @@ void get_user_settings(struct Window *win_data, const gchar *encoding)
 			win_data->cursor_blinks = check_boolean_value(keyfile, "main", "cursor_blinks",
 								      win_data->cursor_blinks);
 #endif
+			win_data->allow_bold_text = check_boolean_value(keyfile, "main", "allow_bold_text",
+								  win_data->allow_bold_text);
 
 			win_data->show_copy_paste_menu =
 				check_boolean_value(keyfile,
@@ -1700,7 +1714,7 @@ void get_user_settings(struct Window *win_data, const gchar *encoding)
 		for (i=0; i<THEME; i++)
 			win_data->custom_color_theme[i].color[COLOR-1] = fg_color;
 	}
-	
+
 	// check if using custom bg_color
 	if (compare_color(&(bg_color), &(system_color_theme[win_data->color_theme_index].color[0])))
 	{
@@ -1835,10 +1849,10 @@ void get_prime_user_settings(GKeyFile *keyfile, struct Window *win_data, gchar *
 								   win_data->confirm_to_execute_command);
 
 	win_data->execute_command_whitelist = check_string_value(keyfile, "main",
-							         "execute_command_whitelist",
-							         win_data->execute_command_whitelist,
-							         TRUE, 
-							         ENABLE_EMPTY_STR);
+								 "execute_command_whitelist",
+								 win_data->execute_command_whitelist,
+								 TRUE,
+								 ENABLE_EMPTY_STR);
 	// g_debug("win_data->execute_command_whitelist for win_data (%p) updated!", win_data);
 
 	win_data->execute_command_in_new_tab = check_boolean_value(keyfile, "main", "execute_command_in_new_tab",
@@ -2004,7 +2018,7 @@ FINISH:
 
 // original_value will be free() in check_string_value()
 // The returned string should be freed when no longer needed.
-gchar *check_string_value(GKeyFile *keyfile, const gchar *group_name, const gchar *key, gchar *original_value, 
+gchar *check_string_value(GKeyFile *keyfile, const gchar *group_name, const gchar *key, gchar *original_value,
 			  gboolean free_original_value, Check_Empty enable_empty)
 {
 #ifdef DETAIL
@@ -2058,7 +2072,7 @@ gboolean check_color_value (const gchar *key_name, const gchar *color_name, GdkC
 		// print_color(-1, "2. check_color_value():", *color);
 		return TRUE;
 	}
-	
+
 #ifdef UNIT_TEST
 	g_message("\"%s = %s\" is not a valid color value! Please check!",
 		  key_name, color_name);
@@ -2242,8 +2256,6 @@ GString *save_user_settings(GtkWidget *widget, struct Window *win_data)
 					"auto_save = %d\n\n", win_data->auto_save);
 	g_string_append_printf(contents,"# The version of this profile's format. DO NOT EDIT IT!\n"
 					"version = %s\n\n", PROFILE_FORMAT_VERSION);
-	g_string_append_printf(contents,"# Allow bold terminal text.\n"
-					"bold_text = %d\n\n", win_data->bold_text);
 	if (menu_active_window)
 	{
 		g_string_append_printf(contents,"# The default font name of vte terminal.\n"
@@ -2281,8 +2293,14 @@ GString *save_user_settings(GtkWidget *widget, struct Window *win_data)
 						"# Disable it will disable transparent_window, too.\n"
 						"use_rgba = \n\n");
 	}
+#ifdef USE_GTK2_GEOMETRY_METHOD
 	g_string_append_printf(contents,"# Start up with fullscreen.\n"
 					"fullscreen = %d\n\n", win_data->true_fullscreen);
+#endif
+#ifdef USE_GTK3_GEOMETRY_METHOD
+	g_string_append_printf(contents,"# Start up with fullscreen.\n"
+					"fullscreen = %d\n\n", (win_data->window_status==WINDOW_FULL_SCREEN));
+#endif
 #ifdef ENABLE_RGBA
 	g_string_append_printf(contents,"# Transparent window. Only enabled when the window manager were composited.\n"
 					"transparent_window = %d\n\n", (win_data->transparent_window==1));
@@ -2337,9 +2355,10 @@ GString *save_user_settings(GtkWidget *widget, struct Window *win_data)
 	g_string_append_printf(contents,"# Shows [Change the foreground color]\n"
 					"# and [Change the background color] on right click menu.\n"
 					"show_color_selection_menu = %d\n\n", win_data->show_color_selection_menu);
+#ifdef ENABLE_GDKCOLOR_TO_STRING
 	g_string_append_printf(contents,"# The normal text color used in vte terminal.\n"
 					"# You may use black, #000000 or #000000000000 here.\n");
-	
+
 	if (compare_color(&(win_data->custom_color_theme[win_data->color_theme_index].color[COLOR-1]),
 			  &(system_color_theme[win_data->color_theme_index].color[COLOR-1])))
 	{
@@ -2364,7 +2383,7 @@ GString *save_user_settings(GtkWidget *widget, struct Window *win_data)
 
 	g_string_append(contents,"# Sets the background color for text which is under the cursor.\n"
 				 "# You may use black, #000000 or #000000000000 here.\n");
-	
+
 	GdkColor cursor_color;
 	dirty_gdk_color_parse(DEFAULT_CURSOR_COLOR, &cursor_color);
 	if (compare_color(&cursor_color, &(win_data->cursor_color)))
@@ -2375,7 +2394,7 @@ GString *save_user_settings(GtkWidget *widget, struct Window *win_data)
 	}
 	else
 		g_string_append(contents,"cursor_color = \n\n");
-	
+#endif
 	g_string_append_printf(contents,"# Shows [Increase window size], [Decrease window size],\n"
 					"# [Reset to default font/size] and [Reset to system font/size]\n"
 					"# on right click menu.\n"
@@ -2429,6 +2448,8 @@ GString *save_user_settings(GtkWidget *widget, struct Window *win_data)
 					"# 2: Cursor does not blink.\n"
 #endif
 					"cursor_blinks = %d\n\n", win_data->cursor_blinks);
+	g_string_append_printf(contents,"# Allow bold text in the terminal.\n"
+					"allow_bold_text = %d\n\n", win_data->allow_bold_text);
 	g_string_append_printf(contents,"# Shows copy/paste menu on right click menu.\n"
 					"show_copy_paste_menu = %d\n\n",
 					win_data->show_copy_paste_menu);
@@ -2587,6 +2608,7 @@ GString *save_user_settings(GtkWidget *widget, struct Window *win_data)
 	else
 		g_string_append(contents, "inactive_brightness = \n\n");
 
+#ifdef ENABLE_GDKCOLOR_TO_STRING
 	gchar *color_str;
 	for (i=1; i<COLOR-1; i++)
 	{
@@ -2595,15 +2617,15 @@ GString *save_user_settings(GtkWidget *widget, struct Window *win_data)
 
 		if (compare_color(&(win_data->custom_color_theme[win_data->color_theme_index].color[i]),
 			  &(system_color_theme[win_data->color_theme_index].color[i])))
-		{    
+		{
 			color_str = gdk_color_to_string(&(win_data->custom_color_theme[win_data->color_theme_index].color[i]));
 			g_string_append_printf(contents,"%s = %s\n\n",  color[i].name, color_str);
 			g_free (color_str);
-		}    
-		else 
+		}
+		else
 			g_string_append_printf(contents,"%s = \n\n",  color[i].name);
 	}
-
+#endif
 	g_string_append_printf(contents,"\n");
 
 	g_string_append_printf(contents,"[command]\n\n"

@@ -112,7 +112,9 @@ void init_monitor_cmdline_datas(struct Window *win_data, struct Page *page_data)
 
 	page_data->window_title_tpgid = &(win_data->window_title_tpgid);
 	page_data->lost_focus = &(win_data->lost_focus);
+#ifdef USE_GTK2_GEOMETRY_METHOD
 	page_data->keep_vte_size = &(win_data->keep_vte_size);
+#endif
 	page_data->current_vte = &(win_data->current_vte);
 	// page_data->update_window_title_only = &(win_data->update_window_title_only);
 	page_data->custom_window_title = (win_data->custom_window_title_str != NULL);
@@ -144,8 +146,10 @@ gboolean monitor_cmdline(struct Page *page_data)
 	// The pagename won't be updated if LilyTerm is not on focus or when resizing.
 	// But it will still update the window title.
 	// 0xfe = 11,111,110
-	if ((*(page_data->keep_vte_size)&0xfffc) ||
-	    (lost_focus && (*(page_data->current_vte) != (page_data->vte))) ||
+	if ((lost_focus && (*(page_data->current_vte) != (page_data->vte))) ||
+#ifdef USE_GTK2_GEOMETRY_METHOD
+	    (*(page_data->keep_vte_size)&0xfffc) ||
+#endif
 	    page_data->custom_page_name ||
 	    dialog_activated)
 		return TRUE;
@@ -691,9 +695,6 @@ gboolean update_page_name(GtkWidget *window, GtkWidget *vte, gchar *page_name, G
 #  endif
 			keep_gtk2_window_size (win_data, vte, 0x3);
 #endif
-#ifdef USE_GTK3_GEOMETRY_METHOD
-			win_data->keep_vte_size++;
-#endif
 			if (win_data->use_color_page && (tab_color != NULL))
 			{
 				// g_debug("[Debug] Updating %d page name to %s...", page_no, label_name);
@@ -712,6 +713,18 @@ gboolean update_page_name(GtkWidget *window, GtkWidget *vte, gchar *page_name, G
 				gtk_label_set_text(GTK_LABEL(label), label_name);
 			// g_debug("Updated the tab name to %s!", page_name);
 			page_name_updated = TRUE;
+#ifdef USE_GTK3_GEOMETRY_METHOD
+			if (win_data->window_status != WINDOW_APPLY_PROFILE_NORMAL)
+			{
+#  ifdef GEOMETRY
+				fprintf(stderr, "\033[1;%dm!! update_page_name(%s)(win_data %p): "
+						"Calling keep_gtk3_window_size() with hints_type = %d, win_data->window_status = %d\033[0m\n",
+				ANSI_COLOR_MAGENTA, label_name, win_data, win_data->hints_type, win_data->window_status);
+#  endif
+				win_data->resize_type = GEOMETRY_AUTOMATIC;
+				keep_gtk3_window_size(win_data, FALSE);
+			}
+#endif
 		}
 #ifdef DEBUG
 		// else
@@ -721,10 +734,10 @@ gboolean update_page_name(GtkWidget *window, GtkWidget *vte, gchar *page_name, G
 		g_free(label_name);
 #ifdef USE_GTK2_GEOMETRY_METHOD
 	}
-#   ifdef DEBUG
+#  ifdef DEBUG
 	// else
 	//	g_debug("!!! the window is renaming, don't update the tab name");
-#   endif
+#  endif
 #endif
 	// we should update window title if page name changed.
 	check_and_update_window_title(win_data, custom_window_title, page_no, custom_page_name, page_name);

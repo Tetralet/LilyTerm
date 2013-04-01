@@ -206,7 +206,7 @@ if [ $? != 0 ]; then
       PACKAGE_MESSAGE "libgtk2.0-dev/libgtk-3-dev"
       exit 1
     else
-      WARN "[OK]. But using Gtk+3 to build $PACKAGE is NOT recommend.\n"
+      INFO "[OK].\n"
     fi
   else
     if [ "$GTK" = "gtk+-2.0" ]; then
@@ -234,7 +234,7 @@ else
       WARN "[OK]. But using Gtk+2 > 2.12 is recommend to build $PACKAGE.\n"
     fi
   else
-    WARN "[OK]. But using Gtk+3 to build $PACKAGE is NOT recommend.\n"
+    INFO "[OK].\n"
   fi
 fi
 

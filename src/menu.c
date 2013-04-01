@@ -86,12 +86,6 @@ gboolean create_menu(struct Window *win_data)
 		// The submenu of Change color
 		sub_menu = create_sub_item (win_data->menu, _("Change colors"), GTK_STOCK_SELECT_COLOR);
 
-		// Allow bold colors
-		win_data->menuitem_allow_bold_text = create_menu_item (CHECK_MENU_ITEM, sub_menu, _("Allow bold colors"), NULL, NULL,
-										(GSourceFunc)allow_bold_text, win_data);
-		gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM(win_data->menuitem_allow_bold_text), win_data->bold_text);                                 
-		set_bold_text(win_data, win_data->bold_text);
-
 		// Change the foreground color for every tab
 		create_menu_item (IMAGE_MENU_ITEM, sub_menu, _("Change the foreground color"), NULL, GTK_STOCK_SELECT_COLOR,
 				  (GSourceFunc)dialog, GINT_TO_POINTER (CHANGE_THE_FOREGROUND_COLOR));
@@ -288,7 +282,11 @@ gboolean create_menu(struct Window *win_data)
 
 	// Cursor Blinks
 	win_data->menuitem_cursor_blinks = create_menu_item (CHECK_MENU_ITEM, misc_sub_menu, _("Cursor blinks"), NULL, NULL,
-								(GSourceFunc)set_cursor_blinks, win_data);
+							     (GSourceFunc)set_cursor_blinks, win_data);
+
+	// Bold text
+	win_data->menuitem_allow_bold_text = create_menu_item (CHECK_MENU_ITEM, misc_sub_menu, _("Allow bold text"), NULL, NULL,
+							       (GSourceFunc)set_allow_bold_text, win_data);
 
 	// ----------------------------------------
 	add_separator_menu (misc_sub_menu);
@@ -435,7 +433,7 @@ void recreate_theme_menu_items(struct Window *win_data)
 	if (win_data->ansi_color_sub_menu)
 #endif
 		gtk_menu_item_set_submenu (GTK_MENU_ITEM (win_data->ansi_color_sub_menu), win_data->ansi_color_menuitem);
-	
+
 	win_data->menuitem_invert_color = create_menu_item(CHECK_MENU_ITEM, win_data->ansi_color_menuitem, _("Invert color"), NULL, NULL,
 							    (GSourceFunc)invert_color_theme, win_data);
 	add_separator_menu (win_data->ansi_color_menuitem);
@@ -626,18 +624,6 @@ void view_primary(GtkWidget *widget, struct Window *win_data)
 	show_clipboard_dialog(SELECTION_PRIMARY, win_data, NULL, VIEW_THE_CLIPBOARD);
 }
 
-void set_bold_text(struct Window *win_data, gboolean bold)
-{
-	win_data->bold_text = bold;
-	vte_terminal_set_allow_bold(VTE_TERMINAL(win_data->current_vte), bold);
-}
-
-void allow_bold_text(GtkWidget *menu_item, struct Window *win_data)
-{
-	gboolean bold = gtk_check_menu_item_get_active (GTK_CHECK_MENU_ITEM(win_data->menuitem_allow_bold_text));
-	set_bold_text(win_data, bold);
-}
-
 void set_dim_text(GtkWidget *menuitem_dim_text, struct Window *win_data)
 {
 #ifdef DETAIL
@@ -695,6 +681,28 @@ void set_cursor_blinks(GtkWidget *menuitem_cursor_blinks, struct Window *win_dat
 		if (page_data)
 #endif
 			set_cursor_blink(win_data, page_data);
+	}
+}
+
+void set_allow_bold_text(GtkWidget *menuitem_allow_bold_text, struct Window *win_data)
+{
+#ifdef DETAIL
+	g_debug("! Launch set_allow_bold_text() with win_data = %p", win_data);
+#endif
+#ifdef SAFEMODE
+	if ((menuitem_allow_bold_text==NULL) || (win_data==NULL)) return;
+#endif
+	win_data->allow_bold_text = gtk_check_menu_item_get_active (GTK_CHECK_MENU_ITEM(menuitem_allow_bold_text));
+
+	gint i;
+	struct Page *page_data = NULL;
+	for (i=0; i<gtk_notebook_get_n_pages(GTK_NOTEBOOK(win_data->notebook)); i++)
+	{
+		page_data = get_page_data_from_nth_page(win_data, i);
+#ifdef SAFEMODE
+		if (page_data)
+#endif
+			vte_terminal_set_allow_bold(VTE_TERMINAL(page_data->vte), win_data->allow_bold_text);
 	}
 }
 
@@ -1112,9 +1120,9 @@ void invert_color_theme(GtkWidget *menuitem, struct Window *win_data)
 #endif
 	if (win_data->checking_menu_item) return;
 
-        win_data->color_brightness = - win_data->color_brightness;
-        win_data->color_brightness_inactive = - win_data->color_brightness_inactive;
-	// g_debug("invert_color_theme(): win_data->color_brightness = %0.3f, win_data->color_brightness_inactive = %0.3f",                            
+	win_data->color_brightness = - win_data->color_brightness;
+	win_data->color_brightness_inactive = - win_data->color_brightness_inactive;
+	// g_debug("invert_color_theme(): win_data->color_brightness = %0.3f, win_data->color_brightness_inactive = %0.3f",
 	//	win_data->color_brightness, win_data->color_brightness_inactive);
 #ifdef SAFEMODE
 	if (menuitem)
@@ -1148,7 +1156,7 @@ void select_ansi_theme(GtkWidget *menuitem, gint index)
 		set_ansi_theme(menuitem, ANSI_THEME_SET_ANSI_THEME, TRUE, win_data->invert_color, index - COLOR, win_data);
 }
 
-void set_ansi_theme(GtkWidget *menuitem, Set_ANSI_Theme_Type type, gboolean use_custom_theme, gboolean invert_color, 
+void set_ansi_theme(GtkWidget *menuitem, Set_ANSI_Theme_Type type, gboolean use_custom_theme, gboolean invert_color,
 		    gint theme_index, struct Window *win_data)
 {
 #ifdef DETAIL
@@ -1188,7 +1196,7 @@ void set_ansi_theme(GtkWidget *menuitem, Set_ANSI_Theme_Type type, gboolean use_
 #ifdef SAFEMODE
 			if (page_data)
 #endif
-				set_vte_color(page_data->vte, default_vte_theme, win_data->cursor_color, win_data->color, FALSE); 
+				set_vte_color(page_data->vte, default_vte_theme, win_data->cursor_color, win_data->color, FALSE);
 		}
 
 		if (menuitem != win_data->menuitem_invert_color)
@@ -1207,7 +1215,7 @@ void set_ansi_theme(GtkWidget *menuitem, Set_ANSI_Theme_Type type, gboolean use_
 #ifdef SAFEMODE
 			if (page_data)
 #endif
-				set_vte_color(page_data->vte, default_vte_theme, win_data->cursor_color, win_data->color, FALSE); 
+				set_vte_color(page_data->vte, default_vte_theme, win_data->cursor_color, win_data->color, FALSE);
 #ifdef SAFEMODE
 		}
 #endif
@@ -1452,20 +1460,37 @@ void select_font(GtkWidget *widget, struct Window *win_data)
 #endif
 	GtkWidget *dialog = gtk_font_chooser_dialog_new(_("Font Selection"), GTK_WINDOW(win_data->window));
 	gtk_window_set_transient_for(GTK_WINDOW(dialog), GTK_WINDOW(win_data->window));
+	gtk_window_set_destroy_with_parent (GTK_WINDOW (dialog), TRUE);
+#if defined(EXIST_GTK_FONT_CHOOSER_SET_FILTER_FUNC) || defined (UNIT_TEST)
+	gtk_font_chooser_set_filter_func (GTK_FONT_CHOOSER(dialog), monospace_filter, NULL, NULL);
+#endif
 	// set the default font name in gtk_font_selection_dialog
 #ifdef SAFEMODE
 	if (page_data->font_name)
 #endif
 		gtk_font_chooser_set_font(GTK_FONT_CHOOSER(dialog), page_data->font_name);
-	if (gtk_dialog_run(GTK_DIALOG(dialog)) == GTK_RESPONSE_OK)
+	if (gtk_dialog_run(GTK_DIALOG(dialog))==GTK_RESPONSE_OK)
 	{
 		// g_debug("Trying to change font name!");
 		g_free(page_data->font_name);
 		page_data->font_name = gtk_font_chooser_get_font(GTK_FONT_CHOOSER(dialog));
-		set_vte_font(NULL, FONT_SET_TO_SELECTED);
+		g_idle_add((GSourceFunc)set_vte_font_sample, GINT_TO_POINTER(FONT_SET_TO_SELECTED));
 	}
 	gtk_widget_destroy(dialog);
 }
+
+#if defined(EXIST_GTK_FONT_CHOOSER_SET_FILTER_FUNC) || defined (UNIT_TEST)
+gboolean monospace_filter(const PangoFontFamily *family, const PangoFontFace *face, gpointer data)
+{
+#ifdef DETAIL
+	g_debug("! Launch monospace_filter()");
+#endif
+#ifdef SAFEMODE
+	if (family==NULL) return TRUE;
+#endif
+	return pango_font_family_is_monospace((PangoFontFamily *)family);
+}
+#endif
 
 #ifdef OUT_OF_MEMORY
 #  undef g_strdup
@@ -2167,8 +2192,14 @@ void apply_profile_from_file(const gchar *path, Apply_Profile_Type type)
 		win_data->custom_tab_names_str = NULL;
 		win_data->custom_tab_names_strs = NULL;
 		win_data->window_title_tpgid = win_data_backup->window_title_tpgid;
-		// win_data->update_hints will setted to 1 in apply_font_to_every_vte()
-		// win_data->update_hints = win_data_backup->update_hints;
+		// win_data->hints_type will setted to 1 in apply_font_to_every_vte()
+		// win_data->hints_type = win_data_backup->hints_type;
+		// win_data->resize_type = win_data_backup->resize_type;
+#ifdef USE_GTK3_GEOMETRY_METHOD
+		win_data->resize_type = GEOMETRY_CUSTOM;
+#endif
+		// win_data->geometry_width = win_data_backup->geometry_width;
+		// win_data->geometry_height = win_data_backup->geometry_height;
 		// win_data->keep_vte_size = win_data_backup->keep_vte_size;
 		if (win_data->page_names && win_data_backup->page_names &&
 		    (! compare_strings (win_data->page_names, win_data_backup->page_names, TRUE)) &&
@@ -2182,12 +2213,21 @@ void apply_profile_from_file(const gchar *path, Apply_Profile_Type type)
 		if (win_data->tabs_bar_position)
 			gtk_notebook_set_tab_pos(GTK_NOTEBOOK(win_data->notebook), GTK_POS_BOTTOM);
 		win_data->profile_dir_modtime = -1;
+
+#ifdef USE_GTK3_GEOMETRY_METHOD
+		// g_debug("win_data_backup->window_status = %d", win_data_backup->window_status);
+		if (win_data->window_status == WINDOW_NORMAL) win_data->window_status = WINDOW_APPLY_PROFILE_NORMAL;
+		if (win_data->window_status == WINDOW_START_WITH_FULL_SCREEN) win_data->window_status = WINDOW_APPLY_PROFILE_FULL_SCREEN;
+#endif
+
 		create_menu(win_data);
 
+#ifdef USE_GTK2_GEOMETRY_METHOD
 		win_data->fullscreen = win_data_backup->fullscreen;
 		win_data->true_fullscreen = win_data_backup->true_fullscreen;
+#endif
 		// g_debug("Got win_data->show_tabs_bar = %d", win_data->show_tabs_bar);
-		hide_and_show_tabs_bar(win_data , win_data->show_tabs_bar);
+		hide_and_show_tabs_bar(win_data, win_data->show_tabs_bar);
 		// g_debug("win_data_backup->fullscreen_show_scroll_bar = %d", win_data_backup->fullscreen_show_scroll_bar);
 		// win_data->fullscreen_show_scroll_bar = win_data_backup->fullscreen_show_scroll_bar;
 
@@ -2197,12 +2237,51 @@ void apply_profile_from_file(const gchar *path, Apply_Profile_Type type)
 		// g_debug("apply_profile_from_file(): check_show_or_hide_scroll_bar() = %d",
 		//	check_show_or_hide_scroll_bar(win_data));
 
-		// g_debug("win_data_backup->unfullscreen = %d", win_data_backup->unfullscreen);
-		win_data->unfullscreen = win_data_backup->unfullscreen;
+#ifdef USE_GTK2_GEOMETRY_METHOD
+		// g_debug("win_data_backup->window_status = %d", win_data_backup->window_status);
+		win_data->window_status = win_data_backup->window_status;
 		// g_debug("win_data->startup_fullscreen = %d, win_data_backup->startup_fullscreen = %d",
 		//	win_data->startup_fullscreen, win_data_backup->startup_fullscreen);
 		if (win_data->startup_fullscreen != win_data_backup->startup_fullscreen)
 			deal_key_press(win_data->window, KEY_FULL_SCREEN, win_data);
+#endif
+#ifdef USE_GTK3_GEOMETRY_METHOD
+		// g_debug("win_data->window_status = %d, win_data_backup->window_status = %d",
+		//	win_data->window_status, win_data_backup->window_status);
+		switch (win_data->window_status)
+		{
+			case WINDOW_APPLY_PROFILE_NORMAL:
+				switch (win_data_backup->window_status)
+				{
+					case WINDOW_MAX_WINDOW:
+						deal_key_press(win_data->window, KEY_MAX_WINDOW, win_data);
+						break;
+					case WINDOW_MAX_WINDOW_TO_FULL_SCREEN:
+					case WINDOW_FULL_SCREEN:
+						deal_key_press(win_data->window, KEY_FULL_SCREEN, win_data);
+						break;
+					default:
+						break;
+				}
+				win_data->resize_type = GEOMETRY_CUSTOM;
+				keep_gtk3_window_size(win_data, FALSE);
+				break;
+			case WINDOW_APPLY_PROFILE_FULL_SCREEN:
+				switch (win_data_backup->window_status)
+				{
+					case WINDOW_NORMAL:
+					case WINDOW_MAX_WINDOW_TO_FULL_SCREEN:
+					case WINDOW_MAX_WINDOW:
+						deal_key_press(win_data->window, KEY_FULL_SCREEN, win_data);
+						break;
+					default:
+						break;
+				}
+				break;
+			default:
+				break;
+		}
+#endif
 #ifdef SAFEMODE
 		if (win_data->default_locale && (win_data->default_locale[0] != '\0') &&
 		    compare_strings(win_data->default_locale, win_data_backup->default_locale, TRUE))
@@ -2284,12 +2363,30 @@ void apply_profile_from_file(const gchar *path, Apply_Profile_Type type)
 		}
 		if (column<1) column = win_data->default_column;
 		if (row<1) row = win_data->default_row;
-#ifdef GEOMETRY
+#ifdef USE_GTK2_GEOMETRY_METHOD
+#  ifdef GEOMETRY
 		g_debug("@ apply_profile_from_file (for %p): Trying set the geometry to %ld x %ld",
 			win_data->window, column, row);
-#endif
+#  endif
 		apply_font_to_every_vte(win_data->window, win_data->default_font_name,
 					column, row);
+#endif
+#ifdef USE_GTK3_GEOMETRY_METHOD
+		win_data->geometry_width = column;
+		win_data->geometry_height = row;
+
+		page_data = (struct Page *)g_object_get_data(G_OBJECT(win_data->current_vte), "Page_Data");
+#  ifdef SAFEMODE
+		if (page_data!=NULL)
+		{
+#  endif
+	       		g_free(page_data->font_name);
+			page_data->font_name = g_strdup(win_data->default_font_name);
+#  ifdef SAFEMODE
+		}
+#  endif
+		g_idle_add((GSourceFunc)set_vte_font_sample, GINT_TO_POINTER(FONT_SET_TO_SELECTED));
+#endif
 
 		window_list = g_list_remove (window_list, win_data_backup);
 		clear_win_data(win_data_backup);
@@ -2297,6 +2394,21 @@ void apply_profile_from_file(const gchar *path, Apply_Profile_Type type)
 		win_data_backup = NULL;
 #endif
 		// gtk_widget_show_all(win_data->window);
+#ifdef USE_GTK3_GEOMETRY_METHOD
+		// g_debug("win_data->window_status = %d, win_data_backup->window_status = %d",
+		//	win_data->window_status, win_data_backup->window_status);
+		switch (win_data->window_status)
+		{
+			case WINDOW_APPLY_PROFILE_NORMAL:
+				win_data->window_status = WINDOW_NORMAL;
+				break;
+			case WINDOW_APPLY_PROFILE_FULL_SCREEN:
+				win_data->window_status = WINDOW_FULL_SCREEN;
+				break;
+			default:
+				break;
+		}
+#endif
 	}
 }
 

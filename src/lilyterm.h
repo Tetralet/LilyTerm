@@ -51,6 +51,10 @@ gchar *colorful_max_new_lines(gchar *string, gint max, gint output_line);
 gboolean dirty_gdk_color_parse(const gchar *spec, GdkColor *color);
 GtkWidget *dirty_gtk_vbox_new(gboolean homogeneous, gint spacing);
 GtkWidget *dirty_gtk_hbox_new(gboolean homogeneous, gint spacing);
+#if defined(GEOMETRY) || defined(UNIT_TEST)
+void widget_size_allocate (GtkWidget *widget, GtkAllocation *allocation, gchar *name);
+#endif
+
 #if defined(OUT_OF_MEMORY) || defined(UNIT_TEST)
 gchar *fake_g_strdup(const gchar *gchar);
 gchar *fake_g_strdup_printf(const StrLists *format, ...);
@@ -100,9 +104,8 @@ gchar *get_init_dir(pid_t pid, gchar *pwd, gchar *home);
 void keep_gtk2_window_size (struct Window *win_data, GtkWidget *vte, guint keep_vte_size);
 #endif
 #if defined(USE_GTK3_GEOMETRY_METHOD) || defined(UNIT_TEST)
-void save_vte_geometry(struct Window *win_data);
-void save_current_vte_geometry(struct Window *win_data, GtkWidget *vte);
-void keep_gtk3_window_size(struct Window *win_data, GtkWidget *vte);
+void keep_gtk3_window_size(struct Window *win_data, gboolean idle);
+gboolean show_or_hide_tabs_bar_and_scroll_bar();
 #endif
 void dim_window(struct Window *win_data, gint dim_window);
 void set_window_icon(GtkWidget *window);
@@ -111,7 +114,7 @@ GString *close_multi_tabs(struct Window *win_data, int window_no);
 gboolean display_child_process_dialog (GString *child_process_list, struct Window *win_data, gsize style);
 GString *get_child_process_list(GtkWidget *window, gint window_no, gint page_no, GString *process_list, pid_t pid, struct Window *win_data, gboolean show_foreground);
 void clean_process_data();
-gboolean deal_key_press(GtkWidget *window, gint type, struct Window *win_data);
+gboolean deal_key_press(GtkWidget *window, Key_Bindings type, struct Window *win_data);
 #ifdef DISABLE_PAGE_ADDED
 void notebook_page_added(GtkNotebook *notebook, GtkWidget *child, guint page_num, struct Window *win_data);
 #endif
@@ -119,6 +122,7 @@ void show_close_button_on_tab(struct Window *win_data, struct Page *page_data);
 void set_fill_tabs_bar(GtkNotebook *notebook, gboolean fill_tabs_bar, struct Page *page_data);
 void remove_notebook_page (GtkNotebook *notebook, GtkWidget *child, guint page_num, struct Window *win_data);
 void update_window_hint(struct Window *win_data, struct Page *page_data);
+void window_resizable(GtkWidget *window, GtkWidget *vte, Hints_Type hints_type);
 gboolean hide_and_show_tabs_bar(struct Window *win_data , Switch_Type show_tabs_bar);
 void set_widget_can_not_get_focus(GtkWidget *widget);
 gboolean hide_scrollback_lines(GtkWidget *widget, struct Window *win_data);
@@ -173,7 +177,6 @@ void add_remove_page_timeout_id(struct Window *win_data, struct Page *page_data)
 void add_remove_window_title_changed_signal(struct Page *page_data);
 gboolean set_background_saturation(GtkRange *range, GtkScrollType scroll, gdouble value, GtkWidget *vte);
 gboolean set_window_opacity (GtkRange *range, GtkScrollType scroll, gdouble value, struct Window *win_data);
-void window_resizable(GtkWidget *window, GtkWidget *vte, gint set_hints_inc);
 #if defined(vte_terminal_get_padding) || defined(UNIT_TEST)
 void fake_vte_terminal_get_padding(VteTerminal *vte, gint *width, gint *height);
 #endif
@@ -206,9 +209,11 @@ struct Page *get_page_data_from_nth_page(struct Window *win_data, guint page_no)
 // **************************** font.c ****************************
 //
 
+gboolean set_vte_font_sample(Font_Set_Type type);
 void set_vte_font(GtkWidget *widget, Font_Set_Type type);
 void apply_font_to_every_vte(GtkWidget *window, gchar *new_font_name, glong column, glong row);
 gboolean check_if_every_vte_is_using_restore_font_name (struct Window *win_data);
+
 //
 // **************************** pagename.c ****************************
 //

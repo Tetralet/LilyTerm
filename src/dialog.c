@@ -1619,7 +1619,7 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 						//	" dialog_data->original_use_custom_theme = %d, win_data->use_custom_theme = %d",
 						//	dialog_data->original_have_custom_color, win_data->have_custom_color,
 						//	dialog_data->original_use_custom_theme, win_data->use_custom_theme);
-						if ((dialog_data->original_have_custom_color != win_data->have_custom_color) || 
+						if ((dialog_data->original_have_custom_color != win_data->have_custom_color) ||
 						    (dialog_data->original_use_custom_theme != win_data->use_custom_theme))
 							recreate_theme_menu_items(win_data);
 					}
@@ -1752,12 +1752,12 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 					if (win_data->use_custom_theme)
 						set_new_ansi_color(win_data->current_vte, dialog_data->ansi_colors,
 								   win_data->custom_color_theme[win_data->color_theme_index].color,
-							           win_data->color_brightness, win_data->invert_color,
+								   win_data->color_brightness, win_data->invert_color,
 								   use_default_vte_theme(win_data), win_data->cursor_color, FALSE);
 					else
 						set_new_ansi_color(win_data->current_vte, dialog_data->ansi_colors,
 								   system_color_theme[win_data->color_theme_index].color,
-							           win_data->color_brightness, win_data->invert_color,
+								   win_data->color_brightness, win_data->invert_color,
 								   use_default_vte_theme(win_data), win_data->cursor_color, FALSE);
 					break;
 			}
@@ -1850,7 +1850,7 @@ void dialog_invert_color_theme(GtkWidget *menuitem, struct Window *win_data)
 	// g_debug("dialog_invert_color_theme(): win_data->color_brightness = %0.3f, win_data->color_brightness_inactive = %0.3f",
 	//	win_data->color_brightness, win_data->color_brightness_inactive);
 
-	set_new_ansi_color(win_data->current_vte, dialog_data->ansi_colors, dialog_data->ansi_colors_orig, 
+	set_new_ansi_color(win_data->current_vte, dialog_data->ansi_colors, dialog_data->ansi_colors_orig,
 			   win_data->color_brightness, win_data->invert_color, FALSE, win_data->cursor_color, FALSE);
 
 	// invert the brightness
@@ -1887,7 +1887,7 @@ void update_color_buttons(struct Window *win_data, struct Dialog *dialog_data)
 		temp_color = win_data->custom_color_theme[win_data->color_theme_index].color;
 	else
 		temp_color = system_color_theme[win_data->color_theme_index].color;
-	
+
 	gint i, color_index;
 	for (i=COLOR-1; i>=0; i--)
 	{
@@ -1897,7 +1897,7 @@ void update_color_buttons(struct Window *win_data, struct Dialog *dialog_data)
 				 (guint32) (temp_color[color_index].red   >> 8) << 24 |
 					   (temp_color[color_index].green >> 8) << 16 |
 					   (temp_color[color_index].blue  >> 8) << 8);
-				
+
 		GtkWidget *image = gtk_image_new_from_pixbuf (pixbuf);
 #ifdef SAFEMODE
 		if (dialog_data->color_button[i])
@@ -1906,14 +1906,21 @@ void update_color_buttons(struct Window *win_data, struct Dialog *dialog_data)
 #ifdef DEBUG
 		gchar *color_string = gdk_color_to_string(&(temp_color[color_index]));
 		gchar *temp_str =  g_strdup_printf("%s [%d] - %s", color[i].translation, color_index, color_string);
-#ifdef SAFEMODE
+#  ifdef ENABLE_SET_TOOLTIP_TEXT
+#    ifdef SAFEMODE
 		if (dialog_data->color_button[i])
-#endif
+#    endif
 			gtk_widget_set_tooltip_text(dialog_data->color_button[i], temp_str);
+#  endif
 		g_free(temp_str);
 		g_free(color_string);
 #else
-		gtk_widget_set_tooltip_text(dialog_data->color_button[i], color[i].translation);
+#  ifdef ENABLE_SET_TOOLTIP_TEXT
+#    ifdef SAFEMODE
+		if (dialog_data->color_button[i])
+#    endif
+			gtk_widget_set_tooltip_text(dialog_data->color_button[i], color[i].translation);
+#  endif
 #endif
 		g_object_unref (pixbuf);
 	}
@@ -1999,7 +2006,7 @@ void update_fg_bg_color(struct Window *win_data, GdkColor color, gboolean update
 		// print_color (temp_str, win_data->custom_color_theme[i].color[get_color_index(win_data->invert_color, index)]);
 		// g_free(temp_str);
 	}
-	
+
 	win_data->have_custom_color = TRUE;
 	if (win_data->use_custom_theme == FALSE)
 	{
@@ -2331,177 +2338,6 @@ void paste_text_to_vte_terminal(GtkWidget *widget, struct Dialog *dialog_data)
 	g_free(past_str);
 	gtk_entry_set_text (GTK_ENTRY(dialog_data->operate[0]), "");
 	gtk_window_set_focus(GTK_WINDOW(win_data->window), dialog_data->operate[0]);
-}
-
-void create_dialog(gchar *dialog_title_translation, gchar *dialog_title,  Dialog_Button_Type type,
-		   GtkWidget *window, gboolean center, gboolean resizable, gint border_width,
-		   gint response, gchar *icon, gchar *title, gboolean selectable, gint max_width_chars,
-		   gboolean state_bottom, gint create_entry_hbox, gint entry_hbox_spacing,
-		   struct Dialog *dialog_data)
-{
-#ifdef DETAIL
-	g_debug("! Launch create_dialog() with dialog_title_translation = %s, "
-		"dialog_title = %s, type = %d, window = %p, center = %d, resizable = %d, "
-		"border_width = %d, response = %d, icon = %s, title = %s, selectable = %d, "
-		"max_width_chars = %d, state_bottom = %d, create_entry_hbox = %d, dialog_data = %p",
-		dialog_title_translation, dialog_title, type, window, center, resizable,
-		border_width, response, icon, title, selectable, max_width_chars, state_bottom,
-		create_entry_hbox, dialog_data);
-#endif
-#ifdef SAFEMODE
-	if (dialog_data==NULL) return;
-#endif
-	gboolean BOTTON_ORDER = gtk_alternative_dialog_button_order(NULL);
-	// g_debug("gtk_alternative_dialog_button_order = %d" ,gtk_alternative_dialog_button_order (NULL));
-
-	// Strange behavior, If the locale is empty, or setted to 'C' or 'POSIX',
-	// And 'default_locale' is setted in the profile,
-	// All the UI will be translated to default_locale,
-	// But the window title will be empty.
-	// So, set it to un-translated string here.
-	// g_debug("init_LC_CTYPE = %s", init_LC_CTYPE);
-	if ((init_LC_CTYPE==NULL) || (init_LC_CTYPE[0]=='\0') ||
-	    (! compare_strings(init_LC_CTYPE, "C", TRUE)) ||
-	    (! compare_strings(init_LC_CTYPE, "\"C\"", TRUE)) ||
-	    (! compare_strings(init_LC_CTYPE, "POSIX", TRUE)) ||
-	    (! compare_strings(init_LC_CTYPE, "\"POSIX\"", TRUE)))
-		dialog_title_translation = dialog_title;
-
-	// g_debug("dialog_title_translation = %s", dialog_title_translation);
-	switch (type)
-	{
-		case DIALOG_OK:
-			dialog_data->window = gtk_dialog_new_with_buttons (dialog_title_translation,
-								      GTK_WINDOW(window),
-#ifdef EXIST_GTK_DIALOG_NO_SEPARATOR
-								      GTK_DIALOG_NO_SEPARATOR |
-#endif
-									GTK_DIALOG_DESTROY_WITH_PARENT,
-								      GTK_STOCK_OK,
-								      GTK_RESPONSE_OK,
-								      NULL);
-			break;
-		case DIALOG_OK_CANCEL:
-			if (BOTTON_ORDER)
-				dialog_data->window = gtk_dialog_new_with_buttons (dialog_title_translation,
-									      GTK_WINDOW(window),
-#ifdef EXIST_GTK_DIALOG_NO_SEPARATOR
-									      GTK_DIALOG_NO_SEPARATOR |
-#endif
-										GTK_DIALOG_DESTROY_WITH_PARENT,
-									      GTK_STOCK_OK,
-									      GTK_RESPONSE_OK,
-									      GTK_STOCK_CANCEL,
-									      GTK_RESPONSE_CANCEL,
-									      NULL);
-			else
-				dialog_data->window = gtk_dialog_new_with_buttons (dialog_title_translation,
-									      GTK_WINDOW(window),
-#ifdef EXIST_GTK_DIALOG_NO_SEPARATOR
-									      GTK_DIALOG_NO_SEPARATOR |
-#endif
-										GTK_DIALOG_DESTROY_WITH_PARENT,
-									      GTK_STOCK_CANCEL,
-									      GTK_RESPONSE_CANCEL,
-									      GTK_STOCK_OK,
-									      GTK_RESPONSE_OK,
-									      NULL);
-			break;
-		case DIALOG_QUIT:
-			dialog_data->window = gtk_dialog_new_with_buttons (dialog_title_translation,
-								      GTK_WINDOW(window),
-#ifdef EXIST_GTK_DIALOG_NO_SEPARATOR
-								      GTK_DIALOG_NO_SEPARATOR |
-#endif
-									GTK_DIALOG_DESTROY_WITH_PARENT,
-								      GTK_STOCK_QUIT,
-								      GTK_RESPONSE_CANCEL,
-								      NULL);
-			break;
-		case DIALOG_NONE:
-			dialog_data->window = gtk_dialog_new();
-			gtk_window_set_title(GTK_WINDOW(dialog_data->window), dialog_title_translation);
-			gtk_window_set_transient_for (GTK_WINDOW(dialog_data->window), GTK_WINDOW(window));
-#ifdef EXIST_GTK_DIALOG_NO_SEPARATOR
-			gtk_dialog_set_has_separator(GTK_DIALOG(dialog_data->window), FALSE);
-#endif
-			gtk_window_set_destroy_with_parent (GTK_WINDOW (dialog_data->window), TRUE);
-			break;
-		default:
-#ifdef FATAL
-			print_switch_out_of_range_error_dialog("create_dialog", "type", type);
-#endif
-			return;
-	}
-
-	// FIXME: It may be a bug in gtk+2?
-	// if a dialog shown before main window is shown,
-	// destroy the dialog will destroy the data of the icon, too.
-	// and when showing main window with gtk_widget_show_all(win_data->window) later,
-	// It will have no icon, and showing following error:
-	// Gtk-CRITICAL **: gtk_window_realize_icon: assertion `info->icon_pixmap == NULL' failed
-	// So, we need to set the icon for the dialog here.
-	set_window_icon(dialog_data->window);
-
-	if (center) gtk_window_set_position (GTK_WINDOW (dialog_data->window), GTK_WIN_POS_CENTER);
-	gtk_window_set_resizable (GTK_WINDOW (dialog_data->window), resizable);
-	gtk_container_set_border_width (GTK_CONTAINER (dialog_data->window), border_width);
-	gtk_dialog_set_default_response(GTK_DIALOG(dialog_data->window), response);
-
-	GtkWidget *main_hbox = dirty_gtk_hbox_new (FALSE, 5);
-	gtk_container_add (GTK_CONTAINER (gtk_dialog_get_content_area(GTK_DIALOG(dialog_data->window))), main_hbox);
-	GtkWidget *main_right_vbox = dirty_gtk_vbox_new (FALSE, 0);
-	gtk_box_pack_end (GTK_BOX(main_hbox), main_right_vbox, FALSE, FALSE, 0);
-
-
-	if (icon)
-	{
-		GtkWidget *icon_vbox = dirty_gtk_vbox_new (FALSE, 30);
-		gtk_box_pack_start (GTK_BOX(main_hbox), icon_vbox, FALSE, FALSE, 10);
-		GtkWidget *icon_image = gtk_image_new_from_stock (icon, GTK_ICON_SIZE_DIALOG);
-		gtk_box_pack_start (GTK_BOX(icon_vbox), icon_image, FALSE, FALSE, 10);
-	}
-
-	GtkWidget *state_vbox =NULL;
-	if (title)
-		state_vbox = dirty_gtk_vbox_new (FALSE, 15);
-	else
-		state_vbox = dirty_gtk_vbox_new (FALSE, 0);
-
-	gtk_box_pack_start (GTK_BOX(main_hbox), state_vbox, TRUE, TRUE, 0);
-
-	if (title)
-		dialog_data->title_label = create_label_with_text(state_vbox, TRUE, selectable, max_width_chars, title);
-
-	if (state_bottom)
-	{
-		GtkWidget *state_bottom_hbox = dirty_gtk_hbox_new (FALSE, 3);
-		gtk_box_pack_end (GTK_BOX(state_vbox), state_bottom_hbox, FALSE, FALSE, 0);
-	}
-
-	if (create_entry_hbox)
-	{
-		switch (create_entry_hbox)
-		{
-			case BOX_HORIZONTAL:
-				dialog_data->box = dirty_gtk_hbox_new (FALSE, entry_hbox_spacing);
-				break;
-			case BOX_VERTICALITY:
-				dialog_data->box = dirty_gtk_vbox_new (FALSE, entry_hbox_spacing);
-				break;
-			default:
-#ifdef FATAL
-				print_switch_out_of_range_error_dialog("create_dialog",
-								       "create_entry_hbox",
-								       create_entry_hbox);
-#endif
-				break;
-		}
-		if (title)
-			gtk_box_pack_start (GTK_BOX(state_vbox), dialog_data->box, TRUE, TRUE, 10);
-		else
-			gtk_box_pack_start (GTK_BOX(state_vbox), dialog_data->box, TRUE, TRUE, 0);
-	}
 }
 
 GtkWidget *create_entry_widget (GtkWidget *box, gchar *contents, gchar *name, gchar *default_value, gboolean activates_default)
@@ -3271,7 +3107,7 @@ gboolean set_ansi_color(GtkRange *range, GtkScrollType scroll, gdouble value, Gt
 	//					win_data->color_brightness,
 	//					dialog_data->original_color_brightness);
 	gboolean dim_fg_color = (dialog_data->type==ADJUST_THE_BRIGHTNESS_OF_ANSI_COLORS_WHEN_INACTIVE) ? TRUE : FALSE;
-	set_new_ansi_color(win_data->current_vte, dialog_data->ansi_colors, dialog_data->ansi_colors_orig, 
+	set_new_ansi_color(win_data->current_vte, dialog_data->ansi_colors, dialog_data->ansi_colors_orig,
 			   win_data->color_brightness, win_data->invert_color, FALSE, win_data->cursor_color, dim_fg_color);
 	return FALSE;
 }
@@ -3578,3 +3414,174 @@ void show_usage_text(GtkWidget *notebook, gpointer page, guint page_num, struct 
 //#endif
 //	g_free(err_msg);
 //}
+
+void create_dialog(gchar *dialog_title_translation, gchar *dialog_title,  Dialog_Button_Type type,
+		   GtkWidget *window, gboolean center, gboolean resizable, gint border_width,
+		   gint response, gchar *icon, gchar *title, gboolean selectable, gint max_width_chars,
+		   gboolean state_bottom, gint create_entry_hbox, gint entry_hbox_spacing,
+		   struct Dialog *dialog_data)
+{
+#ifdef DETAIL
+	g_debug("! Launch create_dialog() with dialog_title_translation = %s, "
+		"dialog_title = %s, type = %d, window = %p, center = %d, resizable = %d, "
+		"border_width = %d, response = %d, icon = %s, title = %s, selectable = %d, "
+		"max_width_chars = %d, state_bottom = %d, create_entry_hbox = %d, dialog_data = %p",
+		dialog_title_translation, dialog_title, type, window, center, resizable,
+		border_width, response, icon, title, selectable, max_width_chars, state_bottom,
+		create_entry_hbox, dialog_data);
+#endif
+#ifdef SAFEMODE
+	if (dialog_data==NULL) return;
+#endif
+	gboolean BOTTON_ORDER = gtk_alternative_dialog_button_order(NULL);
+	// g_debug("gtk_alternative_dialog_button_order = %d" ,gtk_alternative_dialog_button_order (NULL));
+
+	// Strange behavior, If the locale is empty, or setted to 'C' or 'POSIX',
+	// And 'default_locale' is setted in the profile,
+	// All the UI will be translated to default_locale,
+	// But the window title will be empty.
+	// So, set it to un-translated string here.
+	// g_debug("init_LC_CTYPE = %s", init_LC_CTYPE);
+	if ((init_LC_CTYPE==NULL) || (init_LC_CTYPE[0]=='\0') ||
+	    (! compare_strings(init_LC_CTYPE, "C", TRUE)) ||
+	    (! compare_strings(init_LC_CTYPE, "\"C\"", TRUE)) ||
+	    (! compare_strings(init_LC_CTYPE, "POSIX", TRUE)) ||
+	    (! compare_strings(init_LC_CTYPE, "\"POSIX\"", TRUE)))
+		dialog_title_translation = dialog_title;
+
+	// g_debug("dialog_title_translation = %s", dialog_title_translation);
+	switch (type)
+	{
+		case DIALOG_OK:
+			dialog_data->window = gtk_dialog_new_with_buttons (dialog_title_translation,
+								      GTK_WINDOW(window),
+#ifdef EXIST_GTK_DIALOG_NO_SEPARATOR
+								      GTK_DIALOG_NO_SEPARATOR |
+#endif
+									GTK_DIALOG_DESTROY_WITH_PARENT,
+								      GTK_STOCK_OK,
+								      GTK_RESPONSE_OK,
+								      NULL);
+			break;
+		case DIALOG_OK_CANCEL:
+			if (BOTTON_ORDER)
+				dialog_data->window = gtk_dialog_new_with_buttons (dialog_title_translation,
+									      GTK_WINDOW(window),
+#ifdef EXIST_GTK_DIALOG_NO_SEPARATOR
+									      GTK_DIALOG_NO_SEPARATOR |
+#endif
+										GTK_DIALOG_DESTROY_WITH_PARENT,
+									      GTK_STOCK_OK,
+									      GTK_RESPONSE_OK,
+									      GTK_STOCK_CANCEL,
+									      GTK_RESPONSE_CANCEL,
+									      NULL);
+			else
+				dialog_data->window = gtk_dialog_new_with_buttons (dialog_title_translation,
+									      GTK_WINDOW(window),
+#ifdef EXIST_GTK_DIALOG_NO_SEPARATOR
+									      GTK_DIALOG_NO_SEPARATOR |
+#endif
+										GTK_DIALOG_DESTROY_WITH_PARENT,
+									      GTK_STOCK_CANCEL,
+									      GTK_RESPONSE_CANCEL,
+									      GTK_STOCK_OK,
+									      GTK_RESPONSE_OK,
+									      NULL);
+			break;
+		case DIALOG_QUIT:
+			dialog_data->window = gtk_dialog_new_with_buttons (dialog_title_translation,
+								      GTK_WINDOW(window),
+#ifdef EXIST_GTK_DIALOG_NO_SEPARATOR
+								      GTK_DIALOG_NO_SEPARATOR |
+#endif
+									GTK_DIALOG_DESTROY_WITH_PARENT,
+								      GTK_STOCK_QUIT,
+								      GTK_RESPONSE_CANCEL,
+								      NULL);
+			break;
+		case DIALOG_NONE:
+			dialog_data->window = gtk_dialog_new();
+			gtk_window_set_title(GTK_WINDOW(dialog_data->window), dialog_title_translation);
+			gtk_window_set_transient_for (GTK_WINDOW(dialog_data->window), GTK_WINDOW(window));
+#ifdef EXIST_GTK_DIALOG_NO_SEPARATOR
+			gtk_dialog_set_has_separator(GTK_DIALOG(dialog_data->window), FALSE);
+#endif
+			gtk_window_set_destroy_with_parent (GTK_WINDOW (dialog_data->window), TRUE);
+			break;
+		default:
+#ifdef FATAL
+			print_switch_out_of_range_error_dialog("create_dialog", "type", type);
+#endif
+			return;
+	}
+
+	// FIXME: It may be a bug in gtk+2?
+	// if a dialog shown before main window is shown,
+	// destroy the dialog will destroy the data of the icon, too.
+	// and when showing main window with gtk_widget_show_all(win_data->window) later,
+	// It will have no icon, and showing following error:
+	// Gtk-CRITICAL **: gtk_window_realize_icon: assertion `info->icon_pixmap == NULL' failed
+	// So, we need to set the icon for the dialog here.
+	set_window_icon(dialog_data->window);
+
+	if (center) gtk_window_set_position (GTK_WINDOW (dialog_data->window), GTK_WIN_POS_CENTER);
+	gtk_window_set_resizable (GTK_WINDOW (dialog_data->window), resizable);
+	gtk_container_set_border_width (GTK_CONTAINER (dialog_data->window), border_width);
+	gtk_dialog_set_default_response(GTK_DIALOG(dialog_data->window), response);
+
+	GtkWidget *main_hbox = dirty_gtk_hbox_new (FALSE, 5);
+	gtk_container_add (GTK_CONTAINER (gtk_dialog_get_content_area(GTK_DIALOG(dialog_data->window))), main_hbox);
+	GtkWidget *main_right_vbox = dirty_gtk_vbox_new (FALSE, 0);
+	gtk_box_pack_end (GTK_BOX(main_hbox), main_right_vbox, FALSE, FALSE, 0);
+
+
+	if (icon)
+	{
+		GtkWidget *icon_vbox = dirty_gtk_vbox_new (FALSE, 30);
+		gtk_box_pack_start (GTK_BOX(main_hbox), icon_vbox, FALSE, FALSE, 10);
+		GtkWidget *icon_image = gtk_image_new_from_stock (icon, GTK_ICON_SIZE_DIALOG);
+		gtk_box_pack_start (GTK_BOX(icon_vbox), icon_image, FALSE, FALSE, 10);
+	}
+
+	GtkWidget *state_vbox =NULL;
+	if (title)
+		state_vbox = dirty_gtk_vbox_new (FALSE, 15);
+	else
+		state_vbox = dirty_gtk_vbox_new (FALSE, 0);
+
+	gtk_box_pack_start (GTK_BOX(main_hbox), state_vbox, TRUE, TRUE, 0);
+
+	if (title)
+		dialog_data->title_label = create_label_with_text(state_vbox, TRUE, selectable, max_width_chars, title);
+
+	if (state_bottom)
+	{
+		GtkWidget *state_bottom_hbox = dirty_gtk_hbox_new (FALSE, 3);
+		gtk_box_pack_end (GTK_BOX(state_vbox), state_bottom_hbox, FALSE, FALSE, 0);
+	}
+
+	if (create_entry_hbox)
+	{
+		switch (create_entry_hbox)
+		{
+			case BOX_HORIZONTAL:
+				dialog_data->box = dirty_gtk_hbox_new (FALSE, entry_hbox_spacing);
+				break;
+			case BOX_VERTICALITY:
+				dialog_data->box = dirty_gtk_vbox_new (FALSE, entry_hbox_spacing);
+				break;
+			default:
+#ifdef FATAL
+				print_switch_out_of_range_error_dialog("create_dialog",
+								       "create_entry_hbox",
+								       create_entry_hbox);
+#endif
+				break;
+		}
+		if (title)
+			gtk_box_pack_start (GTK_BOX(state_vbox), dialog_data->box, TRUE, TRUE, 10);
+		else
+			gtk_box_pack_start (GTK_BOX(state_vbox), dialog_data->box, TRUE, TRUE, 0);
+	}
+}

@@ -46,7 +46,16 @@ gboolean window_option(struct Window *win_data, gchar *encoding, int argc, char 
 char **set_process_data (pid_t entry_pid, gint *ppid, StrAddr **cmd);
 gboolean window_key_press(GtkWidget *widget, GdkEventKey *event, struct Window *win_data);
 void window_style_set(GtkWidget *window, GtkStyle *previous_style, struct Window *win_data);
+#if defined(USE_GTK2_GEOMETRY_METHOD) || defined(UNIT_TEST)
 void window_size_request(GtkWidget *window, GtkRequisition *requisition, struct Window *win_data);
+gboolean window_state_event(GtkWidget *widget, GdkEventWindowState *event, struct Window *win_data);
+#endif
+#if defined(USE_GTK3_GEOMETRY_METHOD) || defined(UNIT_TEST)
+void resize_to_exist_widget(struct Window *win_data);
+void save_vte_geometry(struct Window *win_data);
+gboolean hide_and_show_tabs_bar_sample(struct Window *win_data);
+gboolean idle_to_resize_window(struct Window *win_data);
+#endif
 void window_size_allocate(GtkWidget *window, GtkAllocation *allocation, struct Window *win_data);
 gboolean window_get_focus(GtkWidget *window, GdkEventFocus *event, struct Window *win_data);
 gboolean window_lost_focus(GtkWidget *window, GdkEventFocus *event, struct Window *win_data);
@@ -58,9 +67,9 @@ void reorder_page_after_added_removed_page(struct Window *win_data, guint page_n
 void destroy_window(struct Window *win_data);
 GtkNotebook *create_window(GtkNotebook *notebook, GtkWidget *page, gint x, gint y,
 			    struct Window *win_data);
-gboolean window_state_event(GtkWidget *widget, GdkEventWindowState *event, struct Window *win_data);
 #ifdef FATAL
 void dump_data(struct Window *win_data, struct Page *page_data);
 #endif
 void win_data_dup(struct Window *win_data_orig, struct Window *win_data);
+gboolean get_hide_or_show_tabs_bar(struct Window *win_data, Switch_Type show_tabs_bar);
 gboolean fullscreen_show_hide_scroll_bar (struct Window *win_data);

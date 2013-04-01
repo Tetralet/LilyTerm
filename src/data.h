@@ -200,7 +200,7 @@
 	#define gtk_widget_hide_all(x) gtk_widget_hide(x)
 #endif
 #if GTK_CHECK_VERSION(2,91,5)
-	#define gtk_vscrollbar_new(x) gtk_scrollbar_new (GTK_ORIENTATION_VERTICAL,x)
+	#define gtk_vscrollbar_new(x) gtk_scrollbar_new(GTK_ORIENTATION_VERTICAL,x)
 	#define USE_GTK3_GEOMETRY_METHOD
 #else
 	#define USE_GTK2_GEOMETRY_METHOD
@@ -219,13 +219,18 @@
 	#define g_atexit(x) gtk_quit_add(0, (GtkFunction)x, NULL)
 #endif
 
-#if !GTK_CHECK_VERSION(3,1,12)
+#if ! GTK_CHECK_VERSION(3,1,12)
 	#define GTK_FONT_CHOOSER GTK_FONT_SELECTION_DIALOG
 	#define gtk_font_chooser_dialog_new(x,y) gtk_font_selection_dialog_new(x)
 	#define gtk_font_chooser_get_font gtk_font_selection_dialog_get_font_name
 	#define gtk_font_chooser_set_font gtk_font_selection_dialog_set_font_name
+#  ifdef UNIT_TEST
+	#define gtk_font_chooser_set_filter_func(a,b,c,d) NULL
+#  endif
 #endif
-
+#if GTK_CHECK_VERSION(3,1,12)
+	#define EXIST_GTK_FONT_CHOOSER_SET_FILTER_FUNC
+#endif
 
 #if ! GLIB_CHECK_VERSION(2,14,0)
 	#define g_timeout_add_seconds(x,y,z) g_timeout_add(x*1000,y,z);
@@ -346,7 +351,6 @@ typedef enum {
 #endif
 } Key_Bindings;
 
-
 typedef enum {
 	FONT_RESET,
 	FONT_INCREASE,
@@ -418,13 +422,54 @@ typedef enum {
 	ANSI_THEME_SET_ANSI_THEME,
 } Set_ANSI_Theme_Type;
 
+#if defined(USE_GTK2_GEOMETRY_METHOD) || defined(UNIT_TEST)
 typedef enum {
-	FULLSCREEN_UNFS_OK = 2,
+	FULLSCREEN_UNFS_OK =  2,
 	FULLSCREEN_UNFS_ING = 1,
-	FULLSCREEN_NORMAL = 0,
-	FULLSCREEN_FS_ING = -1,
-	FULLSCREEN_FS_OK = -2,
+	FULLSCREEN_NORMAL =   0,
+	FULLSCREEN_FS_ING =  -1,
+	FULLSCREEN_FS_OK =   -2,
 } FullScreen_Type;
+#endif
+
+typedef enum {
+	HINTS_FONT_BASE,
+	HINTS_NONE,
+#if defined(USE_GTK3_GEOMETRY_METHOD) || defined(UNIT_TEST)
+	HINTS_SKIP_ONCE,
+#endif
+} Hints_Type;
+
+#if defined(USE_GTK3_GEOMETRY_METHOD) || defined(UNIT_TEST)
+typedef enum {
+	WINDOW_NORMAL,				// 0
+	WINDOW_RESIZING_TO_NORMAL,		// 1
+	WINDOW_MAX_WINDOW,			// 2
+	WINDOW_MAX_WINDOW_TO_FULL_SCREEN,	// 3
+	WINDOW_FULL_SCREEN,			// 4
+	WINDOW_START_WITH_FULL_SCREEN,		// 5
+	WINDOW_APPLY_PROFILE_NORMAL,		// 6
+	WINDOW_APPLY_PROFILE_FULL_SCREEN,	// 7
+} Window_Status;
+
+typedef enum {
+	GEOMETRY_AUTOMATIC,
+	GEOMETRY_CUSTOM,
+} Geometry_Resize_Type;
+#endif
+
+#if defined(GEOMETRY) || defined(UNIT_TEST)
+typedef enum {
+	ANSI_COLOR_BLACK =   30,
+	ANSI_COLOR_RED =     31,
+	ANSI_COLOR_GREEN =   32,
+	ANSI_COLOR_YELLOW =  33,
+	ANSI_COLOR_BLUE =    34,
+	ANSI_COLOR_MAGENTA = 35,
+	ANSI_COLOR_CYAN =    36,
+	ANSI_COLOR_WHITE =   37,
+} ANSI_Color;
+#endif
 
 // KeyValue: only need to init once when LilyTerm starts.
 // so that we don't need to free them.
@@ -636,6 +681,7 @@ struct Window
 
 // ---- the component of a single window ---- //
 
+#if defined(USE_GTK2_GEOMETRY_METHOD) || defined(UNIT_TEST)
 	// Startup with fullscreen
 	gboolean startup_fullscreen;
 	gboolean fullscreen;
@@ -649,9 +695,12 @@ struct Window
 	//  0: Normal
 	// >0: unfullscreening
 	// <0: fullscreening
-	FullScreen_Type unfullscreen;
+	FullScreen_Type window_status;
+#endif
+#ifdef USE_GTK3_GEOMETRY_METHOD
+	Window_Status window_status;
+#endif
 	Switch_Type show_tabs_bar;
-
 	// the component of a single window
 	GtkWidget *window;
 	GtkWidget *notebook;
@@ -698,10 +747,19 @@ struct Window
 	gboolean enable_key_binding;
 	struct User_KeyValue user_keys[KEYS];
 
-	// 0: Do nothing
+	// 0: Update the hints with base size = 1
 	// 1: Update the hints with base size = font char size
-	// 2: Update the hints with base size = 1
-	gint update_hints;
+	Hints_Type hints_type;
+
+#if defined(USE_GTK3_GEOMETRY_METHOD) || defined(UNIT_TEST)
+	// Geometry_Resize_Type = GEOMETRY_AUTOMATIC, resize form current_vte
+	// Geometry_Resize_Type = GEOMETRY_CUSTOM, resize from geometry_width and geometry_height
+	Geometry_Resize_Type resize_type;
+	// geometry_width, geometry_height = column * row when hints_type=HINTS_NONE
+	// geometry_width, geometry_height = width * height (in pixel) when hints_type=HINTS_FONT_BASE
+	glong geometry_width;
+	glong geometry_height;
+#endif
 
 	gboolean lost_focus;
 
@@ -768,6 +826,7 @@ struct Window
 
 	GtkWidget *menuitem_dim_text;
 	GtkWidget *menuitem_cursor_blinks;
+	GtkWidget *menuitem_allow_bold_text;
 	GtkWidget *menuitem_audible_bell;
 	GtkWidget *menuitem_visible_bell;
 	GtkWidget *menuitem_urgent_bell;
@@ -777,7 +836,6 @@ struct Window
 	GtkWidget *menuitem_always_hide_tabs_bar;
 	// the menuitem_hide_scroll_bar->active stores the boolean value of hide/show scroll_bar.
 	GtkWidget *menuitem_hide_scroll_bar;
-	GtkWidget *menuitem_allow_bold_text;
 
 	gboolean show_copy_paste_menu;
 	gboolean embedded_copy_paste_menu;
@@ -848,7 +906,6 @@ struct Window
 
 // ---- font ---- //
 	// WRANING: font_anti_alias is no use since VTE 0.20.0
-	gboolean bold_text;
 	gboolean font_anti_alias;			/* Should be take care when drag to another window */
 	gchar *default_font_name;			/* Should be take care when drag to another window */
 	// Only using in <Ctrl><Enter>
@@ -856,8 +913,9 @@ struct Window
 
 // ---- other settings for init a vte ---- //
 
-	long default_column;
-	long default_row;
+	glong default_column;
+	glong default_row;
+
 	gchar *word_chars;				/* Should be take care when drag to another window */
 	Switch_Type show_scroll_bar;			/* Should be take care when drag to another window */
 	// 0: left
@@ -877,6 +935,7 @@ struct Window
 #else
 	gboolean cursor_blinks;
 #endif
+	gboolean allow_bold_text;
 	gboolean audible_bell;
 	gboolean visible_bell;
 	// urgent_bell will stores the currect setting
@@ -938,10 +997,6 @@ struct Page
 	GtkWidget *notebook;
 	// current page no on notebook. *for performance*
 	guint page_no;
-#if defined(USE_GTK3_GEOMETRY_METHOD) || defined(UNIT_TEST)
-	long column;
-	long row;
-#endif
 // ---- the component of a single vte ---- //
 
 	GtkWidget *label;
@@ -949,6 +1004,9 @@ struct Page
 	GtkWidget *label_button;
 	GtkWidget *hbox;
 	GtkWidget *vte;
+#if defined(USE_GTK3_GEOMETRY_METHOD) || defined(UNIT_TEST)
+	GtkBorder *border;
+#endif
 	GtkAdjustment *adjustment;
 	GtkWidget *scroll_bar;
 

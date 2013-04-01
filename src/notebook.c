@@ -200,10 +200,13 @@ struct Page *add_page(struct Window *win_data,
 	g_string_free(environ_str, TRUE);
 
 // ---- create vte ---- //
-
 	page_data->vte = vte_terminal_new();
 	//g_debug("The default encoding of vte is %s",
 	//	vte_terminal_get_encoding(VTE_TERMINAL(page_data->vte)));
+
+#if defined(USE_GTK3_GEOMETRY_METHOD) || defined(UNIT_TEST)
+	gtk_widget_style_get(GTK_WIDGET(page_data->vte), "inner-border", &(page_data->border), NULL);
+#endif
 
 	// save the data first
 	// g_debug("Save the data with page_data->vte = %p, page_data = %p", page_data->vte, page_data);
@@ -429,6 +432,10 @@ struct Page *add_page(struct Window *win_data,
 
 	// create a hbox
 	page_data->hbox = dirty_gtk_hbox_new(FALSE, 0);
+#ifdef GEOMETRY
+	g_signal_connect(G_OBJECT(page_data->hbox), "size-allocate",
+			 G_CALLBACK(widget_size_allocate), "hbox");
+#endif
 
 	// Get current vte size. for init a new tab.
 	glong column=SYSTEM_COLUMN, row=SYSTEM_ROW;
@@ -458,10 +465,6 @@ struct Page *add_page(struct Window *win_data,
 	// Init new page. run_once: some settings only need run once.
 	// run_once only = TRUE when initing LilyTerm in main().
 	init_new_page(win_data, page_data, column, row);
-#ifdef USE_GTK3_GEOMETRY_METHOD
-	page_data->column = column;
-	page_data->row = row;
-#endif
 
 	page_data->scroll_bar = gtk_vscrollbar_new(vte_terminal_get_adjustment(VTE_TERMINAL(page_data->vte)));
 	pack_vte_and_scroll_bar_to_hbox(win_data, page_data);
@@ -469,6 +472,14 @@ struct Page *add_page(struct Window *win_data,
 	show_and_hide_scroll_bar(page_data, check_show_or_hide_scroll_bar(win_data));
 	gtk_widget_set_no_show_all(page_data->scroll_bar, TRUE);
 
+#if defined(GEOMETRY) || defined(UNIT_TEST)
+	g_signal_connect(G_OBJECT(page_data->vte), "size-allocate",
+			 G_CALLBACK(vte_size_allocate), page_data);
+#endif
+	g_signal_connect(G_OBJECT(page_data->vte), "decrease-font-size",
+			 G_CALLBACK(vte_size_changed), GINT_TO_POINTER(KEY_DECREASE_FONT_SIZE));
+	g_signal_connect(G_OBJECT(page_data->vte), "increase-font-size",
+			 G_CALLBACK(vte_size_changed), GINT_TO_POINTER(KEY_INCREASE_FONT_SIZE));
 	// the close page event
 	if (! (win_data->hold && win_data->command))
 		g_signal_connect(G_OBJECT(page_data->vte), "child_exited", G_CALLBACK(close_page), 0);
@@ -736,35 +747,84 @@ void clear_arg(struct Window *win_data)
 	win_data->argv = NULL;
 }
 
+#ifdef USE_GTK2_GEOMETRY_METHOD
 void label_size_request (GtkWidget *label, GtkRequisition *requisition, struct Page *page_data)
 {
-#ifdef DETAIL
+#  ifdef DETAIL
 	g_debug("! Launch label_size_request() with page_data = %p", page_data);
-#endif
-#ifdef SAFEMODE
+#  endif
+#  ifdef SAFEMODE
 	if ((page_data==NULL) || (page_data->window==NULL)) return;
-#endif
+#  endif
 	struct Window *win_data = (struct Window *)g_object_get_data(G_OBJECT(page_data->window), "Win_Data");
-#ifdef SAFEMODE
+#  ifdef SAFEMODE
 	if (win_data==NULL) return;
-#endif
+#  endif
 	// g_debug("label_size_request(): launch keep_window_size()!");
 
-#ifdef USE_GTK2_GEOMETRY_METHOD
 #  ifdef GEOMETRY
 	g_debug("@ label_size_request(for %p): Call keep_gtk2_window_size() with keep_vte_size = %x",
 		win_data->window, win_data->keep_vte_size);
 #  endif
 	keep_gtk2_window_size (win_data, page_data->vte, 0x3);
-#endif
-#ifdef USE_GTK3_GEOMETRY_METHOD
-#  ifdef GEOMETRY
-	g_debug("@ label_size_request(for %p): Set win_data->keep_vte_size = TRUE", win_data->window);
-#  endif
-	win_data->keep_vte_size++;
-#endif
 }
+#endif
 
+#if defined(GEOMETRY) || defined(UNIT_TEST)
+void vte_size_allocate (GtkWidget *vte, GtkAllocation *allocation, struct Page *page_data)
+{
+#  ifdef DETAIL
+	g_debug("! Launch vte_size_allocate() with vte = %p, page_data = %p", vte, page_data);
+#  endif
+#ifdef USE_GTK3_GEOMETRY_METHOD
+	// fprintf(stderr, "\033[1;36m** vte_size_allocate(): the allocated size is %d x %d (%ldx%ld)\033[0m\n",
+	//	allocation->width, allocation->height,
+	//	vte_terminal_get_column_count(VTE_TERMINAL(vte)),
+	//	vte_terminal_get_row_count(VTE_TERMINAL(vte)));
+
+	struct Window *win_data = (struct Window *)g_object_get_data(G_OBJECT(page_data->window), "Win_Data");
+
+	glong column = vte_terminal_get_column_count(VTE_TERMINAL(vte));
+	glong row = vte_terminal_get_row_count(VTE_TERMINAL(vte));
+	gboolean check_col_row = (column < 80) || (row < 24);
+
+	if (win_data->hints_type==HINTS_NONE)
+	{
+		column = vte_terminal_get_char_width(VTE_TERMINAL(vte))*column + page_data->border->left + page_data->border->right;
+		row = vte_terminal_get_char_height(VTE_TERMINAL(vte))*row + page_data->border->top + page_data->border->bottom;
+	}
+	check_col_row |= (column != win_data->geometry_width);
+	check_col_row |= (row != win_data->geometry_height);
+
+	if (((win_data->window_status!=WINDOW_NORMAL) && (win_data->window_status!=WINDOW_RESIZING_TO_NORMAL)) && check_col_row)
+	{
+		fprintf(stderr, "\033[1;31m!! vte_size_allocate(win_data %p)(vte %p): the allocated size is %d x %d (%ldx%ld) (saved: %ld x %ld)\033[0m\n",
+			win_data, vte, allocation->width, allocation->height, column, row, win_data->geometry_width, win_data->geometry_height);
+	}
+	else
+#endif
+		widget_size_allocate (vte, allocation, "vte");
+}
+#endif
+
+void vte_size_changed(VteTerminal *vte, Key_Bindings type)
+{
+#ifdef DETAIL
+	g_debug("! Launch vte_size_changed() with vte = %p, type = %d", vte, type);
+#endif
+#ifdef SAFEMODE
+	if (vte==NULL) return;
+#endif
+	struct Page *page_data = (struct Page *)g_object_get_data(G_OBJECT(vte), "Page_Data");
+#ifdef SAFEMODE
+	if (page_data==NULL) return;
+#endif
+	struct Window *win_data = (struct Window *)g_object_get_data(G_OBJECT(page_data->window), "Win_Data");
+#ifdef SAFEMODE
+	if (win_data==NULL) return;
+#endif
+	deal_key_press(page_data->window, type, win_data);
+}
 
 // close_type = confirm to exit foreground running command or not
 // close_type > 0: Not using 'exit' or '<Ctrl><D>' to close this page.
@@ -930,6 +990,9 @@ gboolean close_page(GtkWidget *vte, gint close_type)
 			gtk_notebook_set_current_page(GTK_NOTEBOOK(page_data->notebook), page_data->page_no+1);
 	}
 
+#if defined(USE_GTK3_GEOMETRY_METHOD) || defined(UNIT_TEST)
+	gtk_border_free(page_data->border);
+#endif
 	g_free(page_data->page_name);
 
 	// Note that due to historical reasons,
@@ -1033,7 +1096,7 @@ void vte_grab_focus(GtkWidget *vte, gpointer user_data)
 			}
 #endif
 		}
-		// g_debug ("Update current_vte! (%p), and update_hints = %d", vte, win_data->update_hints);
+		// g_debug ("Update current_vte! (%p), and hints_type = %d", vte, win_data->hints_type);
 		// current_vte = vte;
 		win_data->current_vte = vte;
 
@@ -1047,7 +1110,7 @@ void vte_grab_focus(GtkWidget *vte, gpointer user_data)
 		//	// Or the geometry of vte may be changed when deleting the vte hold hints info.
 		//	// It can help to hold the correct vte size.
 		//	g_debug("Update hints!")
-		//	window_resizable(vte, update_hints, 1);
+		//	window_resizable(vte, hints_type, 1);
 		//}
 
 		// update the window title
@@ -1366,6 +1429,10 @@ gboolean vte_button_press(GtkWidget *vte, GdkEventButton *event, gpointer user_d
 		gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM(win_data->menuitem_cursor_blinks),
 						win_data->cursor_blinks);
 #endif
+		// GTK_CHECK_MENU_ITEM(win_data->menuitem_allow_bold_text)->active = win_data->allow_bold_text;
+		gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM(win_data->menuitem_allow_bold_text),
+						win_data->allow_bold_text);
+
 		// GTK_CHECK_MENU_ITEM(win_data->menuitem_audible_bell)->active = win_data->audible_bell;
 		gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM(win_data->menuitem_audible_bell),
 						win_data->audible_bell);

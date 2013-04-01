@@ -151,10 +151,15 @@ void init_new_page(struct Window *win_data,
 #endif
 		vte_terminal_set_size(VTE_TERMINAL(page_data->vte), column, row);
 
-#  ifdef GEOMETRY
+#ifdef GEOMETRY
+#  ifdef USE_GTK2_GEOMETRY_METHOD
 	g_debug("@ init_new_page(for %p, vte = %p): Set win_data->keep_vte_size to %d, and column = %ld, row = %ld",
 		win_data->window, page_data->vte, win_data->keep_vte_size, column, row);
+#  else
+	g_debug("@ init_new_page(for %p, vte = %p): Set column = %ld, row = %ld",
+		win_data->window, page_data->vte, column, row);
 #  endif
+#endif
 
 	set_vte_color(page_data->vte, use_default_vte_theme(win_data), win_data->cursor_color, win_data->color, FALSE);
 
@@ -177,6 +182,8 @@ void init_new_page(struct Window *win_data,
 
 	set_hyprelink(win_data, page_data);
 	set_cursor_blink(win_data, page_data);
+
+	vte_terminal_set_allow_bold(VTE_TERMINAL(page_data->vte), win_data->allow_bold_text);
 
 	vte_terminal_set_audible_bell (VTE_TERMINAL(page_data->vte), win_data->audible_bell);
 	vte_terminal_set_visible_bell (VTE_TERMINAL(page_data->vte), win_data->visible_bell);
@@ -269,7 +276,7 @@ void set_vte_color(GtkWidget *vte, gboolean default_vte_color, GdkColor cursor_c
 
 	if (default_vte_color | update_fg_only)
 		vte_terminal_set_color_foreground(VTE_TERMINAL(vte), &(color[COLOR-1]));
-	
+
 	vte_terminal_set_colors(VTE_TERMINAL(vte), &(color[COLOR-1]), &(color[0]), color, 16);
 
 	// print_color(-1, "set_vte_color(): cursor_color", cursor_color);
@@ -333,7 +340,22 @@ gboolean check_show_or_hide_scroll_bar(struct Window *win_data)
 	switch (win_data->show_scroll_bar)
 	{
 		case AUTOMATIC:
+#ifdef USE_GTK2_GEOMETRY_METHOD
 			show = ! win_data->true_fullscreen;
+#endif
+#ifdef USE_GTK3_GEOMETRY_METHOD
+			switch (win_data->window_status)
+			{
+				case WINDOW_NORMAL:
+				case WINDOW_RESIZING_TO_NORMAL:
+				case WINDOW_MAX_WINDOW:
+				case WINDOW_APPLY_PROFILE_NORMAL:
+					show = TRUE;
+					break;
+				default:
+					break;
+			}
+#endif
 			break;
 		case ON:
 		case FORCE_ON:
@@ -487,18 +509,18 @@ gboolean set_window_opacity(GtkRange *range, GtkScrollType scroll, gdouble value
 #endif
 
 // set the window hints information
-void window_resizable(GtkWidget *window, GtkWidget *vte, gint set_hints_inc)
+void window_resizable(GtkWidget *window, GtkWidget *vte, Hints_Type hints_type)
 {
+#ifdef DETAIL
+	fprintf(stderr, "\033[1;31m** Launch window_resizable() with window = %p, vte = %p, hints_type = %d\033[0m\n",
+		window, vte, hints_type);
+#endif
 #ifdef SAFEMODE
 	if ((window==NULL) || (vte==NULL)) return;
 #endif
-#ifdef DETAIL
-	g_debug("! Launch window_resizable() with window = %p, vte = %p, set_hints_inc = %d",
-		window, vte, set_hints_inc);
-#endif
 
 	// DIRTY HACK: don't run window_resizable too much times before window is shown!
-	if ((set_hints_inc != 1) && (gtk_widget_get_mapped(window) == FALSE)) return;
+	if ((hints_type != HINTS_FONT_BASE) && (gtk_widget_get_mapped(window) == FALSE)) return;
 
 	// vte=NULL when creating a new root window with drag & drop.
 	// if (vte==NULL) return;
@@ -508,16 +530,20 @@ void window_resizable(GtkWidget *window, GtkWidget *vte, gint set_hints_inc)
 	vte_terminal_get_padding (VTE_TERMINAL(vte), &(hints.base_width), &(hints.base_height));
 	// g_debug("hints.base_width = %d, hints.base_height = %d", hints.base_width, hints.base_height);
 
-	switch (set_hints_inc)
+	switch (hints_type)
 	{
-		case 1:
+		case HINTS_FONT_BASE:
 			hints.width_inc = vte_terminal_get_char_width(VTE_TERMINAL(vte));
 			hints.height_inc = vte_terminal_get_char_height(VTE_TERMINAL(vte));
 			break;
-		case 2:
+		case HINTS_NONE:
 			hints.width_inc = 1;
 			hints.height_inc = 1;
 			break;
+#if defined(USE_GTK3_GEOMETRY_METHOD) || defined(UNIT_TEST)
+		case HINTS_SKIP_ONCE:
+			return;
+#endif
 	}
 
 	// g_debug("hints.width_inc = %d, hints.height_inc = %d",
@@ -531,13 +557,32 @@ void window_resizable(GtkWidget *window, GtkWidget *vte, gint set_hints_inc)
 	// }
 	// else
 	// {
+#if defined(USE_GTK3_GEOMETRY_METHOD) || defined(UNIT_TEST)
+		gint min_width = 0, min_height = 0;
+		struct Window *win_data = (struct Window *)g_object_get_data(G_OBJECT(window), "Win_Data");
+		struct Page *page_data = (struct Page *)g_object_get_data(G_OBJECT(vte), "Page_Data");
+		get_hint_min_size(win_data->notebook, page_data->scroll_bar, &min_width, &min_height);
+		hints.min_width = hints.base_width + ((int)(min_width/hints.width_inc)+1)*hints.width_inc;
+		hints.min_height = hints.base_height + ((int)(min_height/hints.height_inc)+1)*hints.height_inc;
+#  ifdef GEOMETRY
+		fprintf(stderr, "\033[1;37m** window_resizable(win_data %p): window = %p, vte = %p, hints_type = %d\033[0m\n",
+			win_data, window, vte, hints_type);
+#  endif
+#endif
+#ifdef USE_GTK2_GEOMETRY_METHOD
 		hints.min_width = hints.base_width + hints.width_inc;
 		hints.min_height = hints.base_height + hints.height_inc;
+#endif
 	// }
+#ifdef GEOMETRY
+	g_debug("@ hint data: hints.width_inc = %d, hints.height_inc = %d, hints.base_width = %d, "
+		"@ hints.base_height = %d, hints.min_width = %d, hints.min_height = %d",
+		hints.width_inc, hints.height_inc, hints.base_width, hints.base_height, hints.min_width, hints.min_height);
+#endif
 
-	// g_debug("Tring to set geometry on %p, and set_hints_inc = %d", vte, set_hints_inc);
+	// g_debug("Tring to set geometry on %p, and hints_type = %d", vte, hints_type);
 	gtk_window_set_geometry_hints (GTK_WINDOW (window), GTK_WIDGET (vte), &hints,
-					GDK_HINT_RESIZE_INC | GDK_HINT_MIN_SIZE | GDK_HINT_BASE_SIZE);
+				       GDK_HINT_RESIZE_INC | GDK_HINT_MIN_SIZE | GDK_HINT_BASE_SIZE);
 
 	//g_debug("current the size of vte %p whith hinting = %ld x %ld",
 	//			vte,
@@ -545,7 +590,35 @@ void window_resizable(GtkWidget *window, GtkWidget *vte, gint set_hints_inc)
 	//			vte_terminal_get_row_count(VTE_TERMINAL(vte)));
 }
 
+#if defined(USE_GTK3_GEOMETRY_METHOD) || defined(UNIT_TEST)
+void get_hint_min_size(GtkWidget *notebook, GtkWidget *scrollbar, gint *min_width, gint *min_height)
+{
+#ifdef DETAIL
+	g_debug("! Launch get_hint_min_size() with notebook = %p, scrollbar = %p", notebook, scrollbar);
+#endif
+#ifdef SAFEMODE
+	if ((scrollbar==NULL) || (scrollbar==NULL) || (min_width==NULL) || (min_height==NULL)) return;
+#endif
+#ifdef USE_GTK3_GEOMETRY_METHOD
+	gtk_widget_get_preferred_width(GTK_WIDGET(notebook), min_width, NULL);
+#endif
+	gint stepper_size, stepper_spacing, trough_border, min_slider_length;
+	gtk_widget_style_get(GTK_WIDGET(scrollbar), "stepper-size", &stepper_size, NULL);
+	gtk_widget_style_get(GTK_WIDGET(scrollbar), "stepper-spacing", &stepper_spacing, NULL);
+	gtk_widget_style_get(GTK_WIDGET(scrollbar), "trough-border", &trough_border, NULL);
+	gtk_widget_style_get(GTK_WIDGET(scrollbar), "min-slider-length", &min_slider_length, NULL);
+	*min_height = stepper_size*2 + stepper_spacing*2 + trough_border*2 + min_slider_length;
+
+#  ifdef GEOMETRY
+	g_debug("@ get_hint_min_size(): stepper_size = %d, stepper_spacing = %d, trough_border = %d, min_slider_length = %d",
+		 stepper_size, stepper_spacing, trough_border, min_slider_length);
+	g_debug("@ get_hint_min_size(): ** FINAL: min_width = %d, min_height = %d", *min_width, *min_height);
+#  endif
+}
+#endif
+
 #if defined(vte_terminal_get_padding) || defined(UNIT_TEST)
+// This function is for replce the removed vte_terminal_get_padding()
 void fake_vte_terminal_get_padding(VteTerminal *vte, gint *width, gint *height)
 {
 #ifdef DETAIL
@@ -744,6 +817,9 @@ void apply_new_win_data_to_page (struct Window *win_data_orig,
 	if (win_data_orig->cursor_blinks != win_data->cursor_blinks)
 		set_cursor_blink(win_data, page_data);
 
+	if (win_data_orig->allow_bold_text != win_data->allow_bold_text)
+		vte_terminal_set_allow_bold(VTE_TERMINAL(page_data->vte), win_data->allow_bold_text);
+
 	if (win_data_orig->audible_bell != win_data->audible_bell)
 		vte_terminal_set_audible_bell (VTE_TERMINAL(page_data->vte), win_data->audible_bell);
 
@@ -797,15 +873,15 @@ void set_widget_thickness(GtkWidget *widget, gint thickness)
 #ifdef USING_GTK_RC_STYLE_NEW
 
 	GtkRcStyle *rc_style = gtk_rc_style_new();
-#   ifdef SAFEMODE
+#  ifdef SAFEMODE
 	if (rc_style)
 	{
-#   endif
+#  endif
 		rc_style->xthickness = rc_style->ythickness = thickness;
 		gtk_widget_modify_style(widget, rc_style);
-#   ifdef SAFEMODE
+#  ifdef SAFEMODE
 	}
-#   endif
+#  endif
 	g_object_unref(rc_style);
 #else
 	GtkCssProvider *css = gtk_css_provider_new ();
