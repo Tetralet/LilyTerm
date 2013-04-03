@@ -624,6 +624,34 @@ gchar *colorful_max_new_lines(gchar *string, gint max, gint output_line)
 	return NULL;
 }
 
+GdkRGBA convert_color_to_rgba(GdkColor color)
+{
+	GdkRGBA rgba;
+#ifndef USE_GDK_RGBA
+	rgba.pixel = 0;
+#endif
+	rgba.red = (gdouble)(color.red>>8)/0xFF;
+	rgba.green = (gdouble)(color.green>>8)/0xFF;
+	rgba.blue = (gdouble)(color.blue>>8)/0xFF;
+
+	// g_debug("convert_color_to_rgba: convert color (%4X %4X %4X) to rgba (%0.4f %0.4f %0.4f)",
+	//	color.red, color.green, color.blue, rgba.red, rgba.green, rgba.blue);
+
+	return rgba;
+}
+
+GdkColor convert_rgba_to_color(GdkRGBA rgba)
+{
+	GdkColor color;
+
+	color.pixel = 0;
+	color.red = rgba.red*0xFFFF;
+	color.green = rgba.green*0xFFFF;
+	color.blue = rgba.blue*0xFFFF;
+
+	return color;
+}
+
 #if defined(GEOMETRY) || defined(UNIT_TEST)
 void widget_size_allocate (GtkWidget *widget, GtkAllocation *allocation, gchar *name)
 {
@@ -642,7 +670,7 @@ void widget_size_allocate (GtkWidget *widget, GtkAllocation *allocation, gchar *
 }
 #endif
 
-gboolean dirty_gdk_color_parse(const gchar *spec, GdkColor *color)
+gboolean dirty_gdk_color_parse(const gchar *spec, GdkRGBA *color)
 {
 #ifdef DETAIL
 	g_debug("! Launch dirty_gdk_color_parse() with spec = %s", spec);
@@ -654,7 +682,7 @@ gboolean dirty_gdk_color_parse(const gchar *spec, GdkColor *color)
 	if (new_spec==NULL) return FALSE;
 #endif
 	new_spec = g_strstrip(new_spec);
-	gboolean response = gdk_color_parse(new_spec, color);
+	gboolean response = gdk_rgba_parse(color, new_spec);
 	g_free(new_spec);
 	return response;
 }
@@ -679,6 +707,17 @@ GtkWidget *dirty_gtk_hbox_new(gboolean homogeneous, gint spacing)
 	GtkWidget *box = gtk_hbox_new(homogeneous, spacing);
 #endif
 	return box;
+}
+
+void dirty_vte_terminal_set_background_tint_color(VteTerminal *vte, const GdkRGBA rgba)
+{
+#ifdef USE_GDK_RGBA
+	GdkColor color = convert_rgba_to_color(rgba);
+	vte_terminal_set_background_tint_color(VTE_TERMINAL(vte), &(color));
+#else
+	vte_terminal_set_background_tint_color(VTE_TERMINAL(vte), &(rgba));
+#endif
+
 }
 
 #if defined(OUT_OF_MEMORY) || defined(UNIT_TEST)

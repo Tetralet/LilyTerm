@@ -495,7 +495,7 @@ struct Page *add_page(struct Window *win_data,
 	// g_signal_connect(G_OBJECT(page_data->vte), "paste-clipboard",
 	//		 G_CALLBACK(vte_paste_clipboard), GDK_SELECTION_PRIMARY);
 
-//	GdkColor root_color;
+//	GdkRGBA root_color;
 //	dirty_gdk_color_parse("#FFFAFE", &root_color);
 //	gtk_widget_modify_bg(notebook, GTK_STATE_NORMAL, &root_color);
 

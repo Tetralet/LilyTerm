@@ -198,7 +198,9 @@
 #endif
 #if GTK_CHECK_VERSION(2,91,2)
 	#define gtk_widget_hide_all(x) gtk_widget_hide(x)
+	#define USE_GTK_GRID
 #endif
+
 #if GTK_CHECK_VERSION(2,91,5)
 	#define gtk_vscrollbar_new(x) gtk_scrollbar_new(GTK_ORIENTATION_VERTICAL,x)
 	#define USE_GTK3_GEOMETRY_METHOD
@@ -230,6 +232,18 @@
 #endif
 #if GTK_CHECK_VERSION(3,1,12)
 	#define EXIST_GTK_FONT_CHOOSER_SET_FILTER_FUNC
+#endif
+
+#if GTK_CHECK_VERSION(3,3,16)
+	#define HAVE_GTK_COLOR_CHOOSER
+#else
+	#define GTK_COLOR_CHOOSER GTK_COLOR_SELECTION
+	#define GtkColorChooser GtkColorSelection
+	#define gtk_color_chooser_get_rgba gtk_color_selection_get_current_color
+#endif
+
+#if GTK_CHECK_VERSION(3,8,0)
+	#define gtk_window_set_opacity(x,y) gtk_widget_set_opacity(GTK_WIDGET(x),y)
 #endif
 
 #if ! GLIB_CHECK_VERSION(2,14,0)
@@ -267,6 +281,23 @@
     #endif
     #if VTE_CHECK_VERSION(0,25,1)
 	#define ENABLE_FIND_STRING
+    #endif
+    #if VTE_CHECK_VERSION(0,27,90)
+	#define ENABLE_VTE_RGBA
+	#define USE_GDK_RGBA
+	#define MAX_COLOR 1
+    #else
+	#define GdkRGBA GdkColor
+	#define gdk_rgba_to_string gdk_color_to_string
+	#define gdk_rgba_parse(x,y) gdk_color_parse(y,x)
+	#define gtk_color_selection_set_previous_rgba gtk_color_selection_set_previous_color
+	#define gtk_color_selection_set_current_rgba gtk_color_selection_set_current_color
+	#define vte_terminal_set_colors_rgba vte_terminal_set_colors
+	#define vte_terminal_set_color_foreground_rgba vte_terminal_set_color_foreground
+	#define vte_terminal_set_color_background_rgba vte_terminal_set_color_background
+	#define vte_terminal_set_color_bold_rgba vte_terminal_set_color_bold
+	#define vte_terminal_set_color_cursor_rgba vte_terminal_set_color_cursor
+	#define MAX_COLOR 0xFFFF
     #endif
 #else
     #define SCROLL_HISTORY 1024
@@ -527,12 +558,23 @@ struct Color
 
 #define THEME 7
 #define DEFAULT_THEME 0
-struct Color_Theme
+struct GdkColor_Theme
 {
 	gint index;
 	gchar *name;
 	GdkColor color[COLOR];
 };
+
+#ifdef USE_GDK_RGBA
+struct GdkRGBA_Theme
+{
+	gint index;
+	gchar *name;
+	GdkRGBA color[COLOR];
+};
+#else
+#  define GdkRGBA_Theme GdkColor_Theme
+#endif
 
 #ifdef ENABLE_VTE_ERASE_TTY
 	#define ERASE_BINDING 5
@@ -846,7 +888,7 @@ struct Window
 
 // ---- the color used in vte ---- //
 
-	GdkColor cursor_color;
+	GdkRGBA cursor_color;
 
 	// color datas
 	gint color_theme_index;
@@ -854,11 +896,11 @@ struct Window
 	gdouble color_brightness;
 	gdouble color_brightness_inactive;
 
-	struct Color_Theme custom_color_theme[THEME];
+	struct GdkRGBA_Theme custom_color_theme[THEME];
 	// the adjusted (include invert_color and color_brightness for color themes) colors
-	GdkColor color[COLOR];
+	GdkRGBA color[COLOR];
 	// the adjusted (include invert_color and color_brightness_inactive for color themes) colors
-	GdkColor color_inactive[COLOR];
+	GdkRGBA color_inactive[COLOR];
 
 	// color[] and color_orig[] will always be initd when creating a window.
 	GtkWidget *ansi_color_sub_menu;
@@ -974,8 +1016,8 @@ struct Window
 	gchar *find_string;
 	gboolean find_case_sensitive;
 	gboolean find_use_perl_regular_expressions;
-	GdkColor find_entry_bg_color;
-	GdkColor find_entry_current_bg_color;
+	GdkRGBA find_entry_bg_color;
+	GdkRGBA find_entry_current_bg_color;
 
 	gboolean checking_menu_item;
 	gboolean kill_color_demo_vte;

@@ -2708,7 +2708,7 @@ void dump_data (struct Window *win_data, struct Page *page_data)
 		for (j=0; j<COLOR; j++)
 		{
 			gchar *temp_str = g_strdup_printf("win_data->custom_color_theme[%d].color[%02d]", i, j);
-			print_color(-1, temp_str, win_data->custom_color_theme[j].color[i]);
+			print_color(-1, temp_str, win_data->custom_color_theme[i].color[j]);
 			g_free(temp_str);
 		}
 	}
@@ -2908,8 +2908,25 @@ void print_array(gchar *name, gchar **data)
 		g_debug("- %s = (NULL)", name);
 }
 
-void print_color(gint no, gchar *name, GdkColor color)
+void print_color(gint no, gchar *name, GdkRGBA color)
 {
+#  ifdef USE_GDK_RGBA
+	if (no<0)
+		g_debug("- %s = %0.4f, %0.4f, %0.4f, %0.4f",
+			name,
+			color.alpha,
+			color.red,
+			color.green,
+			color.blue);
+	else
+		g_debug("- %s (%2d) = %0.4f, %0.4f, %0.4f, %0.4f",
+			name,
+			no,
+			color.alpha,
+			color.red,
+			color.green,
+			color.blue);
+#  else
 	if (no<0)
 		g_debug("- %s = %04X, %04X, %04X, %04X",
 			name,
@@ -2925,6 +2942,7 @@ void print_color(gint no, gchar *name, GdkColor color)
 			color.red,
 			color.green,
 			color.blue);
+#  endif
 }
 #endif
 

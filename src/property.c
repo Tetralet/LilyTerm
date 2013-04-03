@@ -21,9 +21,9 @@
 
 extern gboolean proc_exist;
 extern struct Command command[COMMAND];
-extern struct Color_Theme system_color_theme[THEME];
+extern struct GdkRGBA_Theme system_color_theme[THEME];
 
-void create_theme_color_data(GdkColor color[COLOR], GdkColor color_orig[COLOR], gdouble color_brightness, gboolean invert_color,
+void create_theme_color_data(GdkRGBA color[COLOR], GdkRGBA color_orig[COLOR], gdouble color_brightness, gboolean invert_color,
 			     gboolean default_vte_theme, gboolean dim_fg_color)
 {
 #ifdef DETAIL
@@ -60,7 +60,7 @@ void create_theme_color_data(GdkColor color[COLOR], GdkColor color_orig[COLOR], 
 	// print_color(0, "create_theme_color_data(): new: bg color ", color[0]);
 }
 
-void adjust_ansi_color(GdkColor *color, GdkColor *color_orig, gdouble color_brightness)
+void adjust_ansi_color(GdkRGBA *color, GdkRGBA *color_orig, gdouble color_brightness)
 {
 #ifdef DETAIL
 	g_debug("! Launch adjust_ansi_color() with color = %p, color_orig = %p, color_brightness = %3f",
@@ -71,9 +71,9 @@ void adjust_ansi_color(GdkColor *color, GdkColor *color_orig, gdouble color_brig
 #endif
 	if (color_brightness>=0)
 	{
-		color->red = (0xffff - color_orig->red) * color_brightness + color_orig->red;
-		color->green = (0xffff - color_orig->green) * color_brightness + color_orig->green;
-		color->blue = (0xffff - color_orig->blue) * color_brightness + color_orig->blue;
+		color->red = (MAX_COLOR - color_orig->red) * color_brightness + color_orig->red;
+		color->green = (MAX_COLOR - color_orig->green) * color_brightness + color_orig->green;
+		color->blue = (MAX_COLOR - color_orig->blue) * color_brightness + color_orig->blue;
 	}
 	else
 	{
@@ -91,14 +91,14 @@ void generate_all_color_datas(struct Window *win_data)
 #ifdef SAFEMODE
 	if (win_data==NULL) return;
 #endif
-	GdkColor *temp_color = get_current_color_theme(win_data);
+	GdkRGBA *temp_color = get_current_color_theme(win_data);
 
 	gboolean default_vte_theme = use_default_vte_theme(win_data);
 	create_theme_color_data(win_data->color, temp_color, win_data->color_brightness, win_data->invert_color, default_vte_theme, FALSE);
 	create_theme_color_data(win_data->color_inactive, temp_color, win_data->color_brightness_inactive, win_data->invert_color, default_vte_theme, TRUE);
 }
 
-GdkColor *get_current_color_theme(struct Window *win_data)
+GdkRGBA *get_current_color_theme(struct Window *win_data)
 {
 #ifdef DETAIL
 	g_debug("! Launch current_color_theme() with win_data = %p", win_data);
@@ -247,7 +247,7 @@ void set_hyprelink(struct Window *win_data, struct Page *page_data)
 		vte_terminal_match_clear_all(VTE_TERMINAL(page_data->vte));
 }
 
-void set_vte_color(GtkWidget *vte, gboolean default_vte_color, GdkColor cursor_color, GdkColor color[COLOR], gboolean update_fg_only)
+void set_vte_color(GtkWidget *vte, gboolean default_vte_color, GdkRGBA cursor_color, GdkRGBA color[COLOR], gboolean update_fg_only)
 {
 #ifdef DETAIL
 	g_debug("! Launch set_vte_color() with vte = %p, default_vte_color_theme = %d,  color = %p",
@@ -267,20 +267,20 @@ void set_vte_color(GtkWidget *vte, gboolean default_vte_color, GdkColor cursor_c
 		vte_terminal_set_default_colors(VTE_TERMINAL(vte));
 
 		if (default_vte_color)
-			vte_terminal_set_color_background(VTE_TERMINAL(vte), &(color[0]));
+			vte_terminal_set_color_background_rgba(VTE_TERMINAL(vte), &(color[0]));
 		else
-			vte_terminal_set_colors(VTE_TERMINAL(vte), &(color[COLOR-1]), &(color[0]), color, 16);
+			vte_terminal_set_colors_rgba(VTE_TERMINAL(vte), &(color[COLOR-1]), &(color[0]), color, 16);
 
-		vte_terminal_set_background_tint_color (VTE_TERMINAL(vte), &(color[0]));
+		dirty_vte_terminal_set_background_tint_color(VTE_TERMINAL(vte), color[0]);
 	}
 
 	if (default_vte_color | update_fg_only)
-		vte_terminal_set_color_foreground(VTE_TERMINAL(vte), &(color[COLOR-1]));
+		vte_terminal_set_color_foreground_rgba(VTE_TERMINAL(vte), &(color[COLOR-1]));
 
-	vte_terminal_set_colors(VTE_TERMINAL(vte), &(color[COLOR-1]), &(color[0]), color, 16);
+	vte_terminal_set_colors_rgba(VTE_TERMINAL(vte), &(color[COLOR-1]), &(color[0]), color, 16);
 
 	// print_color(-1, "set_vte_color(): cursor_color", cursor_color);
-	vte_terminal_set_color_cursor(VTE_TERMINAL(vte), &(cursor_color));
+	vte_terminal_set_color_cursor_rgba(VTE_TERMINAL(vte), &(cursor_color));
 }
 
 gboolean use_default_vte_theme(struct Window *win_data)
@@ -479,7 +479,7 @@ gboolean set_background_saturation(GtkRange *range, GtkScrollType scroll, gdoubl
 			vte_terminal_set_background_saturation( VTE_TERMINAL(vte), 0);
 	}
 
-	vte_terminal_set_background_tint_color (VTE_TERMINAL(page_data->vte), &(win_data->color[0]));
+	dirty_vte_terminal_set_background_tint_color(VTE_TERMINAL(page_data->vte), win_data->color[0]);
 	return FALSE;
 }
 
@@ -840,7 +840,7 @@ void apply_new_win_data_to_page (struct Window *win_data_orig,
 }
 
 // Will return TRUE if a and b are NOT the same.
-gboolean compare_color(GdkColor *a, GdkColor *b)
+gboolean compare_color(GdkRGBA *a, GdkRGBA *b)
 {
 #ifdef DETAIL
 	g_debug("! Launch compare_color()!");
@@ -852,6 +852,8 @@ gboolean compare_color(GdkColor *a, GdkColor *b)
 #endif
 	// g_debug("compare_color(): Comparing %04X %04X %04X %04X and %04X %04X %04X %04X",
 	//	a->pixel, a->red, a->green, a->blue, b->pixel, b->red, b->green, b->blue);
+	// g_debug("compare_color(): Comparing %0.4f %0.4f %0.4f and %0.4f %0.4f %0.4f",
+	//	a->red, a->green, a->blue, b->red, b->green, b->blue);
 	if ((a->red != b->red) ||
 	    (a->green != b->green ) ||
 	    (a->blue != b->blue))

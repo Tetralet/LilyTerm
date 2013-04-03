@@ -201,6 +201,9 @@ int main( int   argc,
 	// FIXME: signal(SIGCHLD, SIG_IGN);
 	// The first window of LilyTerm
 
+	// Convert the GdkColor to GdkRGBA
+	convert_system_color_to_rgba();
+
 	// g_debug("Got original encoding = %s", get_encoding_from_locale(NULL));
 	//GtkNotebook *new_window(int argc,
 	//			char *argv[],

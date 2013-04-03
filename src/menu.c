@@ -23,7 +23,7 @@
 extern GList *window_list;
 extern GtkWidget *menu_active_window;
 extern struct Page_Color page_color[PAGE_COLOR];
-extern struct Color_Theme system_color_theme[THEME];
+extern struct GdkRGBA_Theme system_color_theme[THEME];
 extern struct Erase_Binding erase_binding[ERASE_BINDING];
 #ifdef ENABLE_CURSOR_SHAPE
 extern struct Cursor_Shape cursor_shape[CURSOR_SHAPE];

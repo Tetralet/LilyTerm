@@ -233,7 +233,7 @@ for DATA in `$CAT $LIB_LISTS | sed '/^\/\*/,/ \*\/$/d' | sed -e 's/[ \t]*\/\*[ \
 				case $STR in
 					'...')
 						;;
-					'GtkWidget*' | 'GSourceFunc' | 'gpointer' | 'GtkColorSelection*' | 'GtkTreePath*' | 'GtkTreeModel*' | 'GtkTreeIter*' | 'GdkEvent*' | 'GdkEventKey*' | 'GtkCellLayout*' | 'GtkTreeSelection*' | 'GtkClipboard*' | 'GError*' | 'GSList*' | 'GIOChannel*' | 'GtkFileChooser*' | 'GtkRequisition*' | 'GdkEventButton*' | 'GtkStyle*' | 'GtkAllocation*' | 'GdkEventFocus*' | 'GdkEventWindowState*' | 'GdkColor []' | 'PangoFontFamily*' | 'PangoFontFace*')
+					'GtkWidget*' | 'GSourceFunc' | 'gpointer' | 'GtkColorSelection*' | 'GtkTreePath*' | 'GtkTreeModel*' | 'GtkTreeIter*' | 'GdkEvent*' | 'GdkEventKey*' | 'GtkCellLayout*' | 'GtkTreeSelection*' | 'GtkClipboard*' | 'GError*' | 'GSList*' | 'GIOChannel*' | 'GtkFileChooser*' | 'GtkRequisition*' | 'GdkEventButton*' | 'GtkStyle*' | 'GtkAllocation*' | 'GdkEventFocus*' | 'GdkEventWindowState*' | 'GdkColor []' | 'GdkRGBA []' | 'PangoFontFamily*' | 'PangoFontFace*')
 						FUNCTION="$FUNCTION NULL,"
 						;;
 					'GKeyFile*'|'GdkColor')
@@ -253,6 +253,10 @@ for DATA in `$CAT $LIB_LISTS | sed '/^\/\*/,/ \*\/$/d' | sed -e 's/[ \t]*\/\*[ \
 								FUNC_STAR="$FUNC_STAR\n$SPACE""GdkColor V$VAR;\n$SPACE""V$VAR.red=0xFFFF;\n$SPACE""V$VAR.green=0xFFFF;\n$SPACE""V$VAR.blue=0xFFFF;"
 								FUNCTION="$FUNCTION V$VAR,"
 								;;
+							'GdkRGBA')
+								FUNC_STAR="$FUNC_STAR\n$SPACE""GdkRGBA V$VAR;\n$SPACE""V$VAR.red=1;\n$SPACE""V$VAR.green=0xFFFF;\n$SPACE""V$VAR.blue=0xFFFF;"
+								FUNCTION="$FUNCTION V$VAR,"
+								;;
 						esac
 						if [ -n "$FUNC_END" ]; then
 							FUNC_END="\n$FUNC_END"
@@ -261,7 +265,7 @@ for DATA in `$CAT $LIB_LISTS | sed '/^\/\*/,/ \*\/$/d' | sed -e 's/[ \t]*\/\*[ \
 						unset FUN_DATA
 						SPACE=$OLD_SPACE
 						;;
-					'gboolean' | 'gchar' | 'guint' | 'GtkScrollType' | 'gint' | 'pid_t' | 'int' | 'gsize' | 'glong' | 'GdkColor' | 'Dialog_Button_Type' | 'Dialog_Find_Type' | 'Dialog_Type_Flags' | 'Font_Name_Type' | 'Key_Bindings' | 'Hints_Type' | 'Window_Status' | 'Geometry_Resize_Type' | 'Font_Reset_Type' | 'Switch_Type' | 'Font_Set_Type' | 'Set_ANSI_Theme_Type' | 'GtkFileChooserAction' | 'GIOCondition' | 'Check_Zero' | 'Check_Max' | 'Check_Min' | 'Check_Empty' | 'Menu_Itemn_Type' | 'Apply_Profile_Type' | 'Clipboard_Type' | 'gchar*' | 'char*' | 'StrLists*' | 'StrAddr**' | 'gdouble' | 'struct Dialog*' | 'struct Window*' | 'struct Page*' | 'struct Color_Data*' | 'struct Preview*' | 'GtkButton*' | 'GtkCellRenderer*' | 'GtkRange*' | 'gchar**' | 'char*[]' | 'char**' | 'gsize*' | 'GString*' | 'GtkNotebook*' | 'GdkColor*' | 'VteTerminal*'  | 'gboolean*' | 'gint*' | 'guint*')
+					'gboolean' | 'gchar' | 'guint' | 'GtkScrollType' | 'gint' | 'pid_t' | 'int' | 'gsize' | 'glong' | 'GdkColor' | 'GdkRGBA' | 'Dialog_Button_Type' | 'Dialog_Find_Type' | 'Dialog_Type_Flags' | 'Font_Name_Type' | 'Key_Bindings' | 'Hints_Type' | 'Window_Status' | 'Geometry_Resize_Type' | 'Font_Reset_Type' | 'Switch_Type' | 'Font_Set_Type' | 'Set_ANSI_Theme_Type' | 'GtkFileChooserAction' | 'GIOCondition' | 'Check_Zero' | 'Check_Max' | 'Check_Min' | 'Check_Empty' | 'Menu_Itemn_Type' | 'Apply_Profile_Type' | 'Clipboard_Type' | 'gchar*' | 'char*' | 'StrLists*' | 'StrAddr**' | 'gdouble' | 'struct Dialog*' | 'struct Window*' | 'struct Page*' | 'struct Color_Data*' | 'struct Preview*' | 'GtkButton*' | 'GtkCellRenderer*' | 'GtkRange*' | 'gchar**' | 'char*[]' | 'char**' | 'gsize*' | 'GString*' | 'GtkNotebook*' | 'GdkColor*' | 'GdkRGBA' | 'VteTerminal*'  | 'gboolean*' | 'gint*' | 'guint*')
 						SPACE="$SPACE""_SPACE_"
 						VAR=`expr $VAR + 1`
 						if [ $MAX_VAR -le $VAR ]; then
@@ -375,6 +379,11 @@ for DATA in `$CAT $LIB_LISTS | sed '/^\/\*/,/ \*\/$/d' | sed -e 's/[ \t]*\/\*[ \
 							'GdkColor*')
 								FUNC_STAR="$FUNC_STAR\n$SPACE""for (V[$VAR]=0; V[$VAR]<2; V[$VAR]++) {"
 								FUNC_STAR="$FUNC_STAR\n$SPACE""_SPACE_""GdkColor *V$VAR = NULL;\n$SPACE""_SPACE_""GdkColor color;\n""$SPACE""_SPACE_""if (V[$VAR]) {\n$SPACE""_SPACE__SPACE_""color.red=0xFFFF;\n$SPACE""_SPACE__SPACE_""color.green=0xFFFF;\n$SPACE""_SPACE__SPACE_""color.blue=0xFFFF;\n$SPACE""_SPACE__SPACE_""V$VAR = &color;\n""$SPACE""_SPACE_""}"
+								FUNCTION="$FUNCTION V$VAR,"
+								;;
+							'GdkRGBA*')
+								FUNC_STAR="$FUNC_STAR\n$SPACE""for (V[$VAR]=0; V[$VAR]<2; V[$VAR]++) {"
+								FUNC_STAR="$FUNC_STAR\n$SPACE""_SPACE_""GdkRGBA *V$VAR = NULL;\n$SPACE""_SPACE_""GdkRGBA color;\n""$SPACE""_SPACE_""if (V[$VAR]) {\n$SPACE""_SPACE__SPACE_""color.red=0xFFFF;\n$SPACE""_SPACE__SPACE_""color.green=1;\n$SPACE""_SPACE__SPACE_""color.blue=0xFFFF;\n$SPACE""_SPACE__SPACE_""V$VAR = &color;\n""$SPACE""_SPACE_""}"
 								FUNCTION="$FUNCTION V$VAR,"
 								;;
 							'VteTerminal*')

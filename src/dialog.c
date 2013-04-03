@@ -31,13 +31,13 @@ extern gchar *key_groups[KEY_GROUP];
 extern struct KeyValue system_keys[KEYS];
 extern gchar *init_LC_CTYPE;
 extern struct Color color[COLOR];
-extern struct Color_Theme system_color_theme[THEME];
+extern struct GdkRGBA_Theme system_color_theme[THEME];
 
 gint dialog_activated = 0;
 gboolean force_to_quit = FALSE;
 gboolean using_kill = FALSE;
 
-GdkColor entry_not_find_bg_color = {0, 0xffff, 0xbcbc, 0xbcbc};
+GdkRGBA entry_not_find_bg_color = {0, 0xffff, 0xbcbc, 0xbcbc};
 
 // EDIT_LABEL,
 // FIND_STRING,
@@ -222,9 +222,14 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 			dialog_data->operate[0] = gtk_entry_new ();
 			g_signal_connect(G_OBJECT(dialog_data->operate[0]), "changed",
 						  G_CALLBACK(refresh_regex_settings), win_data);
-
+#ifdef USE_GDK_RGBA
+			GtkStyleContext *rc_style = gtk_widget_get_style_context (dialog_data->operate[0]);
+			gtk_style_context_add_class(rc_style, GTK_STYLE_CLASS_ENTRY);
+			gtk_style_context_get_background_color (rc_style, 0, &(win_data->find_entry_bg_color));
+#else
 			GtkStyle *rc_style = gtk_widget_get_style (dialog_data->operate[0]);
 			win_data->find_entry_bg_color = rc_style->base[GTK_STATE_NORMAL];
+#endif
 			g_object_unref(rc_style);
 
 			win_data->find_entry_current_bg_color = win_data->find_entry_bg_color;
@@ -595,15 +600,24 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 			dialog_data->original_use_custom_theme = win_data->use_custom_theme;
 
 			// ---- Create the ANSI color buttons ----
+#ifdef USE_GTK_GRID
+			dialog_data->ansi_table = gtk_grid_new();
+#else
 			dialog_data->ansi_table = gtk_table_new (2, COLOR/2, TRUE);
+#endif
 
 			gint i;
 			for (i=COLOR-1; i>=0; i--)
 			{
 				dialog_data->color_button[i] = gtk_button_new();
+#ifdef USE_GTK_GRID
+				gtk_grid_attach(GTK_GRID(dialog_data->ansi_table), dialog_data->color_button[i],
+						(COLOR-1-i)%(COLOR/2), (COLOR-1-i)/(COLOR/2), 1, 1);
+#else
 				gtk_table_attach_defaults(GTK_TABLE(dialog_data->ansi_table), dialog_data->color_button[i],
 							  (COLOR-1-i)%(COLOR/2), (COLOR-1-i)%(COLOR/2)+1,
 							  (COLOR-1-i)/(COLOR/2), (COLOR-1-i)/(COLOR/2)+1);
+#endif
 				g_signal_connect(G_OBJECT(dialog_data->color_button[i]), "clicked", G_CALLBACK(update_ansi_color_info), GINT_TO_POINTER (i));
 			}
 			init_dialog_ansi_colors_from_win_data(win_data, dialog_data);
@@ -1474,7 +1488,7 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 						case CHANGE_THE_TEXT_COLOR_OF_NORMAL_TEXT:
 						{
 							gint page_color_type = style - CHANGE_THE_TEXT_COLOR_OF_WINDOW_TITLE;
-							gchar *new_color = gdk_color_to_string(&(dialog_data->original_color));
+							gchar *new_color = gdk_rgba_to_string(&(dialog_data->original_color));
 
 							struct Page *tmp_page_data = NULL;
 							for (i=0; i<gtk_notebook_get_n_pages(GTK_NOTEBOOK(win_data->notebook)); i++)
@@ -1517,7 +1531,7 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 								case CHANGE_THE_FOREGROUND_COLOR:
 								case CHANGE_THE_BACKGROUND_COLOR:
 								case CHANGE_THE_CURSOR_COLOR:
-									adjust_vte_color(GTK_COLOR_SELECTION(dialog_data->operate[0]),
+									adjust_vte_color(GTK_COLOR_CHOOSER(dialog_data->operate[0]),
 													      tmp_page_data->vte);
 									break;
 							}
@@ -1694,7 +1708,7 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 					if (style!=CHANGE_BACKGROUND_SATURATION)
 					{
 						dialog_data->recover = TRUE;
-						adjust_vte_color(GTK_COLOR_SELECTION(dialog_data->operate[0]),
+						adjust_vte_color(GTK_COLOR_CHOOSER(dialog_data->operate[0]),
 										     win_data->current_vte);
 					}
 					break;
@@ -1882,7 +1896,7 @@ void update_color_buttons(struct Window *win_data, struct Dialog *dialog_data)
 	if (settings) gtk_icon_size_lookup_for_settings (settings, GTK_ICON_SIZE_MENU, &width, &height);
 
 	// Get the color theme
-	GdkColor* temp_color;
+	GdkRGBA* temp_color;
 	if (win_data->use_custom_theme)
 		temp_color = win_data->custom_color_theme[win_data->color_theme_index].color;
 	else
@@ -1893,10 +1907,17 @@ void update_color_buttons(struct Window *win_data, struct Dialog *dialog_data)
 	{
 		color_index = get_color_index(win_data->invert_color, i);
 		GdkPixbuf *pixbuf = gdk_pixbuf_new (GDK_COLORSPACE_RGB, FALSE, 8, width, height);
+#ifdef USE_GDK_RGBA
+		gdk_pixbuf_fill (pixbuf,
+				 (guint32)(temp_color[color_index].red   *0xFF) << 24 |
+				 (guint32)(temp_color[color_index].green *0xFF) << 16 |
+				 (guint32)(temp_color[color_index].blue  *0xFF) << 8);
+#else
 		gdk_pixbuf_fill (pixbuf,
 				 (guint32) (temp_color[color_index].red   >> 8) << 24 |
 					   (temp_color[color_index].green >> 8) << 16 |
 					   (temp_color[color_index].blue  >> 8) << 8);
+#endif
 
 		GtkWidget *image = gtk_image_new_from_pixbuf (pixbuf);
 #ifdef SAFEMODE
@@ -1904,7 +1925,7 @@ void update_color_buttons(struct Window *win_data, struct Dialog *dialog_data)
 #endif
 			gtk_button_set_image(GTK_BUTTON(dialog_data->color_button[i]), image);
 #ifdef DEBUG
-		gchar *color_string = gdk_color_to_string(&(temp_color[color_index]));
+		gchar *color_string = gdk_rgba_to_string(&(temp_color[color_index]));
 		gchar *temp_str =  g_strdup_printf("%s [%d] - %s", color[i].translation, color_index, color_string);
 #  ifdef ENABLE_SET_TOOLTIP_TEXT
 #    ifdef SAFEMODE
@@ -1964,7 +1985,7 @@ void clear_custom_colors_data(struct Window *win_data, gboolean update_fg)
 			win_data->custom_color_theme[i].color[j] = system_color_theme[i].color[j];
 }
 
-void update_fg_bg_color(struct Window *win_data, GdkColor color, gboolean update_fg)
+void update_fg_bg_color(struct Window *win_data, GdkRGBA color, gboolean update_fg)
 {
 #ifdef DETAIL
 	g_debug("! Launch update_fg_bg_color() with win_data = %p, update_fg = %d", win_data, update_fg);
@@ -1990,7 +2011,7 @@ void update_fg_bg_color(struct Window *win_data, GdkColor color, gboolean update
 		//	  marked for temporary.
 		// background_saturation =
 		//	gtk_color_selection_get_current_alpha(
-		//		GTK_COLOR_SELECTION(adjustment))/65535;
+		//		GTK_COLOR_CHOOSER(adjustment))/65535;
 	}
 
 	gint i, index = get_color_index(win_data->invert_color, color_index);
@@ -2044,8 +2065,7 @@ void update_ansi_color_info(GtkWidget *button, gint color_index)
 #ifdef SAFEMODE
 	if (dialog_data->operate[0]==NULL) return;
 #endif
-	gtk_color_selection_set_previous_color (GTK_COLOR_SELECTION(dialog_data->operate[0]), &(dialog_data->ansi_colors_orig[convert_index]));
-	gtk_color_selection_set_current_color (GTK_COLOR_SELECTION(dialog_data->operate[0]), &(dialog_data->ansi_colors_orig[convert_index]));
+	set_color_selection_colors(dialog_data->operate[0], &(dialog_data->ansi_colors_orig[convert_index]));
 	// win_data->temp_index will point to the color index in color_orig
 	win_data->temp_index = convert_index;
 	// g_debug("Launch update_ansi_color_info(): win_data->temp_index = %d", win_data->temp_index);
@@ -2197,7 +2217,7 @@ void refresh_regex(struct Window *win_data, struct Dialog *dialog_data)
 			g_object_unref(rc_style);
 #  else
 			GdkRGBA gdkrgba;
-			gchar *color_string = gdk_color_to_string(&(win_data->find_entry_current_bg_color));
+			gchar *color_string = gdk_rgba_to_string(&(win_data->find_entry_current_bg_color));
 			gdk_rgba_parse (&gdkrgba, color_string);
 			gtk_widget_override_background_color(dialog_data->operate[0], 0, &gdkrgba);
 			g_free(color_string);
@@ -2458,18 +2478,20 @@ void create_color_selection_widget(struct Dialog *dialog_data, GSourceFunc func,
 	if (dialog_data==NULL) return;
 #endif
 
+#ifdef HAVE_GTK_COLOR_CHOOSER
+	dialog_data->operate[0] = gtk_color_chooser_widget_new();
+	g_object_set (dialog_data->operate[0], "show-editor", TRUE, NULL);
+#else
 	dialog_data->operate[0] = gtk_color_selection_new();
 	// save the color data first
-	gtk_color_selection_set_has_opacity_control(GTK_COLOR_SELECTION(dialog_data->operate[0]),
+	gtk_color_selection_set_has_opacity_control(GTK_COLOR_CHOOSER(dialog_data->operate[0]),
 						    FALSE);
-	gtk_color_selection_set_has_palette(GTK_COLOR_SELECTION(dialog_data->operate[0]), FALSE);
+	gtk_color_selection_set_has_palette(GTK_COLOR_CHOOSER(dialog_data->operate[0]), FALSE);
+#endif
 	dialog_data->recover = FALSE;
 
-	// set the previous/current color of gtk_color_selection dialog
-	gtk_color_selection_set_previous_color (GTK_COLOR_SELECTION(dialog_data->operate[0]),
-						&(dialog_data->original_color));
-	gtk_color_selection_set_current_color ( GTK_COLOR_SELECTION(dialog_data->operate[0]),
-						&(dialog_data->original_color));
+	set_color_selection_colors(dialog_data->operate[0], &(dialog_data->original_color));
+
 #ifdef SAFEMODE
 	if (dialog_data->box!=NULL)
 #endif
@@ -2479,6 +2501,17 @@ void create_color_selection_widget(struct Dialog *dialog_data, GSourceFunc func,
 #endif
 		g_signal_connect_after(dialog_data->operate[0], "color-changed",
 				       G_CALLBACK(func), func_data);
+}
+
+void set_color_selection_colors(GtkWidget *color_selection, GdkRGBA *color)
+{
+#ifdef USE_GDK_RGBA
+	gtk_color_chooser_set_rgba(GTK_COLOR_CHOOSER(color_selection), color);
+#else
+	// set the previous/current color of GTK_COLOR_CHOOSER dialog
+	gtk_color_selection_set_previous_rgba(GTK_COLOR_CHOOSER(color_selection), color);
+	gtk_color_selection_set_current_rgba(GTK_COLOR_CHOOSER(color_selection), color);
+#endif
 }
 
 void create_scale_widget(struct Dialog *dialog_data, gdouble min, gdouble max, gdouble step, gdouble value,
@@ -2752,7 +2785,7 @@ gchar *deal_dialog_key_press_join_string(StrAddr **key_value, gchar *separator, 
 	return join_string;
 }
 
-void adjust_vte_color(GtkColorSelection *colorselection, GtkWidget *vte)
+void adjust_vte_color(GtkColorChooser *colorselection, GtkWidget *vte)
 {
 #ifdef DETAIL
 	g_debug("! Launch adjust_vte_color() with colorselection = %p, vte = %p", colorselection, vte);
@@ -2792,9 +2825,9 @@ void adjust_vte_color(GtkColorSelection *colorselection, GtkWidget *vte)
 			    ((dialog_data->type==CHANGE_THE_ANSI_COLORS) && (converted_index==(COLOR-1))))
 			{
 				if (! dialog_data->recover)
-					gtk_color_selection_get_current_color (colorselection, &(dialog_data->original_color));
-				vte_terminal_set_color_foreground(VTE_TERMINAL(vte), &(dialog_data->original_color));
-				vte_terminal_set_color_bold (VTE_TERMINAL(vte), &(dialog_data->original_color));
+					gtk_color_chooser_get_rgba(colorselection, &(dialog_data->original_color));
+				vte_terminal_set_color_foreground_rgba(VTE_TERMINAL(vte), &(dialog_data->original_color));
+				vte_terminal_set_color_bold_rgba(VTE_TERMINAL(vte), &(dialog_data->original_color));
 
 				if (dialog_data->type==CHANGE_THE_ANSI_COLORS)
 				{
@@ -2807,7 +2840,7 @@ void adjust_vte_color(GtkColorSelection *colorselection, GtkWidget *vte)
 			{
 				if (! dialog_data->recover)
 				{
-					gtk_color_selection_get_current_color (colorselection, &(dialog_data->original_color));
+					gtk_color_chooser_get_rgba(colorselection, &(dialog_data->original_color));
 					// FIXME: GtkColorSelection have no ALPHA CHANGED signal.
 					//	  so that the following code should be marked for temporary
 					//if (use_rgba)
@@ -2821,8 +2854,8 @@ void adjust_vte_color(GtkColorSelection *colorselection, GtkWidget *vte)
 				//else if (use_rgba)
 				//	set_background_saturation(NULL, 0, background_saturation, vte);
 
-				vte_terminal_set_color_background(VTE_TERMINAL(vte), &(dialog_data->original_color));
-				vte_terminal_set_background_tint_color (VTE_TERMINAL(vte), &(dialog_data->original_color));
+				vte_terminal_set_color_background_rgba(VTE_TERMINAL(vte), &(dialog_data->original_color));
+				dirty_vte_terminal_set_background_tint_color(VTE_TERMINAL(vte), dialog_data->original_color);
 				if (dialog_data->type==CHANGE_THE_ANSI_COLORS)
 				{
 					dialog_data->ansi_colors[converted_index] = dialog_data->original_color;
@@ -2835,8 +2868,8 @@ void adjust_vte_color(GtkColorSelection *colorselection, GtkWidget *vte)
 				// win_data->temp_index == -1: update_ansi_color_info() is called.
 				if (win_data->temp_index > -1)
 				{
-					GdkColor tmp_color;
-					gtk_color_selection_get_current_color (colorselection, &tmp_color);
+					GdkRGBA tmp_color;
+					gtk_color_chooser_get_rgba(colorselection, &tmp_color);
 
 					// g_debug("adjust_vte_color(): update the %d color of colors_orig", win_data->temp_index);
 					dialog_data->ansi_colors_orig[win_data->temp_index] = tmp_color;
@@ -2852,8 +2885,8 @@ void adjust_vte_color(GtkColorSelection *colorselection, GtkWidget *vte)
 		}
 		case CHANGE_THE_CURSOR_COLOR:
 			if (! dialog_data->recover)
-				gtk_color_selection_get_current_color (colorselection, &(dialog_data->original_color));
-			vte_terminal_set_color_cursor(VTE_TERMINAL(vte), &(dialog_data->original_color));
+				gtk_color_chooser_get_rgba(colorselection, &(dialog_data->original_color));
+			vte_terminal_set_color_cursor_rgba(VTE_TERMINAL(vte), &(dialog_data->original_color));
 			break;
 		case CHANGE_THE_TEXT_COLOR_OF_WINDOW_TITLE:
 		case CHANGE_THE_TEXT_COLOR_OF_CMDLINE:
@@ -2864,9 +2897,9 @@ void adjust_vte_color(GtkColorSelection *colorselection, GtkWidget *vte)
 		{
 			// the change of color will be shown(demo) in 1st page and demo page.
 			gchar *current_color = NULL;
-			gtk_color_selection_get_current_color (colorselection, &(dialog_data->original_color));
+			gtk_color_chooser_get_rgba(colorselection, &(dialog_data->original_color));
 #ifdef ENABLE_GDKCOLOR_TO_STRING
-			current_color = gdk_color_to_string(&(dialog_data->original_color));
+			current_color = gdk_rgba_to_string(&(dialog_data->original_color));
 #endif
 			struct Page *page_data = (struct Page *)g_object_get_data(G_OBJECT(vte), "Page_Data");
 #ifdef SAFEMODE
@@ -3113,13 +3146,13 @@ gboolean set_ansi_color(GtkRange *range, GtkScrollType scroll, gdouble value, Gt
 }
 
 
-GdkColor get_inactive_color(GdkColor original_fg_color, gdouble new_brightness, gdouble old_brightness)
+GdkRGBA get_inactive_color(GdkRGBA original_fg_color, gdouble new_brightness, gdouble old_brightness)
 {
 #ifdef DETAIL
 	g_debug("! Launch get_inactive_color() with new_brightness = %3f, "
 		"old_brightness = %3f!", new_brightness, old_brightness);
 #endif
-	GdkColor inactive_color;
+	GdkRGBA inactive_color;
 	if (new_brightness < old_brightness)
 		adjust_ansi_color(&inactive_color,
 					    &(original_fg_color),
@@ -3133,8 +3166,8 @@ GdkColor get_inactive_color(GdkColor original_fg_color, gdouble new_brightness, 
 	return inactive_color;
 }
 
-void set_new_ansi_color(GtkWidget *vte, GdkColor color[COLOR], GdkColor color_orig[COLOR], gdouble color_brightness,
-			gboolean invert_color, gboolean default_vte_color, GdkColor cursor_color, gboolean dim_fg_color)
+void set_new_ansi_color(GtkWidget *vte, GdkRGBA color[COLOR], GdkRGBA color_orig[COLOR], gdouble color_brightness,
+			gboolean invert_color, gboolean default_vte_color, GdkRGBA cursor_color, gboolean dim_fg_color)
 {
 #ifdef DETAIL
 	g_debug("! Launch set_new_ansi_color() with vte = %p, color_brightness = %3f, invert_color = %d, default_vte_color = %d",

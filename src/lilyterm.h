@@ -48,9 +48,12 @@ gchar **get_pid_stat(pid_t pid, gint max_tokens);
 gchar *convert_text_to_html(StrAddr **text, gboolean free_text, gchar *color, StrLists *tag, ...);
 gchar *join_strings_to_string(const gchar separator, const gint total, const StrLists *string, ...);
 gchar *colorful_max_new_lines(gchar *string, gint max, gint output_line);
-gboolean dirty_gdk_color_parse(const gchar *spec, GdkColor *color);
+GdkRGBA convert_color_to_rgba(GdkColor color);
+GdkColor convert_rgba_to_color(GdkRGBA rgba);
+gboolean dirty_gdk_color_parse(const gchar *spec, GdkRGBA *color);
 GtkWidget *dirty_gtk_vbox_new(gboolean homogeneous, gint spacing);
 GtkWidget *dirty_gtk_hbox_new(gboolean homogeneous, gint spacing);
+void dirty_vte_terminal_set_background_tint_color(VteTerminal *vte, const GdkRGBA rgba);
 #if defined(GEOMETRY) || defined(UNIT_TEST)
 void widget_size_allocate (GtkWidget *widget, GtkAllocation *allocation, gchar *name);
 #endif
@@ -134,12 +137,12 @@ gboolean confirm_to_paste_form_clipboard(Clipboard_Type type, struct Window *win
 gboolean show_clipboard_dialog(Clipboard_Type type, struct Window *win_data,
 			       struct Page *page_data, Dialog_Type_Flags dialog_type);
 
-void print_color(gint no, gchar *name, GdkColor color);
+void print_color(gint no, gchar *name, GdkRGBA color);
 
 //
 // **************************** profile.c ****************************
 //
-
+void convert_system_color_to_rgba();
 void init_page_parameters(struct Window *win_data, struct Page *page_data);
 void init_user_color(struct Window *win_data, gchar *theme_name);
 void init_locale_restrict_data(gchar *lc_messages);
@@ -161,15 +164,15 @@ void init_rgba(struct Window *win_data);
 // **************************** property.c ****************************
 //
 
-void create_theme_color_data(GdkColor color[COLOR], GdkColor color_orig[COLOR], gdouble color_brightness, gboolean invert_color,
+void create_theme_color_data(GdkRGBA color[COLOR], GdkRGBA color_orig[COLOR], gdouble color_brightness, gboolean invert_color,
 			     gboolean default_vte_theme, gboolean dim_fg_color);
-void adjust_ansi_color(GdkColor *color, GdkColor *color_orig, gdouble color_brightness);
+void adjust_ansi_color(GdkRGBA *color, GdkRGBA *color_orig, gdouble color_brightness);
 void generate_all_color_datas(struct Window *win_data);
-GdkColor *get_current_color_theme(struct Window *win_data);
+GdkRGBA *get_current_color_theme(struct Window *win_data);
 void init_new_page(struct Window *win_data, struct Page *page_data, glong column, glong row);
 void set_cursor_blink(struct Window *win_data, struct Page *page_data);
 void set_hyprelink(struct Window *win_data, struct Page *page_data);
-void set_vte_color(GtkWidget *vet, gboolean default_vte_color, GdkColor cursor_color, GdkColor color[COLOR], gboolean update_fg_only);
+void set_vte_color(GtkWidget *vet, gboolean default_vte_color, GdkRGBA cursor_color, GdkRGBA color[COLOR], gboolean update_fg_only);
 gboolean use_default_vte_theme(struct Window *win_data);
 void set_page_width(struct Window *win_data, struct Page *page_data);
 void pack_vte_and_scroll_bar_to_hbox(struct Window *win_data, struct Page *page_data);
@@ -181,7 +184,7 @@ gboolean set_window_opacity (GtkRange *range, GtkScrollType scroll, gdouble valu
 void fake_vte_terminal_get_padding(VteTerminal *vte, gint *width, gint *height);
 #endif
 void apply_new_win_data_to_page (struct Window *win_data_orig, struct Window *win_data, struct Page *page_data);
-gboolean compare_color(GdkColor *a, GdkColor *b);
+gboolean compare_color(GdkRGBA *a, GdkRGBA *b);
 gboolean check_show_or_hide_scroll_bar(struct Window *win_data);
 void show_and_hide_scroll_bar(struct Page *page_data, gboolean show_scroll_bar);
 void set_widget_thickness(GtkWidget *widget, gint thickness);
@@ -267,7 +270,7 @@ void error_dialog(GtkWidget *window, gchar *title_translation, gchar *title,
 #if defined(FATAL) || defined(UNIT_TEST)
 void print_switch_out_of_range_error_dialog(gchar *function, gchar *var, gint value);
 #endif
-GdkColor get_inactive_color(GdkColor original_fg_color, gdouble new_brightness, gdouble old_brightness);
+GdkRGBA get_inactive_color(GdkRGBA original_fg_color, gdouble new_brightness, gdouble old_brightness);
 gboolean upgrade_dialog(gchar *version_str);
 gchar *get_colorful_profile(struct Window *win_data);
 

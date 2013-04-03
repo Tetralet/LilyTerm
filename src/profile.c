@@ -36,7 +36,12 @@ struct Color color[COLOR] = {{0}};
 struct Page_Color page_color[PAGE_COLOR] = {{0}};
 gchar *restricted_locale_message = NULL;
 
-struct Color_Theme system_color_theme[THEME] =
+#ifdef USE_GDK_RGBA
+struct GdkRGBA_Theme system_color_theme[THEME] = {{0}};
+struct GdkColor_Theme temp_system_color_theme[THEME] =
+#else
+struct GdkColor_Theme system_color_theme[THEME] =
+#endif
 	{{0, "",
 	  {{ 0, 0x0000, 0x0000, 0x0000 },
 	   { 0, 0xc0c0, 0x0000, 0x0000 },
@@ -190,6 +195,20 @@ struct Cursor_Shape cursor_shape[CURSOR_SHAPE] =
 	 {"UNDERLINE",
 	 VTE_CURSOR_SHAPE_UNDERLINE}};
 #endif
+
+void convert_system_color_to_rgba()
+{
+#ifdef USE_GDK_RGBA
+	gint i, j;
+	for (i=0; i<THEME; i++)
+	{
+		system_color_theme[i].index = temp_system_color_theme[i].index;
+		system_color_theme[i].name = temp_system_color_theme[i].name;
+		for (j=0; j<COLOR; j++)
+			system_color_theme[i].color[j] = convert_color_to_rgba(temp_system_color_theme[i].color[j]);
+	}
+#endif
+}
 
 void init_command()
 {
@@ -1564,7 +1583,7 @@ void get_user_settings(struct Window *win_data, const gchar *encoding)
 				//	i, color[i].name, color_value);
 				if (color_value)
 				{
-					GdkColor tmp_color;
+					GdkRGBA tmp_color;
 
 					if (check_color_value(color[i].name, color_value, &tmp_color, NULL))
 					{
@@ -1676,7 +1695,7 @@ void get_user_settings(struct Window *win_data, const gchar *encoding)
 	if (win_data->show_close_button_on_tab == 0) win_data->show_close_button_on_all_tabs = 0;
 	if (win_data->window_title_shows_current_page == 0) win_data->window_title_append_package_name = 0;
 
-	GdkColor fg_color, bg_color, cursor_color;
+	GdkRGBA fg_color, bg_color, cursor_color;
 
 	// g_debug("win_data->foreground_color = %s, win_data->background_color = %s, win_data->cursor_color_str = %s",
 	//	win_data->foreground_color, win_data->background_color, win_data->cursor_color_str);
@@ -2048,7 +2067,7 @@ gchar *check_string_value(GKeyFile *keyfile, const gchar *group_name, const gcha
 	return setting;
 }
 
-gboolean check_color_value (const gchar *key_name, const gchar *color_name, GdkColor *color, const GdkColor *default_color)
+gboolean check_color_value (const gchar *key_name, const gchar *color_name, GdkRGBA *color, const GdkRGBA *default_color)
 {
 #ifdef DETAIL
 	g_debug("! Launch check_color_value() with key_name = %s, color_name = %s, color = %p",
@@ -2362,7 +2381,7 @@ GString *save_user_settings(GtkWidget *widget, struct Window *win_data)
 	if (compare_color(&(win_data->custom_color_theme[win_data->color_theme_index].color[COLOR-1]),
 			  &(system_color_theme[win_data->color_theme_index].color[COLOR-1])))
 	{
-		gchar *color_str = gdk_color_to_string(&(win_data->custom_color_theme[win_data->color_theme_index].color[COLOR-1]));
+		gchar *color_str = gdk_rgba_to_string(&(win_data->custom_color_theme[win_data->color_theme_index].color[COLOR-1]));
 		g_string_append_printf(contents,"foreground_color = %s\n\n", color_str);
 		g_free (color_str);
 	}
@@ -2374,7 +2393,7 @@ GString *save_user_settings(GtkWidget *widget, struct Window *win_data)
 	if (compare_color(&(win_data->custom_color_theme[win_data->color_theme_index].color[0]),
 			  &(system_color_theme[win_data->color_theme_index].color[0])))
 	{
-		gchar *color_str = gdk_color_to_string(&(win_data->custom_color_theme[win_data->color_theme_index].color[0]));
+		gchar *color_str = gdk_rgba_to_string(&(win_data->custom_color_theme[win_data->color_theme_index].color[0]));
 		g_string_append_printf(contents,"background_color = %s\n\n", color_str);
 		g_free (color_str);
 	}
@@ -2384,11 +2403,11 @@ GString *save_user_settings(GtkWidget *widget, struct Window *win_data)
 	g_string_append(contents,"# Sets the background color for text which is under the cursor.\n"
 				 "# You may use black, #000000 or #000000000000 here.\n");
 
-	GdkColor cursor_color;
+	GdkRGBA cursor_color;
 	dirty_gdk_color_parse(DEFAULT_CURSOR_COLOR, &cursor_color);
 	if (compare_color(&cursor_color, &(win_data->cursor_color)))
 	{
-		gchar *color_str = gdk_color_to_string(&(win_data->cursor_color));
+		gchar *color_str = gdk_rgba_to_string(&(win_data->cursor_color));
 		g_string_append_printf(contents,"cursor_color = %s\n\n", color_str);
 		g_free (color_str);
 	}
@@ -2618,7 +2637,7 @@ GString *save_user_settings(GtkWidget *widget, struct Window *win_data)
 		if (compare_color(&(win_data->custom_color_theme[win_data->color_theme_index].color[i]),
 			  &(system_color_theme[win_data->color_theme_index].color[i])))
 		{
-			color_str = gdk_color_to_string(&(win_data->custom_color_theme[win_data->color_theme_index].color[i]));
+			color_str = gdk_rgba_to_string(&(win_data->custom_color_theme[win_data->color_theme_index].color[i]));
 			g_string_append_printf(contents,"%s = %s\n\n",  color[i].name, color_str);
 			g_free (color_str);
 		}
