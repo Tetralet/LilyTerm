@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008-2010 Lu, Chao-Ming (Tetralet).  All rights reserved.
+ * Copyright (c) 2008-2013 Lu, Chao-Ming (Tetralet).  All rights reserved.
  *
  * This file is part of LilyTerm.
  *
@@ -1532,7 +1532,8 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 								case CHANGE_THE_BACKGROUND_COLOR:
 								case CHANGE_THE_CURSOR_COLOR:
 									adjust_vte_color(GTK_COLOR_CHOOSER(dialog_data->operate[0]),
-													      tmp_page_data->vte);
+													   NULL,
+													   tmp_page_data->vte);
 									break;
 							}
 						}
@@ -1708,8 +1709,7 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 					if (style!=CHANGE_BACKGROUND_SATURATION)
 					{
 						dialog_data->recover = TRUE;
-						adjust_vte_color(GTK_COLOR_CHOOSER(dialog_data->operate[0]),
-										     win_data->current_vte);
+						adjust_vte_color(GTK_COLOR_CHOOSER(dialog_data->operate[0]), NULL, win_data->current_vte);
 					}
 					break;
 				// style 4: get function key value
@@ -1924,23 +1924,25 @@ void update_color_buttons(struct Window *win_data, struct Dialog *dialog_data)
 		if (dialog_data->color_button[i])
 #endif
 			gtk_button_set_image(GTK_BUTTON(dialog_data->color_button[i]), image);
-#ifdef DEBUG
+#ifdef ENABLE_GDKCOLOR_TO_STRING
+#  ifdef DEBUG
 		gchar *color_string = gdk_rgba_to_string(&(temp_color[color_index]));
 		gchar *temp_str =  g_strdup_printf("%s [%d] - %s", color[i].translation, color_index, color_string);
-#  ifdef ENABLE_SET_TOOLTIP_TEXT
-#    ifdef SAFEMODE
+#    ifdef ENABLE_SET_TOOLTIP_TEXT
+#      ifdef SAFEMODE
 		if (dialog_data->color_button[i])
-#    endif
+#      endif
 			gtk_widget_set_tooltip_text(dialog_data->color_button[i], temp_str);
-#  endif
+#    endif
 		g_free(temp_str);
 		g_free(color_string);
-#else
-#  ifdef ENABLE_SET_TOOLTIP_TEXT
-#    ifdef SAFEMODE
+#  else
+#    ifdef ENABLE_SET_TOOLTIP_TEXT
+#      ifdef SAFEMODE
 		if (dialog_data->color_button[i])
-#    endif
+#      endif
 			gtk_widget_set_tooltip_text(dialog_data->color_button[i], color[i].translation);
+#    endif
 #  endif
 #endif
 		g_object_unref (pixbuf);
@@ -2209,7 +2211,7 @@ void refresh_regex(struct Window *win_data, struct Dialog *dialog_data)
 #  endif
 		if (update_bg_color)
 		{
-#  ifdef USING_GTK_RC_STYLE_NEW
+#  ifdef USING_OLD_GTK_RC_STYLE_NEW
 			GtkRcStyle *rc_style = gtk_rc_style_new();
 			rc_style->base[GTK_STATE_NORMAL] = win_data->find_entry_current_bg_color;
 			rc_style->color_flags[GTK_STATE_NORMAL] |= GTK_RC_BASE;
@@ -2499,8 +2501,13 @@ void create_color_selection_widget(struct Dialog *dialog_data, GSourceFunc func,
 #ifdef SAFEMODE
 	if (func)
 #endif
+#ifdef HAVE_GTK_COLOR_CHOOSER
+		g_signal_connect_after(dialog_data->operate[0], "color-activated",
+				       G_CALLBACK(func), func_data);
+#else
 		g_signal_connect_after(dialog_data->operate[0], "color-changed",
 				       G_CALLBACK(func), func_data);
+#endif
 }
 
 void set_color_selection_colors(GtkWidget *color_selection, GdkRGBA *color)
@@ -2785,7 +2792,7 @@ gchar *deal_dialog_key_press_join_string(StrAddr **key_value, gchar *separator, 
 	return join_string;
 }
 
-void adjust_vte_color(GtkColorChooser *colorselection, GtkWidget *vte)
+void adjust_vte_color(GtkColorChooser *colorselection, GdkRGBA *color, GtkWidget *vte)
 {
 #ifdef DETAIL
 	g_debug("! Launch adjust_vte_color() with colorselection = %p, vte = %p", colorselection, vte);

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008-2010 Lu, Chao-Ming (Tetralet).  All rights reserved.
+ * Copyright (c) 2008-2013 Lu, Chao-Ming (Tetralet).  All rights reserved.
  *
  * This file is part of LilyTerm.
  *
@@ -872,7 +872,7 @@ void set_widget_thickness(GtkWidget *widget, gint thickness)
 	if (widget==NULL) return;
 #endif
 
-#ifdef USING_GTK_RC_STYLE_NEW
+#ifdef USING_OLD_GTK_RC_STYLE_NEW
 
 	GtkRcStyle *rc_style = gtk_rc_style_new();
 #  ifdef SAFEMODE

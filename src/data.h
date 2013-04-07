@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008-2010 Lu, Chao-Ming (Tetralet).  All rights reserved.
+ * Copyright (c) 2008-2013 Lu, Chao-Ming (Tetralet).  All rights reserved.
  *
  * This file is part of LilyTerm.
  *
@@ -119,52 +119,73 @@
 #define SYSTEM_COLUMN 80
 #define SYSTEM_ROW 24
 
-#if ! GTK_CHECK_VERSION(2,9,0)
+#if ! GTK_CHECK_VERSION(2,10,0)
     #ifndef GDK_SUPER_MASK
+	// SINCE: gtk+-2.10.0/gdk/gdktypes.h: GDK_SUPER_MASK = 1 << 26
 	#define GDK_SUPER_MASK 1<<26
     #endif
 #endif
 #if GTK_CHECK_VERSION(2,10,0)
+	// SINCE: gtk+-2.10.0/gtk/gtknotebook.h: gtk_notebook_set_tab_reorderable()
 	#define ENABLE_TAB_REORDER
 	#define ENABLE_PAGE_ADDED
+	// SINCE: gtk+-2.10.0/gtk/gtknotebook.h: gtk_notebook_set_group_id()
+	// END:   gtk+-2.24.5/gtk/gtknotebook.h:void gtk_notebook_set_group_id()
+	#define ENABLE_DRAG_AND_DROP
 #else
 	#define DISABLE_TAB_REORDER
 	#define DISABLE_PAGE_ADDED
 #endif
-#if GTK_CHECK_VERSION(2,12,0)
+#if GTK_CHECK_VERSION(2,11,0)
+	// SINCE: gtk+-2.11.0/gtk/gtkwindow.h: gtk_window_set_opacity()
 	#define ENABLE_RGBA
+	// SINCE: gtk+-2.11.0/gdk/gdkcolor.h: gdk_color_to_string()
 	#define ENABLE_GDKCOLOR_TO_STRING
+#endif
+#if GTK_CHECK_VERSION(2,11,3)
+	// SINCE: gtk+-2.11.3/gtk/gtkwidget.h: gtk_widget_set_tooltip_text()
 	#define ENABLE_SET_TOOLTIP_TEXT
-	#define ENABLE_DRAG_AND_DROP
 #endif
 #if ! GTK_CHECK_VERSION(2,13,0)
+	// SINCE: gtk+-2.13.0/gtk/gtkstock.h: #define GTK_STOCK_PAGE_SETUP "gtk-page-setup"
 	#define GTK_STOCK_PAGE_SETUP GTK_STOCK_INDEX
 #endif
-#if ! GTK_CHECK_VERSION(2,14,0)
+#if ! GTK_CHECK_VERSION(2,13,4)
+	// SINCE: gtk+-2.13.4/gtk/gtkdialog.h: gtk_dialog_get_content_area()
 	#define gtk_dialog_get_content_area(x) x->vbox
+	// SINCE: gtk+-2.13.4/gtk/gtkdialog.h: gtk_dialog_get_action_area()
 	#define gtk_dialog_get_action_area(x) x->action_area
 #endif
-#if GTK_CHECK_VERSION(2,14,0)
+#if GTK_CHECK_VERSION(2,13,0)
+	// SINCE: gtk+-2.13.0/gtk/gtktestutils.h: gtk_test_widget_click()
 	#define ENABLE_MOUSE_SCROLL
 #endif
-#if ! GTK_CHECK_VERSION(2,16,0)
-	#define gtk_menu_item_set_label(x,y) gtk_label_set_text(GTK_LABEL(gtk_bin_get_child(GTK_BIN(x))), y)
-#endif
-#if GTK_CHECK_VERSION(2,16,0)
+#if GTK_CHECK_VERSION(2,13,4)
+	// SINCE: gtk+-2.13.4/gtk/gtkwidget.h: gtk_widget_get_allocation()
 	#define USE_GTK_ALLOCATION
 #endif
-#if ! GTK_CHECK_VERSION(2,18,0)
+#if ! GTK_CHECK_VERSION(2,15,0)
+	// SINCE: gtk+-2.15.0/gtk/gtkmenuitem.h: gtk_menu_item_set_label()
+	#define gtk_menu_item_set_label(x,y) gtk_label_set_text(GTK_LABEL(gtk_bin_get_child(GTK_BIN(x))), y)
+#endif
+#if ! GTK_CHECK_VERSION(2,17,10)
+	// SINCE: gtk+-2.17.10/gtk/gtkwidget.h: gtk_widget_set_can_focus()
 	#define gtk_widget_set_can_focus(x,FALSE) GTK_WIDGET_UNSET_FLAGS(x,GTK_CAN_FOCUS)
 #  ifdef UNIT_TEST
 	#define gtk_widget_get_visible gtk_widget_is_focus
 	#define gtk_widget_get_allocation(x,y) gtk_widget_is_focus(x)
 #  endif
 #endif
-#if ! GTK_CHECK_VERSION(2,20,0)
+#if ! GTK_CHECK_VERSION(2,19,5)
+	// SINCE: gtk+-2.19.5/gtk/gtkwidget.h: gtk_widget_get_mapped()
 	#define gtk_widget_get_mapped(x) GTK_WIDGET_MAPPED(x)
+#endif
+#if ! GTK_CHECK_VERSION(2,90,4)
+	// SINCE: gtk+-2.90.3/gtk/gtknotebook.h: gtk_notebook_set_tab_label_packing()
 	#define USE_OLD_GTK_LABEL_PACKING
 #endif
-#if ! GTK_CHECK_VERSION(2,21,8)
+#if ! GTK_CHECK_VERSION(2,22,0)
+	// SINCE: gtk+-2.22.0/gdk/gdkkeysyms.h: #define GDK_KEY_VoidSymbol 0xffffff
 	#define GDK_KEY_VoidSymbol	GDK_VoidSymbol
 	#define GDK_KEY_asciitilde	GDK_asciitilde
 	#define GDK_KEY_Shift_L		GDK_Shift_L
@@ -179,49 +200,66 @@
 	#define GDK_KEY_A		GDK_A
 	#define GDK_KEY_Z		GDK_Z
 #endif
-#if ! GTK_CHECK_VERSION(2,24,0)
+#if ! GTK_CHECK_VERSION(2,23,0)
+	// END: gtk+-2.23.0/gtk/gtkmain.h: gtk_quit_add() GTK_DISABLE_DEPRECATED
+	#define g_atexit(x) gtk_quit_add(0, (GtkFunction)x, NULL)
+#endif
+#if GTK_CHECK_VERSION(2,10,0) && ( ! GTK_CHECK_VERSION(2,91,6))
+	// SINCE: gtk+-2.10.0/gdk/gdkspawn.h: gdk_spawn_on_screen_with_pipes()
+	// END:   gtk+-2.91.6/gdk/gdkspawn.h: gdk_spawn_on_screen_with_pipes()
 	#define g_spawn_async_with_pipes(a,b,c,d,e,f,g,h,i,j,k) gdk_spawn_on_screen_with_pipes(gdk_screen_get_default(),a,b,c,d,e,f,g,h,i,j,k)
 #endif
-#if ! GTK_CHECK_VERSION(2,90,7)
+#if ! GTK_CHECK_VERSION(2,90,6)
+	// END: gtk+-2.90.6/gtk/gtkdialog.h: GTK_DIALOG_NO_SEPARATOR = 1 << 2
 	#define EXIST_GTK_DIALOG_NO_SEPARATOR
 #endif
-#if ! GTK_CHECK_VERSION(2,91,0)
+#if ! GTK_CHECK_VERSION(2,90,7)
+	// SINCE: gtk+-2.11.0/gtk/gtknotebook.h: gtk_notebook_set_group()
+	// END:   gtk+-2.90.7/gtk/gtknotebook.h: gtk_notebook_set_group()
+	// SINCE: gtk+-2.23.0/gtk/gtknotebook.h: gtk_notebook_set_group_name()
 	#define gtk_notebook_set_group_name(x,y) gtk_notebook_set_group(x,GINT_TO_POINTER (NOTEBOOK_GROUP))
 #endif
 #if GTK_CHECK_VERSION(2,91,0)
+	// SINCE: gtk+-2.10.0/gdk/gdkscreen.h: gdk_screen_get_rgba_colormap()
+	// END:   gtk+-2.90.7/gdk/gdkscreen.h: gdk_screen_get_rgba_colormap()
+	// SINCE: gtk+-2.10.0/gdk/gdkscreen.h: gdk_screen_get_rgba_visual()
 	#define USE_GDK_SCREEN_GET_RGBA_VISUAL
+	// SINCE: gtk+-2.91.0/gtk/gtkwidget.h: gtk_widget_get_preferred_size()
 	#define gtk_widget_get_child_requisition(x,y) gtk_widget_get_preferred_size(x,y,NULL)
 #endif
 #if GTK_CHECK_VERSION(2,91,1)
+	// SINCE gtk+-2.91.1/gtk/gtkwindow.h: gtk_window_set_has_resize_grip()
 	#define NO_RESIZE_GRIP
-	#define USE_XPARSEGEOMETRY
-#endif
-#if GTK_CHECK_VERSION(2,91,2)
+	// FIXME: gtk_window_parse_geometry() works well in all GTK+2/3 versions?
+	// #define USE_XPARSEGEOMETRY
+	// gtk+-2.91.1/gtk/gtkwidget.h: gtk_widget_hide_all()
 	#define gtk_widget_hide_all(x) gtk_widget_hide(x)
-	#define USE_GTK_GRID
 #endif
-
 #if GTK_CHECK_VERSION(2,91,5)
-	#define gtk_vscrollbar_new(x) gtk_scrollbar_new(GTK_ORIENTATION_VERTICAL,x)
 	#define USE_GTK3_GEOMETRY_METHOD
 #else
 	#define USE_GTK2_GEOMETRY_METHOD
-#endif
-#if GTK_CHECK_VERSION(2,91,6)
-	#define gtk_hscale_new_with_range(x,y,z) gtk_scale_new_with_range (GTK_ORIENTATION_HORIZONTAL,x,y,z)
-#endif
-#if ! GTK_CHECK_VERSION(2,91,6)
-	#define USING_GTK_RC_STYLE_NEW
 #endif
 #if GTK_CHECK_VERSION(2,91,7)
 	#define GTK3_LAME_GDK_SCREEN_IS_COMPOSITED
 	#define GTK3_LAME_GDK_SCREEN_GET_RGBA_VISUAL
 #endif
-#if ! GTK_CHECK_VERSION(2,99,0)
-	#define g_atexit(x) gtk_quit_add(0, (GtkFunction)x, NULL)
+#if GTK_CHECK_VERSION(3,1,12)
+	// SINCE: gtk+-3.1.12/gtk/gtkfontchooser.h: gtk_font_chooser_set_filter_func()
+	#define EXIST_GTK_FONT_CHOOSER_SET_FILTER_FUNC
 #endif
-
-#if ! GTK_CHECK_VERSION(3,1,12)
+#if GTK_CHECK_VERSION(3,3,4)
+	// END: gtk+-3.3.4/gtk/deprecated/gtktable.h: gtk_table_attach_defaults()
+	#define USE_GTK_GRID
+	// END: gtk+-3.3.4/gtk/deprecated/gtkvscrollbar.h: gtk_vscrollbar_new()
+	#define gtk_vscrollbar_new(x) gtk_scrollbar_new(GTK_ORIENTATION_VERTICAL,x)
+	// END: gtk+-3.3.4/gtk/deprecated/gtkhscale.h: gtk_hscale_new_with_range()
+	#define gtk_hscale_new_with_range(x,y,z) gtk_scale_new_with_range (GTK_ORIENTATION_HORIZONTAL,x,y,z)
+#endif
+#if ! GTK_CHECK_VERSION(3,3,4)
+	// END: gtk+-3.3.4/gtk/deprecated/gtkstyle.h: gtk_widget_modify_style()
+	#define USING_OLD_GTK_RC_STYLE_NEW
+	// END: gtk+-3.3.4/gtk/deprecated/gtkfontsel.h: gtk_font_selection_dialog_new()
 	#define GTK_FONT_CHOOSER GTK_FONT_SELECTION_DIALOG
 	#define gtk_font_chooser_dialog_new(x,y) gtk_font_selection_dialog_new(x)
 	#define gtk_font_chooser_get_font gtk_font_selection_dialog_get_font_name
@@ -230,63 +268,77 @@
 	#define gtk_font_chooser_set_filter_func(a,b,c,d) NULL
 #  endif
 #endif
-#if GTK_CHECK_VERSION(3,1,12)
-	#define EXIST_GTK_FONT_CHOOSER_SET_FILTER_FUNC
-#endif
-
-#if GTK_CHECK_VERSION(3,3,16)
+#if GTK_CHECK_VERSION(3,3,18)
+	// SINCE: gtk+-3.3.18/gtk/gtkcolorchooserwidget.h: gtk_color_chooser_widget_new()
 	#define HAVE_GTK_COLOR_CHOOSER
 #else
+	// END: gtk+-3.3.18/gtk/deprecated/gtkcolorsel.h: gtk_color_selection_new()
 	#define GTK_COLOR_CHOOSER GTK_COLOR_SELECTION
 	#define GtkColorChooser GtkColorSelection
 	#define gtk_color_chooser_get_rgba gtk_color_selection_get_current_color
+	#define adjust_vte_color(x,y,z) adjust_vte_color(x,z)
 #endif
 
 #if GTK_CHECK_VERSION(3,8,0)
+	// END: gtk+-3.8.0/gtk/gtkwindow.h: GDK_DEPRECATED_IN_3_8_FOR(gtk_widget_set_opacity)
 	#define gtk_window_set_opacity(x,y) gtk_widget_set_opacity(GTK_WIDGET(x),y)
 #endif
 
-#if ! GLIB_CHECK_VERSION(2,14,0)
+#if ! GLIB_CHECK_VERSION(2,13,0)
+	// SINCE: glib-2.13.0/glib/gmain.h: g_timeout_add_seconds()
 	#define g_timeout_add_seconds(x,y,z) g_timeout_add(x*1000,y,z);
 #endif
-#if (GLIB_CHECK_VERSION(2,3,2) && GTK_CHECK_VERSION(2,99,0))
+#if GLIB_CHECK_VERSION(2,31,2)
+	// glib-2.31.2/glib/gutils.h: g_atexit () GLIB_DEPRECATED
 	#define g_atexit atexit
 #endif
 
-#if defined(VTE_CHECK_VERSION)
-    #if VTE_CHECK_VERSION(0,16,0)
+#ifndef VTE_CHECK_VERSION
+#define VTE_CHECK_VERSION(major,minor,micro) \
+  (0 > (major) || (0 == (major) && 0 > (minor)) || (0 == (major) && 0 == (minor) && 0 >= (micro)))
+#endif
+#if VTE_CHECK_VERSION(0,15,3)
+	// SINCE: vte-0.15.3/src/vte.h: vte_terminal_select_all()
 	#define ENABLE_VTE_SELECT_ALL
-    #endif
-    #if VTE_CHECK_VERSION(0,17,1)
+#endif
+#if VTE_CHECK_VERSION(0,17,1)
+	// SINCE: vte-0.17.1/src/vte.h: vte_terminal_set_cursor_blink_mode()
 	#define USE_NEW_VTE_CURSOR_BLINKS_MODE
+	// SINCE: vte-0.17.1/src/vte.h: vte_terminal_match_add_gregex()
 	#define USE_NEW_VTE_MATCH_ADD_GREGEX
-    #endif
-    #if VTE_CHECK_VERSION(0,20,0)
-	#define vte_terminal_set_font_from_string_full(x,y,z) vte_terminal_set_font_from_string(x,y)
+#endif
+#if VTE_CHECK_VERSION(0,19,0)
+	// SINCE: vte-0.19.1/src/vte.h: vte_terminal_set_cursor_shape()
 	#define ENABLE_CURSOR_SHAPE
-    #endif
-    #if VTE_CHECK_VERSION(0,20,4)
+#endif
+#if VTE_CHECK_VERSION(0,20,4)
+	// SINCE: vte-0.20.4/src/vte.h: VTE_ERASE_TTY
 	#define ENABLE_VTE_ERASE_TTY
-    #endif
-    #if VTE_CHECK_VERSION(0,22,3)
+#endif
+#if VTE_CHECK_VERSION(0,22,3)
 	#define SCROLL_HISTORY -1
-    #else
+#else
 	#define SCROLL_HISTORY 1024
-    #endif
-    #if VTE_CHECK_VERSION(0,24,1)
+#endif
+#if VTE_CHECK_VERSION(0,24,0)
+	// END: vte-0.24.0/src/vte.h: vte_terminal_get_padding() G_GNUC_DEPRECATED
 	#define vte_terminal_get_padding fake_vte_terminal_get_padding
-    #endif
-    #if ! VTE_CHECK_VERSION(0,25,1)
+#endif
+#if ! VTE_CHECK_VERSION(0,25,1)
+	// END: vte-0.25.1/src/vtedeprecated.h: vte_terminal_fork_command()
 	#define USE_OLD_VTE_FORK_COMMAND
-    #endif
-    #if VTE_CHECK_VERSION(0,25,1)
+#endif
+#if VTE_CHECK_VERSION(0,25,1)
+	// SINCE: vte-0.25.1/src/vte.h: vte_terminal_search_set_gregex()
 	#define ENABLE_FIND_STRING
-    #endif
-    #if VTE_CHECK_VERSION(0,27,90)
-	#define ENABLE_VTE_RGBA
+	// END: vte-0.25.1/src/vtedeprecated.h: void vte_terminal_set_font_from_string_full()
+	#define vte_terminal_set_font_from_string_full(x,y,z) vte_terminal_set_font_from_string(x,y)
+#endif
+#if VTE_CHECK_VERSION(0,27,90)
+	// SINCE: vte-0.27.90/src/vte.h: void vte_terminal_set_colors_rgba()
 	#define USE_GDK_RGBA
 	#define MAX_COLOR 1
-    #else
+#else
 	#define GdkRGBA GdkColor
 	#define gdk_rgba_to_string gdk_color_to_string
 	#define gdk_rgba_parse(x,y) gdk_color_parse(y,x)
@@ -298,16 +350,12 @@
 	#define vte_terminal_set_color_bold_rgba vte_terminal_set_color_bold
 	#define vte_terminal_set_color_cursor_rgba vte_terminal_set_color_cursor
 	#define MAX_COLOR 0xFFFF
-    #endif
-#else
-    #define SCROLL_HISTORY 1024
-    #define USE_OLD_VTE_FORK_COMMAND
 #endif
 
-#define ENABLE_GDKCOLOR_TO_STRING_VER "GTK 2.12"
-#define ENABLE_MOUSE_SCROLL_VER "GTK 2.14"
-#define ENABLE_RGBA_VER "GTK 2.12"
-#define ENABLE_VTE_SELECT_ALL_VER "VTE 0.16"
+#define ENABLE_RGBA_VER "GTK 2.11"
+#define ENABLE_GDKCOLOR_TO_STRING_VER "GTK 2.11"
+#define ENABLE_MOUSE_SCROLL_VER "GTK 2.13"
+#define ENABLE_VTE_SELECT_ALL_VER "VTE 0.15.3"
 #define ENABLE_FIND_STRING_VER "VTE 0.25.1"
 
 #define ALL_ACCELS_MASK (GDK_CONTROL_MASK | GDK_SHIFT_MASK | GDK_MOD1_MASK | GDK_MOD4_MASK | GDK_SUPER_MASK)

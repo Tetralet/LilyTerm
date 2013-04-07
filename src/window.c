@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008-2010 Lu, Chao-Ming (Tetralet).  All rights reserved.
+ * Copyright (c) 2008-2013 Lu, Chao-Ming (Tetralet).  All rights reserved.
  *
  * This file is part of LilyTerm.
  *
@@ -2189,12 +2189,8 @@ void set_fill_tabs_bar(GtkNotebook *notebook, gboolean fill_tabs_bar, struct Pag
 	if ((notebook==NULL) || (page_data==NULL) || (page_data->hbox==NULL)) return;
 #endif
 #ifdef USE_OLD_GTK_LABEL_PACKING
-	if (fill_tabs_bar)
-		gtk_notebook_set_tab_label_packing(GTK_NOTEBOOK(notebook), page_data->hbox,
-						   TRUE, TRUE, GTK_PACK_START);
-	else
-		gtk_notebook_set_tab_label_packing(GTK_NOTEBOOK(notebook), page_data->hbox,
-						   FALSE, FALSE, GTK_PACK_START);
+	gtk_notebook_set_tab_label_packing(GTK_NOTEBOOK(notebook), page_data->hbox,
+					   fill_tabs_bar, fill_tabs_bar, GTK_PACK_START);
 #else
 	GValue value = { 0, };
 	g_value_init (&value, G_TYPE_BOOLEAN);
