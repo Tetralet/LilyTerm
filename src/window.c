@@ -1400,14 +1400,20 @@ gboolean deal_key_press(GtkWidget *window, Key_Bindings type, struct Window *win
 					save_vte_geometry(win_data);
 				case WINDOW_START_WITH_FULL_SCREEN:
 				case WINDOW_APPLY_PROFILE_FULL_SCREEN:
+				{
+					gboolean idle = (win_data->window_status==WINDOW_APPLY_PROFILE_FULL_SCREEN);
 					if ((win_data->window_status==WINDOW_NORMAL) ||
 					    (win_data->window_status==WINDOW_START_WITH_FULL_SCREEN))
 						win_data->window_status = WINDOW_FULL_SCREEN;
 					// g_debug("deal_key_press(WINDOW_START_WITH_FULL_SCREEN): win_data->window_status = %d",
 					//	win_data->window_status);
 					show_or_hide_tabs_bar_and_scroll_bar(win_data);
-					gtk_window_fullscreen(GTK_WINDOW(win_data->window));
+					if (idle)
+						g_idle_add((GSourceFunc)gtk_window_fullscreen, GTK_WINDOW(win_data->window));
+					else
+						gtk_window_fullscreen(GTK_WINDOW(win_data->window));
 					break;
+				}
 				case WINDOW_MAX_WINDOW:
 					win_data->window_status = WINDOW_MAX_WINDOW_TO_FULL_SCREEN;
 					show_or_hide_tabs_bar_and_scroll_bar(win_data);
