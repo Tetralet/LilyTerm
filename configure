@@ -206,7 +206,7 @@ if [ $? != 0 ]; then
       PACKAGE_MESSAGE "libgtk2.0-dev/libgtk-3-dev"
       exit 1
     else
-      INFO "[OK].\n"
+      INFO "[OK]\n"
     fi
   else
     if [ "$GTK" = "gtk+-2.0" ]; then
@@ -295,7 +295,7 @@ fi
 # ---- GNOME_CONTROL_CENTER ---- #
 
 if [ "$GNOME_CONTROL_CENTER" = 'Y' ]; then
-  GNOME_CONTROL_CENTER_DIR=`pkg-config --variable=defappsdir --define-variable=datadir='$(DATADIR)' gnome-default-applications`
+  GNOME_CONTROL_CENTER_DIR=`pkg-config --variable=defappsdir --define-variable=datadir='$(DATADIR)' gnome-default-applications 2>&1`
   if [ $? != 0 ]; then
     if [ $GNOME_CONTROL_CENTER_SPC -eq 1 ]; then
       CHECK_MESSAGE 'Gnome Control Center'
@@ -303,6 +303,7 @@ if [ "$GNOME_CONTROL_CENTER" = 'Y' ]; then
       PACKAGE_MESSAGE "gnome-control-center-dev"
       exit 1
     fi
+    GNOME_CONTROL_CENTER_DIR=
     GNOME_CONTROL_CENTER=N
   else
     CHECK_MESSAGE 'Gnome Control Center'
