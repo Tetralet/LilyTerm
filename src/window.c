@@ -2059,11 +2059,15 @@ void notebook_page_added (GtkNotebook *notebook, GtkWidget *child, guint page_nu
 
 	hide_and_show_tabs_bar(win_data , win_data->show_tabs_bar);
 
-	// g_debug("notebook_page_added(): launch update_window_hint()!");
+	if (gtk_notebook_get_n_pages(GTK_NOTEBOOK(page_data->notebook))==1)
+	{
+		// g_debug("notebook_page_added(): launch update_window_hint()!");
 #  ifdef GEOMETRY
-	fprintf(stderr, "\033[1;37m!! notebook_page_added(win_data %p): call update_window_hint() for page_data = %p\033[0m\n", win_data, page_data);
+		fprintf(stderr, "\033[1;37m!! notebook_page_added(win_data %p): call update_window_hint() for page_data = %p\033[0m\n",
+			win_data, page_data);
 #  endif
-	update_window_hint(win_data, page_data);
+		update_window_hint(win_data, page_data);
+	}
 }
 
 

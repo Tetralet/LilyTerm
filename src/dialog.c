@@ -229,8 +229,8 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 #else
 			GtkStyle *rc_style = gtk_widget_get_style (dialog_data->operate[0]);
 			win_data->find_entry_bg_color = rc_style->base[GTK_STATE_NORMAL];
-#endif
 			g_object_unref(rc_style);
+#endif
 
 			win_data->find_entry_current_bg_color = win_data->find_entry_bg_color;
 			// print_color("win_data->find_entry_bg_color", win_data->find_entry_bg_color);
