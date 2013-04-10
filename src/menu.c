@@ -298,11 +298,11 @@ gboolean create_menu(struct Window *win_data)
 	// Visible bell
 	win_data->menuitem_visible_bell = create_menu_item (CHECK_MENU_ITEM, misc_sub_menu, _("Visible bell"), NULL, NULL,
 								(GSourceFunc)set_visible_bell, win_data);
-
+#ifdef ENABLE_BEEP_SINGAL
 	// Urgent bell
 	win_data->menuitem_urgent_bell = create_menu_item (CHECK_MENU_ITEM, misc_sub_menu, _("Urgent bell"), NULL, NULL,
 								(GSourceFunc)set_urgent_bell, win_data);
-
+#endif
 	// ----------------------------------------
 	add_separator_menu (misc_sub_menu);
 
@@ -752,6 +752,7 @@ void set_visible_bell(GtkWidget *menuitem_visible_bell, struct Window *win_data)
 	}
 }
 
+#ifdef ENABLE_BEEP_SINGAL
 void set_urgent_bell(GtkWidget *menuitem_urgent_bell, struct Window *win_data)
 {
 #ifdef DETAIL
@@ -852,6 +853,7 @@ gboolean stop_urgency_hint(GtkWidget *window, GdkEvent *event, struct Window *wi
 
 	return FALSE;
 }
+#endif
 
 void launch_hide_and_show_tabs_bar(GtkWidget *widget, Switch_Type show_tabs_bar)
 {

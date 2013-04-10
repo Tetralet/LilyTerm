@@ -1571,9 +1571,9 @@ gboolean window_get_focus(GtkWidget *window, GdkEventFocus *event, struct Window
 	dim_window(win_data, 0);
 #endif
 	dim_vte_text(win_data, NULL, 0);
-
+#ifdef ENABLE_BEEP_SINGAL
 	set_urgent_bell(NULL, win_data);
-
+#endif
 	menu_activated = FALSE;
 	return FALSE;
 }
@@ -1617,10 +1617,10 @@ gboolean window_lost_focus(GtkWidget *window, GdkEventFocus *event, struct Windo
 #endif
 
 	dim_vte_text(win_data, NULL, 1);
-
+#ifdef ENABLE_BEEP_SINGAL
 	// g_debug("window_lost_focus(): call set_urgent_bell()!!");
 	set_urgent_bell(NULL, win_data);
-
+#endif
 	active_window = NULL;
 	return FALSE;
 }
@@ -1948,10 +1948,10 @@ void destroy_window(struct Window *win_data)
 	if (last_active_window==win_data->window)
 		last_active_window = NULL;
 	// g_debug("set last_active_window = %p", last_active_window);
-
+#ifdef ENABLE_BEEP_SINGAL
 	if (win_data->urgent_bell_focus_in_event_id)
 		stop_urgency_hint(NULL, NULL, win_data);
-
+#endif
 	// g_debug("destroy_window(): destroy window = %p for win_data = %p", win_data->window, win_data);
 #ifdef SAFEMODE
 	if (win_data->window)
@@ -2694,7 +2694,9 @@ void dump_data (struct Window *win_data, struct Page *page_data)
 	g_debug("- win_data->menuitem_allow_bold_text = %p", win_data->menuitem_allow_bold_text);
 	g_debug("- win_data->menuitem_audible_bell = %p", win_data->menuitem_audible_bell);
 	g_debug("- win_data->menuitem_visible_bell = %p", win_data->menuitem_visible_bell);
+#ifdef ENABLE_BEEP_SINGAL
 	g_debug("- win_data->menuitem_urgent_bell = %p", win_data->menuitem_urgent_bell);
+#endif
 	g_debug("- win_data->menuitem_show_tabs_bar = %p", win_data->menuitem_show_tabs_bar);
 	g_debug("- win_data->menuitem_hide_tabs_bar = %p", win_data->menuitem_hide_tabs_bar);
 	g_debug("- win_data->menuitem_hide_scroll_bar = %p", win_data->menuitem_hide_scroll_bar);
@@ -2780,9 +2782,11 @@ void dump_data (struct Window *win_data, struct Page *page_data)
 	g_debug("- win_data->allow_bold_text = %d", win_data->allow_bold_text);
 	g_debug("- win_data->audible_bell = %d", win_data->audible_bell);
 	g_debug("- win_data->visible_bell = %d", win_data->visible_bell);
+#ifdef ENABLE_BEEP_SINGAL
 	g_debug("- win_data->urgent_bell = %d", win_data->urgent_bell);
 	g_debug("- win_data->urgent_bell_status = %d", win_data->urgent_bell_status);
 	g_debug("- win_data->urgent_bell_focus_in_event_id = %ld", win_data->urgent_bell_focus_in_event_id);
+#endif
 	g_debug("- win_data->erase_binding = %d", win_data->erase_binding);
 #ifdef ENABLE_CURSOR_SHAPE
 	g_debug("- win_data->cursor_shape = %d", win_data->cursor_shape);
@@ -3148,7 +3152,9 @@ void win_data_dup(struct Window *win_data_orig, struct Window *win_data)
 	win_data->menuitem_allow_bold_text = NULL;
 	win_data->menuitem_audible_bell = NULL;
 	win_data->menuitem_visible_bell = NULL;
+#ifdef ENABLE_BEEP_SINGAL
 	win_data->menuitem_urgent_bell = NULL;
+#endif
 	win_data->menuitem_show_tabs_bar = NULL;
 	win_data->menuitem_hide_tabs_bar = NULL;
 	win_data->menuitem_hide_scroll_bar = NULL;
@@ -3236,7 +3242,9 @@ void win_data_dup(struct Window *win_data_orig, struct Window *win_data)
 	// win_data->visible_bell;
 	// win_data->urgent_bell;
 	// win_data->urgent_bell_status;
+#ifdef ENABLE_BEEP_SINGAL
 	win_data->urgent_bell_focus_in_event_id = 0;
+#endif
 	// win_data->erase_binding;
 	for (i=0; i<ERASE_BINDING; i++)
 		win_data->menuitem_erase_binding[i] = NULL;

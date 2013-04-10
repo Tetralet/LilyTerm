@@ -144,11 +144,12 @@
 	// SINCE: gtk+-2.11.3/gtk/gtkwidget.h: gtk_widget_set_tooltip_text()
 	#define ENABLE_SET_TOOLTIP_TEXT
 #endif
-#if ! GTK_CHECK_VERSION(2,13,0)
-	// SINCE: gtk+-2.13.0/gtk/gtkstock.h: #define GTK_STOCK_PAGE_SETUP "gtk-page-setup"
-	#define GTK_STOCK_PAGE_SETUP GTK_STOCK_INDEX
+#if GTK_CHECK_VERSION(2,13,0)
 	// SINCE: gtk+-2.13.0/gtk/gtktestutils.h: gtk_test_widget_click()
 	#define ENABLE_MOUSE_SCROLL
+#else
+	// SINCE: gtk+-2.13.0/gtk/gtkstock.h: #define GTK_STOCK_PAGE_SETUP "gtk-page-setup"
+	#define GTK_STOCK_PAGE_SETUP GTK_STOCK_INDEX
 #endif
 #if GTK_CHECK_VERSION(2,13,4)
 	// SINCE: gtk+-2.13.4/gtk/gtkwidget.h: gtk_widget_get_allocation()
@@ -304,6 +305,8 @@
 #if VTE_CHECK_VERSION(0,19,1)
 	// SINCE: vte-0.19.1/src/vte.h: vte_terminal_set_cursor_shape()
 	#define ENABLE_CURSOR_SHAPE
+	// SINEC: src/vteseq.c:	g_signal_emit_by_name(terminal, "beep");
+	#define ENABLE_BEEP_SINGAL
 #endif
 #if VTE_CHECK_VERSION(0,20,4)
 	// SINCE: vte-0.20.4/src/vte.h: VTE_ERASE_TTY
@@ -913,7 +916,9 @@ struct Window
 	GtkWidget *menuitem_allow_bold_text;
 	GtkWidget *menuitem_audible_bell;
 	GtkWidget *menuitem_visible_bell;
+#ifdef ENABLE_BEEP_SINGAL
 	GtkWidget *menuitem_urgent_bell;
+#endif
 	GtkWidget *menuitem_show_tabs_bar;
 	GtkWidget *menuitem_hide_tabs_bar;
 	GtkWidget *menuitem_always_show_tabs_bar;
@@ -1022,11 +1027,13 @@ struct Window
 	gboolean allow_bold_text;
 	gboolean audible_bell;
 	gboolean visible_bell;
+#ifdef ENABLE_BEEP_SINGAL
 	// urgent_bell will stores the currect setting
 	gboolean urgent_bell;
 	// urgent_bell will stores the currect status
 	gboolean urgent_bell_status;
 	gulong urgent_bell_focus_in_event_id;
+#endif
 	gint erase_binding;
 	GtkWidget *menuitem_erase_binding[ERASE_BINDING];
 	GtkWidget *current_menuitem_erase_binding;

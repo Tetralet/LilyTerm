@@ -188,7 +188,9 @@ void init_new_page(struct Window *win_data,
 	vte_terminal_set_audible_bell (VTE_TERMINAL(page_data->vte), win_data->audible_bell);
 	vte_terminal_set_visible_bell (VTE_TERMINAL(page_data->vte), win_data->visible_bell);
 	// g_debug("init_new_page(): call set_vte_urgent_bell()");
+#ifdef ENABLE_BEEP_SINGAL
 	set_vte_urgent_bell(win_data, page_data);
+#endif
 	vte_terminal_set_backspace_binding (VTE_TERMINAL(page_data->vte), win_data->erase_binding);
 #ifdef ENABLE_CURSOR_SHAPE
 	vte_terminal_set_cursor_shape(VTE_TERMINAL(page_data->vte), win_data->cursor_shape);
@@ -825,10 +827,10 @@ void apply_new_win_data_to_page (struct Window *win_data_orig,
 
 	if (win_data_orig->visible_bell != win_data->visible_bell)
 		vte_terminal_set_visible_bell (VTE_TERMINAL(page_data->vte), win_data->visible_bell);
-
+#ifdef ENABLE_BEEP_SINGAL
 	if (win_data_orig->urgent_bell != win_data->urgent_bell)
 		set_vte_urgent_bell(win_data, page_data);
-
+#endif
 	if (win_data_orig->erase_binding != win_data->erase_binding)
 		vte_terminal_set_backspace_binding (VTE_TERMINAL(page_data->vte), win_data->erase_binding);
 #ifdef ENABLE_CURSOR_SHAPE

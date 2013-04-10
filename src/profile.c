@@ -480,7 +480,9 @@ void init_window_parameters(struct Window *win_data)
 	win_data->allow_bold_text = TRUE;
 	win_data->audible_bell = TRUE;
 	// win_data->visible_bell = FALSE;
+#ifdef ENABLE_BEEP_SINGAL
 	win_data->urgent_bell = TRUE;
+#endif
 	// win_data->urgent_bell_status = FALSE;
 	// win_data->urgent_bell_focus_in_event_id = 0;
 	win_data->erase_binding = erase_binding[DEFAULT_ERASE_BINDING].value;
@@ -1394,12 +1396,12 @@ void get_user_settings(struct Window *win_data, const gchar *encoding)
 								     "main",
 								     "visible_bell",
 								      win_data->visible_bell);
-
+#ifdef ENABLE_BEEP_SINGAL
 			win_data->urgent_bell = check_boolean_value(keyfile,
 								    "main",
 								    "urgent_bell",
 								    win_data->urgent_bell);
-
+#endif
 			// g_debug("VTE_ERASE_AUTO = %d, VTE_ERASE_ASCII_BACKSPACE = %d, "
 			//	"VTE_ERASE_ASCII_DELETE = %d, VTE_ERASE_DELETE_SEQUENCE %d",
 			//	VTE_ERASE_AUTO, VTE_ERASE_ASCII_BACKSPACE,
@@ -2481,9 +2483,11 @@ GString *save_user_settings(GtkWidget *widget, struct Window *win_data)
 	g_string_append_printf(contents,"# Sets whether or not the terminal will flash\n"
 					"# when the child outputs the \"bl\" sequence.\n"
 					"visible_bell = %d\n\n", win_data->visible_bell);
+#ifdef ENABLE_BEEP_SINGAL
 	g_string_append_printf(contents,"# Sets whether or not the window's urgent tag will be set\n"
 					"# when the child outputs the \"bl\" sequence.\n"
 					"urgent_bell = %d\n\n", win_data->urgent_bell);
+#endif
 	g_string_append_printf(contents,"# Which string the terminal should send to an application\n"
 					"# when the user presses the Delete or Backspace keys.\n"
 					"# 0: VTE_ERASE_AUTO\n"

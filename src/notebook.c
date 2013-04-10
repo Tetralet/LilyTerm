@@ -1440,11 +1440,11 @@ gboolean vte_button_press(GtkWidget *vte, GdkEventButton *event, gpointer user_d
 		// GTK_CHECK_MENU_ITEM(win_data->menuitem_visible_bell)->active = win_data->visible_bell;
 		gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM(win_data->menuitem_visible_bell),
 						win_data->visible_bell);
-
+#ifdef ENABLE_BEEP_SINGAL
 		// GTK_CHECK_MENU_ITEM(win_data->menuitem_urgent_bell)->active = win_data->urgent_bell;
 		gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM(win_data->menuitem_urgent_bell),
 						win_data->urgent_bell);
-
+#endif
 		if (gtk_notebook_get_show_tabs GTK_NOTEBOOK(win_data->notebook))
 		{
 			gtk_widget_hide (win_data->menuitem_show_tabs_bar);
