@@ -414,6 +414,13 @@ GtkNotebook *new_window(int argc,
 
 // ---- finish! ---- //
 
+#ifndef UNIT_TEST
+	// Due to the bug(?) in GTK3+, window must shown before gtk_window_parse_geometry()
+	// ERR MSG: gtk_window_parse_geometry() called on a window with no visible children;
+	//	    the window should be set up before gtk_window_parse_geometry() is called.
+	gtk_widget_show_all(win_data->window);
+#endif
+
 	if (win_data_orig==NULL)
 	{
 		if (win_data->geometry && (win_data->geometry[0]!='\0'))
@@ -433,9 +440,6 @@ GtkNotebook *new_window(int argc,
 		}
 	}
 
-#ifndef UNIT_TEST
-	gtk_widget_show_all(win_data->window);
-#endif
 	// gtk_window_set_focus(GTK_WINDOW(win_data->window), win_data->current_vte);
 	// g_debug("new_window(): call window_resizable() with run_once = 1");
 	// FIXME: I don't think we should call window_resizable() over and over.
