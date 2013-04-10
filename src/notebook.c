@@ -1820,7 +1820,7 @@ void page_data_dup(struct Page *page_data_prev, struct Page *page_data)
 	page_data->urgent_bell_handler_id = 0;
 
 	page_data->font_name = g_strdup(page_data_prev->font_name);
-	page_data->font_size = 0;
+	// page_data->font_size = 0;
 
 	// page_data->check_root_privileges;
 	// page_data->page_shows_window_title;

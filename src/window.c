@@ -1964,7 +1964,7 @@ void clear_win_data(struct Window *win_data)
 	// win_data=NULL;
 }
 
-void notebook_page_added (GtkNotebook *notebook, GtkWidget *child, guint page_num, struct Window *win_data)
+void notebook_page_added(GtkNotebook *notebook, GtkWidget *child, guint page_num, struct Window *win_data)
 {
 #ifdef DETAIL
 	g_debug("! Launch notebook_page_added() with notebook = %p, page_num = %d, and win_data = %p",
@@ -2062,6 +2062,7 @@ void notebook_page_added (GtkNotebook *notebook, GtkWidget *child, guint page_nu
 	if (gtk_notebook_get_n_pages(GTK_NOTEBOOK(page_data->notebook))==1)
 	{
 		// g_debug("notebook_page_added(): launch update_window_hint()!");
+		// g_debug("notebook_page_added(): page_data->font_name = %s, win_data->restore_font_name = %s", page_data->font_name, win_data->restore_font_name);
 #  ifdef GEOMETRY
 		fprintf(stderr, "\033[1;37m!! notebook_page_added(win_data %p): call update_window_hint() for page_data = %p\033[0m\n",
 			win_data, page_data);
@@ -2139,7 +2140,7 @@ void reorder_page_after_added_removed_page(struct Window *win_data, guint page_n
 	gtk_window_set_focus(GTK_WINDOW(win_data->window), page_data->vte);
 }
 
-void remove_notebook_page (GtkNotebook *notebook, GtkWidget *child, guint page_num, struct Window *win_data)
+void remove_notebook_page(GtkNotebook *notebook, GtkWidget *child, guint page_num, struct Window *win_data)
 {
 #ifdef DETAIL
 	g_debug("! Launch remove_notebook_page() with notebook = %p, and win_data = %p, page_num = %d", notebook, win_data, page_num);
@@ -2185,6 +2186,8 @@ void remove_notebook_page (GtkNotebook *notebook, GtkWidget *child, guint page_n
 #else
 			g_idle_add((GSourceFunc)idle_hide_and_show_tabs_bar, win_data);
 #endif
+			// g_debug("remove_notebook_page(): page_data->font_name = %s, win_data->restore_font_name = %s",
+			//	page_data->font_name, win_data->restore_font_name);
 			if (! compare_strings(page_data->font_name, win_data->restore_font_name, TRUE))
 			{
 				win_data->hints_type = HINTS_FONT_BASE;
@@ -3260,7 +3263,7 @@ void win_data_dup(struct Window *win_data_orig, struct Window *win_data)
 // ---- font ---- //
 	// win_data->font_anti_alias;
 	win_data->default_font_name = g_strdup(win_data_orig->default_font_name);
-	win_data->restore_font_name = NULL;
+	win_data->restore_font_name = g_strdup(win_data_orig->restore_font_name);
 
 // ---- other settings for init a vte ---- //
 
@@ -3352,8 +3355,8 @@ void update_window_hint(struct Window *win_data,
 	else
 		win_data->hints_type = HINTS_NONE;
 #  ifdef GEOMETRY
-	fprintf(stderr, "\033[1;%dm!! update_window_hint(win_data %p): set win_data->hints_type = %d !!\033[0m\n",
-		ANSI_COLOR_BLUE, win_data, win_data->hints_type);
+	fprintf(stderr, "\033[1;%dm!! update_window_hint(win_data %p): set win_data->hints_type = %d (page_data->font_size = %d)!!\033[0m\n",
+		ANSI_COLOR_BLUE, win_data, win_data->hints_type, page_data->font_size);
 #  endif
 
 	// g_debug("window_resizable in change current font!");
