@@ -477,9 +477,9 @@ struct Page *add_page(struct Window *win_data,
 			 G_CALLBACK(vte_size_allocate), page_data);
 #endif
 	g_signal_connect(G_OBJECT(page_data->vte), "decrease-font-size",
-			 G_CALLBACK(vte_size_changed), GINT_TO_POINTER(KEY_DECREASE_FONT_SIZE));
+			 G_CALLBACK(vte_size_changed), GINT_TO_POINTER(FONT_ZOOM_IN));
 	g_signal_connect(G_OBJECT(page_data->vte), "increase-font-size",
-			 G_CALLBACK(vte_size_changed), GINT_TO_POINTER(KEY_INCREASE_FONT_SIZE));
+			 G_CALLBACK(vte_size_changed), GINT_TO_POINTER(FONT_ZOOM_OUT));
 	// the close page event
 	if (! (win_data->hold && win_data->command))
 		g_signal_connect(G_OBJECT(page_data->vte), "child_exited", G_CALLBACK(close_page), 0);
@@ -812,18 +812,7 @@ void vte_size_changed(VteTerminal *vte, Key_Bindings type)
 #ifdef DETAIL
 	g_debug("! Launch vte_size_changed() with vte = %p, type = %d", vte, type);
 #endif
-#ifdef SAFEMODE
-	if (vte==NULL) return;
-#endif
-	struct Page *page_data = (struct Page *)g_object_get_data(G_OBJECT(vte), "Page_Data");
-#ifdef SAFEMODE
-	if (page_data==NULL) return;
-#endif
-	struct Window *win_data = (struct Window *)g_object_get_data(G_OBJECT(page_data->window), "Win_Data");
-#ifdef SAFEMODE
-	if (win_data==NULL) return;
-#endif
-	deal_key_press(page_data->window, type, win_data);
+	set_vte_font(NULL, type);
 }
 
 // close_type = confirm to exit foreground running command or not
