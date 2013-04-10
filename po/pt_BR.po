@@ -5,23 +5,22 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: LilyTerm\n"
-"Report-Msgid-Bugs-To: \n"
+"Report-Msgid-Bugs-To: https://github.com/Tetralet/LilyTerm/issues\n"
 "POT-Creation-Date: 2013-02-22 14:35+0800\n"
-"PO-Revision-Date: 2012-05-21 14:14-0300\n"
+"PO-Revision-Date: 2013-04-09 10:30-0300\n"
 "Last-Translator: Rafael Ferreira <rafael.f.f1@gmail.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: \n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Poedit-Language: Portuguese\n"
-"X-Poedit-Country: BRAZIL\n"
+"Language: pt_BR\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Generator: Poedit 1.5.5\n"
 
 #: console.c:121
 #, c-format
 msgid "Please report bug at <%s>.\n"
-msgstr "Favor reportar bugs em <%s>.\n"
+msgstr "Favor relatar bugs em <%s>.\n"
 
 #: console.c:122 dialog.c:1006
 #, c-format
@@ -35,7 +34,8 @@ msgstr "Obrigado por usar o %s!"
 msgid ""
 "%s is a libvte based X Terminal Emulator.\n"
 "\n"
-msgstr "%s é um Emulador de Terminal X baseado em libvte.\n"
+msgstr "%s é um emulador de terminal X baseado em libvte.\n"
+"\n"
 
 #: console.c:141
 msgid "Use -T/--title {title} to specify the window title.\n"
@@ -43,12 +43,14 @@ msgstr "Use -T/--title {título} para especificar o título da janela.\n"
 
 #: console.c:142
 msgid "Use -t/--tab {number} to open multi tabs when starting up.\n"
-msgstr "Use -t/--tab {número} para abrir múltiplas guias ao iniciar.\n"
+msgstr "Use -t/--tab {número} para abrir múltiplas abas ao iniciar.\n"
 
 #: console.c:143
 msgid ""
 "Use -n/--tab_names {tab names} to specify tab names, separate with <space>.\n"
 msgstr ""
+"Use -n/--tab_names {nomes de abas} para especificar nomes de abas, separados "
+"por <espaço>.\n"
 
 #: console.c:144
 msgid ""
@@ -63,8 +65,8 @@ msgid ""
 "Use -g/--geometry {WIDTHxHEIGHT[+-]XOFFSET[+-]YOFFSET} to specify the "
 "geometry.\n"
 msgstr ""
-"Use -g/--geometry {LARGURAxALTURA[+-]XOFFSET[+-]YOFFSET} para especificar a "
-"geometria.\n"
+"Use -g/--geometry {LARGURAxALTURA[+-]POSIÇÃOX[+-]POSIÇÃOY} para especificar "
+"a geometria.\n"
 
 #: console.c:146
 msgid "Use -l/-ls/--login to make the shell invoked as a login shell.\n"
@@ -88,27 +90,26 @@ msgstr "Use -s/--separate para executar em um processo separado.\n"
 msgid ""
 "Use -j/--join to integrate new created tabs to the last accessed window.\n"
 msgstr ""
+"Use -j/--join para integrar novas abas recém-criadas à última janela "
+"acessada.\n"
 
 #: console.c:151
 msgid "Use -p/--profile to get a profile sample.\n"
 msgstr "Use -p/--profile para adquirir um perfil exemplificativo.\n"
 
 #: console.c:153
-#, fuzzy, c-format
+#, c-format
 #| msgid ""
 #| "Use -u/--user_profile {%s} to use a specified profile.\n"
 #| "\n"
 msgid "Use -u/--user_profile {%s} to use a specified profile.\n"
-msgstr ""
-"Use -u/--user_profile {%s} para usar um perfil especificado.\n"
-"\n"
+msgstr "Use -u/--user_profile {%s} para usar um perfil especificado.\n"
 
 #: console.c:154
 msgid "Use -v/--version to show the version information.\n"
 msgstr "Use -v/--version para mostrar a versão.\n"
 
 #: console.c:155
-#, fuzzy
 #| msgid ""
 #| "Use -e/-x/--execute {Command} to run a command. (Must be the final "
 #| "option).\n"
@@ -116,8 +117,9 @@ msgid ""
 "Use -e/-x/--execute {Command} to run a command. (Must be the final option).\n"
 "\n"
 msgstr ""
-"Use -e/-x/--execute {Comando} para executar um comando. (Tem que ser a "
-"última opção).\n"
+"Use -e/-x/--execute {comando} para executar um comando. (deve ser a última "
+"opção).\n"
+"\n"
 
 #: console.c:157
 #, c-format
@@ -131,7 +133,7 @@ msgstr "E seu perfil de %s é: "
 
 #: console.c:222
 msgid "Default key binding:"
-msgstr "Teclas de Atalho Padrão:"
+msgstr "Teclas de atalho padrão:"
 
 #. TRANSLATE NOTE: Please be care of the spacing when translating the following key binding description.
 #. TRANSLATE NOTE: Please check it in [Right Click Menu] -> [Usage] -> [Key binding] page after translating.
@@ -139,46 +141,46 @@ msgstr "Teclas de Atalho Padrão:"
 msgid ""
 "  * <Ctrl><`>           Disable/Enable hyperlinks, function keys and menu."
 msgstr ""
-"  * <Ctrl><`>           Desabilitar/Habilitar hyperlinks, teclas de função e "
+"  * <Ctrl><`>           Desabilitar/habilitar hyperlinks, teclas de função e "
 "menu."
 
 #: console.c:227
 msgid "  * <Ctrl><T>           Add a New tab with current directory.\n"
-msgstr "  * <Ctrl><T>           Adicionar uma nova guia com diretório atual.\n"
+msgstr "  * <Ctrl><T>           Adicionar uma nova aba com diretório atual.\n"
 
 #: console.c:228
 msgid "  * <Ctrl><PgUp/PgDn>   Switch to Prev/Next tab.\n"
-msgstr "  * <Ctrl><PgUp/PgDn>   Mudar para para guia anterior/posterior.\n"
+msgstr "  * <Ctrl><PgUp/PgDn>   Mudar para a aba anterior/posterior.\n"
 
 #: console.c:229
 msgid "  * <Ctrl><Home/End>    Switch to First/Last tab.\n"
-msgstr "  * <Ctrl><PgUp/PgDn>   Mudar guia para início/fim.\n"
+msgstr "  * <Ctrl><PgUp/PgDn>   Mudar para a primeira/última aba.\n"
 
 #: console.c:230
 msgid "  * <Ctrl><[/]>         Move current tab Forward/Backward.\n"
-msgstr "  * <Ctrl><[/]>         Mover guia atual para frente/para trás.\n"
+msgstr "  * <Ctrl><[/]>         Mover a aba atual para frente/para trás.\n"
 
 #: console.c:231
 msgid "  * <Ctrl><Up/Down>     Move current tab to First/Last.\n"
-msgstr "  * <Ctrl><Up/Down>     Mover guia atual para início/fim.\n"
+msgstr "  * <Ctrl><Up/Down>     Mover a aba atual para primeira/última.\n"
 
 #: console.c:232
 msgid "  * <Ctrl><F1~F12>      Switch to 1st ~ 12th tab.\n"
-msgstr "  * <Ctrl><F1~F12>      Mudar para 1ª ~ 12ª guia.\n"
+msgstr "  * <Ctrl><F1~F12>      Mudar para 1ª ~ 12ª aba.\n"
 
 #: console.c:233
 msgid ""
 "  * <Ctrl><+/-/Enter>   Increase/Decrease/Reset the font size of current "
 "tab.\n"
 msgstr ""
-"  * <Ctrl><+/-/Enter>   Aumentar/Diminuir/Reiniciar o tamanho da fonte da "
-"guia atual.\n"
+"  * <Ctrl><+/-/Enter>   Aumentar/diminuir/reiniciar o tamanho da fonte da "
+"aba atual.\n"
 
 #: console.c:234
 msgid ""
 "  * <Shift><Left/Right> Emulate a mouse Scroll Up/Down event on terminal.\n"
 msgstr ""
-"  * <Shift><Left/Right> Emular um evento de Rolagem para cima/para baixo de "
+"  * <Shift><Left/Right> Emular um evento de rolagem para cima/para baixo de "
 "mouse no terminal.\n"
 
 #: console.c:235
@@ -191,7 +193,7 @@ msgstr ""
 msgid ""
 "  * <Shift><PgUp/PgDn>  Gtk+ default behavior, Scroll Up/Down on terminal.\n"
 msgstr ""
-"  * <Shift><PgUp/PgDn>  Comportamento padrão Gtk+, Rolar para cima/Rolar "
+"  * <Shift><PgUp/PgDn>  Comportamento padrão Gtk+, rolar para cima/rolar "
 "para baixo no terminal.\n"
 
 #: console.c:237
@@ -199,7 +201,7 @@ msgid ""
 "  * <Shift><Home/End>   Gtk+ default behavior, Scroll terminal to Top/"
 "Bottom.\n"
 msgstr ""
-"  * <Shift><Home/End>   Comportamento padrão do Gtk+, Rolar o terminal para "
+"  * <Shift><Home/End>   Comportamento padrão do Gtk+, rolar o terminal para "
 "topo/base.\n"
 
 #: console.c:238
@@ -216,8 +218,8 @@ msgid ""
 "                        Use <F3>/<Shift><F3> to find Next/Prev.\n"
 msgstr ""
 "  * <Ctrl><F>           Pesquisar texto na janela do terminal.\n"
-"                        Use <F3>/<Shift><F3> para pesquisar Seguinte/"
-"Anterior.\n"
+"                        Use <F3>/<Shift><F3> para pesquisar seguinte/"
+"anterior.\n"
 
 #: console.c:241
 msgid "  * <Ctrl><O>           Select all the text in the terminal.\n"
@@ -252,7 +254,7 @@ msgstr ""
 
 #: console.c:247
 msgid "  * <Ctrl><Q>           Trying to close current tab.\n"
-msgstr "  * <Ctrl><Q>           Tentar fechar a guia atual.\n"
+msgstr "  * <Ctrl><Q>           Tentar fechar a aba atual.\n"
 
 #: console.c:248
 msgid ""
@@ -260,7 +262,7 @@ msgid ""
 "recommended)\n"
 msgstr ""
 "                        (É recomendado o uso de <Ctrl><D> ou 'exit' para "
-"fechar as guias)\n"
+"fechar as abas)\n"
 
 #: console.c:249
 msgid "  * <Ctrl><N>           Open a new window with current directory.\n"
@@ -268,7 +270,7 @@ msgstr "  * <Ctrl><N>           Abrir uma nova janela no diretório atual.\n"
 
 #: console.c:250
 msgid "  * <Ctrl><E>           Rename the current tab.\n"
-msgstr "  * <Ctrl><E>           Renomear a guia atual.\n"
+msgstr "  * <Ctrl><E>           Renomear a aba atual.\n"
 
 #: console.c:257
 #, c-format
@@ -287,15 +289,15 @@ msgstr "O seguinte erro ocorreu:"
 
 #: dialog.c:171 menu.c:315
 msgid "Rename this tab"
-msgstr "Renomear esta guia"
+msgstr "Renomear esta aba"
 
 #: dialog.c:194
 msgid "Please input the Label Name of this tab:"
-msgstr "Favor inserir o Nome do Rótulo desta guia:"
+msgstr "Favor inserir o nome do título desta aba:"
 
 #: dialog.c:195
 msgid "Label Name:"
-msgstr "Nome da Guia:"
+msgstr "Nome da aba:"
 
 #: dialog.c:202 profile.c:741
 msgid "Find string"
@@ -315,7 +317,7 @@ msgstr "Pesquisar string seguinte"
 
 #: dialog.c:253
 msgid "Case sensitive"
-msgstr "Case sensitive"
+msgstr "Difer. maiúsc/minúsc."
 
 #: dialog.c:261
 msgid "Use Perl compatible regular expressions"
@@ -323,11 +325,11 @@ msgstr "Usar expressões regulares compatíveis com Perl"
 
 #: dialog.c:299 dialog.c:358
 msgid "Paste texts to every Vte Terminal"
-msgstr "Colar textos em todos Terminais Vte"
+msgstr "Colar textos em todos terminais Vte"
 
 #: dialog.c:317
 msgid "Please input the texts that will be paste to the Vte Terminals:"
-msgstr "Favor inserir os textos que serão colados nos Terminais Vte:"
+msgstr "Favor inserir os textos que serão colados nos terminais Vte:"
 
 #: dialog.c:318
 msgid "Text:"
@@ -346,12 +348,12 @@ msgid ""
 "Paste the grabbed key to the Vte Terminals.\n"
 "It will be useful if you want to paste combined keys, like <Ctrl><C>."
 msgstr ""
-"Colar as teclas adquiridas nos Terminais Vte.\n"
+"Colar as teclas adquiridas nos terminais Vte.\n"
 "Será útil se você quiser colar teclas cominadas, como <Ctrl><C>."
 
 #: dialog.c:378 dialog.c:886
 msgid "Key Value:"
-msgstr "Valor da Tecla:"
+msgstr "Valor da tecla:"
 
 #: dialog.c:384
 msgid "Entry"
@@ -359,7 +361,7 @@ msgstr "Registro"
 
 #: dialog.c:389
 msgid "Add new locales and set the default locale"
-msgstr "Adicionar novos locales e definir o locale padrão"
+msgstr "Adicionar novas localizações e definir a padrão"
 
 #. TRANSLATE NOTE: You may replace the following locales with the locale name of your country.
 #. TRANSLATE NOTE: For example, replace "zh_TW" with "ru_RU", replace "zh_TW.Big5" with "ru_RU.KOI8-R",
@@ -369,12 +371,12 @@ msgid ""
 "The default locale used when initing a Vte Terminal.\n"
 "You may use \"zh_TW\", \"zh_TW.Big5\", or \"zh_TW.UTF-8\" here."
 msgstr ""
-"O locale padrão usado ao iniciar um Terminal Vte.\n"
+"A localização padrão usado ao iniciar um terminal Vte.\n"
 "Você pode usar \"pt_BR\" (ISO-8859-1) ou \"pt_BR.UTF-8\" aqui."
 
 #: dialog.c:412
 msgid "Default locale:"
-msgstr "Locale padrão:"
+msgstr "Localização padrão:"
 
 #. TRANSLATE NOTE: You may replace the following locales with the locale name of your country.
 #. TRANSLATE NOTE: For example, replace "zh_TW" with "ja_JP", replace "zh_TW.Big5" with "ja_JP.EUC-JP",
@@ -385,13 +387,14 @@ msgid ""
 "You may use \"zh_TW\", \"zh_TW.Big5\", or \"zh_TW.UTF-8\" here.\n"
 "You may want to use \"UTF-8\" here if you have no locale data installed."
 msgstr ""
-"A lista de locales no menu de botão direito, separado com <espaço>.\n"
+"A lista de localizações no menu de botão direito, separado com <espaço>.\n"
 "Você pode usar \"pt_BR\" (ISO-8859-1) ou \"pt_BR.UTF-8\" aqui.\n"
-"Você provavelmente vai querer \"UTF-8\" aqui se não tiver locales instalados."
+"Você provavelmente vai querer \"UTF-8\" aqui se não tiver localizações "
+"instalados."
 
 #: dialog.c:424
 msgid "Locales list:"
-msgstr "Lista de locales:"
+msgstr "Lista de localizações:"
 
 #: dialog.c:431
 msgid "Change the saturation of background"
@@ -399,35 +402,34 @@ msgstr "Alterar a saturação do plano de fundo"
 
 #: dialog.c:440
 msgid "Change the Saturation of background:"
-msgstr "Alterar a Saturação do plano de fundo"
+msgstr "Alterar a saturação do plano de fundo:"
 
 #: dialog.c:464
 msgid "Change the foreground color in terminal"
-msgstr "Alterar a cor do primeiro plano no terminal"
+msgstr "Alterar a cor do texto no terminal"
 
 #: dialog.c:489
 msgid "Change the background color in terminal"
-msgstr "Alterar a cor do plano de fundo do terminal"
+msgstr "Alterar a cor de fundo do terminal"
 
 #: dialog.c:513
 msgid "Change the cursor color in terminal"
 msgstr "Alterar a cor do cursor no terminal"
 
 #: dialog.c:536 dialog.c:2020
-#, fuzzy, c-format
+#, c-format
 #| msgid "Change the cursor color in terminal"
 msgid "Change the ansi color [%s] in terminal"
-msgstr "Alterar a cor do cursor no terminal"
+msgstr "Alterar a cor ansi [%s] no terminal"
 
 #: dialog.c:564
-#, fuzzy
 #| msgid "Adjust the brightness of ANSI colors"
 msgid "The brightness of ANSI colors:"
-msgstr "Alterar o brilho das cores ANSI"
+msgstr "O brilho das cores ANSI:"
 
 #: dialog.c:580
 msgid "ANSI Colors:"
-msgstr ""
+msgstr "Cores ANSI:"
 
 #: dialog.c:585 menu.c:433
 msgid "Invert color"
@@ -436,23 +438,23 @@ msgstr "Inverter cores"
 #: dialog.c:637 menu.c:120
 #, c-format
 msgid "Change the %s color on tab"
-msgstr "Alterar a cor do %s na guia"
+msgstr "Alterar a cor do %s na aba"
 
 #: dialog.c:723 dialog.c:3024
 msgid "Bold Demo Text"
-msgstr "Negritar Texto de Demonstração"
+msgstr "Negritar texto de demonstração"
 
 #: dialog.c:777
 msgid "Confirm to close multi tabs"
-msgstr "Confirmar para fechar múltiplas guias"
+msgstr "Confirmar para fechar múltiplas abas"
 
 #: dialog.c:786
 msgid "You are about to close multi tabs. Continue anyway?"
-msgstr "Você fechará múltiplas guias. Continuar mesmo assim?"
+msgstr "Você fechará múltiplas abas. Continuar mesmo assim?"
 
 #: dialog.c:793 dialog.c:1271
 msgid "those tabs"
-msgstr "aquelas guias"
+msgstr "aquelas abas"
 
 #: dialog.c:799
 msgid ""
@@ -468,15 +470,15 @@ msgstr "Adquire o valor da tecla para tecla de função"
 
 #: dialog.c:854
 msgid "Function Key Name"
-msgstr "Noma da Tecla de Função"
+msgstr "Noma da tecla de função"
 
 #: dialog.c:858
 msgid "Key Bindings"
-msgstr "Tecla de Atalhos"
+msgstr "Tecla de atalhos"
 
 #: dialog.c:866
 msgid "Key Group: "
-msgstr "Grupo de Teclas: "
+msgstr "Grupo de teclas: "
 
 #: dialog.c:875
 msgid "Note: "
@@ -502,7 +504,7 @@ msgstr "Uso"
 
 #: dialog.c:959
 msgid "Key binding"
-msgstr "Teclas de Atalho"
+msgstr "Teclas de atalho"
 
 #. TRANSLATE NOTE: The following license declaration is just a notice, not full license text.
 #. TRANSLATE NOTE: The full GPLv3 license text is included in LilyTerm source code.
@@ -534,12 +536,12 @@ msgstr ""
 "pela Free Software Foundation; tanto a versão 3 da Licença ou (a sua\n"
 "escolha) qualquer versão posterior.\n"
 "\n"
-"O %s é distribuído na esperança de que será útil, mas SEM NENHUMA\n"
+"O %s é distribuído na esperança de que será útil, mas SEM QUALQUER\n"
 "GARANTIA; até mesmo sem a garantia implícita de COMERCIALIZAÇÃO ou\n"
 "ADEQUAÇÃO A UM PROPÓSITO EM PARTICULAR. Veja a Licença\n"
-"pública Geral GNU (GNU GPL) para mais detalhes.\n"
+"Pública Geral GNU (GNU GPL) para mais detalhes.\n"
 "\n"
-"Você deve ter recebido uma cópia da GNU General Public License (GPL)\n"
+"Você deve ter recebido uma cópia da Licença Pública Geral GNU (GPL)\n"
 "junto com o %s; se não, veja <http://www.gnu.org/licenses/>."
 
 #: dialog.c:980
@@ -553,40 +555,40 @@ msgstr "Tradutores"
 #. TRANSLATE NOTE: Please be care of the spacing when translating the following site informatoins.
 #. TRANSLATE NOTE: Please check it in [Right Click Menu] -> [Usage] -> [About] page after translating.
 #: dialog.c:1000
-#, fuzzy, c-format
+#, c-format
 #| msgid "Homepage:"
 msgid "HomePage: %s"
-msgstr "Site:"
+msgstr "Site:     %s"
 
 #: dialog.c:1001
-#, fuzzy, c-format
+#, c-format
 #| msgid "Wiki:   %s"
 msgid "Github:   %s"
-msgstr "Wiki:   %s"
+msgstr "Github:   %s"
 
 #: dialog.c:1002
-#, fuzzy, c-format
+#, c-format
 #| msgid "Blog:   %s"
 msgid "Blog:     %s"
-msgstr "Blog:   %s"
+msgstr "Blog:     %s"
 
 #: dialog.c:1003
-#, fuzzy, c-format
+#, c-format
 #| msgid "Wiki:   %s"
 msgid "Wiki:     %s"
-msgstr "Wiki:   %s"
+msgstr "Wiki:     %s"
 
 #: dialog.c:1004
-#, fuzzy, c-format
+#, c-format
 #| msgid "Issues: %s"
 msgid "Issues:   %s"
-msgstr "Bugs:   %s"
+msgstr "Falhas:   %s"
 
 #: dialog.c:1005
-#, fuzzy, c-format
+#, c-format
 #| msgid "IRC:    %s"
 msgid "IRC:      %s"
-msgstr "IRC:    %s"
+msgstr "IRC:      %s"
 
 #: dialog.c:1012
 msgid "About"
@@ -595,13 +597,13 @@ msgstr "Sobre"
 #: dialog.c:1028
 #, c-format
 msgid "There is still a running foreground program on #%d tab:"
-msgstr "Ainda há um programa em primeiro plano em execução na guia #%d:"
+msgstr "Ainda há um programa em primeiro plano em execução na aba #%d:"
 
 #: dialog.c:1030
 #, c-format
 msgid "Terminate it by using `kill -9 %d' is recommend if it is non-response."
 msgstr ""
-"Terminá-lo usando `kill -9 %d' é recomendado se não estiver respondendo."
+"Recomenda-se terminá-lo usando \"kill -9 %d\", se não estiver respondendo."
 
 #: dialog.c:1036 dialog.c:1186 dialog.c:1217 dialog.c:1252 dialog.c:1284
 #: dialog.c:1309
@@ -619,7 +621,7 @@ msgstr ""
 
 #: dialog.c:1064 dialog.c:1243
 msgid "this tab"
-msgstr "esta guia"
+msgstr "esta aba"
 
 #: dialog.c:1071
 msgid "Change the opacity of window"
@@ -656,15 +658,15 @@ msgstr "Confirmar para executar o comando -e/-x/--execute"
 #: dialog.c:1208
 #, c-format
 msgid "The following programs are still running under #%d tab:"
-msgstr "Os seguintes programas ainda estão em execução na guia #%d:"
+msgstr "Os seguintes programas ainda estão em execução na aba #%d:"
 
 #: dialog.c:1210
 msgid "Using <Ctrl><D> or 'exit' to close tabs is recommended"
-msgstr "É recomendado o uso de <Ctrl><D> ou 'Sair' para fechar guias"
+msgstr "É recomendado o uso de <Ctrl><D> ou \"Sair\" para fechar abas"
 
 #: dialog.c:1225
 msgid "Confirm to close a tab with child process"
-msgstr "Confirmar para fechar uma guia com processo filho"
+msgstr "Confirmar para fechar uma aba com processo filho"
 
 #: dialog.c:1248
 msgid "The following programs are still running under this window:"
@@ -686,11 +688,11 @@ msgstr "Os seguintes programas ainda estão em execução sob %s:"
 
 #: dialog.c:1305
 msgid "Trying to paste the following texts to the Vte Terminal:"
-msgstr "Tentando colar os seguintes textos no Terminal Vte:"
+msgstr "Tentando colar os seguintes textos no terminal Vte:"
 
 #: dialog.c:1312
 msgid "Confirm to paste texts to the Vte Terminal"
-msgstr "Confirmar para colar textos no Terminal Vte"
+msgstr "Confirmar para colar textos no terminal Vte"
 
 #: dialog.c:1330
 msgid "Join and paste"
@@ -698,7 +700,7 @@ msgstr "Juntar e colar"
 
 #: dialog.c:1337 menu.c:181
 msgid "Clipboard"
-msgstr "Área de Transferência"
+msgstr "Área de transferência"
 
 #: dialog.c:2688
 #, c-format
@@ -712,7 +714,7 @@ msgstr ""
 #: dialog.c:2702
 #, c-format
 msgid "Force to close all the tabs and windows, and exit %s!"
-msgstr "Forçar fechar todas as guias e janelas, e sair %s!"
+msgstr "Forçar fechar todas as abas e janelas, e sair %s!"
 
 #: dialog.c:2827
 #, c-format
@@ -730,13 +732,13 @@ msgid ""
 "If you just added the locale datas recently,\n"
 "Please close all the windows of %s and try again."
 msgstr ""
-"O locale \"%s\" parece NÃO ser suportado pelo seu sistema!\n"
-"Se você recentemente adicionar os dados do locale,\n"
-"Favor feche todas as janelas do %s e tente novamente."
+"Não parece haver suporte à localização \"%s\" no seu sistema!\n"
+"Se você recentemente adicionar os dados desta localização,\n"
+"por favor feche todas as janelas do %s e tente novamente."
 
 #: dialog.c:3147
 msgid "Not supported locale!"
-msgstr "Locale não suportado!"
+msgstr "Localização sem suporte!"
 
 #: dialog.c:3217
 #, c-format
@@ -747,7 +749,7 @@ msgstr ""
 
 #: dialog.c:3218
 msgid "Not supported feature!"
-msgstr "Recurso não suportado!"
+msgstr "Recurso sem suporte!"
 
 #: dialog.c:3365
 #, c-format
@@ -783,11 +785,11 @@ msgstr "Alterar codificação do texto"
 
 #: menu.c:60
 msgid "New tab"
-msgstr "Nova guia"
+msgstr "Nova aba"
 
 #: menu.c:61
 msgid "New tab with specified locale"
-msgstr "Nova guia com locale especificado"
+msgstr "Nova aba com localização especificada"
 
 #: menu.c:70 menu.c:2235
 msgid "New window with specified profile"
@@ -803,17 +805,16 @@ msgstr "Alterar cores"
 
 #: menu.c:90
 msgid "Change the foreground color"
-msgstr "Alterar a cor do primeiro plano"
+msgstr "Alterar a cor do texto"
 
 #: menu.c:94
-#, fuzzy
 #| msgid "Change the cursor color"
 msgid "Change the ANSI colors"
-msgstr "Alterar a cor do cursor"
+msgstr "Alterar as cores ANSI"
 
 #: menu.c:98
 msgid "Change the background color"
-msgstr "Alterar a cor do plano de fundo"
+msgstr "Alterar a cor do fundo"
 
 #: menu.c:102
 msgid "Change the cursor color"
@@ -833,7 +834,7 @@ msgstr "Alterar tema de cores ANSI"
 
 #: menu.c:139
 msgid "Background"
-msgstr "Plano de Fundo"
+msgstr "Plano de fundo"
 
 #: menu.c:145
 msgid "Transparent window"
@@ -893,7 +894,7 @@ msgstr "Miscelânea"
 
 #: menu.c:233
 msgid "Paste to every Vte Terminal"
-msgstr "Colar em todos Terminais Vte"
+msgstr "Colar em todos terminais Vte"
 
 #: menu.c:236
 msgid "Launch file manager"
@@ -917,19 +918,19 @@ msgstr "Esmaecer janela quando inativo"
 
 #: menu.c:284
 msgid "Cursor blinks"
-msgstr "Piscar Cursor"
+msgstr "Piscar cursor"
 
 #: menu.c:291
 msgid "Audible bell"
-msgstr "Sino Audível"
+msgstr "Sino audível"
 
 #: menu.c:295
 msgid "Visible bell"
-msgstr "Sino Visível"
+msgstr "Sino visível"
 
 #: menu.c:299
 msgid "Urgent bell"
-msgstr "Sino Urgente"
+msgstr "Sino urgente"
 
 #: menu.c:309
 msgid "Switch input methods"
@@ -937,19 +938,19 @@ msgstr "Alterar métodos de entrada"
 
 #: menu.c:324
 msgid "Show the tabs bar"
-msgstr "Mostrar a barra de guias"
+msgstr "Mostrar a barra de abas"
 
 #: menu.c:330
 msgid "Hide the tabs bar"
-msgstr "Esconder a barra de guias"
+msgstr "Ocultar a barra de abas"
 
 #: menu.c:337
 msgid "Always show the tabs bar"
-msgstr "Sempre mostrar a barra de guias"
+msgstr "Sempre mostrar a barra de abas"
 
 #: menu.c:344
 msgid "Always hide the tabs bar"
-msgstr "Sempre esconder a barra de guias"
+msgstr "Sempre ocultar a barra de abas"
 
 #: menu.c:354
 msgid "Increase window size"
@@ -985,17 +986,17 @@ msgstr "Sair do %s"
 #. TRANSLATE NOTE: Contrast it with "System default (PROFILE)" (See below)
 #: menu.c:467 menu.c:468
 msgid "System default (SCHEME)"
-msgstr "Padrão do sistema"
+msgstr "Padrão do sistema (SCHEME)"
 
 #: menu.c:473
 msgid "grayscale"
-msgstr "Tons de Cinza"
+msgstr "Tons de cinza"
 
 #: menu.c:479
-#, fuzzy, c-format
+#, c-format
 #| msgid "User custom"
 msgid "%s + custom"
-msgstr "Personalizado"
+msgstr "%s + personalizado"
 
 #: menu.c:987
 msgid " (Wide)"
@@ -1003,7 +1004,7 @@ msgstr " (Wide)"
 
 #: menu.c:1445
 msgid "Font Selection"
-msgstr "Seleção de Fonte"
+msgstr "Seleção de fonte"
 
 #: menu.c:1743 menu.c:1750
 msgid "Add other locales..."
@@ -1062,7 +1063,7 @@ msgstr "As seguintes configurações podem NÃO ser aplicadas"
 
 #: menu.c:2319
 msgid "Disable: Trying to use [Transparent Background] instead."
-msgstr "Desabilitar: Tentando usar [Plano de Fundo Transparente], ao invés."
+msgstr "Desabilitar: Tentando usar [Plano de fundo transparente], ao invés."
 
 #: menu.c:2325
 msgid "Scroll the background image along with the text"
@@ -1105,19 +1106,19 @@ msgstr "Erro enquanto criava o processo filho"
 
 #: profile.c:714
 msgid "Tab operation"
-msgstr "Operação de guia"
+msgstr "Operação de aba"
 
 #: profile.c:715
 msgid "Switch tab"
-msgstr "Mudar guia"
+msgstr "Mudar aba"
 
 #: profile.c:716
 msgid "Move tab"
-msgstr "Mover guia"
+msgstr "Mover aba"
 
 #: profile.c:717
 msgid "Switch to #? tab"
-msgstr "Mudar para a guia #?"
+msgstr "Mudar para a aba #?"
 
 #: profile.c:718
 msgid "Text operation"
@@ -1133,28 +1134,28 @@ msgstr "Fonte"
 
 #: profile.c:725
 msgid "Disable/Enable functions"
-msgstr "Desabilitar/Habilitar funções"
+msgstr "Desabilitar/habilitar funções"
 
 #: profile.c:727
 msgid "Disable/Enable hyperlinks, function keys and right click menu."
 msgstr ""
-"Desabilitar/Habilitar hyperlinks, teclas de funções e menu de botão direito."
+"Desabilitar/habilitar hyperlinks, teclas de funções e menu de botão direito."
 
 #: profile.c:729
 msgid "Add new tab"
-msgstr "Adicionar nova guia"
+msgstr "Adicionar nova aba"
 
 #: profile.c:731
 msgid "Add a new tab."
-msgstr "Adicionar uma nova guia."
+msgstr "Adicionar uma nova aba."
 
 #: profile.c:733
 msgid "Close tab"
-msgstr "Fechar guia"
+msgstr "Fechar aba"
 
 #: profile.c:735
 msgid "Close current tab."
-msgstr "Fechar a guia atual."
+msgstr "Fechar a aba atual."
 
 #: profile.c:737
 msgid "Rename page name"
@@ -1162,7 +1163,7 @@ msgstr "Renomear página"
 
 #: profile.c:739
 msgid "Rename the page name of current tab."
-msgstr "Renomear a página da guia atual."
+msgstr "Renomear a página da aba atual."
 
 #: profile.c:743
 msgid "Find the strings matching the search regex."
@@ -1188,35 +1189,35 @@ msgstr ""
 
 #: profile.c:751
 msgid "Switch to prev tab"
-msgstr "Mudar para guia anterior"
+msgstr "Mudar para aba anterior"
 
 #: profile.c:753
 msgid "Switch to prev tab."
-msgstr "Mudar para guia anterior."
+msgstr "Mudar para aba anterior."
 
 #: profile.c:755
 msgid "Switch to next tab"
-msgstr "Mudar para guia seguinte"
+msgstr "Mudar para aba seguinte"
 
 #: profile.c:757
 msgid "Switch to next tab."
-msgstr "Mudar para guia seguinte."
+msgstr "Mudar para aba seguinte."
 
 #: profile.c:759
 msgid "Switch to first tab"
-msgstr "Mudar para primeira guia"
+msgstr "Mudar para primeira aba"
 
 #: profile.c:761
 msgid "Switch to first tab."
-msgstr "Mudar para primeira guia."
+msgstr "Mudar para primeira aba."
 
 #: profile.c:763
 msgid "Switch to last tab"
-msgstr "Mudar para última guia"
+msgstr "Mudar para última aba"
 
 #: profile.c:765
 msgid "Switch to last tab."
-msgstr "Mudar para última guia."
+msgstr "Mudar para última aba."
 
 #: profile.c:767
 msgid "Move page forward"
@@ -1253,12 +1254,12 @@ msgstr "Mover página atual para o final."
 #: profile.c:786
 #, c-format
 msgid "Switch to #%d tab"
-msgstr "Mudar para guia #%d"
+msgstr "Mudar para aba #%d"
 
 #: profile.c:788
 #, c-format
 msgid "Switch #%d tab directly."
-msgstr "Mudar para guia #%d diretamente."
+msgstr "Mudar para aba #%d diretamente."
 
 #: profile.c:792
 msgid "New window"
@@ -1278,7 +1279,7 @@ msgstr "Selecionar todo o texto no Terminal Vte."
 
 #: profile.c:800
 msgid "Copy to clipboard"
-msgstr "Copiar para a área de transferência."
+msgstr "Copiar para a área de transferência"
 
 #: profile.c:802
 msgid "Copy the text to clipboard."
@@ -1298,7 +1299,7 @@ msgstr "Aumentar o tamanho da fonte"
 
 #: profile.c:810
 msgid "Increase the font size of current tab."
-msgstr "Aumentar o tamnho da fonte da guia atual"
+msgstr "Aumentar o tamanho da fonte da aba atual."
 
 #: profile.c:812
 msgid "Decrease font size"
@@ -1306,7 +1307,7 @@ msgstr "Diminuir o tamanho da fonte"
 
 #: profile.c:814
 msgid "Decrease the font size of current tab."
-msgstr "Diminuir o tamanho da fonte da guia atual"
+msgstr "Diminuir o tamanho da fonte da aba atual."
 
 #: profile.c:816
 msgid "Reset font size"
@@ -1314,7 +1315,7 @@ msgstr "Reiniciar o tamanho da fonte"
 
 #: profile.c:818
 msgid "Reset the font of current tab to original size."
-msgstr "Reiniciar a fonte da guia atual para o tamanho original."
+msgstr "Reiniciar a fonte da aba atual para o tamanho original."
 
 #: profile.c:820
 msgid "Maximum the window"
@@ -1375,27 +1376,27 @@ msgstr "Despejar dados de execução do LilyTerm para depuração."
 
 #: profile.c:878
 msgid "Window Title"
-msgstr "Título da Janela"
+msgstr "Título da janela"
 
 #: profile.c:879
 msgid "Running Command"
-msgstr "Comando em Execução"
+msgstr "Comando em execução"
 
 #: profile.c:880
 msgid "Current Dir"
-msgstr "Diretório Atual"
+msgstr "Diretório atual"
 
 #: profile.c:881
 msgid "Custom Tab Name"
-msgstr "Nome de Guia Personalizado"
+msgstr "Nome personalizado de aba"
 
 #: profile.c:882
 msgid "Root Privileges"
-msgstr "Privilégios de Root"
+msgstr "Privilégios de root"
 
 #: profile.c:883
 msgid "Normal Text"
-msgstr "Texto Normal"
+msgstr "Texto normal"
 
 #: profile.c:917
 msgid "Shift"
@@ -1414,72 +1415,70 @@ msgid "Win"
 msgstr "Win"
 
 #: profile.c:977
-#, fuzzy
 #| msgid "Background"
 msgid "Background Color"
-msgstr "Plano de Fundo"
+msgstr "Cor do fundo"
 
 #: profile.c:978
 msgid "Dark Red"
-msgstr ""
+msgstr "Vermelho escuro"
 
 #: profile.c:979
 msgid "Dark Green"
-msgstr ""
+msgstr "Verde escuro"
 
 #: profile.c:980
 msgid "Dark Yellow"
-msgstr ""
+msgstr "Amarelo escuro"
 
 #: profile.c:981
 msgid "Dark Blue"
-msgstr ""
+msgstr "Azul escuro"
 
 #: profile.c:982
 msgid "Dark Magenta"
-msgstr ""
+msgstr "Magenta escuro"
 
 #: profile.c:983
 msgid "Dark Cyan"
-msgstr ""
+msgstr "Ciano escuro"
 
 #: profile.c:984
 msgid "Dark White"
-msgstr ""
+msgstr "Cinza claro"
 
 #: profile.c:985
 msgid "Bright Black"
-msgstr ""
+msgstr "Cinza escuro"
 
 #: profile.c:986
 msgid "Bright Red"
-msgstr ""
+msgstr "Vermelho escuro"
 
 #: profile.c:987
 msgid "Bright Green"
-msgstr ""
+msgstr "Verde claro"
 
 #: profile.c:988
 msgid "Bright Yellow"
-msgstr ""
+msgstr "Amarelo claro"
 
 #: profile.c:989
 msgid "Bright Blue"
-msgstr ""
+msgstr "Azul claro"
 
 #: profile.c:990
 msgid "Bright Magenta"
-msgstr ""
+msgstr "Magenta claro"
 
 #: profile.c:991
 msgid "Bright Cyan"
-msgstr ""
+msgstr "Ciano claro"
 
 #: profile.c:992
-#, fuzzy
 #| msgid "Change the foreground color"
 msgid "Foreground Color"
-msgstr "Alterar a cor do primeiro plano"
+msgstr "Cor do texto"
 
 #: profile.c:2661
 msgid "The target file does NOT exist"
@@ -1492,7 +1491,7 @@ msgstr "O arquivo alvo é um diretório"
 #: profile.c:2720
 #, c-format
 msgid "Error while writing profile '%s':"
-msgstr "Erro na escrita do perfil '%s':"
+msgstr "Erro na escrita do perfil \"%s\":"
 
 #: profile.c:2725
 msgid "Error when writing profile"
