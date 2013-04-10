@@ -534,7 +534,7 @@ typedef enum {
 } Geometry_Resize_Type;
 #endif
 
-#if defined(GEOMETRY) || defined(UNIT_TEST)
+#if defined(GEOMETRY) || defined(UNIT_TEST) || defined(DEBUG)
 typedef enum {
 	ANSI_COLOR_BLACK =   30,
 	ANSI_COLOR_RED =     31,

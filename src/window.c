@@ -71,6 +71,7 @@ GtkNotebook *new_window(int argc,
 #ifdef SAFEMODE
 	if (win_data==NULL) return NULL;
 #endif
+	// g_debug("new_window(): Append win_data(%p) to window_list!", win_data);
 	window_list = g_list_append (window_list, win_data);
 
 // ---- create main window ---- //
@@ -145,6 +146,7 @@ GtkNotebook *new_window(int argc,
 		if (! window_option(win_data, encoding, argc, argv))
 		{
 			// Don't execute the command!
+			// g_debug("new_window(1): Remove win_data(%p) from window_list!", win_data);
 			window_list = g_list_remove (window_list, win_data);
 			destroy_window(win_data);
 #ifdef SAFEMODE
@@ -243,6 +245,7 @@ GtkNotebook *new_window(int argc,
 							gtk_notebook_set_current_page(GTK_NOTEBOOK(active_win_data->notebook),
 										      current_page_no);
 					}
+					// g_debug("new_window(2): Remove win_data(%p) from window_list!", win_data);
 					window_list = g_list_remove (window_list, win_data);
 					destroy_window(win_data);
 #ifdef SAFEMODE
@@ -473,41 +476,6 @@ GtkNotebook *new_window(int argc,
 	return GTK_NOTEBOOK(win_data->notebook);
 #endif
 }
-
-#if defined(USE_GTK3_GEOMETRY_METHOD) || defined(UNIT_TEST)
-void resize_to_exist_widget(struct Window *win_data)
-{
-#ifdef DETAIL
-	g_debug("! Launch resize_to_exist_widget() with win_data = %p", win_data);
-#endif
-#ifdef SAFEMODE
-	if (win_data==NULL) return;
-#endif
-	GtkWidget *widget = win_data->notebook;
-	gboolean show_tabs_bar = get_hide_or_show_tabs_bar(win_data, win_data->show_tabs_bar);
-	if (show_tabs_bar == FALSE)
-	{
-		// find the current vte size
-#ifdef SAFEMODE
-		if (win_data->current_vte==NULL) return;
-#endif
-		struct Page *page_data = (struct Page *)g_object_get_data(G_OBJECT(win_data->current_vte), "Page_Data");
-#ifdef SAFEMODE
-		if (page_data) return;
-#endif
-			widget = page_data->hbox;
-	}
-
-	GtkAllocation allocation = {0};
-	gtk_widget_get_allocation(widget, &allocation);
-
-	gtk_window_resize (GTK_WINDOW(win_data->window), allocation.width, allocation.height);
-#  ifdef GEOMETRY
-	fprintf(stderr, "\033[1;%dm!! resize_to_exist_widget(win_data %p, show_tabs_bar = %d): resize window size to %d x %d!!\033[0m\n",
-		ANSI_COLOR_YELLOW, win_data, show_tabs_bar, allocation.width, allocation.height);
-#  endif
-}
-#endif
 
 gchar *get_init_dir(pid_t pid, gchar *pwd, gchar *home)
 {
@@ -1409,7 +1377,7 @@ gboolean deal_key_press(GtkWidget *window, Key_Bindings type, struct Window *win
 					//	win_data->window_status);
 					show_or_hide_tabs_bar_and_scroll_bar(win_data);
 					if (idle)
-						g_idle_add((GSourceFunc)gtk_window_fullscreen, GTK_WINDOW(win_data->window));
+						g_idle_add((GSourceFunc)idle_gtk_window_fullscreen, win_data);
 					else
 						gtk_window_fullscreen(GTK_WINDOW(win_data->window));
 					break;
@@ -1427,7 +1395,7 @@ gboolean deal_key_press(GtkWidget *window, Key_Bindings type, struct Window *win
 					gtk_window_unfullscreen(GTK_WINDOW(win_data->window));
 					if (win_data->window_status==WINDOW_FULL_SCREEN)
 						win_data->window_status = WINDOW_RESIZING_TO_NORMAL;
-					g_idle_add((GSourceFunc)show_or_hide_tabs_bar_and_scroll_bar, win_data);
+					g_idle_add((GSourceFunc)idle_show_or_hide_tabs_bar_and_scroll_bar, win_data);
 					break;
 				default:
 					break;
@@ -1505,45 +1473,6 @@ gboolean deal_key_press(GtkWidget *window, Key_Bindings type, struct Window *win
 #endif
 	return TRUE;
 }
-
-#ifdef USE_GTK3_GEOMETRY_METHOD
-gboolean show_or_hide_tabs_bar_and_scroll_bar(struct Window *win_data)
-{
-#ifdef DETAIL
-	g_debug("! Launch show_or_hide_tabs_bar_and_scroll_bar() with  win_data = %p", win_data);
-#endif
-#ifdef SAFEMODE
-	if (win_data==NULL) return FALSE;
-#endif
-	// g_debug("show_or_hide_tabs_bar_and_scroll_bar(): win_data->window_status = %d", win_data->window_status);
-	hide_and_show_tabs_bar(win_data, win_data->show_tabs_bar);
-	fullscreen_show_hide_scroll_bar(win_data);
-
-	switch (win_data->window_status)
-	{
-		case WINDOW_NORMAL:
-		case WINDOW_MAX_WINDOW:
-			window_resizable(win_data->window, win_data->current_vte, win_data->hints_type);
-			break;
-		case WINDOW_RESIZING_TO_NORMAL:
-			window_resizable(win_data->window, win_data->current_vte, win_data->hints_type);
-			win_data->window_status = WINDOW_NORMAL;
-			break;
-		case WINDOW_MAX_WINDOW_TO_FULL_SCREEN:
-		case WINDOW_FULL_SCREEN:
-		case WINDOW_APPLY_PROFILE_NORMAL:
-		case WINDOW_APPLY_PROFILE_FULL_SCREEN:
-			break;
-		default:
-#ifdef FATAL
-			print_switch_out_of_range_error_dialog("show_or_hide_tabs_bar_and_scroll_bar",
-							       "win_data->window_status", win_data->window_status);
-#endif
-			break;
-	}
-	return FALSE;
-}
-#endif
 
 gboolean window_get_focus(GtkWidget *window, GdkEventFocus *event, struct Window *win_data)
 {
@@ -1842,36 +1771,6 @@ void window_size_allocate(GtkWidget *window, GtkAllocation *allocation, struct W
 	widget_size_allocate (window, allocation, "window");
 #  endif
 }
-#endif
-
-#if defined(USE_GTK3_GEOMETRY_METHOD) || defined(UNIT_TEST)
-void save_vte_geometry(struct Window *win_data)
-{
-#  ifdef DETAIL
-	g_debug("! Launch save_vte_geometry() with win_data = %p", win_data);
-#  endif
-#  ifdef SAFEMODE
-	if ((win_data==NULL) || (win_data->notebook==NULL)) return;
-#  endif
-
-	if (win_data->hints_type==HINTS_NONE)
-	{
-		GtkAllocation allocation = {0};
-		gtk_widget_get_allocation(win_data->current_vte, &allocation);
-		win_data->geometry_width = allocation.width;
-		win_data->geometry_height = allocation.height;
-	}
-	else
-	{
-		win_data->geometry_width = vte_terminal_get_column_count(VTE_TERMINAL(win_data->current_vte));
-		win_data->geometry_height = vte_terminal_get_row_count(VTE_TERMINAL(win_data->current_vte));
-	}
-#  ifdef GEOMETRY
-	fprintf(stderr, "\033[1;35m!! save_vte_geometry(): set win_data->geometry_width = %ld, win_data->geometry_height = %ld\033[0m\n",
-		win_data->geometry_width, win_data->geometry_height);
-#  endif
-}
-
 #endif
 
 #if defined(ENABLE_RGBA) || defined(UNIT_TEST)
@@ -2280,7 +2179,7 @@ void remove_notebook_page (GtkNotebook *notebook, GtkWidget *child, guint page_n
 #ifdef USE_GTK2_GEOMETRY_METHOD
 			hide_and_show_tabs_bar(win_data , win_data->show_tabs_bar);
 #else
-			g_idle_add((GSourceFunc)hide_and_show_tabs_bar_sample, win_data);
+			g_idle_add((GSourceFunc)idle_hide_and_show_tabs_bar, win_data);
 #endif
 			if (! compare_strings(page_data->font_name, win_data->restore_font_name, TRUE))
 			{
@@ -2298,6 +2197,7 @@ void remove_notebook_page (GtkNotebook *notebook, GtkWidget *child, guint page_n
 	// if it is the last page, close window!
 	else
 	{
+		// g_debug("remove_notebook_page(): Remove win_data(%p) from window_list!", win_data);
 		window_list = g_list_remove (window_list, win_data);
 		// g_debug("window_list = %p, dialog_activated = %d", window_list, dialog_activated);
 		if (window_list == NULL && (dialog_activated==0))
@@ -2539,19 +2439,155 @@ void keep_gtk3_window_size(struct Window *win_data, gboolean idle)
 #endif
 
 #if defined(USE_GTK3_GEOMETRY_METHOD) || defined(UNIT_TEST)
+void resize_to_exist_widget(struct Window *win_data)
+{
+#  ifdef DETAIL
+	g_debug("! Launch resize_to_exist_widget() with win_data = %p", win_data);
+#  endif
+#  ifdef SAFEMODE
+	if (win_data==NULL) return;
+#  endif
+	GtkWidget *widget = win_data->notebook;
+	gboolean show_tabs_bar = get_hide_or_show_tabs_bar(win_data, win_data->show_tabs_bar);
+	if (show_tabs_bar == FALSE)
+	{
+		// find the current vte size
+#  ifdef SAFEMODE
+		if (win_data->current_vte==NULL) return;
+#  endif
+		struct Page *page_data = (struct Page *)g_object_get_data(G_OBJECT(win_data->current_vte), "Page_Data");
+#  ifdef SAFEMODE
+		if (page_data) return;
+#  endif
+			widget = page_data->hbox;
+	}
+
+	GtkAllocation allocation = {0};
+	gtk_widget_get_allocation(widget, &allocation);
+
+	gtk_window_resize (GTK_WINDOW(win_data->window), allocation.width, allocation.height);
+#  ifdef GEOMETRY
+	fprintf(stderr, "\033[1;%dm!! resize_to_exist_widget(win_data %p, show_tabs_bar = %d): resize window size to %d x %d!!\033[0m\n",
+		ANSI_COLOR_YELLOW, win_data, show_tabs_bar, allocation.width, allocation.height);
+#  endif
+}
+#endif
+
+#if defined(USE_GTK3_GEOMETRY_METHOD) || defined(UNIT_TEST)
+void save_vte_geometry(struct Window *win_data)
+{
+#  ifdef DETAIL
+	g_debug("! Launch save_vte_geometry() with win_data = %p", win_data);
+#  endif
+#  ifdef SAFEMODE
+	if ((win_data==NULL) || (win_data->notebook==NULL)) return;
+#  endif
+
+	if (win_data->hints_type==HINTS_NONE)
+	{
+		GtkAllocation allocation = {0};
+		gtk_widget_get_allocation(win_data->current_vte, &allocation);
+		win_data->geometry_width = allocation.width;
+		win_data->geometry_height = allocation.height;
+	}
+	else
+	{
+		win_data->geometry_width = vte_terminal_get_column_count(VTE_TERMINAL(win_data->current_vte));
+		win_data->geometry_height = vte_terminal_get_row_count(VTE_TERMINAL(win_data->current_vte));
+	}
+#  ifdef GEOMETRY
+	fprintf(stderr, "\033[1;35m!! save_vte_geometry(): set win_data->geometry_width = %ld, win_data->geometry_height = %ld\033[0m\n",
+		win_data->geometry_width, win_data->geometry_height);
+#  endif
+}
+#endif
+
+#if defined(USE_GTK3_GEOMETRY_METHOD) || defined(UNIT_TEST)
+gboolean idle_show_or_hide_tabs_bar_and_scroll_bar(struct Window *win_data)
+{
+	if (check_if_win_data_is_still_alive(win_data)) show_or_hide_tabs_bar_and_scroll_bar(win_data);
+	return FALSE;
+}
+#endif
+
+#if defined(USE_GTK3_GEOMETRY_METHOD) || defined(UNIT_TEST)
+gboolean idle_gtk_window_fullscreen(struct Window *win_data)
+{
+	if (check_if_win_data_is_still_alive(win_data)) gtk_window_fullscreen(GTK_WINDOW(win_data->window));
+	return FALSE;
+}
+#endif
+
+#if defined(USE_GTK3_GEOMETRY_METHOD) || defined(UNIT_TEST)
+gboolean show_or_hide_tabs_bar_and_scroll_bar(struct Window *win_data)
+{
+#  ifdef DETAIL
+	g_debug("! Launch show_or_hide_tabs_bar_and_scroll_bar() with  win_data = %p", win_data);
+#  endif
+#  ifdef SAFEMODE
+	if (win_data==NULL) return FALSE;
+#  endif
+	// g_debug("show_or_hide_tabs_bar_and_scroll_bar(): win_data->window_status = %d", win_data->window_status);
+	hide_and_show_tabs_bar(win_data, win_data->show_tabs_bar);
+	fullscreen_show_hide_scroll_bar(win_data);
+
+	switch (win_data->window_status)
+	{
+		case WINDOW_NORMAL:
+		case WINDOW_MAX_WINDOW:
+			window_resizable(win_data->window, win_data->current_vte, win_data->hints_type);
+			break;
+		case WINDOW_RESIZING_TO_NORMAL:
+			window_resizable(win_data->window, win_data->current_vte, win_data->hints_type);
+			win_data->window_status = WINDOW_NORMAL;
+			break;
+		case WINDOW_MAX_WINDOW_TO_FULL_SCREEN:
+		case WINDOW_FULL_SCREEN:
+		case WINDOW_APPLY_PROFILE_NORMAL:
+		case WINDOW_APPLY_PROFILE_FULL_SCREEN:
+			break;
+		default:
+#  ifdef FATAL
+			print_switch_out_of_range_error_dialog("show_or_hide_tabs_bar_and_scroll_bar",
+							       "win_data->window_status", win_data->window_status);
+#  endif
+			break;
+	}
+	return FALSE;
+}
+#endif
+
+#if defined(USE_GTK3_GEOMETRY_METHOD) || defined(UNIT_TEST)
 gboolean idle_to_resize_window(struct Window *win_data)
 {
 #  ifdef DETAIL
 	g_debug("! Launch idle_to_resize_window() with win_data = %p", win_data);
 #  endif
-#  ifdef SAFEMODE
-	if (win_data==NULL) return FALSE;
-#  endif
-	gtk_window_resize_to_geometry(GTK_WINDOW(win_data->window), win_data->geometry_width, win_data->geometry_height);
+	if (check_if_win_data_is_still_alive(win_data))
+		gtk_window_resize_to_geometry(GTK_WINDOW(win_data->window), win_data->geometry_width, win_data->geometry_height);
 #  ifdef GEOMETRY
 	fprintf(stderr, "\033[1;%dm** idle_to_resize_window(): resize with hints_type = %d, column = %ld, row = %ld !!\033[0m\n",
 		ANSI_COLOR_MAGENTA, win_data->hints_type, win_data->geometry_width, win_data->geometry_height);
 #  endif
+	return FALSE;
+}
+#endif
+
+#if defined(USE_GTK3_GEOMETRY_METHOD) || defined(UNIT_TEST)
+gboolean idle_set_vte_font_to_selected(struct Window *win_data)
+{
+	if (check_if_win_data_is_still_alive(win_data)) set_vte_font(NULL, FONT_SET_TO_SELECTED);
+	return FALSE;
+}
+#endif
+
+#if defined(USE_GTK3_GEOMETRY_METHOD) || defined(UNIT_TEST)
+gboolean idle_hide_and_show_tabs_bar(struct Window *win_data)
+{
+#ifdef DETAIL
+	g_debug("! Launch idle_hide_and_show_tabs_bar() with win_data = %p", win_data);
+#endif
+	if (check_if_win_data_is_still_alive(win_data)) hide_and_show_tabs_bar(win_data, win_data->show_tabs_bar);
 	return FALSE;
 }
 #endif
@@ -3323,20 +3359,6 @@ void update_window_hint(struct Window *win_data,
 #endif
 	window_resizable(page_data->window, page_data->vte, win_data->hints_type);
 }
-
-#if defined(USE_GTK3_GEOMETRY_METHOD) || defined(UNIT_TEST)
-gboolean hide_and_show_tabs_bar_sample(struct Window *win_data)
-{
-#ifdef DETAIL
-	g_debug("! Launch hide_and_show_tabs_bar_sample() with win_data = %p", win_data);
-#endif
-#ifdef SAFEMODE
-	if (win_data)
-#endif
-		hide_and_show_tabs_bar(win_data, win_data->show_tabs_bar);
-	return FALSE;
-}
-#endif
 
 gboolean hide_and_show_tabs_bar(struct Window *win_data , Switch_Type show_tabs_bar)
 {

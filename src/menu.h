@@ -118,4 +118,3 @@ GtkWidget *create_sub_item_subitem (gchar *label, const gchar *stock_id);
 GtkWidget *create_sub_item_submenu (GtkWidget *menu, GtkWidget *menu_item);
 GtkWidget *add_separator_menu(GtkWidget *sub_menu);
 void set_menuitem_label(GtkWidget *menu_item, gchar *text);
-gboolean check_if_win_data_is_still_alive(struct Window *win_data);

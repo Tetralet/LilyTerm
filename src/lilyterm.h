@@ -109,6 +109,7 @@ void keep_gtk2_window_size (struct Window *win_data, GtkWidget *vte, guint keep_
 #if defined(USE_GTK3_GEOMETRY_METHOD) || defined(UNIT_TEST)
 void keep_gtk3_window_size(struct Window *win_data, gboolean idle);
 gboolean show_or_hide_tabs_bar_and_scroll_bar();
+gboolean idle_set_vte_font_to_selected(struct Window *win_data);
 #endif
 void dim_window(struct Window *win_data, gint dim_window);
 void set_window_icon(GtkWidget *window);
@@ -212,7 +213,6 @@ struct Page *get_page_data_from_nth_page(struct Window *win_data, guint page_no)
 // **************************** font.c ****************************
 //
 
-gboolean set_vte_font_sample(Font_Set_Type type);
 void set_vte_font(GtkWidget *widget, Font_Set_Type type);
 void apply_font_to_every_vte(GtkWidget *window, gchar *new_font_name, glong column, glong row);
 gboolean check_if_every_vte_is_using_restore_font_name (struct Window *win_data);
@@ -292,6 +292,7 @@ GtkWidget *add_radio_menuitem_to_sub_menu(GSList *encoding_group,
 					  gpointer func_data);
 void refresh_profile_list (struct Window *win_data);
 long get_profile_dir_modtime();
+gboolean check_if_win_data_is_still_alive(struct Window *win_data);
 
 #if defined(FATAL) || defined(UNIT_TEST)
 void print_active_window_is_null_error_dialog(gchar *function);

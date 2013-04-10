@@ -51,10 +51,12 @@ void window_size_request(GtkWidget *window, GtkRequisition *requisition, struct 
 gboolean window_state_event(GtkWidget *widget, GdkEventWindowState *event, struct Window *win_data);
 #endif
 #if defined(USE_GTK3_GEOMETRY_METHOD) || defined(UNIT_TEST)
+gboolean idle_show_or_hide_tabs_bar_and_scroll_bar(struct Window *win_data);
+gboolean idle_gtk_window_fullscreen(struct Window *win_data);
 void resize_to_exist_widget(struct Window *win_data);
 void save_vte_geometry(struct Window *win_data);
-gboolean hide_and_show_tabs_bar_sample(struct Window *win_data);
 gboolean idle_to_resize_window(struct Window *win_data);
+gboolean idle_hide_and_show_tabs_bar(struct Window *win_data);
 #endif
 void window_size_allocate(GtkWidget *window, GtkAllocation *allocation, struct Window *win_data);
 gboolean window_get_focus(GtkWidget *window, GdkEventFocus *event, struct Window *win_data);

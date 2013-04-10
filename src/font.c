@@ -22,12 +22,6 @@
 // extern GtkWidget *current_vte;
 extern GtkWidget *menu_active_window;
 
-gboolean set_vte_font_sample(Font_Set_Type type)
-{
-	set_vte_font(NULL, type);
-	return FALSE;
-}
-
 void set_vte_font(GtkWidget *widget, Font_Set_Type type)
 {
 #ifdef DETAIL

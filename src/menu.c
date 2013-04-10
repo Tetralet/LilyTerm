@@ -1476,7 +1476,11 @@ void select_font(GtkWidget *widget, struct Window *win_data)
 		// g_debug("Trying to change font name!");
 		g_free(page_data->font_name);
 		page_data->font_name = gtk_font_chooser_get_font(GTK_FONT_CHOOSER(dialog));
-		g_idle_add((GSourceFunc)set_vte_font_sample, GINT_TO_POINTER(FONT_SET_TO_SELECTED));
+#ifdef USE_GTK2_GEOMETRY_METHOD
+		set_vte_font(NULL, FONT_SET_TO_SELECTED);
+#else
+		g_idle_add((GSourceFunc)idle_set_vte_font_to_selected, win_data);
+#endif
 	}
 	gtk_widget_destroy(dialog);
 }
@@ -2131,6 +2135,7 @@ void apply_profile_from_file(const gchar *path, Apply_Profile_Type type)
 		// Switch the data in win_data_backup and win_data.
 		// The win_data will become {0}, and win_data_backup will stores the old datas from win_data
 		memcpy(win_data_backup, win_data, sizeof(* win_data));
+		// g_debug("apply_profile_from_file(): Append win_data(%p) to window_list!", win_data_backup);
 		window_list = g_list_append (window_list, win_data_backup);
 		memset(win_data, 0, sizeof(* win_data));
 
@@ -2387,9 +2392,9 @@ void apply_profile_from_file(const gchar *path, Apply_Profile_Type type)
 #  ifdef SAFEMODE
 		}
 #  endif
-		g_idle_add((GSourceFunc)set_vte_font_sample, GINT_TO_POINTER(FONT_SET_TO_SELECTED));
+		g_idle_add((GSourceFunc)idle_set_vte_font_to_selected, win_data);
 #endif
-
+		// g_debug("apply_profile_from_file(): Remove win_data(%p) from window_list!", win_data);
 		window_list = g_list_remove (window_list, win_data_backup);
 		clear_win_data(win_data_backup);
 #ifdef SAFEMODE
@@ -2824,7 +2829,10 @@ gboolean check_if_win_data_is_still_alive(struct Window *win_data)
 		if (win_data == win_list->data) return TRUE;
 		win_list = win_list->next;
 	}
-
+#ifdef DEBUG
+	fprintf(stderr, "\033[1;%dm** check_if_win_data_is_still_alive(): win_data (%p) is NOT alive!\033[0m\n",
+		ANSI_COLOR_RED, win_data);
+#endif
 	// g_debug("check_if_win_data_is_still_alive: win_data (%p) is NOT alive!!!", win_data);
 	return FALSE;
 }
