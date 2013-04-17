@@ -243,7 +243,8 @@
 #endif
 #if GTK_CHECK_VERSION(3,1,12)
 	// SINCE: gtk+-3.1.12/gtk/gtkfontchooser.h: gtk_font_chooser_set_filter_func()
-	#define EXIST_GTK_FONT_CHOOSER_SET_FILTER_FUNC
+	// DISABLE: it filtered too many Chinese fonts.
+	// #define EXIST_GTK_FONT_CHOOSER_SET_FILTER_FUNC
 #endif
 #if GTK_CHECK_VERSION(3,3,4)
 	// END: gtk+-3.3.4/gtk/deprecated/gtktable.h: gtk_table_attach_defaults()
