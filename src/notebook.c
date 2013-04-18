@@ -237,7 +237,8 @@ struct Page *add_page(struct Window *win_data,
 	if (page_data_prev)
 	{
 		// g_debug("page_data_prev->pwd = %s, win_data->home = %s", page_data_prev->pwd, win_data->home);
-		page_data->pwd = get_init_dir(get_tpgid(page_data_prev->pid), page_data_prev->pwd, win_data->home);
+		// page_data->pwd = get_init_dir(get_tpgid(page_data_prev->pid), page_data_prev->pwd, win_data->home);
+		page_data->pwd = get_init_dir(get_tpgid(page_data_prev->pid), NULL, win_data->home);
 	}
 	else
 	{
