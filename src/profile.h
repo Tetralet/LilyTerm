@@ -39,7 +39,8 @@
 
 #ifdef BSD
 // chars in a path name including nul
-#define PATH_MAX 4096
+// which is already defined in /usr/include/sys/syslimits.h
+// #define PATH_MAX 4096
 #endif
 
 typedef enum {
