@@ -17,7 +17,6 @@
  * along with LilyTerm.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 #ifndef DATA_H
 #define DATA_H
 
@@ -265,11 +264,13 @@
 	#define gtk_font_chooser_set_filter_func(a,b,c,d) NULL
 #  endif
 #endif
+// FIXME: The replacement of GtkColorSelection in GTK3, GtkColorChooser, is a lame... orz
 #if GTK_CHECK_VERSION(3,3,18)
 	// SINCE: gtk+-3.3.18/gtk/gtkcolorchooserwidget.h: gtk_color_chooser_widget_new()
-	#define HAVE_GTK_COLOR_CHOOSER
+	#define USE_GTK_COLOR_CHOOSER
 #else
 	// END: gtk+-3.3.18/gtk/deprecated/gtkcolorsel.h: gtk_color_selection_new()
+	#define USE_OLD_GTK_COLOR_SELECTION
 	#define GTK_COLOR_CHOOSER GTK_COLOR_SELECTION
 	#define GtkColorChooser GtkColorSelection
 	#define gtk_color_chooser_get_rgba gtk_color_selection_get_current_color

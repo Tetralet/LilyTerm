@@ -129,6 +129,9 @@ gchar *deal_dialog_key_press_join_string(StrAddr **value, gchar *separator, gcha
 gboolean clean_model_foreach(GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *iter, gpointer userdata);
 void recover_page_colors(GtkWidget *dialog, GtkWidget *window, GtkWidget *notebook);
 gboolean set_ansi_color(GtkRange *range, GtkScrollType scroll, gdouble value, GtkWidget *vte);
+#ifdef USE_GTK_COLOR_CHOOSER
+void adjust_vte_color_sample(GtkColorButton* color_button, gint color_index);
+#endif
 void adjust_vte_color(GtkColorChooser *colorselection, GdkRGBA *color, GtkWidget *vte);
 void set_new_ansi_color(GtkWidget *vte, GdkRGBA color_orig[COLOR], GdkRGBA color[COLOR], gdouble color_brightness,
 			gboolean invert_color, gboolean default_vte_color, GdkRGBA cursor_color, gboolean dim_fg_color);

@@ -808,7 +808,7 @@ void vte_size_allocate (GtkWidget *vte, GtkAllocation *allocation, struct Page *
 }
 #endif
 
-void vte_size_changed(VteTerminal *vte, Key_Bindings type)
+void vte_size_changed(VteTerminal *vte, Font_Set_Type type)
 {
 #ifdef DETAIL
 	g_debug("! Launch vte_size_changed() with vte = %p, type = %d", vte, type);

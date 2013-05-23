@@ -45,6 +45,6 @@ gchar *get_url (GdkEventButton *event, struct Page *page_data, gint *tag);
 #if defined(GEOMETRY) || defined(UNIT_TEST)
 void vte_size_allocate (GtkWidget *vte, GtkAllocation *allocation, struct Page *page_data);
 #endif
-void vte_size_changed(VteTerminal *vte, Key_Bindings type);
+void vte_size_changed(VteTerminal *vte, Font_Set_Type type);
 void page_data_dup(struct Page *page_data_prev, struct Page *page_data);
 // void vte_paste_clipboard (VteTerminal *vte, gpointer user_data);
