@@ -231,7 +231,7 @@ else
     if [ $? != 0 ]; then
       INFO "[OK]\n"
     else
-      WARN "[OK]. But using Gtk+2 > 2.12 is recommend to build $PACKAGE.\n"
+      WARN "[OK]. But using Gtk+2 > 2.12 is recommended to build $PACKAGE.\n"
     fi
   else
     INFO "[OK].\n"

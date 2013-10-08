@@ -25,7 +25,7 @@ AC_ARG_ENABLE(safe-mode, AC_HELP_STRING([--disable-safe-mode], [disable run in s
 	      AC_DEFINE(SAFEMODE,, [disable run in safe mode]))
 
 PKG_CHECK_EXISTS(gtk+-2.0 < 2.12,
-		 AC_MSG_WARN([Using Gtk+ >= 2.12.0 to build $_PACKAGE is recommend]))
+		 AC_MSG_WARN([Using Gtk+ >= 2.12.0 to build $_PACKAGE is recommended]))
 
 AC_MSG_CHECKING([whether to install GNOME control-center default application definition])
 if $PKG_CONFIG --variable=keysdir gnome-default-applications >/dev/null ; then

@@ -489,6 +489,7 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 				dialog_data->original_color = win_data->custom_color_theme[win_data->color_theme_index].color[color_index];
 			else
 				dialog_data->original_color = system_color_theme[win_data->color_theme_index].color[color_index];
+			// print_color(-1, "ORIG: dialog_data->original_color", dialog_data->original_color);
 			create_color_selection_widget(dialog_data, (GSourceFunc)adjust_vte_color, win_data->current_vte);
 			break;
 		}
@@ -1052,7 +1053,7 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 			temp_str[2] = g_markup_escape_text(temp_str[1], -1);
 			temp_str[3] = g_strdup_printf(_("There is still a running foreground program on #%d tab:"),
 							 page_data->page_no+1);
-			temp_str[4] = g_strdup_printf(_("Terminate it by using `kill -9 %d' is recommend "
+			temp_str[4] = g_strdup_printf(_("Terminate it by using `kill -9 %d' is recommended "
 							    "if it is non-response."), page_data->pid);
 			temp_str[5] = g_strconcat(temp_str[3],
 						  "\n\n\t<b><span foreground=\"blue\">",
@@ -2875,12 +2876,14 @@ void adjust_vte_color(GtkColorChooser *color_selection, GdkRGBA *color, GtkWidge
 			if ((dialog_data->type==CHANGE_THE_FOREGROUND_COLOR) ||
 			    ((dialog_data->type==CHANGE_THE_ANSI_COLORS) && (converted_index==(COLOR-1))))
 			{
+				// print_color(-1, "RECONVER 1: dialog_data->original_color", dialog_data->original_color);
 				if (! dialog_data->recover)
 #ifdef USE_OLD_GTK_COLOR_SELECTION
 					gtk_color_chooser_get_rgba(color_selection, &(dialog_data->original_color));
 #else
 					dialog_data->original_color = *color;
 #endif
+				// print_color(-1, "RECONVER 2: dialog_data->original_color", dialog_data->original_color);
 				vte_terminal_set_color_foreground_rgba(VTE_TERMINAL(vte), &(dialog_data->original_color));
 				vte_terminal_set_color_bold_rgba(VTE_TERMINAL(vte), &(dialog_data->original_color));
 
