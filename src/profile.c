@@ -653,6 +653,7 @@ void init_user_keys(struct Window *win_data)
 	win_data->user_keys[KEY_SCROLL_DOWN].value = g_strdup("Shift Right");
 	win_data->user_keys[KEY_SCROLL_UP_1_LINE].value = g_strdup("Shift Up");
 	win_data->user_keys[KEY_SCROLL_DOWN_1_LINE].value = g_strdup("Shift Down");
+	win_data->user_keys[KEY_CLEAN_SCROLLBACK_LINES].value = g_strdup("Ctrl H");
 #ifdef FATAL
 	// dump_data
 	win_data->user_keys[KEY_DUMP_DATA].value = g_strdup("Ctrl Print");
@@ -730,6 +731,8 @@ void init_key_bindings_name_and_group()
 	system_keys[KEY_SCROLL_UP_1_LINE].group = KEY_GROUP_SCROLL;
 	system_keys[KEY_SCROLL_DOWN_1_LINE].name = "scroll_down_1_line";
 	system_keys[KEY_SCROLL_DOWN_1_LINE].group = KEY_GROUP_SCROLL;
+	system_keys[KEY_CLEAN_SCROLLBACK_LINES].name = "clean_scrollback_lines";
+	system_keys[KEY_CLEAN_SCROLLBACK_LINES].group = KEY_GROUP_SCROLL;
 #ifdef FATAL
 	system_keys[KEY_DUMP_DATA].name = "dump_data";
 	system_keys[KEY_DUMP_DATA].group = KEY_GROUP_MISC;
@@ -880,6 +883,10 @@ void init_key_bindings()
 	system_keys[KEY_SCROLL_DOWN_1_LINE].topic = _("Scroll down 1 line");
 	system_keys[KEY_SCROLL_DOWN_1_LINE].comment = "# Asks to scroll down 1 line on Vte Terminal box.";
 	system_keys[KEY_SCROLL_DOWN_1_LINE].translation = _("Asks to scroll down 1 line on Vte Terminal box.");
+	// clean scroll history
+	system_keys[KEY_CLEAN_SCROLLBACK_LINES].topic = _("Clean scrollback lines");
+	system_keys[KEY_CLEAN_SCROLLBACK_LINES].comment = "# Asks to clean scrollback lines.";
+	system_keys[KEY_CLEAN_SCROLLBACK_LINES].translation = _("Asks to clean scrollback lines.");
 #ifdef FATAL
 	system_keys[KEY_DUMP_DATA].topic = _("Dump runtime debug data");
 	system_keys[KEY_DUMP_DATA].comment = "# Dump the runtime data of LilyTerm for debug.";

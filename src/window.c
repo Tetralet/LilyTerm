@@ -1445,6 +1445,9 @@ gboolean deal_key_press(GtkWidget *window, Key_Bindings type, struct Window *win
 			upgrade_dialog(ENABLE_MOUSE_SCROLL_VER);
 			break;
 #endif
+		case KEY_CLEAN_SCROLLBACK_LINES:
+			clean_scrollback_lines(NULL, win_data);
+			break;
 #ifdef FATAL
 		case KEY_DUMP_DATA:
 #ifdef SAFEMODE

@@ -73,7 +73,6 @@ void set_erase_binding (GtkWidget *menuitem, gint value);
 void set_cursor_shape (GtkWidget *menuitem, gint value);
 #endif
 GSList *create_theme_menu_items(struct Window *win_data, GtkWidget *sub_menu, GSList *theme_group, gint current_theme, gint custom_theme);
-void clean_scrollback_lines(GtkWidget *widget, struct Window *win_data);
 void reset_vte(GtkWidget *widget, struct Window *win_data);
 #if defined(EXIST_GTK_FONT_CHOOSER_SET_FILTER_FUNC) || defined (UNIT_TEST)
 gboolean monospace_filter(const PangoFontFamily *family, const PangoFontFace *face, gpointer data);

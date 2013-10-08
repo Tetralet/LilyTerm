@@ -293,6 +293,7 @@ GtkWidget *add_radio_menuitem_to_sub_menu(GSList *encoding_group,
 void refresh_profile_list (struct Window *win_data);
 long get_profile_dir_modtime();
 gboolean check_if_win_data_is_still_alive(struct Window *win_data);
+void clean_scrollback_lines(GtkWidget *widget, struct Window *win_data);
 
 #if defined(FATAL) || defined(UNIT_TEST)
 void print_active_window_is_null_error_dialog(gchar *function);

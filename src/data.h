@@ -376,9 +376,9 @@ typedef enum {
 } Key_Binding_Groups;
 
 #ifdef FATAL
-	#define KEYS 43
+	#define KEYS 44
 #else
-	#define KEYS 42
+	#define KEYS 43
 #endif
 
 typedef enum {
@@ -424,6 +424,7 @@ typedef enum {
 	KEY_SCROLL_DOWN,					// 36
 	KEY_SCROLL_UP_1_LINE,					// 37
 	KEY_SCROLL_DOWN_1_LINE,					// 38
+	KEY_CLEAN_SCROLLBACK_LINES,				// NEW
 #ifdef FATAL
 	KEY_DUMP_DATA,						// 40
 #endif
