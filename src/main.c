@@ -602,7 +602,30 @@ gboolean read_socket(GIOChannel *channel, GIOCondition condition, gpointer user_
 		datas = split_string(data, "\x10", 12);
 		// g_debug("The SOCKET_DATA_VERSION = %s ,and the data sent via socket is %s",
 		//	   SOCKET_DATA_VERSION, datas[0]);
-		if ((datas==NULL) || compare_strings(SOCKET_DATA_VERSION, datas[0], TRUE))
+
+		if (datas==NULL)
+		{
+			// A dirty hack for sometimes the received socket datas is empty.
+			socket_fault(14, NULL, NULL, FALSE);
+			new_window(0,
+				   NULL,
+				   NULL,
+				   NULL,
+				   NULL,
+				   NULL,
+				   NULL,
+				   NULL,
+				   FALSE,
+				   NULL,
+				   NULL,
+				   NULL,
+				   NULL,
+				   FALSE,
+				   NULL,
+				   NULL,
+				   NULL);
+		}
+		else if (compare_strings(SOCKET_DATA_VERSION, datas[0], TRUE))
 		{
 			// The SOCKET_DATA_VERSION != the data sent via socket
 			gchar *received_socket_version = NULL;
@@ -755,6 +778,9 @@ gboolean socket_fault(int type, GError *error, GIOChannel *channel, gboolean unr
 			if (error)
 #endif
 				G_WARNING("Error when flushing the write buffer for the channel: %s", error->message);
+			break;
+		case 14:
+			G_WARNING("Got a NULL string from the socket!");
 			break;
 		default:
 #ifdef FATAL
