@@ -155,6 +155,9 @@ struct Page *add_page(struct Window *win_data,
 #endif
 		g_string_append_printf (environ_str, "TERM=%s", win_data->emulate_term);
 
+	// set colorterm
+	g_string_append_printf (environ_str, "\tCOLORTERM=lilyterm");
+
 // ---- Setting the VTE_CJK_WIDTH environment ---- //
 
 	// g_debug("The VTE_CJK_WIDTH_STR got in add_page is %s", VTE_CJK_WIDTH_STR);
