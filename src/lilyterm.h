@@ -32,6 +32,8 @@ typedef gchar StrLists;
 
 gchar *convert_array_to_string(gchar **array, gchar separator);
 gchar *convert_str_to_utf8(gchar *string, gchar *encoding_str);
+gchar *convert_escape_sequence_to_string(const gchar *string);
+gchar *convert_escape_sequence_from_string(const gchar *string);
 gboolean compare_strings(const gchar *string_a, const gchar *string_b, gboolean case_sensitive);
 void set_VTE_CJK_WIDTH_environ(gint VTE_CJK_WIDTH);
 gchar *get_VTE_CJK_WIDTH_str(gint VTE_CJK_WIDTH);

@@ -230,15 +230,18 @@ void set_hyprelink(struct Window *win_data, struct Page *page_data)
 		gint i;
 		for (i=0; i<COMMAND; i++)
 		{
+			gchar *match = win_data->user_command[i].match_regex;
+			if ((match == NULL) || (match[0] == '\0'))
+				match = command[i].match;
+			// g_debug("set_hyprelink(): match = %s", match);
 #ifdef USE_NEW_VTE_MATCH_ADD_GREGEX
-			GRegex *regex = g_regex_new (command[i].match, G_REGEX_CASELESS | G_REGEX_OPTIMIZE,
+			GRegex *regex = g_regex_new (match, G_REGEX_CASELESS | G_REGEX_OPTIMIZE,
 						     0, NULL);
 			page_data->tag[i] = vte_terminal_match_add_gregex (VTE_TERMINAL(page_data->vte),
 									   regex, 0);
 			g_regex_unref (regex);
 #else
-			page_data->tag[i] = vte_terminal_match_add (VTE_TERMINAL(page_data->vte),
-								    command[i].match);
+			page_data->tag[i] = vte_terminal_match_add (VTE_TERMINAL(page_data->vte), match);
 #endif
 			vte_terminal_match_set_cursor_type(VTE_TERMINAL(page_data->vte),
 							   page_data->tag[i],

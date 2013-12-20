@@ -233,6 +233,7 @@ void init_command()
 	command[TAG_WWW].VTE_CJK_WIDTH_name = "web_VTE_CJK_WIDTH";
 	command[TAG_WWW].encoding_name = "web_encoding";
 	command[TAG_WWW].locale_name = "web_locale";
+	command[TAG_WWW].match_regex_name = "web_match_regex";
 
 	// FTP
 	command[TAG_FTP].name = "ftp_client";
@@ -243,6 +244,7 @@ void init_command()
 	command[TAG_FTP].VTE_CJK_WIDTH_name = "ftp_VTE_CJK_WIDTH";
 	command[TAG_FTP].encoding_name = "ftp_encoding";
 	command[TAG_FTP].locale_name = "ftp_locale";
+	command[TAG_FTP].match_regex_name = "ftp_match_regex";
 
 	// FILE
 	command[TAG_FILE].name = "file_manager";
@@ -253,6 +255,7 @@ void init_command()
 	command[TAG_FILE].VTE_CJK_WIDTH_name = "file_VTE_CJK_WIDTH";
 	command[TAG_FILE].encoding_name = "file_encoding";
 	command[TAG_FILE].locale_name = "file_locale";
+	command[TAG_FILE].match_regex_name = "file_match_regex";
 
 	// MAIL
 	command[TAG_MAIL].name = "email_client";
@@ -263,6 +266,7 @@ void init_command()
 	command[TAG_MAIL].VTE_CJK_WIDTH_name = "email_VTE_CJK_WIDTH";
 	command[TAG_MAIL].encoding_name = "email_encoding";
 	command[TAG_MAIL].locale_name = "email_locale";
+	command[TAG_MAIL].match_regex_name = "email_match_regex";
 }
 
 void init_user_command(struct Window *win_data)
@@ -286,6 +290,7 @@ void init_user_command(struct Window *win_data)
 		win_data->user_command[i].environ = g_strdup("");
 		win_data->user_command[i].VTE_CJK_WIDTH = 0;
 		win_data->user_command[i].locale = g_strdup("");
+		win_data->user_command[i].match_regex = g_strdup("");
 	}
 }
 
@@ -1553,7 +1558,7 @@ void get_user_settings(struct Window *win_data, const gchar *encoding)
 
 			for (i=0; i<COMMAND; i++)
 			{
-				win_data->user_command[i].command = check_string_value(keyfile,	"command",
+				win_data->user_command[i].command = check_string_value(keyfile, "command",
 						command[i].name, win_data->user_command[i].command, TRUE, DISABLE_EMPTY_STR);
 				win_data->user_command[i].method = check_integer_value(
 						keyfile, "command", command[i].method_name,
@@ -1573,8 +1578,18 @@ void get_user_settings(struct Window *win_data, const gchar *encoding)
 						CHECK_MAX, 2);
 				win_data->user_command[i].locale = check_string_value(keyfile, "command",
 						command[i].locale_name, win_data->user_command[i].locale, TRUE, DISABLE_EMPTY_STR);
-				//g_debug("command[i].name = %s (%d)",
+				// g_debug("command[i].name = %s (%d)",
 				//	win_data->user_command[i].command, win_data->user_command[i].method);
+
+				gchar *match_regex = check_string_value(keyfile, "command",
+									command[i].match_regex_name,
+									win_data->user_command[i].match_regex,
+									TRUE,
+									DISABLE_EMPTY_STR);
+				win_data->user_command[i].match_regex = convert_escape_sequence_from_string(match_regex);
+				g_free(match_regex);
+
+				// g_debug("command[%d].match_regex = %s", i, win_data->user_command[i].match_regex);
 			}
 
 			color_theme_str = check_string_value(keyfile, "color", "theme", NULL, FALSE, ENABLE_EMPTY_STR);
@@ -2690,8 +2705,14 @@ GString *save_user_settings(GtkWidget *widget, struct Window *win_data)
 					command[i].VTE_CJK_WIDTH_name, win_data->user_command[i].VTE_CJK_WIDTH);
 		g_string_append_printf( contents,"%s = %s\n",
 					command[i].environ_name, win_data->user_command[i].environ);
-		g_string_append_printf( contents,"%s = %s\n\n",
+		g_string_append_printf( contents,"%s = %s\n",
 					command[i].locale_name, win_data->user_command[i].locale);
+		gchar *match_str=convert_escape_sequence_to_string(command[i].match);
+		g_string_append_printf( contents,"# Default: %s = %s\n",
+					command[i].match_regex_name, match_str);
+		g_free(match_str);
+		g_string_append_printf( contents,"%s = %s\n\n",
+					command[i].match_regex_name, win_data->user_command[i].match_regex);
 	}
 
 	// g_debug("menu_active_window = %p", menu_active_window);

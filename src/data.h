@@ -581,6 +581,7 @@ struct Command
 	gchar *environ_name;
 	gchar *VTE_CJK_WIDTH_name;
 	gchar *locale_name;
+	gchar *match_regex_name;
 	gchar *encoding_name;
 };
 
@@ -592,6 +593,7 @@ struct User_Command
 	gchar **environments;
 	gint VTE_CJK_WIDTH;
 	gchar *locale;
+	gchar *match_regex;
 };
 
 

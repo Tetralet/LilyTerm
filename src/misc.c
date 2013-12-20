@@ -45,6 +45,110 @@ gchar *convert_array_to_string(gchar **array, gchar separator)
 	return g_string_free(array_str, FALSE);
 }
 
+// please vist http://en.wikipedia.org/wiki/Escape_sequences_in_C for more details
+gchar *convert_escape_sequence_to_string(const gchar *string)
+{
+	if (string == NULL) return NULL;
+
+	GString *new_string = g_string_new("");
+
+	long i=-1;
+	while (string[++i])
+	{
+		switch (string[i])
+		{
+			case '\a':
+				g_string_append(new_string, "\\a");
+				break;
+			case '\b':
+				g_string_append(new_string, "\\b");
+				break;
+			case '\f':
+				g_string_append(new_string, "\\f");
+				break;
+			case '\n':
+				g_string_append(new_string, "\\n");
+				break;
+			case '\r':
+				g_string_append(new_string, "\\r");
+				break;
+			case '\t':
+				g_string_append(new_string, "\\t");
+				break;
+			case '\v':
+				g_string_append(new_string, "\\v");
+				break;
+			case '\\':
+				g_string_append(new_string, "\\\\");
+				break;
+			case '\'':
+				g_string_append(new_string, "\\'");
+				break;
+			case '\"':
+				g_string_append(new_string, "\\\"");
+				break;
+			default:
+				g_string_append_printf(new_string, "%c", string[i]);
+				break;
+		}
+	}
+	return g_string_free(new_string, FALSE);
+}
+
+gchar *convert_escape_sequence_from_string(const gchar *string)
+{
+	if (string == NULL) return NULL;
+
+	GString *new_string = g_string_new("");
+
+	long i=-1;
+	while (string[++i])
+	{
+		if (string[i]=='\\')
+		{
+			switch (string[++i])
+			{
+				case 'a':
+					g_string_append(new_string, "\a");
+					break;
+				case 'b':
+					g_string_append(new_string, "\b");
+					break;
+				case 'f':
+					g_string_append(new_string, "\f");
+					break;
+				case 'n':
+					g_string_append(new_string, "\n");
+					break;
+				case 'r':
+					g_string_append(new_string, "\r");
+					break;
+				case 't':
+					g_string_append(new_string, "\t");
+					break;
+				case 'v':
+					g_string_append(new_string, "\v");
+					break;
+				case '\\':
+					g_string_append(new_string, "\\");
+					break;
+				case '\'':
+					g_string_append(new_string, "'");
+					break;
+				case '"':
+					g_string_append(new_string, "\"");
+					break;
+				default:
+					g_string_append_printf(new_string, "%c", string[i]);
+					break;
+			}
+		}
+		else
+			g_string_append_printf(new_string, "%c", string[i]);
+	}
+	return g_string_free(new_string, FALSE);
+}
+
 // return FALSE if the strings are the same.
 gboolean compare_strings(const gchar *string_a, const gchar *string_b, gboolean case_sensitive)
 {

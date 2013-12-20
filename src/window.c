@@ -1905,6 +1905,7 @@ void clear_win_data(struct Window *win_data)
 		g_free(win_data->user_command[i].environ);
 		g_strfreev(win_data->user_command[i].environments);
 		g_free(win_data->user_command[i].locale);
+		g_free(win_data->user_command[i].match_regex);
 	}
 	if (win_data->custom_tab_names_str) g_string_free(win_data->custom_tab_names_str, TRUE);
 	g_strfreev(win_data->custom_tab_names_strs);
@@ -2734,6 +2735,7 @@ void dump_data (struct Window *win_data, struct Page *page_data)
 			i,
 			win_data->user_command[i].VTE_CJK_WIDTH);
 		g_debug("- win_data->user_command[%d].locale = %s", i, win_data->user_command[i].locale);
+		g_debug("- win_data->user_command[%d].match_regex = %s", i, win_data->user_command[i].match_regex);
 	}
 	g_debug("- win_data->menuitem_copy_url = %p", win_data->menuitem_copy_url);
 	if (win_data->menuitem_copy_url)
@@ -3192,6 +3194,7 @@ void win_data_dup(struct Window *win_data_orig, struct Window *win_data)
 		win_data->user_command[i].environ = g_strdup(win_data_orig->user_command[i].environ);
 		win_data->user_command[i].environments = split_string(win_data->user_command[i].environ, " ", -1);
 		win_data->user_command[i].locale = g_strdup(win_data_orig->user_command[i].locale);
+		win_data->user_command[i].match_regex = g_strdup(win_data_orig->user_command[i].match_regex);
 	}
 	win_data->menuitem_copy_url = NULL;
 	win_data->menuitem_dim_text = NULL;
