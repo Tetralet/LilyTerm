@@ -39,7 +39,7 @@ const gchar *SYSTEM_VTE_CJK_WIDTH_STR = NULL;
 const gchar *wmclass_name = NULL;
 gchar *wmclass_class = NULL;
 const gchar *shell = NULL;
-const gchar *pwd = NULL;
+gchar *pwd = NULL;
 const gchar *home = NULL;
 
 GList *window_list = NULL;
@@ -128,12 +128,20 @@ int main( int   argc,
 	shell = g_getenv("SHELL");
 	if (shell==NULL) shell = "";
 
-	pwd = g_getenv("PWD");
-	// pwd = g_get_current_dir();
-#ifdef SAFEMODE
-	if (pwd==NULL) pwd = g_strdup("");
-#endif
+	gboolean pwd_need_be_free = FALSE;
+	pwd = (gchar *)g_getenv("PWD");
+	if (pwd==NULL)
+	{
+		pwd_need_be_free = TRUE;
+		pwd = g_get_current_dir();
+	}
+	if (pwd==NULL)
+	{
+		pwd_need_be_free = FALSE;
+		pwd = "";
+	}
 	// g_debug("Got $PWD = %s", pwd);
+
 	home = g_getenv("HOME");
 	if (home==NULL) home = "";
 	// g_debug("Get $HOME = %s", home);
@@ -287,6 +295,7 @@ int main( int   argc,
 	g_free(init_encoding);
 	g_free(system_locale_list);
 	g_free(profile_dir);
+	if (pwd_need_be_free) g_free(pwd);
 	g_free(restricted_locale_message);
 	g_list_free(window_list);
 	g_free(init_LC_CTYPE);
