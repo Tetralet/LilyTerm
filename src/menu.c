@@ -238,6 +238,13 @@ gboolean create_menu(struct Window *win_data)
 
 	// ----------------------------------------
 	add_separator_menu (misc_sub_menu);
+	create_menu_item (IMAGE_MENU_ITEM, misc_sub_menu, _("View page info"), NULL, GTK_STOCK_DIALOG_QUESTION,
+							     (GSourceFunc)view_current_page_info, win_data);
+
+
+
+	// ----------------------------------------
+	add_separator_menu (misc_sub_menu);
 
 	sub_menu = create_sub_item (misc_sub_menu, _("Erase Binding"), GTK_STOCK_GO_BACK);
 	GSList *erase_binding_group = NULL;
@@ -602,6 +609,33 @@ void open_current_dir_with_file_manager(GtkWidget *widget, struct Window *win_da
 	open_url_with_external_command (page_data->pwd, TAG_FILE, win_data, page_data);
 }
 
+void view_current_page_info(GtkWidget *widget, struct Window *win_data)
+{
+#ifdef DETAIL
+	g_debug("! Launch view_current_page_info() with win_data = %p!", win_data);
+#endif
+#ifdef SAFEMODE
+	if ((win_data==NULL) || (win_data->current_vte==NULL)) return;
+#endif
+	struct Page *page_data = (struct Page *)g_object_get_data(G_OBJECT(win_data->current_vte), "Page_Data");
+#ifdef SAFEMODE
+	if (page_data==NULL) return;
+#endif
+	gchar *old_temp_data = win_data->temp_data;
+	win_data->temp_data = g_strdup_printf("%s\x10%s\x10"
+					      "Encoding=%s\n"
+					      "VTE_CJK_WIDTH=%s\n"
+					      "WINDOWID=%ld",
+					      _("View current page information"), "View current page information",
+					      page_data->encoding_str,
+					      page_data->VTE_CJK_WIDTH_STR,
+					      (gtk_widget_get_window (page_data->vte))?GDK_WINDOW_XID (gtk_widget_get_window (page_data->vte)):0);
+	dialog(NULL, GENERAL_INFO);
+	g_free(win_data->temp_data);
+	win_data->temp_data=old_temp_data;
+
+}
+
 void view_clipboard(GtkWidget *widget, struct Window *win_data)
 {
 #ifdef DETAIL
@@ -610,7 +644,7 @@ void view_clipboard(GtkWidget *widget, struct Window *win_data)
 #ifdef SAFEMODE
 	if (win_data==NULL) return;
 #endif
-	show_clipboard_dialog(SELECTION_CLIPBOARD, win_data, NULL, VIEW_THE_CLIPBOARD);
+	show_clipboard_dialog(SELECTION_CLIPBOARD, win_data, NULL, GENERAL_INFO);
 }
 
 void view_primary(GtkWidget *widget, struct Window *win_data)
@@ -621,7 +655,7 @@ void view_primary(GtkWidget *widget, struct Window *win_data)
 #ifdef SAFEMODE
 	if (win_data==NULL) return;
 #endif
-	show_clipboard_dialog(SELECTION_PRIMARY, win_data, NULL, VIEW_THE_CLIPBOARD);
+	show_clipboard_dialog(SELECTION_PRIMARY, win_data, NULL, GENERAL_INFO);
 }
 
 void set_dim_text(GtkWidget *menuitem_dim_text, struct Window *win_data)

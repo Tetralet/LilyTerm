@@ -27,6 +27,8 @@
 #include <stdlib.h>
 // for sockaddr_un
 #include <sys/un.h>
+// for GDK_WINDOW_XID
+// #include <gdk/gdkx.h>
 
 #include "lilyterm.h"
 

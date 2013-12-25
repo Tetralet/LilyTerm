@@ -32,6 +32,8 @@
 #include <stdlib.h>
 // for XParseGeometry()
 #include <X11/Xlib.h>
+// for GDK_WINDOW_XID
+#include <gdk/gdkx.h>
 
 #include "lilyterm.h"
 
@@ -93,6 +95,7 @@ void copy_clipboard(GtkWidget *widget, struct Window *win_data);
 void paste_clipboard(GtkWidget *widget, struct Window *win_data);
 void paste_to_every_vte(GtkWidget *widget, struct Window *win_data);
 void open_current_dir_with_file_manager(GtkWidget *widget, struct Window *win_data);
+void view_current_page_info(GtkWidget *widget, struct Window *win_data);
 void view_clipboard(GtkWidget *widget, struct Window *win_data);
 void view_primary(GtkWidget *widget, struct Window *win_data);
 gint add_menuitem_to_locale_sub_menu(struct Window *win_data, gint no, gchar *name);

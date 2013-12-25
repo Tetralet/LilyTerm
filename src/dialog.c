@@ -64,7 +64,7 @@ GdkRGBA entry_not_find_bg_color = {0, 0xffff, 0xbcbc, 0xbcbc};
 // CONFIRM_TO_CLOSE_A_WINDOW_WITH_CHILD_PROCESS,
 // CONFIRM_TO_EXIT_WITH_CHILD_PROCESS,
 // CONFIRM_TO_PASTE_TEXTS_TO_VTE_TERMINAL,
-// VIEW_THE_CLIPBOARD,
+// GENERAL_INFO,
 // PASTE_TEXTS_TO_EVERY_VTE_TERMINAL,
 // PASTE_GRABBED_KEY_TO_EVERY_VTE_TERMINAL,
 // SET_KEY_BINDING,
@@ -84,6 +84,13 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 #endif
 		g_object_set_data(G_OBJECT(menu_active_window), "Dialog", dialog_data);
 	dialog_data->type = style;
+	gboolean selectable = FALSE;
+	// Backup the datas in clipboard.
+	// extern GtkClipboard *selection_clipboard;
+	// gchar *selection_clipboard_str = g_strdup(gtk_clipboard_wait_for_text(selection_clipboard));
+	extern GtkClipboard *selection_primary;
+	gchar *selection_primary_str = g_strdup(gtk_clipboard_wait_for_text(selection_primary));
+
 	GtkResponseType dialog_response = GTK_RESPONSE_NONE;
 
 #ifdef SAFEMODE
@@ -179,7 +186,7 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 				      GTK_RESPONSE_OK,
 				      GTK_STOCK_DIALOG_INFO,
 				      NULL,
-				      FALSE,
+				      selectable,
 				      0,
 				      TRUE,
 				      BOX_HORIZONTAL,
@@ -210,7 +217,7 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 				      GTK_RESPONSE_OK,
 				      GTK_STOCK_FIND,
 				      NULL,
-				      FALSE,
+				      selectable,
 				      0,
 				      TRUE,
 				      BOX_VERTICALITY,
@@ -313,7 +320,7 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 				      GTK_RESPONSE_OK,
 				      GTK_STOCK_DIALOG_INFO,
 				      NULL,
-				      FALSE,
+				      selectable,
 				      0,
 				      TRUE,
 				      BOX_VERTICALITY,
@@ -372,7 +379,7 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 				      GTK_RESPONSE_CANCEL,
 				      GTK_STOCK_DIALOG_INFO,
 				      temp_str[0],
-				      FALSE,
+				      selectable,
 				      0,
 				      TRUE,
 				      BOX_VERTICALITY,
@@ -403,7 +410,7 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 				      GTK_RESPONSE_OK,
 				      GTK_STOCK_DIALOG_INFO,
 				      NULL,
-				      FALSE,
+				      selectable,
 				      0,
 				      TRUE,
 				      BOX_VERTICALITY,
@@ -445,7 +452,7 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 				      GTK_RESPONSE_OK,
 				      GTK_STOCK_DIALOG_INFO,
 				      _("Change the Saturation of background:"),
-				      FALSE,
+				      selectable,
 				      0,
 				      TRUE,
 				      BOX_VERTICALITY,
@@ -478,7 +485,7 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 				      GTK_RESPONSE_OK,
 				      NULL,
 				      NULL,
-				      FALSE,
+				      selectable,
 				      0,
 				      FALSE,
 				      BOX_HORIZONTAL,
@@ -504,7 +511,7 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 				      GTK_RESPONSE_OK,
 				      NULL,
 				      NULL,
-				      FALSE,
+				      selectable,
 				      0,
 				      FALSE,
 				      BOX_HORIZONTAL,
@@ -528,7 +535,7 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 				      GTK_RESPONSE_OK,
 				      NULL,
 				      NULL,
-				      FALSE,
+				      selectable,
 				      0,
 				      FALSE,
 				      BOX_HORIZONTAL,
@@ -553,7 +560,7 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 				      GTK_RESPONSE_OK,
 				      NULL,
 				      NULL,
-				      FALSE,
+				      selectable,
 				      0,
 				      FALSE,
 				      BOX_VERTICALITY,
@@ -673,7 +680,7 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 				      GTK_RESPONSE_OK,
 				      NULL,
 				      NULL,
-				      FALSE,
+				      selectable,
 				      0,
 				      FALSE,
 				      BOX_HORIZONTAL,
@@ -808,7 +815,7 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 				      GTK_RESPONSE_OK,
 				      GTK_STOCK_DIALOG_QUESTION,
 				      _("You are about to close multi tabs. Continue anyway?"),
-				      FALSE,
+				      selectable,
 				      0,
 				      TRUE,
 				      create_entry_hbox,
@@ -832,7 +839,7 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 				      GTK_RESPONSE_OK,
 				      NULL,
 				      temp_str[0],
-				      FALSE,
+				      selectable,
 				      0,
 				      FALSE,
 				      BOX_VERTICALITY,
@@ -946,6 +953,7 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 		}
 		case USAGE_MESSAGE:						// 5
 		{
+			selectable = TRUE;
 			gchar *str[18] = {NULL};
 			gchar *temp_str;
 
@@ -962,7 +970,7 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 				      GTK_RESPONSE_OK,
 				      NULL,
 				      NULL,
-				      TRUE,
+				      selectable,
 				      0,
 				      FALSE,
 				      BOX_VERTICALITY,
@@ -1046,6 +1054,7 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 		}
 		case CONFIRM_TO_CLOSE_RUNNING_APPLICATION:			// 7
 		{
+			selectable = TRUE;
 			// get the command line of running foreground program
 			pid_t tpgid = get_tpgid(page_data->pid);
 			temp_str[0] = get_cmdline(tpgid);
@@ -1080,7 +1089,7 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 				      GTK_RESPONSE_OK,
 				      GTK_STOCK_DIALOG_QUESTION,
 				      temp_str[5],
-				      TRUE,
+				      selectable,
 				      70,
 				      TRUE,
 				      create_entry_hbox,
@@ -1126,7 +1135,7 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 				      GTK_RESPONSE_OK,
 				      GTK_STOCK_DIALOG_INFO,
 				      text,
-				      FALSE,
+				      selectable,
 				      0,
 				      TRUE,
 				      BOX_VERTICALITY,
@@ -1183,7 +1192,7 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 				      GTK_RESPONSE_OK,
 				      GTK_STOCK_DIALOG_INFO,
 				      title[0],
-				      FALSE,
+				      selectable,
 				      0,
 				      TRUE,
 				      BOX_VERTICALITY,
@@ -1230,6 +1239,7 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 				      dialog_data);
 			break;
 		case CONFIRM_TO_CLOSE_A_TAB_WITH_CHILD_PROCESS:		// 23
+			selectable = TRUE;
 			// get the command line of running foreground program
 			temp_str[0] = g_strdup_printf(_("The following programs are still running under #%d tab:"),
 							 page_data->page_no+1);
@@ -1260,7 +1270,7 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 				      temp_str[3],
 				      TRUE,
 				      70,
-				      TRUE,
+				      selectable,
 				      BOX_VERTICALITY,
 				      5,
 				      dialog_data);
@@ -1270,6 +1280,7 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 
 			break;
 		case CONFIRM_TO_CLOSE_A_WINDOW_WITH_CHILD_PROCESS:		// 24
+			selectable = TRUE;
 			temp_str[0] = g_markup_escape_text(win_data->temp_data, -1);
 			temp_str[1] = g_strconcat(_("The following programs are still running under this window:"),
 						  "\n\n<b><span foreground=\"blue\">",
@@ -1287,7 +1298,7 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 				      GTK_RESPONSE_CANCEL,
 				      GTK_STOCK_DIALOG_QUESTION,
 				      temp_str[1],
-				      TRUE,
+				      selectable,
 				      70,
 				      TRUE,
 				      BOX_VERTICALITY,
@@ -1297,6 +1308,7 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 			create_SIGKILL_and_EXIT_widget(dialog_data, TRUE, create_entry_hbox, _("those tabs"));
 			break;
 		case CONFIRM_TO_EXIT_WITH_CHILD_PROCESS:			// 25
+			selectable = TRUE;
 			temp_str[0]  = g_strdup_printf(_("Confirm to close %s"), PACKAGE);
 			temp_str[1]  = g_strdup_printf("Confirm to close %s", PACKAGE);
 			// get the command line of running foreground program
@@ -1319,7 +1331,7 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 				      GTK_RESPONSE_CANCEL,
 				      GTK_STOCK_DIALOG_QUESTION,
 				      temp_str[4],
-				      TRUE,
+				      selectable,
 				      70,
 				      TRUE,
 				      BOX_VERTICALITY,
@@ -1345,7 +1357,7 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 				      GTK_RESPONSE_OK,
 				      GTK_STOCK_DIALOG_QUESTION,
 				      temp_str[0],
-				      FALSE,
+				      selectable,
 				      70,
 				      FALSE,
 				      BOX_NONE,
@@ -1359,9 +1371,13 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 			gtk_button_box_set_child_secondary (GTK_BUTTON_BOX(gtk_dialog_get_action_area(GTK_DIALOG(dialog_data->window))),
 							    join_button, TRUE);
 			break;
-		case VIEW_THE_CLIPBOARD:
-			create_dialog(_("Clipboard"),
-				      "Clipboard",
+		case GENERAL_INFO:
+		{
+			selectable = TRUE;
+			gchar **strings = split_string(win_data->temp_data, "\x10", 3);
+			if (strings==NULL) goto FINISH;
+			create_dialog(strings[0],
+				      strings[1],
 				      DIALOG_OK,
 				      page_data->window,
 				      FALSE,
@@ -1369,14 +1385,16 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 				      10,
 				      GTK_RESPONSE_OK,
 				      NULL,
-				      win_data->temp_data,
-				      FALSE,
+				      strings[2],
+				      selectable,
 				      70,
 				      FALSE,
 				      BOX_NONE,
 				      0,
 				      dialog_data);
+			g_strfreev(strings);
 			break;
+		}
 		default:
 #ifdef FATAL
 			print_switch_out_of_range_error_dialog("dialog", "style", style);
@@ -1405,6 +1423,7 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 #else
 	dialog_response = gtk_dialog_run(GTK_DIALOG(dialog_data->window));
 #endif
+
 	switch (dialog_response)
 	{
 		case GTK_RESPONSE_OK:
@@ -1793,6 +1812,17 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 #ifdef SAFEMODE
 DESTROY_WINDOW:
 #endif
+	if (selectable)
+	{
+		extern GtkClipboard *selection_primary;
+		gchar *current_clipboard_str = gtk_clipboard_wait_for_text(selection_primary);
+		if ((current_clipboard_str!=NULL) && (current_clipboard_str[0]!='\0'))
+		{
+			g_free(selection_primary_str);
+			selection_primary_str = g_strdup(current_clipboard_str);
+		}
+	}
+
 	// destroy dialog.
 	// g_debug("destroy dialog: dialog_data->window = %p", dialog_data->window);
 	if ((dialog_response != GTK_RESPONSE_NONE) && (dialog_data->window))
@@ -1809,10 +1839,14 @@ DESTROY_WINDOW:
 	// for PASTE_GRABBED_KEY_TO_EVERY_VTE_TERMINAL Only...
 	win_data->enable_key_binding = enable_key_binding;
 
+	if (selectable)
+		gtk_clipboard_set_text(selection_primary, selection_primary_str, -1);
+
 FINISH:
 	dialog_activated--;
 	// g_debug("Set dialog_activated = %d, gtk_widget_get_mapped(win_data->window) = %d", dialog_activated, gtk_widget_get_mapped(win_data->window));
 	g_free(dialog_data);
+	g_free(selection_primary_str);
 	for (i=0; i<TEMPSTR; i++) g_free(temp_str[i]);
 
 	if (window_list == NULL && (dialog_activated==0))

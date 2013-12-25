@@ -419,6 +419,10 @@ GtkNotebook *new_window(int argc,
 	// ERR MSG: gtk_window_parse_geometry() called on a window with no visible children;
 	//	    the window should be set up before gtk_window_parse_geometry() is called.
 	gtk_widget_show_all(win_data->window);
+
+	// if (gtk_widget_get_window (win_data->window))
+	//	g_debug("WINDOW(%p): WINDOWID = %ld", win_data->window, GDK_WINDOW_XID (gtk_widget_get_window (win_data->window)));
+
 #endif
 
 	if (win_data_orig==NULL)
@@ -3690,9 +3694,16 @@ gboolean show_clipboard_dialog(Clipboard_Type type, struct Window *win_data,
 		case CONFIRM_TO_PASTE_TEXTS_TO_VTE_TERMINAL:
 			win_data->temp_data = colorful_max_new_lines(clipboard_str, 0, 7);
 			break;
-		case VIEW_THE_CLIPBOARD:
-			win_data->temp_data = colorful_max_new_lines(clipboard_str, -1, 7);
+		case GENERAL_INFO:
+		{
+			gchar *tmp_str = colorful_max_new_lines(clipboard_str, -1, 7);
+			if (tmp_str)
+				win_data->temp_data = g_strdup_printf("%s\x10%s\x10%s", _("Clipboard"), "Clipboard", tmp_str);
+			else
+				win_data->temp_data = NULL;
+			g_free(tmp_str);
 			break;
+		}
 		default:
 #ifdef FATAL
 			print_switch_out_of_range_error_dialog("show_clipboard_dialog", "dialog_type", dialog_type);
@@ -3717,6 +3728,7 @@ gboolean show_clipboard_dialog(Clipboard_Type type, struct Window *win_data,
 					{
 						gchar **old_clipboard_strs = split_string(clipboard_str, "\n\r", -1);
 						gchar *new_clipboard_str = convert_array_to_string(old_clipboard_strs, '\0');
+						// g_debug("Set clipboard to %s", new_clipboard_str);
 						gtk_clipboard_set_text(clipboard, new_clipboard_str, -1);
 						g_free(new_clipboard_str);
 						g_strfreev(old_clipboard_strs);
@@ -3736,7 +3748,10 @@ gboolean show_clipboard_dialog(Clipboard_Type type, struct Window *win_data,
 							break;
 					}
 					if (response==GTK_RESPONSE_ACCEPT)
+					{
+						// g_debug("Set clipboard to %s", clipboard_str);
 						gtk_clipboard_set_text(clipboard, clipboard_str, -1);
+					}
 #ifdef SAFEMODE
 				}
 #endif

@@ -440,6 +440,9 @@ struct Page *add_page(struct Window *win_data,
 	g_signal_connect(G_OBJECT(page_data->hbox), "size-allocate",
 			 G_CALLBACK(widget_size_allocate), "hbox");
 #endif
+	// gtk_widget_show_all(page_data->hbox);
+	// if (gtk_widget_get_window (page_data->hbox))
+	//	g_debug("HBOX(%p): WINDOWID = %ld", page_data->hbox, GDK_WINDOW_XID (gtk_widget_get_window (page_data->hbox)));
 
 	// Get current vte size. for init a new tab.
 	glong column=SYSTEM_COLUMN, row=SYSTEM_ROW;
@@ -1051,6 +1054,9 @@ void vte_grab_focus(GtkWidget *vte, gpointer user_data)
 
 	// Recover the dim text of vte
 	dim_vte_text (win_data, page_data, 0);
+
+	// if (gtk_widget_get_window (page_data->vte))
+	//	g_debug("VTE(%p): WINDOWID = %ld", page_data->vte, GDK_WINDOW_XID (gtk_widget_get_window (page_data->vte)));
 
 	// Don't update page name when win_data->kill_color_demo_vte.
 	// Or LilyTerm will got warning: "Failed to set text from markup due to error parsing markup"

@@ -34,6 +34,8 @@
 #include <pwd.h>
 // for g_chdir()
 #include <glib/gstdio.h>
+// for GDK_WINDOW_XID
+// #include <gdk/gdkx.h>
 
 #include "lilyterm.h"
 
