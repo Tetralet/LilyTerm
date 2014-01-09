@@ -2754,6 +2754,7 @@ void dump_data (struct Window *win_data, struct Page *page_data)
 	g_debug("- win_data->menuitem_dim_text = %p", win_data->menuitem_dim_text);
 	g_debug("- win_data->menuitem_cursor_blinks = %p", win_data->menuitem_cursor_blinks);
 	g_debug("- win_data->menuitem_allow_bold_text = %p", win_data->menuitem_allow_bold_text);
+	g_debug("- win_data->menuitem_open_url_with_ctrl_pressed = %p", win_data->menuitem_open_url_with_ctrl_pressed);
 	g_debug("- win_data->menuitem_audible_bell = %p", win_data->menuitem_audible_bell);
 	g_debug("- win_data->menuitem_visible_bell = %p", win_data->menuitem_visible_bell);
 #ifdef ENABLE_BEEP_SINGAL
@@ -2842,6 +2843,7 @@ void dump_data (struct Window *win_data, struct Page *page_data)
 	g_debug("- win_data->dim_text = %d", win_data->dim_text);
 	g_debug("- win_data->cursor_blinks = %d", win_data->cursor_blinks);
 	g_debug("- win_data->allow_bold_text = %d", win_data->allow_bold_text);
+	g_debug("- win_data->open_url_with_ctrl_pressed = %d", win_data->open_url_with_ctrl_pressed);
 	g_debug("- win_data->audible_bell = %d", win_data->audible_bell);
 	g_debug("- win_data->visible_bell = %d", win_data->visible_bell);
 #ifdef ENABLE_BEEP_SINGAL
@@ -3216,6 +3218,7 @@ void win_data_dup(struct Window *win_data_orig, struct Window *win_data)
 #endif
 	win_data->menuitem_cursor_blinks = NULL;
 	win_data->menuitem_allow_bold_text = NULL;
+	win_data->menuitem_open_url_with_ctrl_pressed = NULL;
 	win_data->menuitem_audible_bell = NULL;
 	win_data->menuitem_visible_bell = NULL;
 #ifdef ENABLE_BEEP_SINGAL
@@ -3304,6 +3307,7 @@ void win_data_dup(struct Window *win_data_orig, struct Window *win_data)
 	// win_data->dim_window;
 	// win_data->cursor_blinks;
 	// win_data->allow_bold_text;
+	// win_data->open_url_with_ctrl_pressed;
 	// win_data->audible_bell;
 	// win_data->visible_bell;
 	// win_data->urgent_bell;

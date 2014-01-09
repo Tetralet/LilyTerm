@@ -38,6 +38,7 @@ void create_child_process_failed_dialog(struct Window *win_data, gchar *message,
 void clear_arg(struct Window *win_data);
 void label_size_request (GtkWidget *label, GtkRequisition *requisition, struct Page *page_data);
 gboolean vte_button_press(GtkWidget *widget, GdkEventButton *event, gpointer user_data);
+gboolean vte_button_release(GtkWidget *widget, GdkEventButton *event, gpointer user_data);
 void vte_grab_focus(GtkWidget *vte, gpointer user_data);
 gboolean compare_win_page_encoding(GtkWidget *menu_item_encoding, gchar *encoding_str);
 // void vte_style_set (GtkWidget *vte, GtkStyle *previous_style, gpointer user_data);

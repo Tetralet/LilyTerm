@@ -497,6 +497,9 @@ struct Page *add_page(struct Window *win_data,
 	// show the menu
 	g_signal_connect(G_OBJECT(page_data->vte), "button-press-event",
 			 G_CALLBACK(vte_button_press), NULL);
+	g_signal_connect(G_OBJECT(page_data->vte), "button-release-event",
+			 G_CALLBACK(vte_button_release), NULL);
+
 	add_remove_window_title_changed_signal(page_data);
 
 	// g_signal_connect(G_OBJECT(page_data->vte), "paste-clipboard",
@@ -1432,6 +1435,10 @@ gboolean vte_button_press(GtkWidget *vte, GdkEventButton *event, gpointer user_d
 		gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM(win_data->menuitem_allow_bold_text),
 						win_data->allow_bold_text);
 
+		// GTK_CHECK_MENU_ITEM(win_data->menuitem_open_url_with_ctrl_pressed)->active = win_data->open_url_with_ctrl_pressed;
+		gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM(win_data->menuitem_open_url_with_ctrl_pressed),
+						win_data->open_url_with_ctrl_pressed);
+
 		// GTK_CHECK_MENU_ITEM(win_data->menuitem_audible_bell)->active = win_data->audible_bell;
 		gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM(win_data->menuitem_audible_bell),
 						win_data->audible_bell);
@@ -1469,7 +1476,15 @@ gboolean vte_button_press(GtkWidget *vte, GdkEventButton *event, gpointer user_d
 	else if (event->button == 1)
 	{
 		// return if hyperlink is disabled.
-		if ( ! win_data->enable_hyperlink) return FALSE;
+		if (! win_data->enable_hyperlink) return FALSE;
+
+		// g_debug("vte_button_press(): event->state & GDK_CONTROL_MASK = %d", event->state & GDK_CONTROL_MASK);
+		if (win_data->open_url_with_ctrl_pressed && ((event->state & GDK_CONTROL_MASK)==0))
+		{
+			// clean the url first...
+			vte_terminal_match_clear_all(VTE_TERMINAL(vte));
+			return FALSE;
+		}
 
 		gint tag;
 		gchar *url = get_url(event, page_data, &tag);
@@ -1482,6 +1497,29 @@ gboolean vte_button_press(GtkWidget *vte, GdkEventButton *event, gpointer user_d
 		g_free(url);
 		return response;
 	}
+	return FALSE;
+}
+
+gboolean vte_button_release(GtkWidget *vte, GdkEventButton *event, gpointer user_data)
+{
+#ifdef DETAIL
+	g_debug("! Launch vte_button_release() for vte %p", vte);
+#endif
+#ifdef SAFEMODE
+	if (vte==NULL) return FALSE;
+#endif
+	struct Page *page_data = (struct Page *)g_object_get_data(G_OBJECT(vte), "Page_Data");
+#ifdef SAFEMODE
+	if ((page_data==NULL) || (event==NULL)) return FALSE;
+#endif
+	struct Window *win_data = (struct Window *)g_object_get_data(G_OBJECT(page_data->window), "Win_Data");
+#ifdef SAFEMODE
+	if (win_data==NULL) return FALSE;
+#endif
+
+	if (win_data->open_url_with_ctrl_pressed && ((event->state & GDK_CONTROL_MASK)==0))
+		set_hyprelink(win_data, page_data);
+
 	return FALSE;
 }
 

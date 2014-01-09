@@ -418,6 +418,7 @@ void init_window_parameters(struct Window *win_data)
 	// win_data->menuitem_dim_text;
 	// win_data->menuitem_cursor_blinks;
 	// win_data->menuitem_allow_bold_text;
+	// win_data->menuitem_open_url_with_ctrl_pressed;
 	// win_data->menuitem_audible_bell;
 	// win_data->menuitem_visible_bell;
 	// win_data->menuitem_urgent_bell;
@@ -502,6 +503,7 @@ void init_window_parameters(struct Window *win_data)
 	win_data->cursor_blinks = TRUE;
 #endif
 	win_data->allow_bold_text = TRUE;
+	win_data->open_url_with_ctrl_pressed = FALSE;
 	win_data->audible_bell = TRUE;
 	// win_data->visible_bell = FALSE;
 #ifdef ENABLE_BEEP_SINGAL
@@ -1406,6 +1408,9 @@ void get_user_settings(struct Window *win_data, const gchar *encoding)
 			win_data->allow_bold_text = check_boolean_value(keyfile, "main", "allow_bold_text",
 								  win_data->allow_bold_text);
 
+			win_data->open_url_with_ctrl_pressed = check_boolean_value(keyfile, "main", "open_url_with_ctrl_pressed",
+										   win_data->open_url_with_ctrl_pressed);
+
 			win_data->show_copy_paste_menu =
 				check_boolean_value(keyfile,
 						    "main",
@@ -1579,9 +1584,9 @@ void get_user_settings(struct Window *win_data, const gchar *encoding)
 			{
 				win_data->user_regex[i] = check_string_value(keyfile, "command",
 									     regex_name[i], NULL, TRUE, DISABLE_EMPTY_STR);
-				gchar *regex_str = convert_escape_sequence_to_string(win_data->user_regex[i]);
-				g_debug("get_user_settings: Got win_data->user_regex[%d] = %s", i, regex_str);
-				g_free(regex_str);
+				// gchar *regex_str = convert_escape_sequence_to_string(win_data->user_regex[i]);
+				// g_debug("get_user_settings: Got win_data->user_regex[%d] = %s", i, regex_str);
+				// g_free(regex_str);
 			}
 
 			if (win_data->user_regex[REGEX_USERNAME] || win_data->user_regex[REGEX_PASSWORD] || win_data->user_regex[REGEX_HOSTNAME] ||
@@ -2565,6 +2570,8 @@ GString *save_user_settings(GtkWidget *widget, struct Window *win_data)
 					"cursor_blinks = %d\n\n", win_data->cursor_blinks);
 	g_string_append_printf(contents,"# Allow bold text in the terminal.\n"
 					"allow_bold_text = %d\n\n", win_data->allow_bold_text);
+	g_string_append_printf(contents,"# Need <Ctrl> to be pressed to open the URL when it's clicked.\n"
+					"open_url_with_ctrl_pressed = %d\n\n", win_data->open_url_with_ctrl_pressed);
 	g_string_append_printf(contents,"# Shows copy/paste menu on right click menu.\n"
 					"show_copy_paste_menu = %d\n\n",
 					win_data->show_copy_paste_menu);

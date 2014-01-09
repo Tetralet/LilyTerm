@@ -295,6 +295,10 @@ gboolean create_menu(struct Window *win_data)
 	win_data->menuitem_allow_bold_text = create_menu_item (CHECK_MENU_ITEM, misc_sub_menu, _("Allow bold text"), NULL, NULL,
 							       (GSourceFunc)set_allow_bold_text, win_data);
 
+	// Need <Ctrl> pressed to open URL
+	win_data->menuitem_open_url_with_ctrl_pressed = create_menu_item (CHECK_MENU_ITEM, misc_sub_menu, _("Need <Ctrl> pressed to open URL"), NULL, NULL,
+							                  (GSourceFunc)set_open_url_with_ctrl_pressed, win_data);
+
 	// ----------------------------------------
 	add_separator_menu (misc_sub_menu);
 
@@ -738,6 +742,17 @@ void set_allow_bold_text(GtkWidget *menuitem_allow_bold_text, struct Window *win
 #endif
 			vte_terminal_set_allow_bold(VTE_TERMINAL(page_data->vte), win_data->allow_bold_text);
 	}
+}
+
+void set_open_url_with_ctrl_pressed(GtkWidget *menuitem_open_url_with_ctrl_pressed, struct Window *win_data)
+{
+#ifdef DETAIL
+	g_debug("! Launch set_open_url_with_ctrl_pressed() with win_data = %p", win_data);
+#endif
+#ifdef SAFEMODE
+	if ((menuitem_open_url_with_ctrl_pressed==NULL) || (win_data==NULL)) return;
+#endif
+	win_data->open_url_with_ctrl_pressed = gtk_check_menu_item_get_active (GTK_CHECK_MENU_ITEM(menuitem_open_url_with_ctrl_pressed));
 }
 
 void set_audible_bell(GtkWidget *menuitem_audible_bell, struct Window *win_data)
@@ -2372,6 +2387,7 @@ void apply_profile_from_file(const gchar *path, Apply_Profile_Type type)
 		}
 		g_string_free(invild_settings, TRUE);
 
+		gint i;
 		gboolean refresh_match = FALSE;
 		for (i=0; i<COMMAND; i++)
 		{
@@ -2382,8 +2398,6 @@ void apply_profile_from_file(const gchar *path, Apply_Profile_Type type)
 			}
 		}
 
-
-		gint i;
 		struct Page *page_data = NULL;
 		for (i=0; i<gtk_notebook_get_n_pages(GTK_NOTEBOOK(win_data->notebook)); i++)
 		{

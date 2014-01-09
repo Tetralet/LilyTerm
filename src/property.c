@@ -234,9 +234,9 @@ void set_hyprelink(struct Window *win_data, struct Page *page_data)
 			if ((match == NULL) || (match[0] == '\0'))
 				match = command[i].match;
 
-			gchar *regex_str = convert_escape_sequence_to_string(match);
-			g_debug("set_hyprelink(): match = %s", regex_str);
-			g_free(regex_str);
+			// gchar *regex_str = convert_escape_sequence_to_string(match);
+			// g_debug("set_hyprelink(): match = %s", regex_str);
+			// g_free(regex_str);
 
 #ifdef USE_NEW_VTE_MATCH_ADD_GREGEX
 			GRegex *regex = g_regex_new (match, G_REGEX_CASELESS | G_REGEX_OPTIMIZE,

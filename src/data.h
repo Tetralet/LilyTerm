@@ -934,6 +934,7 @@ struct Window
 	GtkWidget *menuitem_dim_text;
 	GtkWidget *menuitem_cursor_blinks;
 	GtkWidget *menuitem_allow_bold_text;
+	GtkWidget *menuitem_open_url_with_ctrl_pressed;
 	GtkWidget *menuitem_audible_bell;
 	GtkWidget *menuitem_visible_bell;
 #ifdef ENABLE_BEEP_SINGAL
@@ -1045,6 +1046,7 @@ struct Window
 	gboolean cursor_blinks;
 #endif
 	gboolean allow_bold_text;
+	gboolean open_url_with_ctrl_pressed;
 	gboolean audible_bell;
 	gboolean visible_bell;
 #ifdef ENABLE_BEEP_SINGAL
