@@ -1903,6 +1903,8 @@ void clear_win_data(struct Window *win_data)
 	g_free(win_data->custom_window_title_str);
 	for (i=0; i<KEYS; i++)
 		g_free(win_data->user_keys[i].value);
+	for (i=0; i<REGEX; i++)
+		g_free(win_data->user_regex[i]);
 	for (i=0; i<COMMAND; i++)
 	{
 		g_free(win_data->user_command[i].command);
@@ -1910,6 +1912,7 @@ void clear_win_data(struct Window *win_data)
 		g_strfreev(win_data->user_command[i].environments);
 		g_free(win_data->user_command[i].locale);
 		g_free(win_data->user_command[i].match_regex);
+		g_free(win_data->user_command[i].match_regex_orig);
 	}
 	if (win_data->custom_tab_names_str) g_string_free(win_data->custom_tab_names_str, TRUE);
 	g_strfreev(win_data->custom_tab_names_strs);
@@ -2727,6 +2730,8 @@ void dump_data (struct Window *win_data, struct Page *page_data)
 	g_debug("- win_data->show_exit_menu = %d", win_data->show_exit_menu);
 	g_debug("- win_data->show_change_page_name_menu = %d", win_data->show_change_page_name_menu);
 	g_debug("- win_data->enable_hyperlink = %d", win_data->enable_hyperlink);
+	for (i=0; i<REGEX; i++)
+		g_debug("- win_data->user_regex[%d] = %s", i, win_data->user_regex[i]);
 	for (i=0; i<COMMAND; i++)
 	{
 		g_debug("- win_data->user_command[%d].command = %s", i, win_data->user_command[i].command);
@@ -2740,6 +2745,7 @@ void dump_data (struct Window *win_data, struct Page *page_data)
 			win_data->user_command[i].VTE_CJK_WIDTH);
 		g_debug("- win_data->user_command[%d].locale = %s", i, win_data->user_command[i].locale);
 		g_debug("- win_data->user_command[%d].match_regex = %s", i, win_data->user_command[i].match_regex);
+		g_debug("- win_data->user_command[%d].match_regex_orig = %s", i, win_data->user_command[i].match_regex_orig);
 	}
 	g_debug("- win_data->menuitem_copy_url = %p", win_data->menuitem_copy_url);
 	if (win_data->menuitem_copy_url)
@@ -3192,6 +3198,8 @@ void win_data_dup(struct Window *win_data_orig, struct Window *win_data)
 	// win_data->show_change_page_name_menu;
 	// win_data->show_exit_menu;
 	// win_data->enable_hyperlink;
+	for (i=0; i<REGEX; i++)
+		win_data->user_regex[i] = g_strdup(win_data_orig->user_regex[i]);
 	for (i=0; i<COMMAND; i++)
 	{
 		win_data->user_command[i].command = g_strdup(win_data_orig->user_command[i].command);
@@ -3199,6 +3207,7 @@ void win_data_dup(struct Window *win_data_orig, struct Window *win_data)
 		win_data->user_command[i].environments = split_string(win_data->user_command[i].environ, " ", -1);
 		win_data->user_command[i].locale = g_strdup(win_data_orig->user_command[i].locale);
 		win_data->user_command[i].match_regex = g_strdup(win_data_orig->user_command[i].match_regex);
+		win_data->user_command[i].match_regex_orig = g_strdup(win_data_orig->user_command[i].match_regex_orig);
 	}
 	win_data->menuitem_copy_url = NULL;
 	win_data->menuitem_dim_text = NULL;

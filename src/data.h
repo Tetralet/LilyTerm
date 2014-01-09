@@ -571,6 +571,19 @@ struct User_KeyValue
 };
 
 #define COMMAND 4
+// 0 username
+// 1 password
+// 2 hostname
+// 3 address_body
+// 4 address_end
+typedef enum {
+	REGEX_USERNAME,
+	REGEX_PASSWORD,
+	REGEX_HOSTNAME,
+	REGEX_ADDRESS_BODY,
+	REGEX_ADDRESS_END,
+} Regex_Type;
+#define REGEX 5
 
 struct Command
 {
@@ -593,6 +606,7 @@ struct User_Command
 	gchar **environments;
 	gint VTE_CJK_WIDTH;
 	gchar *locale;
+	gchar *match_regex_orig;
 	gchar *match_regex;
 };
 
@@ -913,6 +927,7 @@ struct Window
 	// enable_hyperlink will enable [Copy URL] menuitem.
 	// It can't copy to page_data
 	gboolean enable_hyperlink;
+	gchar *user_regex[REGEX];
 	struct User_Command user_command[COMMAND];
 	GtkWidget *menuitem_copy_url;
 

@@ -230,10 +230,14 @@ void set_hyprelink(struct Window *win_data, struct Page *page_data)
 		gint i;
 		for (i=0; i<COMMAND; i++)
 		{
-			gchar *match = win_data->user_command[i].match_regex;
+			gchar *match = (win_data->user_command[i].match_regex_orig)? win_data->user_command[i].match_regex_orig: win_data->user_command[i].match_regex;
 			if ((match == NULL) || (match[0] == '\0'))
 				match = command[i].match;
-			// g_debug("set_hyprelink(): match = %s", match);
+
+			gchar *regex_str = convert_escape_sequence_to_string(match);
+			g_debug("set_hyprelink(): match = %s", regex_str);
+			g_free(regex_str);
+
 #ifdef USE_NEW_VTE_MATCH_ADD_GREGEX
 			GRegex *regex = g_regex_new (match, G_REGEX_CASELESS | G_REGEX_OPTIMIZE,
 						     0, NULL);

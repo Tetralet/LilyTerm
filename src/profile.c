@@ -31,6 +31,8 @@ extern gchar *profile_dir;
 struct ModKey modkeys[MOD] = {{0}};
 struct KeyValue system_keys[KEYS] = {{0}};
 gchar *key_groups[KEY_GROUP] = {0};
+gchar *regex_name[REGEX] = {0};
+gchar *regex_str[REGEX] = {0};
 struct Command command[COMMAND] = {{0}};
 struct Color color[COLOR] = {{0}};
 struct Page_Color page_color[PAGE_COLOR] = {{0}};
@@ -216,13 +218,24 @@ void init_command()
 	g_debug("! Launch init_command()!");
 #endif
 
+	regex_name[0] = "username_regex";
+	regex_name[1] = "password_regex";
+	regex_name[2] = "hostname_regex";
+	regex_name[3] = "address_body_regex";
+	regex_name[4] = "address_end_regex";
+
 	#define USERNAME "[A-Za-z][-A-Za-z0-9.]*"
+	regex_str[0] = USERNAME;
 	#define PASSWORD "(:[^ \t\r\n]+)?"
+	regex_str[1] = PASSWORD;
 	#define LOGIN "(" USERNAME PASSWORD "@)?"
 	#define HOSTNAME "[A-Za-z0-9][-A-Za-z0-9.]*\\.[A-Za-z0-9]+[-A-Za-z0-9.]*[-A-Za-z0-9]*"
-	#define PORT "[:]*[0-9]*"
+	regex_str[2] = HOSTNAME;
+	#define PORT "(:[0-9]+)?"
 	#define ADDRESS_BODY "([^|.< \t\r\n\\\"]*([.][^|< \t\r\n\\\"])?[^|.< \t\r\n\\\"]*)*"
+	regex_str[3] = ADDRESS_BODY;
 	#define ADDRESS_END "[^<> \t\r\n,;|\\\"]*[^|.<> \t\r\n\\\"]"
+	regex_str[4] = ADDRESS_END;
 
 	// WWW
 	command[TAG_WWW].name = "web_browser";
@@ -284,13 +297,19 @@ void init_user_command(struct Window *win_data)
 	win_data->user_command[TAG_MAIL].command = g_strdup("thunderbird");
 
 	gint i;
+
+	// Keep it in NULL will be a better idea
+	// for (i=0; i<REGEX; i++)
+	//	win_data->user_regex[i] = g_strdup("");
+
 	for (i=0; i<COMMAND; i++)
 	{
 		win_data->user_command[i].method = 1;
 		win_data->user_command[i].environ = g_strdup("");
 		win_data->user_command[i].VTE_CJK_WIDTH = 0;
 		win_data->user_command[i].locale = g_strdup("");
-		win_data->user_command[i].match_regex = g_strdup("");
+		// Keep it in NULL will be a better idea
+		// win_data->user_command[i].match_regex_orig = g_strdup("");
 	}
 }
 
@@ -1556,6 +1575,59 @@ void get_user_settings(struct Window *win_data, const gchar *encoding)
 				convert_string_to_user_key(i, value, win_data);
 			}
 
+			for (i=0; i<REGEX; i++)
+			{
+				win_data->user_regex[i] = check_string_value(keyfile, "command",
+									     regex_name[i], NULL, TRUE, DISABLE_EMPTY_STR);
+				gchar *regex_str = convert_escape_sequence_to_string(win_data->user_regex[i]);
+				g_debug("get_user_settings: Got win_data->user_regex[%d] = %s", i, regex_str);
+				g_free(regex_str);
+			}
+
+			if (win_data->user_regex[REGEX_USERNAME] || win_data->user_regex[REGEX_PASSWORD] || win_data->user_regex[REGEX_HOSTNAME] ||
+			    win_data->user_regex[REGEX_ADDRESS_BODY] || win_data->user_regex[REGEX_ADDRESS_END])
+			{
+				gchar *username = (win_data->user_regex[REGEX_USERNAME] == NULL)? USERNAME: win_data->user_regex[REGEX_USERNAME];
+				gchar *password = (win_data->user_regex[REGEX_PASSWORD] == NULL)? PASSWORD: win_data->user_regex[REGEX_PASSWORD];
+				gchar *hostname = (win_data->user_regex[REGEX_HOSTNAME] == NULL)? HOSTNAME: win_data->user_regex[REGEX_HOSTNAME];
+				gchar *address_body = (win_data->user_regex[REGEX_ADDRESS_BODY] == NULL)? ADDRESS_BODY: win_data->user_regex[REGEX_ADDRESS_BODY];
+				gchar *address_end = (win_data->user_regex[REGEX_ADDRESS_END] == NULL)? ADDRESS_BODY: win_data->user_regex[REGEX_ADDRESS_END];
+
+				// WWW
+				gchar *regex_str = g_strdup_printf("[Hh][Tt][Tt][Pp][Ss]?://(%s%s@)?%s%s(/%s%s)?/*",
+								    username, password, hostname, PORT, address_body, address_end);
+				win_data->user_command[TAG_WWW].match_regex = convert_escape_sequence_from_string(regex_str);
+				g_free(regex_str);
+
+				// FTP
+				regex_str = g_strdup_printf("[Ff][Tt][Pp][Ss]?://(%s%s@)?%s%s(/%s%s)?/*",
+								    username, password, hostname, PORT, address_body, address_end);
+				win_data->user_command[TAG_FTP].match_regex = convert_escape_sequence_from_string(regex_str);
+				g_free(regex_str);
+
+				// FILE
+				if (win_data->user_regex[REGEX_ADDRESS_BODY] || win_data->user_regex[REGEX_ADDRESS_END])
+				{
+					regex_str = g_strdup_printf("[Ff][Ii][Ll][Ee]://%s%s", address_body, address_end);
+					win_data->user_command[TAG_FILE].match_regex = convert_escape_sequence_from_string(regex_str);
+					g_free(regex_str);
+				}
+
+				// MAIL
+				if (win_data->user_regex[REGEX_USERNAME] || win_data->user_regex[REGEX_HOSTNAME])
+				{
+					regex_str = g_strdup_printf("([Mm][Aa][Ii][Ll][Tt][Oo]:)?%s@%s", username, hostname);
+					win_data->user_command[TAG_MAIL].match_regex = convert_escape_sequence_from_string(regex_str);
+					g_free(regex_str);
+				}
+			}
+			// for (i=0; i<COMMAND; i++)
+			// {
+			//	gchar *regex_str = convert_escape_sequence_to_string(win_data->user_command[i].match_regex);
+			//	g_debug("get_user_settings: Got win_data->user_command[%d].match_regex = %s", i, regex_str);
+			//	g_free(regex_str);
+			// }
+
 			for (i=0; i<COMMAND; i++)
 			{
 				win_data->user_command[i].command = check_string_value(keyfile, "command",
@@ -1583,13 +1655,13 @@ void get_user_settings(struct Window *win_data, const gchar *encoding)
 
 				gchar *match_regex = check_string_value(keyfile, "command",
 									command[i].match_regex_name,
-									win_data->user_command[i].match_regex,
+									NULL,
 									TRUE,
 									DISABLE_EMPTY_STR);
-				win_data->user_command[i].match_regex = convert_escape_sequence_from_string(match_regex);
+				win_data->user_command[i].match_regex_orig = convert_escape_sequence_from_string(match_regex);
 				g_free(match_regex);
 
-				// g_debug("command[%d].match_regex = %s", i, win_data->user_command[i].match_regex);
+				// g_debug("command[%d].match_regex_orig = %s", i, win_data->user_command[i].match_regex_orig);
 			}
 
 			color_theme_str = check_string_value(keyfile, "color", "theme", NULL, FALSE, ENABLE_EMPTY_STR);
@@ -2695,6 +2767,18 @@ GString *save_user_settings(GtkWidget *widget, struct Window *win_data)
 					"# You may use \"zh_TW\", \"zh_TW.Big5\", or \"zh_TW.UTF-8\" here.\n"
 					"# Left it blank to use the locale environs from current page.\n\n");
 
+	for (i=0; i<REGEX; i++)
+	{
+		gchar *match_str=convert_escape_sequence_to_string(regex_str[i]);
+		g_string_append_printf( contents,"# Default: %s = %s\n",
+					regex_name[i], match_str);
+		g_free(match_str);
+		if (win_data->user_regex[i])
+			g_string_append_printf( contents,"%s = %s\n\n", regex_name[i], win_data->user_regex[i]);
+		else
+			g_string_append_printf( contents,"%s = \n\n", regex_name[i]);
+	}
+
 	for (i=0; i<COMMAND; i++)
 	{
 		g_string_append_printf( contents,"%s\n%s = %s\n",
@@ -2711,8 +2795,12 @@ GString *save_user_settings(GtkWidget *widget, struct Window *win_data)
 		g_string_append_printf( contents,"# Default: %s = %s\n",
 					command[i].match_regex_name, match_str);
 		g_free(match_str);
-		g_string_append_printf( contents,"%s = %s\n\n",
-					command[i].match_regex_name, win_data->user_command[i].match_regex);
+		if (win_data->user_command[i].match_regex_orig)
+			g_string_append_printf( contents,"%s = %s\n\n",
+						command[i].match_regex_name, win_data->user_command[i].match_regex_orig);
+		else
+			g_string_append_printf( contents,"%s = \n\n",
+						command[i].match_regex_name);
 	}
 
 	// g_debug("menu_active_window = %p", menu_active_window);

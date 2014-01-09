@@ -2334,7 +2334,6 @@ void apply_profile_from_file(const gchar *path, Apply_Profile_Type type)
 			g_string_append_printf(invild_settings, "\tdefault_locale = %s\n",
 					       win_data->default_locale);
 
-
 		if (compare_strings(win_data->VTE_CJK_WIDTH_STR, win_data_backup->VTE_CJK_WIDTH_STR, FALSE))
 			g_string_append_printf(invild_settings, "\tVTE_CJK_WIDTH = %d\n",
 					       win_data->VTE_CJK_WIDTH);
@@ -2373,6 +2372,17 @@ void apply_profile_from_file(const gchar *path, Apply_Profile_Type type)
 		}
 		g_string_free(invild_settings, TRUE);
 
+		gboolean refresh_match = FALSE;
+		for (i=0; i<COMMAND; i++)
+		{
+			if (compare_strings (win_data->user_command[i].match_regex, win_data_backup->user_command[i].match_regex, TRUE))
+			{
+				refresh_match = TRUE;
+				break;
+			}
+		}
+
+
 		gint i;
 		struct Page *page_data = NULL;
 		for (i=0; i<gtk_notebook_get_n_pages(GTK_NOTEBOOK(win_data->notebook)); i++)
@@ -2386,6 +2396,8 @@ void apply_profile_from_file(const gchar *path, Apply_Profile_Type type)
 			// Don't like drag a vte to another lilyterm window,
 			// It will not call page_added()
 			// get_and_update_page_name(page_data, FALSE);
+
+			if (refresh_match) set_hyprelink(win_data, page_data);
 		}
 
 		glong column=0, row=0;
