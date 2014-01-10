@@ -648,7 +648,7 @@ struct Color
 	gchar *translation;
 };
 
-#define THEME 9
+#define THEME 10
 #define DEFAULT_THEME 0
 struct GdkColor_Theme
 {
