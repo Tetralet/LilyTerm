@@ -275,7 +275,7 @@ else
     BACKGROUND=N
   else
     $PKGCONFIG --exists 'vte < 0.34.8' > /dev/null 2>&1
-    if [ $? != 0 ]; then
+    if [ $? = 0 ]; then
       BACKGROUND=N
     fi
   fi
