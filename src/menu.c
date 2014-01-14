@@ -134,7 +134,11 @@ gboolean create_menu(struct Window *win_data)
 	gtk_menu_shell_append (GTK_MENU_SHELL (win_data->menu), win_data->ansi_color_sub_menu);
 	recreate_theme_menu_items(win_data);
 
+#if defined(ENABLE_VTE_BACKGROUND) || defined(FORCE_ENABLE_VTE_BACKGROUND)
 	if (win_data->show_background_menu)
+#else
+	if (win_data->show_background_menu && (win_data->use_rgba == -1))
+#endif
 	{
 		GtkWidget *background_sub_menu = create_sub_item (win_data->menu, _("Background"), GTK_STOCK_PAGE_SETUP);
 #ifdef ENABLE_RGBA
@@ -158,6 +162,7 @@ gboolean create_menu(struct Window *win_data)
 			add_separator_menu (background_sub_menu);
 		}
 #endif
+#if defined(ENABLE_VTE_BACKGROUND) || defined(FORCE_ENABLE_VTE_BACKGROUND)
 		// Transparent Background
 		win_data->menuitem_trans_bg = create_menu_item (CHECK_MENU_ITEM, background_sub_menu, _("Transparent background"), NULL, NULL,
 								(GSourceFunc)set_trans_bg, win_data);
@@ -168,6 +173,7 @@ gboolean create_menu(struct Window *win_data)
 		// Load background from file
 		create_menu_item (IMAGE_MENU_ITEM, background_sub_menu, _("Set background image"), NULL, GTK_STOCK_ABOUT,
 								(GSourceFunc)load_background_image_from_file, win_data);
+#endif
 	}
 	// ----------------------------------------
 	add_separator_menu (win_data->menu);
@@ -317,21 +323,25 @@ gboolean create_menu(struct Window *win_data)
 	// ----------------------------------------
 	add_separator_menu (misc_sub_menu);
 
-
+#ifdef ENABLE_IM_APPEND_MENUITEMS
 	// Input Method
 	if (win_data->show_input_method_menu)
 	{
 		sub_menu = create_sub_item (misc_sub_menu, _("Switch input methods"), GTK_STOCK_INDEX);
 		vte_terminal_im_append_menuitems (VTE_TERMINAL(win_data->current_vte), GTK_MENU_SHELL (sub_menu));
 	}
-
+#endif
 	// Edit tab name
 	if (win_data->show_change_page_name_menu)
 		create_menu_item (IMAGE_MENU_ITEM, misc_sub_menu, _("Rename this tab"), NULL, GTK_STOCK_EDIT,
 			  (GSourceFunc)dialog, GINT_TO_POINTER(EDIT_LABEL));
 
 	// ----------------------------------------
+#ifdef ENABLE_IM_APPEND_MENUITEMS
 	if ((win_data->show_input_method_menu || win_data->show_change_page_name_menu) &&
+#else
+	if (win_data->show_change_page_name_menu &&
+#endif
 	    win_data->show_resize_menu)
 		add_separator_menu (misc_sub_menu);
 
@@ -1114,15 +1124,15 @@ void reset_vte(GtkWidget *widget, struct Window *win_data)
 #endif
 	vte_terminal_reset(VTE_TERMINAL(win_data->current_vte), TRUE, FALSE);
 }
-
+#if defined(ENABLE_VTE_BACKGROUND) || defined(FORCE_ENABLE_VTE_BACKGROUND)
 void set_trans_bg(GtkWidget *menuitem_trans_bg, struct Window *win_data)
 {
-#ifdef DETAIL
+#  ifdef DETAIL
 	g_debug("! Launch set_trans_bg() for win_data %p", win_data);
-#endif
-#ifdef SAFEMODE
+#  endif
+#  ifdef SAFEMODE
 	if ((menuitem_trans_bg==NULL) || (win_data==NULL)) return;
-#endif
+#  endif
 	// win_data->transparent_background = GTK_CHECK_MENU_ITEM(menuitem_trans_bg)->active;
 	win_data->transparent_background = gtk_check_menu_item_get_active (GTK_CHECK_MENU_ITEM(menuitem_trans_bg));
 
@@ -1132,13 +1142,13 @@ void set_trans_bg(GtkWidget *menuitem_trans_bg, struct Window *win_data)
 	for (i=0; i<gtk_notebook_get_n_pages(GTK_NOTEBOOK(win_data->notebook)); i++)
 	{
 		page_data = get_page_data_from_nth_page(win_data, i);
-#ifdef SAFEMODE
+#  ifdef SAFEMODE
 		if (page_data)
-#endif
+#  endif
 			set_background_saturation (NULL, 0, win_data->background_saturation, page_data->vte);
 	}
 }
-
+#endif
 
 #ifdef ENABLE_RGBA
 void set_trans_win(GtkWidget *widget, GtkWidget *window)
@@ -2479,14 +2489,15 @@ void apply_profile_from_file(const gchar *path, Apply_Profile_Type type)
 	}
 }
 
+#if defined(ENABLE_VTE_BACKGROUND) || defined(FORCE_ENABLE_VTE_BACKGROUND)
 void load_background_image_from_file(GtkWidget *widget, struct Window *win_data)
 {
-#ifdef DETAIL
+#  ifdef DETAIL
 	g_debug("! Launch load_background_from_file() with widget = %p, win_data = %p", widget, win_data);
-#endif
-#ifdef SAFEMODE
+#  endif
+#  ifdef SAFEMODE
 	if (win_data==NULL) return;
-#endif
+#  endif
 	gchar *background_image_path = "";
 	if (compare_strings(win_data->background_image, NULL_DEVICE, TRUE))
 		background_image_path = win_data->background_image;
@@ -2494,9 +2505,9 @@ void load_background_image_from_file(GtkWidget *widget, struct Window *win_data)
 						    GTK_STOCK_OPEN, background_image_path);
 
 	struct Preview *preview = g_new0(struct Preview, 1);
-#ifdef SAFEMODE
+#  ifdef SAFEMODE
 	if (preview==NULL) return;
-#endif
+#  endif
 
 	preview->vbox = dirty_gtk_vbox_new (FALSE, 0);
 	preview->image = gtk_image_new();
@@ -2523,12 +2534,12 @@ void load_background_image_from_file(GtkWidget *widget, struct Window *win_data)
 	preview->default_filename = g_strdup(background_image_path);
 	update_preview_image (GTK_FILE_CHOOSER(dialog), preview);
 	GtkResponseType response;
-#ifdef UNIT_TEST
+#  ifdef UNIT_TEST
 	for (response=GTK_RESPONSE_HELP; response<=GTK_RESPONSE_NONE; response++)
-#else
+#  else
 	response = gtk_dialog_run (GTK_DIALOG (dialog));
 	if (response == GTK_RESPONSE_ACCEPT)
-#endif
+#  endif
 	{
 		// g_debug("gtk_widget_get_mapped(preview->no_image_text) = %d",
 		//	gtk_widget_get_mapped (preview->no_image_text));
@@ -2543,35 +2554,37 @@ void load_background_image_from_file(GtkWidget *widget, struct Window *win_data)
 		win_data->scroll_background = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(preview->scroll_background));
 		gint i;
 		struct Page *page_data = NULL;
-#ifdef SAFEMODE
+#  ifdef SAFEMODE
 		if (win_data->notebook)
 		{
-#endif
+#  endif
 			for (i=0; i<gtk_notebook_get_n_pages(GTK_NOTEBOOK(win_data->notebook)); i++)
 			{
 				page_data = get_page_data_from_nth_page(win_data, i);
-#ifdef SAFEMODE
+#  ifdef SAFEMODE
 				if (page_data)
-#endif
+#  endif
 					set_background_saturation (NULL, 0, win_data->background_saturation,
 								   page_data->vte);
 			}
-#ifdef SAFEMODE
+#  ifdef SAFEMODE
 		}
-#endif
+#  endif
 	}
 	gtk_widget_destroy (dialog);
 	g_free(preview);
 }
+#endif
 
+#if defined(ENABLE_VTE_BACKGROUND) || defined(FORCE_ENABLE_VTE_BACKGROUND)
 void update_preview_image (GtkFileChooser *dialog, struct Preview *preview)
 {
-#ifdef DETAIL
+#  ifdef DETAIL
 	g_debug("! Launch update_preview_image() with dialog = %p, preview = %p!", dialog, preview);
-#endif
-#ifdef SAFEMODE
+#  endif
+#  ifdef SAFEMODE
 	if ((preview==NULL) || (dialog==NULL)) return;
-#endif
+#  endif
 	gchar *filename = preview->default_filename;
 	if (filename)
 		// filename will be free() later.
@@ -2592,14 +2605,14 @@ void update_preview_image (GtkFileChooser *dialog, struct Preview *preview)
 			// g_debug("Get the current size of vbox is %d x %d",
 			//	preview->vbox->allocation.width, preview->vbox->allocation.height);
 			gint allocation_width;
-#ifdef USE_GTK_ALLOCATION
+#  ifdef USE_GTK_ALLOCATION
 			GtkAllocation allocation;
 			gtk_widget_get_allocation(preview->vbox, &allocation);
 			allocation_width = allocation.width;
 
-#else
+#  else
 			allocation_width = preview->vbox->allocation.width;
-#endif
+#  endif
 			if (width > allocation_width) width = allocation_width;
 
 			GtkRequisition requisition;
@@ -2629,6 +2642,7 @@ void update_preview_image (GtkFileChooser *dialog, struct Preview *preview)
 FINISH:
 	g_free (filename);
 }
+#endif
 
 void reload_settings(GtkWidget *menu_item, struct Window *win_data)
 {

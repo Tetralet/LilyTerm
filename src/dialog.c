@@ -440,6 +440,7 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 								  TRUE);
 			break;
 		}
+#if defined(ENABLE_VTE_BACKGROUND) || defined(FORCE_ENABLE_VTE_BACKGROUND)
 		case CHANGE_BACKGROUND_SATURATION:				// 2
 		{
 			create_dialog(_("Change the saturation of background"),
@@ -472,6 +473,7 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 
 			break;
 		}
+#endif
 #ifdef ENABLE_GDKCOLOR_TO_STRING
 		case CHANGE_THE_FOREGROUND_COLOR:				// 9
 		{
@@ -1469,8 +1471,10 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 					refresh_locale_and_encoding_list(win_data);
 					break;
 				}
+#if defined(ENABLE_VTE_BACKGROUND) || defined(FORCE_ENABLE_VTE_BACKGROUND)
 				// style  2: change the saturation of background
 				case CHANGE_BACKGROUND_SATURATION:
+#endif
 				// style  9: change the foreground color
 				case CHANGE_THE_FOREGROUND_COLOR:
 				// style 10: change the background color
@@ -1493,9 +1497,11 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 					// g_debug("Setting the colors. Type = %d", style);
 					switch (style)
 					{
+#if defined(ENABLE_VTE_BACKGROUND) || defined(FORCE_ENABLE_VTE_BACKGROUND)
 						case CHANGE_BACKGROUND_SATURATION:
 							win_data->background_saturation = gtk_range_get_value(GTK_RANGE(dialog_data->operate[0])) + 0.0005;
 							break;
+#endif
 #ifdef ENABLE_GDKCOLOR_TO_STRING
 						case CHANGE_THE_FOREGROUND_COLOR:
 							if (win_data->use_custom_theme == FALSE) clear_custom_colors_data(win_data, TRUE);
@@ -1551,11 +1557,13 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 #endif
 							switch (style)
 							{
+#if defined(ENABLE_VTE_BACKGROUND) || defined(FORCE_ENABLE_VTE_BACKGROUND)
 								case CHANGE_BACKGROUND_SATURATION:
 									set_background_saturation (NULL, 0,
 												   win_data->background_saturation,
 												   tmp_page_data->vte);
 									break;
+#endif
 								case CHANGE_THE_FOREGROUND_COLOR:
 								case CHANGE_THE_BACKGROUND_COLOR:
 								case CHANGE_THE_CURSOR_COLOR:
@@ -1708,14 +1716,17 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 				//	vte_terminal_search_set_gregex(VTE_TERMINAL(win_data->current_vte), NULL);
 				//	vte_terminal_search_find_previous(VTE_TERMINAL(win_data->current_vte));
 				//	break;
+#if defined(ENABLE_VTE_BACKGROUND) || defined(FORCE_ENABLE_VTE_BACKGROUND)
 				// style  2: change the saturation of background
 				case CHANGE_BACKGROUND_SATURATION:
+#endif
 				// style  9: change the foreground color
 				case CHANGE_THE_FOREGROUND_COLOR:
 				// style 10: change the background color
 				case CHANGE_THE_BACKGROUND_COLOR:
 				// style  9: change the cursor color
 				case CHANGE_THE_CURSOR_COLOR:
+#if defined(ENABLE_VTE_BACKGROUND) || defined(FORCE_ENABLE_VTE_BACKGROUND)
 					if (style==CHANGE_BACKGROUND_SATURATION)
 					{
 						win_data->transparent_background = dialog_data->original_transparent_background;
@@ -1725,6 +1736,7 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 									  win_data->background_saturation,
 									  win_data->current_vte);
 					}
+#endif
 					switch (style)
 					{
 						case CHANGE_THE_FOREGROUND_COLOR:
@@ -1733,12 +1745,13 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 							dialog_data->original_color = dialog_data->original_color;
 							break;
 					}
-
+#if defined(ENABLE_VTE_BACKGROUND) || defined(FORCE_ENABLE_VTE_BACKGROUND)
 					if (style!=CHANGE_BACKGROUND_SATURATION)
 					{
 						dialog_data->recover = TRUE;
 						adjust_vte_color(GTK_COLOR_CHOOSER(dialog_data->operate[0]), NULL, win_data->current_vte);
 					}
+#endif
 					break;
 				// style 4: get function key value
 				case SET_KEY_BINDING:
@@ -1973,7 +1986,11 @@ void update_color_buttons(struct Window *win_data, struct Dialog *dialog_data)
 #  ifdef SAFEMODE
 		if (dialog_data->color_button[i])
 #  endif
+#  ifdef USE_GTK_COLOR_CHOOSER
+			gtk_color_chooser_set_rgba(GTK_COLOR_CHOOSER(dialog_data->color_button[i]), &(temp_color[color_index]));
+#  else
 			gtk_color_button_set_rgba(GTK_COLOR_BUTTON(dialog_data->color_button[i]), &(temp_color[color_index]));
+#  endif
 #endif
 #ifdef ENABLE_GDKCOLOR_TO_STRING
 #  ifdef DEBUG
@@ -2122,7 +2139,11 @@ void update_ansi_color_info(GtkWidget *button, gint color_index)
 #  endif
 	set_color_selection_colors(dialog_data->operate[0], &(dialog_data->ansi_colors_orig[convert_index]));
 #else
+#  ifdef USE_GTK_COLOR_CHOOSER
+	gtk_color_chooser_set_rgba(GTK_COLOR_CHOOSER(dialog_data->color_button[color_index]), &(dialog_data->ansi_colors_orig[convert_index]));
+#  else
 	gtk_color_button_set_rgba(GTK_COLOR_BUTTON(dialog_data->color_button[color_index]), &(dialog_data->ansi_colors_orig[convert_index]));
+#  endif
 #endif
 	g_free(tmp_topic);
 	// win_data->temp_index will point to the color index in color_orig
@@ -2866,7 +2887,8 @@ void adjust_vte_color_sample(GtkColorButton* color_button, gint color_index)
 	win_data->temp_index = get_color_index(win_data->invert_color, color_index);
 
 	GdkRGBA color;
-	gtk_color_button_get_rgba(GTK_COLOR_BUTTON(color_button), &color);
+	// gtk_color_button_get_rgba(GTK_COLOR_BUTTON(color_button), &color);
+	gtk_color_chooser_get_rgba(GTK_COLOR_CHOOSER(color_button), &color);
 
 	adjust_vte_color(NULL, &color, win_data->current_vte);
 }
@@ -2951,7 +2973,9 @@ void adjust_vte_color(GtkColorChooser *color_selection, GdkRGBA *color, GtkWidge
 				//	set_background_saturation(NULL, 0, background_saturation, vte);
 
 				vte_terminal_set_color_background_rgba(VTE_TERMINAL(vte), &(dialog_data->original_color));
+#if defined(ENABLE_VTE_BACKGROUND) || defined(FORCE_ENABLE_VTE_BACKGROUND)
 				dirty_vte_terminal_set_background_tint_color(VTE_TERMINAL(vte), dialog_data->original_color);
+#endif
 				if (dialog_data->type==CHANGE_THE_ANSI_COLORS)
 				{
 					dialog_data->ansi_colors[converted_index] = dialog_data->original_color;

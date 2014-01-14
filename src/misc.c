@@ -813,16 +813,23 @@ GtkWidget *dirty_gtk_hbox_new(gboolean homogeneous, gint spacing)
 	return box;
 }
 
+#if defined(ENABLE_VTE_BACKGROUND) || defined(FORCE_ENABLE_VTE_BACKGROUND)
 void dirty_vte_terminal_set_background_tint_color(VteTerminal *vte, const GdkRGBA rgba)
 {
-#ifdef USE_GDK_RGBA
+#  ifdef FORCE_ENABLE_VTE_BACKGROUND
+	G_GNUC_BEGIN_IGNORE_DEPRECATIONS;
+#  endif
+#  ifdef USE_GDK_RGBA
 	GdkColor color = convert_rgba_to_color(rgba);
 	vte_terminal_set_background_tint_color(VTE_TERMINAL(vte), &(color));
-#else
+#  else
 	vte_terminal_set_background_tint_color(VTE_TERMINAL(vte), &(rgba));
-#endif
-
+#  endif
+#  ifdef FORCE_ENABLE_VTE_BACKGROUND
+	G_GNUC_END_IGNORE_DEPRECATIONS;
+#  endif
 }
+#endif
 
 #if defined(OUT_OF_MEMORY) || defined(UNIT_TEST)
 gchar *fake_g_strdup(const gchar *str)

@@ -222,9 +222,11 @@ struct Page *add_page(struct Window *win_data,
 		vte_terminal_set_encoding(VTE_TERMINAL(page_data->vte), page_data->encoding_str);
 	//g_debug("The encoding of new vte is %s",
 	//	vte_terminal_get_encoding(VTE_TERMINAL(page_data->vte)));
-
+#ifdef USE_GTK_SCROLLABLE
+	page_data->adjustment = gtk_scrollable_get_vadjustment(GTK_SCROLLABLE(page_data->vte));
+#else
 	page_data->adjustment = vte_terminal_get_adjustment(VTE_TERMINAL(page_data->vte));
-
+#endif
 // ---- Execute programs in the vte ---- //
 
 	//if (command_line==NULL)
@@ -473,7 +475,11 @@ struct Page *add_page(struct Window *win_data,
 	// run_once only = TRUE when initing LilyTerm in main().
 	init_new_page(win_data, page_data, column, row);
 
+#ifdef USE_GTK_SCROLLABLE
+	page_data->scroll_bar = gtk_vscrollbar_new(gtk_scrollable_get_vadjustment(GTK_SCROLLABLE(page_data->vte)));
+#else
 	page_data->scroll_bar = gtk_vscrollbar_new(vte_terminal_get_adjustment(VTE_TERMINAL(page_data->vte)));
+#endif
 	pack_vte_and_scroll_bar_to_hbox(win_data, page_data);
 	// g_debug("add_page(): check_show_or_hide_scroll_bar(win_data) = %d", check_show_or_hide_scroll_bar(win_data));
 	show_and_hide_scroll_bar(page_data, check_show_or_hide_scroll_bar(win_data));
@@ -1354,13 +1360,15 @@ gboolean vte_button_press(GtkWidget *vte, GdkEventButton *event, gpointer user_d
 			//	      "background-transparent", &transparent,
 			//	      NULL);
 			// GTK_CHECK_MENU_ITEM(win_data->menuitem_trans_bg)->active = transparent;
-#ifdef SAFEMODE
+#if defined(ENABLE_VTE_BACKGROUND) || defined(FORCE_ENABLE_VTE_BACKGROUND)
+#  ifdef SAFEMODE
 			if (win_data->menuitem_trans_bg)
-#endif
+#  endif
 				// GTK_CHECK_MENU_ITEM(win_data->menuitem_trans_bg)->active =
 				//	win_data->transparent_background;
 				gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM(win_data->menuitem_trans_bg),
 								win_data->transparent_background);
+#endif
 		}
 
 		if (win_data->show_copy_paste_menu)

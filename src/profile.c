@@ -409,7 +409,9 @@ void init_window_parameters(struct Window *win_data)
 	win_data->font_resize_ratio = 0;
 	win_data->window_resize_ratio = 1.12;
 	win_data->show_background_menu = TRUE;
+#ifdef ENABLE_IM_APPEND_MENUITEMS
 	// win_data->show_input_method_menu = FALSE;
+#endif
 	win_data->show_change_page_name_menu = TRUE;
 	win_data->show_exit_menu = TRUE;
 	win_data->enable_hyperlink = TRUE;
@@ -491,10 +493,12 @@ void init_window_parameters(struct Window *win_data)
 	// 0: left
 	// 1: right
 	win_data->scroll_bar_position = 1;
+#if defined(ENABLE_VTE_BACKGROUND) || defined(FORCE_ENABLE_VTE_BACKGROUND)
 	win_data->transparent_background = 2;
 	win_data->background_saturation = 0.15;
 	// win_data->scroll_background = 0;
 	win_data->background_image = g_strdup(NULL_DEVICE);
+#endif
 	win_data->scrollback_lines = SCROLL_HISTORY;
 	win_data->dim_text = TRUE;
 #ifdef USE_NEW_VTE_CURSOR_BLINKS_MODE
@@ -1280,6 +1284,7 @@ void get_user_settings(struct Window *win_data, const gchar *encoding)
 			gboolean fullscreen = check_boolean_value(keyfile, "main", "fullscreen", win_data->window_status);
 			if (fullscreen) win_data->window_status = WINDOW_START_WITH_FULL_SCREEN;
 #endif
+#if defined(ENABLE_VTE_BACKGROUND) || defined(FORCE_ENABLE_VTE_BACKGROUND)
 			win_data->transparent_background = check_integer_value(keyfile, "main", "transparent_background",
 							win_data->transparent_background, DISABLE_EMPTY_STR, 0, ENABLE_ZERO, CHECK_MIN, 0, CHECK_MAX, 2);
 
@@ -1293,7 +1298,7 @@ void get_user_settings(struct Window *win_data, const gchar *encoding)
 
 			win_data->background_image = check_string_value(keyfile, "main", "background_image",
 									win_data->background_image, TRUE, DISABLE_EMPTY_STR);
-
+#endif
 			win_data->foreground_program_whitelist = check_string_value(keyfile, "main",
 										    "foreground_program_whitelist",
 										    win_data->foreground_program_whitelist,
@@ -1381,9 +1386,10 @@ void get_user_settings(struct Window *win_data, const gchar *encoding)
 			win_data->scroll_bar_position = check_boolean_value(keyfile, "main",
 						       "scroll_bar_position", win_data->scroll_bar_position);
 
+#ifdef ENABLE_IM_APPEND_MENUITEMS
 			win_data->show_input_method_menu = check_boolean_value(keyfile, "main", "show_input_method_menu",
 								     win_data->show_input_method_menu);
-
+#endif
 			win_data->show_change_page_name_menu = check_boolean_value(keyfile, "main",
 					"show_change_page_name_menu", win_data->show_change_page_name_menu);
 
@@ -1877,11 +1883,12 @@ void get_user_settings(struct Window *win_data, const gchar *encoding)
 	}
 	if (win_data->transparent_window==2)
 		win_data->transparent_window = (win_data->use_rgba==-1)? 1: 0;
+#if defined(ENABLE_VTE_BACKGROUND) || defined(FORCE_ENABLE_VTE_BACKGROUND)
 	if (win_data->transparent_background==2)
 		win_data->transparent_background = (win_data->use_rgba==-1)? 1 :0;
 	// g_debug("win_data->transparent_window = %d", win_data->transparent_window);
 	// g_debug("win_data->transparent_background = %d", win_data->transparent_background);
-
+#  endif
 	set_window_opacity (NULL, 0, win_data->window_opacity, win_data);
 #endif
 
@@ -2433,6 +2440,7 @@ GString *save_user_settings(GtkWidget *widget, struct Window *win_data)
 	else
 		g_string_append(contents,"window_opacity_inactive = \n\n");
 #endif
+#if defined(ENABLE_VTE_BACKGROUND) || defined(FORCE_ENABLE_VTE_BACKGROUND)
 	g_string_append_printf(contents,"# Use transparent background.\n"
 					"# It will use true transparent if the window manager were composited.\n"
 					"transparent_background = %d\n\n", (win_data->transparent_background==1));
@@ -2446,6 +2454,7 @@ GString *save_user_settings(GtkWidget *widget, struct Window *win_data)
 	else
 		g_string_append(contents,"# Sets a background image.\n"
 					 "background_image = \n\n");
+#endif
 	g_string_append_printf(contents,"# Confirm to execute command with -e/-x/--execute option.\n"
 					"confirm_to_execute_command = %d\n\n", win_data->confirm_to_execute_command);
 	g_string_append_printf(contents,"# Don't need to confirm for executing a program if it's in the whitelist,\n"
@@ -2553,8 +2562,10 @@ GString *save_user_settings(GtkWidget *widget, struct Window *win_data)
 	g_string_append_printf(contents,"# The position of scroll_bar.\n"
 					"# 0: scroll_bar is on left; 1: scroll_bar is on right.\n"
 					"scroll_bar_position = %d\n\n", win_data->scroll_bar_position);
+#ifdef ENABLE_IM_APPEND_MENUITEMS
 	g_string_append_printf(contents,"# Shows input method menu on right click menu.\n"
 					"show_input_method_menu = %d\n\n", win_data->show_input_method_menu);
+#endif
 	g_string_append_printf(contents,"# Shows change page name menu on right click menu.\n"
 					"show_change_page_name_menu = %d\n\n", win_data->show_change_page_name_menu);
 	g_string_append_printf(contents,"# Shows exit menu on right click menu.\n"

@@ -16,6 +16,7 @@ GTK=gtk+-2.0
 DEBUG=N
 NLS=Y
 SAFEMODE=Y
+BACKGROUND=N
 STRIP=N
 GNOME_CONTROL_CENTER=Y
 
@@ -111,6 +112,7 @@ if [ "$1" = "-h" -o "$1" = "--help" -o "$1" = "-help" ]; then
   $ECHO "  `INFO '--enable-debug'`      : enable debug mode `NORMAL '[default: disable]'`"
   $ECHO "  `INFO '--disable-nls'`       : disable Native Language Support `NORMAL '[default: enable]'`"
   $ECHO "  `INFO '--disable-safe-mode'` : disable run in safe mode `NORMAL '[default: enable]'`"
+  $ECHO "  `INFO '--enable-background'` : enable background for vte > 0.34.8 `NORMAL '[default: disable]'`"
   $ECHO ""
   $ECHO "run \``IMPORTANT 'make clean'`' to clean $PACKAGE builded files."
   $ECHO "run \``IMPORTANT 'make distclean'`' to clean $PACKAGE builded and configure files."
@@ -158,6 +160,9 @@ for opt do
       ;;
     --disable-safe-mode)
       SAFEMODE=N
+      ;;
+    --enable-background)
+      BACKGROUND=Y
       ;;
     --enable-strip)
       STRIP=Y
@@ -267,6 +272,12 @@ else
       VERSION_MESSAGE "\n\n" "VTE" "0.12"
       exit 1
     fi
+    BACKGROUND=N
+  else
+    $PKGCONFIG --exists 'vte < 0.34.8' > /dev/null 2>&1
+    if [ $? != 0 ]; then
+      BACKGROUND=N
+    fi
   fi
 
   INFO "[OK]\n"
@@ -316,58 +327,61 @@ $ECHO ""
 # ---- REPORT ---- #
 
 INFO "=================================================\n"
-IMPORTANT "  PREFIX    = $PREFIX\n"
-IMPORTANT "  ETCDIR    = $ETCDIR\n"
+IMPORTANT "  PREFIX     = $PREFIX\n"
+IMPORTANT "  ETCDIR     = $ETCDIR\n"
 if [ "$DEBUG" = 'Y' ]; then
-  IMPORTANT "  DEBUG     = $DEBUG\n"
+  IMPORTANT "  DEBUG      = $DEBUG\n"
 else
-  $ECHO "  DEBUG     = $DEBUG"
+  $ECHO "  DEBUG      = $DEBUG"
 fi
 if [ "$NLS" = 'N' ]; then
-  IMPORTANT "  NLS       = $NLS\n"
+  IMPORTANT "  NLS        = $NLS\n"
 else
-  $ECHO "  NLS       = $NLS"
+  $ECHO "  NLS        = $NLS"
 fi
 if [ "$SAFEMODE" = 'N' ]; then
-  IMPORTANT "  SAFEMODE  = $SAFEMODE\n"
+  IMPORTANT "  SAFEMODE   = $SAFEMODE\n"
 else
-  $ECHO "  SAFEMODE  = $SAFEMODE"
+  $ECHO "  SAFEMODE   = $SAFEMODE"
+fi
+if [ "$BACKGROUND" = 'Y' ]; then
+  IMPORTANT "  BACKGROUND = $BACKGROUND\n"
 fi
 if [ "$STRIP" = 'Y' ]; then
-  IMPORTANT "  STRIP     = $STRIP\n"
+  IMPORTANT "  STRIP      = $STRIP\n"
 fi
 CHECK_CC=`whereis "$CC" | tr -s ' ' '\n' | grep "bin/""$CC""$" | head -n 1`
 if [ -n "$CHECK_CC" ]; then
   if [ "$CC" != 'gcc' ]; then
-    IMPORTANT "  CC        = $CC\n"
+    IMPORTANT "  CC         = $CC\n"
   fi
 else
-  ERR "  CC        = $CC\n"
+  ERR "  CC         = $CC\n"
 fi
 if [ -n "$CPPFLAGS" ]; then
-  IMPORTANT "  CPPFLAGS  = $CPPFLAGS\n"
+  IMPORTANT "  CPPFLAGS   = $CPPFLAGS\n"
 fi
 if [ "$CFLAGS" != '-Wall -O -g' ]; then
-  IMPORTANT "  CFLAGS    = $CFLAGS\n"
+  IMPORTANT "  CFLAGS     = $CFLAGS\n"
 else
-  $ECHO "  CFLAGS    = $CFLAGS"
+  $ECHO "  CFLAGS     = $CFLAGS"
 fi
 if [ -n "$LDFLAGS" ]; then
-  IMPORTANT "  LDFLAGS   = $LDFLAGS\n"
+  IMPORTANT "  LDFLAGS    = $LDFLAGS\n"
 fi
 
 if [ -n "$GMAKE" ]; then
-  IMPORTANT "  MAKE      = $MAKE\n"
+  IMPORTANT "  MAKE       = $MAKE\n"
 else
 if [ -z "$MAKE" ]; then
- ERR "  MAKE      = $MAKE\n"
+ ERR "  MAKE       = $MAKE\n"
 fi
 fi
-$ECHO "  GTK       = $GTK"
-$ECHO "  VTE       = $VTE"
+$ECHO "  GTK        = $GTK"
+$ECHO "  VTE        = $VTE"
 if [ $BSD -eq 1 ]; then
-  IMPORTANT "  MANDIR       = \$(PREFIX)/man/man1\n"
-  IMPORTANT "  EXAMPLES_DIR = \$(DATADIR)/examples/\$(BINARY)\n"
+  IMPORTANT "  MANDIR        = \$(PREFIX)/man/man1\n"
+  IMPORTANT "  EXAMPLES_DIR  = \$(DATADIR)/examples/\$(BINARY)\n"
 fi
 if [ "$GNOME_CONTROL_CENTER" = 'Y' ]; then
   IMPORTANT "  GNOME_CONTROL_CENTER     = $GNOME_CONTROL_CENTER\n"
@@ -394,6 +408,7 @@ $ECHO "NLS = $NLS" >> .config
 $ECHO "DEBUG = $DEBUG" >> .config
 $ECHO "NLS = $NLS" >> .config
 $ECHO "SAFEMODE = $SAFEMODE" >> .config
+$ECHO "FORCE_ENABLE_VTE_BACKGROUND = $BACKGROUND" >> .config
 $ECHO "STRIP = $STRIP" >> .config
 $ECHO "CC = $CC" >> .config
 $ECHO "CPPFLAGS = $CPPFLAGS" >> .config

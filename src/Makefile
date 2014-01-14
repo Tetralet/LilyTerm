@@ -107,7 +107,7 @@ dev: develop
 .PHONY: develop
 # develop: CFLAGS := -pedantic -pipe -fno-common -W -Wall -Wcast-align -Wformat=2 -Wpointer-arith -Wundef -Waggregate-return -Wcast-qual -Wmissing-declarations -Wnested-externs -Wstrict-prototypes -O3 -g
 develop: CFLAGS := $(CFLAGS) -g
-develop: INCLUDES := $(INCLUDES) -DAUTHOR=\"$(AUTHOR_CONVERT)\" -DDEBUG -DFATAL -DDEVELOP -DVERSION=\"$(VERSION)\ Develop\ Version\ \($(date)\)\"
+develop: INCLUDES := $(INCLUDES) -DAUTHOR=\"$(AUTHOR_CONVERT)\" -DDEBUG -DFATAL -DFORCE_ENABLE_VTE_BACKGROUND -DDEVELOP -DVERSION=\"$(VERSION)\ Develop\ Version\ \($(date)\)\"
 develop: BINARY := $(BINARY)_dev
 develop: $(BINARY)
 

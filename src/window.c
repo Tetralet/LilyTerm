@@ -1925,7 +1925,9 @@ void clear_win_data(struct Window *win_data)
 	g_free(win_data->default_font_name);
 	g_free(win_data->restore_font_name);
 	g_free(win_data->word_chars);
+#if defined(ENABLE_VTE_BACKGROUND) || defined(FORCE_ENABLE_VTE_BACKGROUND)
 	g_free(win_data->background_image);
+#endif
 	g_free(win_data->execute_command_whitelist);
 	// g_debug("win_data->execute_command_whitelist for win_data (%p) freed!", win_data);
 	g_strfreev(win_data->execute_command_whitelists);
@@ -2726,7 +2728,9 @@ void dump_data (struct Window *win_data, struct Page *page_data)
 	g_debug("- win_data->font_resize_ratio = %1.3f", win_data->font_resize_ratio);
 	g_debug("- win_data->window_resize_ratio = %1.3f", win_data->window_resize_ratio);
 	g_debug("- win_data->show_background_menu = %d", win_data->show_background_menu);
+#ifdef ENABLE_IM_APPEND_MENUITEMS
 	g_debug("- win_data->show_input_method_menu = %d", win_data->show_input_method_menu);
+#endif
 	g_debug("- win_data->show_exit_menu = %d", win_data->show_exit_menu);
 	g_debug("- win_data->show_change_page_name_menu = %d", win_data->show_change_page_name_menu);
 	g_debug("- win_data->enable_hyperlink = %d", win_data->enable_hyperlink);
@@ -2834,10 +2838,12 @@ void dump_data (struct Window *win_data, struct Page *page_data)
 	g_debug("- win_data->word_chars = %s", win_data->word_chars);
 	g_debug("- win_data->show_scroll_bar = %d", win_data->show_scroll_bar);
 	g_debug("- win_data->scroll_bar_position = %d", win_data->scroll_bar_position);
+#if defined(ENABLE_VTE_BACKGROUND) || defined(FORCE_ENABLE_VTE_BACKGROUND)
 	g_debug("- win_data->transparent_background = %d", win_data->transparent_background);
 	g_debug("- win_data->background_saturation = %1.3f", win_data->background_saturation);
 	g_debug("- win_data->scroll_background = %d", win_data->scroll_background);
 	g_debug("- win_data->background_image = %s", win_data->background_image);
+#endif
 //	g_debug("- win_data->use_scrollback_lines = %d", win_data->use_scrollback_lines);
 	g_debug("- win_data->scrollback_lines = %d", win_data->scrollback_lines);
 	g_debug("- win_data->dim_text = %d", win_data->dim_text);
@@ -3196,7 +3202,9 @@ void win_data_dup(struct Window *win_data_orig, struct Window *win_data)
 	// win_data->font_resize_ratio;
 	// win_data->window_resize_ratio;
 	// win_data->show_background_menu;
+#ifdef ENABLE_IM_APPEND_MENUITEMS
 	// win_data->show_input_method_menu;
+#endif
 	// win_data->show_change_page_name_menu;
 	// win_data->show_exit_menu;
 	// win_data->enable_hyperlink;
@@ -3298,10 +3306,12 @@ void win_data_dup(struct Window *win_data_orig, struct Window *win_data)
 	win_data->word_chars = g_strdup(win_data_orig->word_chars);
 	// win_data->show_scroll_bar;
 	// win_data->scroll_bar_position;
+#if defined(ENABLE_VTE_BACKGROUND) || defined(FORCE_ENABLE_VTE_BACKGROUND)
 	// win_data->transparent_background;
 	// win_data->background_saturation;
 	// win_data->scroll_background;
 	win_data->background_image = g_strdup(win_data_orig->background_image);
+#endif
 	// win_data->scrollback_lines;
 	// win_data->dim_text;
 	// win_data->dim_window;

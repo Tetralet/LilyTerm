@@ -350,6 +350,26 @@
 	#define vte_terminal_set_color_cursor_rgba vte_terminal_set_color_cursor
 	#define MAX_COLOR 0xFFFF
 #endif
+#if ! VTE_CHECK_VERSION(0,34,6)
+	// END: vte-0.34.6/src/vtedeprecated.h: void vte_terminal_im_append_menuitems()
+	#define ENABLE_IM_APPEND_MENUITEMS
+#endif
+#if ! VTE_CHECK_VERSION(0,34,8)
+	// END: vte-0.34.8/src/vtedeprecated.h: void vte_terminal_set_opacity(VteTerminal *terminal, guint16 opacity) G_GNUC_DEPRECATED;
+	// END: vte-0.34.8/src/vtedeprecated.h:	void vte_terminal_set_background_tint_color(VteTerminal *terminal,
+	// END: vte-0.34.8/src/vtedeprecated.h: void vte_terminal_set_scroll_background(VteTerminal *terminal, gboolean scroll) G_GNUC_DEPRECATED;
+	// END: vte-0.34.8/src/vtedeprecated.h: void vte_terminal_set_background_image(VteTerminal *terminal, GdkPixbuf *image) G_GNUC_DEPRECATED;
+	// END: vte-0.34.8/src/vtedeprecated.h: void vte_terminal_set_background_image_file(VteTerminal *terminal, const char *path) G_GNUC_DEPRECATED;
+	// END: vte-0.34.8/src/vtedeprecated.h: void vte_terminal_set_background_tint_color(VteTerminal *terminal, const GdkColor *color) G_GNUC_DEPRECATED;
+	// END: vte-0.34.8/src/vtedeprecated.h: void vte_terminal_set_background_saturation(VteTerminal *terminal, double saturation) G_GNUC_DEPRECATED;
+	// END: vte-0.34.8/src/vtedeprecated.h: void vte_terminal_set_background_transparent(VteTerminal *terminal, gboolean transparent) G_GNUC_DEPRECATED;
+	// END: vte-0.34.8/src/vtedeprecated.h: void vte_terminal_set_opacity(VteTerminal *terminal, guint16 opacity) G_GNUC_DEPRECATED;
+	#define ENABLE_VTE_BACKGROUND
+#endif
+#if VTE_CHECK_VERSION(0,34,8)
+	// END: vte-0.34.8/src/vtedeprecated.h: GtkAdjustment *vte_terminal_get_adjustment(VteTerminal *terminal) G_GNUC_DEPRECATED;
+	#define USE_GTK_SCROLLABLE
+#endif
 
 #define ENABLE_RGBA_VER "GTK 2.11"
 #define ENABLE_GDKCOLOR_TO_STRING_VER "GTK 2.11"
@@ -699,7 +719,6 @@ struct Window
 	// environments: the environ for every lilyterm window, separated with <\t>
 	gchar *environment;
 
-
 	// Try to avoid the warning "The locale xx_XX seems NOT supported by your system!" too many times.
 	GString *warned_locale_list;
 
@@ -919,7 +938,9 @@ struct Window
 	gdouble window_resize_ratio;
 
 	gboolean show_background_menu;
+#ifdef ENABLE_IM_APPEND_MENUITEMS
 	gboolean show_input_method_menu;
+#endif
 	gboolean show_change_page_name_menu;
 	gboolean show_exit_menu;
 
@@ -1031,12 +1052,12 @@ struct Window
 	// 0: left
 	// 1: right
 	gboolean scroll_bar_position;			/* Should be take care when drag to another window */
-
+#if defined(ENABLE_VTE_BACKGROUND) || defined(FORCE_ENABLE_VTE_BACKGROUND)
 	gint transparent_background;
 	gdouble background_saturation;
 	gboolean scroll_background;
 	gchar *background_image;
-
+#endif
 //	gboolean use_scrollback_lines;
 	gint scrollback_lines;
 	gboolean dim_text;
@@ -1290,7 +1311,9 @@ typedef enum {
 	CHANGE_THE_CURSOR_COLOR,
 	ADJUST_THE_BRIGHTNESS_OF_ANSI_COLORS_USED_IN_TERMINAL,
 	ADJUST_THE_BRIGHTNESS_OF_ANSI_COLORS_WHEN_INACTIVE,
+#if defined(ENABLE_VTE_BACKGROUND) || defined(FORCE_ENABLE_VTE_BACKGROUND)
 	CHANGE_BACKGROUND_SATURATION,
+#endif
 	CHANGE_THE_OPACITY_OF_WINDOW,
 	CHANGE_THE_OPACITY_OF_WINDOW_WHEN_INACTIVE,
 	CHANGE_THE_TEXT_COLOR_OF_WINDOW_TITLE,

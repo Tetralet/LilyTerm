@@ -162,10 +162,10 @@ void init_new_page(struct Window *win_data,
 #endif
 
 	set_vte_color(page_data->vte, use_default_vte_theme(win_data), win_data->cursor_color, win_data->color, FALSE);
-
+#if defined(ENABLE_VTE_BACKGROUND) || defined(FORCE_ENABLE_VTE_BACKGROUND)
 	// set transparent
 	set_background_saturation(NULL, 0, win_data->background_saturation, page_data->vte);
-
+#endif
 	// other settings
 	vte_terminal_set_word_chars(VTE_TERMINAL(page_data->vte), win_data->word_chars);
 	vte_terminal_set_scrollback_lines(VTE_TERMINAL(page_data->vte), win_data->scrollback_lines);
@@ -279,8 +279,9 @@ void set_vte_color(GtkWidget *vte, gboolean default_vte_color, GdkRGBA cursor_co
 			vte_terminal_set_color_background_rgba(VTE_TERMINAL(vte), &(color[0]));
 		else
 			vte_terminal_set_colors_rgba(VTE_TERMINAL(vte), &(color[COLOR-1]), &(color[0]), color, 16);
-
+#if defined(ENABLE_VTE_BACKGROUND) || defined(FORCE_ENABLE_VTE_BACKGROUND)
 		dirty_vte_terminal_set_background_tint_color(VTE_TERMINAL(vte), color[0]);
+#endif
 	}
 
 	if (default_vte_color | update_fg_only)
@@ -436,27 +437,31 @@ void add_remove_window_title_changed_signal(struct Page *page_data)
 
 }
 
+#if defined(ENABLE_VTE_BACKGROUND) || defined(FORCE_ENABLE_VTE_BACKGROUND)
 gboolean set_background_saturation(GtkRange *range, GtkScrollType scroll, gdouble value, GtkWidget *vte)
 {
-#ifdef DETAIL
+#  ifdef DETAIL
 	g_debug("! Launch set_background_saturation() with value = %f, vte = %p", value, vte);
-#endif
-#ifdef SAFEMODE
+#  endif
+#  ifdef SAFEMODE
 	if (vte==NULL) return FALSE;
-#endif
+#  endif
 	struct Page *page_data = (struct Page *)g_object_get_data(G_OBJECT(vte), "Page_Data");
-#ifdef SAFEMODE
+#  ifdef SAFEMODE
 	if (page_data==NULL || (page_data->window==NULL)) return FALSE;
-#endif
+#  endif
 	struct Window *win_data = (struct Window *)g_object_get_data(G_OBJECT(page_data->window), "Win_Data");
-#ifdef SAFEMODE
+#  ifdef SAFEMODE
 	if (win_data==NULL) return FALSE;
-#endif
+#  endif
 	// g_debug("Get win_data = %d when set background saturation!", win_data);
 
 	value = CLAMP(value, 0, 1);
 
-#ifdef ENABLE_RGBA
+#  ifdef ENABLE_RGBA
+#    ifdef FORCE_ENABLE_VTE_BACKGROUND
+	G_GNUC_BEGIN_IGNORE_DEPRECATIONS;
+#    endif
 	if (win_data->use_rgba == -1)
 	{
 		if (win_data->transparent_background)
@@ -465,7 +470,7 @@ gboolean set_background_saturation(GtkRange *range, GtkScrollType scroll, gdoubl
 			vte_terminal_set_opacity(VTE_TERMINAL(vte), 65535);
 	}
 	else
-#endif
+#  endif
 		vte_terminal_set_background_transparent(VTE_TERMINAL(vte), win_data->transparent_background);
 
 	// g_debug("set_background_saturation(): win_data->transparent_background = %d, value = %1.3f",
@@ -487,10 +492,14 @@ gboolean set_background_saturation(GtkRange *range, GtkScrollType scroll, gdoubl
 		else
 			vte_terminal_set_background_saturation( VTE_TERMINAL(vte), 0);
 	}
+#    ifdef FORCE_ENABLE_VTE_BACKGROUND
+	G_GNUC_END_IGNORE_DEPRECATIONS;
+#    endif
 
 	dirty_vte_terminal_set_background_tint_color(VTE_TERMINAL(page_data->vte), win_data->color[0]);
 	return FALSE;
 }
+#endif
 
 #if defined(ENABLE_RGBA) || defined(UNIT_TEST)
 gboolean set_window_opacity(GtkRange *range, GtkScrollType scroll, gdouble value, struct Window *win_data)
@@ -812,14 +821,14 @@ void apply_new_win_data_to_page (struct Window *win_data_orig,
 		g_object_unref(page_data->vte);
 		g_object_unref(page_data->scroll_bar);
 	}
-
+#if defined(ENABLE_VTE_BACKGROUND) || defined(FORCE_ENABLE_VTE_BACKGROUND)
 	if (compare_color(&(win_data_orig->color[0]), &(win_data->color[0])) ||
 	    (win_data_orig->transparent_background != win_data->transparent_background) ||
 	    (win_data_orig->background_saturation != win_data->background_saturation) ||
 	    (win_data_orig->scroll_background != win_data->scroll_background) ||
 	    compare_strings (win_data_orig->background_image, win_data->background_image, TRUE))
 		set_background_saturation (NULL, 0, win_data->background_saturation, page_data->vte);
-
+#endif
 	if (win_data_orig->scrollback_lines != win_data->scrollback_lines)
 		vte_terminal_set_scrollback_lines (VTE_TERMINAL(page_data->vte), win_data->scrollback_lines);
 
