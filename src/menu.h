@@ -63,7 +63,11 @@ struct Preview
 
 void new_tab_with_locale(GtkWidget *local_menuitem, gboolean VTE_CJK_WIDTH);
 GtkWidget *check_name_in_menuitem(GtkWidget *sub_menu, const gchar *name, gboolean case_sensitive);
+#if defined(ENABLE_VTE_BACKGROUND) || defined(FORCE_ENABLE_VTE_BACKGROUND)
 void set_trans_bg(GtkWidget *menuitem_trans_bg, struct Window *win_data);
+void load_background_image_from_file(GtkWidget *widget, struct Window *win_data);
+void update_preview_image (GtkFileChooser *dialog, struct Preview *preview);
+#endif
 void set_trans_win(GtkWidget *widget, GtkWidget *window);
 void invert_color_theme(GtkWidget *menuitem, struct Window *win_data);
 void select_ansi_theme(GtkWidget *menuitem, gint index);
@@ -105,7 +109,6 @@ GtkWidget *recreate_profile_menu_item(GtkWidget *menuitem, GtkWidget *subitem,
 void create_new_window_from_menu_items(GtkWidget *sub_menu, const gchar *stock_id);
 void create_load_profile_from_menu_items(GtkWidget *sub_menu, const gchar *stock_id, struct Window *win_data);
 gboolean create_profile_menu_list(GtkWidget *sub_menu, const gchar *stock_id, GSourceFunc func, gpointer func_data);
-void load_background_image_from_file(GtkWidget *widget, struct Window *win_data);
 void apply_profile_from_file_dialog(GtkWidget *menu_item, Apply_Profile_Type type);
 void apply_profile_from_menu_item(GtkWidget *menu_item, Apply_Profile_Type type);
 void apply_profile_from_file(const gchar *path, Apply_Profile_Type type);
@@ -113,7 +116,6 @@ void reload_settings(GtkWidget *menu_item, struct Window *win_data);
 void apply_to_every_window(GtkWidget *menu_item, struct Window *win_data);
 void save_user_settings_as(GtkWidget *widget, struct Window *win_data);
 GtkWidget *create_load_file_dialog(GtkFileChooserAction action, GtkWidget *window, gchar *button_text, gchar *filename);
-void update_preview_image (GtkFileChooser *dialog, struct Preview *preview);
 GtkWidget *create_menu_item (Menu_Itemn_Type type, GtkWidget *sub_menu, const gchar *label, const gchar *label_name,
 			     const gchar *stock_id, GSourceFunc func, gpointer func_data);
 GtkWidget *create_sub_item (GtkWidget *menu, gchar *label, const gchar *stock_id);

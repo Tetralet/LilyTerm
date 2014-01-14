@@ -55,7 +55,9 @@ GdkColor convert_rgba_to_color(GdkRGBA rgba);
 gboolean dirty_gdk_color_parse(const gchar *spec, GdkRGBA *color);
 GtkWidget *dirty_gtk_vbox_new(gboolean homogeneous, gint spacing);
 GtkWidget *dirty_gtk_hbox_new(gboolean homogeneous, gint spacing);
+#if defined(ENABLE_VTE_BACKGROUND) || defined(FORCE_ENABLE_VTE_BACKGROUND)
 void dirty_vte_terminal_set_background_tint_color(VteTerminal *vte, const GdkRGBA rgba);
+#endif
 #if defined(GEOMETRY) || defined(UNIT_TEST)
 void widget_size_allocate (GtkWidget *widget, GtkAllocation *allocation, gchar *name);
 #endif
@@ -181,7 +183,9 @@ void set_page_width(struct Window *win_data, struct Page *page_data);
 void pack_vte_and_scroll_bar_to_hbox(struct Window *win_data, struct Page *page_data);
 void add_remove_page_timeout_id(struct Window *win_data, struct Page *page_data);
 void add_remove_window_title_changed_signal(struct Page *page_data);
+#if defined(ENABLE_VTE_BACKGROUND) || defined(FORCE_ENABLE_VTE_BACKGROUND)
 gboolean set_background_saturation(GtkRange *range, GtkScrollType scroll, gdouble value, GtkWidget *vte);
+#endif
 gboolean set_window_opacity (GtkRange *range, GtkScrollType scroll, gdouble value, struct Window *win_data);
 #if defined(vte_terminal_get_padding) || defined(UNIT_TEST)
 void fake_vte_terminal_get_padding(VteTerminal *vte, gint *width, gint *height);

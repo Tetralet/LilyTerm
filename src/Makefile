@@ -98,7 +98,7 @@ default: $(BINARY)
 
 .PHONY: debug
 debug: CFLAGS := $(CFLAGS) -g
-debug: INCLUDES := $(INCLUDES) -DAUTHOR=\"$(AUTHOR_CONVERT)\" -DDEBUG -DFATAL -DVERSION=\"$(VERSION)\ Debug\ Version\ \($(date)\)\"
+debug: INCLUDES := $(INCLUDES) -DAUTHOR=\"$(AUTHOR_CONVERT)\" -DDEBUG -DFATAL -DFORCE_ENABLE_VTE_BACKGROUND -DVERSION=\"$(VERSION)\ Debug\ Version\ \($(date)\)\"
 debug: BINARY := $(BINARY)_dbg
 debug: $(BINARY)
 
