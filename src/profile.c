@@ -2491,7 +2491,7 @@ GString *save_user_settings(GtkWidget *widget, struct Window *win_data)
 	if (compare_color(&(win_data->custom_color_theme[win_data->color_theme_index].color[COLOR-1]),
 			  &(system_color_theme[win_data->color_theme_index].color[COLOR-1])))
 	{
-		gchar *color_str = gdk_rgba_to_string(&(win_data->custom_color_theme[win_data->color_theme_index].color[COLOR-1]));
+		gchar *color_str = dirty_gdk_rgba_to_string(&(win_data->custom_color_theme[win_data->color_theme_index].color[COLOR-1]));
 		g_string_append_printf(contents,"foreground_color = %s\n\n", color_str);
 		g_free (color_str);
 	}
@@ -2503,7 +2503,7 @@ GString *save_user_settings(GtkWidget *widget, struct Window *win_data)
 	if (compare_color(&(win_data->custom_color_theme[win_data->color_theme_index].color[0]),
 			  &(system_color_theme[win_data->color_theme_index].color[0])))
 	{
-		gchar *color_str = gdk_rgba_to_string(&(win_data->custom_color_theme[win_data->color_theme_index].color[0]));
+		gchar *color_str = dirty_gdk_rgba_to_string(&(win_data->custom_color_theme[win_data->color_theme_index].color[0]));
 		g_string_append_printf(contents,"background_color = %s\n\n", color_str);
 		g_free (color_str);
 	}
@@ -2517,7 +2517,7 @@ GString *save_user_settings(GtkWidget *widget, struct Window *win_data)
 	dirty_gdk_color_parse(DEFAULT_CURSOR_COLOR, &cursor_color);
 	if (compare_color(&cursor_color, &(win_data->cursor_color)))
 	{
-		gchar *color_str = gdk_rgba_to_string(&(win_data->cursor_color));
+		gchar *color_str = dirty_gdk_rgba_to_string(&(win_data->cursor_color));
 		g_string_append_printf(contents,"cursor_color = %s\n\n", color_str);
 		g_free (color_str);
 	}
@@ -2753,7 +2753,7 @@ GString *save_user_settings(GtkWidget *widget, struct Window *win_data)
 		if (compare_color(&(win_data->custom_color_theme[win_data->color_theme_index].color[i]),
 			  &(system_color_theme[win_data->color_theme_index].color[i])))
 		{
-			color_str = gdk_rgba_to_string(&(win_data->custom_color_theme[win_data->color_theme_index].color[i]));
+			color_str = dirty_gdk_rgba_to_string(&(win_data->custom_color_theme[win_data->color_theme_index].color[i]));
 			g_string_append_printf(contents,"%s = %s\n\n",  color[i].name, color_str);
 			g_free (color_str);
 		}

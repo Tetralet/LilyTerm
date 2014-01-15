@@ -344,7 +344,6 @@
 	#define MAX_COLOR 1
 #else
 	#define GdkRGBA GdkColor
-	#define gdk_rgba_to_string gdk_color_to_string
 	#define gdk_rgba_parse(x,y) gdk_color_parse(y,x)
 	#define gtk_color_selection_set_previous_rgba gtk_color_selection_set_previous_color
 	#define gtk_color_selection_set_current_rgba gtk_color_selection_set_current_color

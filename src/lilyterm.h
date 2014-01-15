@@ -52,6 +52,7 @@ gchar *join_strings_to_string(const gchar separator, const gint total, const Str
 gchar *colorful_max_new_lines(gchar *string, gint max, gint output_line);
 GdkRGBA convert_color_to_rgba(GdkColor color);
 GdkColor convert_rgba_to_color(GdkRGBA rgba);
+gchar *dirty_gdk_rgba_to_string(GdkRGBA *rgba);
 gboolean dirty_gdk_color_parse(const gchar *spec, GdkRGBA *color);
 GtkWidget *dirty_gtk_vbox_new(gboolean homogeneous, gint spacing);
 GtkWidget *dirty_gtk_hbox_new(gboolean homogeneous, gint spacing);

@@ -756,6 +756,16 @@ GdkColor convert_rgba_to_color(GdkRGBA rgba)
 	return color;
 }
 
+// The returned string should be freed when no longer needed.
+gchar *dirty_gdk_rgba_to_string(GdkRGBA *rgba)
+{
+#ifdef USE_GDK_RGBA
+	return g_strdup_printf("#%04X%04X%04X", (unsigned int)(rgba->red*0xFFFF), (unsigned int)(rgba->green*0xFFFF), (unsigned int)(rgba->blue*0xFFFF));
+#else
+	return gdk_color_to_string(rgba);
+#endif
+}
+
 #if defined(GEOMETRY) || defined(UNIT_TEST)
 void widget_size_allocate (GtkWidget *widget, GtkAllocation *allocation, gchar *name)
 {

@@ -1522,7 +1522,7 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 						case CHANGE_THE_TEXT_COLOR_OF_NORMAL_TEXT:
 						{
 							gint page_color_type = style - CHANGE_THE_TEXT_COLOR_OF_WINDOW_TITLE;
-							gchar *new_color = gdk_rgba_to_string(&(dialog_data->original_color));
+							gchar *new_color = dirty_gdk_rgba_to_string(&(dialog_data->original_color));
 
 							struct Page *tmp_page_data = NULL;
 							for (i=0; i<gtk_notebook_get_n_pages(GTK_NOTEBOOK(win_data->notebook)); i++)
@@ -1994,7 +1994,7 @@ void update_color_buttons(struct Window *win_data, struct Dialog *dialog_data)
 #endif
 #ifdef ENABLE_GDKCOLOR_TO_STRING
 #  ifdef DEBUG
-		gchar *color_string = gdk_rgba_to_string(&(temp_color[color_index]));
+		gchar *color_string = dirty_gdk_rgba_to_string(&(temp_color[color_index]));
 		gchar *temp_str =  g_strdup_printf("%s [%d] - %s", color[i].translation, color_index, color_string);
 #    ifdef ENABLE_SET_TOOLTIP_TEXT
 #      ifdef SAFEMODE
@@ -2297,7 +2297,7 @@ void refresh_regex(struct Window *win_data, struct Dialog *dialog_data)
 			g_object_unref(rc_style);
 #  else
 			GdkRGBA gdkrgba;
-			gchar *color_string = gdk_rgba_to_string(&(win_data->find_entry_current_bg_color));
+			gchar *color_string = dirty_gdk_rgba_to_string(&(win_data->find_entry_current_bg_color));
 			gdk_rgba_parse (&gdkrgba, color_string);
 			gtk_widget_override_background_color(dialog_data->operate[0], 0, &gdkrgba);
 			g_free(color_string);
@@ -3030,7 +3030,7 @@ void adjust_vte_color(GtkColorChooser *color_selection, GdkRGBA *color, GtkWidge
 			dialog_data->original_color = *color;
 #endif
 #ifdef ENABLE_GDKCOLOR_TO_STRING
-			current_color = gdk_rgba_to_string(&(dialog_data->original_color));
+			current_color = dirty_gdk_rgba_to_string(&(dialog_data->original_color));
 #endif
 			struct Page *page_data = (struct Page *)g_object_get_data(G_OBJECT(vte), "Page_Data");
 #ifdef SAFEMODE
