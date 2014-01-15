@@ -289,6 +289,11 @@
 	// END: glib-2.31.2/glib/gutils.h: g_atexit () GLIB_DEPRECATED
 	#define g_atexit atexit
 #endif
+#if ! GLIB_CHECK_VERSION(2,31,18)
+	// SINCE: glib-2.31.18/glib/gmacros.h
+	#define G_GNUC_BEGIN_IGNORE_DEPRECATIONS
+	#define G_GNUC_END_IGNORE_DEPRECATIONS
+#endif
 
 #ifndef VTE_CHECK_VERSION
 #define VTE_CHECK_VERSION(major,minor,micro) \
