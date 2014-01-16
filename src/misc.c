@@ -760,7 +760,7 @@ GdkColor convert_rgba_to_color(GdkRGBA rgba)
 gchar *dirty_gdk_rgba_to_string(GdkRGBA *rgba)
 {
 #ifdef USE_GDK_RGBA
-	return g_strdup_printf("#%04X%04X%04X", (unsigned int)(rgba->red*0xFFFF), (unsigned int)(rgba->green*0xFFFF), (unsigned int)(rgba->blue*0xFFFF));
+	return g_strdup_printf("#%04x%04x%04x", (unsigned int)(rgba->red*0xFFFF), (unsigned int)(rgba->green*0xFFFF), (unsigned int)(rgba->blue*0xFFFF));
 #else
 	return gdk_color_to_string(rgba);
 #endif

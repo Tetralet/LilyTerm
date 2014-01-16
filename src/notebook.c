@@ -502,9 +502,9 @@ struct Page *add_page(struct Window *win_data,
 
 	// show the menu
 	g_signal_connect(G_OBJECT(page_data->vte), "button-press-event",
-			 G_CALLBACK(vte_button_press), NULL);
+			 G_CALLBACK(vte_button_press), page_data);
 	g_signal_connect(G_OBJECT(page_data->vte), "button-release-event",
-			 G_CALLBACK(vte_button_release), NULL);
+			 G_CALLBACK(vte_button_release), page_data);
 
 	add_remove_window_title_changed_signal(page_data);
 
@@ -1220,17 +1220,11 @@ void dim_vte_text (struct Window *win_data, struct Page *page_data, gint dim_tex
 	// g_debug("FINAL: dim_vte = %d, page_data->vte_is_inactivated = %d", dim_vte, page_data->vte_is_inactivated);
 }
 
-gboolean vte_button_press(GtkWidget *vte, GdkEventButton *event, gpointer user_data)
+gboolean vte_button_press(GtkWidget *vte, GdkEventButton *event, struct Page *page_data)
 {
 #ifdef DETAIL
-	g_debug("! Launch vte_button_press() for vte %p", vte);
+	g_debug("! Launch vte_button_press() for vte %p (page_data = %p)", vte, page_data);
 #endif
-#ifdef SAFEMODE
-	if (vte==NULL) return FALSE;
-#endif
-	// We may click mouse button on a lost focus window to popup it's Menu
-	// So that we should find the active_window via page_data
-	struct Page *page_data = (struct Page *)g_object_get_data(G_OBJECT(vte), "Page_Data");
 #ifdef SAFEMODE
 	if ((page_data==NULL) || (event==NULL)) return FALSE;
 #endif
@@ -1447,6 +1441,10 @@ gboolean vte_button_press(GtkWidget *vte, GdkEventButton *event, gpointer user_d
 		gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM(win_data->menuitem_open_url_with_ctrl_pressed),
 						win_data->open_url_with_ctrl_pressed);
 
+		// GTK_CHECK_MENU_ITEM(win_data->menuitem_disable_url_when_ctrl_pressed)->active = win_data->disable_url_when_ctrl_pressed;
+		gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM(win_data->menuitem_disable_url_when_ctrl_pressed),
+						win_data->disable_url_when_ctrl_pressed);
+
 		// GTK_CHECK_MENU_ITEM(win_data->menuitem_audible_bell)->active = win_data->audible_bell;
 		gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM(win_data->menuitem_audible_bell),
 						win_data->audible_bell);
@@ -1490,7 +1488,7 @@ gboolean vte_button_press(GtkWidget *vte, GdkEventButton *event, gpointer user_d
 		if (win_data->open_url_with_ctrl_pressed && ((event->state & GDK_CONTROL_MASK)==0))
 		{
 			// clean the url first...
-			vte_terminal_match_clear_all(VTE_TERMINAL(vte));
+			clean_hyperlink(win_data, page_data);
 			return FALSE;
 		}
 
@@ -1508,25 +1506,24 @@ gboolean vte_button_press(GtkWidget *vte, GdkEventButton *event, gpointer user_d
 	return FALSE;
 }
 
-gboolean vte_button_release(GtkWidget *vte, GdkEventButton *event, gpointer user_data)
+gboolean vte_button_release(GtkWidget *vte, GdkEventButton *event, struct Page *page_data)
 {
 #ifdef DETAIL
 	g_debug("! Launch vte_button_release() for vte %p", vte);
 #endif
 #ifdef SAFEMODE
-	if (vte==NULL) return FALSE;
-#endif
-	struct Page *page_data = (struct Page *)g_object_get_data(G_OBJECT(vte), "Page_Data");
-#ifdef SAFEMODE
 	if ((page_data==NULL) || (event==NULL)) return FALSE;
 #endif
-	struct Window *win_data = (struct Window *)g_object_get_data(G_OBJECT(page_data->window), "Win_Data");
-#ifdef SAFEMODE
-	if (win_data==NULL) return FALSE;
-#endif
 
-	if (win_data->open_url_with_ctrl_pressed && ((event->state & GDK_CONTROL_MASK)==0))
-		set_hyprelink(win_data, page_data);
+	if (page_data->match_regex_setted == FALSE)
+	{
+		struct Window *win_data = (struct Window *)g_object_get_data(G_OBJECT(page_data->window), "Win_Data");
+#ifdef SAFEMODE
+		if (win_data==NULL) return FALSE;
+#endif
+		if (! win_data->enable_hyperlink) return FALSE;
+		set_hyperlink(win_data, page_data);
+	}
 
 	return FALSE;
 }

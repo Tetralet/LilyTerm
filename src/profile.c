@@ -421,6 +421,7 @@ void init_window_parameters(struct Window *win_data)
 	// win_data->menuitem_cursor_blinks;
 	// win_data->menuitem_allow_bold_text;
 	// win_data->menuitem_open_url_with_ctrl_pressed;
+	// win_data->menuitem_disable_url_when_ctrl_pressed;
 	// win_data->menuitem_audible_bell;
 	// win_data->menuitem_visible_bell;
 	// win_data->menuitem_urgent_bell;
@@ -508,6 +509,7 @@ void init_window_parameters(struct Window *win_data)
 #endif
 	win_data->allow_bold_text = TRUE;
 	win_data->open_url_with_ctrl_pressed = FALSE;
+	win_data->disable_url_when_ctrl_pressed = TRUE;
 	win_data->audible_bell = TRUE;
 	// win_data->visible_bell = FALSE;
 #ifdef ENABLE_BEEP_SINGAL
@@ -604,6 +606,8 @@ void init_page_parameters(struct Window *win_data, struct Page *page_data)
 //	page_data->window_title = NULL;
 
 //	page_data->tag[COMMAND] = {{0}};
+//	page_data->match_regex_setted = FALSE;
+//	
 }
 
 
@@ -684,6 +688,8 @@ void init_user_keys(struct Window *win_data)
 	win_data->user_keys[KEY_SCROLL_UP_1_LINE].value = g_strdup("Shift Up");
 	win_data->user_keys[KEY_SCROLL_DOWN_1_LINE].value = g_strdup("Shift Down");
 	win_data->user_keys[KEY_CLEAN_SCROLLBACK_LINES].value = g_strdup("Ctrl H");
+	win_data->user_keys[KEY_DISABLE_URL_L].value = g_strdup("Control_L");
+	win_data->user_keys[KEY_DISABLE_URL_R].value = g_strdup("Control_R");
 #ifdef FATAL
 	// dump_data
 	win_data->user_keys[KEY_DUMP_DATA].value = g_strdup("Ctrl Print");
@@ -763,6 +769,10 @@ void init_key_bindings_name_and_group()
 	system_keys[KEY_SCROLL_DOWN_1_LINE].group = KEY_GROUP_SCROLL;
 	system_keys[KEY_CLEAN_SCROLLBACK_LINES].name = "clean_scrollback_lines";
 	system_keys[KEY_CLEAN_SCROLLBACK_LINES].group = KEY_GROUP_SCROLL;
+	system_keys[KEY_DISABLE_URL_L].name = "disable_url_for_temporary_L";
+	system_keys[KEY_DISABLE_URL_L].group = KEY_GROUP_NONE;
+	system_keys[KEY_DISABLE_URL_R].name = "disable_url_for_temporary_R";
+	system_keys[KEY_DISABLE_URL_R].group = KEY_GROUP_NONE;
 #ifdef FATAL
 	system_keys[KEY_DUMP_DATA].name = "dump_data";
 	system_keys[KEY_DUMP_DATA].group = KEY_GROUP_MISC;
@@ -917,6 +927,13 @@ void init_key_bindings()
 	system_keys[KEY_CLEAN_SCROLLBACK_LINES].topic = _("Clean scrollback lines");
 	system_keys[KEY_CLEAN_SCROLLBACK_LINES].comment = "# Asks to clean scrollback lines.";
 	system_keys[KEY_CLEAN_SCROLLBACK_LINES].translation = _("Asks to clean scrollback lines.");
+	// disable URL for temporary
+	system_keys[KEY_DISABLE_URL_L].topic = "Disable URL for temporary";
+	system_keys[KEY_DISABLE_URL_L].comment = "# Disable URL for temporary.";
+	system_keys[KEY_DISABLE_URL_L].translation = "Disable URL for temporary.";
+	system_keys[KEY_DISABLE_URL_R].topic = "Disable URL for temporary";
+	system_keys[KEY_DISABLE_URL_R].comment = "# Disable URL for temporary.";
+	system_keys[KEY_DISABLE_URL_R].translation = "Disable URL for temporary.";
 #ifdef FATAL
 	system_keys[KEY_DUMP_DATA].topic = _("Dump runtime debug data");
 	system_keys[KEY_DUMP_DATA].comment = "# Dump the runtime data of LilyTerm for debug.";
@@ -1417,6 +1434,10 @@ void get_user_settings(struct Window *win_data, const gchar *encoding)
 			win_data->open_url_with_ctrl_pressed = check_boolean_value(keyfile, "main", "open_url_with_ctrl_pressed",
 										   win_data->open_url_with_ctrl_pressed);
 
+			win_data->disable_url_when_ctrl_pressed = check_boolean_value(keyfile, "main", "disable_url_when_ctrl_pressed",
+										      win_data->disable_url_when_ctrl_pressed);
+			if (win_data->disable_url_when_ctrl_pressed) win_data->open_url_with_ctrl_pressed = FALSE;
+
 			win_data->show_copy_paste_menu =
 				check_boolean_value(keyfile,
 						    "main",
@@ -1575,7 +1596,7 @@ void get_user_settings(struct Window *win_data, const gchar *encoding)
 			//		GDK_SHIFT_MASK, GDK_LOCK_MASK, GDK_CONTROL_MASK, GDK_MOD1_MASK,
 			//		GDK_MOD2_MASK, GDK_MOD3_MASK, GDK_MOD4_MASK, GDK_MOD5_MASK);
 			gchar *value = NULL;
-			for (i=0; i<KEYS; i++)
+			for (i=0; i<KEYS-FIXED_KEYS; i++)
 			{
 				// g_debug("Checking %s key, default value = %s (%p)...",
 				//	system_keys[i].name, win_data->user_keys[i].value, win_data->user_keys[i].value);
@@ -2583,6 +2604,8 @@ GString *save_user_settings(GtkWidget *widget, struct Window *win_data)
 					"allow_bold_text = %d\n\n", win_data->allow_bold_text);
 	g_string_append_printf(contents,"# Need <Ctrl> to be pressed to open the URL when it's clicked.\n"
 					"open_url_with_ctrl_pressed = %d\n\n", win_data->open_url_with_ctrl_pressed);
+	g_string_append_printf(contents,"# Preese <Ctrl> to disable the URL match gregex temporarily.\n"
+					"disable_url_when_ctrl_pressed = %d\n\n", win_data->disable_url_when_ctrl_pressed);
 	g_string_append_printf(contents,"# Shows copy/paste menu on right click menu.\n"
 					"show_copy_paste_menu = %d\n\n",
 					win_data->show_copy_paste_menu);
@@ -2711,7 +2734,7 @@ GString *save_user_settings(GtkWidget *widget, struct Window *win_data)
 					page_color[i].comment_eng, page_color[i].name, win_data->user_page_color[i]);
 	}
 	g_string_append_printf(contents,"\n[key]\n\n");
-	for (i=0; i<KEYS; i++)
+	for (i=0; i<KEYS-FIXED_KEYS; i++)
 	{
 		if (win_data->user_keys[i].value && (win_data->user_keys[i].value[0]!='\0'))
 			g_string_append_printf( contents,"%s\n# Left it blank to disable this function key.\n%s = %s\n\n",

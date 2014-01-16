@@ -47,6 +47,7 @@
 gboolean window_option(struct Window *win_data, gchar *encoding, int argc, char *argv[]);
 char **set_process_data (pid_t entry_pid, gint *ppid, StrAddr **cmd);
 gboolean window_key_press(GtkWidget *widget, GdkEventKey *event, struct Window *win_data);
+gboolean window_key_release(GtkWidget *widget, GdkEventKey *event, struct Window *win_data);
 void window_style_set(GtkWidget *window, GtkStyle *previous_style, struct Window *win_data);
 #if defined(USE_GTK2_GEOMETRY_METHOD) || defined(UNIT_TEST)
 void window_size_request(GtkWidget *window, GtkRequisition *requisition, struct Window *win_data);

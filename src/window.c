@@ -283,6 +283,8 @@ GtkNotebook *new_window(int argc,
 	// if function key pressed
 	g_signal_connect(G_OBJECT(win_data->window), "key-press-event",
 			 G_CALLBACK(window_key_press), win_data);
+	g_signal_connect(G_OBJECT(win_data->window), "key-release-event",
+			 G_CALLBACK(window_key_release), win_data);
 	// if get focus, the size of vte is NOT resizeable.
 	g_signal_connect_after(G_OBJECT(win_data->window), "focus-in-event",
 			       G_CALLBACK(window_get_focus), win_data);
@@ -1029,20 +1031,22 @@ gboolean window_key_press(GtkWidget *window, GdkEventKey *event, struct Window *
 	// g_debug ("Get win_data = %p in key_press", win_data);
 	// g_debug ("win_data->keep_vte_size = %X, event->state = %X", win_data->keep_vte_size, event->state);
 
+#ifdef USE_GTK2_GEOMETRY_METHOD
+	if (win_data->keep_vte_size) return FALSE;
+#endif
 	// don't check if only shift key pressed!
 	// FIXME: GDK_asciitilde = 0x7e, it is for some keys like <F3> only.
-	if ((event->state & SHIFT_ONLY_MASK) || (event->keyval>GDK_KEY_asciitilde))
+	if ((event->state & SHIFT_ONLY_MASK) || (event->keyval > GDK_KEY_asciitilde))
 	{
 		// g_debug("ALL_ACCELS_MASK = %X", ALL_ACCELS_MASK);
-		// g_debug("Got the function key: %s with status= %X)",
-		//	gdk_keyval_name(event->keyval), event->state);
-		gint i, keyval, mods;
+		// g_debug("window_key_press(): Got the function key: %s (%X) with status= %X)",
+		//	gdk_keyval_name(event->keyval), event->keyval, event->state);
+		// mods = (event->state|GDK_LOCK_MASK|GDK_MOD2_MASK)&GDK_MODIFIER_MASK;
+		gint i, keyval, mods = event->state | DUD_MASK;
 		if ((event->keyval>=GDK_KEY_a) && (event->keyval<=GDK_KEY_z))
 			keyval = event->keyval - GDK_KEY_a + GDK_KEY_A;
 		else
 			keyval = event->keyval;
-		// mods = (event->state|GDK_LOCK_MASK|GDK_MOD2_MASK)&GDK_MODIFIER_MASK;
-		mods = event->state | DUD_MASK;
 
 		if (win_data->enable_key_binding)
 		{
@@ -1054,10 +1058,8 @@ gboolean window_key_press(GtkWidget *window, GdkEventKey *event, struct Window *
 				if ((mods==win_data->user_keys[i].mods) && (keyval==win_data->user_keys[i].key))
 				{
 					// deal the function key
-#ifdef USE_GTK2_GEOMETRY_METHOD
-					if (win_data->keep_vte_size==0)
-#endif
-						return deal_key_press(window, i, win_data);
+					// g_debug("CALL deal_key_press(%d)!", i);
+					return deal_key_press(window, i, win_data);
 				}
 			}
 		}
@@ -1067,10 +1069,7 @@ gboolean window_key_press(GtkWidget *window, GdkEventKey *event, struct Window *
 			    (keyval==win_data->user_keys[KEY_DISABLE_FUNCTION].key))
 			{
 				// deal the function key
-#ifdef USE_GTK2_GEOMETRY_METHOD
-				if (win_data->keep_vte_size==0)
-#endif
-					return deal_key_press(window, KEY_DISABLE_FUNCTION, win_data);
+				return deal_key_press(window, KEY_DISABLE_FUNCTION, win_data);
 			}
 		}
 	}
@@ -1123,7 +1122,7 @@ gboolean deal_key_press(GtkWidget *window, Key_Bindings type, struct Window *win
 			{
 				gint i;
 				for (i=0; i<total_page; i++)
-					set_hyprelink(win_data,
+					set_hyperlink(win_data,
 						      get_page_data_from_nth_page(win_data, i));
 			}
 			break;
@@ -1452,6 +1451,11 @@ gboolean deal_key_press(GtkWidget *window, Key_Bindings type, struct Window *win
 		case KEY_CLEAN_SCROLLBACK_LINES:
 			clean_scrollback_lines(NULL, win_data);
 			break;
+		case KEY_DISABLE_URL_L:
+		case KEY_DISABLE_URL_R:
+			if (win_data->disable_url_when_ctrl_pressed)
+				clean_hyperlink(win_data, page_data);
+			break;
 #ifdef FATAL
 		case KEY_DUMP_DATA:
 #ifdef SAFEMODE
@@ -1483,6 +1487,45 @@ gboolean deal_key_press(GtkWidget *window, Key_Bindings type, struct Window *win
 	}
 #endif
 	return TRUE;
+}
+
+gboolean window_key_release(GtkWidget *window, GdkEventKey *event, struct Window *win_data)
+{
+#ifdef FULL
+	if (event)
+		g_debug("! Launch window_key_release() with key = %X (%s), state = %X, win_data = %p",
+			 event->keyval, gdk_keyval_name(event->keyval), event->state, win_data);
+#endif
+#ifdef SAFEMODE
+	if ((win_data==NULL) || (event==NULL)) return FALSE;
+#endif
+	if ((win_data->disable_url_when_ctrl_pressed == FALSE) || (win_data->enable_key_binding == FALSE) || (win_data->keep_vte_size)) return FALSE;
+
+	// g_debug ("Get win_data = %p in key_press", win_data);
+	// g_debug ("win_data->keep_vte_size = %X, event->state = %X", win_data->keep_vte_size, event->state);
+
+	// don't check if only shift key pressed!
+	// FIXME: GDK_asciitilde = 0x7e, it is for some keys like <F3> only.
+	if ((event->state & SHIFT_ONLY_MASK) || (event->keyval > GDK_KEY_asciitilde))
+	{
+		// g_debug("window_key_release(): ALL_ACCELS_MASK = %X", ALL_ACCELS_MASK);
+		gint mods = event->state | DUD_MASK;
+		
+		// g_debug("window_key_release(): Got the function key: %s (%X) with status= %X [%X,%X] (%X,%X)(%X,%X))",
+		//	gdk_keyval_name(event->keyval), event->keyval, event->state, mods, event->keyval,
+		//	(win_data->user_keys[KEY_DISABLE_URL_L].mods|GDK_CONTROL_MASK), win_data->user_keys[KEY_DISABLE_URL_L].key,
+		//	(win_data->user_keys[KEY_DISABLE_URL_R].mods|GDK_CONTROL_MASK), win_data->user_keys[KEY_DISABLE_URL_R].key);
+		
+		if (((mods==(win_data->user_keys[KEY_DISABLE_URL_L].mods|GDK_CONTROL_MASK)) && (event->keyval==win_data->user_keys[KEY_DISABLE_URL_L].key)) ||
+		    ((mods==(win_data->user_keys[KEY_DISABLE_URL_R].mods|GDK_CONTROL_MASK)) && (event->keyval==win_data->user_keys[KEY_DISABLE_URL_R].key)))
+		{
+			// g_debug("window_key_release(): call set_hyperlink()");
+			struct Page *page_data = (struct Page *)g_object_get_data(G_OBJECT(win_data->current_vte), "Page_Data");
+			if (! page_data->match_regex_setted)
+				set_hyperlink(win_data, page_data);
+		}
+	}
+	return FALSE;
 }
 
 gboolean window_get_focus(GtkWidget *window, GdkEventFocus *event, struct Window *win_data)
@@ -2759,6 +2802,7 @@ void dump_data (struct Window *win_data, struct Page *page_data)
 	g_debug("- win_data->menuitem_cursor_blinks = %p", win_data->menuitem_cursor_blinks);
 	g_debug("- win_data->menuitem_allow_bold_text = %p", win_data->menuitem_allow_bold_text);
 	g_debug("- win_data->menuitem_open_url_with_ctrl_pressed = %p", win_data->menuitem_open_url_with_ctrl_pressed);
+	g_debug("- win_data->menuitem_disable_url_when_ctrl_pressed = %p", win_data->menuitem_disable_url_when_ctrl_pressed);
 	g_debug("- win_data->menuitem_audible_bell = %p", win_data->menuitem_audible_bell);
 	g_debug("- win_data->menuitem_visible_bell = %p", win_data->menuitem_visible_bell);
 #ifdef ENABLE_BEEP_SINGAL
@@ -2850,6 +2894,7 @@ void dump_data (struct Window *win_data, struct Page *page_data)
 	g_debug("- win_data->cursor_blinks = %d", win_data->cursor_blinks);
 	g_debug("- win_data->allow_bold_text = %d", win_data->allow_bold_text);
 	g_debug("- win_data->open_url_with_ctrl_pressed = %d", win_data->open_url_with_ctrl_pressed);
+	g_debug("- win_data->disable_url_when_ctrl_pressed = %d", win_data->disable_url_when_ctrl_pressed);
 	g_debug("- win_data->audible_bell = %d", win_data->audible_bell);
 	g_debug("- win_data->visible_bell = %d", win_data->visible_bell);
 #ifdef ENABLE_BEEP_SINGAL
@@ -2967,6 +3012,7 @@ void dump_data (struct Window *win_data, struct Page *page_data)
 	// g_debug("- page_data->force_using_cmdline = %d", page_data->force_using_cmdline);
 	for (i=0; i<COMMAND; i++)
 		g_debug("- page_data->tag[%d] = %d", i, page_data->tag[i]);
+	g_debug("- page_data->match_regex_setted = %d", page_data->match_regex_setted);
 }
 
 void print_array(gchar *name, gchar **data)
@@ -3227,6 +3273,7 @@ void win_data_dup(struct Window *win_data_orig, struct Window *win_data)
 	win_data->menuitem_cursor_blinks = NULL;
 	win_data->menuitem_allow_bold_text = NULL;
 	win_data->menuitem_open_url_with_ctrl_pressed = NULL;
+	win_data->menuitem_disable_url_when_ctrl_pressed = NULL;
 	win_data->menuitem_audible_bell = NULL;
 	win_data->menuitem_visible_bell = NULL;
 #ifdef ENABLE_BEEP_SINGAL
@@ -3318,6 +3365,7 @@ void win_data_dup(struct Window *win_data_orig, struct Window *win_data)
 	// win_data->cursor_blinks;
 	// win_data->allow_bold_text;
 	// win_data->open_url_with_ctrl_pressed;
+	// win_data->disable_url_when_ctrl_pressed;
 	// win_data->audible_bell;
 	// win_data->visible_bell;
 	// win_data->urgent_bell;

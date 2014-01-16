@@ -400,9 +400,11 @@ typedef enum {
 } Key_Binding_Groups;
 
 #ifdef FATAL
-	#define KEYS 44
+	#define KEYS 46
+	#define FIXED_KEYS 3
 #else
-	#define KEYS 43
+	#define KEYS 45
+	#define FIXED_KEYS 2
 #endif
 
 typedef enum {
@@ -449,6 +451,8 @@ typedef enum {
 	KEY_SCROLL_UP_1_LINE,					// 37
 	KEY_SCROLL_DOWN_1_LINE,					// 38
 	KEY_CLEAN_SCROLLBACK_LINES,				// NEW
+	KEY_DISABLE_URL_L,					// NEW
+	KEY_DISABLE_URL_R,					// NEW
 #ifdef FATAL
 	KEY_DUMP_DATA,						// 40
 #endif
@@ -960,6 +964,7 @@ struct Window
 	GtkWidget *menuitem_cursor_blinks;
 	GtkWidget *menuitem_allow_bold_text;
 	GtkWidget *menuitem_open_url_with_ctrl_pressed;
+	GtkWidget *menuitem_disable_url_when_ctrl_pressed;
 	GtkWidget *menuitem_audible_bell;
 	GtkWidget *menuitem_visible_bell;
 #ifdef ENABLE_BEEP_SINGAL
@@ -1072,6 +1077,7 @@ struct Window
 #endif
 	gboolean allow_bold_text;
 	gboolean open_url_with_ctrl_pressed;
+	gboolean disable_url_when_ctrl_pressed;
 	gboolean audible_bell;
 	gboolean visible_bell;
 #ifdef ENABLE_BEEP_SINGAL
@@ -1285,6 +1291,7 @@ struct Page
 // ---- other---- //
 
 	gint tag[COMMAND];
+	gboolean match_regex_setted;
 };
 
 

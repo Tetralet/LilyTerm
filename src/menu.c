@@ -300,11 +300,17 @@ gboolean create_menu(struct Window *win_data)
 	// Bold text
 	win_data->menuitem_allow_bold_text = create_menu_item (CHECK_MENU_ITEM, misc_sub_menu, _("Allow bold text"), NULL, NULL,
 							       (GSourceFunc)set_allow_bold_text, win_data);
+	
+	// ----------------------------------------
+	add_separator_menu (misc_sub_menu);
 
 	// Need <Ctrl> pressed to open URL
 	win_data->menuitem_open_url_with_ctrl_pressed = create_menu_item (CHECK_MENU_ITEM, misc_sub_menu, _("Need <Ctrl> pressed to open URL"), NULL, NULL,
 							                  (GSourceFunc)set_open_url_with_ctrl_pressed, win_data);
 
+	win_data->menuitem_disable_url_when_ctrl_pressed = create_menu_item (CHECK_MENU_ITEM, misc_sub_menu, _("Disable URL when <Ctrl> pressed"), NULL, NULL,
+							                  (GSourceFunc)set_disable_url_when_ctrl_pressed, win_data);
+	
 	// ----------------------------------------
 	add_separator_menu (misc_sub_menu);
 
@@ -763,6 +769,20 @@ void set_open_url_with_ctrl_pressed(GtkWidget *menuitem_open_url_with_ctrl_press
 	if ((menuitem_open_url_with_ctrl_pressed==NULL) || (win_data==NULL)) return;
 #endif
 	win_data->open_url_with_ctrl_pressed = gtk_check_menu_item_get_active (GTK_CHECK_MENU_ITEM(menuitem_open_url_with_ctrl_pressed));
+	if (win_data->open_url_with_ctrl_pressed) win_data->disable_url_when_ctrl_pressed = FALSE;
+}
+
+void set_disable_url_when_ctrl_pressed(GtkWidget *menuitem_disable_url_when_ctrl_pressed, struct Window *win_data)
+{
+#ifdef DETAIL
+	g_debug("! Launch set_disable_url_when_ctrl_pressed() with win_data = %p", win_data);
+#endif
+#ifdef SAFEMODE
+	if ((menuitem_disable_url_when_ctrl_pressed==NULL) || (win_data==NULL)) return;
+#endif
+	win_data->disable_url_when_ctrl_pressed = gtk_check_menu_item_get_active (GTK_CHECK_MENU_ITEM(menuitem_disable_url_when_ctrl_pressed));
+	if (win_data->disable_url_when_ctrl_pressed) win_data->open_url_with_ctrl_pressed = FALSE;
+	// g_debug("set_disable_url_when_ctrl_pressed(): set win_data->disable_url_when_ctrl_pressed = %d", win_data->disable_url_when_ctrl_pressed);
 }
 
 void set_audible_bell(GtkWidget *menuitem_audible_bell, struct Window *win_data)
@@ -2421,7 +2441,7 @@ void apply_profile_from_file(const gchar *path, Apply_Profile_Type type)
 			// It will not call page_added()
 			// get_and_update_page_name(page_data, FALSE);
 
-			if (refresh_match) set_hyprelink(win_data, page_data);
+			if (refresh_match) set_hyperlink(win_data, page_data);
 		}
 
 		glong column=0, row=0;

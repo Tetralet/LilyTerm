@@ -180,7 +180,7 @@ void init_new_page(struct Window *win_data,
 	vte_terminal_search_set_wrap_around (VTE_TERMINAL(page_data->vte), TRUE);
 #endif
 
-	set_hyprelink(win_data, page_data);
+	set_hyperlink(win_data, page_data);
 	set_cursor_blink(win_data, page_data);
 
 	vte_terminal_set_allow_bold(VTE_TERMINAL(page_data->vte), win_data->allow_bold_text);
@@ -217,16 +217,18 @@ void set_cursor_blink(struct Window *win_data, struct Page *page_data)
 #endif
 }
 
-void set_hyprelink(struct Window *win_data, struct Page *page_data)
+void set_hyperlink(struct Window *win_data, struct Page *page_data)
 {
 #ifdef DETAIL
-	g_debug("! Launch set_hyprelink() with win_data = %p, page_data = %p", win_data, page_data);
+	g_debug("! Launch set_hyperlink() with win_data = %p, page_data = %p", win_data, page_data);
 #endif
 #ifdef SAFEMODE
 	if ((win_data==NULL) || (page_data==NULL) || (page_data->vte==NULL)) return;
 #endif
 	if (win_data->enable_hyperlink && win_data->enable_key_binding)
 	{
+		if (page_data->match_regex_setted) clean_hyperlink(win_data, page_data);
+
 		gint i;
 		for (i=0; i<COMMAND; i++)
 		{
@@ -235,7 +237,7 @@ void set_hyprelink(struct Window *win_data, struct Page *page_data)
 				match = command[i].match;
 
 			// gchar *regex_str = convert_escape_sequence_to_string(match);
-			// g_debug("set_hyprelink(): match = %s", regex_str);
+			// g_debug("set_hyperlink(): match = %s", regex_str);
 			// g_free(regex_str);
 
 #ifdef USE_NEW_VTE_MATCH_ADD_GREGEX
@@ -251,9 +253,26 @@ void set_hyprelink(struct Window *win_data, struct Page *page_data)
 							   page_data->tag[i],
 							   GDK_HAND2);
 		}
+		page_data->match_regex_setted = TRUE;
+		// g_debug("clean_hyperlink(): set page_data->match_regex_setted = %d", page_data->match_regex_setted);
 	}
 	else
-		vte_terminal_match_clear_all(VTE_TERMINAL(page_data->vte));
+		clean_hyperlink(win_data, page_data);
+}
+
+void clean_hyperlink(struct Window *win_data, struct Page *page_data)
+{
+#ifdef DETAIL
+	g_debug("! Launch clean_hyperlink() with win_data = %p, page_data = %p", win_data, page_data);
+#endif
+#ifdef SAFEMODE
+	if ((win_data==NULL) || (page_data==NULL) || (page_data->vte==NULL)) return;
+#endif
+	if (! page_data->match_regex_setted) return;
+
+	page_data->match_regex_setted = FALSE;
+	// g_debug("clean_hyperlink(): set page_data->match_regex_setted = %d", page_data->match_regex_setted);
+	vte_terminal_match_clear_all(VTE_TERMINAL(page_data->vte));
 }
 
 void set_vte_color(GtkWidget *vte, gboolean default_vte_color, GdkRGBA cursor_color, GdkRGBA color[COLOR], gboolean update_fg_only)
@@ -686,7 +705,7 @@ void apply_new_win_data_to_page (struct Window *win_data_orig,
 	init_monitor_cmdline_datas(win_data, page_data);
 
 	if (win_data_orig->enable_hyperlink != win_data->enable_hyperlink)
-		set_hyprelink(win_data, page_data);
+		set_hyperlink(win_data, page_data);
 
 // ---- the color used in vte ---- //
 	gboolean update_color = FALSE;
