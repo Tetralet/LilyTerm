@@ -1047,7 +1047,7 @@ void vte_grab_focus(GtkWidget *vte, gpointer user_data)
 #ifdef SAFEMODE
 	if (vte==NULL) return;
 #endif
-	// g_debug("vte = %p grub focus !", vte);
+	// g_debug("vte = %p grab focus !", vte);
 	struct Page *page_data = (struct Page *)g_object_get_data(G_OBJECT(vte), "Page_Data");
 #ifdef SAFEMODE
 	if (page_data==NULL) return;
@@ -1056,6 +1056,9 @@ void vte_grab_focus(GtkWidget *vte, gpointer user_data)
 #ifdef SAFEMODE
 	if (win_data==NULL) return;
 #endif
+	// restore match_regex first...
+	if (! page_data->match_regex_setted) set_hyperlink(win_data, page_data);
+
 	// g_debug("Get win_data = %p (page_data->window = %p) when vte grab focus!", win_data, page_data->window);
 
 	//if (win_data->lost_focus)

@@ -1114,6 +1114,10 @@ gboolean deal_key_press(GtkWidget *window, Key_Bindings type, struct Window *win
 #endif
 			total_page = gtk_notebook_get_n_pages(GTK_NOTEBOOK(win_data->notebook));
 	struct Page *page_data = (struct Page *)g_object_get_data(G_OBJECT(win_data->current_vte), "Page_Data");
+
+	// restore match_regex first...
+	if (! page_data->match_regex_setted) set_hyperlink(win_data, page_data);
+
 	switch (type)
 	{
 		case KEY_DISABLE_FUNCTION:
