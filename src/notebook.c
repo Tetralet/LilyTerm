@@ -1424,13 +1424,14 @@ gboolean vte_button_press(GtkWidget *vte, GdkEventButton *event, struct Page *pa
 								win_data->dim_window);
 #endif
 #ifdef USE_NEW_VTE_CURSOR_BLINKS_MODE
-		gboolean blinks;
+		gboolean blinks, blinks_original = win_data->cursor_blinks;
 		if (win_data->cursor_blinks ==0)
 			g_object_get(gtk_widget_get_settings(vte), "gtk-cursor-blink", &blinks, NULL);
 		else
 			blinks = (win_data->cursor_blinks==1) ? TRUE : FALSE;
 		// GTK_CHECK_MENU_ITEM(win_data->menuitem_cursor_blinks)->active = blinks;
 		gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM(win_data->menuitem_cursor_blinks), blinks);
+		win_data->cursor_blinks = blinks_original;
 #else
 		// GTK_CHECK_MENU_ITEM(win_data->menuitem_cursor_blinks)->active = win_data->cursor_blinks;
 		gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM(win_data->menuitem_cursor_blinks),

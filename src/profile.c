@@ -385,7 +385,7 @@ void init_window_parameters(struct Window *win_data)
 	win_data->transparent_window = 2;
 	win_data->window_opacity = 0.05;
 
-	win_data->dim_window = TRUE;
+	win_data->dim_window = FALSE;
 	win_data->window_opacity_inactive = 0.2;
 #endif
 	win_data->enable_key_binding = TRUE;
@@ -438,6 +438,7 @@ void init_window_parameters(struct Window *win_data)
 	// win_data->fg_color;
 	// win_data->fg_color_inactive;
 	// win_data->cursor_color;
+	dirty_gdk_color_parse (DEFAULT_CURSOR_COLOR, &(win_data->cursor_color));
 	// win_data->bg_color;
 	// win_data->color_theme_str;
 	// win_data->color_theme;
@@ -1811,10 +1812,9 @@ void get_user_settings(struct Window *win_data, const gchar *encoding)
 #ifdef ENABLE_RGBA
 	// g_debug("Got win_data->window_opacity_inactive = %1.3f", win_data->window_opacity_inactive);
 	if (win_data->window_opacity_inactive<-1)
-	{
-		win_data->dim_window = FALSE;
 		win_data->window_opacity_inactive = win_data->window_opacity;
-	}
+	else
+		win_data->dim_window = TRUE;
 #endif
 
 	if ((win_data->scrollback_lines == 0) && (win_data->show_scroll_bar == AUTOMATIC))
@@ -2393,6 +2393,7 @@ GString *save_user_settings(GtkWidget *widget, struct Window *win_data)
 		init_command();
 		init_user_command(win_data);
 		init_colors();
+		init_user_color(win_data, "");
 	}
 
 	gchar *lc_numeric = g_strdup((char*)g_getenv("LC_NUMERIC"));
