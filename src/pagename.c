@@ -414,17 +414,19 @@ gboolean get_and_update_page_name(struct Page *page_data, gboolean lost_focus)
 
 	g_free(page_data->page_name);
 	gchar *local_page_name = convert_str_to_utf8(page_name, page_data->encoding_str);
+	gchar *converted_page_name = convert_escape_sequence_to_string(local_page_name);
 #ifdef SAFEMODE
-	if (local_page_name == NULL)
+	if (converted_page_name == NULL)
 		page_data->page_name = page_name;
 	else
 	{
 #endif
 		g_free(page_name);
-		page_data->page_name = local_page_name;
+		page_data->page_name = converted_page_name;
 #ifdef SAFEMODE
 	}
 #endif
+	g_free(local_page_name);
 
 	gboolean return_value = FALSE;
 	// g_debug ("Launch update_page_name() in get_and_update_page_name()!!!");
