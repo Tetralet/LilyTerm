@@ -3791,7 +3791,7 @@ gboolean show_clipboard_dialog(Clipboard_Type type, struct Window *win_data,
 	{
 		// g_debug("'%s' have new line in it!", win_data->temp_data);
 		GtkResponseType response = dialog(NULL, dialog_type);
-		if ((response==GTK_RESPONSE_OK) || (response==GTK_RESPONSE_ACCEPT))
+		if ((response==GTK_RESPONSE_OK) || (response==GTK_RESPONSE_YES) || (response==GTK_RESPONSE_ACCEPT))
 		{
 			if (dialog_type == CONFIRM_TO_PASTE_TEXTS_TO_VTE_TERMINAL)
 			{
@@ -3808,6 +3808,61 @@ gboolean show_clipboard_dialog(Clipboard_Type type, struct Window *win_data,
 						g_free(new_clipboard_str);
 						g_strfreev(old_clipboard_strs);
 					}
+					else if (response==GTK_RESPONSE_YES)
+					{
+						// remove "\\\r" and "\\\n"
+						gchar *temp_clipboard_str = g_strdup(clipboard_str);
+						gint i=0, j=0;
+						while (clipboard_str[i])
+						{
+							if ((clipboard_str[i]=='\\') && ((clipboard_str[i+1]=='\n') || (clipboard_str[i+1]=='\r')))
+							{
+								i+=2;
+								if (clipboard_str[i]=='>') i++;
+							}
+							temp_clipboard_str[j]=clipboard_str[i];
+							i++;
+							j++;
+						}
+						temp_clipboard_str[j]='\0';
+						// g_debug ("show_clipboard_dialog(): temp_clipboard_str = %s", temp_clipboard_str);
+
+						// remove '\n' and '\r'
+						gchar **old_clipboard_strs = split_string(temp_clipboard_str, "\n\r", -1);
+						gchar *new_clipboard_str = convert_array_to_string(old_clipboard_strs, '\0');
+						// g_debug ("show_clipboard_dialog(): new_clipboard_str = %s", new_clipboard_str);
+
+						// join ' ' and '\t'
+						gchar *join_clipboard_str = g_strdup(new_clipboard_str);
+						i=0, j=0;
+						gint need_printed_space;
+						while (new_clipboard_str[i])
+						{
+							need_printed_space = 0;
+							while ((new_clipboard_str[i]==' ') || (new_clipboard_str[i]=='\t'))
+							{
+								need_printed_space = 1;
+								i++;
+							}
+							if (need_printed_space)
+							{
+								join_clipboard_str[j]=' ';
+								j++;
+							}
+							join_clipboard_str[j] = new_clipboard_str[i];
+							i++;
+							j++;
+						}
+						join_clipboard_str[j]='\0';
+						// g_debug ("show_clipboard_dialog(): join_clipboard_str = %s", join_clipboard_str);
+
+						// g_debug("Set clipboard to %s", join_clipboard_str);
+						gtk_clipboard_set_text(clipboard, join_clipboard_str, -1);
+						g_free(temp_clipboard_str);
+						g_free(new_clipboard_str);
+						g_free(join_clipboard_str);
+						g_strfreev(old_clipboard_strs);
+					}
 					switch (type)
 					{
 						case SELECTION_CLIPBOARD:
@@ -3822,7 +3877,9 @@ gboolean show_clipboard_dialog(Clipboard_Type type, struct Window *win_data,
 #endif
 							break;
 					}
-					if (response==GTK_RESPONSE_ACCEPT)
+
+					// recover the text in clipboard
+					if ((response==GTK_RESPONSE_ACCEPT) || (response==GTK_RESPONSE_YES))
 					{
 						// g_debug("Set clipboard to %s", clipboard_str);
 						gtk_clipboard_set_text(clipboard, clipboard_str, -1);

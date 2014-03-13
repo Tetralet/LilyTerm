@@ -17,7 +17,7 @@
 #	make data: compile po and $(BINARY).conf files.
 #
 # grep 'g_debug *( *" *[^\!@+\?-]' * | grep -v '\/\/'
-# ([cdfmnpw][aeior][naistgo][sltnucefpd].*\.c:[0-9]*)
+# (\(console\|dialog\|font\|main\|menu\|misc\|notebook\|pagename\|profile\|property\|window\).c:[0-9]*)
 # MANWIDTH=80 man data/lilyterm.1 | col -b > README
 
 include ../.default
