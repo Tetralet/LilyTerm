@@ -1377,7 +1377,7 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 			// <Strip and paste> Button
 			GtkWidget *strip_button = gtk_dialog_add_button (GTK_DIALOG(dialog_data->window),
 									_("Strip"), GTK_RESPONSE_YES);
-			gtk_widget_set_tooltip_text(strip_button, _("Remove '<Return>', \"\\<Return>\", and \"\\<Return><\" in the text, then join '<Tab>' and '<Space>' into a single '<Space>'"));
+			gtk_widget_set_tooltip_text(strip_button, _("Remove '<Return>', \"\\<Return>\", and \"\\<Return><<Space>\" in the text, then join '<Tab>' and '<Space>' into a single '<Space>'"));
 			gtk_button_set_image (GTK_BUTTON(strip_button),
 					      gtk_image_new_from_stock(GTK_STOCK_PASTE, GTK_ICON_SIZE_BUTTON));
 			gtk_button_box_set_child_secondary (GTK_BUTTON_BOX(gtk_dialog_get_action_area(GTK_DIALOG(dialog_data->window))),

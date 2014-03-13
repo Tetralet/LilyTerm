@@ -3818,7 +3818,23 @@ gboolean show_clipboard_dialog(Clipboard_Type type, struct Window *win_data,
 							if ((clipboard_str[i]=='\\') && ((clipboard_str[i+1]=='\n') || (clipboard_str[i+1]=='\r')))
 							{
 								i+=2;
-								if (clipboard_str[i]=='>') i++;
+								if (clipboard_str[i]=='>')
+								{
+									if (clipboard_str[i+1]==' ')
+									i+=2;
+								}
+							}
+							if ((clipboard_str[i]=='\n') || (clipboard_str[i]=='\r'))
+							{
+								if (clipboard_str[i+1])
+								{
+									if (clipboard_str[i+1]=='>' && clipboard_str[i+2]==' ')
+									{
+										temp_clipboard_str[j]=' ';
+										i+=2;
+										j++;
+									}
+								}
 							}
 							temp_clipboard_str[j]=clipboard_str[i];
 							i++;
