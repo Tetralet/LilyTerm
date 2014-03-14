@@ -3810,7 +3810,7 @@ gboolean show_clipboard_dialog(Clipboard_Type type, struct Window *win_data,
 					}
 					else if (response==GTK_RESPONSE_YES)
 					{
-						// remove "\\\r" and "\\\n"
+						// remove "\\\r" and "\\\n", and replease it with ' '
 						gchar *temp_clipboard_str = g_strdup(clipboard_str);
 						gint i=0, j=0;
 						while (clipboard_str[i])
@@ -3832,6 +3832,12 @@ gboolean show_clipboard_dialog(Clipboard_Type type, struct Window *win_data,
 									{
 										temp_clipboard_str[j]=' ';
 										i+=2;
+										j++;
+									}
+									else
+									{
+										temp_clipboard_str[j]=' ';
+										i++;
 										j++;
 									}
 								}
