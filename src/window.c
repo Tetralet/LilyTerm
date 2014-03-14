@@ -3860,16 +3860,22 @@ gboolean show_clipboard_dialog(Clipboard_Type type, struct Window *win_data,
 								need_printed_space = 1;
 								i++;
 							}
-							if (need_printed_space)
+							if (need_printed_space && (j!=0))
 							{
 								join_clipboard_str[j]=' ';
 								j++;
 							}
-							join_clipboard_str[j] = new_clipboard_str[i];
-							i++;
-							j++;
+							if (new_clipboard_str[i])
+							{
+								join_clipboard_str[j] = new_clipboard_str[i];
+								i++;
+								j++;
+							}
 						}
-						join_clipboard_str[j]='\0';
+						if (join_clipboard_str[j-1]==' ')
+							join_clipboard_str[j-1]='\0';
+						else
+							join_clipboard_str[j]='\0';
 						// g_debug ("show_clipboard_dialog(): join_clipboard_str = %s", join_clipboard_str);
 
 						// g_debug("Set clipboard to %s", join_clipboard_str);
