@@ -291,10 +291,10 @@ void init_user_command(struct Window *win_data)
 		if (win_data==NULL) return;
 #endif
 
-	win_data->user_command[TAG_WWW].command = g_strdup("firefox");
-	win_data->user_command[TAG_FTP].command = g_strdup("firefox");
-	win_data->user_command[TAG_FILE].command = g_strdup("firefox");
-	win_data->user_command[TAG_MAIL].command = g_strdup("thunderbird");
+	win_data->user_command[TAG_WWW].command = g_strdup("xdg-open");
+	win_data->user_command[TAG_FTP].command = g_strdup("xdg-open");
+	win_data->user_command[TAG_FILE].command = g_strdup("xdg-open");
+	win_data->user_command[TAG_MAIL].command = g_strdup("xdg-open");
 
 	gint i;
 
@@ -2794,7 +2794,7 @@ GString *save_user_settings(GtkWidget *widget, struct Window *win_data)
 					"# 0: Open the hyperlink in new tab.\n"
 					"#    Use it if the command were using CLI, like w3m.\n"
 					"# 1: Open the hyperlink with gdk_spawn_on_screen_with_pipes().\n"
-					"#    Use it if the command were using GUI, like firefox.\n"
+					"#    Use it if the command were using GUI, like chromium.\n"
 					"# 2: Open the hyperlink in new window,\n"
 					"#    Use it if you not sure.\n"
 					"#\n"
