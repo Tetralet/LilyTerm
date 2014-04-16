@@ -1,6 +1,5 @@
 BUG:
 
-the geometry of [Set key bindings] dialog
 the dialog of find text behavior strange.
 recheck the geometry of gtk2.
 the text of running command is wrapped?

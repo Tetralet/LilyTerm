@@ -21,6 +21,7 @@
 
 #include "dialog.h"
 #define TEMPSTR 6
+#define BORDER_SPACE 10
 
 extern GtkWidget *menu_active_window;
 extern struct ModKey modkeys[MOD];
@@ -937,6 +938,7 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 
 			GtkRequisition requisition;
 			gtk_widget_get_child_requisition (dialog_data->treeview, &requisition);
+			requisition.height += BORDER_SPACE;
 
 			GtkWidget *scrolled_window = gtk_scrolled_window_new (NULL, NULL);
 			gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (scrolled_window),
@@ -2506,7 +2508,7 @@ GtkWidget *create_frame_widget (struct Dialog *dialog_data, gchar *label,
 #endif
 	gtk_box_pack_start (GTK_BOX(dialog_data->box), frame, FALSE, FALSE, padding);
 	GtkWidget *vbox = dirty_gtk_vbox_new (FALSE, 15);
-	gtk_container_set_border_width (GTK_CONTAINER (vbox), 10);
+	gtk_container_set_border_width (GTK_CONTAINER (vbox), BORDER_SPACE);
 	gtk_container_add (GTK_CONTAINER (frame), vbox);
 	if (child) gtk_box_pack_start (GTK_BOX(vbox), child, FALSE, FALSE, 0);
 	return vbox;
