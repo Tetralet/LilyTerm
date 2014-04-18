@@ -438,7 +438,9 @@ void init_window_parameters(struct Window *win_data)
 	// win_data->fg_color;
 	// win_data->fg_color_inactive;
 	// win_data->cursor_color;
+#ifdef ENABLE_GDKCOLOR_TO_STRING
 	dirty_gdk_color_parse (DEFAULT_CURSOR_COLOR, &(win_data->cursor_color));
+#endif
 	// win_data->bg_color;
 	// win_data->color_theme_str;
 	// win_data->color_theme;
@@ -1704,6 +1706,7 @@ void get_user_settings(struct Window *win_data, const gchar *encoding)
 			win_data->invert_color = check_boolean_value(keyfile, "color", "invert_color", win_data->invert_color);
 			win_data->use_custom_theme = check_boolean_value(keyfile, "color", "custom_theme", win_data->use_custom_theme);
 
+#ifdef ENABLE_GDKCOLOR_TO_STRING
 			gchar *color_value;
 			for (i=1; i<COLOR-1; i++)
 			{
@@ -1731,7 +1734,7 @@ void get_user_settings(struct Window *win_data, const gchar *encoding)
 				}
 				g_free(color_value);
 			}
-
+#endif
 			win_data->color_brightness = check_double_value(keyfile,
 									"color",
 									"brightness",
@@ -1823,7 +1826,9 @@ void get_user_settings(struct Window *win_data, const gchar *encoding)
 	if (win_data->show_close_button_on_tab == 0) win_data->show_close_button_on_all_tabs = 0;
 	if (win_data->window_title_shows_current_page == 0) win_data->window_title_append_package_name = 0;
 
-	GdkRGBA fg_color, bg_color, cursor_color;
+	GdkRGBA fg_color, bg_color;
+#ifdef ENABLE_GDKCOLOR_TO_STRING
+	GdkRGBA cursor_color;
 
 	// g_debug("win_data->foreground_color = %s, win_data->background_color = %s, win_data->cursor_color_str = %s",
 	//	win_data->foreground_color, win_data->background_color, win_data->cursor_color_str);
@@ -1836,12 +1841,14 @@ void get_user_settings(struct Window *win_data, const gchar *encoding)
 	dirty_gdk_color_parse (DEFAULT_CURSOR_COLOR, &(cursor_color));
 	check_color_value ("cursor_color", cursor_color_str, &(win_data->cursor_color), &(cursor_color));
 	// print_color(-1, "Get cursor_color from profile:", win_data->cursor_color);
+#endif
 
 	g_free(fg_color_str);
 	g_free(bg_color_str);
 	g_free(color_theme_str);
 	g_free(cursor_color_str);
 
+#ifdef ENABLE_GDKCOLOR_TO_STRING
 	// if the fg_color == bg_color, revert to the default color.
 	if (! compare_color(&(fg_color), &(bg_color)))
 	{
@@ -1850,6 +1857,7 @@ void get_user_settings(struct Window *win_data, const gchar *encoding)
 		dirty_gdk_color_parse (DEFAULT_FOREGROUND_COLOR, &(fg_color));
 		dirty_gdk_color_parse (DEFAULT_BACKGROUND_COLOR, &(bg_color));
 	}
+#endif
 
 	// check if using custom fg_color
 	if (compare_color(&(fg_color), &(system_color_theme[win_data->color_theme_index].color[COLOR-1])))
@@ -1875,7 +1883,7 @@ void get_user_settings(struct Window *win_data, const gchar *encoding)
 
 	// print_color(-1, "get_user_settings(): win_data->fg_color : ", win_data->fg_color);
 	// print_color(-1, "get_user_settings(): win_data->bg_color", win_data->bg_color);
-
+#ifdef ENABLE_GDKCOLOR_TO_STRING
 	// check if win_data->cursor_color == win_data->bg_color
 	if ((win_data->invert_color && (compare_color(&(fg_color), &(win_data->cursor_color)) == FALSE)) ||
 	    ((win_data->invert_color == FALSE) && (compare_color(&(bg_color), &(win_data->cursor_color)) == FALSE)))
@@ -1883,7 +1891,7 @@ void get_user_settings(struct Window *win_data, const gchar *encoding)
 		// print_color (-1, "invild win_data->cursor_color", win_data->cursor_color);
 		dirty_gdk_color_parse (DEFAULT_CURSOR_COLOR, &(win_data->cursor_color));
 	}
-
+#endif
 	generate_all_color_datas(win_data);
 
 	// g_debug("get_user_settings(): win_data->VTE_CJK_WIDTH_STR = %s", win_data->VTE_CJK_WIDTH_STR);
@@ -2196,7 +2204,8 @@ gchar *check_string_value(GKeyFile *keyfile, const gchar *group_name, const gcha
 	return setting;
 }
 
-gboolean check_color_value (const gchar *key_name, const gchar *color_name, GdkRGBA *color, const GdkRGBA *default_color)
+#ifdef ENABLE_GDKCOLOR_TO_STRING
+gboolean check_color_value(const gchar *key_name, const gchar *color_name, GdkRGBA *color, const GdkRGBA *default_color)
 {
 #ifdef DETAIL
 	g_debug("! Launch check_color_value() with key_name = %s, color_name = %s, color = %p",
@@ -2230,6 +2239,7 @@ gboolean check_color_value (const gchar *key_name, const gchar *color_name, GdkR
 #endif
 	return FALSE;
 }
+#endif
 
 // return TRUE if 'key_name' is a valid key or NULL; or it will return FALSE.
 gboolean accelerator_parse (const gchar *key_name, const gchar *key_value, guint *key, guint *mods)
@@ -2944,7 +2954,7 @@ void create_save_failed_dialog(struct Window *win_data, gchar *message)
 	error_dialog(window,
 		     _("Error when writing profile"),
 		     "Error when writing profile",
-		     GTK_STOCK_DIALOG_ERROR,
+		     GTK_FAKE_STOCK_DIALOG_ERROR,
 		     temp_str[2],
 		     NULL);
 	gint i;
@@ -3093,7 +3103,7 @@ void check_profile_version (GKeyFile *keyfile, struct Window *win_data)
 		error_dialog(window,
 			     _("The format of your profile is out of date"),
 			     "The format of your profile is out of date",
-			     GTK_STOCK_DIALOG_INFO,
+			     GTK_FAKE_STOCK_DIALOG_INFO,
 			     temp_str[2],
 			     NULL);
 		gint i;
@@ -3132,7 +3142,7 @@ void profile_is_invalid_dialog(GError *error, struct Window *win_data)
 	error_dialog(win_data->window,
 		     _("The profile is invalid!"),
 		     "The profile is invalid!",
-		     GTK_STOCK_DIALOG_ERROR,
+		     GTK_FAKE_STOCK_DIALOG_ERROR,
 		     err_msg,
 		     NULL);
 	g_clear_error (&error);

@@ -114,7 +114,7 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 #endif
 			error_dialog(NULL, _("The following error occurred:"),
 				     "The following error occurred:",
-				     GTK_STOCK_DIALOG_ERROR, err_msg, NULL);
+				     GTK_FAKE_STOCK_DIALOG_ERROR, err_msg, NULL);
 		g_free(err_msg);
 		goto FINISH;
 	}
@@ -185,7 +185,7 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 				      FALSE,
 				      10,
 				      GTK_RESPONSE_OK,
-				      GTK_STOCK_DIALOG_INFO,
+				      GTK_FAKE_STOCK_DIALOG_INFO,
 				      NULL,
 				      selectable,
 				      0,
@@ -216,7 +216,7 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 				      FALSE,
 				      10,
 				      GTK_RESPONSE_OK,
-				      GTK_STOCK_FIND,
+				      GTK_FAKE_STOCK_FIND,
 				      NULL,
 				      selectable,
 				      0,
@@ -244,18 +244,18 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 			// print_color("win_data->find_entry_bg_color", win_data->find_entry_bg_color);
 
 			// gtk_entry_set_icon_from_stock (GTK_ENTRY (dialog_data->operate[0]),
-			//			       GTK_ENTRY_ICON_SECONDARY, GTK_STOCK_CLEAR);
+			//			       GTK_ENTRY_ICON_SECONDARY, GTK_FAKE_STOCK_CLEAR);
 
 			gtk_box_pack_start (GTK_BOX(hbox), dialog_data->operate[0], TRUE, TRUE, 0);
 
 			label = create_button_with_image(_("Find previous string"),
-							 GTK_STOCK_GO_UP,
+							 GTK_FAKE_STOCK_GO_UP,
 							 TRUE,
 							 (GSourceFunc)find_str,
 							 GINT_TO_POINTER(FIND_PREV));
 			gtk_box_pack_end (GTK_BOX(hbox), label, FALSE, FALSE, 0);
 			label = create_button_with_image(_("Find next string"),
-							 GTK_STOCK_GO_DOWN,
+							 GTK_FAKE_STOCK_GO_DOWN,
 							 TRUE,
 							 (GSourceFunc)find_str,
 							 GINT_TO_POINTER(FIND_NEXT));
@@ -319,7 +319,7 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 				      FALSE,
 				      10,
 				      GTK_RESPONSE_OK,
-				      GTK_STOCK_DIALOG_INFO,
+				      GTK_FAKE_STOCK_DIALOG_INFO,
 				      NULL,
 				      selectable,
 				      0,
@@ -344,24 +344,38 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 			gtk_box_pack_end (GTK_BOX(hbox), dialog_data->operate[1], FALSE, FALSE, 0);
 
 			// <Paste> and <Esc> Button
-			GtkWidget *paste_button = gtk_button_new_from_stock (GTK_STOCK_PASTE);
+#ifdef HAVE_GTK_DIALOG_GET_ACTION_AREA
+			GtkWidget *paste_button = gtk_button_new_from_stock (GTK_FAKE_STOCK_PASTE);
 			if (gtk_alternative_dialog_button_order(NULL))
 			{
 				gtk_box_pack_end (GTK_BOX(gtk_dialog_get_action_area(GTK_DIALOG(dialog_data->window))),
 						  paste_button, FALSE, FALSE, 0);
-				gtk_dialog_add_button (GTK_DIALOG(dialog_data->window), GTK_STOCK_QUIT, GTK_RESPONSE_CANCEL);
+				gtk_dialog_add_button (GTK_DIALOG(dialog_data->window), GTK_FAKE_STOCK_QUIT, GTK_RESPONSE_CANCEL);
 			}
 			else
 			{
-				gtk_dialog_add_button (GTK_DIALOG(dialog_data->window), GTK_STOCK_QUIT, GTK_RESPONSE_CANCEL);
+				gtk_dialog_add_button (GTK_DIALOG(dialog_data->window), GTK_FAKE_STOCK_QUIT, GTK_RESPONSE_CANCEL);
 				gtk_box_pack_end (GTK_BOX(gtk_dialog_get_action_area(GTK_DIALOG(dialog_data->window))),
 						  paste_button, FALSE, FALSE, 0);
 			}
+#else
+			GtkWidget *paste_button;
+			if (gtk_alternative_dialog_button_order(NULL))
+			{
+				gtk_dialog_add_button (GTK_DIALOG(dialog_data->window), GTK_FAKE_STOCK_QUIT, GTK_RESPONSE_CANCEL);
+				paste_button = gtk_dialog_add_button (GTK_DIALOG(dialog_data->window), GTK_FAKE_STOCK_PASTE, GTK_RESPONSE_OK);
+			}
+			else
+			{
+				paste_button = gtk_dialog_add_button (GTK_DIALOG(dialog_data->window), GTK_FAKE_STOCK_PASTE, GTK_RESPONSE_OK);
+				gtk_dialog_add_button (GTK_DIALOG(dialog_data->window), GTK_FAKE_STOCK_QUIT, GTK_RESPONSE_CANCEL);
+			}
+			gtk_dialog_set_response_sensitive(GTK_DIALOG(dialog_data->window), GTK_RESPONSE_OK, FALSE);
+#endif
 			g_signal_connect(G_OBJECT(paste_button), "clicked",
 					 G_CALLBACK(paste_text_to_vte_terminal), dialog_data);
-
 			// <Grab keys> Button
-			add_secondary_button(dialog_data->window, _("Grab keys"), GTK_RESPONSE_OK, GTK_STOCK_REFRESH);
+			add_secondary_button(dialog_data->window, _("Grab keys"), GTK_RESPONSE_OK, GTK_FAKE_STOCK_REFRESH);
 			break;
 		}
 		case PASTE_GRABBED_KEY_TO_EVERY_VTE_TERMINAL:
@@ -378,7 +392,7 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 				      FALSE,
 				      10,
 				      GTK_RESPONSE_CANCEL,
-				      GTK_STOCK_DIALOG_INFO,
+				      GTK_FAKE_STOCK_DIALOG_INFO,
 				      temp_str[0],
 				      selectable,
 				      0,
@@ -396,7 +410,7 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 					 G_CALLBACK(grab_key_press), dialog_data);
 
 			// <Switch> Button
-			add_secondary_button(dialog_data->window, _("Entry"), GTK_RESPONSE_OK, GTK_STOCK_REFRESH);
+			add_secondary_button(dialog_data->window, _("Entry"), GTK_RESPONSE_OK, GTK_FAKE_STOCK_REFRESH);
 			break;
 		}
 		case ADD_NEW_LOCALES:
@@ -409,7 +423,7 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 				      FALSE,
 				      10,
 				      GTK_RESPONSE_OK,
-				      GTK_STOCK_DIALOG_INFO,
+				      GTK_FAKE_STOCK_DIALOG_INFO,
 				      NULL,
 				      selectable,
 				      0,
@@ -452,7 +466,7 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 				      TRUE,
 				      10,
 				      GTK_RESPONSE_OK,
-				      GTK_STOCK_DIALOG_INFO,
+				      GTK_FAKE_STOCK_DIALOG_INFO,
 				      _("Change the Saturation of background:"),
 				      selectable,
 				      0,
@@ -816,7 +830,7 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 				      FALSE,
 				      10,
 				      GTK_RESPONSE_OK,
-				      GTK_STOCK_DIALOG_QUESTION,
+				      GTK_FAKE_STOCK_DIALOG_QUESTION,
 				      _("You are about to close multi tabs. Continue anyway?"),
 				      selectable,
 				      0,
@@ -924,13 +938,13 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 			g_signal_connect(G_OBJECT(dialog_data->window), "key-press-event",
 					 G_CALLBACK(deal_dialog_key_press), dialog_data);
 
-			dialog_data->operate[3] = create_button_with_image("", GTK_STOCK_CLOSE, FALSE,
+			dialog_data->operate[3] = create_button_with_image("", GTK_FAKE_STOCK_CLOSE, FALSE,
 								      (GSourceFunc)clear_key_group, dialog_data);
 			gtk_box_pack_end (GTK_BOX(dialog_data->box), dialog_data->operate[3], TRUE, TRUE, 0);
 			gtk_widget_set_no_show_all (dialog_data->operate[3], TRUE);
 
 			label = create_button_with_image(_("Disable all the function keys."),
-							 GTK_STOCK_CLOSE, FALSE, (GSourceFunc)clear_key_group_all, dialog_data);
+							 GTK_FAKE_STOCK_CLOSE, FALSE, (GSourceFunc)clear_key_group_all, dialog_data);
 			gtk_box_pack_end (GTK_BOX(dialog_data->box), label, TRUE, TRUE, 0);
 
 			// Trying to get correct size of dialog_data->treeview, then put it into a gtk_scrolled_window
@@ -990,11 +1004,11 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 			temp_str =_("Don't forget to save your settings after making any change!");
 			str[3] = convert_text_to_html (&temp_str, FALSE, "darkred", "tt", "b", NULL);
 			str[4] = g_strdup_printf("%s\n\n%s", str[2], str[3]);
-			dialog_data->operate[0] = add_text_to_notebook(notebook, _("Usage"), GTK_STOCK_HELP, str[4]);
+			dialog_data->operate[0] = add_text_to_notebook(notebook, _("Usage"), GTK_FAKE_STOCK_HELP, str[4]);
 
 			// Shortcut Keys
 			str[5] = get_help_message_key_binding(TRUE);
-			dialog_data->operate[1] = add_text_to_notebook(notebook, _("Key binding"), GTK_STOCK_PREFERENCES, str[5]);
+			dialog_data->operate[1] = add_text_to_notebook(notebook, _("Key binding"), GTK_FAKE_STOCK_PREFERENCES, str[5]);
 
 			// License
 			// TRANSLATE NOTE: The following license declaration is just a notice, not full license text.
@@ -1015,7 +1029,7 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 						   "along with %s.  If not, see <http://www.gnu.org/licenses/>."),
 						   "2008", YEAR, AUTHOR, PACKAGE, PACKAGE, PACKAGE);
 			str[7] = convert_text_to_html(&str[6], FALSE, NULL, "tt", NULL);
-			dialog_data->operate[2] = add_text_to_notebook(notebook, _("License"), GTK_STOCK_DIALOG_AUTHENTICATION, str[7]);
+			dialog_data->operate[2] = add_text_to_notebook(notebook, _("License"), GTK_FAKE_STOCK_DIALOG_AUTHENTICATION, str[7]);
 
 			// Translators
 			temp_str = "Adrian Buyssens: Flemish/Dutch translation.\n"
@@ -1030,7 +1044,7 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 				   "Slavko: Slovak translation.\n"
 				   "Vladimir Smolyar: Russian and Ukrainian translations.";
 			str[8] = convert_text_to_html(&temp_str, FALSE, NULL, "tt", NULL);
-			dialog_data->operate[3] = add_text_to_notebook(notebook, _("Translators"), GTK_STOCK_CONVERT, str[8]);
+			dialog_data->operate[3] = add_text_to_notebook(notebook, _("Translators"), GTK_FAKE_STOCK_CONVERT, str[8]);
 
 			// About
 			// TRANSLATE NOTE: Please be care of the spacing when translating the following site informatoins.
@@ -1047,7 +1061,7 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 						   AUTHOR, BUGREPORT, str[9] ,str[10], str[13],
 						   str[14], str[15]);
 			str[17] = convert_text_to_html(&str[16], FALSE, NULL, "tt", NULL);
-			dialog_data->operate[4] = add_text_to_notebook(notebook, _("About"), GTK_STOCK_ABOUT, str[17]);
+			dialog_data->operate[4] = add_text_to_notebook(notebook, _("About"), GTK_FAKE_STOCK_ABOUT, str[17]);
 
 			show_usage_text(notebook, NULL, 0, dialog_data);
 			g_signal_connect(G_OBJECT(notebook), "switch-page", G_CALLBACK(show_usage_text), dialog_data);
@@ -1091,7 +1105,7 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 				      FALSE,
 				      10,
 				      GTK_RESPONSE_OK,
-				      GTK_STOCK_DIALOG_QUESTION,
+				      GTK_FAKE_STOCK_DIALOG_QUESTION,
 				      temp_str[5],
 				      selectable,
 				      70,
@@ -1137,7 +1151,7 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 				      TRUE,
 				      10,
 				      GTK_RESPONSE_OK,
-				      GTK_STOCK_DIALOG_INFO,
+				      GTK_FAKE_STOCK_DIALOG_INFO,
 				      text,
 				      selectable,
 				      0,
@@ -1194,7 +1208,7 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 				      TRUE,
 				      10,
 				      GTK_RESPONSE_OK,
-				      GTK_STOCK_DIALOG_INFO,
+				      GTK_FAKE_STOCK_DIALOG_INFO,
 				      title[0],
 				      selectable,
 				      0,
@@ -1233,7 +1247,7 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 				      FALSE,
 				      10,
 				      GTK_RESPONSE_CANCEL,
-				      GTK_STOCK_DIALOG_WARNING,
+				      GTK_FAKE_STOCK_DIALOG_WARNING,
 				      temp_str[1],
 				      FALSE,
 				      70,
@@ -1270,7 +1284,7 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 				      FALSE,
 				      10,
 				      GTK_RESPONSE_CANCEL,
-				      GTK_STOCK_DIALOG_QUESTION,
+				      GTK_FAKE_STOCK_DIALOG_QUESTION,
 				      temp_str[3],
 				      TRUE,
 				      70,
@@ -1300,7 +1314,7 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 				      FALSE,
 				      10,
 				      GTK_RESPONSE_CANCEL,
-				      GTK_STOCK_DIALOG_QUESTION,
+				      GTK_FAKE_STOCK_DIALOG_QUESTION,
 				      temp_str[1],
 				      selectable,
 				      70,
@@ -1333,7 +1347,7 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 				      FALSE,
 				      10,
 				      GTK_RESPONSE_CANCEL,
-				      GTK_STOCK_DIALOG_QUESTION,
+				      GTK_FAKE_STOCK_DIALOG_QUESTION,
 				      temp_str[4],
 				      selectable,
 				      70,
@@ -1359,7 +1373,7 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 				      FALSE,
 				      10,
 				      GTK_RESPONSE_OK,
-				      GTK_STOCK_DIALOG_QUESTION,
+				      GTK_FAKE_STOCK_DIALOG_QUESTION,
 				      temp_str[0],
 				      selectable,
 				      70,
@@ -1370,20 +1384,28 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 			// <Join and paste> Button
 			GtkWidget *join_button = gtk_dialog_add_button (GTK_DIALOG(dialog_data->window),
 									_("Join"), GTK_RESPONSE_ACCEPT);
+#ifdef ENABLE_SET_TOOLTIP_TEXT
 			gtk_widget_set_tooltip_text(join_button, _("Remove '<Return>' in the text"));
+#endif
 			gtk_button_set_image (GTK_BUTTON(join_button),
-					      gtk_image_new_from_stock(GTK_STOCK_PASTE, GTK_ICON_SIZE_BUTTON));
+					      gtk_image_new_from_stock(GTK_FAKE_STOCK_PASTE, GTK_ICON_SIZE_BUTTON));
+#ifdef HAVE_GTK_DIALOG_GET_ACTION_AREA
 			gtk_button_box_set_child_secondary (GTK_BUTTON_BOX(gtk_dialog_get_action_area(GTK_DIALOG(dialog_data->window))),
 							    join_button, TRUE);
+#endif
 
 			// <Strip and paste> Button
 			GtkWidget *strip_button = gtk_dialog_add_button (GTK_DIALOG(dialog_data->window),
 									_("Strip"), GTK_RESPONSE_YES);
+#ifdef ENABLE_SET_TOOLTIP_TEXT
 			gtk_widget_set_tooltip_text(strip_button, _("Remove '<Return>', \"\\<Return>\", and \"\\<Return><<Space>\" in the text, then join '<Tab>' and '<Space>' into a single '<Space>'"));
+#endif
 			gtk_button_set_image (GTK_BUTTON(strip_button),
-					      gtk_image_new_from_stock(GTK_STOCK_PASTE, GTK_ICON_SIZE_BUTTON));
+					      gtk_image_new_from_stock(GTK_FAKE_STOCK_PASTE, GTK_ICON_SIZE_BUTTON));
+#ifdef HAVE_GTK_DIALOG_GET_ACTION_AREA
 			gtk_button_box_set_child_secondary (GTK_BUTTON_BOX(gtk_dialog_get_action_area(GTK_DIALOG(dialog_data->window))),
 							    strip_button, TRUE);
+#endif
 			break;
 		case GENERAL_INFO:
 		{
@@ -2200,7 +2222,9 @@ GtkWidget *add_secondary_button(GtkWidget *dialog, const gchar *text, gint respo
 	if (stock_id)
 		gtk_button_set_image (GTK_BUTTON(button),
 				      gtk_image_new_from_stock(stock_id, GTK_ICON_SIZE_BUTTON));
+#ifdef HAVE_GTK_DIALOG_GET_ACTION_AREA
 	gtk_button_box_set_child_secondary (GTK_BUTTON_BOX(gtk_dialog_get_action_area(GTK_DIALOG(dialog))), button, TRUE);
+#endif
 	return button;
 }
 
@@ -3175,7 +3199,7 @@ void create_invalid_locale_error_message(gchar *locale)
 					   "Please close all the windows of %s and try again."),
 					   color_locale, PACKAGE);
 	error_dialog(NULL, _("Not supported locale!"), "Not supported locale!",
-		     GTK_STOCK_DIALOG_WARNING, err_msg, NULL);
+		     GTK_FAKE_STOCK_DIALOG_WARNING, err_msg, NULL);
 	g_free(color_locale);
 	g_free(err_msg);
 }
@@ -3234,7 +3258,7 @@ void print_switch_out_of_range_error_dialog(gchar *function, gchar *var, gint va
 #endif
 		error_dialog(NULL, _("The following error occurred:"),
 			     "The following error occurred:",
-			     GTK_STOCK_DIALOG_ERROR, err_msg, NULL);
+			     GTK_FAKE_STOCK_DIALOG_ERROR, err_msg, NULL);
 	g_free(err_msg);
 }
 #endif
@@ -3246,7 +3270,7 @@ gboolean upgrade_dialog(gchar *version_str)
 #endif
 	gchar *err_msg = g_strdup_printf(_("You should upgrade to %s and recompile %s to support this feature."), version_str, PACKAGE);
 	error_dialog(NULL, _("Not supported feature!"), "Not supported feature!",
-		     GTK_STOCK_DIALOG_WARNING, err_msg, NULL);
+		     GTK_FAKE_STOCK_DIALOG_WARNING, err_msg, NULL);
 	g_free(err_msg);
 	return FALSE;
 }
@@ -3652,7 +3676,7 @@ void create_dialog(gchar *dialog_title_translation, gchar *dialog_title,  Dialog
 								      GTK_DIALOG_NO_SEPARATOR |
 #endif
 									GTK_DIALOG_DESTROY_WITH_PARENT,
-								      GTK_STOCK_OK,
+								      GTK_FAKE_STOCK_OK,
 								      GTK_RESPONSE_OK,
 								      NULL);
 			break;
@@ -3664,9 +3688,9 @@ void create_dialog(gchar *dialog_title_translation, gchar *dialog_title,  Dialog
 									      GTK_DIALOG_NO_SEPARATOR |
 #endif
 										GTK_DIALOG_DESTROY_WITH_PARENT,
-									      GTK_STOCK_OK,
+									      GTK_FAKE_STOCK_OK,
 									      GTK_RESPONSE_OK,
-									      GTK_STOCK_CANCEL,
+									      GTK_FAKE_STOCK_CANCEL,
 									      GTK_RESPONSE_CANCEL,
 									      NULL);
 			else
@@ -3676,9 +3700,9 @@ void create_dialog(gchar *dialog_title_translation, gchar *dialog_title,  Dialog
 									      GTK_DIALOG_NO_SEPARATOR |
 #endif
 										GTK_DIALOG_DESTROY_WITH_PARENT,
-									      GTK_STOCK_CANCEL,
+									      GTK_FAKE_STOCK_CANCEL,
 									      GTK_RESPONSE_CANCEL,
-									      GTK_STOCK_OK,
+									      GTK_FAKE_STOCK_OK,
 									      GTK_RESPONSE_OK,
 									      NULL);
 			break;
@@ -3689,7 +3713,7 @@ void create_dialog(gchar *dialog_title_translation, gchar *dialog_title,  Dialog
 								      GTK_DIALOG_NO_SEPARATOR |
 #endif
 									GTK_DIALOG_DESTROY_WITH_PARENT,
-								      GTK_STOCK_QUIT,
+								      GTK_FAKE_STOCK_QUIT,
 								      GTK_RESPONSE_CANCEL,
 								      NULL);
 			break;

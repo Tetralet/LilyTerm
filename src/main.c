@@ -650,7 +650,7 @@ gboolean read_socket(GIOChannel *channel, GIOCondition condition, gpointer user_
 			error_dialog(NULL,
 				     _("The format of socket data is out of date"),
 				     "The format of socket data is out of date",
-				     GTK_STOCK_DIALOG_ERROR,
+				     GTK_FAKE_STOCK_DIALOG_ERROR,
 				     message,
 				     NULL);
 			g_free(message);

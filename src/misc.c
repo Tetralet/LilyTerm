@@ -20,6 +20,15 @@
 #include "misc.h"
 extern gboolean proc_exist;
 
+#ifdef USE_GTK_ALT_DIALOG_BUTTON_ORDER
+gboolean gtk_alt_dialog_button_order()
+{
+	gboolean result;
+	g_object_get (gtk_settings_get_default(), "gtk-alternative-button-order", &result, NULL);
+	return result;
+}
+#endif
+
 // The returned string should be freed when no longer needed.
 gchar *convert_array_to_string(gchar **array, gchar separator)
 {
@@ -756,15 +765,17 @@ GdkColor convert_rgba_to_color(GdkRGBA rgba)
 	return color;
 }
 
+#ifdef ENABLE_GDKCOLOR_TO_STRING
 // The returned string should be freed when no longer needed.
 gchar *dirty_gdk_rgba_to_string(GdkRGBA *rgba)
 {
-#ifdef USE_GDK_RGBA
+#  ifdef USE_GDK_RGBA
 	return g_strdup_printf("#%04x%04x%04x", (unsigned int)(rgba->red*0xFFFF), (unsigned int)(rgba->green*0xFFFF), (unsigned int)(rgba->blue*0xFFFF));
-#else
+#  else
 	return gdk_color_to_string(rgba);
-#endif
+#  endif
 }
+#endif
 
 #if defined(GEOMETRY) || defined(UNIT_TEST)
 void widget_size_allocate (GtkWidget *widget, GtkAllocation *allocation, gchar *name)

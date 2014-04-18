@@ -418,7 +418,7 @@ struct Page *add_page(struct Window *win_data,
 #endif
 	page_data->label_button = gtk_button_new();
 	set_widget_thickness(page_data->label_button, 0);
-	GtkWidget *image = gtk_image_new_from_stock(GTK_STOCK_CLOSE, GTK_ICON_SIZE_MENU);
+	GtkWidget *image = gtk_image_new_from_stock(GTK_FAKE_STOCK_CLOSE, GTK_ICON_SIZE_MENU);
 	// gtk_button_set_image(GTK_BUTTON(page_data->label_button), image);
 	gtk_container_add(GTK_CONTAINER(page_data->label_button), image);
 	gtk_button_set_relief(GTK_BUTTON(page_data->label_button), GTK_RELIEF_NONE);
@@ -738,7 +738,7 @@ void create_child_process_failed_dialog(struct Window *win_data, gchar *message,
 	error_dialog(window,
 		     _("Error when creating child process"),
 		     "Error when creating child process",
-		     GTK_STOCK_DIALOG_ERROR,
+		     GTK_FAKE_STOCK_DIALOG_ERROR,
 		     temp_str[2],
 		     NULL);
 	if (temp_str[1]) g_free(temp_str[2]);

@@ -148,7 +148,7 @@
 	#define ENABLE_MOUSE_SCROLL
 #else
 	// SINCE: gtk+-2.13.0/gtk/gtkstock.h: #define GTK_STOCK_PAGE_SETUP "gtk-page-setup"
-	#define GTK_STOCK_PAGE_SETUP GTK_STOCK_INDEX
+	#define GTK_FAKE_STOCK_PAGE_SETUP GTK_STOCK_INDEX
 #endif
 #if GTK_CHECK_VERSION(2,13,4)
 	// SINCE: gtk+-2.13.4/gtk/gtkwidget.h: gtk_widget_get_allocation()
@@ -158,6 +158,8 @@
 	#define gtk_dialog_get_content_area(x) x->vbox
 	// SINCE: gtk+-2.13.4/gtk/gtkdialog.h: gtk_dialog_get_action_area()
 	#define gtk_dialog_get_action_area(x) x->action_area
+	// SINCE: gtk+-2.13.4/gtk/gtkwidget.h: gtk_widget_get_window
+	#define gtk_widget_get_window(x) x->window
 #endif
 #if ! GTK_CHECK_VERSION(2,15,0)
 	// SINCE: gtk+-2.15.0/gtk/gtkmenuitem.h: gtk_menu_item_set_label()
@@ -280,7 +282,119 @@
 	// END: gtk+-3.8.0/gtk/gtkwindow.h: GDK_DEPRECATED_IN_3_8_FOR(gtk_widget_set_opacity)
 	#define gtk_window_set_opacity(x,y) gtk_widget_set_opacity(GTK_WIDGET(x),y)
 #endif
-
+#if GTK_CHECK_VERSION(3,9,0)
+	// END: gtk+-3.9.0/gdk/gdkmain.h: GDK_DEPRECATED_IN_3_8_FOR(gdk_display_get_name(gdk_display_get_default())) gdk_get_display()
+	#define gdk_get_display() g_strdup(gdk_display_get_name(gdk_display_get_default()))
+#endif
+#if GTK_CHECK_VERSION(3,9,8)
+	// END: gtk+-3.9.8/gtk/gtkbutton.h: GDK_DEPRECATED_IN_3_10_FOR(gtk_button_new_with_label) gtk_button_new_from_stock()
+	#define gtk_button_new_from_stock(x) gtk_button_new_from_icon_name(x,GTK_ICON_SIZE_BUTTON)
+	// END: gtk+-3.9.8/gtk/gtkimage.h: GDK_DEPRECATED_IN_3_10_FOR(gtk_image_new_from_icon_name) gtk_image_new_from_stock()
+	#define gtk_image_new_from_stock gtk_image_new_from_icon_name
+	// END: gtk+-3.9.8/gtk/gtkimagemenuitem.h: GDK_DEPRECATED_IN_3_10_FOR(gtk_menu_item_new_with_label) gtk_image_menu_item_new_with_label()
+	#define gtk_image_menu_item_new_with_label gtk_menu_item_new_with_label
+	// END: gtk+-3.9.8/gtk/gtkimagemenuitem.h: GDK_DEPRECATED_IN_3_10 gtk_image_menu_item_set_image()
+	#define gtk_image_menu_item_set_image(a,b) NULL
+#endif
+#if GTK_CHECK_VERSION(3,9,10)
+	#define	 GTK_FAKE_STOCK_ABOUT			"gtk-about"
+	#define	 GTK_FAKE_STOCK_ADD			"gtk-add"
+	#define	 GTK_FAKE_STOCK_APPLY			"gtk-apply"
+	#define	 GTK_FAKE_STOCK_CANCEL			"gtk-cancel"
+	#define	 GTK_FAKE_STOCK_CLEAR			"gtk-clear"
+	#define	 GTK_FAKE_STOCK_CLOSE			"gtk-close"
+	#define	 GTK_FAKE_STOCK_CONVERT			"gtk-convert"
+	#define	 GTK_FAKE_STOCK_COPY			"gtk-copy"
+	#define	 GTK_FAKE_STOCK_DIALOG_AUTHENTICATION	"gtk-dialog-authentication"
+	#define	 GTK_FAKE_STOCK_DIALOG_INFO		"gtk-dialog-info"
+	#define	 GTK_FAKE_STOCK_DIALOG_WARNING		"gtk-dialog-warning"
+	#define	 GTK_FAKE_STOCK_DIALOG_ERROR		"gtk-dialog-error"
+	#define	 GTK_FAKE_STOCK_DIALOG_QUESTION		"gtk-dialog-question"
+	#define	 GTK_FAKE_STOCK_DND			"gtk-dnd"
+	#define	 GTK_FAKE_STOCK_DND_MULTIPLE		"gtk-dnd-multiple"
+	#define	 GTK_FAKE_STOCK_EDIT			"gtk-edit"
+	#define	 GTK_FAKE_STOCK_EXECUTE			"gtk-execute"
+	#define	 GTK_FAKE_STOCK_FILE			"gtk-file"
+	#define	 GTK_FAKE_STOCK_FIND			"gtk-find"
+	#define	 GTK_FAKE_STOCK_GOTO_BOTTOM		"gtk-goto-bottom"
+	#define	 GTK_FAKE_STOCK_GOTO_TOP		"gtk-goto-top"
+	#define	 GTK_FAKE_STOCK_GO_BACK			"gtk-go-back"
+	#define	 GTK_FAKE_STOCK_GO_DOWN			"gtk-go-down"
+	#define	 GTK_FAKE_STOCK_GO_UP			"gtk-go-up"
+	#define	 GTK_FAKE_STOCK_HELP			"gtk-help"
+	#define	 GTK_FAKE_STOCK_INDEX			"gtk-index"
+	#define	 GTK_FAKE_STOCK_NEW			"gtk-new"
+	#define	 GTK_FAKE_STOCK_OK			"gtk-ok"
+	#define	 GTK_FAKE_STOCK_OPEN			"gtk-open"
+	#define	 GTK_FAKE_STOCK_PAGE_SETUP		"gtk-page-setup"
+	#define	 GTK_FAKE_STOCK_PASTE			"gtk-paste"
+	#define	 GTK_FAKE_STOCK_PREFERENCES		"gtk-preferences"
+	#define	 GTK_FAKE_STOCK_PROPERTIES		"gtk-properties"
+	#define	 GTK_FAKE_STOCK_QUIT			"gtk-quit"
+	#define	 GTK_FAKE_STOCK_REFRESH			"gtk-refresh"
+	#define	 GTK_FAKE_STOCK_REVERT_TO_SAVED		"gtk-revert-to-saved"
+	#define	 GTK_FAKE_STOCK_SAVE			"gtk-save"
+	#define	 GTK_FAKE_STOCK_SAVE_AS			"gtk-save-as"
+	#define	 GTK_FAKE_STOCK_SELECT_COLOR		"gtk-select-color"
+	#define	 GTK_FAKE_STOCK_SELECT_FONT		"gtk-select-font"
+	#define	 GTK_FAKE_STOCK_ZOOM_100		"gtk-zoom-100"
+	#define	 GTK_FAKE_STOCK_ZOOM_IN			"gtk-zoom-in"
+	#define	 GTK_FAKE_STOCK_ZOOM_OUT		"gtk-zoom-out"
+#else
+	#define GTK_FAKE_STOCK_ABOUT			GTK_STOCK_ABOUT
+	#define GTK_FAKE_STOCK_ADD			GTK_STOCK_ADD
+	#define GTK_FAKE_STOCK_APPLY			GTK_STOCK_APPLY
+	#define GTK_FAKE_STOCK_CANCEL			GTK_STOCK_CANCEL
+	#define GTK_FAKE_STOCK_CLEAR			GTK_STOCK_CLEAR
+	#define GTK_FAKE_STOCK_CLOSE			GTK_STOCK_CLOSE
+	#define GTK_FAKE_STOCK_CONVERT			GTK_STOCK_CONVERT
+	#define GTK_FAKE_STOCK_COPY			GTK_STOCK_COPY
+	#define GTK_FAKE_STOCK_DIALOG_AUTHENTICATION	GTK_STOCK_DIALOG_AUTHENTICATION
+	#define GTK_FAKE_STOCK_DIALOG_ERROR		GTK_STOCK_DIALOG_ERROR
+	#define GTK_FAKE_STOCK_DIALOG_INFO		GTK_STOCK_DIALOG_INFO
+	#define GTK_FAKE_STOCK_DIALOG_QUESTION		GTK_STOCK_DIALOG_QUESTION
+	#define GTK_FAKE_STOCK_DIALOG_WARNING		GTK_STOCK_DIALOG_WARNING
+	#define GTK_FAKE_STOCK_DND			GTK_STOCK_DND
+	#define GTK_FAKE_STOCK_DND_MULTIPLE		GTK_STOCK_DND_MULTIPLE
+	#define GTK_FAKE_STOCK_EDIT			GTK_STOCK_EDIT
+	#define GTK_FAKE_STOCK_EXECUTE			GTK_STOCK_EXECUTE
+	#define GTK_FAKE_STOCK_FILE			GTK_STOCK_FILE
+	#define GTK_FAKE_STOCK_FIND			GTK_STOCK_FIND
+	#define GTK_FAKE_STOCK_GO_BACK			GTK_STOCK_GO_BACK
+	#define GTK_FAKE_STOCK_GO_DOWN			GTK_STOCK_GO_DOWN
+	#define GTK_FAKE_STOCK_GOTO_BOTTOM		GTK_STOCK_GOTO_BOTTOM
+	#define GTK_FAKE_STOCK_GOTO_TOP			GTK_STOCK_GOTO_TOP
+	#define GTK_FAKE_STOCK_GO_UP			GTK_STOCK_GO_UP
+	#define GTK_FAKE_STOCK_HELP			GTK_STOCK_HELP
+	#define GTK_FAKE_STOCK_INDEX			GTK_STOCK_INDEX
+	#define GTK_FAKE_STOCK_NEW			GTK_STOCK_NEW
+	#define GTK_FAKE_STOCK_OK			GTK_STOCK_OK
+	#define GTK_FAKE_STOCK_OPEN			GTK_STOCK_OPEN
+#ifndef GTK_FAKE_STOCK_PAGE_SETUP
+	#define GTK_FAKE_STOCK_PAGE_SETUP		GTK_STOCK_PAGE_SETUP
+#endif
+	#define GTK_FAKE_STOCK_PASTE			GTK_STOCK_PASTE
+	#define GTK_FAKE_STOCK_PREFERENCES		GTK_STOCK_PREFERENCES
+	#define GTK_FAKE_STOCK_PROPERTIES		GTK_STOCK_PROPERTIES
+	#define GTK_FAKE_STOCK_QUIT			GTK_STOCK_QUIT
+	#define GTK_FAKE_STOCK_REFRESH			GTK_STOCK_REFRESH
+	#define GTK_FAKE_STOCK_REVERT_TO_SAVED		GTK_STOCK_REVERT_TO_SAVED
+	#define GTK_FAKE_STOCK_SAVE			GTK_STOCK_SAVE
+	#define GTK_FAKE_STOCK_SAVE_AS			GTK_STOCK_SAVE_AS
+	#define GTK_FAKE_STOCK_SELECT_COLOR		GTK_STOCK_SELECT_COLOR
+	#define GTK_FAKE_STOCK_SELECT_FONT		GTK_STOCK_SELECT_FONT
+	#define GTK_FAKE_STOCK_ZOOM_100			GTK_STOCK_ZOOM_100
+	#define GTK_FAKE_STOCK_ZOOM_IN			GTK_STOCK_ZOOM_IN
+	#define GTK_FAKE_STOCK_ZOOM_OUT			GTK_STOCK_ZOOM_OUT
+#endif
+#if GTK_CHECK_VERSION(3,11,5)
+	// END: gtk+-3.11.5/gtk/gtkdialog.h GDK_DEPRECATED_IN_3_10: gtk_alternative_dialog_button_order()
+	#define USE_GTK_ALT_DIALOG_BUTTON_ORDER
+	#define gtk_alternative_dialog_button_order(x) gtk_alt_dialog_button_order()
+#else
+	// END: gtk+-3.11.5/gtk/gtkdialog.h: GDK_DEPRECATED_IN_3_10 gtk_dialog_get_action_area()
+	#define HAVE_GTK_DIALOG_GET_ACTION_AREA
+#endif
 #if ! GLIB_CHECK_VERSION(2,13,0)
 	// SINCE: glib-2.13.0/glib/gmain.h: g_timeout_add_seconds()
 	#define g_timeout_add_seconds(x,y,z) g_timeout_add(x*1000,y,z);

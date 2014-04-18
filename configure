@@ -211,7 +211,8 @@ if [ $? != 0 ]; then
       PACKAGE_MESSAGE "libgtk2.0-dev/libgtk-3-dev"
       exit 1
     else
-      INFO "[OK]\n"
+      INFO "[OK] "
+      WARN "(NOT RECOMMEND)\n"
     fi
   else
     if [ "$GTK" = "gtk+-2.0" ]; then

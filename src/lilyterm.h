@@ -30,6 +30,9 @@ typedef gchar StrLists;
 // **************************** misc.c ****************************
 //
 
+#ifdef USE_GTK_ALT_DIALOG_BUTTON_ORDER
+gboolean gtk_alt_dialog_button_order();
+#endif
 gchar *convert_array_to_string(gchar **array, gchar separator);
 gchar *convert_str_to_utf8(gchar *string, gchar *encoding_str);
 gchar *convert_escape_sequence_to_string(const gchar *string);
@@ -50,10 +53,12 @@ gchar **get_pid_stat(pid_t pid, gint max_tokens);
 gchar *convert_text_to_html(StrAddr **text, gboolean free_text, gchar *color, StrLists *tag, ...);
 gchar *join_strings_to_string(const gchar separator, const gint total, const StrLists *string, ...);
 gchar *colorful_max_new_lines(gchar *string, gint max, gint output_line);
+#ifdef ENABLE_RGBA
 GdkRGBA convert_color_to_rgba(GdkColor color);
 GdkColor convert_rgba_to_color(GdkRGBA rgba);
 gchar *dirty_gdk_rgba_to_string(GdkRGBA *rgba);
 gboolean dirty_gdk_color_parse(const gchar *spec, GdkRGBA *color);
+#endif
 GtkWidget *dirty_gtk_vbox_new(gboolean homogeneous, gint spacing);
 GtkWidget *dirty_gtk_hbox_new(gboolean homogeneous, gint spacing);
 #if defined(ENABLE_VTE_BACKGROUND) || defined(FORCE_ENABLE_VTE_BACKGROUND)
