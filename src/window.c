@@ -3466,6 +3466,7 @@ gboolean hide_and_show_tabs_bar(struct Window *win_data , Switch_Type show_tabs_
 	if ((win_data==NULL) || (win_data->notebook==NULL)) return FALSE;
 #endif
 	gboolean show = get_hide_or_show_tabs_bar(win_data, show_tabs_bar);
+	// g_debug("hide_and_show_tabs_bar: show = %d", show);
 	if (show == gtk_notebook_get_show_tabs(GTK_NOTEBOOK(win_data->notebook))) return FALSE;
 
 	// win_data->keep_vte_size |= 6;
@@ -3535,6 +3536,7 @@ gboolean get_hide_or_show_tabs_bar(struct Window *win_data, Switch_Type show_tab
 #endif
 
 	gboolean show = gtk_notebook_get_show_tabs(GTK_NOTEBOOK(win_data->notebook));
+	// g_debug("get_hide_or_show_tabs_bar: show = %d, win_data->window_status = %d", show, win_data->window_status);
 	switch (show_tabs_bar)
 	{
 		case AUTOMATIC:
@@ -3544,6 +3546,7 @@ gboolean get_hide_or_show_tabs_bar(struct Window *win_data, Switch_Type show_tab
 #else
 			     ((win_data->window_status==WINDOW_NORMAL) ||
 			      (win_data->window_status==WINDOW_RESIZING_TO_NORMAL) ||
+			      (win_data->window_status==WINDOW_APPLY_PROFILE_NORMAL) ||
 			      (win_data->window_status==WINDOW_MAX_WINDOW)))
 #endif
 				show = TRUE;

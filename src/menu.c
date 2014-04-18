@@ -2312,7 +2312,7 @@ void apply_profile_from_file(const gchar *path, Apply_Profile_Type type)
 		win_data->fullscreen = win_data_backup->fullscreen;
 		win_data->true_fullscreen = win_data_backup->true_fullscreen;
 #endif
-		// g_debug("Got win_data->show_tabs_bar = %d", win_data->show_tabs_bar);
+		// g_debug("apply_profile_from_file(): Got win_data->show_tabs_bar = %d", win_data->show_tabs_bar);
 		hide_and_show_tabs_bar(win_data, win_data->show_tabs_bar);
 		// g_debug("win_data_backup->fullscreen_show_scroll_bar = %d", win_data_backup->fullscreen_show_scroll_bar);
 		// win_data->fullscreen_show_scroll_bar = win_data_backup->fullscreen_show_scroll_bar;
