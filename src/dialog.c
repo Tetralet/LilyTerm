@@ -3229,7 +3229,7 @@ void error_dialog(GtkWidget *window, gchar *title_translation, gchar *title,
 #ifdef UNIT_TEST
 	g_message("%s", utf8_message);
 #else
-	struct Dialog dialog_data;
+	struct Dialog *dialog_data = g_new0(struct Dialog, 1);
 
 	// void create_dialog(gchar *dialog_title, Dialog_Button_Type type, GtkWidget *window, gboolean center,
 	//		      gboolean resizable, gint border_width, gint response, gchar *icon,
@@ -3237,10 +3237,11 @@ void error_dialog(GtkWidget *window, gchar *title_translation, gchar *title,
 	//		      gboolean state_bottom, gint create_entry_hbox, struct Dialog *dialog_data)
 	create_dialog(title_translation, title, DIALOG_OK, window, TRUE,
 		      FALSE, 10, GTK_RESPONSE_OK, icon, utf8_message,
-		      FALSE, 0, TRUE, BOX_NONE, 0, &dialog_data);
-	gtk_widget_show_all (dialog_data.window);
-	gtk_dialog_run(GTK_DIALOG(dialog_data.window));
-	gtk_widget_destroy(dialog_data.window);
+		      FALSE, 0, TRUE, BOX_NONE, 0, dialog_data);
+	gtk_widget_show_all (dialog_data->window);
+	gtk_dialog_run(GTK_DIALOG(dialog_data->window));
+	gtk_widget_destroy(dialog_data->window);
+	g_free(dialog_data);
 #endif
 	g_free(utf8_message);
 	dialog_activated--;
