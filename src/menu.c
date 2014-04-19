@@ -566,10 +566,11 @@ void copy_url_clipboard(GtkWidget *widget, gpointer user_data)
 #ifdef SAFEMODE
 	if (widget==NULL) return;
 #endif
-	if (gtk_widget_get_name(widget))
+	const gchar *widget_name = gtk_widget_get_name(widget);
+	if (widget_name)
 	{
 		extern GtkClipboard *selection_clipboard;
-		gtk_clipboard_set_text(selection_clipboard, gtk_widget_get_name(widget), -1);
+		gtk_clipboard_set_text(selection_clipboard, widget_name, -1);
 	}
 }
 

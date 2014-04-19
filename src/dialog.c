@@ -1889,7 +1889,10 @@ DESTROY_WINDOW:
 	win_data->enable_key_binding = enable_key_binding;
 
 	if (selectable)
-		gtk_clipboard_set_text(selection_primary, selection_primary_str, -1);
+	{
+		if (selection_primary_str)
+			gtk_clipboard_set_text(selection_primary, selection_primary_str, -1);
+	}
 
 FINISH:
 	dialog_activated--;

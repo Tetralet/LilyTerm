@@ -3807,7 +3807,7 @@ gboolean show_clipboard_dialog(Clipboard_Type type, struct Window *win_data,
 						gchar **old_clipboard_strs = split_string(clipboard_str, "\n\r", -1);
 						gchar *new_clipboard_str = convert_array_to_string(old_clipboard_strs, '\0');
 						// g_debug("Set clipboard to %s", new_clipboard_str);
-						gtk_clipboard_set_text(clipboard, new_clipboard_str, -1);
+						if (new_clipboard_str) gtk_clipboard_set_text(clipboard, new_clipboard_str, -1);
 						g_free(new_clipboard_str);
 						g_strfreev(old_clipboard_strs);
 					}
@@ -3888,7 +3888,7 @@ gboolean show_clipboard_dialog(Clipboard_Type type, struct Window *win_data,
 						// g_debug ("show_clipboard_dialog(): join_clipboard_str = %s", join_clipboard_str);
 
 						// g_debug("Set clipboard to %s", join_clipboard_str);
-						gtk_clipboard_set_text(clipboard, join_clipboard_str, -1);
+						if (join_clipboard_str) gtk_clipboard_set_text(clipboard, join_clipboard_str, -1);
 						g_free(temp_clipboard_str);
 						g_free(new_clipboard_str);
 						g_free(join_clipboard_str);
@@ -3913,7 +3913,7 @@ gboolean show_clipboard_dialog(Clipboard_Type type, struct Window *win_data,
 					if ((response==GTK_RESPONSE_ACCEPT) || (response==GTK_RESPONSE_YES))
 					{
 						// g_debug("Set clipboard to %s", clipboard_str);
-						gtk_clipboard_set_text(clipboard, clipboard_str, -1);
+						if (clipboard_str) gtk_clipboard_set_text(clipboard, clipboard_str, -1);
 					}
 #ifdef SAFEMODE
 				}
