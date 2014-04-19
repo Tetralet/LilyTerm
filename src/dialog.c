@@ -513,6 +513,7 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 				dialog_data->original_color = win_data->custom_color_theme[win_data->color_theme_index].color[color_index];
 			else
 				dialog_data->original_color = system_color_theme[win_data->color_theme_index].color[color_index];
+			// g_debug("win_data->use_custom_theme = %d", win_data->use_custom_theme);
 			// print_color(-1, "ORIG: dialog_data->original_color", dialog_data->original_color);
 			create_color_selection_widget(dialog_data, (GSourceFunc)adjust_vte_color, win_data->current_vte);
 			break;
@@ -1529,6 +1530,15 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 				case CHANGE_THE_TEXT_COLOR_OF_NORMAL_TEXT:
 				{
 					// g_debug("Setting the colors. Type = %d", style);
+					GdkRGBA new_color;
+					switch (style)
+					{
+						case CHANGE_THE_FOREGROUND_COLOR:
+						case CHANGE_THE_BACKGROUND_COLOR:
+						case CHANGE_THE_CURSOR_COLOR:
+							gtk_color_chooser_get_rgba(GTK_COLOR_CHOOSER(dialog_data->operate[0]), &new_color);
+							break;
+					}
 					switch (style)
 					{
 #if defined(ENABLE_VTE_BACKGROUND) || defined(FORCE_ENABLE_VTE_BACKGROUND)
@@ -1539,14 +1549,14 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 #ifdef ENABLE_GDKCOLOR_TO_STRING
 						case CHANGE_THE_FOREGROUND_COLOR:
 							if (win_data->use_custom_theme == FALSE) clear_custom_colors_data(win_data, TRUE);
-							update_fg_bg_color(win_data, dialog_data->original_color, TRUE);
+							update_fg_bg_color(win_data, new_color, TRUE);
 							break;
 						case CHANGE_THE_BACKGROUND_COLOR:
 							if (win_data->use_custom_theme == FALSE) clear_custom_colors_data(win_data, FALSE);
-							update_fg_bg_color(win_data, dialog_data->original_color, FALSE);
+							update_fg_bg_color(win_data, new_color, FALSE);
 							break;
 						case CHANGE_THE_CURSOR_COLOR:
-							win_data->cursor_color = dialog_data->original_color;
+							win_data->cursor_color = new_color;
 							break;
 						case CHANGE_THE_TEXT_COLOR_OF_WINDOW_TITLE:
 						case CHANGE_THE_TEXT_COLOR_OF_CMDLINE:
@@ -1556,7 +1566,8 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 						case CHANGE_THE_TEXT_COLOR_OF_NORMAL_TEXT:
 						{
 							gint page_color_type = style - CHANGE_THE_TEXT_COLOR_OF_WINDOW_TITLE;
-							gchar *new_color = dirty_gdk_rgba_to_string(&(dialog_data->original_color));
+							gtk_color_chooser_get_rgba(GTK_COLOR_CHOOSER(dialog_data->operate[0]), &new_color);
+							gchar *new_color_str = dirty_gdk_rgba_to_string(&(new_color));
 
 							struct Page *tmp_page_data = NULL;
 							for (i=0; i<gtk_notebook_get_n_pages(GTK_NOTEBOOK(win_data->notebook)); i++)
@@ -1566,11 +1577,11 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 								if (tmp_page_data==NULL) goto DESTROY_WINDOW;
 #endif
 								if (tmp_page_data->tab_color == win_data->user_page_color[page_color_type])
-									tmp_page_data->tab_color = new_color;
+									tmp_page_data->tab_color = new_color_str;
 							}
 
 							g_free(win_data->user_page_color[page_color_type]);
-							win_data->user_page_color[page_color_type] = new_color;
+							win_data->user_page_color[page_color_type] = new_color_str;
 							break;
 						}
 #endif
@@ -1773,14 +1784,7 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 									  win_data->current_vte);
 					}
 #endif
-					switch (style)
-					{
-						case CHANGE_THE_FOREGROUND_COLOR:
-						case CHANGE_THE_BACKGROUND_COLOR:
-						case CHANGE_THE_CURSOR_COLOR:
-							dialog_data->original_color = dialog_data->original_color;
-							break;
-					}
+					// print_color(-1, "RECOVER: dialog_data->original_color", dialog_data->original_color);
 #if defined(ENABLE_VTE_BACKGROUND) || defined(FORCE_ENABLE_VTE_BACKGROUND)
 					if (style!=CHANGE_BACKGROUND_SATURATION)
 					{
@@ -2127,6 +2131,7 @@ void update_fg_bg_color(struct Window *win_data, GdkRGBA color, gboolean update_
 
 	gint i, index = get_color_index(win_data->invert_color, color_index);
 	// g_debug("update_fg_bg_color(): index = %d,  win_data->invert_color = %d", index, win_data->invert_color);
+	// print_color(-1, "SAVE: color", color);
 	for (i=0; i<THEME; i++)
 	{
 		win_data->custom_color_theme[i].color[index] = color;
@@ -2943,8 +2948,10 @@ void adjust_vte_color(GtkColorChooser *color_selection, GdkRGBA *color, GtkWidge
 #ifdef SAFEMODE
 	if (vte==NULL) return;
 #endif
-#ifndef USE_OLD_GTK_COLOR_SELECTION
 	GdkRGBA final_color;
+#ifdef USE_OLD_GTK_COLOR_SELECTION
+	gtk_color_chooser_get_rgba(GTK_COLOR_CHOOSER(color_selection), &final_color);
+#else
 	if (color==NULL)
 		gtk_color_chooser_get_rgba(GTK_COLOR_CHOOSER(color_selection), &final_color);
 	else
@@ -2980,33 +2987,26 @@ void adjust_vte_color(GtkColorChooser *color_selection, GdkRGBA *color, GtkWidge
 			if ((dialog_data->type==CHANGE_THE_FOREGROUND_COLOR) ||
 			    ((dialog_data->type==CHANGE_THE_ANSI_COLORS) && (converted_index==(COLOR-1))))
 			{
-				// print_color(-1, "RECONVER 1: dialog_data->original_color", dialog_data->original_color);
-				if (! dialog_data->recover)
-#ifdef USE_OLD_GTK_COLOR_SELECTION
-					gtk_color_chooser_get_rgba(color_selection, &(dialog_data->original_color));
-#else
-					dialog_data->original_color = final_color;
-#endif
-				// print_color(-1, "RECONVER 2: dialog_data->original_color", dialog_data->original_color);
-				vte_terminal_set_color_foreground_rgba(VTE_TERMINAL(vte), &(dialog_data->original_color));
-				vte_terminal_set_color_bold_rgba(VTE_TERMINAL(vte), &(dialog_data->original_color));
+				// print_color(-1, "RECONVER 1: final_color", final_color);
+				if (dialog_data->recover)
+					final_color = dialog_data->original_color;
+
+				// print_color(-1, "RECONVER 2: final_color", final_color);
+				vte_terminal_set_color_foreground_rgba(VTE_TERMINAL(vte), &(final_color));
+				vte_terminal_set_color_bold_rgba(VTE_TERMINAL(vte), &(final_color));
 
 				if (dialog_data->type==CHANGE_THE_ANSI_COLORS)
 				{
-					dialog_data->ansi_colors[converted_index] = dialog_data->original_color;
-					dialog_data->ansi_colors_orig[win_data->temp_index] = dialog_data->original_color;
+					dialog_data->ansi_colors[converted_index] = final_color;
+					dialog_data->ansi_colors_orig[win_data->temp_index] = final_color;
 				}
 			}
 			else if ((dialog_data->type==CHANGE_THE_BACKGROUND_COLOR) ||
 			    ((dialog_data->type==CHANGE_THE_ANSI_COLORS) && (converted_index==0)))
 			{
-				if (! dialog_data->recover)
+				if (dialog_data->recover)
 				{
-#ifdef USE_OLD_GTK_COLOR_SELECTION
-					gtk_color_chooser_get_rgba(color_selection, &(dialog_data->original_color));
-#else
-					dialog_data->original_color = final_color;
-#endif
+					final_color = dialog_data->original_color;
 					// FIXME: GtkColorSelection have no ALPHA CHANGED signal.
 					//	  so that the following code should be marked for temporary
 					//if (use_rgba)
@@ -3020,14 +3020,14 @@ void adjust_vte_color(GtkColorChooser *color_selection, GdkRGBA *color, GtkWidge
 				//else if (use_rgba)
 				//	set_background_saturation(NULL, 0, background_saturation, vte);
 
-				vte_terminal_set_color_background_rgba(VTE_TERMINAL(vte), &(dialog_data->original_color));
+				vte_terminal_set_color_background_rgba(VTE_TERMINAL(vte), &(final_color));
 #if defined(ENABLE_VTE_BACKGROUND) || defined(FORCE_ENABLE_VTE_BACKGROUND)
-				dirty_vte_terminal_set_background_tint_color(VTE_TERMINAL(vte), dialog_data->original_color);
+				dirty_vte_terminal_set_background_tint_color(VTE_TERMINAL(vte), final_color);
 #endif
 				if (dialog_data->type==CHANGE_THE_ANSI_COLORS)
 				{
-					dialog_data->ansi_colors[converted_index] = dialog_data->original_color;
-					dialog_data->ansi_colors_orig[win_data->temp_index] = dialog_data->original_color;
+					dialog_data->ansi_colors[converted_index] = final_color;
+					dialog_data->ansi_colors_orig[win_data->temp_index] = final_color;
 				}
 			}
 			else
@@ -3055,13 +3055,9 @@ void adjust_vte_color(GtkColorChooser *color_selection, GdkRGBA *color, GtkWidge
 			break;
 		}
 		case CHANGE_THE_CURSOR_COLOR:
-			if (! dialog_data->recover)
-#ifdef USE_OLD_GTK_COLOR_SELECTION
-				gtk_color_chooser_get_rgba(color_selection, &(dialog_data->original_color));
-#else
-				dialog_data->original_color = final_color;
-#endif
-			vte_terminal_set_color_cursor_rgba(VTE_TERMINAL(vte), &(dialog_data->original_color));
+			if (dialog_data->recover)
+				final_color = dialog_data->original_color;
+			vte_terminal_set_color_cursor_rgba(VTE_TERMINAL(vte), &(final_color));
 			break;
 		case CHANGE_THE_TEXT_COLOR_OF_WINDOW_TITLE:
 		case CHANGE_THE_TEXT_COLOR_OF_CMDLINE:
@@ -3072,13 +3068,8 @@ void adjust_vte_color(GtkColorChooser *color_selection, GdkRGBA *color, GtkWidge
 		{
 			// the change of color will be shown(demo) in 1st page and demo page.
 			gchar *current_color = NULL;
-#ifdef USE_OLD_GTK_COLOR_SELECTION
-			gtk_color_chooser_get_rgba(color_selection, &(dialog_data->original_color));
-#else
-			dialog_data->original_color = final_color;
-#endif
 #ifdef ENABLE_GDKCOLOR_TO_STRING
-			current_color = dirty_gdk_rgba_to_string(&(dialog_data->original_color));
+			current_color = dirty_gdk_rgba_to_string(&(final_color));
 #endif
 			struct Page *page_data = (struct Page *)g_object_get_data(G_OBJECT(vte), "Page_Data");
 #ifdef SAFEMODE

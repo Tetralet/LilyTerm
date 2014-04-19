@@ -1514,12 +1514,12 @@ gboolean window_key_release(GtkWidget *window, GdkEventKey *event, struct Window
 	{
 		// g_debug("window_key_release(): ALL_ACCELS_MASK = %X", ALL_ACCELS_MASK);
 		gint mods = event->state | DUD_MASK;
-		
+
 		// g_debug("window_key_release(): Got the function key: %s (%X) with status= %X [%X,%X] (%X,%X)(%X,%X))",
 		//	gdk_keyval_name(event->keyval), event->keyval, event->state, mods, event->keyval,
 		//	(win_data->user_keys[KEY_DISABLE_URL_L].mods|GDK_CONTROL_MASK), win_data->user_keys[KEY_DISABLE_URL_L].key,
 		//	(win_data->user_keys[KEY_DISABLE_URL_R].mods|GDK_CONTROL_MASK), win_data->user_keys[KEY_DISABLE_URL_R].key);
-		
+
 		if (((mods==(win_data->user_keys[KEY_DISABLE_URL_L].mods|GDK_CONTROL_MASK)) && (event->keyval==win_data->user_keys[KEY_DISABLE_URL_L].key)) ||
 		    ((mods==(win_data->user_keys[KEY_DISABLE_URL_R].mods|GDK_CONTROL_MASK)) && (event->keyval==win_data->user_keys[KEY_DISABLE_URL_R].key)))
 		{

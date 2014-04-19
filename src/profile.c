@@ -610,7 +610,7 @@ void init_page_parameters(struct Window *win_data, struct Page *page_data)
 
 //	page_data->tag[COMMAND] = {{0}};
 //	page_data->match_regex_setted = FALSE;
-//	
+//
 }
 
 

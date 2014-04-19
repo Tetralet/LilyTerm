@@ -300,7 +300,7 @@ gboolean create_menu(struct Window *win_data)
 	// Bold text
 	win_data->menuitem_allow_bold_text = create_menu_item (CHECK_MENU_ITEM, misc_sub_menu, _("Allow bold text"), NULL, NULL,
 							       (GSourceFunc)set_allow_bold_text, win_data);
-	
+
 	// ----------------------------------------
 	add_separator_menu (misc_sub_menu);
 
@@ -310,7 +310,7 @@ gboolean create_menu(struct Window *win_data)
 
 	win_data->menuitem_disable_url_when_ctrl_pressed = create_menu_item (CHECK_MENU_ITEM, misc_sub_menu, _("Disable URL when <Ctrl> pressed"), NULL, NULL,
 							                  (GSourceFunc)set_disable_url_when_ctrl_pressed, win_data);
-	
+
 	// ----------------------------------------
 	add_separator_menu (misc_sub_menu);
 
