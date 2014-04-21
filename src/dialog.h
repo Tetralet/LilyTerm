@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008-2013 Lu, Chao-Ming (Tetralet).  All rights reserved.
+ * Copyright (c) 2008-2014 Lu, Chao-Ming (Tetralet).  All rights reserved.
  *
  * This file is part of LilyTerm.
  *
@@ -129,7 +129,7 @@ gchar *deal_dialog_key_press_join_string(StrAddr **value, gchar *separator, gcha
 gboolean clean_model_foreach(GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *iter, gpointer userdata);
 void recover_page_colors(GtkWidget *dialog, GtkWidget *window, GtkWidget *notebook);
 gboolean set_ansi_color(GtkRange *range, GtkScrollType scroll, gdouble value, GtkWidget *vte);
-#ifdef USE_GTK_COLOR_CHOOSER
+#if defined(USE_GTK_COLOR_CHOOSER) || defined(UNIT_TEST)
 void adjust_vte_color_sample(GtkColorButton* color_button, gint color_index);
 #endif
 void adjust_vte_color(GtkColorChooser *colorselection, GdkRGBA *color, GtkWidget *vte);

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008-2013 Lu, Chao-Ming (Tetralet).  All rights reserved.
+ * Copyright (c) 2008-2014 Lu, Chao-Ming (Tetralet).  All rights reserved.
  *
  * This file is part of LilyTerm.
  *
@@ -1390,7 +1390,11 @@ gboolean vte_button_press(GtkWidget *vte, GdkEventButton *event, struct Page *pa
 
 			// enable win_data->menuitem_paste or not
 			extern GtkClipboard *selection_clipboard;
-			gchar *temp_str = gtk_clipboard_wait_for_text (selection_clipboard);
+			gchar *temp_str = NULL;
+#ifdef SAFEMODE
+			if (selection_clipboard)
+#endif
+				temp_str = gtk_clipboard_wait_for_text (selection_clipboard);
 			// g_debug("clipboard = %s", temp_str);
 			gtk_widget_set_sensitive (win_data->menuitem_paste,
 						  (temp_str != NULL));
@@ -1398,7 +1402,10 @@ gboolean vte_button_press(GtkWidget *vte, GdkEventButton *event, struct Page *pa
 						  (temp_str != NULL));
 
 			extern GtkClipboard *selection_primary;
-			temp_str = gtk_clipboard_wait_for_text (selection_primary);
+#ifdef SAFEMODE
+			if (selection_primary)
+#endif
+				temp_str = gtk_clipboard_wait_for_text (selection_primary);
 			gtk_widget_set_sensitive (win_data->menuitem_primary,
 						  (temp_str != NULL));
 			g_free(temp_str);

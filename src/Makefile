@@ -89,7 +89,9 @@ ifeq ($(STRIP), Y)
 endif
 
 .PHONY: default
-default: CFLAGS := $(CFLAGS) -DSAFEMODE
+ifneq ($(SAFEMODE), N)
+default: CFLAGS += -DSAFEMODE
+endif
 default: INCLUDES := $(INCLUDES) -DAUTHOR=\"$(AUTHOR_CONVERT)\" -DVERSION=\"$(VERSION)\ \($(date)\)\"
 ifeq ($(DEBUG), Y)
 default: INCLUDES += -DDEBUG -DFATAL

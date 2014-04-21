@@ -30,8 +30,5 @@ a scroll bar menu
 Save settings that diff and full
 ** check the focus of dialogs
 * replace sleep with time_out
-** custom URL match
-* custom protocol matches <- very hard to implement
 ** check the pagename if page_shows_cmdline = 0
-* clear the bottom space in the 'set the key binding' dialog.
 ** fullscreen and fullwindow in profile.

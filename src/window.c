@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008-2013 Lu, Chao-Ming (Tetralet).  All rights reserved.
+ * Copyright (c) 2008-2014 Lu, Chao-Ming (Tetralet).  All rights reserved.
  *
  * This file is part of LilyTerm.
  *
@@ -398,7 +398,7 @@ GtkNotebook *new_window(int argc,
 		{
 #endif
 			win_data->current_vte = win_data_orig->current_vte;
-#ifdef USE_GTK3_GEOMETRY_METHOD
+#if defined(USE_GTK3_GEOMETRY_METHOD) || defined(UNIT_TEST)
 			win_data->hints_type = HINTS_SKIP_ONCE;
 #  ifdef GEOMETRY
 			fprintf(stderr, "\033[1;%dm!! new_window(win_data %p): set win_data->hints_type = %d !!\033[0m\n",
@@ -1371,7 +1371,7 @@ gboolean deal_key_press(GtkWidget *window, Key_Bindings type, struct Window *win
 				// g_debug("deal_key_press (fullscreen): win_data->true_fullscreen = %d", win_data->true_fullscreen);
 			}
 #endif
-#ifdef USE_GTK3_GEOMETRY_METHOD
+#if defined(USE_GTK3_GEOMETRY_METHOD) || defined(UNIT_TEST)
 			// g_debug("deal_key_press: win_data->window_status = %d", win_data->window_status);
 			switch (win_data->window_status)
 			{
@@ -2247,7 +2247,8 @@ void remove_notebook_page(GtkNotebook *notebook, GtkWidget *child, guint page_nu
 			// window_resizable(page_data->window, page_data->vte, 2, -1);
 #ifdef USE_GTK2_GEOMETRY_METHOD
 			hide_and_show_tabs_bar(win_data , win_data->show_tabs_bar);
-#else
+#endif
+#if defined(USE_GTK3_GEOMETRY_METHOD) || defined(UNIT_TEST)
 			g_idle_add((GSourceFunc)idle_hide_and_show_tabs_bar, win_data);
 #endif
 			// g_debug("remove_notebook_page(): page_data->font_name = %s, win_data->restore_font_name = %s",

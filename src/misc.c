@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008-2013 Lu, Chao-Ming (Tetralet).  All rights reserved.
+ * Copyright (c) 2008-2014 Lu, Chao-Ming (Tetralet).  All rights reserved.
  *
  * This file is part of LilyTerm.
  *
@@ -769,6 +769,9 @@ GdkColor convert_rgba_to_color(GdkRGBA rgba)
 // The returned string should be freed when no longer needed.
 gchar *dirty_gdk_rgba_to_string(GdkRGBA *rgba)
 {
+#ifdef SAFEMODE
+	if (rgba==NULL) return NULL;
+#endif
 #  ifdef USE_GDK_RGBA
 	return g_strdup_printf("#%04x%04x%04x", (unsigned int)(rgba->red*0xFFFF), (unsigned int)(rgba->green*0xFFFF), (unsigned int)(rgba->blue*0xFFFF));
 #  else
@@ -814,6 +817,9 @@ gboolean dirty_gdk_color_parse(const gchar *spec, GdkRGBA *color)
 
 GtkWidget *dirty_gtk_vbox_new(gboolean homogeneous, gint spacing)
 {
+#ifdef DETAIL
+	g_debug("! Launch dirty_gtk_vbox_new() with homogeneous = %d, spacing = %d", homogeneous, spacing);
+#endif
 #if GTK_CHECK_VERSION(2,90,0)
 	GtkWidget *box = gtk_box_new(GTK_ORIENTATION_VERTICAL, spacing);
 	gtk_box_set_homogeneous(GTK_BOX(box), homogeneous);
@@ -825,6 +831,9 @@ GtkWidget *dirty_gtk_vbox_new(gboolean homogeneous, gint spacing)
 
 GtkWidget *dirty_gtk_hbox_new(gboolean homogeneous, gint spacing)
 {
+#ifdef DETAIL
+	g_debug("! Launch dirty_gtk_hbox_new() with homogeneous = %d, spacing = %d", homogeneous, spacing);
+#endif
 #if GTK_CHECK_VERSION(2,90,0)
 	GtkWidget *box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, spacing);
 	gtk_box_set_homogeneous(GTK_BOX(box), homogeneous);
@@ -837,6 +846,12 @@ GtkWidget *dirty_gtk_hbox_new(gboolean homogeneous, gint spacing)
 #if defined(ENABLE_VTE_BACKGROUND) || defined(FORCE_ENABLE_VTE_BACKGROUND)
 void dirty_vte_terminal_set_background_tint_color(VteTerminal *vte, const GdkRGBA rgba)
 {
+#  ifdef DETAIL
+	g_debug("! Launch dirty_vte_terminal_set_background_tint_color() with vte = %p", vte);
+#  endif
+#  ifdef SAFEMODE
+	if (vte==NULL) return;
+#  endif
 #  ifdef FORCE_ENABLE_VTE_BACKGROUND
 	G_GNUC_BEGIN_IGNORE_DEPRECATIONS;
 #  endif

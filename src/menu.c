@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008-2013 Lu, Chao-Ming (Tetralet).  All rights reserved.
+ * Copyright (c) 2008-2014 Lu, Chao-Ming (Tetralet).  All rights reserved.
  *
  * This file is part of LilyTerm.
  *
@@ -1543,7 +1543,7 @@ void select_font(GtkWidget *widget, struct Window *win_data)
 	GtkWidget *dialog = gtk_font_chooser_dialog_new(_("Font Selection"), GTK_WINDOW(win_data->window));
 	gtk_window_set_transient_for(GTK_WINDOW(dialog), GTK_WINDOW(win_data->window));
 	gtk_window_set_destroy_with_parent (GTK_WINDOW (dialog), TRUE);
-#if defined(EXIST_GTK_FONT_CHOOSER_SET_FILTER_FUNC) || defined (UNIT_TEST)
+#ifdef EXIST_GTK_FONT_CHOOSER_SET_FILTER_FUNC
 	gtk_font_chooser_set_filter_func (GTK_FONT_CHOOSER(dialog), monospace_filter, NULL, NULL);
 #endif
 	// set the default font name in gtk_font_selection_dialog
@@ -1565,7 +1565,7 @@ void select_font(GtkWidget *widget, struct Window *win_data)
 	gtk_widget_destroy(dialog);
 }
 
-#if defined(EXIST_GTK_FONT_CHOOSER_SET_FILTER_FUNC) || defined (UNIT_TEST)
+#ifdef EXIST_GTK_FONT_CHOOSER_SET_FILTER_FUNC
 gboolean monospace_filter(const PangoFontFamily *family, const PangoFontFace *face, gpointer data)
 {
 #ifdef DETAIL

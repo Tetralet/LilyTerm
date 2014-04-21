@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008-2013 Lu, Chao-Ming (Tetralet).  All rights reserved.
+ * Copyright (c) 2008-2014 Lu, Chao-Ming (Tetralet).  All rights reserved.
  *
  * This file is part of LilyTerm.
  *
@@ -237,6 +237,10 @@
 	#define USE_GTK3_GEOMETRY_METHOD
 #else
 	#define USE_GTK2_GEOMETRY_METHOD
+#  ifdef UNIT_TEST
+	#define gtk_window_resize_to_geometry gtk_window_move
+	#define monospace_filter(a,b,c) restore_SYSTEM_VTE_CJK_WIDTH_STR()
+#  endif
 #endif
 #if GTK_CHECK_VERSION(2,91,7)
 	#define GTK3_LAME_GDK_SCREEN_IS_COMPOSITED

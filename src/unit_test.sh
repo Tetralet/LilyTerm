@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2008-2013 Lu, Chao-Ming (Tetralet).  All rights reserved.
+# Copyright (c) 2008-2014 Lu, Chao-Ming (Tetralet).  All rights reserved.
 #
 # This file is part of LilyTerm.
 #
@@ -27,6 +27,8 @@ TEST_SCRIPT_ONLY=0
 BUILD_ONLY=0
 LIB_LISTS="lilyterm.h"
 FUNCTION_FOUND=0
+
+GDB_ERROR=0
 
 ECHO=`whereis "echo" | tr -s ' ' '\n' | grep "bin/""echo""$" | head -n 1`
 PRINTF=`whereis "printf" | tr -s ' ' '\n' | grep "bin/""printf""$" | head -n 1`
@@ -233,16 +235,13 @@ for DATA in `$CAT $LIB_LISTS | sed '/^\/\*/,/ \*\/$/d' | sed -e 's/[ \t]*\/\*[ \
 				case $STR in
 					'...')
 						;;
-					'GtkWidget*' | 'GSourceFunc' | 'gpointer' | 'GtkColorSelection*' | 'GtkTreePath*' | 'GtkTreeModel*' | 'GtkTreeIter*' | 'GdkEvent*' | 'GdkEventKey*' | 'GtkCellLayout*' | 'GtkTreeSelection*' | 'GtkClipboard*' | 'GError*' | 'GSList*' | 'GIOChannel*' | 'GtkFileChooser*' | 'GtkRequisition*' | 'GdkEventButton*' | 'GtkStyle*' | 'GtkAllocation*' | 'GdkEventFocus*' | 'GdkEventWindowState*' | 'GdkColor []' | 'GdkRGBA []' | 'PangoFontFamily*' | 'PangoFontFace*')
+					'GtkWidget*' | 'GSourceFunc' | 'gpointer' | 'GtkColorSelection*' | 'GtkTreePath*' | 'GtkTreeModel*' | 'GtkTreeIter*' | 'GdkEvent*' | 'GdkEventKey*' | 'GtkCellLayout*' | 'GtkTreeSelection*' | 'GtkClipboard*' | 'GError*' | 'GSList*' | 'GIOChannel*' | 'GtkFileChooser*' | 'GtkRequisition*' | 'GdkEventButton*' | 'GtkStyle*' | 'GtkAllocation*' | 'GdkEventFocus*' | 'GdkEventWindowState*' | 'GdkColor []' | 'GdkRGBA []' | 'PangoFontFamily*' | 'PangoFontFace*' | 'GtkColorButton*' | 'GtkColorChooser*')
 						FUNCTION="$FUNCTION NULL,"
 						;;
-					'GKeyFile*'|'GdkColor')
+					'GKeyFile*'|'GdkColor'|'GdkRGBA')
 						OLD_SPACE="$SPACE"
 						SPACE="$SPACE""_SPACE_"
 						VAR=`expr $VAR + 1`
-						if [ $MAX_VAR -le $VAR ]; then
-							MAX_VAR=$VAR
-						fi
 						case $STR in
 							'GKeyFile*')
 								FUNC_STAR="$FUNC_STAR\n$SPACE""GKeyFile *V$VAR = g_key_file_new();"
@@ -254,7 +253,7 @@ for DATA in `$CAT $LIB_LISTS | sed '/^\/\*/,/ \*\/$/d' | sed -e 's/[ \t]*\/\*[ \
 								FUNCTION="$FUNCTION V$VAR,"
 								;;
 							'GdkRGBA')
-								FUNC_STAR="$FUNC_STAR\n$SPACE""GdkRGBA V$VAR;\n$SPACE""V$VAR.red=1;\n$SPACE""V$VAR.green=0xFFFF;\n$SPACE""V$VAR.blue=0xFFFF;"
+								FUNC_STAR="$FUNC_STAR\n$SPACE""GdkRGBA V$VAR;\n$SPACE""V$VAR.red=1;\n$SPACE""V$VAR.green=1;\n$SPACE""V$VAR.blue=1;"
 								FUNCTION="$FUNCTION V$VAR,"
 								;;
 						esac
@@ -265,7 +264,7 @@ for DATA in `$CAT $LIB_LISTS | sed '/^\/\*/,/ \*\/$/d' | sed -e 's/[ \t]*\/\*[ \
 						unset FUN_DATA
 						SPACE=$OLD_SPACE
 						;;
-					'gboolean' | 'gchar' | 'guint' | 'GtkScrollType' | 'gint' | 'pid_t' | 'int' | 'gsize' | 'glong' | 'GdkColor' | 'GdkRGBA' | 'Dialog_Button_Type' | 'Dialog_Find_Type' | 'Dialog_Type_Flags' | 'Font_Name_Type' | 'Key_Bindings' | 'Hints_Type' | 'Window_Status' | 'Geometry_Resize_Type' | 'Font_Reset_Type' | 'Switch_Type' | 'Font_Set_Type' | 'Set_ANSI_Theme_Type' | 'GtkFileChooserAction' | 'GIOCondition' | 'Check_Zero' | 'Check_Max' | 'Check_Min' | 'Check_Empty' | 'Menu_Itemn_Type' | 'Apply_Profile_Type' | 'Clipboard_Type' | 'gchar*' | 'char*' | 'StrLists*' | 'StrAddr**' | 'gdouble' | 'struct Dialog*' | 'struct Window*' | 'struct Page*' | 'struct Color_Data*' | 'struct Preview*' | 'GtkButton*' | 'GtkCellRenderer*' | 'GtkRange*' | 'gchar**' | 'char*[]' | 'char**' | 'gsize*' | 'GString*' | 'GtkNotebook*' | 'GdkColor*' | 'GdkRGBA' | 'VteTerminal*'  | 'gboolean*' | 'gint*' | 'guint*')
+					'gboolean' | 'gchar' | 'guint' | 'GtkScrollType' | 'gint' | 'pid_t' | 'int' | 'gsize' | 'glong' | 'GdkColor' | 'GdkRGBA' | 'Dialog_Button_Type' | 'Dialog_Find_Type' | 'Dialog_Type_Flags' | 'Font_Name_Type' | 'Key_Bindings' | 'Hints_Type' | 'Window_Status' | 'Geometry_Resize_Type' | 'Font_Reset_Type' | 'Switch_Type' | 'Font_Set_Type' | 'Set_ANSI_Theme_Type' | 'GtkFileChooserAction' | 'GIOCondition' | 'Check_Zero' | 'Check_Max' | 'Check_Min' | 'Check_Empty' | 'Menu_Itemn_Type' | 'Apply_Profile_Type' | 'Clipboard_Type' | 'gchar*' | 'char*' | 'StrLists*' | 'StrAddr**' | 'gdouble' | 'struct Dialog*' | 'struct Window*' | 'struct Page*' | 'struct Color_Data*' | 'struct Preview*' | 'GtkButton*' | 'GtkCellRenderer*' | 'GtkRange*' | 'gchar**' | 'char*[]' | 'char**' | 'gsize*' | 'GString*' | 'GtkNotebook*' | 'GdkColor*' | 'GdkRGBA*' | 'VteTerminal*'  | 'gboolean*' | 'gint*' | 'guint*')
 						SPACE="$SPACE""_SPACE_"
 						VAR=`expr $VAR + 1`
 						if [ $MAX_VAR -le $VAR ]; then
@@ -483,6 +482,9 @@ EOF
 					if [ -z "$CHECK_STR" ]; then
 						$CAT /tmp/lilyterm_$FUNC_NAME.log >> gdb.log
 						$ECHO "" >> gdb.log
+						$PRINTF "\033[1;36m$FUNC_NAME(): \033[1;31m** Exit with GDB error!!\033[0m\n"
+						GDB_ERROR=1
+						GDB_ERROR_PROGRAM="$GDB_ERROR_PROGRAM$FUNC_NAME()\n             "
 					else
 						$PRINTF "\033[1;36m$FUNC_NAME(): \033[1;33m** Program exited normally. Clear log...\033[0m\n"
 					fi
@@ -503,4 +505,8 @@ done
 
 if [ -f ./gdb_batch ]; then
 	rm ./gdb_batch
+fi
+
+if [ $GDB_ERROR -eq 1 ]; then
+	$PRINTF "\n\033[1;31mERROR: \033[1;36mThis unit test program had exited with GDB error.\n       LIST: \033[1;33m`echo -e "$GDB_ERROR_PROGRAM" | sed -e '$d'`\033[1;36m\n       Please check \033[1;32mgdb.log\033[1;36m for feature information!!\033[0m\n\n"
 fi

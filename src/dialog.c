@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008-2013 Lu, Chao-Ming (Tetralet).  All rights reserved.
+ * Copyright (c) 2008-2014 Lu, Chao-Ming (Tetralet).  All rights reserved.
  *
  * This file is part of LilyTerm.
  *
@@ -90,7 +90,11 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 	// extern GtkClipboard *selection_clipboard;
 	// gchar *selection_clipboard_str = g_strdup(gtk_clipboard_wait_for_text(selection_clipboard));
 	extern GtkClipboard *selection_primary;
-	gchar *selection_primary_str = g_strdup(gtk_clipboard_wait_for_text(selection_primary));
+	gchar *selection_primary_str = NULL;
+#ifdef SAFEMODE
+	if (selection_primary)
+#endif
+		selection_primary_str = g_strdup(gtk_clipboard_wait_for_text(selection_primary));
 
 	GtkResponseType dialog_response = GTK_RESPONSE_NONE;
 
@@ -295,7 +299,10 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 			if (vte_terminal_get_has_selection(VTE_TERMINAL(win_data->current_vte)))
 			{
 				extern GtkClipboard *selection_primary;
-				clipboard_str = gtk_clipboard_wait_for_text (selection_primary);
+#ifdef SAFEMODE
+				if (selection_primary)
+#endif
+					clipboard_str = gtk_clipboard_wait_for_text (selection_primary);
 				if (clipboard_str && (clipboard_str[0]!='\0'))
 					gtk_entry_set_text(GTK_ENTRY(dialog_data->operate[0]),
 							   strtok(clipboard_str, "\n\r"));
@@ -1868,7 +1875,11 @@ DESTROY_WINDOW:
 	if (selectable)
 	{
 		extern GtkClipboard *selection_primary;
-		gchar *current_clipboard_str = gtk_clipboard_wait_for_text(selection_primary);
+		gchar *current_clipboard_str = NULL;
+#ifdef SAFEMODE
+		if (selection_primary)
+#endif
+			current_clipboard_str = gtk_clipboard_wait_for_text(selection_primary);
 		if ((current_clipboard_str!=NULL) && (current_clipboard_str[0]!='\0'))
 		{
 			g_free(selection_primary_str);
@@ -2643,6 +2654,9 @@ void create_color_selection_widget(struct Dialog *dialog_data, GSourceFunc func,
 
 void set_color_selection_colors(GtkWidget *color_selection, GdkRGBA *color)
 {
+#ifdef SAFEMODE
+	if (color_selection==NULL) return;
+#endif
 #ifdef USE_GTK_COLOR_CHOOSER
 	gtk_color_chooser_set_rgba(GTK_COLOR_CHOOSER(color_selection), color);
 #else
@@ -2923,11 +2937,14 @@ gchar *deal_dialog_key_press_join_string(StrAddr **key_value, gchar *separator, 
 	return join_string;
 }
 
-#ifdef USE_GTK_COLOR_CHOOSER
+#if defined(USE_GTK_COLOR_CHOOSER) || defined(UNIT_TEST)
 void adjust_vte_color_sample(GtkColorButton* color_button, gint color_index)
 {
 #  ifdef DETAIL
 	g_debug("! Launch adjust_vte_color_sample() with color_button = %p, color_index = %d", color_button, color_index);
+#  endif
+#  ifdef SAFEMODE
+	if (color_button==NULL) return;
 #  endif
 	struct Window *win_data = (struct Window *)g_object_get_data(G_OBJECT(menu_active_window), "Win_Data");
 	win_data->temp_index = get_color_index(win_data->invert_color, color_index);

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008-2013 Lu, Chao-Ming (Tetralet).  All rights reserved.
+ * Copyright (c) 2008-2014 Lu, Chao-Ming (Tetralet).  All rights reserved.
  *
  * This file is part of LilyTerm.
  *
@@ -80,7 +80,7 @@ void set_cursor_shape (GtkWidget *menuitem, gint value);
 #endif
 GSList *create_theme_menu_items(struct Window *win_data, GtkWidget *sub_menu, GSList *theme_group, gint current_theme, gint custom_theme);
 void reset_vte(GtkWidget *widget, struct Window *win_data);
-#if defined(EXIST_GTK_FONT_CHOOSER_SET_FILTER_FUNC) || defined (UNIT_TEST)
+#ifdef EXIST_GTK_FONT_CHOOSER_SET_FILTER_FUNC
 gboolean monospace_filter(const PangoFontFamily *family, const PangoFontFace *face, gpointer data);
 #endif
 void select_font(GtkWidget *widget, struct Window *win_data);
