@@ -253,6 +253,9 @@ int main( int   argc,
 		// The argv of "main" LilyTerm can't be free.
 		// Set it to NULL here to avoid double_free().
 		argv=NULL;
+#ifdef ENABLE_X_STARTUP_NOTIFICATION_ID
+		gdk_notify_startup_complete_with_id(PACKAGE);
+#endif
 		// g_debug("gtk_main_level = %d", gtk_main_level());
 		if (! gtk_main_level())
 			gtk_main();

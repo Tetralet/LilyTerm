@@ -138,6 +138,8 @@
 	#define ENABLE_RGBA
 	// SINCE: gtk+-2.11.0/gdk/gdkcolor.h: gdk_color_to_string()
 	#define ENABLE_GDKCOLOR_TO_STRING
+	// SINCE: gtk+-2.11.0/gdk/gdk.h: gdk_notify_startup_complete_with_id()
+	#define ENABLE_X_STARTUP_NOTIFICATION_ID
 #endif
 #if GTK_CHECK_VERSION(2,11,3)
 	// SINCE: gtk+-2.11.3/gtk/gtkwidget.h: gtk_widget_set_tooltip_text()
