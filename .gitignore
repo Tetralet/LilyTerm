@@ -1,0 +1,5 @@
+.config
+*/*.o
+*/*.mo
+src/lilyterm
+data/lilyterm.1.gz
