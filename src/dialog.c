@@ -24,6 +24,7 @@
 #define BORDER_SPACE 10
 
 extern GtkWidget *menu_active_window;
+GtkWidget *real_menu_active_window;
 extern struct ModKey modkeys[MOD];
 extern struct Page_Color page_color[PAGE_COLOR];
 extern GList* window_list;
@@ -79,11 +80,13 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 	dialog_activated++;
 	// g_debug("Set dialog_activated = %d", dialog_activated);
 
+	real_menu_active_window = menu_active_window;
+
 	struct Dialog *dialog_data = g_new0(struct Dialog, 1);
 #ifdef SAFEMODE
-	if (menu_active_window)
+	if (real_menu_active_window)
 #endif
-		g_object_set_data(G_OBJECT(menu_active_window), "Dialog", dialog_data);
+		g_object_set_data(G_OBJECT(real_menu_active_window), "Dialog", dialog_data);
 	dialog_data->type = style;
 	gboolean selectable = FALSE;
 	// Backup the datas in clipboard.
@@ -107,10 +110,10 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 	// A critical error message for current_vte = NULL.
 
 #ifdef FATAL
-	// menu_active_window==NULL: it should NOT happen!
-	if (menu_active_window==NULL)
+	// real_menu_active_window==NULL: it should NOT happen!
+	if (real_menu_active_window==NULL)
 	{
-		gchar *err_msg = g_strdup_printf("dialog(%ld): menu_active_window = NULL\n\n"
+		gchar *err_msg = g_strdup_printf("dialog(%ld): real_menu_active_window = NULL\n\n"
 						  "Please report bug to %s, Thanks!",
 						  (glong)style, BUGREPORT);
 #ifdef SAFEMODE
@@ -124,7 +127,7 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 	}
 	else
 #endif
-		win_data = (struct Window *)g_object_get_data(G_OBJECT(menu_active_window), "Win_Data");
+		win_data = (struct Window *)g_object_get_data(G_OBJECT(real_menu_active_window), "Win_Data");
 
 #ifdef SAFEMODE
 	if (win_data==NULL) goto FINISH;
@@ -1250,7 +1253,7 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 			create_dialog(_("Confirm to execute -e/-x/--execute command"),
 				      "Confirm to execute -e/-x/--execute command",
 				      DIALOG_OK_CANCEL,
-				      menu_active_window,
+				      real_menu_active_window,
 				      TRUE,
 				      FALSE,
 				      10,
@@ -1955,7 +1958,7 @@ void dialog_invert_color_theme(GtkWidget *menuitem, struct Window *win_data)
 #ifdef SAFEMODE
 	if ((menuitem==NULL) || (win_data==NULL)) return;
 #endif
-	struct Dialog *dialog_data = (struct Dialog *)g_object_get_data(G_OBJECT(menu_active_window), "Dialog");
+	struct Dialog *dialog_data = (struct Dialog *)g_object_get_data(G_OBJECT(real_menu_active_window), "Dialog");
 #ifdef SAFEMODE
 	if (dialog_data==NULL) return;
 #endif
@@ -2170,13 +2173,13 @@ void update_ansi_color_info(GtkWidget *button, gint color_index)
 	g_debug("! Launch update_ansi_color_info() with button = %p, color_index = %d", button, color_index);
 #endif
 #ifdef SAFEMODE
-	if (menu_active_window==NULL) return;
+	if (real_menu_active_window==NULL) return;
 #endif
-	struct Window *win_data = (struct Window *)g_object_get_data(G_OBJECT(menu_active_window), "Win_Data");
+	struct Window *win_data = (struct Window *)g_object_get_data(G_OBJECT(real_menu_active_window), "Win_Data");
 #ifdef SAFEMODE
 	if ((win_data==NULL) || (win_data->current_vte==NULL)) return;
 #endif
-	struct Dialog *dialog_data = (struct Dialog *)g_object_get_data(G_OBJECT(menu_active_window), "Dialog");
+	struct Dialog *dialog_data = (struct Dialog *)g_object_get_data(G_OBJECT(real_menu_active_window), "Dialog");
 #ifdef SAFEMODE
 	if (dialog_data==NULL) return;
 #endif
@@ -2256,7 +2259,7 @@ void refresh_regex_settings(GtkWidget *widget, struct Window *win_data)
 #ifdef SAFEMODE
 	if ((win_data==NULL) || (win_data->window==NULL)) return;
 #endif
-	struct Dialog *dialog_data = (struct Dialog *)g_object_get_data(G_OBJECT(menu_active_window), "Dialog");
+	struct Dialog *dialog_data = (struct Dialog *)g_object_get_data(G_OBJECT(real_menu_active_window), "Dialog");
 #ifdef SAFEMODE
 	if (dialog_data==NULL) return;
 #endif
@@ -2377,14 +2380,14 @@ void find_str(GtkWidget *widget, Dialog_Find_Type type)
 #endif
 
 #ifdef FATAL
-	// g_debug("menu_active_window = %p", menu_active_window);
-	if (menu_active_window==NULL)
+	// g_debug("real_menu_active_window = %p", real_menu_active_window);
+	if (real_menu_active_window==NULL)
 		return print_active_window_is_null_error_dialog("find_str_in_vte()");
 #endif
 #ifdef SAFEMODE
-	if (menu_active_window==NULL) return;
+	if (real_menu_active_window==NULL) return;
 #endif
-	struct Window *win_data = (struct Window *)g_object_get_data(G_OBJECT(menu_active_window), "Win_Data");
+	struct Window *win_data = (struct Window *)g_object_get_data(G_OBJECT(real_menu_active_window), "Win_Data");
 #ifdef SAFEMODE
 	if ((win_data==NULL) || (win_data->current_vte==NULL)) return;
 #endif
@@ -2393,7 +2396,7 @@ void find_str(GtkWidget *widget, Dialog_Find_Type type)
 	gboolean response = find_str_in_vte(win_data->current_vte, type);
 
 	vte_terminal_search_set_wrap_around (VTE_TERMINAL(win_data->current_vte), TRUE);
-	struct Dialog *dialog_data = (struct Dialog *)g_object_get_data(G_OBJECT(menu_active_window), "Dialog");
+	struct Dialog *dialog_data = (struct Dialog *)g_object_get_data(G_OBJECT(real_menu_active_window), "Dialog");
 	if (response)
 		gtk_widget_hide(dialog_data->operate[3]);
 	else
@@ -2463,14 +2466,14 @@ void paste_text_to_vte_terminal(GtkWidget *widget, struct Dialog *dialog_data)
 	const gchar *text = gtk_entry_get_text(GTK_ENTRY(dialog_data->operate[0]));
 	if ((text == NULL) || (text[0] == '\0')) return;
 #ifdef FATAL
-	// g_debug("menu_active_window = %p", menu_active_window);
-	if (menu_active_window==NULL)
+	// g_debug("real_menu_active_window = %p", real_menu_active_window);
+	if (real_menu_active_window==NULL)
 		return print_active_window_is_null_error_dialog("paste_text_to_vte_terminal()");
 #endif
 #ifdef SAFEMODE
-	if (menu_active_window==NULL) return;
+	if (real_menu_active_window==NULL) return;
 #endif
-	struct Window *win_data = (struct Window *)g_object_get_data(G_OBJECT(menu_active_window), "Win_Data");
+	struct Window *win_data = (struct Window *)g_object_get_data(G_OBJECT(real_menu_active_window), "Win_Data");
 #ifdef SAFEMODE
 	if (win_data==NULL) return;
 #endif
@@ -2791,7 +2794,7 @@ gboolean grab_key_press (GtkWidget *window, GdkEventKey *event, struct Dialog *d
 	key_value = deal_dialog_key_press_join_string(&key_value, " ", gdk_keyval_name(event->keyval));
 	set_markup_key_value(TRUE, "blue", key_value, dialog_data->operate[0]);
 
-	struct Window *win_data = (struct Window *)g_object_get_data(G_OBJECT(menu_active_window), "Win_Data");
+	struct Window *win_data = (struct Window *)g_object_get_data(G_OBJECT(real_menu_active_window), "Win_Data");
 #ifdef SAFEMODE
 	if (win_data==NULL) return FALSE;
 #endif
@@ -2946,7 +2949,7 @@ void adjust_vte_color_sample(GtkColorButton* color_button, gint color_index)
 #  ifdef SAFEMODE
 	if (color_button==NULL) return;
 #  endif
-	struct Window *win_data = (struct Window *)g_object_get_data(G_OBJECT(menu_active_window), "Win_Data");
+	struct Window *win_data = (struct Window *)g_object_get_data(G_OBJECT(real_menu_active_window), "Win_Data");
 	win_data->temp_index = get_color_index(win_data->invert_color, color_index);
 
 	GdkRGBA color;
@@ -2975,7 +2978,7 @@ void adjust_vte_color(GtkColorChooser *color_selection, GdkRGBA *color, GtkWidge
 		final_color=*color;
 #endif
 	// g_debug("Changing the color for vte %p", vte);
-	struct Dialog *dialog_data = (struct Dialog *)g_object_get_data(G_OBJECT(menu_active_window), "Dialog");
+	struct Dialog *dialog_data = (struct Dialog *)g_object_get_data(G_OBJECT(real_menu_active_window), "Dialog");
 	// g_debug("Get dialog_data = %p", dialog_data);
 #ifdef SAFEMODE
 	if (dialog_data==NULL) return;
@@ -3127,7 +3130,7 @@ void recover_page_colors(GtkWidget *dialog_window, GtkWidget *window, GtkWidget 
 	if ((dialog_window==NULL) || (window==NULL)) return;
 #endif
 
-	struct Dialog *dialog_data = (struct Dialog *)g_object_get_data(G_OBJECT(menu_active_window), "Dialog");
+	struct Dialog *dialog_data = (struct Dialog *)g_object_get_data(G_OBJECT(real_menu_active_window), "Dialog");
 	struct Window *win_data = (struct Window *)g_object_get_data(G_OBJECT(window), "Win_Data");
 #ifdef SAFEMODE
 	if ((dialog_data==NULL) || (win_data==NULL)) return;
@@ -3222,7 +3225,7 @@ void create_invalid_locale_error_message(gchar *locale)
 	g_free(err_msg);
 }
 
-// 1. menu_active_window = NULL
+// 1. real_menu_active_window = NULL
 // 2. Not supported feature
 // 3. The format of socket data is out of date
 // 4. The following settings can NOT be applied
@@ -3319,7 +3322,7 @@ gboolean set_ansi_color(GtkRange *range, GtkScrollType scroll, gdouble value, Gt
 	// g_debug("set_ansi_color(): win_data->color_brightness = %0.3f, win_data->color_brightness_inactive = %0.3f",
 	//	win_data->color_brightness, win_data->color_brightness_inactive);
 
-	struct Dialog *dialog_data = (struct Dialog *)g_object_get_data(G_OBJECT(menu_active_window), "Dialog");
+	struct Dialog *dialog_data = (struct Dialog *)g_object_get_data(G_OBJECT(real_menu_active_window), "Dialog");
 #ifdef SAFEMODE
 	if (dialog_data==NULL) return FALSE;
 #endif
