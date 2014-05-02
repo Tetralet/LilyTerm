@@ -8,14 +8,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: lilyterm 0.9.9~rc9\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-04-18 14:22+0800\n"
+"POT-Creation-Date: 2014-05-02 10:01+0800\n"
 "PO-Revision-Date: 2012-05-22 15:03+0200\n"
 "Last-Translator: Slavko <linux@slavino.sk>\n"
 "Language-Team: slovenčina <debian-l10n-slovak@lists.debian.org>\n"
-"Language: sk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: sk\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 "X-POFile-SpellExtra: Vte Blog kill UTF-8 soketu pts libvte SIGKILL devpts\n"
 "X-POFile-SpellExtra: title version tj ls Emulovať exit Perlom Github\n"
@@ -29,7 +29,7 @@ msgstr ""
 msgid "Please report bug at <%s>.\n"
 msgstr "Prosím, chyby hláste na <%s>.\n"
 
-#: console.c:122 dialog.c:1058
+#: console.c:122 dialog.c:1069
 #, c-format
 msgid "Thank you for using %s!"
 msgstr "Ďakujem, že používate %s!"
@@ -279,71 +279,71 @@ msgstr ""
 "TIP: Tieto klávesové skratky môžete prispôsobiť alebo vypnúť pomocou "
 "kontextového menu [%s]."
 
-#: console.c:258 menu.c:414
+#: console.c:258 menu.c:419
 msgid "Set key binding"
 msgstr "Nastaviť kláv. skratky"
 
-#: dialog.c:115 dialog.c:3259 menu.c:2905
+#: dialog.c:122 dialog.c:3281 menu.c:2907
 msgid "The following error occurred:"
 msgstr "Nastala nasledujúca chyba:"
 
-#: dialog.c:180 menu.c:342
+#: dialog.c:187 menu.c:347
 msgid "Rename this tab"
 msgstr "Premenovať túto záložku"
 
-#: dialog.c:203
+#: dialog.c:210
 msgid "Please input the Label Name of this tab:"
 msgstr "Prosím zadajte menovku tejto záložky:"
 
-#: dialog.c:204
+#: dialog.c:211
 msgid "Label Name:"
 msgstr "Menovka:"
 
-#: dialog.c:211 profile.c:819
+#: dialog.c:218 profile.c:870
 msgid "Find string"
 msgstr "Nájsť reťazec"
 
-#: dialog.c:228
+#: dialog.c:235
 msgid "Find: "
 msgstr "Nájsť:"
 
-#: dialog.c:251
+#: dialog.c:258
 msgid "Find previous string"
 msgstr "Nájsť predošlý"
 
-#: dialog.c:257
+#: dialog.c:264
 msgid "Find next string"
 msgstr "Nájsť ďalší"
 
-#: dialog.c:268
+#: dialog.c:275
 msgid "Case sensitive"
 msgstr "Rozlišovať veľkosť"
 
-#: dialog.c:276
+#: dialog.c:283
 msgid "Use Perl compatible regular expressions"
 msgstr "Použiť regulárne výrazy kompatibilné s Perlom"
 
-#: dialog.c:314 dialog.c:387
+#: dialog.c:324 dialog.c:397
 msgid "Paste texts to every Vte Terminal"
 msgstr "Vložiť text do každého Vte Terminálu"
 
-#: dialog.c:332
+#: dialog.c:342
 msgid "Please input the texts that will be paste to the Vte Terminals:"
 msgstr "Prosím, zadajte text, ktorý bude vložený do terminálov Vte:"
 
-#: dialog.c:333
+#: dialog.c:343
 msgid "Text:"
 msgstr "Text:"
 
-#: dialog.c:342
+#: dialog.c:352
 msgid "Append a <NewLine> to the end of the text."
 msgstr "Na koniec textu pridať <NewLine>."
 
-#: dialog.c:378
+#: dialog.c:388
 msgid "Grab keys"
 msgstr "Zaznamenať klávesy"
 
-#: dialog.c:384
+#: dialog.c:394
 msgid ""
 "Paste the grabbed key to the Vte Terminals.\n"
 "It will be useful if you want to paste combined keys, like <Ctrl><C>."
@@ -351,22 +351,22 @@ msgstr ""
 "Vloží zaznamenaný kláves do terminálov Vte.\n"
 "Využijete to, keď chcete vložiť kombináciu klávesov, napr. <Ctrl><C>."
 
-#: dialog.c:407 dialog.c:936
+#: dialog.c:417 dialog.c:947
 msgid "Key Value:"
 msgstr "Hodnota klávesa:"
 
-#: dialog.c:413
+#: dialog.c:423
 msgid "Entry"
 msgstr "Položka"
 
-#: dialog.c:418
+#: dialog.c:428
 msgid "Add new locales and set the default locale"
 msgstr "Pridať novú lokalizáciu a nastaviť ju ako predvolenú"
 
 #. TRANSLATE NOTE: You may replace the following locales with the locale name of your country.
 #. TRANSLATE NOTE: For example, replace "zh_TW" with "ru_RU", replace "zh_TW.Big5" with "ru_RU.KOI8-R",
 #. TRANSLATE NOTE: or replace "zh_TW.UTF-8" with "ru_RU.UTF-8".
-#: dialog.c:437
+#: dialog.c:447
 msgid ""
 "The default locale used when initing a Vte Terminal.\n"
 "You may use \"zh_TW\", \"zh_TW.Big5\", or \"zh_TW.UTF-8\" here."
@@ -374,14 +374,14 @@ msgstr ""
 "Predvolená lokalizácia použitá pri inicializácii terminálu Vte.\n"
 "Môžete tu použiť „sk_SK” alebo „sk_SK.UTF-8”."
 
-#: dialog.c:441
+#: dialog.c:451
 msgid "Default locale:"
 msgstr "Predvolená lokalizácia:"
 
 #. TRANSLATE NOTE: You may replace the following locales with the locale name of your country.
 #. TRANSLATE NOTE: For example, replace "zh_TW" with "ja_JP", replace "zh_TW.Big5" with "ja_JP.EUC-JP",
 #. TRANSLATE NOTE: and replace "zh_TW.UTF-8" with "ja_JP.UTF-8".
-#: dialog.c:448
+#: dialog.c:458
 msgid ""
 "The locales list on right click menu, separate with <space>.\n"
 "You may use \"zh_TW\", \"zh_TW.Big5\", or \"zh_TW.UTF-8\" here.\n"
@@ -391,72 +391,72 @@ msgstr ""
 "Môžete tu použiť „sk_SK” alebo „sk_SK.UTF-8”.\n"
 "Možno budete chcieť použiť „UTF-8”, ak nemáte nainštalované lokalizačné dáta."
 
-#: dialog.c:453
+#: dialog.c:463
 msgid "Locales list:"
 msgstr "Zoznam lokalizácií:"
 
-#: dialog.c:461
+#: dialog.c:471
 msgid "Change the saturation of background"
 msgstr "Zmeniť saturáciu pozadia"
 
-#: dialog.c:470
+#: dialog.c:480
 msgid "Change the Saturation of background:"
 msgstr "Zmeniť saturáciu pozadia:"
 
-#: dialog.c:495
+#: dialog.c:505
 msgid "Change the foreground color in terminal"
 msgstr "Zmeniť farbu písma v termináli"
 
-#: dialog.c:521
+#: dialog.c:532
 msgid "Change the background color in terminal"
 msgstr "Zmeniť farbu pozadia pozadia v termináli"
 
-#: dialog.c:545
+#: dialog.c:556
 msgid "Change the cursor color in terminal"
 msgstr "Zmeniť farbu kurzora v termináli"
 
-#: dialog.c:568 dialog.c:2166
+#: dialog.c:579 dialog.c:2188
 #, fuzzy, c-format
 #| msgid "Change the cursor color in terminal"
 msgid "Change the ansi color [%s] in terminal"
 msgstr "Zmeniť farbu kurzora v termináli"
 
-#: dialog.c:597
+#: dialog.c:608
 #, fuzzy
 #| msgid "Adjust the brightness of ANSI colors"
 msgid "The brightness of ANSI colors:"
 msgstr "Prispôsobiť jas farieb ANSI"
 
-#: dialog.c:613
+#: dialog.c:624
 msgid "ANSI Colors:"
 msgstr ""
 
-#: dialog.c:618 menu.c:464
+#: dialog.c:629 menu.c:470
 msgid "Invert color"
 msgstr "Invertovať farbu"
 
-#: dialog.c:686 menu.c:120
+#: dialog.c:697 menu.c:125
 #, c-format
 msgid "Change the %s color on tab"
 msgstr "Zmeniť farbu %s v záložke"
 
-#: dialog.c:771 dialog.c:3078
+#: dialog.c:782 dialog.c:3099
 msgid "Bold Demo Text"
 msgstr "Tučný demo text"
 
-#: dialog.c:825
+#: dialog.c:836
 msgid "Confirm to close multi tabs"
 msgstr "Potvrdiť zatvorenie viacerých záložiek"
 
-#: dialog.c:834
+#: dialog.c:845
 msgid "You are about to close multi tabs. Continue anyway?"
 msgstr "Zatvárate viaceré záložky. Pokračovať?"
 
-#: dialog.c:841 dialog.c:1326
+#: dialog.c:852 dialog.c:1337
 msgid "those tabs"
 msgstr "tieto záložky"
 
-#: dialog.c:847
+#: dialog.c:858
 msgid ""
 "You may press <Ctrl + Alt + Shift + Win> + <any key> here\n"
 "to get the key value used for the key binding."
@@ -464,44 +464,44 @@ msgstr ""
 "Môžete tu stlačiť <Ctrl + Alt + Shift + Win> + <akýkoľvek kláves>,\n"
 "čím získate hodnotu, použitú pre klávesovú skratku."
 
-#: dialog.c:849
+#: dialog.c:860
 msgid "Get the key value for function key"
 msgstr "Získať hodnotu pre funkčný kláves"
 
-#: dialog.c:902
+#: dialog.c:913
 msgid "Function Key Name"
 msgstr "Meno funkčného klávesu"
 
-#: dialog.c:906
+#: dialog.c:917
 msgid "Key Bindings"
 msgstr "Klávesové skratky"
 
-#: dialog.c:914
+#: dialog.c:925
 msgid "Key Group: "
 msgstr "Skupina klávesov:"
 
-#: dialog.c:924
+#: dialog.c:935
 msgid "Note: "
 msgstr "Poznámka: "
 
-#: dialog.c:946
+#: dialog.c:957
 msgid "Disable all the function keys."
 msgstr "Vypnúť všetky funkčné klávesy."
 
-#: dialog.c:979
+#: dialog.c:990
 #, c-format
 msgid "Usage for %s %s"
 msgstr "Použitie %s %s"
 
-#: dialog.c:1004
+#: dialog.c:1015
 msgid "Don't forget to save your settings after making any change!"
 msgstr "Po vykonaní akejkoľvek zmeny nezabudnite uložiť svoje nastavenia!"
 
-#: dialog.c:1007 menu.c:410
+#: dialog.c:1018 menu.c:415
 msgid "Usage"
 msgstr "Použitie"
 
-#: dialog.c:1011
+#: dialog.c:1022
 msgid "Key binding"
 msgstr "Klávesové skratky"
 
@@ -510,7 +510,7 @@ msgstr "Klávesové skratky"
 #. TRANSLATE NOTE: Of corse, Translating the GPLv3 license text won't be a good idea,
 #. TRANSLATE NOTE: But it seems be safe to translate the following license declaration.
 #. TRANSLATE NOTE: Please just skip and leave it alone if you don't wanna translate it.
-#: dialog.c:1019
+#: dialog.c:1030
 #, c-format
 msgid ""
 "Copyright (c) %s-%s  %s.  All rights reserved.\n"
@@ -543,62 +543,62 @@ msgstr ""
 "Kópiu GNU General Public License by ste mali získať spolu s\n"
 "%s. Ak nie, pozrite <http://www.gnu.org/licenses/>."
 
-#: dialog.c:1032
+#: dialog.c:1043
 msgid "License"
 msgstr "Licencia"
 
-#: dialog.c:1047
+#: dialog.c:1058
 msgid "Translators"
 msgstr "Prekladatelia"
 
 #. TRANSLATE NOTE: Please be care of the spacing when translating the following site informatoins.
 #. TRANSLATE NOTE: Please check it in [Right Click Menu] -> [Usage] -> [About] page after translating.
-#: dialog.c:1052
+#: dialog.c:1063
 #, fuzzy, c-format
 #| msgid "Homepage:"
 msgid "HomePage: %s"
 msgstr "Domovská stránka:"
 
-#: dialog.c:1053
+#: dialog.c:1064
 #, fuzzy, c-format
 #| msgid "Wiki:   %s"
 msgid "Github:   %s"
 msgstr "Wiki:   %s"
 
-#: dialog.c:1054
+#: dialog.c:1065
 #, fuzzy, c-format
 #| msgid "Blog:   %s"
 msgid "Blog:     %s"
 msgstr "Blog:   %s"
 
-#: dialog.c:1055
+#: dialog.c:1066
 #, fuzzy, c-format
 #| msgid "Wiki:   %s"
 msgid "Wiki:     %s"
 msgstr "Wiki:   %s"
 
-#: dialog.c:1056
+#: dialog.c:1067
 #, fuzzy, c-format
 #| msgid "Issues: %s"
 msgid "Issues:   %s"
 msgstr "Problémy: %s"
 
-#: dialog.c:1057
+#: dialog.c:1068
 #, fuzzy, c-format
 #| msgid "IRC:    %s"
 msgid "IRC:      %s"
 msgstr "IRC:    %s"
 
-#: dialog.c:1064
+#: dialog.c:1075
 msgid "About"
 msgstr "O ..."
 
-#: dialog.c:1081
+#: dialog.c:1092
 #, c-format
 msgid "There is still a running foreground program on #%d tab:"
 msgstr "V %d. záložke stále beží program:"
 
-#: dialog.c:1083
+#: dialog.c:1094
 #, fuzzy, c-format
 #| msgid ""
 #| "Terminate it by using `kill -9 %d' is recommend if it is non-response."
@@ -606,113 +606,113 @@ msgid ""
 "Terminate it by using `kill -9 %d' is recommended if it is non-response."
 msgstr "Ak neodpovedá, je odporúčané jeho ukončenie pomocou `kill -9 %d'."
 
-#: dialog.c:1089 dialog.c:1239 dialog.c:1271 dialog.c:1307 dialog.c:1340
-#: dialog.c:1365
+#: dialog.c:1100 dialog.c:1250 dialog.c:1282 dialog.c:1318 dialog.c:1351
+#: dialog.c:1376
 msgid "Continue anyway?"
 msgstr "Pokračovať?"
 
-#: dialog.c:1091 dialog.c:1273
+#: dialog.c:1102 dialog.c:1284
 msgid "Tip:"
 msgstr "Tip:"
 
-#: dialog.c:1100
+#: dialog.c:1111
 msgid "Confirm to close running foreground program"
 msgstr "Potvrďte ukončenie bežiaceho programu"
 
-#: dialog.c:1117 dialog.c:1297
+#: dialog.c:1128 dialog.c:1308
 msgid "this tab"
 msgstr "táto záložka"
 
-#: dialog.c:1124
+#: dialog.c:1135
 msgid "Change the opacity of window"
 msgstr "Zmeniť priehľadnosť okna"
 
-#: dialog.c:1126
+#: dialog.c:1137
 msgid "Change the opacity of window:"
 msgstr "Zmeniť priehľadnosť okna:"
 
-#: dialog.c:1136
+#: dialog.c:1147
 msgid "Change the opacity of window when inactive"
 msgstr "Zmeniť priehľadnosť okna, keď nie je aktívne"
 
-#: dialog.c:1138
+#: dialog.c:1149
 msgid "Change the opacity of window when inactive:"
 msgstr "Zmeniť priehľadnosť okna, keď nie je aktívne:"
 
-#: dialog.c:1186
+#: dialog.c:1197
 msgid "Adjust the brightness of ANSI colors used in terminal"
 msgstr "Prispôsobiť jas farieb ANSI použitých v termináli"
 
-#: dialog.c:1191
+#: dialog.c:1202
 msgid "Adjust the brightness of ANSI colors when inactive"
 msgstr "Prispôsobiť jas farieb ANSI, keď nie je aktívny"
 
-#: dialog.c:1233
+#: dialog.c:1244
 msgid " is trying to execute the following command:"
 msgstr " sa pokúša spustiť nasledujúci príkaz:"
 
-#: dialog.c:1242
+#: dialog.c:1253
 msgid "Confirm to execute -e/-x/--execute command"
 msgstr "Potvrdiť spustenie príkazu -e/-x/--execute"
 
-#: dialog.c:1262
+#: dialog.c:1273
 #, c-format
 msgid "The following programs are still running under #%d tab:"
 msgstr "Nasledujúce programy stále bežia v %d. záložke:"
 
-#: dialog.c:1264
+#: dialog.c:1275
 msgid "Using <Ctrl><D> or 'exit' to close tabs is recommended"
 msgstr "Na zatvorenie záložky je odporúčané použiť <Ctrl><D> alebo 'exit'"
 
-#: dialog.c:1279
+#: dialog.c:1290
 msgid "Confirm to close a tab with child process"
 msgstr "Potvrďte zatvorenie záložky s procesom potomka"
 
-#: dialog.c:1303
+#: dialog.c:1314
 msgid "The following programs are still running under this window:"
 msgstr "V tomto okne stále bežia nasledujúce programy:"
 
-#: dialog.c:1309
+#: dialog.c:1320
 msgid "Confirm to close a window with child process"
 msgstr "Potvrďte zatvorenia okna s procesom potomka"
 
-#: dialog.c:1330
+#: dialog.c:1341
 #, c-format
 msgid "Confirm to close %s"
 msgstr "Potvrdiť zatvorenie %s"
 
-#: dialog.c:1333
+#: dialog.c:1344
 #, c-format
 msgid "The following programs are still running under %s:"
 msgstr "V %s stále bežia nasledujúce programy:"
 
-#: dialog.c:1361
+#: dialog.c:1372
 msgid "Trying to paste the following texts to the Vte Terminal:"
 msgstr "Pokus o vloženie nasledujúceho textu do terminálu Vte:"
 
-#: dialog.c:1368
+#: dialog.c:1379
 msgid "Confirm to paste texts to the Vte Terminal"
 msgstr "Potvrďte vloženie textu do terminálu Vte"
 
-#: dialog.c:1386
+#: dialog.c:1397
 msgid "Join"
 msgstr ""
 
-#: dialog.c:1388
+#: dialog.c:1399
 msgid "Remove '<Return>' in the text"
 msgstr ""
 
-#: dialog.c:1399
+#: dialog.c:1410
 msgid "Strip"
 msgstr ""
 
-#: dialog.c:1401
+#: dialog.c:1412
 msgid ""
 "Remove '<Return>', \"\\<Return>\", and \"\\<Return><<Space>\" in the text, "
 "then join '<Tab>' and '<Space>' into a single '<Space>'"
 msgstr ""
 
-#: dialog.c:2703
+#: dialog.c:2728
 #, c-format
 msgid ""
 "Try to kill %s with SIGKILL() to avoid terminate those programs!\n"
@@ -722,21 +722,21 @@ msgstr ""
 "programov!\n"
 "(MÔŽE SPÔSOBIŤ STRATU DÁT!!)"
 
-#: dialog.c:2717
+#: dialog.c:2742
 #, c-format
 msgid "Force to close all the tabs and windows, and exit %s!"
 msgstr "Vynútiť zatvorenie všetkých záložiek a okien a ukončiť %s!"
 
-#: dialog.c:2842
+#: dialog.c:2867
 #, c-format
 msgid "(Disabled, duplicated with [%s])"
 msgstr "(Vypnuté, duplikované s [%s])"
 
-#: dialog.c:2851 dialog.c:3412 dialog.c:3463
+#: dialog.c:2876 dialog.c:3434 dialog.c:3485
 msgid "(Disabled)"
 msgstr "(Vypnuté)"
 
-#: dialog.c:3197
+#: dialog.c:3218
 #, c-format
 msgid ""
 "The locale \"%s\" seems NOT supported by your system!\n"
@@ -747,27 +747,27 @@ msgstr ""
 "Ak ste práve pridali lokalizačné dáta,\n"
 "prosím zatvorte všetky okná %s a skúste znova."
 
-#: dialog.c:3201
+#: dialog.c:3222
 msgid "Not supported locale!"
 msgstr "Nepodporovaná lokalizácia!"
 
-#: dialog.c:3271
+#: dialog.c:3293
 #, c-format
 msgid "You should upgrade to %s and recompile %s to support this feature."
 msgstr ""
 "Musíte aktualizovať na %s a prekompilovať %s, aby bola táto vlastnosť "
 "podporovaná."
 
-#: dialog.c:3272
+#: dialog.c:3294
 msgid "Not supported feature!"
 msgstr "Nepodporovaná vlastnosť!"
 
-#: dialog.c:3420
+#: dialog.c:3442
 #, c-format
 msgid "Disable all the function keys of [%s] group."
 msgstr "Vypnúť všetky funkčné klávesy skupiny [%s]."
 
-#: main.c:643
+#: main.c:646
 #, c-format
 msgid ""
 "The data got from socket seems incorrect.\n"
@@ -786,7 +786,7 @@ msgstr ""
 "Ak ste práve aktualizovali %s,\n"
 "prosím zatvorte všetky okná %s a skúste to znova."
 
-#: main.c:651
+#: main.c:654
 msgid "The format of socket data is out of date"
 msgstr "Formát dát soketu je neaktuálny"
 
@@ -802,7 +802,7 @@ msgstr "Nová záložka"
 msgid "New tab with specified locale"
 msgstr "Nová záložka so zadanou lokalizáciou"
 
-#: menu.c:70 menu.c:2408
+#: menu.c:70 menu.c:2410
 msgid "New window with specified profile"
 msgstr "Nové okno so zadaným profilom"
 
@@ -815,272 +815,268 @@ msgid "Change colors"
 msgstr "Zmeniť farby"
 
 #: menu.c:90
+msgid "Change the cursor color"
+msgstr "Zmeniť farbu kurzora"
+
+#: menu.c:94
 msgid "Change the foreground color"
 msgstr "Zmeniť farbu popredia"
 
-#: menu.c:94
+#: menu.c:99
 #, fuzzy
 #| msgid "Change the cursor color"
 msgid "Change the ANSI colors"
 msgstr "Zmeniť farbu kurzora"
 
-#: menu.c:98
+#: menu.c:104
 msgid "Change the background color"
 msgstr "Zmeniť farbu pozadia"
 
-#: menu.c:102
-msgid "Change the cursor color"
-msgstr "Zmeniť farbu kurzora"
-
-#: menu.c:106
+#: menu.c:109
 msgid "Adjust the brightness of ANSI colors"
 msgstr "Prispôsobiť jas farieb ANSI"
 
-#: menu.c:109
+#: menu.c:113
 msgid "Adjust the brightness when inactive"
 msgstr "Prispôsobiť jas, keď nie je aktívne"
 
-#: menu.c:133
+#: menu.c:138
 msgid "Change ANSI color theme"
 msgstr "Zmeniť farebnú schému ANSI"
 
-#: menu.c:143
+#: menu.c:148
 msgid "Background"
 msgstr "Pozadie"
 
-#: menu.c:149
+#: menu.c:154
 msgid "Transparent window"
 msgstr "Priehľadné okno"
 
-#: menu.c:154
+#: menu.c:159
 msgid "Window opacity"
 msgstr "Priehľadnosť okna"
 
-#: menu.c:157
+#: menu.c:162
 msgid "Window opacity when inactive"
 msgstr "Priehľadnosť okna, keď nie je aktívny"
 
-#: menu.c:167
+#: menu.c:172
 msgid "Transparent background"
 msgstr "Priehľadné pozadie"
 
-#: menu.c:170
+#: menu.c:175
 msgid "Background saturation"
 msgstr "Saturácia pozadia"
 
-#: menu.c:174
+#: menu.c:179
 msgid "Set background image"
 msgstr "Nastaviť obrázok pozadia"
 
-#: menu.c:187 window.c:3776
+#: menu.c:192 window.c:3781
 msgid "Clipboard"
 msgstr "Schránka"
 
-#: menu.c:191
+#: menu.c:196
 msgid "Copy URL"
 msgstr "Kopírovať URL"
 
-#: menu.c:196
+#: menu.c:201
 msgid "Copy"
 msgstr "Kopírovať"
 
-#: menu.c:200
+#: menu.c:205
 msgid "Paste"
 msgstr "Vložiť"
 
-#: menu.c:207
+#: menu.c:212
 msgid "View clipboard"
 msgstr "Zobraziť schránku"
 
-#: menu.c:211
+#: menu.c:216
 msgid "View primary clipboard"
 msgstr "Zobraziť primárnu schránku"
 
-#: menu.c:222
+#: menu.c:227
 msgid "Scrollback lines"
 msgstr "Rolovanie riadkov"
 
-#: menu.c:231 profile.c:930
+#: menu.c:236 profile.c:981
 msgid "Clean scrollback lines"
 msgstr "Vymazať rolovanie riadkov"
 
-#: menu.c:237 profile.c:791
+#: menu.c:242 profile.c:842
 msgid "Misc"
 msgstr "Rôzne"
 
-#: menu.c:239
+#: menu.c:244
 msgid "Paste to every Vte Terminal"
 msgstr "Vložiť do každého terminálu Vte"
 
-#: menu.c:242
+#: menu.c:247
 msgid "Launch file manager"
 msgstr "Spustiť správcu súborov"
 
-#: menu.c:247
+#: menu.c:252
 msgid "View page info"
 msgstr ""
 
-#: menu.c:255
+#: menu.c:260
 msgid "Erase Binding"
 msgstr "Väzba mazania"
 
-#: menu.c:270
+#: menu.c:275
 msgid "Cursor Shape"
 msgstr "Tvar kurzora"
 
-#: menu.c:287
+#: menu.c:292
 msgid "Dim text when inactive"
 msgstr "Stmaviť, keď nie je aktívny"
 
-#: menu.c:292
+#: menu.c:297
 msgid "Dim window when inactive"
 msgstr "Stmaviť okno, keď nie je aktívny"
 
-#: menu.c:297
+#: menu.c:302
 msgid "Cursor blinks"
 msgstr "Blikajúci kurzor"
 
-#: menu.c:301
+#: menu.c:306
 msgid "Allow bold text"
 msgstr ""
 
-#: menu.c:308
+#: menu.c:313
 msgid "Need <Ctrl> pressed to open URL"
 msgstr ""
 
-#: menu.c:311
+#: menu.c:316
 msgid "Disable URL when <Ctrl> pressed"
 msgstr ""
 
-#: menu.c:318
+#: menu.c:323
 msgid "Audible bell"
 msgstr "Zvukový zvonček"
 
-#: menu.c:322
+#: menu.c:327
 msgid "Visible bell"
 msgstr "Viditeľný zvonček"
 
-#: menu.c:326
+#: menu.c:331
 msgid "Urgent bell"
 msgstr "Naliehavý zvonček"
 
-#: menu.c:336
+#: menu.c:341
 msgid "Switch input methods"
 msgstr "Prepnúť vstupnú metódu"
 
-#: menu.c:355
+#: menu.c:360
 msgid "Show the tabs bar"
 msgstr "Zobraziť záložky"
 
-#: menu.c:361
+#: menu.c:366
 msgid "Hide the tabs bar"
 msgstr "Skryť záložky"
 
-#: menu.c:368
+#: menu.c:373
 msgid "Always show the tabs bar"
 msgstr "Vždy zobraziť panel záložiek"
 
-#: menu.c:375
+#: menu.c:380
 msgid "Always hide the tabs bar"
 msgstr "Vždy skryť panel záložiek"
 
-#: menu.c:385
+#: menu.c:390
 msgid "Increase window size"
 msgstr "Zväčšiť veľkosť okna"
 
-#: menu.c:388
+#: menu.c:393
 msgid "Decrease window size"
 msgstr "Zmenšiť veľkosť okna"
 
-#: menu.c:395
+#: menu.c:400
 msgid "Reset to user custom font/size"
 msgstr "Vrátiť používateľské písmo/veľkosť"
 
-#: menu.c:398
+#: menu.c:403
 msgid "Reset to system font/size"
 msgstr "Vrátiť systémové písmo/veľkosť"
 
-#: menu.c:403
+#: menu.c:408
 msgid "Reset the content"
 msgstr "Vymazať obsah"
 
-#: menu.c:418
+#: menu.c:423
 msgid "User profile"
 msgstr "Používateľský profil"
 
-#: menu.c:426
+#: menu.c:431
 #, c-format
 msgid "Quit %s"
 msgstr "Skončiť %s"
 
-#. TRANSLATE NOTE: Please translate the "System default (SCHEME)" into "System default" (in your language).
-#. TRANSLATE NOTE: Some language will have trouble if here is "System default" only.
-#. TRANSLATE NOTE: Contrast it with "System default (PROFILE)" (See below)
-#: menu.c:498 menu.c:499
-msgid "System default (SCHEME)"
-msgstr "Systémová schéma"
-
-#: menu.c:504
+#: menu.c:501
 msgid "grayscale"
 msgstr "Stupne sivej"
 
-#: menu.c:510
+#: menu.c:504
+msgid "(build-in)"
+msgstr ""
+
+#: menu.c:517
 #, fuzzy, c-format
 #| msgid "User custom"
 msgid "%s + custom"
 msgstr "Používateľská"
 
-#: menu.c:649
+#: menu.c:654
 #, fuzzy
 #| msgid "Move current page forward."
 msgid "View current page information"
 msgstr "Presunie aktuálnu stranu vpred."
 
-#: menu.c:1091
+#: menu.c:1096
 msgid " (Wide)"
 msgstr " (Široký)"
 
-#: menu.c:1542
+#: menu.c:1551
 msgid "Font Selection"
 msgstr "Výber písma"
 
-#: menu.c:1861 menu.c:1868
+#: menu.c:1870 menu.c:1877
 msgid "Add other locales..."
 msgstr "Pridať ďalšie lokalizácie..."
 
-#: menu.c:1952 menu.c:2002
+#: menu.c:1961 menu.c:2011
 msgid "Other settings..."
 msgstr "Ďalšie nastavenia..."
 
-#: menu.c:1967
+#: menu.c:1976
 msgid "Save settings automatically"
 msgstr "Uložiť nastavenia automaticky"
 
-#: menu.c:1972
+#: menu.c:1981
 msgid "Save settings"
 msgstr "Uložiť nastavenia"
 
-#: menu.c:1975
+#: menu.c:1984
 msgid "Save settings as..."
 msgstr "Uložiť nastavenia ako..."
 
-#: menu.c:1981
+#: menu.c:1990
 msgid "Reload settings"
 msgstr "Znova načítať nastavenia"
 
-#: menu.c:2016
+#: menu.c:2025
 #, c-format
 msgid "%s default"
 msgstr "%s predvolený"
 
-#. TRANSLATE NOTE: Please translate the "System default (PROFILE)" into "System default" (in your language).
-#. TRANSLATE NOTE: Some language will have trouble if here is "System default" only.
-#. TRANSLATE NOTE: Contrast it with "System default (SCHEME)" (See above).
-#: menu.c:2041 menu.c:2042
-msgid "System default (PROFILE)"
-msgstr "Systémový profil"
+#: menu.c:2047
+#, fuzzy
+#| msgid "System default (SCHEME)"
+msgid "System default"
+msgstr "Systémová schéma"
 
-#: menu.c:2404
+#: menu.c:2406
 #, c-format
 msgid ""
 "The following settings:\n"
@@ -1095,27 +1091,27 @@ msgstr ""
 "Nemôžu byť použité na okná terminálov aktuálneho okna.\n"
 "Prosím, použite miesto toho [%s]."
 
-#: menu.c:2410
+#: menu.c:2412
 msgid "The following settings can NOT be applied"
 msgstr "Nasledujúce nastavenia nemôžu byť použité"
 
-#: menu.c:2538
+#: menu.c:2540
 msgid "Disable: Trying to use [Transparent Background] instead."
 msgstr "Zakázať: Skúšam namiesto toho použiť [Priehľadné pozadie]."
 
-#: menu.c:2544
+#: menu.c:2546
 msgid "Scroll the background image along with the text"
 msgstr "Rolovať obrázok pozadia spolu s textom"
 
-#: menu.c:2739
+#: menu.c:2741
 msgid "Open File"
 msgstr "Otvoriť súbor"
 
-#: menu.c:2741
+#: menu.c:2743
 msgid "Save File"
 msgstr "Zatvoriť súbor"
 
-#: menu.c:2903
+#: menu.c:2905
 #, c-format
 msgid "The following error occurred: %s"
 msgstr "Nastala nasledujúca chyba: %s"
@@ -1142,432 +1138,432 @@ msgstr ""
 msgid "Error when creating child process"
 msgstr "Chyba pri vytváraní procesu potomka"
 
-#: profile.c:792
+#: profile.c:843
 msgid "Tab operation"
 msgstr "Operácie záložiek"
 
-#: profile.c:793
+#: profile.c:844
 msgid "Switch tab"
 msgstr "Prepnúť záložku"
 
-#: profile.c:794
+#: profile.c:845
 msgid "Move tab"
 msgstr "Presunúť záložku"
 
-#: profile.c:795
+#: profile.c:846
 msgid "Switch to #? tab"
 msgstr "Prepnúť na záložku"
 
-#: profile.c:796
+#: profile.c:847
 msgid "Text operation"
 msgstr "Textové operácie"
 
-#: profile.c:797
+#: profile.c:848
 msgid "Scroll up/down"
 msgstr "Rolovanie hore/dole"
 
-#: profile.c:798
+#: profile.c:849
 msgid "Font"
 msgstr "Písmo"
 
-#: profile.c:803
+#: profile.c:854
 msgid "Disable/Enable functions"
 msgstr "Zapnúť/Vypnúť funkčné"
 
-#: profile.c:805
+#: profile.c:856
 msgid "Disable/Enable hyperlinks, function keys and right click menu."
 msgstr "Zapína/vypína hypertextové odkazy, funkčné klávesy a kontextové menu"
 
-#: profile.c:807
+#: profile.c:858
 msgid "Add new tab"
 msgstr "Pridať novú záložku"
 
-#: profile.c:809
+#: profile.c:860
 msgid "Add a new tab."
 msgstr "Pridá novú záložku."
 
-#: profile.c:811
+#: profile.c:862
 msgid "Close tab"
 msgstr "Zatvoriť záložku"
 
-#: profile.c:813
+#: profile.c:864
 msgid "Close current tab."
 msgstr "zatvorí aktuálnu záložku."
 
-#: profile.c:815
+#: profile.c:866
 msgid "Rename page name"
 msgstr "Premenovať meno stránky"
 
-#: profile.c:817
+#: profile.c:868
 msgid "Rename the page name of current tab."
 msgstr "Premenuje meno stránky aktuálnej záložky"
 
-#: profile.c:821
+#: profile.c:872
 msgid "Find the strings matching the search regex."
 msgstr "Nájde reťazce vyhovujúce hľadanému regulárnemu výrazu."
 
-#: profile.c:822
+#: profile.c:873
 msgid "Find previous"
 msgstr "Nájsť predošlý"
 
-#: profile.c:824
+#: profile.c:875
 msgid "Find the previous string matching the search regex."
 msgstr "Nájsť predošlý reťazec, vyhovujúci hľadanému regulárnemu výrazu."
 
-#: profile.c:825
+#: profile.c:876
 msgid "Find next"
 msgstr "Nájsť ďalší"
 
-#: profile.c:827
+#: profile.c:878
 msgid "Find the next string matching the search regex."
 msgstr "Nájsť ďalší reťazec, vyhovujúci hľadanému regulárnemu výrazu."
 
-#: profile.c:829
+#: profile.c:880
 msgid "Switch to prev tab"
 msgstr "Prepnúť na predošlú záložku"
 
-#: profile.c:831
+#: profile.c:882
 msgid "Switch to prev tab."
 msgstr "Prepne na predošlú záložku."
 
-#: profile.c:833
+#: profile.c:884
 msgid "Switch to next tab"
 msgstr "Prepnúť na ďalšiu záložku"
 
-#: profile.c:835
+#: profile.c:886
 msgid "Switch to next tab."
 msgstr "Prepne na ďalšiu záložku."
 
-#: profile.c:837
+#: profile.c:888
 msgid "Switch to first tab"
 msgstr "Prepnúť na prvú záložku"
 
-#: profile.c:839
+#: profile.c:890
 msgid "Switch to first tab."
 msgstr "Prepne na prvú záložku."
 
-#: profile.c:841
+#: profile.c:892
 msgid "Switch to last tab"
 msgstr "Prepnúť na poslednú záložku"
 
-#: profile.c:843
+#: profile.c:894
 msgid "Switch to last tab."
 msgstr "Prepne na poslednú záložku."
 
-#: profile.c:845
+#: profile.c:896
 msgid "Move page forward"
 msgstr "Presunúť stranu vpred"
 
-#: profile.c:847
+#: profile.c:898
 msgid "Move current page forward."
 msgstr "Presunie aktuálnu stranu vpred."
 
-#: profile.c:849
+#: profile.c:900
 msgid "Move page backward"
 msgstr "Presunúť stranu vzad"
 
-#: profile.c:851
+#: profile.c:902
 msgid "Move current page backward."
 msgstr "Presunie aktuálnu stranu vzad."
 
-#: profile.c:853
+#: profile.c:904
 msgid "Move page to first"
 msgstr "Presunúť stranu na prvú"
 
-#: profile.c:855
+#: profile.c:906
 msgid "Move current page to first."
 msgstr "Presunie aktuálnu stranu na prvé miesto."
 
-#: profile.c:857
+#: profile.c:908
 msgid "Move page to last"
 msgstr "Presunúť stranu na posledné miesto"
 
-#: profile.c:859
+#: profile.c:910
 msgid "Move current page to last."
 msgstr "Presunie aktuálnu stranu na posledné miesto."
 
-#: profile.c:864
+#: profile.c:915
 #, c-format
 msgid "Switch to #%d tab"
 msgstr "Prepnúť na %d. záložku"
 
-#: profile.c:866
+#: profile.c:917
 #, c-format
 msgid "Switch #%d tab directly."
 msgstr "Prepne priamo na %d. záložku."
 
-#: profile.c:870
+#: profile.c:921
 msgid "New window"
 msgstr "Nové okno"
 
-#: profile.c:872
+#: profile.c:923
 msgid "Open a new window with current dir."
 msgstr "Otvorí nové okno s aktuálnym adresárom."
 
-#: profile.c:874
+#: profile.c:925
 msgid "Select all"
 msgstr "Vybrať všetko"
 
-#: profile.c:876
+#: profile.c:927
 msgid "Select all the text in the Vte Terminal box."
 msgstr "vyberie všetok text v okne Vte Terminálu"
 
-#: profile.c:878
+#: profile.c:929
 msgid "Copy to clipboard"
 msgstr "Kopírovať do schránky"
 
-#: profile.c:880
+#: profile.c:931
 msgid "Copy the text to clipboard."
 msgstr "Kopíruje text do schránky."
 
-#: profile.c:882
+#: profile.c:933
 msgid "Paste the text"
 msgstr "Vložiť zo schránky"
 
-#: profile.c:884
+#: profile.c:935
 #, fuzzy
 #| msgid "Select all the text in the Vte Terminal box."
 msgid "Paste the text in clipboard to the Vte Terminal box."
 msgstr "vyberie všetok text v okne Vte Terminálu"
 
-#: profile.c:886
+#: profile.c:937
 #, fuzzy
 #| msgid "Copy the text to clipboard."
 msgid "Copy the text to primary clipboard"
 msgstr "Kopíruje text do schránky."
 
-#: profile.c:888
+#: profile.c:939
 msgid ""
 "Copy the text to the primary clipboard.\n"
 "Normally it is copied to the primary clipboard already\n"
 "when you selected some text with mouse."
 msgstr ""
 
-#: profile.c:890
+#: profile.c:941
 #, fuzzy
 #| msgid "Paste the text in clipboard."
 msgid "Paste the text in primary clipboard"
 msgstr "Vloží text zo schránky."
 
-#: profile.c:892
+#: profile.c:943
 msgid ""
 "Paste the text in the primary clipboard to the Vte Terminal box.\n"
 "The default key binding is <Shift><Insert> in libvte if you disable it here."
 msgstr ""
 
-#: profile.c:894
+#: profile.c:945
 msgid "Increase font size"
 msgstr "Zväčšiť písmo"
 
-#: profile.c:896
+#: profile.c:947
 msgid "Increase the font size of current tab."
 msgstr "Zväčší veľkosť písma aktuálnej záložky."
 
-#: profile.c:898
+#: profile.c:949
 msgid "Decrease font size"
 msgstr "Zmenšiť písmo"
 
-#: profile.c:900
+#: profile.c:951
 msgid "Decrease the font size of current tab."
 msgstr "Zmenší veľkosť písma aktuálnej záložky."
 
-#: profile.c:902
+#: profile.c:953
 msgid "Reset font size"
 msgstr "Obnoviť veľkosť písma"
 
-#: profile.c:904
+#: profile.c:955
 msgid "Reset the font of current tab to original size."
 msgstr "Obnoví veľkosť písma aktuálnej záložky na pôvodnú veľkosť."
 
-#: profile.c:906
+#: profile.c:957
 msgid "Maximum the window"
 msgstr "Maximalizovať okno"
 
-#: profile.c:908
+#: profile.c:959
 msgid "Try to maximum the window to use all available space on your display."
 msgstr ""
 "Pokúsi sa maximalizovať okno tak, aby použilo celé dostupné miesto obrazovky"
 
-#: profile.c:910
+#: profile.c:961
 msgid "Full screen"
 msgstr "Celá obrazovka"
 
-#: profile.c:912
+#: profile.c:963
 msgid "Asks to place window in the fullscreen/unfullscreen state."
 msgstr "Požiada o prepnutie umiestnenia okna v režime celej obrazovky"
 
-#: profile.c:914
+#: profile.c:965
 msgid "Scroll up"
 msgstr "Rolovať hore"
 
-#: profile.c:916
+#: profile.c:967
 msgid "Emulate a mouse scroll up event on Vte Terminal box."
 msgstr "Emuluje udalosť rolovania myšou v okne Vte Terminálu."
 
-#: profile.c:918
+#: profile.c:969
 msgid "Scroll down"
 msgstr "Rolovať dole"
 
-#: profile.c:920
+#: profile.c:971
 msgid "Emulate a mouse scroll down event on Vte Terminal box."
 msgstr "Emuluje udalosť rolovania myšou v okne Vte Terminálu."
 
-#: profile.c:922
+#: profile.c:973
 msgid "Scroll up 1 line"
 msgstr "Rolovať 1 riadok hore"
 
-#: profile.c:924
+#: profile.c:975
 msgid "Asks to scroll up 1 line on Vte Terminal box."
 msgstr "Požiada rolovať 1 riadok hore v okne Vte Terminálu."
 
-#: profile.c:926
+#: profile.c:977
 msgid "Scroll down 1 line"
 msgstr "Rolovať 1 riadok dole"
 
-#: profile.c:928
+#: profile.c:979
 msgid "Asks to scroll down 1 line on Vte Terminal box."
 msgstr "Požiada rolovať 1 riadok dole v okne Vte Terminálu."
 
-#: profile.c:932
+#: profile.c:983
 #, fuzzy
 #| msgid "Clean scrollback lines"
 msgid "Asks to clean scrollback lines."
 msgstr "Vymazať rolovanie riadkov"
 
-#: profile.c:941
+#: profile.c:992
 msgid "Dump runtime debug data"
 msgstr "Vypísať behové ladiace dáta"
 
-#: profile.c:943
+#: profile.c:994
 msgid "Dump the runtime data of LilyTerm for debug."
 msgstr "Vypíše behové dáta LilyTerm, kvôli ladeniu."
 
-#: profile.c:971
+#: profile.c:1022
 msgid "Window Title"
 msgstr "Titulok okna"
 
-#: profile.c:972
+#: profile.c:1023
 msgid "Running Command"
 msgstr "Bežiaci príkaz"
 
-#: profile.c:973
+#: profile.c:1024
 msgid "Current Dir"
 msgstr "Aktuálny adresár"
 
-#: profile.c:974
+#: profile.c:1025
 msgid "Custom Tab Name"
 msgstr "Vlastné meno záložky"
 
-#: profile.c:975
+#: profile.c:1026
 msgid "Root Privileges"
 msgstr "Práva root"
 
-#: profile.c:976
+#: profile.c:1027
 msgid "Normal Text"
 msgstr "Normálny text"
 
-#: profile.c:1010
+#: profile.c:1061
 msgid "Shift"
 msgstr "Shift"
 
-#: profile.c:1014
+#: profile.c:1065
 msgid "Ctrl"
 msgstr "Ctrl"
 
-#: profile.c:1016
+#: profile.c:1067
 msgid "Alt"
 msgstr "Alt"
 
-#: profile.c:1026
+#: profile.c:1077
 msgid "Win"
 msgstr "Win"
 
-#: profile.c:1070
+#: profile.c:1121
 #, fuzzy
 #| msgid "Background"
 msgid "Background Color"
 msgstr "Pozadie"
 
-#: profile.c:1071
+#: profile.c:1122
 msgid "Dark Red"
 msgstr ""
 
-#: profile.c:1072
+#: profile.c:1123
 msgid "Dark Green"
 msgstr ""
 
-#: profile.c:1073
+#: profile.c:1124
 msgid "Dark Yellow"
 msgstr ""
 
-#: profile.c:1074
+#: profile.c:1125
 msgid "Dark Blue"
 msgstr ""
 
-#: profile.c:1075
+#: profile.c:1126
 msgid "Dark Magenta"
 msgstr ""
 
-#: profile.c:1076
+#: profile.c:1127
 msgid "Dark Cyan"
 msgstr ""
 
-#: profile.c:1077
+#: profile.c:1128
 msgid "Dark White"
 msgstr ""
 
-#: profile.c:1078
+#: profile.c:1129
 msgid "Bright Black"
 msgstr ""
 
-#: profile.c:1079
+#: profile.c:1130
 msgid "Bright Red"
 msgstr ""
 
-#: profile.c:1080
+#: profile.c:1131
 msgid "Bright Green"
 msgstr ""
 
-#: profile.c:1081
+#: profile.c:1132
 msgid "Bright Yellow"
 msgstr ""
 
-#: profile.c:1082
+#: profile.c:1133
 msgid "Bright Blue"
 msgstr ""
 
-#: profile.c:1083
+#: profile.c:1134
 msgid "Bright Magenta"
 msgstr ""
 
-#: profile.c:1084
+#: profile.c:1135
 msgid "Bright Cyan"
 msgstr ""
 
-#: profile.c:1085
+#: profile.c:1136
 #, fuzzy
 #| msgid "Change the foreground color"
 msgid "Foreground Color"
 msgstr "Zmeniť farbu popredia"
 
-#: profile.c:2891
+#: profile.c:2942
 msgid "The target file does NOT exist"
 msgstr "Cieľový súbor neexistuje"
 
-#: profile.c:2902
+#: profile.c:2953
 msgid "The target file is a directory"
 msgstr "Cieľový súbor je adresár"
 
-#: profile.c:2950
+#: profile.c:3001
 #, c-format
 msgid "Error while writing profile '%s':"
 msgstr "Chyba pri zápise profilu '%s':"
 
-#: profile.c:2955
+#: profile.c:3006
 msgid "Error when writing profile"
 msgstr "Chyba pri zápise profilu"
 
-#: profile.c:3095
+#: profile.c:3146
 msgid ""
 "Some entry in profile is added, removed, or changed in this version.\n"
 "Please use [Save settings] on the right click menu to save your settings,\n"
@@ -1579,7 +1575,7 @@ msgstr ""
 "nastavení\n"
 "a upravte ich manuálne, ak je to potrebné.\n"
 
-#: profile.c:3101
+#: profile.c:3152
 #, c-format
 msgid ""
 "%s\n"
@@ -1588,11 +1584,11 @@ msgstr ""
 "%s\n"
 "Váš profil je %s."
 
-#: profile.c:3104
+#: profile.c:3155
 msgid "The format of your profile is out of date"
 msgstr "Formát vášho profilu je neaktuálny"
 
-#: profile.c:3132 profile.c:3135
+#: profile.c:3183 profile.c:3186
 #, c-format
 msgid ""
 "The profile \"%s\" is invalid:\n"
@@ -1603,7 +1599,7 @@ msgstr ""
 "\n"
 "\t%s"
 
-#: profile.c:3143
+#: profile.c:3194
 msgid "The profile is invalid!"
 msgstr "Profil je neplatný!"
 
@@ -1616,6 +1612,9 @@ msgstr "\tOkno %d, Strana %d: (%d) %s\n"
 #, c-format
 msgid "\tPage #%d: (%d) %s\n"
 msgstr "\tStrana %d: (%d) %s\n"
+
+#~ msgid "System default (PROFILE)"
+#~ msgstr "Systémový profil"
 
 #~ msgid "Join and paste"
 #~ msgstr "Spojiť a vložiť"
