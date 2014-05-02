@@ -84,7 +84,7 @@ void reorder_page_number(GtkNotebook *notebook, GtkWidget *child, guint page_num
 					 page_data->is_root,
 					 page_data->is_bold,
 					 compare_strings(win_data->runtime_encoding,
-					 		 page_data->encoding_str,
+							 page_data->encoding_str,
 							 FALSE),
 					 page_data->encoding_str,
 					 page_data->custom_window_title,

@@ -44,7 +44,7 @@ struct GdkColor_Theme temp_system_color_theme[THEME] =
 #else
 struct GdkColor_Theme system_color_theme[THEME] =
 #endif
-	{{0, "",
+	{{0, "libvte",
 	  {{ 0, 0x0000, 0x0000, 0x0000 },
 	   { 0, 0xc0c0, 0x0000, 0x0000 },
 	   { 0, 0x0000, 0xc0c0, 0x0000 },
@@ -196,7 +196,24 @@ struct GdkColor_Theme system_color_theme[THEME] =
 	   { 0, 0x5050, 0x5050, 0x5050 },
 	   { 0, 0xaaaa, 0xaaaa, 0xaaaa },
 	   { 0, 0xa5a5, 0xa5a5, 0xa5a5 },
-	   { 0, 0xffff, 0xffff, 0xffff }}}};
+	   { 0, 0xffff, 0xffff, 0xffff }}},
+	{9, "(build-in)",
+	  {{ 0, 0x0000, 0x0000, 0x0000 },
+	   { 0, 0x0000, 0x0000, 0x0000 },
+	   { 0, 0x0000, 0x0000, 0x0000 },
+	   { 0, 0x0000, 0x0000, 0x0000 },
+	   { 0, 0x0000, 0x0000, 0x0000 },
+	   { 0, 0x0000, 0x0000, 0x0000 },
+	   { 0, 0x0000, 0x0000, 0x0000 },
+	   { 0, 0x0000, 0x0000, 0x0000 },
+	   { 0, 0x0000, 0x0000, 0x0000 },
+	   { 0, 0x0000, 0x0000, 0x0000 },
+	   { 0, 0x0000, 0x0000, 0x0000 },
+	   { 0, 0x0000, 0x0000, 0x0000 },
+	   { 0, 0x0000, 0x0000, 0x0000 },
+	   { 0, 0x0000, 0x0000, 0x0000 },
+	   { 0, 0x0000, 0x0000, 0x0000 },
+	   { 0, 0x0000, 0x0000, 0x0000 }}}};
 
 #ifdef ENABLE_VTE_ERASE_TTY
 struct Erase_Binding erase_binding[ERASE_BINDING] =
@@ -1137,7 +1154,7 @@ void init_user_color(struct Window *win_data, gchar *theme_name)
 	for (i=0; i<THEME; i++)
 	{
 		// g_debug("(%p) Set win_data->custom_color_theme[%d]->name = %s", win_data, i, system_color_theme[i].name);
-		win_data->custom_color_theme[i].index = system_color_theme[i].index + COLOR;
+		win_data->custom_color_theme[i].index = system_color_theme[i].index + THEME;
 		win_data->custom_color_theme[i].name = system_color_theme[i].name;
 		for (j=0; j<COLOR; j++)
 			win_data->custom_color_theme[i].color[j] = system_color_theme[i].color[j];

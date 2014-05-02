@@ -458,7 +458,7 @@ gboolean send_socket( int   argc,
 	// send data: SOCKET_DATA_VERSION SHELL LOCALE_LIST ENCODING LC_MESSAGES PWD HOME VTE_CJK_WIDTH_STR wmclass_name wmclass_class ENVIRON ARGV
 	//				  0	1     2	    3	  4	5     6	    7	  8	9     10    11
 	gchar *arg_str = g_strdup_printf("%s\x10%s\x10%s\x10%s\x10%s\x10%s\x10%s\x10%s\x10%s\x10%s\x10%s\x10%s\x10",
-			 		 SOCKET_DATA_VERSION,
+					 SOCKET_DATA_VERSION,
 					 shell,
 					 locale_list,
 					 encoding,
@@ -884,7 +884,7 @@ void main_quit(GtkWidget *widget, struct Window *win_data)
 #else
 		if ((all_process_list->len==0) ||
 		    (display_child_process_dialog (all_process_list, win_data,
-		    				   CONFIRM_TO_EXIT_WITH_CHILD_PROCESS)))
+						   CONFIRM_TO_EXIT_WITH_CHILD_PROCESS)))
 #endif
 		{
 			force_to_quit = TRUE;

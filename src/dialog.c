@@ -445,7 +445,7 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 			// TRANSLATE NOTE: For example, replace "zh_TW" with "ru_RU", replace "zh_TW.Big5" with "ru_RU.KOI8-R",
 			// TRANSLATE NOTE: or replace "zh_TW.UTF-8" with "ru_RU.UTF-8".
 			gchar *contents = _("The default locale used when initing a Vte Terminal.\n"
-				  	    "You may use \"zh_TW\", \"zh_TW.Big5\", or \"zh_TW.UTF-8\" here.");
+					    "You may use \"zh_TW\", \"zh_TW.Big5\", or \"zh_TW.UTF-8\" here.");
 			dialog_data->operate[0] = create_entry_widget (dialog_data->box,
 								  contents,
 								  _("Default locale:"),
@@ -1740,7 +1740,7 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 #ifdef SAFEMODE
 						if (page_data==NULL) goto DESTROY_WINDOW;
 #endif
-						set_vte_color(page_data->vte, default_vte_color, win_data->cursor_color, win_data->color, FALSE);
+						set_vte_color(page_data->vte, default_vte_color, win_data->cursor_color, win_data->color, FALSE, FALSE);
 					}
 					// g_debug("win_data->color_brightness = %0.3f, win_data->color_brightness_inactive = %0.3f",
 					//	win_data->color_brightness, win_data->color_brightness_inactive);
@@ -1754,7 +1754,7 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 					win_data->dim_text = TRUE;
 					generate_all_color_datas(win_data);
 					set_vte_color(win_data->current_vte, use_default_vte_theme(win_data),
-						      win_data->cursor_color, win_data->color, FALSE);
+						      win_data->cursor_color, win_data->color, FALSE, FALSE);
 					break;
 #endif
 			}
@@ -3067,7 +3067,7 @@ void adjust_vte_color(GtkColorChooser *color_selection, GdkRGBA *color, GtkWidge
 					adjust_ansi_color(&dialog_data->ansi_colors[get_color_index(win_data->invert_color, win_data->temp_index)],
 							  &dialog_data->ansi_colors_orig[win_data->temp_index],
 							  win_data->color_brightness);
-					set_vte_color(win_data->current_vte, FALSE, win_data->cursor_color, dialog_data->ansi_colors, FALSE);
+					set_vte_color(win_data->current_vte, FALSE, win_data->cursor_color, dialog_data->ansi_colors, FALSE, FALSE);
 					// set_new_ansi_color(win_data->current_vte, dialog_data->ansi_colors, dialog_data->ansi_colors_orig,
 					//		   win_data->color_brightness, win_data->invert_color, FALSE, win_data->cursor_color);
 				}
@@ -3368,7 +3368,7 @@ void set_new_ansi_color(GtkWidget *vte, GdkRGBA color[COLOR], GdkRGBA color_orig
 	if ((vte==NULL) || (color_orig==NULL) || (color==NULL)) return;
 #endif
 	create_theme_color_data(color, color_orig, color_brightness, invert_color, default_vte_color, dim_fg_color);
-	set_vte_color(vte, default_vte_color, cursor_color, color, FALSE);
+	set_vte_color(vte, default_vte_color, cursor_color, color, FALSE, FALSE);
 }
 
 void hide_combo_box_capital(GtkCellLayout *cell_layout, GtkCellRenderer *cell,

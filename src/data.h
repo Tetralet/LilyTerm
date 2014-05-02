@@ -768,7 +768,7 @@ struct Color
 	gchar *translation;
 };
 
-#define THEME 9
+#define THEME 10
 #define DEFAULT_THEME 0
 struct GdkColor_Theme
 {
@@ -1120,6 +1120,8 @@ struct Window
 	// the adjusted (include invert_color and color_brightness_inactive for color themes) colors
 	GdkRGBA color_inactive[COLOR];
 
+#define ANSI_THEME_MENUITEM 7
+	GtkWidget *ansi_theme_menuitem[ANSI_THEME_MENUITEM];
 	// color[] and color_orig[] will always be initd when creating a window.
 	GtkWidget *ansi_color_sub_menu;
 	GtkWidget *ansi_color_menuitem;

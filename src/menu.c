@@ -86,28 +86,33 @@ gboolean create_menu(struct Window *win_data)
 		// The submenu of Change color
 		sub_menu = create_sub_item (win_data->menu, _("Change colors"), GTK_FAKE_STOCK_SELECT_COLOR);
 
-		// Change the foreground color for every tab
-		create_menu_item (IMAGE_MENU_ITEM, sub_menu, _("Change the foreground color"), NULL, GTK_FAKE_STOCK_SELECT_COLOR,
-				  (GSourceFunc)dialog, GINT_TO_POINTER (CHANGE_THE_FOREGROUND_COLOR));
-
-		// Change the foreground color for every tab
-		create_menu_item (IMAGE_MENU_ITEM, sub_menu, _("Change the ANSI colors"), NULL, GTK_FAKE_STOCK_SELECT_COLOR,
-				  (GSourceFunc)dialog, GINT_TO_POINTER (CHANGE_THE_ANSI_COLORS));
-
-		// Change the background color for every tab
-		create_menu_item (IMAGE_MENU_ITEM, sub_menu, _("Change the background color"), NULL, GTK_FAKE_STOCK_SELECT_COLOR,
-				  (GSourceFunc)dialog, GINT_TO_POINTER (CHANGE_THE_BACKGROUND_COLOR));
-
 		// Change the cursor color for every tab
 		create_menu_item (IMAGE_MENU_ITEM, sub_menu, _("Change the cursor color"), NULL, GTK_FAKE_STOCK_SELECT_COLOR,
 				  (GSourceFunc)dialog, GINT_TO_POINTER (CHANGE_THE_CURSOR_COLOR));
 
-		// Change the background color for every tab
-		create_menu_item (IMAGE_MENU_ITEM, sub_menu, _("Adjust the brightness of ANSI colors"), NULL, GTK_FAKE_STOCK_SELECT_COLOR,
-				  (GSourceFunc)dialog, GINT_TO_POINTER (ADJUST_THE_BRIGHTNESS_OF_ANSI_COLORS_USED_IN_TERMINAL));
+		// Change the foreground color for every tab
+		win_data->ansi_theme_menuitem[0] = create_menu_item (IMAGE_MENU_ITEM, sub_menu, _("Change the foreground color"),
+								     NULL, GTK_FAKE_STOCK_SELECT_COLOR, (GSourceFunc)dialog,
+								     GINT_TO_POINTER (CHANGE_THE_FOREGROUND_COLOR));
 
-		create_menu_item (IMAGE_MENU_ITEM, sub_menu, _("Adjust the brightness when inactive"),  NULL, GTK_FAKE_STOCK_SELECT_COLOR,
-				  (GSourceFunc)dialog, GINT_TO_POINTER (ADJUST_THE_BRIGHTNESS_OF_ANSI_COLORS_WHEN_INACTIVE));
+		// Change the foreground color for every tab
+		win_data->ansi_theme_menuitem[1] = create_menu_item (IMAGE_MENU_ITEM, sub_menu, _("Change the ANSI colors"),
+								     NULL, GTK_FAKE_STOCK_SELECT_COLOR, (GSourceFunc)dialog,
+								     GINT_TO_POINTER (CHANGE_THE_ANSI_COLORS));
+
+		// Change the background color for every tab
+		win_data->ansi_theme_menuitem[2] = create_menu_item (IMAGE_MENU_ITEM, sub_menu, _("Change the background color"),
+								     NULL, GTK_FAKE_STOCK_SELECT_COLOR, (GSourceFunc)dialog,
+								     GINT_TO_POINTER (CHANGE_THE_BACKGROUND_COLOR));
+
+		// Change the background color for every tab
+		win_data->ansi_theme_menuitem[3] = create_menu_item (IMAGE_MENU_ITEM, sub_menu, _("Adjust the brightness of ANSI colors"),
+								     NULL, GTK_FAKE_STOCK_SELECT_COLOR, (GSourceFunc)dialog,
+								     GINT_TO_POINTER (ADJUST_THE_BRIGHTNESS_OF_ANSI_COLORS_USED_IN_TERMINAL));
+
+		win_data->ansi_theme_menuitem[4] = create_menu_item (IMAGE_MENU_ITEM, sub_menu, _("Adjust the brightness when inactive"),
+								     NULL, GTK_FAKE_STOCK_SELECT_COLOR, (GSourceFunc)dialog,
+								     GINT_TO_POINTER (ADJUST_THE_BRIGHTNESS_OF_ANSI_COLORS_WHEN_INACTIVE));
 
 		if (win_data->use_color_page)
 		{
@@ -283,9 +288,9 @@ gboolean create_menu(struct Window *win_data)
 #endif
 
 	// Dim when inactive
-       	win_data->menuitem_dim_text = create_menu_item (CHECK_MENU_ITEM, misc_sub_menu,
-							_("Dim text when inactive"), NULL, NULL,
-							(GSourceFunc)set_dim_text, win_data);
+	win_data->ansi_theme_menuitem[5] = win_data->menuitem_dim_text = create_menu_item (CHECK_MENU_ITEM, misc_sub_menu,
+											   _("Dim text when inactive"), NULL, NULL,
+											   (GSourceFunc)set_dim_text, win_data);
 #ifdef ENABLE_RGBA
 	if (win_data->use_rgba == -1)
 		win_data->menuitem_dim_window = create_menu_item (CHECK_MENU_ITEM, misc_sub_menu,
@@ -306,10 +311,10 @@ gboolean create_menu(struct Window *win_data)
 
 	// Need <Ctrl> pressed to open URL
 	win_data->menuitem_open_url_with_ctrl_pressed = create_menu_item (CHECK_MENU_ITEM, misc_sub_menu, _("Need <Ctrl> pressed to open URL"), NULL, NULL,
-							                  (GSourceFunc)set_open_url_with_ctrl_pressed, win_data);
+									  (GSourceFunc)set_open_url_with_ctrl_pressed, win_data);
 
 	win_data->menuitem_disable_url_when_ctrl_pressed = create_menu_item (CHECK_MENU_ITEM, misc_sub_menu, _("Disable URL when <Ctrl> pressed"), NULL, NULL,
-							                  (GSourceFunc)set_disable_url_when_ctrl_pressed, win_data);
+									  (GSourceFunc)set_disable_url_when_ctrl_pressed, win_data);
 
 	// ----------------------------------------
 	add_separator_menu (misc_sub_menu);
@@ -461,8 +466,9 @@ void recreate_theme_menu_items(struct Window *win_data)
 #endif
 		gtk_menu_item_set_submenu (GTK_MENU_ITEM (win_data->ansi_color_sub_menu), win_data->ansi_color_menuitem);
 
-	win_data->menuitem_invert_color = create_menu_item(CHECK_MENU_ITEM, win_data->ansi_color_menuitem, _("Invert color"), NULL, NULL,
-							    (GSourceFunc)invert_color_theme, win_data);
+	win_data->ansi_theme_menuitem[6] = win_data->menuitem_invert_color = create_menu_item(CHECK_MENU_ITEM, win_data->ansi_color_menuitem,
+											      _("Invert color"), NULL, NULL,
+											      (GSourceFunc)invert_color_theme, win_data);
 	add_separator_menu (win_data->ansi_color_menuitem);
 
 	gint i;
@@ -491,27 +497,25 @@ GSList *create_theme_menu_items(struct Window *win_data, GtkWidget *sub_menu, GS
 	gchar *item_label = NULL;
 	switch (current_theme)
 	{
-		case 0:
-			// TRANSLATE NOTE: Please translate the "System default (SCHEME)" into "System default" (in your language).
-			// TRANSLATE NOTE: Some language will have trouble if here is "System default" only.
-			// TRANSLATE NOTE: Contrast it with "System default (PROFILE)" (See below)
-			if (compare_strings("System default (SCHEME)", _("System default (SCHEME)"), TRUE))
-				item_label = _("System default (SCHEME)");
-			else
-				item_label = "System default";
+		case THEME-2:
+			item_label = _("grayscale");
 			break;
 		case THEME-1:
-			item_label = _("grayscale");
+			item_label = _("(build-in)");
 			break;
 		default:
 			item_label = system_color_theme[current_theme].name;
 	}
 
-	if (custom_theme) item_label = g_strdup_printf(_("%s + custom"), item_label);
-
 	gint index = system_color_theme[current_theme].index;
 	if (custom_theme)
 		index = win_data->custom_color_theme[current_theme].index;
+
+	// don't create 256/true colors + custom
+	if (index == (2*THEME-1)) return theme_group;
+
+	if (custom_theme) item_label = g_strdup_printf(_("%s + custom"), item_label);
+
 	win_data->menuitem_theme[current_theme + custom_theme*THEME] = add_radio_menuitem_to_sub_menu (theme_group,
 												       sub_menu,
 												       item_label,
@@ -1232,10 +1236,12 @@ void select_ansi_theme(GtkWidget *menuitem, gint index)
 	if (win_data==NULL) return;
 #endif
 	// g_debug("select_ansi_theme(): win_data->invert_color = %d", win_data->invert_color);
-	if (index < COLOR)
+	if (index < THEME)
 		set_ansi_theme(menuitem, ANSI_THEME_SET_ANSI_THEME, FALSE, win_data->invert_color, index, win_data);
 	else
-		set_ansi_theme(menuitem, ANSI_THEME_SET_ANSI_THEME, TRUE, win_data->invert_color, index - COLOR, win_data);
+		set_ansi_theme(menuitem, ANSI_THEME_SET_ANSI_THEME, TRUE, win_data->invert_color, index - THEME, win_data);
+
+	enable_disable_theme_menus(win_data, (index!=(THEME-1)));
 }
 
 void set_ansi_theme(GtkWidget *menuitem, Set_ANSI_Theme_Type type, gboolean use_custom_theme, gboolean invert_color,
@@ -1278,7 +1284,8 @@ void set_ansi_theme(GtkWidget *menuitem, Set_ANSI_Theme_Type type, gboolean use_
 #ifdef SAFEMODE
 			if (page_data)
 #endif
-				set_vte_color(page_data->vte, default_vte_theme, win_data->cursor_color, win_data->color, FALSE);
+				set_vte_color(page_data->vte, default_vte_theme, win_data->cursor_color, win_data->color, FALSE,
+					      (win_data->color_theme_index==(THEME-1)));
 		}
 
 		if (menuitem != win_data->menuitem_invert_color)
@@ -1297,7 +1304,8 @@ void set_ansi_theme(GtkWidget *menuitem, Set_ANSI_Theme_Type type, gboolean use_
 #ifdef SAFEMODE
 			if (page_data)
 #endif
-				set_vte_color(page_data->vte, default_vte_theme, win_data->cursor_color, win_data->color, FALSE);
+				set_vte_color(page_data->vte, default_vte_theme, win_data->cursor_color, win_data->color, FALSE,
+					      (win_data->color_theme_index==(THEME-1)));
 #ifdef SAFEMODE
 		}
 #endif
@@ -1432,7 +1440,7 @@ void set_encoding(GtkWidget *menuitem, gpointer user_data)
 				  page_data->custom_page_name, page_data->tab_color,
 				  page_data->is_root, page_data->is_bold,
 				  compare_strings(win_data->runtime_encoding,
-				  		  page_data->encoding_str,
+						  page_data->encoding_str,
 						  FALSE),
 				  page_data->encoding_str, page_data->custom_window_title,
 				  FALSE);
@@ -1737,7 +1745,7 @@ gboolean refresh_locale_and_encoding_list(struct Window *win_data)
 			// g_debug("Checking (%d) %s...", i, supported_encodings[i]);
 			if (supported_encodings[i] &&
 			     !(check_name_in_menuitem(win_data->encoding_sub_menu,
-			     			      supported_encodings[i],
+						      supported_encodings[i],
 						      FALSE)))
 			{
 				menu_item = add_radio_menuitem_to_sub_menu (encoding_group,
@@ -1902,7 +1910,7 @@ void refresh_profile_list (struct Window *win_data)
 		//	win_data->subitem_load_profile_from_list);
 		win_data->subitem_new_window_from_list =
 			recreate_profile_menu_item(win_data->menuitem_new_window_from_list,
-				   		   win_data->subitem_new_window_from_list,
+						   win_data->subitem_new_window_from_list,
 						   win_data, NEW_WINDOW_FROM_PROFILE);
 		win_data->subitem_load_profile_from_list =
 			recreate_profile_menu_item(win_data->menuitem_load_profile_from_list,
@@ -2036,15 +2044,8 @@ gboolean create_profile_menu_list(GtkWidget *sub_menu, const gchar *stock_id, GS
 
 	if (g_file_test(SYS_PROFILE, G_FILE_TEST_EXISTS))
 	{
-		// TRANSLATE NOTE: Please translate the "System default (PROFILE)" into "System default" (in your language).
-		// TRANSLATE NOTE: Some language will have trouble if here is "System default" only.
-		// TRANSLATE NOTE: Contrast it with "System default (SCHEME)" (See above).
-		if (compare_strings("System default (PROFILE)", _("System default (PROFILE)"), TRUE))
-			create_menu_item (IMAGE_MENU_ITEM, sub_menu, _("System default (PROFILE)"),
-					  SYS_PROFILE, stock_id, (GSourceFunc)func, system_func_data);
-		else
-			create_menu_item (IMAGE_MENU_ITEM, sub_menu, "System default",
-					  SYS_PROFILE, stock_id, (GSourceFunc)func, system_func_data);
+		create_menu_item (IMAGE_MENU_ITEM, sub_menu, _("System default"),
+				  SYS_PROFILE, stock_id, (GSourceFunc)func, system_func_data);
 		create_separator = TRUE;
 	}
 	if (create_separator) add_separator_menu(sub_menu);
@@ -2478,7 +2479,7 @@ void apply_profile_from_file(const gchar *path, Apply_Profile_Type type)
 		if (page_data!=NULL)
 		{
 #  endif
-	       		g_free(page_data->font_name);
+			g_free(page_data->font_name);
 			page_data->font_name = g_strdup(win_data->default_font_name);
 #  ifdef SAFEMODE
 		}
@@ -2930,4 +2931,17 @@ gboolean check_if_win_data_is_still_alive(struct Window *win_data)
 #endif
 	// g_debug("check_if_win_data_is_still_alive: win_data (%p) is NOT alive!!!", win_data);
 	return FALSE;
+}
+
+void enable_disable_theme_menus(struct Window *win_data, gboolean show)
+{
+#ifdef DETAIL
+	g_debug("! Launch enable_disable_theme_menus() with win_data = %p, show = %d!", win_data, show);
+#endif
+#ifdef SAFEMODE
+	if (win_data==NULL) return;
+#endif
+	gint i;
+	for (i=0; i<ANSI_THEME_MENUITEM; i++)
+		gtk_widget_set_sensitive(win_data->ansi_theme_menuitem[i], show);
 }

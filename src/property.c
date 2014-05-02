@@ -161,7 +161,8 @@ void init_new_page(struct Window *win_data,
 #  endif
 #endif
 
-	set_vte_color(page_data->vte, use_default_vte_theme(win_data), win_data->cursor_color, win_data->color, FALSE);
+	set_vte_color(page_data->vte, use_default_vte_theme(win_data), win_data->cursor_color, win_data->color, FALSE,
+		      (win_data->color_theme_index==(THEME-1)));
 #if defined(ENABLE_VTE_BACKGROUND) || defined(FORCE_ENABLE_VTE_BACKGROUND)
 	// set transparent
 	set_background_saturation(NULL, 0, win_data->background_saturation, page_data->vte);
@@ -275,7 +276,8 @@ void clean_hyperlink(struct Window *win_data, struct Page *page_data)
 	vte_terminal_match_clear_all(VTE_TERMINAL(page_data->vte));
 }
 
-void set_vte_color(GtkWidget *vte, gboolean default_vte_color, GdkRGBA cursor_color, GdkRGBA color[COLOR], gboolean update_fg_only)
+void set_vte_color(GtkWidget *vte, gboolean default_vte_color, GdkRGBA cursor_color, GdkRGBA color[COLOR],
+		   gboolean update_fg_only, gboolean over_16_colors)
 {
 #ifdef DETAIL
 	g_debug("! Launch set_vte_color() with vte = %p, default_vte_color_theme = %d,  color = %p",
@@ -284,6 +286,12 @@ void set_vte_color(GtkWidget *vte, gboolean default_vte_color, GdkRGBA cursor_co
 #ifdef SAFEMODE
 	if ((vte==NULL) || (color ==NULL)) return;
 #endif
+	if (over_16_colors)
+	{
+		vte_terminal_set_default_colors(VTE_TERMINAL(vte));
+		return;
+	}
+
 	// set font/background colors
 
 	// gint i;
@@ -714,7 +722,7 @@ void apply_new_win_data_to_page (struct Window *win_data_orig,
 	    (win_data_orig->have_custom_color != win_data->have_custom_color) ||
 	    (win_data_orig->use_custom_theme != win_data->use_custom_theme) ||
 	    (win_data_orig->color_brightness != win_data->color_brightness))
-	    	update_color = TRUE;
+		update_color = TRUE;
 
 	gint i;
 	if (! update_color && (win_data->use_custom_theme))
@@ -724,7 +732,8 @@ void apply_new_win_data_to_page (struct Window *win_data_orig,
 				update_color = TRUE;
 	}
 	if (update_color)
-		set_vte_color(page_data->vte, use_default_vte_theme(win_data), win_data->cursor_color, win_data->color, FALSE);
+		set_vte_color(page_data->vte, use_default_vte_theme(win_data), win_data->cursor_color, win_data->color, FALSE,
+			      (win_data->color_theme_index==(THEME-1)));
 
 // ---- tabs on notebook ---- //
 

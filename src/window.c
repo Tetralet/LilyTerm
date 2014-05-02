@@ -377,7 +377,7 @@ GtkNotebook *new_window(int argc,
 			//	    gchar *VTE_CJK_WIDTH_STR,
 			//	    gboolean add_to_next)
 			if ( ! add_page(win_data,
-				 	NULL,
+					NULL,
 					NULL,
 					FINAL_encoding,
 					encoding,
@@ -3314,6 +3314,7 @@ void win_data_dup(struct Window *win_data_orig, struct Window *win_data)
 	win_data->current_menuitem_theme = NULL;
 	// win_data->have_custom_color;
 	// win_data->use_custom_theme;
+	for (i=0; i<ANSI_THEME_MENUITEM; i++) win_data->ansi_theme_menuitem[i] = NULL;
 	win_data->ansi_color_sub_menu = NULL;
 	win_data->ansi_color_menuitem = NULL;
 	// win_data->color_brightness;

@@ -1098,7 +1098,7 @@ void vte_grab_focus(GtkWidget *vte, gpointer user_data)
 							  prev_data->custom_page_name,
 							  prev_data->tab_color, prev_data->is_root, FALSE,
 							  compare_strings(win_data->runtime_encoding,
-							  		  prev_data->encoding_str,
+									  prev_data->encoding_str,
 									  FALSE),
 							  prev_data->encoding_str, prev_data->custom_window_title,
 							  FALSE);
@@ -1146,7 +1146,7 @@ void vte_grab_focus(GtkWidget *vte, gpointer user_data)
 					  page_data->page_no+1, page_data->custom_page_name, page_data->tab_color,
 					  page_data->is_root, page_data->is_bold,
 					  compare_strings(win_data->runtime_encoding,
-					  		  page_data->encoding_str,
+							  page_data->encoding_str,
 							  FALSE),
 					  page_data->encoding_str, page_data->custom_window_title,
 					  FALSE);
@@ -1215,9 +1215,11 @@ void dim_vte_text (struct Window *win_data, struct Page *page_data, gint dim_tex
 	if (page_data->vte_is_inactivated != dim_vte)
 	{
 		if (dim_vte)
-			set_vte_color(page_data->vte, TRUE, win_data->cursor_color,  win_data->color_inactive, TRUE);
+			set_vte_color(page_data->vte, TRUE, win_data->cursor_color,  win_data->color_inactive, TRUE,
+				      (win_data->color_theme_index==(THEME-1)));
 		else
-			set_vte_color(page_data->vte, TRUE, win_data->cursor_color,  win_data->color, TRUE);
+			set_vte_color(page_data->vte, TRUE, win_data->cursor_color,  win_data->color, TRUE,
+				      (win_data->color_theme_index==(THEME-1)));
 		page_data->vte_is_inactivated = dim_vte;
 	}
 	// g_debug("FINAL: dim_vte = %d, page_data->vte_is_inactivated = %d", dim_vte, page_data->vte_is_inactivated);
