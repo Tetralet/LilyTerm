@@ -1149,7 +1149,7 @@ void reset_vte(GtkWidget *widget, struct Window *win_data)
 #endif
 	vte_terminal_reset(VTE_TERMINAL(win_data->current_vte), TRUE, FALSE);
 }
-#if defined(ENABLE_VTE_BACKGROUND) || defined(FORCE_ENABLE_VTE_BACKGROUND)
+#if defined(ENABLE_VTE_BACKGROUND) || defined(FORCE_ENABLE_VTE_BACKGROUND) || defined(UNIT_TEST)
 void set_trans_bg(GtkWidget *menuitem_trans_bg, struct Window *win_data)
 {
 #  ifdef DETAIL
@@ -1551,9 +1551,6 @@ void select_font(GtkWidget *widget, struct Window *win_data)
 	GtkWidget *dialog = gtk_font_chooser_dialog_new(_("Font Selection"), GTK_WINDOW(win_data->window));
 	gtk_window_set_transient_for(GTK_WINDOW(dialog), GTK_WINDOW(win_data->window));
 	gtk_window_set_destroy_with_parent (GTK_WINDOW (dialog), TRUE);
-#ifdef EXIST_GTK_FONT_CHOOSER_SET_FILTER_FUNC
-	gtk_font_chooser_set_filter_func (GTK_FONT_CHOOSER(dialog), monospace_filter, NULL, NULL);
-#endif
 	// set the default font name in gtk_font_selection_dialog
 #ifdef SAFEMODE
 	if (page_data->font_name)
@@ -1572,19 +1569,6 @@ void select_font(GtkWidget *widget, struct Window *win_data)
 	}
 	gtk_widget_destroy(dialog);
 }
-
-#ifdef EXIST_GTK_FONT_CHOOSER_SET_FILTER_FUNC
-gboolean monospace_filter(const PangoFontFamily *family, const PangoFontFace *face, gpointer data)
-{
-#ifdef DETAIL
-	g_debug("! Launch monospace_filter()");
-#endif
-#ifdef SAFEMODE
-	if (family==NULL) return TRUE;
-#endif
-	return pango_font_family_is_monospace((PangoFontFamily *)family);
-}
-#endif
 
 #ifdef OUT_OF_MEMORY
 #  undef g_strdup
@@ -2511,7 +2495,7 @@ void apply_profile_from_file(const gchar *path, Apply_Profile_Type type)
 	}
 }
 
-#if defined(ENABLE_VTE_BACKGROUND) || defined(FORCE_ENABLE_VTE_BACKGROUND)
+#if defined(ENABLE_VTE_BACKGROUND) || defined(FORCE_ENABLE_VTE_BACKGROUND) || defined(UNIT_TEST)
 void load_background_image_from_file(GtkWidget *widget, struct Window *win_data)
 {
 #  ifdef DETAIL
@@ -2598,7 +2582,7 @@ void load_background_image_from_file(GtkWidget *widget, struct Window *win_data)
 }
 #endif
 
-#if defined(ENABLE_VTE_BACKGROUND) || defined(FORCE_ENABLE_VTE_BACKGROUND)
+#if defined(ENABLE_VTE_BACKGROUND) || defined(FORCE_ENABLE_VTE_BACKGROUND) || defined(UNIT_TEST)
 void update_preview_image (GtkFileChooser *dialog, struct Preview *preview)
 {
 #  ifdef DETAIL
@@ -2943,5 +2927,10 @@ void enable_disable_theme_menus(struct Window *win_data, gboolean show)
 #endif
 	gint i;
 	for (i=0; i<ANSI_THEME_MENUITEM; i++)
+	{
+#ifdef SAFEMODE
+		if (win_data->ansi_theme_menuitem[i]==NULL) continue;
+#endif
 		gtk_widget_set_sensitive(win_data->ansi_theme_menuitem[i], show);
+	}
 }

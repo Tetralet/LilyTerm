@@ -63,7 +63,7 @@ struct Preview
 
 void new_tab_with_locale(GtkWidget *local_menuitem, gboolean VTE_CJK_WIDTH);
 GtkWidget *check_name_in_menuitem(GtkWidget *sub_menu, const gchar *name, gboolean case_sensitive);
-#if defined(ENABLE_VTE_BACKGROUND) || defined(FORCE_ENABLE_VTE_BACKGROUND)
+#if defined(ENABLE_VTE_BACKGROUND) || defined(FORCE_ENABLE_VTE_BACKGROUND) || defined(UNIT_TEST)
 void set_trans_bg(GtkWidget *menuitem_trans_bg, struct Window *win_data);
 void load_background_image_from_file(GtkWidget *widget, struct Window *win_data);
 void update_preview_image (GtkFileChooser *dialog, struct Preview *preview);
@@ -80,9 +80,6 @@ void set_cursor_shape (GtkWidget *menuitem, gint value);
 #endif
 GSList *create_theme_menu_items(struct Window *win_data, GtkWidget *sub_menu, GSList *theme_group, gint current_theme, gint custom_theme);
 void reset_vte(GtkWidget *widget, struct Window *win_data);
-#ifdef EXIST_GTK_FONT_CHOOSER_SET_FILTER_FUNC
-gboolean monospace_filter(const PangoFontFamily *family, const PangoFontFace *face, gpointer data);
-#endif
 void select_font(GtkWidget *widget, struct Window *win_data);
 void set_dim_text(GtkWidget *menuitem_dim_text, struct Window *win_data);
 #ifdef ENABLE_RGBA

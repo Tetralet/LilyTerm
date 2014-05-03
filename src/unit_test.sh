@@ -43,7 +43,7 @@ fi
 
 for opt do
 	case "$opt" in
-		--help)
+		-h|--help)
 			$ECHO "Usage: sh $0 INCLUDES --test_all --enable-glib-debugger --enable-gtk-debugger --enable-gdb --enable-valgrind --specific_function=FUNCTION_NAME --skip_function=FUNCTION_NAME --create_program_only --build_program_only"
 			exit 0
 			;;
@@ -508,5 +508,5 @@ if [ -f ./gdb_batch ]; then
 fi
 
 if [ $GDB_ERROR -eq 1 ]; then
-	$PRINTF "\n\033[1;31mERROR: \033[1;36mThis unit test program had exited with GDB error.\n       LIST: \033[1;33m`echo -e "$GDB_ERROR_PROGRAM" | sed -e '$d'`\033[1;36m\n       Please check \033[1;32mgdb.log\033[1;36m for feature information!!\033[0m\n\n"
+	$PRINTF "\n\033[1;31mERROR: \033[1;36mThis unit test program had exited with GDB error.\n       LIST: \033[1;33m`printf "$GDB_ERROR_PROGRAM" | sed -e '$d'`\033[1;36m\n       Please check \033[1;32mgdb.log\033[1;36m for feature information!!\033[0m\n\n"
 fi

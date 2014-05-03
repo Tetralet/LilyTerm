@@ -843,7 +843,7 @@ GtkWidget *dirty_gtk_hbox_new(gboolean homogeneous, gint spacing)
 	return box;
 }
 
-#if defined(ENABLE_VTE_BACKGROUND) || defined(FORCE_ENABLE_VTE_BACKGROUND)
+#if defined(ENABLE_VTE_BACKGROUND) || defined(FORCE_ENABLE_VTE_BACKGROUND) || defined(UNIT_TEST)
 void dirty_vte_terminal_set_background_tint_color(VteTerminal *vte, const GdkRGBA rgba)
 {
 #  ifdef DETAIL

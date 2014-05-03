@@ -61,7 +61,7 @@ gboolean dirty_gdk_color_parse(const gchar *spec, GdkRGBA *color);
 #endif
 GtkWidget *dirty_gtk_vbox_new(gboolean homogeneous, gint spacing);
 GtkWidget *dirty_gtk_hbox_new(gboolean homogeneous, gint spacing);
-#if defined(ENABLE_VTE_BACKGROUND) || defined(FORCE_ENABLE_VTE_BACKGROUND)
+#if defined(ENABLE_VTE_BACKGROUND) || defined(FORCE_ENABLE_VTE_BACKGROUND) || defined(UNIT_TEST)
 void dirty_vte_terminal_set_background_tint_color(VteTerminal *vte, const GdkRGBA rgba);
 #endif
 #if defined(GEOMETRY) || defined(UNIT_TEST)
@@ -191,7 +191,7 @@ void set_page_width(struct Window *win_data, struct Page *page_data);
 void pack_vte_and_scroll_bar_to_hbox(struct Window *win_data, struct Page *page_data);
 void add_remove_page_timeout_id(struct Window *win_data, struct Page *page_data);
 void add_remove_window_title_changed_signal(struct Page *page_data);
-#if defined(ENABLE_VTE_BACKGROUND) || defined(FORCE_ENABLE_VTE_BACKGROUND)
+#if defined(ENABLE_VTE_BACKGROUND) || defined(FORCE_ENABLE_VTE_BACKGROUND) || defined(UNIT_TEST)
 gboolean set_background_saturation(GtkRange *range, GtkScrollType scroll, gdouble value, GtkWidget *vte);
 #endif
 gboolean set_window_opacity (GtkRange *range, GtkScrollType scroll, gdouble value, struct Window *win_data);

@@ -241,7 +241,6 @@
 	#define USE_GTK2_GEOMETRY_METHOD
 #  ifdef UNIT_TEST
 	#define gtk_window_resize_to_geometry gtk_window_move
-	#define monospace_filter(a,b,c) restore_SYSTEM_VTE_CJK_WIDTH_STR()
 #  endif
 #endif
 #if GTK_CHECK_VERSION(2,91,7)
@@ -478,7 +477,16 @@
 	// END: vte-0.34.6/src/vtedeprecated.h: void vte_terminal_im_append_menuitems()
 	#define ENABLE_IM_APPEND_MENUITEMS
 #endif
-#if ! VTE_CHECK_VERSION(0,34,8)
+#if VTE_CHECK_VERSION(0,34,8)
+#  ifdef UNIT_TEST
+	#define vte_terminal_set_opacity(x,y) NULL
+	#define vte_terminal_set_background_transparent(x,y) vte_terminal_set_size(x,1,1)
+	#define vte_terminal_set_background_image_file(x,y) vte_terminal_set_size(x,1,1)
+	#define vte_terminal_set_background_saturation(x,y) vte_terminal_set_size(x,1,1)
+	#define vte_terminal_set_scroll_background(x,y) vte_terminal_set_size(x,1,1)
+	#define vte_terminal_set_background_tint_color vte_terminal_set_color_bold
+#  endif
+#else
 	// END: vte-0.34.8/src/vtedeprecated.h: void vte_terminal_set_opacity(VteTerminal *terminal, guint16 opacity) G_GNUC_DEPRECATED;
 	// END: vte-0.34.8/src/vtedeprecated.h:	void vte_terminal_set_background_tint_color(VteTerminal *terminal,
 	// END: vte-0.34.8/src/vtedeprecated.h: void vte_terminal_set_scroll_background(VteTerminal *terminal, gboolean scroll) G_GNUC_DEPRECATED;
@@ -948,6 +956,8 @@ struct Window
 	//  0: Normal
 	// >0: unfullscreening
 	// <0: fullscreening
+#endif
+#ifdef USE_GTK2_GEOMETRY_METHOD
 	FullScreen_Type window_status;
 #endif
 #ifdef USE_GTK3_GEOMETRY_METHOD
@@ -1183,7 +1193,7 @@ struct Window
 	// 0: left
 	// 1: right
 	gboolean scroll_bar_position;			/* Should be take care when drag to another window */
-#if defined(ENABLE_VTE_BACKGROUND) || defined(FORCE_ENABLE_VTE_BACKGROUND)
+#if defined(ENABLE_VTE_BACKGROUND) || defined(FORCE_ENABLE_VTE_BACKGROUND) || defined(UNIT_TEST)
 	gint transparent_background;
 	gdouble background_saturation;
 	gboolean scroll_background;

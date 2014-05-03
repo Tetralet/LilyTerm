@@ -763,7 +763,7 @@ void clear_arg(struct Window *win_data)
 	win_data->argv = NULL;
 }
 
-#ifdef USE_GTK2_GEOMETRY_METHOD
+#if defined (USE_GTK2_GEOMETRY_METHOD) || defined(UNIT_TEST)
 void label_size_request (GtkWidget *label, GtkRequisition *requisition, struct Page *page_data)
 {
 #  ifdef DETAIL
@@ -797,7 +797,9 @@ void vte_size_allocate (GtkWidget *vte, GtkAllocation *allocation, struct Page *
 	//	allocation->width, allocation->height,
 	//	vte_terminal_get_column_count(VTE_TERMINAL(vte)),
 	//	vte_terminal_get_row_count(VTE_TERMINAL(vte)));
-
+#  ifdef SAFEMODE
+	if ((page_data==NULL) || (page_data->window==NULL)) return;
+#  endif
 	struct Window *win_data = (struct Window *)g_object_get_data(G_OBJECT(page_data->window), "Win_Data");
 
 	glong column = vte_terminal_get_column_count(VTE_TERMINAL(vte));
