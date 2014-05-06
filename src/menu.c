@@ -382,10 +382,10 @@ gboolean create_menu(struct Window *win_data)
 								   (GSourceFunc)launch_hide_and_show_tabs_bar,
 								   GINT_TO_POINTER(FORCE_OFF));
 
-	add_separator_menu (misc_sub_menu);
-
 	if (win_data->show_resize_menu)
 	{
+		add_separator_menu (misc_sub_menu);
+
 		// Window Size
 		create_menu_item (IMAGE_MENU_ITEM, misc_sub_menu, _("Increase window size"), NULL, GTK_FAKE_STOCK_ZOOM_IN,
 				  (GSourceFunc)set_vte_font, GINT_TO_POINTER(FONT_ZOOM_OUT));
