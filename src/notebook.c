@@ -300,16 +300,17 @@ struct Page *add_page(struct Window *win_data,
 						   win_data->utmp,
 						   win_data->utmp);
 #else
-	// gboolean vte_terminal_fork_command_full (VteTerminal *terminal,
-	//					    VtePtyFlags pty_flags,
-	//					    const char *working_directory,
-	//					    char **argv,
-	//					    char **envv,
-	//					    GSpawnFlags spawn_flags,
-	//					    GSpawnChildSetupFunc child_setup,
-	//					    gpointer child_setup_data,
-	//					    GPid *child_pid,
-	//					    GError **error);
+	// gboolean vte_terminal_spawn_sync (VteTerminal *terminal,
+	//				     VtePtyFlags pty_flags,
+	//				     const char *working_directory,
+	//				     char **argv,
+	//				     char **envv,
+	//				     GSpawnFlags spawn_flags,
+	//				     GSpawnChildSetupFunc child_setup,
+	//				     gpointer child_setup_data,
+	//				     GPid *child_pid,
+	//				     GCancellable *cancellable,
+	//				     GError **error);
 	gboolean fork_stats;
 	GSpawnFlags spawn_flags = G_SPAWN_SEARCH_PATH | G_SPAWN_CHILD_INHERITS_STDIN;
 	GError *error = NULL;
@@ -351,18 +352,18 @@ struct Page *add_page(struct Window *win_data,
 		g_free(final_argv_str);
 	}
 
-	// g_debug("vte_terminal_fork_command_full(): pty_flags = %d", VTE_PTY_DEFAULT);
-	// g_debug("vte_terminal_fork_command_full(): working_directory = %s", page_data->pwd);
-	// print_array("vte_terminal_fork_command_full(): real_arg", final_argv);
-	// print_array("vte_terminal_fork_command_full(): envv", new_environs);
-	// g_debug("vte_terminal_fork_command_full(): win_data->login_shell = %d", win_data->login_shell);
-	// g_debug("vte_terminal_fork_command_full(): spawn_flags = %d", spawn_flags);
+	// g_debug("vte_terminal_spawn_sync(): pty_flags = %d", VTE_PTY_DEFAULT);
+	// g_debug("vte_terminal_spawn_sync(): working_directory = %s", page_data->pwd);
+	// print_array("vte_terminal_spawn_sync(): real_arg", final_argv);
+	// print_array("vte_terminal_spawn_sync(): envv", new_environs);
+	// g_debug("vte_terminal_spawn_sync(): win_data->login_shell = %d", win_data->login_shell);
+	// g_debug("vte_terminal_spawn_sync(): spawn_flags = %d", spawn_flags);
 
 	gint pty_flags = VTE_PTY_DEFAULT;
 	if (win_data->utmp)
 		pty_flags = (VTE_PTY_NO_LASTLOG | VTE_PTY_NO_UTMP | VTE_PTY_NO_WTMP | VTE_PTY_DEFAULT);
 
-	fork_stats = vte_terminal_fork_command_full (VTE_TERMINAL(page_data->vte),
+	fork_stats = vte_terminal_spawn_sync (VTE_TERMINAL(page_data->vte),
 						     pty_flags,
 						     page_data->pwd,
 						     final_argv,
@@ -371,6 +372,7 @@ struct Page *add_page(struct Window *win_data,
 						     NULL,
 						     NULL,
 						     &(page_data->pid),
+						     NULL,
 						     &error);
 	if (final_argv_need_be_free) g_strfreev(final_argv);
 	login_shell_str[0] = NULL;
