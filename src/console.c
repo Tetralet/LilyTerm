@@ -139,6 +139,7 @@ gchar *get_help_message_usage(gchar *profile, gboolean convert_to_html)
 	// TRANSLATE NOTE: It should be shorter than 80 columns.
 	g_string_append_printf(help_message, _("%s is a libvte based X Terminal Emulator.\n\n"), PACKAGE);
 	g_string_append(help_message,   _("Use -T/--title {title} to specify the window title.\n"));
+	g_string_append(help_message,   _("Use -R/--role {role} to specify the window role (WM_WINDOW_ROLE).\n"));
 	g_string_append(help_message,   _("Use -t/--tab {number} to open multi tabs when starting up.\n"));
 	g_string_append(help_message,   _("Use -n/--tab_names {tab names} to specify tab names, separate with <space>.\n"));
 	g_string_append(help_message,   _("Use -d/--directory {directory} to specify the init directory when starting up.\n"));

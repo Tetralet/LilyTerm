@@ -855,6 +855,23 @@ gboolean window_option(struct Window *win_data, gchar *encoding, int argc, char 
 				//	win_data->custom_window_title_str);
 			}
 		}
+		else if ((!strcmp(argv[i], "-R")) || (!strcmp(argv[i], "--role")))
+		{
+			if (++i==argc)
+				g_critical("missing window role after -R/--role!\n");
+			else
+			{
+				gchar *window_role = convert_str_to_utf8(argv[i], encoding);
+#ifdef SAFEMODE
+				if (window_role)
+#endif
+					gtk_window_set_role (GTK_WINDOW (win_data->window), window_role);
+
+				// g_debug("The role of LilyTerm is specified to %s", window_role);
+
+				g_free(window_role);
+			}
+		}
 		else if ((!strcmp(argv[i], "-t")) || (!strcmp(argv[i], "--tab")))
 		{
 			if (++i==argc)
