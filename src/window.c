@@ -824,6 +824,7 @@ gboolean window_option(struct Window *win_data, gchar *encoding, int argc, char 
 	win_data->init_tab_number = 1;
 	win_data->profile = get_user_profile_path(win_data, argc, argv);
 	// g_debug("Got win_data->profile = %s", win_data->profile);
+	gchar *window_role = NULL;
 
 	gint i;
 	gint getting_tab_name_argc = -1;
@@ -861,15 +862,13 @@ gboolean window_option(struct Window *win_data, gchar *encoding, int argc, char 
 				g_critical("missing window role after -R/--role!\n");
 			else
 			{
-				gchar *window_role = convert_str_to_utf8(argv[i], encoding);
+				window_role = convert_str_to_utf8(argv[i], encoding);
 #ifdef SAFEMODE
-				if (window_role)
+				if ((window_role) && (win_data->window))
 #endif
 					gtk_window_set_role (GTK_WINDOW (win_data->window), window_role);
 
 				// g_debug("The role of LilyTerm is specified to %s", window_role);
-
-				g_free(window_role);
 			}
 		}
 		else if ((!strcmp(argv[i], "-t")) || (!strcmp(argv[i], "--tab")))
@@ -1030,6 +1029,16 @@ gboolean window_option(struct Window *win_data, gchar *encoding, int argc, char 
 		//	win_data, win_data->custom_tab_names_str->str, win_data->custom_tab_names_total);
 		if (win_data->init_tab_number<win_data->custom_tab_names_total)
 			win_data->init_tab_number = win_data->custom_tab_names_total;
+	}
+
+	if (window_role)
+		g_free(window_role);
+	else
+	{
+#ifdef SAFEMODE
+		if (win_data->window)
+#endif
+			gtk_window_set_role (GTK_WINDOW (win_data->window), PACKAGE);
 	}
 
 	return TRUE;
