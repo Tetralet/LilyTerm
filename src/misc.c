@@ -341,6 +341,8 @@ const gchar *get_default_lc_data(gint lc_type)
 		case LC_MESSAGES:
 			lc_data = g_getenv("LC_MESSAGES");
 			break;
+		case LANGUAGE:
+			return g_getenv("LANGUAGE");
 		default:
 #ifdef FATAL
 			print_switch_out_of_range_error_dialog("get_default_lc_data", "lc_type", lc_type);

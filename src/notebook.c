@@ -26,6 +26,7 @@
 extern GtkWidget *menu_active_window;
 extern gboolean proc_exist;
 extern gchar *init_LC_CTYPE;
+extern gchar *init_LANGUAGE;
 
 extern gint dialog_activated;
 gboolean menu_activated = FALSE;
@@ -121,11 +122,17 @@ struct Page *add_page(struct Window *win_data,
 	// g_debug("locale = %s", locale);
 	if (locale && (locale[0]!='\0'))
 	{
+		gchar *lang = get_lang_str_from_locale(locale, ".");
+		gchar *language = get_language_str_from_locales(locale, win_data->default_locale);
+
 		g_free(page_data->locale);
 		page_data->locale = g_strdup(locale);
 		g_string_append_printf (environ_str,
 					"\tLANG=%s\tLANGUAGE=%s\tLC_ALL=%s",
-					locale, locale, locale);
+					lang, language, locale);
+		// g_debug("lang = %s, language = %s", lang, language);
+		g_free(lang);
+		g_free(language);
 	}
 
 	// set the environ that user specify in profile
@@ -1649,11 +1656,17 @@ gboolean open_url_with_external_command (gchar *url, gint tag, struct Window *wi
 #else
 			if (win_data->user_command[tag].locale[0]!='\0')
 #endif
+			{
+				gchar *lang = get_lang_str_from_locale(win_data->user_command[tag].locale, ".");
+				gchar *language = get_language_str_from_locales(win_data->user_command[tag].locale, win_data->default_locale);
 				g_string_append_printf (environ_str,
 							"\tLANG=%s\tLANGUAGE=%s\tLC_ALL=%s",
-							win_data->user_command[tag].locale,
-							win_data->user_command[tag].locale,
+							lang,
+							language,
 							win_data->user_command[tag].locale);
+				g_free(language);
+				g_free(lang);
+			}
 			// g_debug("gdk_spawn_on_screen_with_pipes: environ_str = %s", environ_str->str);
 			gchar **new_environs = NULL;
 #ifdef SAFEMODE
@@ -1727,9 +1740,13 @@ gboolean open_url_with_external_command (gchar *url, gint tag, struct Window *wi
 				encoding = g_strdup(page_data->encoding_str);
 			}
 
+			gchar *lang = get_lang_str_from_locale(locale, ".");
+			gchar *language = get_language_str_from_locales(locale, win_data->default_locale);
 			gchar *new_environs = g_strdup_printf("%s\tLANG=%s\tLANGUAGE=%s\tLC_ALL=%s",
 							      win_data->user_command[tag].environ,
-							      locale, locale, locale);
+							      lang, language, locale);
+			g_free(lang);
+			g_free(language);
 			// g_debug("new_environs = %s", new_environs);
 			// gchar *pwd = get_current_pwd_by_pid(page_data->pid);
 			gchar *pwd = get_init_dir(get_tpgid(page_data->pid), page_data->pwd, win_data->home);
@@ -1913,4 +1930,111 @@ struct Page *get_page_data_from_nth_page(struct Window *win_data, guint page_no)
 									 page_no))),
 							"VteBox");
 	return (struct Page *)g_object_get_data(G_OBJECT(vte), "Page_Data");
+}
+
+// Get LANG str from old and new locale data
+gchar *get_language_str_from_locales(const gchar *new_locale, const gchar *old_locale)
+{
+#ifdef DETAIL
+	g_debug("! Launch get_language_str_from_locales() with old_locale = %s, new_locale = %s, init_LANGUAGE = %s",
+		old_locale, new_locale, init_LANGUAGE);
+#endif
+	gint i, j;
+	const gchar *locale_list[4] = {new_locale, old_locale, init_LANGUAGE, "en"};
+	GString *language_list = g_string_new(":");
+
+	// Join the locales into "zh_TW.UTF-8:ja_JP.UTF8:zh_CN:en"
+	for (i=0; i<4; i++)
+	{
+		if (locale_list[i])
+		{
+			g_string_append_printf(language_list, "%s:", locale_list[i]);
+		}
+	}
+	// g_debug("get_language_str_from_locales(): Get language_list = %s", language_list->str);
+
+	// Convert "zh_TW.UTF-8:ja_JP.UTF8:zh_CN:en" into "zh_TW:zh:ja_JP:ja:zh_CN:zh:en"
+	GString *final_lang_list = g_string_new(":");
+	gchar **lang_lists = split_string(language_list->str, ":", -1);
+	gchar *new_lang[2];
+	i=-1;
+	while (lang_lists[++i])
+	{
+		// g_debug("get_language_str_from_locales(1): Checking lang_lists[%d] = \"%s\"", i, lang_lists[i]);
+		new_lang[0] = get_lang_str_from_locale(lang_lists[i], ".");
+		if (new_lang[0])
+		{
+			g_string_append_printf(final_lang_list, "%s:", new_lang[0]);
+			new_lang[1] = get_lang_str_from_locale(new_lang[0], "_");
+			if (new_lang[1])
+			{
+				g_string_append_printf(final_lang_list, "%s:", new_lang[1]);
+				g_free(new_lang[1]);
+			}
+			g_free(new_lang[0]);
+		}
+	}
+	// g_debug("get_language_str_from_locales(): Get final_lang_list = %s", final_lang_list->str);
+	g_strfreev(lang_lists);
+	g_string_free(language_list, TRUE);
+
+	// Join "zh_TW:zh:ja_JP:ja:zh_CN:zh:en" into "zh_TW:zh:ja_JP:ja:zh_CN:en"
+	GString *join_lang_list = g_string_new(NULL);
+	lang_lists = split_string(final_lang_list->str, ":", -1);
+	i=-1;
+	while (lang_lists[++i])
+	{
+		// g_debug("get_language_str_from_locales(2): Checking lang_lists[%d] = \"%s\"", i, lang_lists[i]);
+		gboolean different_strings = TRUE;
+		if (lang_lists[i][0] == '\0')
+			different_strings = FALSE;
+		else
+		{
+			for (j=0; j<i; j++)
+			{
+				different_strings = compare_strings(lang_lists[i], lang_lists[j], TRUE);
+				// g_debug("get_language_str_from_locales(2): Compare \"%s\" and \"%s\": %d",
+				//	lang_lists[i], lang_lists[j], different_strings);
+				if (different_strings==FALSE) break;
+			}
+		}
+		if (different_strings)
+		{
+			if (join_lang_list->str[0] != '\0')
+				g_string_append_printf(join_lang_list, ":%s", lang_lists[i]);
+			else
+				g_string_append_printf(join_lang_list, "%s", lang_lists[i]);
+		}
+		// g_debug("get_language_str_from_locales(2): join_lang_list = %s", join_lang_list->str);
+	}
+	// g_debug("get_language_str_from_locales(): Get join_lang_list = %s", join_lang_list->str);
+	g_strfreev(lang_lists);
+	g_string_free(final_lang_list, TRUE);
+
+
+	return g_string_free(join_lang_list, FALSE);
+}
+
+// convert zh_TW.UTF-8 -> zh_TW
+// See https://www.gnu.org/software/gettext/manual/html_node/The-LANGUAGE-variable.html for more details.
+gchar *get_lang_str_from_locale(const gchar *locale, const gchar *split)
+{
+#ifdef DETAIL
+	g_debug("! Launch get_lang_str_from_locale() with locale = %s", locale);
+#endif
+#ifdef SAFEMODE
+	if (locale==NULL) return NULL;
+#endif
+	gchar *language = NULL;
+	gchar **split_locales = split_string(locale, split, 2);
+
+	if (split_locales)
+		language=g_strdup(split_locales[0]);
+	else
+		language=g_strdup(locale);
+
+	// print_array("! get_lang_str_from_locale() locale", split_locales);
+
+	g_strfreev(split_locales);
+	return language;
 }

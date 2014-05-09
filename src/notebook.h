@@ -53,3 +53,5 @@ void vte_size_allocate (GtkWidget *vte, GtkAllocation *allocation, struct Page *
 void vte_size_changed(VteTerminal *vte, Font_Set_Type type);
 void page_data_dup(struct Page *page_data_prev, struct Page *page_data);
 // void vte_paste_clipboard (VteTerminal *vte, gpointer user_data);
+gchar *get_language_str_from_locales(const gchar *new_locale, const gchar *old_locale);
+gchar *get_lang_str_from_locale(const gchar *locale, const gchar *split);

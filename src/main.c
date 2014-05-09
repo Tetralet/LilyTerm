@@ -32,6 +32,7 @@ GtkClipboard *selection_primary = NULL;
 // gchar **empty_environ;
 gchar *system_locale_list;
 gchar *init_LC_CTYPE;
+gchar *init_LANGUAGE;
 gchar *init_encoding;
 gchar *init_LC_MESSAGES;
 const gchar *SYSTEM_VTE_CJK_WIDTH_STR = NULL;
@@ -195,6 +196,8 @@ int main( int   argc,
 	// g_debug("Got system_locale_list = %s", system_locale_list);
 	init_LC_CTYPE = g_strdup(get_default_lc_data(LC_CTYPE));
 	// g_debug("Got init_LC_CTYPE = %s", init_LC_CTYPE);
+	init_LANGUAGE = g_strdup(get_default_lc_data(LANGUAGE));
+	// g_debug("Got init_LANGUAGE = %s", init_LANGUAGE);
 	init_LC_MESSAGES = g_strdup(get_default_lc_data(LC_MESSAGES));
 	// g_debug("init_LC_MESSAGES = %s", init_LC_MESSAGES);
 	init_encoding = (gchar *)get_encoding_from_locale(NULL);
