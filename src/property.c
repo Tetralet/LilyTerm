@@ -646,13 +646,17 @@ void get_hint_min_size(GtkWidget *notebook, GtkWidget *scrollbar, gint *min_widt
 #endif
 #ifdef USE_GTK3_GEOMETRY_METHOD
 	gtk_widget_get_preferred_width(GTK_WIDGET(notebook), min_width, NULL);
+	gtk_widget_get_preferred_height(GTK_WIDGET(notebook), min_height, NULL);
+#  ifdef GEOMETRY
+	g_debug("@ get_hint_min_size(): Get the preferred size of notebook = %d x %d", *min_width, *min_height);
+#  endif
 #endif
 	gint stepper_size, stepper_spacing, trough_border, min_slider_length;
 	gtk_widget_style_get(GTK_WIDGET(scrollbar), "stepper-size", &stepper_size, NULL);
 	gtk_widget_style_get(GTK_WIDGET(scrollbar), "stepper-spacing", &stepper_spacing, NULL);
 	gtk_widget_style_get(GTK_WIDGET(scrollbar), "trough-border", &trough_border, NULL);
 	gtk_widget_style_get(GTK_WIDGET(scrollbar), "min-slider-length", &min_slider_length, NULL);
-	*min_height = stepper_size*2 + stepper_spacing*2 + trough_border*2 + min_slider_length;
+	*min_height = *min_height + stepper_size*2 + stepper_spacing*2 + trough_border*2 + min_slider_length;
 
 #  ifdef GEOMETRY
 	g_debug("@ get_hint_min_size(): stepper_size = %d, stepper_spacing = %d, trough_border = %d, min_slider_length = %d",

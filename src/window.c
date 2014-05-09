@@ -2159,6 +2159,10 @@ void notebook_page_added(GtkNotebook *notebook, GtkWidget *child, guint page_num
 #  endif
 		update_window_hint(win_data, page_data);
 	}
+#  ifdef USE_GTK3_GEOMETRY_METHOD
+	else
+		update_window_hint(win_data, page_data);
+#  endif
 }
 
 
