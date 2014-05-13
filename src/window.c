@@ -1441,18 +1441,23 @@ gboolean deal_key_press(GtkWidget *window, Key_Bindings type, struct Window *win
 			break;
 		}
 #ifdef ENABLE_MOUSE_SCROLL
+#  ifndef SCROLL_LINE
 		case KEY_SCROLL_UP:
-#  ifdef SAFEMODE
+#    ifdef SAFEMODE
 			if (page_data==NULL) return FALSE;
-#  endif
+#    endif
 			gtk_test_widget_click(page_data->vte, 4, 0);
 			break;
 		case KEY_SCROLL_DOWN:
-#  ifdef SAFEMODE
+#    ifdef SAFEMODE
 			if (page_data==NULL) return FALSE;
-#  endif
+#    endif
 			gtk_test_widget_click(page_data->vte, 5, 0);
 			break;
+#  else
+		case KEY_SCROLL_UP:
+		case KEY_SCROLL_DOWN:
+#  endif
 		case KEY_SCROLL_UP_1_LINE:
 		case KEY_SCROLL_DOWN_1_LINE:
 		{
@@ -1460,10 +1465,25 @@ gboolean deal_key_press(GtkWidget *window, Key_Bindings type, struct Window *win
 			if (page_data==NULL) return FALSE;
 #  endif
 			gdouble value = gtk_adjustment_get_value(page_data->adjustment);
-			if (type==KEY_SCROLL_UP_1_LINE)
-				value --;
-			else
-				value ++;
+			switch (type)
+			{
+				case KEY_SCROLL_UP_1_LINE:
+					value --;
+					break;
+				case KEY_SCROLL_DOWN_1_LINE:
+					value ++;
+					break;
+#  ifdef SCROLL_LINE
+				case KEY_SCROLL_UP:
+					value -= SCROLL_LINE;
+					break;
+				case KEY_SCROLL_DOWN:
+					value += SCROLL_LINE;
+					break;
+#  endif
+				default:
+					break;
+			}
 			value = CLAMP(value, 0,
 				      gtk_adjustment_get_upper (page_data->adjustment) -
 				      gtk_adjustment_get_page_increment(page_data->adjustment));

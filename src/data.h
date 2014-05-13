@@ -247,6 +247,9 @@
 #if GTK_CHECK_VERSION(2,91,7)
 	#define GTK3_LAME_GDK_SCREEN_IS_COMPOSITED
 	#define GTK3_LAME_GDK_SCREEN_GET_RGBA_VISUAL
+	// SINCE: gtk+-2.91.7/gdk/gdkmain.h: void gdk_disable_multidevice ()
+	// Need gdk_disable_multidevice() be called to get gtk_test_widget_click() working.
+	#define SCROLL_LINE 5
 #endif
 #if GTK_CHECK_VERSION(3,1,12)
 	// SINCE: gtk+-3.1.12/gtk/gtkfontchooser.h: gtk_font_chooser_set_filter_func()
@@ -394,7 +397,7 @@
 	#define GTK_FAKE_STOCK_ZOOM_OUT			GTK_STOCK_ZOOM_OUT
 #endif
 #if GTK_CHECK_VERSION(3,11,5)
-	// END: gtk+-3.11.5/gtk/gtkdialog.h GDK_DEPRECATED_IN_3_10: gtk_alternative_dialog_button_order()
+	// END: gtk+-3.11.5/gtk/gtkdialog.h: GDK_DEPRECATED_IN_3_10 gtk_alternative_dialog_button_order()
 	#define USE_GTK_ALT_DIALOG_BUTTON_ORDER
 	#define gtk_alternative_dialog_button_order(x) gtk_alt_dialog_button_order()
 #else
