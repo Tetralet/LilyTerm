@@ -385,6 +385,7 @@ void init_window_parameters(struct Window *win_data)
 	win_data->locales_list = g_strdup("UTF-8");
 	// win_data->supported_locales;
 	// win_data->locale_sub_menu
+	// win_data->default_shell;
 	win_data->emulate_term = g_strdup("xterm");
 	win_data->VTE_CJK_WIDTH = 1;
 	// win_data->VTE_CJK_WIDTH_STR;
@@ -1543,6 +1544,14 @@ void get_user_settings(struct Window *win_data, const gchar *encoding)
 								     win_data->locales_list, TRUE, ENABLE_EMPTY_STR);
 			// g_debug("Got locales_list = %s from user's profile!", value);
 
+			win_data->default_shell = check_string_value( keyfile, "main", "default_shell",
+								      win_data->default_shell, TRUE, DISABLE_EMPTY_STR);
+			if (win_data->default_shell)
+			{
+				g_free(win_data->shell);
+				win_data->shell = g_strdup(win_data->default_shell);
+			}
+
 			win_data->emulate_term = check_string_value( keyfile, "main", "emulate_term",
 								     win_data->emulate_term, TRUE, DISABLE_EMPTY_STR);
 
@@ -2441,6 +2450,7 @@ GString *save_user_settings(GtkWidget *widget, struct Window *win_data)
 #ifdef SAFEMODE
 		if (page_data==NULL)
 		{
+			// g_debug("save_user_settings(): Trying to free win_data (%p)", win_data);
 			g_free(win_data);
 			return NULL;
 		}
@@ -2710,6 +2720,14 @@ GString *save_user_settings(GtkWidget *widget, struct Window *win_data)
 					"# You may want to use \"UTF-8\" here if you have no locale data installed.\n"
 					"# Left it blank will disable locale and encoding select menu items.\n"
 					"locales_list = %s\n\n", win_data->locales_list);
+	g_string_append_printf(contents,"# The default shell (for example: /bin/sh) used in LilyTerm.\n"
+					"# The setting here will overwrite the SHELL environment.\n");
+	if (win_data->default_shell)
+		g_string_append_printf(contents,
+					"default_shell = %s\n\n", win_data->default_shell);
+	else
+		g_string_append(contents,
+					"default_shell = \n\n");
 	g_string_append_printf(contents,"# Sets what type of terminal attempts to emulate.\n"
 					"# It will also set the TERM environment.\n"
 					"# Unless you are interested in this feature, always use \"xterm\".\n"

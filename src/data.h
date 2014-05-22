@@ -900,6 +900,7 @@ struct Window
 	// GSList *locale_group;
 	// GtkWidget *default_locale;
 
+	gchar *default_shell;
 	// emulate_term = xterm, don't change it
 	gchar *emulate_term;
 

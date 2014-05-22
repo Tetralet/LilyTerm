@@ -644,8 +644,8 @@ struct Page *add_page(struct Window *win_data,
 			g_clear_error(&error);
 #endif
 		g_free(arg_str);
-		close_page (page_data->vte, 0);
 		clear_arg(win_data);
+		close_page (page_data->vte, 0);
 		return NULL;
 	}
 	else
@@ -763,7 +763,7 @@ void clear_arg(struct Window *win_data)
 #ifdef SAFEMODE
 	if (win_data==NULL) return;
 #endif
-	// g_debug("clear_arg(): win_data->command = %s, win_data->argc = %d", win_data->command, win_data->argc);
+	// g_debug("clear_arg(): win_data = %p, win_data->command = %s, win_data->argc = %d", win_data, win_data->command, win_data->argc);
 	// print_array("clear_arg(): win_data->argv", win_data->argv);
 
 	win_data->command = NULL;
