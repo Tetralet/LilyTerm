@@ -595,6 +595,13 @@ typedef enum {
 } Key_Bindings;
 
 typedef enum {
+	CLOSE_TAB_NORMAL,
+	CLOSE_WITH_TAB_CLOSE_BUTTON,
+	CLOSE_WITH_WINDOW_CLOSE_BUTTON,
+	CLOSE_WITH_KEY_STRIKE,
+} Close_Tab_Type;
+
+typedef enum {
 	FONT_RESET,
 	FONT_INCREASE,
 	FONT_DECREASE,
@@ -1243,6 +1250,7 @@ struct Window
 	gboolean prime_user_settings_inited;
 
 	gboolean confirm_to_close_multi_tabs;
+	gboolean confirm_to_kill_running_command;
 	gboolean confirm_to_execute_command;
 	gchar *execute_command_whitelist;
 	gchar **execute_command_whitelists;

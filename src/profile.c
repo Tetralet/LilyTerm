@@ -581,6 +581,7 @@ void init_window_parameters(struct Window *win_data)
 	// win_data->current_menuitem_cursor_shape;
 #endif
 	// win_data->confirm_to_close_multi_tabs = FALSE;
+	win_data->confirm_to_kill_running_command = TRUE;
 	// win_data->confirm_to_execute_command = TRUE;			// inited in init_prime_user_datas()
 	// Don't forget to edit windows.c if you change the default volue here.
 	// win_data->execute_command_whitelist = g_strdup("");		// inited in init_prime_user_datas()
@@ -1392,6 +1393,11 @@ void get_user_settings(struct Window *win_data, const gchar *encoding)
 			win_data->confirm_to_close_multi_tabs = check_boolean_value(keyfile, "main",
 										    "confirm_to_close_multi_tabs",
 										    win_data->confirm_to_close_multi_tabs);
+
+			win_data->confirm_to_kill_running_command = check_boolean_value(keyfile, "main",
+											"confirm_to_kill_running_command",
+											win_data->confirm_to_kill_running_command);
+
 			win_data->show_background_menu = check_boolean_value(keyfile, "main", "show_background_menu",
 									     win_data->show_background_menu);
 
@@ -2571,6 +2577,8 @@ GString *save_user_settings(GtkWidget *widget, struct Window *win_data)
 					"paste_texts_whitelist = %s\n\n", win_data->paste_texts_whitelist);
 	g_string_append_printf(contents,"# Confirm to close multi tabs.\n"
 					"confirm_to_close_multi_tabs = %d\n\n", win_data->confirm_to_close_multi_tabs);
+	g_string_append_printf(contents,"# Confirm to kill running command when exiting.\n"
+					"confirm_to_kill_running_command = %d\n\n", win_data->confirm_to_kill_running_command);
 	g_string_append_printf(contents,"# Shows [Transparent Background], [Background Saturation]\n"
 					"# [Transparent Window] and [Window Opacity] on right click menu.\n"
 					"show_background_menu = %d\n\n", win_data->show_background_menu);

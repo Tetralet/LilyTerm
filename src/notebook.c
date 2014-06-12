@@ -439,7 +439,7 @@ struct Page *add_page(struct Window *win_data,
 	// gtk_widget_set_size_request(page_data->label_button, w + 4, h + 4);
 
 	gtk_box_pack_start(GTK_BOX(page_data->label), page_data->label_button, FALSE, FALSE, 0);
-	g_signal_connect(G_OBJECT(page_data->label_button), "clicked", G_CALLBACK(close_page), GINT_TO_POINTER(2));
+	g_signal_connect(G_OBJECT(page_data->label_button), "clicked", G_CALLBACK(close_page), GINT_TO_POINTER(CLOSE_WITH_TAB_CLOSE_BUTTON));
 	gtk_widget_show_all(page_data->label);
 	// done in notebook_page_added()
 	// if (! (win_data->show_close_button_on_tab || win_data->show_close_button_on_all_tabs))
@@ -504,7 +504,7 @@ struct Page *add_page(struct Window *win_data,
 			 G_CALLBACK(vte_size_changed), GINT_TO_POINTER(FONT_ZOOM_OUT));
 	// the close page event
 	if (! (win_data->hold && win_data->command))
-		g_signal_connect(G_OBJECT(page_data->vte), "child_exited", G_CALLBACK(close_page), 0);
+		g_signal_connect(G_OBJECT(page_data->vte), "child_exited", G_CALLBACK(close_page), CLOSE_TAB_NORMAL);
 
 	// when get focus, update `current_vte', hints, and window title
 	g_signal_connect(G_OBJECT(page_data->vte), "grab-focus", G_CALLBACK(vte_grab_focus), NULL);
@@ -645,7 +645,7 @@ struct Page *add_page(struct Window *win_data,
 #endif
 		g_free(arg_str);
 		clear_arg(win_data);
-		close_page (page_data->vte, 0);
+		close_page (page_data->vte, CLOSE_TAB_NORMAL);
 		return NULL;
 	}
 	else
@@ -853,7 +853,7 @@ gboolean close_page(GtkWidget *vte, gint close_type)
 #ifdef SAFEMODE
 	if (vte==NULL) return FALSE;
 #endif
-	if (close_type==2)
+	if (close_type==CLOSE_WITH_TAB_CLOSE_BUTTON)
 		vte=(GtkWidget *)g_object_get_data(G_OBJECT(gtk_widget_get_parent(vte)), "VteBox");
 
 	struct Page *page_data = (struct Page *)g_object_get_data(G_OBJECT(vte), "Page_Data");
@@ -867,6 +867,12 @@ gboolean close_page(GtkWidget *vte, gint close_type)
 #ifdef SAFEMODE
 	if (win_data==NULL) return FALSE;
 #endif
+
+	if (win_data->confirm_to_kill_running_command == FALSE)
+	{
+		force_to_quit=TRUE;
+		close_type=CLOSE_TAB_NORMAL;
+	}
 
 	GString *child_process_list = g_string_new(NULL);
 	// close_type = TRUE: Not using 'exit' or '<Ctrl><D>' to close this page.

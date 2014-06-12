@@ -3152,7 +3152,7 @@ void recover_page_colors(GtkWidget *dialog_window, GtkWidget *window, GtkWidget 
 #ifdef SAFEMODE
 		if (page_data)
 #endif
-			close_page (page_data->vte, TRUE);
+			close_page (page_data->vte, CLOSE_WITH_WINDOW_CLOSE_BUTTON);
 	}
 	win_data->kill_color_demo_vte = FALSE;
 

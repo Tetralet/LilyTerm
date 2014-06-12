@@ -538,18 +538,26 @@ gboolean window_quit(GtkWidget *window, GdkEvent *event, struct Window *win_data
 	if ((window==NULL) || (win_data==NULL)) return TRUE;
 #endif
 	menu_active_window = window;
-	gint total_page = gtk_notebook_get_n_pages(GTK_NOTEBOOK(win_data->notebook));
-	// g_debug("total_page = %d in window_quit()", total_page);
-	if (total_page>1)
+	if (win_data->confirm_to_kill_running_command)
 	{
-		if (win_data->confirm_to_close_multi_tabs)
-			// confirm to close multi pages.
-			dialog(NULL, CONFIRM_TO_CLOSE_MULTI_PAGES);
+		gint total_page = gtk_notebook_get_n_pages(GTK_NOTEBOOK(win_data->notebook));
+		// g_debug("total_page = %d in window_quit()", total_page);
+		if (total_page>1)
+		{
+			if (win_data->confirm_to_close_multi_tabs)
+				// confirm to close multi pages.
+				dialog(NULL, CONFIRM_TO_CLOSE_MULTI_PAGES);
+			else
+				close_multi_tabs(win_data, FALSE);
+		}
 		else
-			close_multi_tabs(win_data, FALSE);
+			close_page(win_data->current_vte, CLOSE_WITH_WINDOW_CLOSE_BUTTON);
 	}
 	else
-		close_page(win_data->current_vte, 1);
+	{
+		force_to_quit=TRUE;
+		close_page(win_data->current_vte, CLOSE_TAB_NORMAL);
+	}
 
 	// g_debug("Close window finish!");
 	// It will be segmentation fault if retrun FALSE
@@ -623,7 +631,7 @@ GString *close_multi_tabs(struct Window *win_data, int window_no)
 	for (i=total_page-1; i>-1; i--)
 	{
 		page_data = get_page_data_from_nth_page(win_data, i);
-		if (close_page(page_data->vte, 1)==FALSE)
+		if (close_page(page_data->vte, CLOSE_WITH_WINDOW_CLOSE_BUTTON)==FALSE)
 			break;
 	}
 	force_to_quit = FALSE;
@@ -1184,7 +1192,7 @@ gboolean deal_key_press(GtkWidget *window, Key_Bindings type, struct Window *win
 		case KEY_CLOSE_TAB:
 			// close page
 			// g_debug("Trying to close page!");
-			close_page (win_data->current_vte, 1);
+			close_page (win_data->current_vte, CLOSE_WITH_KEY_STRIKE);
 			break;
 		case KEY_EDIT_LABEL:
 			// edit page's label
