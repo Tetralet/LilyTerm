@@ -1,9 +1,9 @@
 .\" Process this file with
 .\" groff -man -Tascii lilyterm.1
 .\"
-.TH LilyTerm 1 "March 2013" "LilyTerm 0.9.9.5" "A light and eazy-to-use terminal emulator"
+.TH LilyTerm 1 "March 2013" "LilyTerm 0.9.9.5" "A light and eazy\-to\-use terminal emulator"
 .SH NAME
-LilyTerm \- A light and eazy-to-use terminal emulator for X.
+LilyTerm \- A light and eazy\-to\-use terminal emulator for X.
 .\" Disable justification (adjust text to left margin only)
 .ad l
 .SH SYNOPSIS
@@ -102,7 +102,7 @@ Use a specified profile.
 Show the version information.
 .RE
 .PP
-\fB-e\fR \fICOMMAND\fR | \fB-x\fR \fICOMMAND\fR | \fB--execute\fR \fICOMMAND\fR
+\fB\-e\fR \fICOMMAND\fR | \fB\-x\fR \fICOMMAND\fR | \fB\-\-execute\fR \fICOMMAND\fR
 .RS 4
 Run a command when starting up. Must be the final option.
 .RE
@@ -206,7 +206,7 @@ Use \fB[Save settings]\fR in the right click menu to save the current tab's sett
 
 .SH TIPS
 .PP
-\fBDisplay UTF-8 character under C locale\fR
+\fBDisplay UTF\-8 character under C locale\fR
 
 .RS 4
 Execute the following command under LilyTerm:
@@ -217,7 +217,7 @@ bind "set convert\-meta off"
 bind "set output\-meta on"
 .RE
 
-And use the right click menu to set the text encoding to "\fBUTF-8\fR".
+And use the right click menu to set the text encoding to "\fBUTF\-8\fR".
 .RE
 
 .PP
@@ -263,7 +263,7 @@ xinit ~/.xinitrc \-\- /usr/bin/Xephyr :1 \-ac \-screen 800x600
 \fB<Ctrl><S> and <Ctrl><Q> don't work under VIM:\fR
 
 .RS 4
-Use the following command to turn off '\fBflow-Control\fR' under LilyTerm:
+Use the following command to turn off '\fBflow\-Control\fR' under LilyTerm:
 
 .RS 4
 stty raw
@@ -300,7 +300,7 @@ Controls the width of some ideographs should be "single width (narrow)" or "doub
 .br
 This environment should be set \fBbefore\fR creating a vte widget.
 .br
-In LilyTerm, you may set the VTE_CJK_WIDTH of a new tab to 'wide' with right click menu 'New tab with specified locale' -> 'xx_XX.UTF-8 (Wide)' or 'UTF-8 (Wide)'.
+In LilyTerm, you may set the VTE_CJK_WIDTH of a new tab to 'wide' with right click menu 'New tab with specified locale' \-> 'xx_XX.UTF\-8 (Wide)' or 'UTF\-8 (Wide)'.
 
 .TP
 .BI PROMPT_COMMAND
@@ -341,11 +341,11 @@ set prompt = "${TITLE}%# "
 .RE
 .RE
 .RS 15
-Please visit \fIhttp://tldp.org/HOWTO/Xterm-Title.html\fR for more details.
+Please visit \fIhttp://tldp.org/HOWTO/Xterm\-Title.html\fR for more details.
 .RE
 
 .SH AUTHOR
-Lu, Chao-Ming (Tetralet) <tetralet@gmail.com>
+Lu, Chao\-Ming (Tetralet) <tetralet@gmail.com>
 
 .SH SEE ALSO
 xterm(1)
