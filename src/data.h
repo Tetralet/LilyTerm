@@ -506,8 +506,8 @@
 	// END: vte-0.34.8/src/vtedeprecated.h: GtkAdjustment *vte_terminal_get_adjustment(VteTerminal *terminal) G_GNUC_DEPRECATED;
 	#define USE_GTK_SCROLLABLE
 #endif
-#if ! VTE_CHECK_VERSION(0,36,1)
-	// END: vte-0.36.1/src/vte.h: gboolean vte_terminal_fork_command_full()
+#if ! VTE_CHECK_VERSION(0,37,0)
+	// SINCE: vte-0.37.0/src/vteterminal.h: gboolean vte_terminal_spawn_sync()
 	#define vte_terminal_spawn_sync(a,b,c,d,e,f,g,h,i,j,k) vte_terminal_fork_command_full(a,b,c,d,e,f,g,h,i,k)
 #endif
 
