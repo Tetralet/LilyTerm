@@ -9,95 +9,95 @@ LilyTerm \- A light and eazy-to-use terminal emulator for X.
 .SH SYNOPSIS
 .HP 9
 \fBlilyterm\fR
-[\fB-?\fR | \fB-h\fR | \fB--help\fR]
-[\fB-T\fR \fITITLE\fR | \fB--title\fR \fITITLE\fR]
-[\fB-t\fR \fINUMBER\fR | \fB--tab\fR \fINUMBER\fR]
-[\fB-n\fR \fITAB NAMES\fR | \fB--tab_names\fR \fITAB NAMES\fR]
-[\fB-d\fR \fIDIRECTORY\fR | \fB--directory\fR \fIDIRECTORY\fR]
-[\fB-g\fR \fIGEOMETRY\fR | \fB--geometry\fR \fIGEOMETRY\fR]
-[\fB-l\fR | \fB-ls\fR | \fB--login\fR]
-[\fB-ut\fR]
-[\fB-H\fR | \fB--hold\fR]
-[\fB-s\fR | \fB--separate\fR]
-[\fB-j\fR | \fB--join\fR]
-[\fB-p\fR | \fB--profile\fR]
-[\fB-u\fR \fIPROFILE\fR | \fB--user_profile\fR \fIPROFILE\fR]
-[\fB-v\fR | \fB--version\fR]
-[\fB-e\fR \fICOMMAND\fR | \fB-x\fR \fICOMMAND\fR | \fB--execute\fR \fICOMMAND\fR]
+[\fB\-?\fR | \fB\-h\fR | \fB\-\-help\fR]
+[\fB\-T\fR \fITITLE\fR | \fB\-\-title\fR \fITITLE\fR]
+[\fB\-t\fR \fINUMBER\fR | \fB\-\-tab\fR \fINUMBER\fR]
+[\fB\-n\fR \fITAB NAMES\fR | \fB\-\-tab_names\fR \fITAB NAMES\fR]
+[\fB\-d\fR \fIDIRECTORY\fR | \fB\-\-directory\fR \fIDIRECTORY\fR]
+[\fB\-g\fR \fIGEOMETRY\fR | \fB\-\-geometry\fR \fIGEOMETRY\fR]
+[\fB\-l\fR | \fB\-ls\fR | \fB\-\-login\fR]
+[\fB\-ut\fR]
+[\fB\-H\fR | \fB\-\-hold\fR]
+[\fB\-s\fR | \fB\-\-separate\fR]
+[\fB\-j\fR | \fB\-\-join\fR]
+[\fB\-p\fR | \fB\-\-profile\fR]
+[\fB\-u\fR \fIPROFILE\fR | \fB\-\-user_profile\fR \fIPROFILE\fR]
+[\fB\-v\fR | \fB\-\-version\fR]
+[\fB\-e\fR \fICOMMAND\fR | \fB\-x\fR \fICOMMAND\fR | \fB\-\-execute\fR \fICOMMAND\fR]
 .SH DESCRIPTION
 LilyTerm is a terminal emulator for the X Window System, based on the \fBlibvte\fR library, and aims to be fast and lightweight.
 .SH OPTIONS
 .PP
-\fB-?\fR | \fB-h\fR | \fB--help\fR
+\fB\-?\fR | \fB\-h\fR | \fB\-\-help\fR
 .RS 4
 Display a brief help message.
 .RE
 .PP
-\fB-T\fR \fITITLE\fR | \fB--title\fR \fITITLE\fR
+\fB\-T\fR \fITITLE\fR | \fB\-\-title\fR \fITITLE\fR
 .RS 4
 Specify the window title.
 .RE
 .PP
-\fB-t\fR \fINUMBER\fR | \fB--tab\fR \fINUMBER\fR
+\fB\-t\fR \fINUMBER\fR | \fB\-\-tab\fR \fINUMBER\fR
 .RS 4
 Open multi tabs when starting up.
 .RE
 .PP
-\fB-n\fR \fITAB NAMES\fR | \fB--tab_names\fR \fITAB NAMES\fR
+\fB\-n\fR \fITAB NAMES\fR | \fB\-\-tab_names\fR \fITAB NAMES\fR
 .RS 4
 Specify the tab names, separate with <Space>.
 .RE
 .PP
-\fB-d\fR \fIDIRECTORY\fR | \fB--directory\fR \fIDIRECTORY\fR
+\fB\-d\fR \fIDIRECTORY\fR | \fB\-\-directory\fR \fIDIRECTORY\fR
 .RS 4
 Specify the init directory when starting up.
 .RE
 .PP
-\fB-g\fR \fIGEOMETRY\fR | \fB--geometry\fR \fIGEOMETRY\fR
+\fB\-g\fR \fIGEOMETRY\fR | \fB\-\-geometry\fR \fIGEOMETRY\fR
 .RS 4
 Specify the geometry of window when starting.
 .br
-A reasonable example value is "80x24+0+0", witch means "width x height {+-} xoffset {+-} yoffset" (without space).
+A reasonable example value is "80x24+0+0", witch means "width x height {+\-} xoffset {+\-} yoffset" (without space).
 .RE
 .PP
-\fB-l\fR | \fB-ls\fR | \fB--login\fR
+\fB\-l\fR | \fB\-ls\fR | \fB\-\-login\fR
 .RS 4
 Make the shell invoked as a login shell.
 .RE
 .PP
-\fB-ut\fR
+\fB\-ut\fR
 .RS 4
 Disable recording the session in lastlog, utmp and wtmp.
 .RE
 .PP
-\fB-H\fR | \fB--hold\fR
+\fB\-H\fR | \fB\-\-hold\fR
 .RS 4
-Hold the terminal window open when the command following -e/-x terminated.
+Hold the terminal window open when the command following \-e/\-x terminated.
 .RE
 .PP
-\fB-s\fR | \fB--separate\fR
+\fB\-s\fR | \fB\-\-separate\fR
 .RS 4
 Run in separate process.
 .RE
 .PP
-\fB-j\fR | \fB--join\fR
+\fB\-j\fR | \fB\-\-join\fR
 .RS 4
 Integrate new created tabs to the last accessed window.
 .br
 It may be useful for launching multi commands with LilyTerm in a shell script.
 .RE
 .PP
-\fB-p\fR | \fB--profile\fR
+\fB\-p\fR | \fB\-\-profile\fR
 .RS 4
 Got a profile sample.
 .RE
 .PP
-\fB-u\fR \fIPROFILE\fR | \fB--user_profile\fR \fIPROFILE\fR
+\fB\-u\fR \fIPROFILE\fR | \fB\-\-user_profile\fR \fIPROFILE\fR
 .RS 4
 Use a specified profile.
 .RE
 .PP
-\fB-v\fR | \fB--version\fR
+\fB\-v\fR | \fB\-\-version\fR
 .RS 4
 Show the version information.
 .RE
@@ -144,7 +144,7 @@ Switch to 1st ~ 12th tab.
 Select all the text in the Vte Terminal box.
 
 .TP
-.BI <Ctrl><+/-/Enter>
+.BI <Ctrl><+/\-/Enter>
 Increase/Decrease/Reset the font size of current tab.
 
 .TP
@@ -212,9 +212,9 @@ Use \fB[Save settings]\fR in the right click menu to save the current tab's sett
 Execute the following command under LilyTerm:
 
 .RS 4
-bind "set convert-meta off"
+bind "set convert\-meta off"
 .br
-bind "set output-meta on"
+bind "set output\-meta on"
 .RE
 
 And use the right click menu to set the text encoding to "\fBUTF-8\fR".
@@ -284,7 +284,7 @@ stty \-ixon
 Please mount the procfs before launch LilyTerm:
 
 .RS 4
-mount -t procfs procfs /proc
+mount \-t procfs procfs /proc
 .RE
 
 .SH ENVIRONMENT
