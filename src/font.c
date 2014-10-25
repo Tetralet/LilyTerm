@@ -321,7 +321,7 @@ void reset_vte_size(GtkWidget *vte, gchar *new_font_name, Font_Reset_Type type)
 			// We need to apply a new font to a single vte.
 			// so that we should insure that this won't change the size of window.
 			// g_debug("Trying to apply font %s to vte", current_font_name);
-			vte_terminal_set_font_from_string_full( VTE_TERMINAL(vte),
+			fake_vte_terminal_set_font_from_string( vte,
 								new_font_name,
 								win_data->font_anti_alias);
 			// g_debug("reset_vte_size(): call window_resizable() with run_once = %d", win_data->hints_type);
@@ -392,9 +392,9 @@ void apply_font_to_every_vte(GtkWidget *window, gchar *new_font_name, glong colu
 		if (page_data==NULL) continue;
 #endif
 		// g_debug("The default font for %d page is: %s (%s)", i, page_data->font_name, new_font_name);
-		vte_terminal_set_font_from_string_full(VTE_TERMINAL(page_data->vte),
-						       new_font_name,
-						       win_data->font_anti_alias);
+		fake_vte_terminal_set_font_from_string( page_data->vte,
+							new_font_name,
+							win_data->font_anti_alias);
 		vte_terminal_set_size(VTE_TERMINAL(page_data->vte), column, row);
 		g_free(page_data->font_name);
 		page_data->font_name = g_strdup(new_font_name);
@@ -471,4 +471,21 @@ gboolean check_if_every_vte_is_using_restore_font_name(struct Window *win_data)
 		}
 	}
 	return return_value;
+}
+
+void fake_vte_terminal_set_font_from_string(GtkWidget *vte, const char *font_name, gboolean anti_alias)
+{
+#ifdef DETAIL
+	g_debug("! Launch fake_vte_terminal_set_font_from_string() with vte = %p, font_name = %s, anti_alias = %d", vte, font_name, anti_alias);
+#endif
+#ifdef SAFEMODE
+	if ((vte==NULL) || (font_name==NULL)) return;
+#endif
+
+#ifdef USE_VTE_TERMINAL_SET_FONT
+	PangoFontDescription *font_desc = pango_font_description_from_string(font_name);
+	vte_terminal_set_font(VTE_TERMINAL(vte), font_desc);
+#else
+	vte_terminal_set_font_from_string_full( VTE_TERMINAL(vte), font_name, anti_alias);
+#endif
 }

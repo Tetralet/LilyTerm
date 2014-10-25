@@ -35,12 +35,19 @@ endif
 ifeq ($(VTE), "vte-2.90")
 GTK := $(shell $(PKGCONFIG) --exists 'gtk+-3.0' && $(ECHO) 'gtk+-3.0')
 endif
+ifeq ($(VTE), "vte-2.91")
+GTK := $(shell $(PKGCONFIG) --exists 'gtk+-3.0' && $(ECHO) 'gtk+-3.0')
+endif
 ifeq ($(VTE), "")
 VTE := $(shell $(PKGCONFIG) --exists 'vte' && $(ECHO) 'vte')
 GTK := $(shell $(PKGCONFIG) --exists 'gtk+-2.0' && $(ECHO) 'gtk+-2.0')
 endif
 ifeq ($(VTE), )
 VTE := $(shell $(PKGCONFIG) --exists 'vte-2.90' && $(ECHO) 'vte-2.90')
+GTK := $(shell $(PKGCONFIG) --exists 'gtk+-3.0' && $(ECHO) 'gtk+-3.0')
+endif
+ifeq ($(VTE), )
+VTE := $(shell $(PKGCONFIG) --exists 'vte-2.91' && $(ECHO) 'vte-2.91')
 GTK := $(shell $(PKGCONFIG) --exists 'gtk+-3.0' && $(ECHO) 'gtk+-3.0')
 endif
 
@@ -55,7 +62,7 @@ CFLAGS ?= -Wall -Werror -Os
 #	 -DG_DISABLE_SINGLE_INCLUDES -DGDK_DISABLE_DEPRECATED \
 #	 -DGDK_DISABLE_SINGLE_INCLUDES -DGTK_DISABLE_DEPRECATED \
 #	 -DGTK_DISABLE_SINGLE_INCLUDES -DGSEAL_ENABLE
-LDFLAGS += -L$(prefix)/local/lib
+LDFLAGS += -L$(prefix)/local/lib -lX11
 OBJ_PKG_CMD = $(PKGCONFIG) --cflags $(GTK) $(VTE)
 BINARY_PKG_CMD = $(PKGCONFIG) --cflags --libs $(GTK) $(VTE)
 SOURCE_FILES = menu.c profile.c dialog.c pagename.c notebook.c font.c \
@@ -85,7 +92,11 @@ endif
 .PHONY: all
 all: default
 ifeq ($(STRIP), Y)
+ifeq ($(VERBOSITY), Y)
+	strip --remove-section=.comment --remove-section=.note $(BINARY)
+else
 	@ strip --remove-section=.comment --remove-section=.note $(BINARY)
+endif
 endif
 
 .PHONY: default
@@ -186,6 +197,15 @@ memory: $(BINARY)
 
 .PHONY: clean
 clean:
+ifeq ($(VERBOSITY), Y)
+	-for FileName in $(BINARY) $(BINARY)_dev $(BINARY)_dbg $(OBJ) unit_test unit_test.[co] gdb_batch gdb.log valgrind.log vgcore.*; \
+	do \
+		if [ -f "$$FileName" ]; then \
+			$(PRINTF) "\033[1;35m** deleting $$FileName...\033[0m\n"; \
+			rm "$$FileName"; \
+		fi; \
+	done
+else
 	-@ for FileName in $(BINARY) $(BINARY)_dev $(BINARY)_dbg $(OBJ) unit_test unit_test.[co] gdb_batch gdb.log valgrind.log vgcore.*; \
 	do \
 		if [ -f "$$FileName" ]; then \
@@ -193,14 +213,23 @@ clean:
 			rm "$$FileName"; \
 		fi; \
 	done
+endif
 
 %.o: %.c %.h data.h $(BINARY).h
 	@ $(PRINTF) "\033[1;33m** compiling $@...\033[0m\n"
+ifeq ($(VERBOSITY), Y)
+	$(CC) $(CPPFLAGS) $(CFLAGS) $(INCLUDES) -c $< `$(OBJ_PKG_CMD)`
+else
 	@ $(CC) $(CPPFLAGS) $(CFLAGS) $(INCLUDES) -c $< `$(OBJ_PKG_CMD)`
+endif
 
 $(BINARY): $(OBJ)
 	@ $(PRINTF) "\033[1;36m** compiling $(BINARY)...\033[0m\n"
+ifeq ($(VERBOSITY), Y)
+	$(CC) $(LDFLAGS) $(CPPFLAGS) $(CFLAGS) -o $(BINARY) $(OBJ) `$(BINARY_PKG_CMD)`
+else
 	@ $(CC) $(LDFLAGS) $(CPPFLAGS) $(CFLAGS) -o $(BINARY) $(OBJ) `$(BINARY_PKG_CMD)`
+endif
 
 .PHONY: data
 data: debug

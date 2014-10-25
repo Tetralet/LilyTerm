@@ -1991,7 +1991,9 @@ void clear_win_data(struct Window *win_data)
 	g_free(win_data->runtime_locale_list);
 	g_free(win_data->locales_list);
 	g_free(win_data->default_shell);
+#ifdef ENABLE_SET_EMULATION
 	g_free(win_data->emulate_term);
+#endif
 	g_free(win_data->VTE_CJK_WIDTH_STR);
 	g_free(win_data->wmclass_name);
 	g_free(win_data->wmclass_class);
@@ -2026,7 +2028,9 @@ void clear_win_data(struct Window *win_data)
 	g_strfreev(win_data->splited_page_names);
 	g_free(win_data->default_font_name);
 	g_free(win_data->restore_font_name);
+#ifdef ENABLE_SET_WORD_CHARS
 	g_free(win_data->word_chars);
+#endif
 #if defined(ENABLE_VTE_BACKGROUND) || defined(FORCE_ENABLE_VTE_BACKGROUND)
 	g_free(win_data->background_image);
 #endif
@@ -2743,7 +2747,9 @@ void dump_data (struct Window *win_data, struct Page *page_data)
 	g_debug("- win_data->runtime_locale_list = %s", win_data->runtime_locale_list);
 	g_debug("- win_data->locales_list = %s", win_data->locales_list);
 	g_debug("- win_data->default_shell = %s", win_data->default_shell);
+#ifdef ENABLE_SET_EMULATION
 	g_debug("- win_data->emulate_term = %s", win_data->emulate_term);
+#endif
 	g_debug("- win_data->VTE_CJK_WIDTH = %d", win_data->VTE_CJK_WIDTH);
 	g_debug("- win_data->VTE_CJK_WIDTH_STR = %s", win_data->VTE_CJK_WIDTH_STR);
 	g_debug("- win_data->wmclass_name = %s", win_data->wmclass_name);
@@ -2869,7 +2875,9 @@ void dump_data (struct Window *win_data, struct Page *page_data)
 	g_debug("- win_data->menuitem_open_url_with_ctrl_pressed = %p", win_data->menuitem_open_url_with_ctrl_pressed);
 	g_debug("- win_data->menuitem_disable_url_when_ctrl_pressed = %p", win_data->menuitem_disable_url_when_ctrl_pressed);
 	g_debug("- win_data->menuitem_audible_bell = %p", win_data->menuitem_audible_bell);
+#ifdef ENABLE_VISIBLE_BELL
 	g_debug("- win_data->menuitem_visible_bell = %p", win_data->menuitem_visible_bell);
+#endif
 #ifdef ENABLE_BEEP_SINGAL
 	g_debug("- win_data->menuitem_urgent_bell = %p", win_data->menuitem_urgent_bell);
 #endif
@@ -2944,7 +2952,9 @@ void dump_data (struct Window *win_data, struct Page *page_data)
 	g_debug("- win_data->restore_font_name = %s", win_data->restore_font_name);
 	g_debug("- win_data->default_column = %ld", win_data->default_column);
 	g_debug("- win_data->default_row = %ld", win_data->default_row);
+#ifdef ENABLE_SET_WORD_CHARS
 	g_debug("- win_data->word_chars = %s", win_data->word_chars);
+#endif
 	g_debug("- win_data->show_scroll_bar = %d", win_data->show_scroll_bar);
 	g_debug("- win_data->scroll_bar_position = %d", win_data->scroll_bar_position);
 #if defined(ENABLE_VTE_BACKGROUND) || defined(FORCE_ENABLE_VTE_BACKGROUND)
@@ -2961,7 +2971,9 @@ void dump_data (struct Window *win_data, struct Page *page_data)
 	g_debug("- win_data->open_url_with_ctrl_pressed = %d", win_data->open_url_with_ctrl_pressed);
 	g_debug("- win_data->disable_url_when_ctrl_pressed = %d", win_data->disable_url_when_ctrl_pressed);
 	g_debug("- win_data->audible_bell = %d", win_data->audible_bell);
+#ifdef ENABLE_VISIBLE_BELL
 	g_debug("- win_data->visible_bell = %d", win_data->visible_bell);
+#endif
 #ifdef ENABLE_BEEP_SINGAL
 	g_debug("- win_data->urgent_bell = %d", win_data->urgent_bell);
 	g_debug("- win_data->urgent_bell_status = %d", win_data->urgent_bell_status);
@@ -3229,7 +3241,9 @@ void win_data_dup(struct Window *win_data_orig, struct Window *win_data)
 	win_data->locale_sub_menu = NULL;
 
 	win_data->default_shell = g_strdup(win_data_orig->default_shell);
+#ifdef ENABLE_SET_EMULATION
 	win_data->emulate_term = g_strdup(win_data_orig->emulate_term);
+#endif
 	// win_data->VTE_CJK_WIDTH;
 	win_data->VTE_CJK_WIDTH_STR = g_strdup(win_data_orig->VTE_CJK_WIDTH_STR);
 	// g_debug("win_data->shell = %s, win_data_orig->shell = %s", win_data->shell, win_data_orig->shell);
@@ -3341,7 +3355,9 @@ void win_data_dup(struct Window *win_data_orig, struct Window *win_data)
 	win_data->menuitem_open_url_with_ctrl_pressed = NULL;
 	win_data->menuitem_disable_url_when_ctrl_pressed = NULL;
 	win_data->menuitem_audible_bell = NULL;
+#ifdef ENABLE_VISIBLE_BELL
 	win_data->menuitem_visible_bell = NULL;
+#endif
 #ifdef ENABLE_BEEP_SINGAL
 	win_data->menuitem_urgent_bell = NULL;
 #endif
@@ -3417,7 +3433,9 @@ void win_data_dup(struct Window *win_data_orig, struct Window *win_data)
 
 	// win_data->default_column;
 	// win_data->default_row;
+#ifdef ENABLE_SET_WORD_CHARS
 	win_data->word_chars = g_strdup(win_data_orig->word_chars);
+#endif
 	// win_data->show_scroll_bar;
 	// win_data->scroll_bar_position;
 #if defined(ENABLE_VTE_BACKGROUND) || defined(FORCE_ENABLE_VTE_BACKGROUND)
@@ -3434,7 +3452,9 @@ void win_data_dup(struct Window *win_data_orig, struct Window *win_data)
 	// win_data->open_url_with_ctrl_pressed;
 	// win_data->disable_url_when_ctrl_pressed;
 	// win_data->audible_bell;
+#ifdef ENABLE_VISIBLE_BELL
 	// win_data->visible_bell;
+#endif
 	// win_data->urgent_bell;
 	// win_data->urgent_bell_status;
 #ifdef ENABLE_BEEP_SINGAL

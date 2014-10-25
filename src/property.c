@@ -135,7 +135,7 @@ void init_new_page(struct Window *win_data,
 #endif
 		// set font
 		// g_debug("Set Font AA = %d", win_data->font_anti_alias);
-		vte_terminal_set_font_from_string_full (VTE_TERMINAL(page_data->vte),
+		fake_vte_terminal_set_font_from_string (page_data->vte,
 							page_data->font_name,
 							win_data->font_anti_alias);
 #ifdef SAFEMODE
@@ -168,7 +168,9 @@ void init_new_page(struct Window *win_data,
 	set_background_saturation(NULL, 0, win_data->background_saturation, page_data->vte);
 #endif
 	// other settings
+#ifdef ENABLE_SET_WORD_CHARS
 	vte_terminal_set_word_chars(VTE_TERMINAL(page_data->vte), win_data->word_chars);
+#endif
 	vte_terminal_set_scrollback_lines(VTE_TERMINAL(page_data->vte), win_data->scrollback_lines);
 
 	// some fixed parameter
@@ -187,7 +189,9 @@ void init_new_page(struct Window *win_data,
 	vte_terminal_set_allow_bold(VTE_TERMINAL(page_data->vte), win_data->allow_bold_text);
 
 	vte_terminal_set_audible_bell (VTE_TERMINAL(page_data->vte), win_data->audible_bell);
+#ifdef ENABLE_VISIBLE_BELL
 	vte_terminal_set_visible_bell (VTE_TERMINAL(page_data->vte), win_data->visible_bell);
+#endif
 	// g_debug("init_new_page(): call set_vte_urgent_bell()");
 #ifdef ENABLE_BEEP_SINGAL
 	set_vte_urgent_bell(win_data, page_data);
@@ -196,7 +200,9 @@ void init_new_page(struct Window *win_data,
 #ifdef ENABLE_CURSOR_SHAPE
 	vte_terminal_set_cursor_shape(VTE_TERMINAL(page_data->vte), win_data->cursor_shape);
 #endif
+#ifdef ENABLE_SET_EMULATION
 	vte_terminal_set_emulation (VTE_TERMINAL(page_data->vte), win_data->emulate_term);
+#endif
 }
 
 
@@ -273,7 +279,7 @@ void clean_hyperlink(struct Window *win_data, struct Page *page_data)
 
 	page_data->match_regex_setted = FALSE;
 	// g_debug("clean_hyperlink(): set page_data->match_regex_setted = %d", page_data->match_regex_setted);
-	vte_terminal_match_clear_all(VTE_TERMINAL(page_data->vte));
+	vte_terminal_match_remove_all(VTE_TERMINAL(page_data->vte));
 }
 
 void set_vte_color(GtkWidget *vte, gboolean default_vte_color, GdkRGBA cursor_color, GdkRGBA color[COLOR],
@@ -676,24 +682,29 @@ void fake_vte_terminal_get_padding(VteTerminal *vte, gint *width, gint *height)
 #ifdef SAFEMODE
 	if (vte==NULL) return;
 #endif
+#  ifdef VTE_HAS_INNER_BORDER
 	GtkBorder *inner_border = NULL;
 	gtk_widget_style_get(GTK_WIDGET(vte), "inner-border", &inner_border, NULL);
-#  ifdef SAFEMODE
+#    ifdef SAFEMODE
 	if (inner_border)
 	{
-#  endif
-#ifdef SAFEMODE
-		if (width)
-#endif
-			*width = inner_border->left + inner_border->right;
-#ifdef SAFEMODE
-		if (height)
-#endif
-			*height = inner_border->top + inner_border->bottom;
+#    endif
 #  ifdef SAFEMODE
-	}
+		if (width)
 #  endif
+			*width = inner_border->left + inner_border->right;
+#  ifdef SAFEMODE
+		if (height)
+#  endif
+			*height = inner_border->top + inner_border->bottom;
+#    ifdef SAFEMODE
+	}
+#    endif
 	gtk_border_free (inner_border);
+#  else
+	*width = 0;
+	*height = 0;
+#  endif
 }
 #endif
 
@@ -828,15 +839,15 @@ void apply_new_win_data_to_page (struct Window *win_data_orig,
 
 // ---- font ---- //
 	if (win_data_orig->font_anti_alias != win_data->font_anti_alias)
-		vte_terminal_set_font_from_string_full (VTE_TERMINAL(page_data->vte),
+		fake_vte_terminal_set_font_from_string (page_data->vte,
 							page_data->font_name,
 							win_data->font_anti_alias);
 
 // ---- other settings for init a vte ---- //
-
+#ifdef ENABLE_SET_WORD_CHARS
 	if (compare_strings(win_data_orig->word_chars, win_data->word_chars, TRUE))
 		vte_terminal_set_word_chars(VTE_TERMINAL(page_data->vte), win_data->word_chars);
-
+#endif
 	if (win_data_orig->show_scroll_bar != win_data->show_scroll_bar)
 		// hide_scroll_bar(win_data, page_data);
 		show_and_hide_scroll_bar(page_data, check_show_or_hide_scroll_bar(win_data));
@@ -872,9 +883,10 @@ void apply_new_win_data_to_page (struct Window *win_data_orig,
 
 	if (win_data_orig->audible_bell != win_data->audible_bell)
 		vte_terminal_set_audible_bell (VTE_TERMINAL(page_data->vte), win_data->audible_bell);
-
+#ifdef ENABLE_VISIBLE_BELL
 	if (win_data_orig->visible_bell != win_data->visible_bell)
 		vte_terminal_set_visible_bell (VTE_TERMINAL(page_data->vte), win_data->visible_bell);
+#endif
 #ifdef ENABLE_BEEP_SINGAL
 	if (win_data_orig->urgent_bell != win_data->urgent_bell)
 		set_vte_urgent_bell(win_data, page_data);
@@ -885,8 +897,10 @@ void apply_new_win_data_to_page (struct Window *win_data_orig,
 	if (win_data_orig->cursor_shape != win_data->cursor_shape)
 		vte_terminal_set_cursor_shape(VTE_TERMINAL(page_data->vte), win_data->cursor_shape);
 #endif
+#ifdef ENABLE_SET_EMULATION
 	if (compare_strings(win_data_orig->emulate_term, win_data->emulate_term, TRUE))
 		vte_terminal_set_emulation (VTE_TERMINAL(page_data->vte), win_data->emulate_term);
+#endif
 }
 
 // Will return TRUE if a and b are NOT the same.

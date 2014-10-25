@@ -155,13 +155,14 @@ struct Page *add_page(struct Window *win_data,
 #endif
 		environ_str = g_string_append(environ_str, "\t");
 
-#ifdef SAFEMODE
+#ifdef ENABLE_SET_EMULATION
+#  ifdef SAFEMODE
 	if (win_data->emulate_term == NULL)
 		g_string_append_printf (environ_str, "TERM=xterm");
 	else
-#endif
+#  endif
 		g_string_append_printf (environ_str, "TERM=%s", win_data->emulate_term);
-
+#endif
 	// set colorterm
 	g_string_append_printf (environ_str, "\tCOLORTERM=lilyterm");
 
@@ -214,7 +215,7 @@ struct Page *add_page(struct Window *win_data,
 	//g_debug("The default encoding of vte is %s",
 	//	vte_terminal_get_encoding(VTE_TERMINAL(page_data->vte)));
 
-#if defined(USE_GTK3_GEOMETRY_METHOD) || defined(UNIT_TEST)
+#if (defined (VTE_HAS_INNER_BORDER) && defined(USE_GTK3_GEOMETRY_METHOD)) || defined(UNIT_TEST)
 	gtk_widget_style_get(GTK_WIDGET(page_data->vte), "inner-border", &(page_data->border), NULL);
 #endif
 
@@ -1478,10 +1479,11 @@ gboolean vte_button_press(GtkWidget *vte, GdkEventButton *event, struct Page *pa
 		// GTK_CHECK_MENU_ITEM(win_data->menuitem_audible_bell)->active = win_data->audible_bell;
 		gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM(win_data->menuitem_audible_bell),
 						win_data->audible_bell);
-
+#ifdef ENABLE_VISIBLE_BELL
 		// GTK_CHECK_MENU_ITEM(win_data->menuitem_visible_bell)->active = win_data->visible_bell;
 		gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM(win_data->menuitem_visible_bell),
 						win_data->visible_bell);
+#endif
 #ifdef ENABLE_BEEP_SINGAL
 		// GTK_CHECK_MENU_ITEM(win_data->menuitem_urgent_bell)->active = win_data->urgent_bell;
 		gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM(win_data->menuitem_urgent_bell),

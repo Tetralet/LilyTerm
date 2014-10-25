@@ -386,7 +386,9 @@ void init_window_parameters(struct Window *win_data)
 	// win_data->supported_locales;
 	// win_data->locale_sub_menu
 	// win_data->default_shell;
+#ifdef ENABLE_SET_EMULATION
 	win_data->emulate_term = g_strdup("xterm");
+#endif
 	win_data->VTE_CJK_WIDTH = 1;
 	// win_data->VTE_CJK_WIDTH_STR;
 	// win_data->argc;
@@ -475,7 +477,9 @@ void init_window_parameters(struct Window *win_data)
 	// win_data->menuitem_open_url_with_ctrl_pressed;
 	// win_data->menuitem_disable_url_when_ctrl_pressed;
 	// win_data->menuitem_audible_bell;
+#ifdef ENABLE_VISIBLE_BELL
 	// win_data->menuitem_visible_bell;
+#endif
 	// win_data->menuitem_urgent_bell;
 	// win_data->urgent_bell_focus_in_event_id;
 	// win_data->menuitem_show_tabs_bar;
@@ -544,7 +548,9 @@ void init_window_parameters(struct Window *win_data)
 	// win_data->restore_font_name;
 	win_data->default_column = SYSTEM_COLUMN;
 	win_data->default_row = SYSTEM_ROW;
+#ifdef ENABLE_SET_WORD_CHARS
 	win_data->word_chars = g_strdup("-A-Za-z0-9_.+!@&=/~%");
+#endif
 	win_data->show_scroll_bar = AUTOMATIC;
 	// 0: left
 	// 1: right
@@ -566,7 +572,9 @@ void init_window_parameters(struct Window *win_data)
 	win_data->open_url_with_ctrl_pressed = FALSE;
 	win_data->disable_url_when_ctrl_pressed = TRUE;
 	win_data->audible_bell = TRUE;
+#ifdef ENABLE_VISIBLE_BELL
 	// win_data->visible_bell = FALSE;
+#endif
 #ifdef ENABLE_BEEP_SINGAL
 	win_data->urgent_bell = TRUE;
 #endif
@@ -1425,10 +1433,10 @@ void get_user_settings(struct Window *win_data, const gchar *encoding)
 									   win_data->window_resize_ratio,
 									   DISABLE_EMPTY_STR, 0,
 									   CHECK_MIN, 0, NO_CHECK_MAX, 0);
-
+#ifdef ENABLE_SET_WORD_CHARS
 			win_data->word_chars = check_string_value(keyfile, "main", "word_chars", win_data->word_chars,
 								  TRUE, ENABLE_EMPTY_STR);
-
+#endif
 			win_data->scrollback_lines = check_integer_value(keyfile,
 									  "main",
 									  "scrollback_lines",
@@ -1515,11 +1523,12 @@ void get_user_settings(struct Window *win_data, const gchar *encoding)
 								     "main",
 								     "audible_bell",
 								     win_data->audible_bell);
-
+#ifdef ENABLE_VISIBLE_BELL
 			win_data->visible_bell = check_boolean_value(keyfile,
 								     "main",
 								     "visible_bell",
 								      win_data->visible_bell);
+#endif
 #ifdef ENABLE_BEEP_SINGAL
 			win_data->urgent_bell = check_boolean_value(keyfile,
 								    "main",
@@ -1557,10 +1566,10 @@ void get_user_settings(struct Window *win_data, const gchar *encoding)
 				g_free(win_data->shell);
 				win_data->shell = g_strdup(win_data->default_shell);
 			}
-
+#ifdef ENABLE_SET_EMULATION
 			win_data->emulate_term = check_string_value( keyfile, "main", "emulate_term",
 								     win_data->emulate_term, TRUE, DISABLE_EMPTY_STR);
-
+#endif
 			win_data->VTE_CJK_WIDTH = check_integer_value( keyfile, "main", "VTE_CJK_WIDTH",
 								       win_data->VTE_CJK_WIDTH,
 								       DISABLE_EMPTY_STR, 0,
@@ -2640,8 +2649,10 @@ GString *save_user_settings(GtkWidget *widget, struct Window *win_data)
 	g_string_append_printf(contents,"# The ratio when resizing window via right click menu.\n"
 					"# 0: the font size is +/- 1 when resizing window.\n"
 					"window_resize_ratio = %1.3f\n\n", win_data->window_resize_ratio);
+#ifdef ENABLE_SET_WORD_CHARS
 	g_string_append_printf(contents,"# When user double clicks on a text, which character will be selected.\n"
 					"word_chars = %s\n\n", win_data->word_chars);
+#endif
 	g_string_append_printf(contents,"# The lines of scrollback history. -1 means unlimited (vte >= 0.22.3).\n"
 					"scrollback_lines = %d\n\n", win_data->scrollback_lines);
 	g_string_append(contents,"# Shows scroll_bar or not.\n"
@@ -2695,9 +2706,11 @@ GString *save_user_settings(GtkWidget *widget, struct Window *win_data)
 	g_string_append_printf(contents,"# Sets whether or not the terminal will beep\n"
 					"# when the child outputs the \"bl\" sequence.\n"
 					"audible_bell = %d\n\n", win_data->audible_bell);
+#ifdef ENABLE_VISIBLE_BELL
 	g_string_append_printf(contents,"# Sets whether or not the terminal will flash\n"
 					"# when the child outputs the \"bl\" sequence.\n"
 					"visible_bell = %d\n\n", win_data->visible_bell);
+#endif
 #ifdef ENABLE_BEEP_SINGAL
 	g_string_append_printf(contents,"# Sets whether or not the window's urgent tag will be set\n"
 					"# when the child outputs the \"bl\" sequence.\n"
@@ -2736,10 +2749,12 @@ GString *save_user_settings(GtkWidget *widget, struct Window *win_data)
 	else
 		g_string_append(contents,
 					"default_shell = \n\n");
+#ifdef ENABLE_SET_EMULATION
 	g_string_append_printf(contents,"# Sets what type of terminal attempts to emulate.\n"
 					"# It will also set the TERM environment.\n"
 					"# Unless you are interested in this feature, always use \"xterm\".\n"
 					"emulate_term = %s\n\n", win_data->emulate_term);
+#endif
 	g_string_append_printf(contents,"# The environment 'VTE_CJK_WIDTH' used when initing a vte terminal.\n"
 					"# 0: get via environment; 1: use narrow ideograph; 2: use wide ideograph.\n"
 					"VTE_CJK_WIDTH = %d\n\n", win_data->VTE_CJK_WIDTH);

@@ -279,6 +279,10 @@ else
     if [ $? = 0 ]; then
       BACKGROUND=N
     fi
+    $PKGCONFIG --exists 'vte < 0.37.0' > /dev/null 2>&1
+    if [ $? = 0 ]; then
+      BACKGROUND=N
+    fi
   fi
 
   INFO "[OK]\n"

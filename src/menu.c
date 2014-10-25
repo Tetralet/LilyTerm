@@ -322,10 +322,11 @@ gboolean create_menu(struct Window *win_data)
 	// Audible bell
 	win_data->menuitem_audible_bell = create_menu_item (CHECK_MENU_ITEM, misc_sub_menu, _("Audible bell"), NULL, NULL,
 								(GSourceFunc)set_audible_bell, win_data);
-
+#ifdef ENABLE_VISIBLE_BELL
 	// Visible bell
 	win_data->menuitem_visible_bell = create_menu_item (CHECK_MENU_ITEM, misc_sub_menu, _("Visible bell"), NULL, NULL,
 								(GSourceFunc)set_visible_bell, win_data);
+#endif
 #ifdef ENABLE_BEEP_SINGAL
 	// Urgent bell
 	win_data->menuitem_urgent_bell = create_menu_item (CHECK_MENU_ITEM, misc_sub_menu, _("Urgent bell"), NULL, NULL,
@@ -813,6 +814,7 @@ void set_audible_bell(GtkWidget *menuitem_audible_bell, struct Window *win_data)
 	}
 }
 
+#ifdef ENABLE_VISIBLE_BELL
 void set_visible_bell(GtkWidget *menuitem_visible_bell, struct Window *win_data)
 {
 #ifdef DETAIL
@@ -835,6 +837,7 @@ void set_visible_bell(GtkWidget *menuitem_visible_bell, struct Window *win_data)
 			vte_terminal_set_visible_bell (VTE_TERMINAL(page_data->vte), win_data->visible_bell);
 	}
 }
+#endif
 
 #ifdef ENABLE_BEEP_SINGAL
 void set_urgent_bell(GtkWidget *menuitem_urgent_bell, struct Window *win_data)

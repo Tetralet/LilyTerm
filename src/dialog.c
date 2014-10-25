@@ -2583,7 +2583,11 @@ GtkWidget *create_button_with_image(gchar *label_text, const gchar *stock_id, gb
 			      gtk_image_new_from_stock(stock_id, GTK_ICON_SIZE_MENU));
 	gtk_button_set_relief(GTK_BUTTON(label), GTK_RELIEF_NONE);
 	gtk_button_set_focus_on_click(GTK_BUTTON(label), FALSE);
+#ifdef USE_GTK_WIDGET_SET_HALIGN
+	gtk_widget_set_halign (label, GTK_ALIGN_START);
+#else
 	gtk_button_set_alignment(GTK_BUTTON(label), 0, 0.5);
+#endif
 #ifdef SAFEMODE
 	if (func)
 #endif

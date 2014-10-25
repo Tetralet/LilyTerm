@@ -209,6 +209,10 @@
 	// END:   gtk+-2.91.6/gdk/gdkspawn.h: gdk_spawn_on_screen_with_pipes()
 	#define g_spawn_async_with_pipes(a,b,c,d,e,f,g,h,i,j,k) gdk_spawn_on_screen_with_pipes(gdk_screen_get_default(),a,b,c,d,e,f,g,h,i,j,k)
 #endif
+#if GTK_CHECK_VERSION(2,91,0)
+	// SINCE: gtk+-2.91.0/gtk/gtkwidget.h GtkAlign gtk_widget_set_halign()
+	#define USE_GTK_WIDGET_SET_HALIGN
+#endif
 #if ! GTK_CHECK_VERSION(2,90,6)
 	// END: gtk+-2.90.6/gtk/gtkdialog.h: GTK_DIALOG_NO_SEPARATOR = 1 << 2
 	#define EXIST_GTK_DIALOG_NO_SEPARATOR
@@ -229,8 +233,11 @@
 	#define gtk_widget_get_child_requisition(x,y) gtk_widget_get_preferred_size(x,y,NULL)
 #endif
 #if GTK_CHECK_VERSION(2,91,1)
-	// SINCE gtk+-2.91.1/gtk/gtkwindow.h: gtk_window_set_has_resize_grip()
-	#define NO_RESIZE_GRIP
+	// SINCE: gtk+-2.91.1/gtk/gtkwindow.h: gtk_window_set_has_resize_grip()
+	// END: gtk+-3.13.4/gtk/gtkwindow.h: GDK_DEPRECATED_IN_3_14 void gtk_window_set_has_resize_grip()
+#  if ! GTK_CHECK_VERSION(3,13,4)
+		#define NO_RESIZE_GRIP
+#  endif
 	// FIXME: gtk_window_parse_geometry() works well in all GTK+2/3 versions?
 	// #define USE_XPARSEGEOMETRY
 	// END: gtk+-2.91.1/gtk/gtkwidget.h: gtk_widget_hide_all()
@@ -432,10 +439,11 @@
 	// SINCE: vte-0.17.1/src/vte.h: vte_terminal_match_add_gregex()
 	#define USE_NEW_VTE_MATCH_ADD_GREGEX
 #endif
-#if VTE_CHECK_VERSION(0,19,1)
+#if VTE_CHECK_VERSION(0,19,1) && ! VTE_CHECK_VERSION(0,38,0)
 	// SINCE: vte-0.19.1/src/vte.h: vte_terminal_set_cursor_shape()
 	#define ENABLE_CURSOR_SHAPE
-	// SINEC: src/vteseq.c:	g_signal_emit_by_name(terminal, "beep");
+	// SINCE: vte-0.19.1/src/vteseq.c: g_signal_emit_by_name(terminal, "beep");
+	// END: vte-0.37.90/src/vteseq.c: g_signal_emit_by_name(terminal, "beep");
 	#define ENABLE_BEEP_SINGAL
 #endif
 #if VTE_CHECK_VERSION(0,20,4)
@@ -506,9 +514,38 @@
 	// END: vte-0.34.8/src/vtedeprecated.h: GtkAdjustment *vte_terminal_get_adjustment(VteTerminal *terminal) G_GNUC_DEPRECATED;
 	#define USE_GTK_SCROLLABLE
 #endif
-#if ! VTE_CHECK_VERSION(0,37,0)
+#if VTE_CHECK_VERSION(0,37,0)
+	// SINCE: ./vte-0.37.0/src/vteterminal.h: void vte_terminal_search_set_gregex (VteTerminal *terminal, GRegex *regex, GRegexMatchFlags flags);
+	#define vte_terminal_search_set_gregex(a,b) vte_terminal_search_set_gregex(a,b,0)
+	// END: ./vte-0.36.3/src/vte.h: void vte_terminal_set_color_foreground_rgba()
+	#define vte_terminal_set_colors_rgba vte_terminal_set_colors
+	#define vte_terminal_set_color_foreground_rgba vte_terminal_set_color_foreground
+	#define vte_terminal_set_color_background_rgba vte_terminal_set_color_background
+	#define vte_terminal_set_color_bold_rgba vte_terminal_set_color_bold
+	#define vte_terminal_set_color_cursor_rgba vte_terminal_set_color_cursor
+	// SINCE: ./vte-0.37.0/src/vteterminal.h void vte_terminal_set_font()
+	#define USE_VTE_TERMINAL_SET_FONT
+	// END: vte-0.36.3/src/vtedeprecated.h void vte_terminal_set_opacity() G_GNUC_DEPRECATED;
+	#undef FORCE_ENABLE_VTE_BACKGROUND
+#else
 	// SINCE: vte-0.37.0/src/vteterminal.h: gboolean vte_terminal_spawn_sync()
 	#define vte_terminal_spawn_sync(a,b,c,d,e,f,g,h,i,j,k) vte_terminal_fork_command_full(a,b,c,d,e,f,g,h,i,k)
+	// END: vte-0.36.3/src/vte.h: void vte_terminal_set_word_chars()
+	#define ENABLE_SET_WORD_CHARS
+	// END: vte-0.37.0/src/vteterminal.h: void vte_terminal_set_emulation()
+	#define ENABLE_SET_EMULATION
+	// END: vte-0.36.3/src/vte.h void vte_terminal_match_clear_all()
+	#define vte_terminal_match_remove_all vte_terminal_match_clear_all
+	// END: vte-0.36.3/src/vte-private.h: GtkBorder inner_border;
+	#define VTE_HAS_INNER_BORDER
+#endif
+#if VTE_CHECK_VERSION(0,37,90)
+	// SINCE: ./vte-0.37.90/src/vteterminal.h: gboolean vte_terminal_set_encoding(VteTerminal *terminal, const char *codeset, GError **error)
+	#define vte_terminal_set_encoding(a,b) vte_terminal_set_encoding(a,b,NULL)
+#endif
+#if ! VTE_CHECK_VERSION(0,38,0)
+	// END: ./vte-0.37.90/src/vteterminal.h: void vte_terminal_set_visible_bell()
+	#define ENABLE_VISIBLE_BELL
 #endif
 
 #define ENABLE_RGBA_VER "GTK 2.11"
@@ -1112,7 +1149,9 @@ struct Window
 	GtkWidget *menuitem_open_url_with_ctrl_pressed;
 	GtkWidget *menuitem_disable_url_when_ctrl_pressed;
 	GtkWidget *menuitem_audible_bell;
+#ifdef ENABLE_VISIBLE_BELL
 	GtkWidget *menuitem_visible_bell;
+#endif
 #ifdef ENABLE_BEEP_SINGAL
 	GtkWidget *menuitem_urgent_bell;
 #endif
@@ -1203,8 +1242,9 @@ struct Window
 
 	glong default_column;
 	glong default_row;
-
+#ifdef ENABLE_SET_WORD_CHARS
 	gchar *word_chars;				/* Should be take care when drag to another window */
+#endif
 	Switch_Type show_scroll_bar;			/* Should be take care when drag to another window */
 	// 0: left
 	// 1: right
@@ -1227,7 +1267,9 @@ struct Window
 	gboolean open_url_with_ctrl_pressed;
 	gboolean disable_url_when_ctrl_pressed;
 	gboolean audible_bell;
+#ifdef ENABLE_VISIBLE_BELL
 	gboolean visible_bell;
+#endif
 #ifdef ENABLE_BEEP_SINGAL
 	// urgent_bell will stores the currect setting
 	gboolean urgent_bell;

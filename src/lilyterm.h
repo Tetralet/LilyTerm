@@ -230,6 +230,7 @@ struct Page *get_page_data_from_nth_page(struct Window *win_data, guint page_no)
 void set_vte_font(GtkWidget *widget, Font_Set_Type type);
 void apply_font_to_every_vte(GtkWidget *window, gchar *new_font_name, glong column, glong row);
 gboolean check_if_every_vte_is_using_restore_font_name (struct Window *win_data);
+void fake_vte_terminal_set_font_from_string(GtkWidget *vte, const char *font_name, gboolean anti_alias);
 
 //
 // **************************** pagename.c ****************************
