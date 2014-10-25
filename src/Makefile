@@ -24,6 +24,7 @@ include ../.default
 -include ../.config
 
 PKGCONFIG := $(shell whereis "pkg-config" | tr -s ' ' '\n' | grep "bin/""pkg-config""$$" | head -n 1)
+STRIP := $(shell whereis "strip" | tr -s ' ' '\n' | grep "bin/""strip""$$" | head -n 1)
 
 VTE ?= ""
 
@@ -88,15 +89,17 @@ INCLUDES = -DBINARY=\"$(BINARY)\" \
 ifeq ($(BSD), 1)
 	INCLUDES += -DBSD
 endif
+ifeq ($(VERBOSITY), Y)
+	VERBOSITY_OUTPUT =
+else
+	VERBOSITY_OUTPUT = @
+endif
 
 .PHONY: all
 all: default
-ifeq ($(STRIP), Y)
-ifeq ($(VERBOSITY), Y)
-	strip --remove-section=.comment --remove-section=.note $(BINARY)
-else
-	@ strip --remove-section=.comment --remove-section=.note $(BINARY)
-endif
+ifeq ($(DEBUG), N)
+	@ $(PRINTF) "\033[1;36m** striping \033[1;32m$(BINARY)\033[1;36m ...\033[0m\n"
+	$(VERBOSITY_OUTPUT) $(STRIP) --remove-section=.comment --remove-section=.note $(BINARY)
 endif
 
 .PHONY: default
@@ -123,6 +126,12 @@ develop: CFLAGS := $(CFLAGS) -g
 develop: INCLUDES := $(INCLUDES) -DAUTHOR=\"$(AUTHOR_CONVERT)\" -DDEBUG -DFATAL -DFORCE_ENABLE_VTE_BACKGROUND -DDEVELOP -DVERSION=\"$(VERSION)\ Develop\ Version\ \($(date)\)\"
 develop: BINARY := $(BINARY)_dev
 develop: $(BINARY)
+
+.PHONY: vdev
+vdev: verbosity-output
+.PHONY: verbosity-output
+verbosity-output: VERBOSITY_OUTPUT :=
+verbosity-output: develop
 
 .PHONY: ddev
 ddev: defensive-develop
@@ -197,39 +206,21 @@ memory: $(BINARY)
 
 .PHONY: clean
 clean:
-ifeq ($(VERBOSITY), Y)
-	-for FileName in $(BINARY) $(BINARY)_dev $(BINARY)_dbg $(OBJ) unit_test unit_test.[co] gdb_batch gdb.log valgrind.log vgcore.*; \
-	do \
-		if [ -f "$$FileName" ]; then \
-			$(PRINTF) "\033[1;35m** deleting $$FileName...\033[0m\n"; \
-			rm "$$FileName"; \
-		fi; \
-	done
-else
 	-@ for FileName in $(BINARY) $(BINARY)_dev $(BINARY)_dbg $(OBJ) unit_test unit_test.[co] gdb_batch gdb.log valgrind.log vgcore.*; \
 	do \
 		if [ -f "$$FileName" ]; then \
-			$(PRINTF) "\033[1;35m** deleting $$FileName...\033[0m\n"; \
+			$(PRINTF) "\033[1;35m** deleting \033[1;32m$$FileName\033[1;35m ...\033[0m\n"; \
 			rm "$$FileName"; \
 		fi; \
 	done
-endif
 
 %.o: %.c %.h data.h $(BINARY).h
-	@ $(PRINTF) "\033[1;33m** compiling $@...\033[0m\n"
-ifeq ($(VERBOSITY), Y)
-	$(CC) $(CPPFLAGS) $(CFLAGS) $(INCLUDES) -c $< `$(OBJ_PKG_CMD)`
-else
-	@ $(CC) $(CPPFLAGS) $(CFLAGS) $(INCLUDES) -c $< `$(OBJ_PKG_CMD)`
-endif
+	@ $(PRINTF) "\033[1;33m** compiling \033[1;32m$@\033[1;33m ...\033[0m\n"
+	$(VERBOSITY_OUTPUT) $(CC) $(CPPFLAGS) $(CFLAGS) $(INCLUDES) -c $< `$(OBJ_PKG_CMD)`
 
 $(BINARY): $(OBJ)
-	@ $(PRINTF) "\033[1;36m** compiling $(BINARY)...\033[0m\n"
-ifeq ($(VERBOSITY), Y)
-	$(CC) $(LDFLAGS) $(CPPFLAGS) $(CFLAGS) -o $(BINARY) $(OBJ) `$(BINARY_PKG_CMD)`
-else
-	@ $(CC) $(LDFLAGS) $(CPPFLAGS) $(CFLAGS) -o $(BINARY) $(OBJ) `$(BINARY_PKG_CMD)`
-endif
+	@ $(PRINTF) "\033[1;36m** compiling \033[1;32m$(BINARY)\033[1;36m ...\033[0m\n"
+	$(VERBOSITY_OUTPUT) $(CC) $(LDFLAGS) $(CPPFLAGS) $(CFLAGS) -o $(BINARY) $(OBJ) `$(BINARY_PKG_CMD)`
 
 .PHONY: data
 data: debug
@@ -239,21 +230,21 @@ data: debug
 install: $(BINARY)
 	@ install -d $(DESTDIR)/$(BINDIR)
 	@ if [ -f $(BINARY) ]; then \
-		$(PRINTF) "\033[1;33m** installing $(BINARY) to $(DESTDIR)/$(BINDIR)...\033[0m\n" ; \
+		$(PRINTF) "\033[1;33m** installing \033[1;32m$(BINARY)\033[1;33m to \033[1;34m$(DESTDIR)/$(BINDIR)\033[1;33m ...\033[0m\n" ; \
 		install -m 755 $(BINARY) $(DESTDIR)/$(BINDIR) ; \
 	fi ; \
 
 .PHONY: uninstall
 uninstall:
 	@ - if [ -f $(DESTDIR)/$(BINDIR)/$(BINARY) ]; then \
-		$(PRINTF) "\033[1;35m** deleting $(DESTDIR)/$(BINDIR)/$(BINARY)...\033[0m\n" ; \
+		$(PRINTF) "\033[1;35m** deleting \033[1;32m$(DESTDIR)/$(BINDIR)/$(BINARY)\033[1;35m ...\033[0m\n" ; \
 		rm "$(DESTDIR)/$(BINDIR)/$(BINARY)" ; \
 		DirName="$(DESTDIR)/$(BINDIR)" ; \
 		until [ -n "`ls -A $$DirName`" -o "$$DirName" = "$(DESTDIR)/$(PREFIX)" ]; do \
-			$(PRINTF) "\033[1;35m** deleting $$DirName...\033[0m\n" ; \
+			$(PRINTF) "\033[1;35m** deleting directory \033[1;34m$$DirName\033[1;35m ...\033[0m\n" ; \
 			rmdir "$$DirName" ; \
 			DirName=`dirname $$DirName` ; \
 		done \
 	else \
-		$(PRINTF) "\033[1;31m** $(DESTDIR)/$(BINDIR)/$(BINARY) is NOT exist!\033[0m\n" ; \
+		$(PRINTF) "\033[1;31m** \033[1;32m$(DESTDIR)/$(BINDIR)/$(BINARY)\033[1;31m is NOT exist!\033[0m\n" ; \
 	fi

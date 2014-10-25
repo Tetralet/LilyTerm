@@ -13,6 +13,7 @@ fi
 
 GTK=gtk+-2.0
 
+VERBOSITY=N
 DEBUG=N
 NLS=Y
 SAFEMODE=Y
@@ -122,6 +123,7 @@ if [ "$1" = "-h" -o "$1" = "--help" -o "$1" = "-help" ]; then
   $ECHO "  `INFO '--with-gtk=2.0|3.0'`  : which gtk+ version to compile against `NORMAL '[default: 2.0]'`"
   $ECHO ""
   $ECHO "Optional Features:"
+  $ECHO "  `INFO '--enable-verbosity'`  : enable verbosity output `NORMAL '[default: disable]'`"
   $ECHO "  `INFO '--enable-debug'`      : enable debug mode `NORMAL '[default: disable]'`"
   $ECHO "  `INFO '--disable-nls'`       : disable Native Language Support `NORMAL '[default: enable]'`"
   $ECHO "  `INFO '--disable-safe-mode'` : disable run in safe mode `NORMAL '[default: enable]'`"
@@ -146,6 +148,12 @@ fi
 
 for opt do
   case "$opt" in
+    --enable-verbosity)
+      VERBOSITY=Y
+      ;;
+    --disable-verbosity)
+      VERBOSITY=N
+      ;;
     --enable-debug)
       DEBUG=Y
       ;;
@@ -355,6 +363,9 @@ $ECHO ""
 INFO "=================================================\n"
 IMPORTANT "  PREFIX     = $PREFIX\n"
 IMPORTANT "  ETCDIR     = $ETCDIR\n"
+if [ "$VERBOSITY" = 'Y' ]; then
+  IMPORTANT "  VERBOSITY  = $VERBOSITY\n"
+fi
 if [ "$DEBUG" = 'Y' ]; then
   IMPORTANT "  DEBUG      = $DEBUG\n"
 else
@@ -431,6 +442,7 @@ if [ $BSD -eq 1 ]; then
 	$ECHO "EXAMPLES_DIR = \$(DATADIR)/examples/\$(BINARY)" >> .config
 fi
 $ECHO "NLS = $NLS" >> .config
+$ECHO "VERBOSITY = $VERBOSITY" >> .config
 $ECHO "DEBUG = $DEBUG" >> .config
 $ECHO "NLS = $NLS" >> .config
 $ECHO "SAFEMODE = $SAFEMODE" >> .config
