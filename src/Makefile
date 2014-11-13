@@ -50,6 +50,7 @@ endif
 ifeq ($(VTE), )
 VTE := $(shell $(PKGCONFIG) --exists 'vte-2.91' && $(ECHO) 'vte-2.91')
 GTK := $(shell $(PKGCONFIG) --exists 'gtk+-3.0' && $(ECHO) 'gtk+-3.0')
+LDFLAGS += -lX11
 endif
 
 endif
@@ -63,7 +64,7 @@ CFLAGS ?= -Wall -Werror -Os
 #	 -DG_DISABLE_SINGLE_INCLUDES -DGDK_DISABLE_DEPRECATED \
 #	 -DGDK_DISABLE_SINGLE_INCLUDES -DGTK_DISABLE_DEPRECATED \
 #	 -DGTK_DISABLE_SINGLE_INCLUDES -DGSEAL_ENABLE
-LDFLAGS += -L$(prefix)/local/lib -lX11
+LDFLAGS += -L$(prefix)/local/lib
 OBJ_PKG_CMD = $(PKGCONFIG) --cflags $(GTK) $(VTE)
 BINARY_PKG_CMD = $(PKGCONFIG) --cflags --libs $(GTK) $(VTE)
 SOURCE_FILES = menu.c profile.c dialog.c pagename.c notebook.c font.c \
@@ -105,6 +106,8 @@ endif
 .PHONY: default
 ifneq ($(SAFEMODE), N)
 default: CFLAGS += -DSAFEMODE
+else
+default: CFLAGS += -DREALMODE
 endif
 default: INCLUDES := $(INCLUDES) -DAUTHOR=\"$(AUTHOR_CONVERT)\" -DVERSION=\"$(VERSION)\ \($(date)\)\"
 ifeq ($(DEBUG), Y)
@@ -123,7 +126,7 @@ dev: develop
 .PHONY: develop
 # develop: CFLAGS := -pedantic -pipe -fno-common -W -Wall -Wcast-align -Wformat=2 -Wpointer-arith -Wundef -Waggregate-return -Wcast-qual -Wmissing-declarations -Wnested-externs -Wstrict-prototypes -O3 -g
 develop: CFLAGS := $(CFLAGS) -g
-develop: INCLUDES := $(INCLUDES) -DAUTHOR=\"$(AUTHOR_CONVERT)\" -DDEBUG -DFATAL -DFORCE_ENABLE_VTE_BACKGROUND -DDEVELOP -DVERSION=\"$(VERSION)\ Develop\ Version\ \($(date)\)\"
+develop: INCLUDES := $(INCLUDES) -DAUTHOR=\"$(AUTHOR_CONVERT)\" -DREALMODE -DDEBUG -DFATAL -DFORCE_ENABLE_VTE_BACKGROUND -DDEVELOP -DVERSION=\"$(VERSION)\ Develop\ Version\ \($(date)\)\"
 develop: BINARY := $(BINARY)_dev
 develop: $(BINARY)
 

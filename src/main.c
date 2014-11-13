@@ -101,6 +101,10 @@ int main( int   argc,
 
 	const gchar *user_config_dir = g_get_user_config_dir();
 
+#ifndef SAFEMODE
+	g_message("Running %s without SAFE MODE!", PACKAGE);
+#endif
+
 #ifdef OUT_OF_MEMORY
 #  undef g_strdup_printf
 #endif

@@ -22,7 +22,7 @@ AC_ARG_ENABLE(debug, AC_HELP_STRING([--enable-debug], [enable debug mode]),
 
 AC_ARG_ENABLE(safe-mode, AC_HELP_STRING([--disable-safe-mode], [disable run in safe mode]),
 	      CFLAGS="$CFLAGS -g"
-	      AC_DEFINE(SAFEMODE,, [disable run in safe mode]))
+	      AC_DEFINE(REALMODE,, [disable run in safe mode]))
 
 PKG_CHECK_EXISTS(gtk+-2.0 < 2.12,
 		 AC_MSG_WARN([Using Gtk+ >= 2.12.0 to build $_PACKAGE is recommended]))

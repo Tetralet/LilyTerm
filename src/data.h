@@ -31,6 +31,14 @@
 # include "config.h"
 #endif
 
+#ifdef REALMODE
+	#undef SAFEMODE
+#else
+	#ifndef SAFEMODE
+		#define SAFEMODE
+	#endif
+#endif
+
 #ifdef OUT_OF_MEMORY
 // GString *g_string_append()
 // GString *g_string_prepend()
