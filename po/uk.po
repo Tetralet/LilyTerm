@@ -1389,11 +1389,11 @@ msgstr ""
 "до початкового значення."
 
 #: profile.c:957
-msgid "Maximum the window"
+msgid "Maximize the window"
 msgstr "Максимізувати вікно"
 
 #: profile.c:959
-msgid "Try to maximum the window to use all available space on your display."
+msgid "Try to maximize the window to use all available space on your display."
 msgstr ""
 "Спробувати максимізувати вікно для використання\n"
 "усього простору вашого екрану."

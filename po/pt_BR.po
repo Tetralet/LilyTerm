@@ -1368,11 +1368,11 @@ msgid "Reset the font of current tab to original size."
 msgstr "Reiniciar a fonte da aba atual para o tamanho original."
 
 #: profile.c:957
-msgid "Maximum the window"
+msgid "Maximize the window"
 msgstr "Maximizar janela"
 
 #: profile.c:959
-msgid "Try to maximum the window to use all available space on your display."
+msgid "Try to maximize the window to use all available space on your display."
 msgstr ""
 "Tentar maximizar a janela para usar todo o espaço disponível no seu visor."
 

@@ -1382,11 +1382,11 @@ msgstr ""
 "к начальному значению."
 
 #: profile.c:957
-msgid "Maximum the window"
+msgid "Maximize the window"
 msgstr "Максимизировать окно"
 
 #: profile.c:959
-msgid "Try to maximum the window to use all available space on your display."
+msgid "Try to maximize the window to use all available space on your display."
 msgstr ""
 "Попробовать максимизировать окно для использования\n"
 "всего доступного пространства вашего экрана."
