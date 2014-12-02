@@ -964,9 +964,9 @@ void init_key_bindings()
 	system_keys[KEY_RESET_FONT_SIZE].comment = "# Reset the font of current tab to original size.";
 	system_keys[KEY_RESET_FONT_SIZE].translation = _("Reset the font of current tab to original size.");
 	// max window
-	system_keys[KEY_MAX_WINDOW].topic = _("Maximum the window");
-	system_keys[KEY_MAX_WINDOW].comment = "# Try to maximum the window to use all available space on your display.";
-	system_keys[KEY_MAX_WINDOW].translation = _("Try to maximum the window to use all available space on your display.");
+	system_keys[KEY_MAX_WINDOW].topic = _("Maximize the window");
+	system_keys[KEY_MAX_WINDOW].comment = "# Try to maximize the window to use all available space on your display.";
+	system_keys[KEY_MAX_WINDOW].translation = _("Try to maximize the window to use all available space on your display.");
 	// full screen
 	system_keys[KEY_FULL_SCREEN].topic = _("Full screen");
 	system_keys[KEY_FULL_SCREEN].comment = "# Asks to place window in the fullscreen/unfullscreen state.";

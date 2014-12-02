@@ -1459,11 +1459,11 @@ msgid "Reset the font of current tab to original size."
 msgstr "将目前分页的字体重置为原始大小。"
 
 #: profile.c:957
-msgid "Maximum the window"
+msgid "Maximize the window"
 msgstr "窗口放至最大"
 
 #: profile.c:959
-msgid "Try to maximum the window to use all available space on your display."
+msgid "Try to maximize the window to use all available space on your display."
 msgstr "将窗口放至最大以使用您所有的显示空间。"
 
 #: profile.c:961

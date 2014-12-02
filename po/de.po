@@ -1417,11 +1417,11 @@ msgstr ""
 "Die Schrift des aktuellen Reiters auf die ursprüngliche Größe zurücksetzen."
 
 #: profile.c:957
-msgid "Maximum the window"
+msgid "Maximize the window"
 msgstr "Das Fenster maximieren"
 
 #: profile.c:959
-msgid "Try to maximum the window to use all available space on your display."
+msgid "Try to maximize the window to use all available space on your display."
 msgstr ""
 "Das Fenster so maximieren, dass sämtlicher verfügbarer Platz auf Ihrem "
 "Bildschirm ausgefüllt wird."

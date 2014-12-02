@@ -1428,11 +1428,11 @@ msgid "Reset the font of current tab to original size."
 msgstr "Remettre la police de l'onglet courant à sa taille originale."
 
 #: profile.c:957
-msgid "Maximum the window"
+msgid "Maximize the window"
 msgstr "Maximiser la fenêtre"
 
 #: profile.c:959
-msgid "Try to maximum the window to use all available space on your display."
+msgid "Try to maximize the window to use all available space on your display."
 msgstr "Maximiser la fenêtre pour utiliser tout l'espace disponible."
 
 #: profile.c:961
