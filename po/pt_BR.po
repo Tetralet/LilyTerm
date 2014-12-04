@@ -1,14 +1,14 @@
 # Brazilian Portuguese translation of LilyTerm.
-# Copyright (C) 2013 Lu, Chao-Ming (Tetralet)
+# Copyright (C) 2014 Lu, Chao-Ming (Tetralet)
 # This file is distributed under the same license as the LilyTerm package.
-# Rafael Ferreira <rafael.f.f1@gmail.com>, 2012, 2013
+# Rafael Ferreira <rafael.f.f1@gmail.com>, 2012, 2013, 2014
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: LilyTerm\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-05-02 10:01+0800\n"
-"PO-Revision-Date: 2013-10-12 05:46-0300\n"
+"PO-Revision-Date: 2014-12-03 00:44-0300\n"
 "Last-Translator: Rafael Ferreira <rafael.f.f1@gmail.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language: pt_BR\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Poedit 1.5.7\n"
+"X-Generator: Poedit 1.6.11\n"
 
 #: console.c:121
 #, c-format
@@ -689,21 +689,23 @@ msgstr "Confirmar para colar textos no terminal Vte"
 
 #: dialog.c:1397
 msgid "Join"
-msgstr ""
+msgstr "Juntar"
 
 #: dialog.c:1399
 msgid "Remove '<Return>' in the text"
-msgstr ""
+msgstr "Remover '<Enter>' no texto"
 
 #: dialog.c:1410
 msgid "Strip"
-msgstr ""
+msgstr "Dividir"
 
 #: dialog.c:1412
 msgid ""
 "Remove '<Return>', \"\\<Return>\", and \"\\<Return><<Space>\" in the text, "
 "then join '<Tab>' and '<Space>' into a single '<Space>'"
 msgstr ""
+"Remover '<Enter>', \"\\<Enter>\", e \"\\<Enter><<Espaço>\" no texto, "
+"então juntar '<Tab>' e '<Espaço>' em um único '<Espaço>'"
 
 #: dialog.c:2728
 #, c-format
@@ -908,7 +910,7 @@ msgstr "Iniciar o gerenciador de arquivos"
 
 #: menu.c:252
 msgid "View page info"
-msgstr ""
+msgstr "Ver informação da página"
 
 #: menu.c:260
 msgid "Erase Binding"
@@ -936,11 +938,11 @@ msgstr "Permitir texto em negrito"
 
 #: menu.c:313
 msgid "Need <Ctrl> pressed to open URL"
-msgstr ""
+msgstr "Precisar <Ctrl> pressionad para abrir URL"
 
 #: menu.c:316
 msgid "Disable URL when <Ctrl> pressed"
-msgstr ""
+msgstr "Desabilitar URL quando <Ctrl> pressionado"
 
 #: menu.c:323
 msgid "Audible bell"
@@ -1009,7 +1011,7 @@ msgstr "Tons de cinza"
 
 #: menu.c:504
 msgid "(build-in)"
-msgstr ""
+msgstr "(embarcado)"
 
 #: menu.c:517
 #, c-format
@@ -1017,10 +1019,8 @@ msgid "%s + custom"
 msgstr "%s + personalizado"
 
 #: menu.c:654
-#, fuzzy
-#| msgid "Move current page forward."
 msgid "View current page information"
-msgstr "Mover página atual para frente."
+msgstr "Ver informação da página atual"
 
 #: menu.c:1096
 msgid " (Wide)"
@@ -1060,10 +1060,8 @@ msgid "%s default"
 msgstr "Padrão do %s"
 
 #: menu.c:2047
-#, fuzzy
-#| msgid "System default (SCHEME)"
 msgid "System default"
-msgstr "Padrão do sistema (SCHEME)"
+msgstr "Padrão do sistema"
 
 #: menu.c:2406
 #, c-format
