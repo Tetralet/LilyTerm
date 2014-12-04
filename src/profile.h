@@ -30,6 +30,8 @@
 #include <unistd.h>
 // for strcmp()
 #include <string.h>
+// for XParseGeometry()
+#include <X11/Xlib.h>
 
 #include "lilyterm.h"
 

@@ -1180,6 +1180,7 @@ struct Window
 // ---- the color used in vte ---- //
 
 	GdkRGBA cursor_color;
+	gboolean custem_cursor_color;
 
 	// color datas
 	gint color_theme_index;

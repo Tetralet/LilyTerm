@@ -1233,11 +1233,11 @@ void dim_vte_text (struct Window *win_data, struct Page *page_data, gint dim_tex
 	if (page_data->vte_is_inactivated != dim_vte)
 	{
 		if (dim_vte)
-			set_vte_color(page_data->vte, TRUE, win_data->cursor_color,  win_data->color_inactive, TRUE,
-				      (win_data->color_theme_index==(THEME-1)));
+			set_vte_color(page_data->vte, TRUE, win_data->custem_cursor_color, win_data->cursor_color,
+				      win_data->color_inactive, TRUE, (win_data->color_theme_index==(THEME-1)));
 		else
-			set_vte_color(page_data->vte, TRUE, win_data->cursor_color,  win_data->color, TRUE,
-				      (win_data->color_theme_index==(THEME-1)));
+			set_vte_color(page_data->vte, TRUE, win_data->custem_cursor_color, win_data->cursor_color,
+				      win_data->color, TRUE, (win_data->color_theme_index==(THEME-1)));
 		page_data->vte_is_inactivated = dim_vte;
 	}
 	// g_debug("FINAL: dim_vte = %d, page_data->vte_is_inactivated = %d", dim_vte, page_data->vte_is_inactivated);

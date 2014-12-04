@@ -161,8 +161,8 @@ void init_new_page(struct Window *win_data,
 #  endif
 #endif
 
-	set_vte_color(page_data->vte, use_default_vte_theme(win_data), win_data->cursor_color, win_data->color, FALSE,
-		      (win_data->color_theme_index==(THEME-1)));
+	set_vte_color(page_data->vte, use_default_vte_theme(win_data), win_data->custem_cursor_color, win_data->cursor_color,
+		      win_data->color, FALSE, (win_data->color_theme_index==(THEME-1)));
 #if defined(ENABLE_VTE_BACKGROUND) || defined(FORCE_ENABLE_VTE_BACKGROUND)
 	// set transparent
 	set_background_saturation(NULL, 0, win_data->background_saturation, page_data->vte);
@@ -282,7 +282,21 @@ void clean_hyperlink(struct Window *win_data, struct Page *page_data)
 	vte_terminal_match_remove_all(VTE_TERMINAL(page_data->vte));
 }
 
-void set_vte_color(GtkWidget *vte, gboolean default_vte_color, GdkRGBA cursor_color, GdkRGBA color[COLOR],
+void enable_custem_cursor_color(GtkWidget *vte, gboolean custem_cursor_color, GdkRGBA *cursor_color)
+{
+#ifdef DETAIL
+	g_debug("! Launch enable_custem_cursor_color() with vte = %p, custem_cursor_color = %d, color = %p", vte, custem_cursor_color, color);
+#endif
+#ifdef SAFEMODE
+	if (vte==NULL) return;
+#endif
+	if (custem_cursor_color)
+		vte_terminal_set_color_cursor_rgba(VTE_TERMINAL(vte), cursor_color);
+	else
+		vte_terminal_set_color_cursor_rgba(VTE_TERMINAL(vte), NULL);
+}
+
+void set_vte_color(GtkWidget *vte, gboolean default_vte_color, gboolean custem_cursor_color, GdkRGBA cursor_color, GdkRGBA color[COLOR],
 		   gboolean update_fg_only, gboolean over_16_colors)
 {
 #ifdef DETAIL
@@ -323,7 +337,7 @@ void set_vte_color(GtkWidget *vte, gboolean default_vte_color, GdkRGBA cursor_co
 	vte_terminal_set_colors_rgba(VTE_TERMINAL(vte), &(color[COLOR-1]), &(color[0]), color, 16);
 
 	// print_color(-1, "set_vte_color(): cursor_color", cursor_color);
-	vte_terminal_set_color_cursor_rgba(VTE_TERMINAL(vte), &(cursor_color));
+	enable_custem_cursor_color(vte, custem_cursor_color, &(cursor_color));
 }
 
 gboolean use_default_vte_theme(struct Window *win_data)
@@ -733,7 +747,8 @@ void apply_new_win_data_to_page (struct Window *win_data_orig,
 // ---- the color used in vte ---- //
 	gboolean update_color = FALSE;
 
-	if (compare_color(&(win_data_orig->cursor_color), &(win_data->cursor_color)) ||
+	if ((win_data_orig->custem_cursor_color != win_data->custem_cursor_color) ||
+	    (compare_color(&(win_data_orig->cursor_color), &(win_data->cursor_color))) ||
 	    (win_data_orig->have_custom_color != win_data->have_custom_color) ||
 	    (win_data_orig->use_custom_theme != win_data->use_custom_theme) ||
 	    (win_data_orig->color_brightness != win_data->color_brightness))
@@ -747,8 +762,8 @@ void apply_new_win_data_to_page (struct Window *win_data_orig,
 				update_color = TRUE;
 	}
 	if (update_color)
-		set_vte_color(page_data->vte, use_default_vte_theme(win_data), win_data->cursor_color, win_data->color, FALSE,
-			      (win_data->color_theme_index==(THEME-1)));
+		set_vte_color(page_data->vte, use_default_vte_theme(win_data), win_data->custem_cursor_color,
+			      win_data->cursor_color, win_data->color, FALSE, (win_data->color_theme_index==(THEME-1)));
 
 // ---- tabs on notebook ---- //
 

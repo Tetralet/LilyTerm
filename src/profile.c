@@ -129,23 +129,23 @@ struct GdkColor_Theme system_color_theme[THEME] =
 	   { 0, 0xffff, 0x0000, 0xffff },
 	   { 0, 0x0000, 0xffff, 0xffff },
 	   { 0, 0xffff, 0xffff, 0xffff }}},
-	 {5, "solarized",                   // Source: http://ethanschoonover.com/solarized#the-values
-	  {{ 0, 0x0707, 0x3636, 0x4242 },   // base02;  black
-	   { 0, 0xdcdc, 0x3232, 0x2f2f },   // red;     red
-	   { 0, 0x8585, 0x9999, 0x0000 },   // green;   green
-	   { 0, 0xb5b5, 0x8989, 0x0000 },   // yellow;  yellow
-	   { 0, 0x2626, 0x8b8b, 0xd2d2 },   // blue;    blue
-	   { 0, 0xd3d3, 0x3636, 0x8282 },   // magenta; magenta
-	   { 0, 0x2a2a, 0xa1a1, 0x9898 },   // cyan;    cyan
-	   { 0, 0xeeee, 0xe8e8, 0xd5d5 },   // base2;   white
-	   { 0, 0x0000, 0x2b2b, 0x3636 },   // base03;  brblack
-	   { 0, 0xcbcb, 0x4b4b, 0x1616 },   // orange;  brred
-	   { 0, 0x5858, 0x6e6e, 0x7575 },   // base01;  brgreen
-	   { 0, 0x6565, 0x7b7b, 0x8383 },   // base00;  bryellow
-	   { 0, 0x8383, 0x9494, 0x9696 },   // base0;   brblue
-	   { 0, 0x6c6c, 0x7171, 0xc4c4 },   // violet;  brmagenta
-	   { 0, 0x9393, 0xa1a1, 0xa1a1 },   // base1;   brcyan
-	   { 0, 0xfdfd, 0xf6f6, 0xe3e3 }}}, // base3; brwhite
+	 {5, "solarized",			// Source: http://ethanschoonover.com/solarized#the-values
+	  {{ 0, 0x0707, 0x3636, 0x4242 },	// base02;  black
+	   { 0, 0xdcdc, 0x3232, 0x2f2f },	// red;     red
+	   { 0, 0x8585, 0x9999, 0x0000 },	// green;   green
+	   { 0, 0xb5b5, 0x8989, 0x0000 },	// yellow;  yellow
+	   { 0, 0x2626, 0x8b8b, 0xd2d2 },	// blue;    blue
+	   { 0, 0xd3d3, 0x3636, 0x8282 },	// magenta; magenta
+	   { 0, 0x2a2a, 0xa1a1, 0x9898 },	// cyan;    cyan
+	   { 0, 0xeeee, 0xe8e8, 0xd5d5 },	// base2;   white
+	   { 0, 0x0000, 0x2b2b, 0x3636 },	// base03;  brblack
+	   { 0, 0xcbcb, 0x4b4b, 0x1616 },	// orange;  brred
+	   { 0, 0x5858, 0x6e6e, 0x7575 },	// base01;  brgreen
+	   { 0, 0x6565, 0x7b7b, 0x8383 },	// base00;  bryellow
+	   { 0, 0x8383, 0x9494, 0x9696 },	// base0;   brblue
+	   { 0, 0x6c6c, 0x7171, 0xc4c4 },	// violet;  brmagenta
+	   { 0, 0x9393, 0xa1a1, 0xa1a1 },	// base1;   brcyan
+	   { 0, 0xfdfd, 0xf6f6, 0xe3e3 }}},	// base3; brwhite
 	 {6, "bbs",
 	  {{ 0, 0x0000, 0x0000, 0x0000 },
 	   { 0, 0xcf01, 0x0000, 0x0000 },
@@ -493,9 +493,10 @@ void init_window_parameters(struct Window *win_data)
 	// win_data->menuitem_primary;
 	// win_data->fg_color;
 	// win_data->fg_color_inactive;
-	// win_data->cursor_color;
 #ifdef ENABLE_GDKCOLOR_TO_STRING
+	// win_data->cursor_color;
 	dirty_gdk_color_parse (DEFAULT_CURSOR_COLOR, &(win_data->cursor_color));
+	// win_data->custem_cursor_color = FALSE;
 #endif
 	// win_data->bg_color;
 	// win_data->color_theme_str;
@@ -1418,6 +1419,11 @@ void get_user_settings(struct Window *win_data, const gchar *encoding)
 
 			cursor_color_str = check_string_value(keyfile, "main", "cursor_color", DEFAULT_CURSOR_COLOR, FALSE, DISABLE_EMPTY_STR);
 
+			win_data->custem_cursor_color = ! check_boolean_value(keyfile, "main", "disable_custem_cursor_color",
+									      ! win_data->custem_cursor_color);
+
+			if (cursor_color_str == NULL) win_data->custem_cursor_color = FALSE;
+
 			win_data->show_resize_menu = check_boolean_value(keyfile, "main", "show_resize_menu",
 									 win_data->show_resize_menu);
 
@@ -1867,6 +1873,11 @@ void get_user_settings(struct Window *win_data, const gchar *encoding)
 	}
 
 	// some defaults
+	glong column=0, row=0;
+	get_row_and_column_from_geometry_str(&column, &row, &(win_data->default_column), &(win_data->default_row), win_data->geometry);
+	win_data->default_column = column;
+	win_data->default_row = row;
+
 	win_data->splited_page_names = split_string(win_data->page_names, " ", -1);
 #ifdef SAFEMODE
 	if (win_data->splited_page_names==NULL)
@@ -1962,10 +1973,7 @@ void get_user_settings(struct Window *win_data, const gchar *encoding)
 	// check if win_data->cursor_color == win_data->bg_color
 	if ((win_data->invert_color && (compare_color(&(fg_color), &(win_data->cursor_color)) == FALSE)) ||
 	    ((win_data->invert_color == FALSE) && (compare_color(&(bg_color), &(win_data->cursor_color)) == FALSE)))
-	{
-		// print_color (-1, "invild win_data->cursor_color", win_data->cursor_color);
-		dirty_gdk_color_parse (DEFAULT_CURSOR_COLOR, &(win_data->cursor_color));
-	}
+		win_data->custem_cursor_color = FALSE;
 #endif
 	generate_all_color_datas(win_data);
 
@@ -2620,19 +2628,14 @@ GString *save_user_settings(GtkWidget *widget, struct Window *win_data)
 	else
 		g_string_append(contents,"background_color = \n\n");
 
+	g_string_append_printf(contents,"# Drawn the text under the cursor with foreground and background colors reversed.\n"
+					"disable_custem_cursor_color = %d\n\n", ! win_data->custem_cursor_color);
 	g_string_append(contents,"# Sets the background color for text which is under the cursor.\n"
 				 "# You may use black, #000000 or #000000000000 here.\n");
 
-	GdkRGBA cursor_color;
-	dirty_gdk_color_parse(DEFAULT_CURSOR_COLOR, &cursor_color);
-	if (compare_color(&cursor_color, &(win_data->cursor_color)))
-	{
-		gchar *color_str = dirty_gdk_rgba_to_string(&(win_data->cursor_color));
-		g_string_append_printf(contents,"cursor_color = %s\n\n", color_str);
-		g_free (color_str);
-	}
-	else
-		g_string_append(contents,"cursor_color = \n\n");
+	gchar *color_str = dirty_gdk_rgba_to_string(&(win_data->cursor_color));
+	g_string_append_printf(contents,"cursor_color = %s\n\n", color_str);
+	g_free (color_str);
 #endif
 	g_string_append_printf(contents,"# Shows [Increase window size], [Decrease window size],\n"
 					"# [Reset to default font/size] and [Reset to system font/size]\n"
@@ -2870,7 +2873,6 @@ GString *save_user_settings(GtkWidget *widget, struct Window *win_data)
 		g_string_append(contents, "inactive_brightness = \n\n");
 
 #ifdef ENABLE_GDKCOLOR_TO_STRING
-	gchar *color_str;
 	for (i=1; i<COLOR-1; i++)
 	{
 		g_string_append_printf( contents,"%s\n"
@@ -3285,4 +3287,26 @@ void convert_string_to_user_key(gint i, gchar *value, struct Window *win_data)
 	}
 	// else
 	//	g_debug("We can not find %s key in profile...", pagekeys[i].name);
+}
+
+void get_row_and_column_from_geometry_str(glong *column, glong *row, glong *default_column, glong *default_row, gchar *geometry_str)
+{
+#ifdef DETAIL
+	g_debug("! Launch get_row_and_column_from_geometry_str() with column = %d, row = %d, "
+		"default_column = %d, default_row = %d, geometry_str = %s",
+		column, row, default_column, default_row, geometry_str);
+#endif
+	if (geometry_str && (geometry_str[0]!='\0'))
+	{
+		gint offset_x = 0, offset_y = 0;
+		guint new_column, new_row;
+		if (XParseGeometry (geometry_str, &offset_x, &offset_y, &new_column, &new_row))
+		{
+			*column = new_column;
+			*row = new_row;
+		}
+	}
+
+	if (*column < 1) *column = *default_column;
+	if (*row < 1) *row = *default_row;
 }

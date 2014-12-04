@@ -101,7 +101,7 @@ int main( int   argc,
 
 	const gchar *user_config_dir = g_get_user_config_dir();
 
-#ifndef SAFEMODE
+#if ! defined(SAFEMODE) && defined(DEVELOP)
 	g_message("Running %s without SAFE MODE!", PACKAGE);
 #endif
 

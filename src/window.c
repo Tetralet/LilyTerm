@@ -1963,7 +1963,6 @@ void destroy_window(struct Window *win_data)
 	if (win_data->urgent_bell_focus_in_event_id)
 		stop_urgency_hint(NULL, NULL, win_data);
 #endif
-	// g_debug("destroy_window(): destroy window = %p for win_data = %p", win_data->window, win_data);
 #ifdef SAFEMODE
 	if (win_data->window)
 #endif
@@ -2890,6 +2889,7 @@ void dump_data (struct Window *win_data, struct Page *page_data)
 	g_debug("- win_data->menuitem_paste = %p", win_data->menuitem_paste);
 	g_debug("- win_data->menuitem_clipboard = %p", win_data->menuitem_clipboard);
 	g_debug("- win_data->menuitem_primary = %p", win_data->menuitem_primary);
+	g_debug("- win_data->custem_cursor_color = %d", win_data->custem_cursor_color);
 	print_color(-1, "win_data->cursor_color", win_data->cursor_color);
 	for (i=0; i<THEME; i++)
 	{
@@ -3374,6 +3374,7 @@ void win_data_dup(struct Window *win_data_orig, struct Window *win_data)
 
 	// win_data->fg_color;
 	// win_data->fg_color_inactive;
+	// win_data->custem_cursor_color;
 	// win_data->cursor_color;
 	// win_data->bg_color;
 	// win_data->menuitem_invert_color

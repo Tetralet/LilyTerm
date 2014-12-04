@@ -170,6 +170,7 @@ gchar *get_profile();
 #if defined(ENABLE_RGBA) || defined(UNIT_TEST)
 void init_rgba(struct Window *win_data);
 #endif
+void get_row_and_column_from_geometry_str(glong *column, glong *row, glong *default_column, glong *default_row, gchar *geometry_str);
 
 //
 // **************************** property.c ****************************
@@ -184,7 +185,8 @@ void init_new_page(struct Window *win_data, struct Page *page_data, glong column
 void set_cursor_blink(struct Window *win_data, struct Page *page_data);
 void set_hyperlink(struct Window *win_data, struct Page *page_data);
 void clean_hyperlink(struct Window *win_data, struct Page *page_data);
-void set_vte_color(GtkWidget *vte, gboolean default_vte_color, GdkRGBA cursor_color, GdkRGBA color[COLOR],
+void enable_custem_cursor_color(GtkWidget *vte, gboolean custem_cursor_color, GdkRGBA *cursor_color);
+void set_vte_color(GtkWidget *vte, gboolean default_vte_color, gboolean custem_cursor_color, GdkRGBA cursor_color, GdkRGBA color[COLOR],
 		   gboolean update_fg_only, gboolean over_16_colors);
 gboolean use_default_vte_theme(struct Window *win_data);
 void set_page_width(struct Window *win_data, struct Page *page_data);

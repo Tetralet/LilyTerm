@@ -30,8 +30,6 @@
 #include <string.h>
 // for aoti()
 #include <stdlib.h>
-// for XParseGeometry()
-#include <X11/Xlib.h>
 // for GDK_WINDOW_XID
 #include <gdk/gdkx.h>
 

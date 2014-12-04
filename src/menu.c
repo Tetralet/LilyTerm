@@ -1287,8 +1287,8 @@ void set_ansi_theme(GtkWidget *menuitem, Set_ANSI_Theme_Type type, gboolean use_
 #ifdef SAFEMODE
 			if (page_data)
 #endif
-				set_vte_color(page_data->vte, default_vte_theme, win_data->cursor_color, win_data->color, FALSE,
-					      (win_data->color_theme_index==(THEME-1)));
+				set_vte_color(page_data->vte, default_vte_theme, win_data->custem_cursor_color, win_data->cursor_color,
+					      win_data->color, FALSE, (win_data->color_theme_index==(THEME-1)));
 		}
 
 		if (menuitem != win_data->menuitem_invert_color)
@@ -1307,8 +1307,8 @@ void set_ansi_theme(GtkWidget *menuitem, Set_ANSI_Theme_Type type, gboolean use_
 #ifdef SAFEMODE
 			if (page_data)
 #endif
-				set_vte_color(page_data->vte, default_vte_theme, win_data->cursor_color, win_data->color, FALSE,
-					      (win_data->color_theme_index==(THEME-1)));
+				set_vte_color(page_data->vte, default_vte_theme, win_data->custem_cursor_color, win_data->cursor_color,
+					      win_data->color, FALSE, (win_data->color_theme_index==(THEME-1)));
 #ifdef SAFEMODE
 		}
 #endif
@@ -2434,21 +2434,12 @@ void apply_profile_from_file(const gchar *path, Apply_Profile_Type type)
 		}
 
 		glong column=0, row=0;
+		get_row_and_column_from_geometry_str(&column, &row, &(win_data->default_column), &(win_data->default_row), win_data->geometry);
 		if (win_data->geometry && (win_data->geometry[0]!='\0'))
 		{
 			// may not work!!
 			gtk_window_parse_geometry(GTK_WINDOW(win_data->window), win_data->geometry);
-
-			gint offset_x = 0, offset_y = 0;
-			guint new_column, new_row;
-			if (XParseGeometry (win_data->geometry, &offset_x, &offset_y, &new_column, &new_row))
-			{
-				column = new_column;
-				row = new_row;
-			}
 		}
-		if (column<1) column = win_data->default_column;
-		if (row<1) row = win_data->default_row;
 #ifdef USE_GTK2_GEOMETRY_METHOD
 #  ifdef GEOMETRY
 		g_debug("@ apply_profile_from_file (for %p): Trying set the geometry to %ld x %ld",
