@@ -134,7 +134,7 @@ void notebook_page_added(GtkNotebook *notebook, GtkWidget *child, guint page_num
 #endif
 void show_close_button_on_tab(struct Window *win_data, struct Page *page_data);
 void set_fill_tabs_bar(GtkNotebook *notebook, gboolean fill_tabs_bar, struct Page *page_data);
-void remove_notebook_page (GtkNotebook *notebook, GtkWidget *child, guint page_num, struct Window *win_data);
+void remove_notebook_page (GtkNotebook *notebook, GtkWidget *child, guint page_num, struct Window *win_data, gboolean run_quit_gtk);
 void update_window_hint(struct Window *win_data, struct Page *page_data);
 void window_resizable(GtkWidget *window, GtkWidget *vte, Hints_Type hints_type);
 gboolean hide_and_show_tabs_bar(struct Window *win_data , Switch_Type show_tabs_bar);

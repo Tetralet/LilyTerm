@@ -1963,9 +1963,7 @@ void destroy_window(struct Window *win_data)
 	if (win_data->urgent_bell_focus_in_event_id)
 		stop_urgency_hint(NULL, NULL, win_data);
 #endif
-#ifdef SAFEMODE
 	if (win_data->window)
-#endif
 		gtk_widget_destroy(win_data->window);
 
 	clear_win_data(win_data);
@@ -2134,7 +2132,8 @@ void notebook_page_added(GtkNotebook *notebook, GtkWidget *child, guint page_num
 		remove_notebook_page (GTK_NOTEBOOK(win_data_orig->notebook),
 				      NULL,
 				      page_data->page_no,
-				      win_data_orig);
+				      win_data_orig,
+				      FALSE);
 	}
 	else
 	{
@@ -2266,7 +2265,7 @@ void reorder_page_after_added_removed_page(struct Window *win_data, guint page_n
 	gtk_window_set_focus(GTK_WINDOW(win_data->window), page_data->vte);
 }
 
-void remove_notebook_page(GtkNotebook *notebook, GtkWidget *child, guint page_num, struct Window *win_data)
+void remove_notebook_page(GtkNotebook *notebook, GtkWidget *child, guint page_num, struct Window *win_data, gboolean run_quit_gtk)
 {
 #ifdef DETAIL
 	g_debug("! Launch remove_notebook_page() with notebook = %p, and win_data = %p, page_num = %d", notebook, win_data, page_num);
@@ -2275,7 +2274,11 @@ void remove_notebook_page(GtkNotebook *notebook, GtkWidget *child, guint page_nu
 	if ((notebook==NULL) || (win_data==NULL)) return;
 #endif
 	// g_debug("remove_notebook_page !");
-	gint total_page = gtk_notebook_get_n_pages(GTK_NOTEBOOK(notebook));
+	gint total_page;
+	if (notebook)
+		total_page = gtk_notebook_get_n_pages(GTK_NOTEBOOK(notebook));
+	else
+		total_page = 0;
 	// g_debug("Total Page after remove_notebook_page: %d", total_page);
 
 	if (total_page)
@@ -2339,19 +2342,15 @@ void remove_notebook_page(GtkNotebook *notebook, GtkWidget *child, guint page_nu
 #ifdef DETAIL
 			g_debug("+ It is the last page, exit lilyterm!");
 #endif
-#ifdef SAFEMODE
-			if ((win_data->window) && (gtk_widget_get_mapped(win_data->window)))
-#else
-			if (gtk_widget_get_mapped(win_data->window))
-#endif
+			if (run_quit_gtk)
 			{
 				// done in gtk_quit_add
 				// if (single_process)
 				//	shutdown_socket_server();
 				// g_debug("remove_notebook_page(): call gtk_main_quit()");
 				quit_gtk();
-#ifdef DETAIL
-				g_debug("+ lilyterm had been close normally!");
+#ifdef DEBUG
+				g_message("%s had been closed normally!", PACKAGE);
 #endif
 			}
 #ifndef UNIT_TEST

@@ -1027,7 +1027,18 @@ gboolean close_page(GtkWidget *vte, gint close_type)
 	// remove current page
 	// use page_data->page_no. DANGEROUS!
 	// g_debug ("The %d page is going to be removed!", page_data->page_no);
-	gtk_notebook_remove_page(GTK_NOTEBOOK(page_data->notebook), page_data->page_no);
+
+	// Due to the bugs in GTK3+(?), Using gtk_widget_destroy(windows) instead of closing the last page!
+	gint total_page = gtk_notebook_get_n_pages(GTK_NOTEBOOK(page_data->notebook));
+	gboolean run_quit_gtk = FALSE;
+	if (total_page==1)
+	{
+		run_quit_gtk = gtk_widget_get_mapped(win_data->window);
+		gtk_widget_destroy (win_data->window);
+		win_data->window = NULL;
+	}
+	else
+		gtk_notebook_remove_page(GTK_NOTEBOOK(page_data->notebook), page_data->page_no);
 
 	// free the memory used by this page
 	g_free(page_data->pid_cmdline);
@@ -1047,7 +1058,10 @@ gboolean close_page(GtkWidget *vte, gint close_type)
 	// So that we should call page_removed() here, not using "page-removed" signal... -_-|||
 	// g_debug("page_data->notebook = %p, page_data->page_no = %d, win_data = %p",
 	//	page_data->notebook, page_data->page_no, win_data);
-	remove_notebook_page (GTK_NOTEBOOK(page_data->notebook), NULL, page_data->page_no, win_data);
+	if (total_page==1)
+		remove_notebook_page (NULL, NULL, page_data->page_no, win_data, run_quit_gtk);
+	else
+		remove_notebook_page (GTK_NOTEBOOK(page_data->notebook), NULL, page_data->page_no, win_data, run_quit_gtk);
 
 	// g_strfreev(page_data->environments);
 
