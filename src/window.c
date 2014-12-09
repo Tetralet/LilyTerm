@@ -2271,7 +2271,7 @@ void remove_notebook_page(GtkNotebook *notebook, GtkWidget *child, guint page_nu
 	g_debug("! Launch remove_notebook_page() with notebook = %p, and win_data = %p, page_num = %d", notebook, win_data, page_num);
 #endif
 #ifdef SAFEMODE
-	if ((notebook==NULL) || (win_data==NULL)) return;
+	if (win_data==NULL) return;
 #endif
 	// g_debug("remove_notebook_page !");
 	gint total_page;
@@ -2888,7 +2888,7 @@ void dump_data (struct Window *win_data, struct Page *page_data)
 	g_debug("- win_data->menuitem_paste = %p", win_data->menuitem_paste);
 	g_debug("- win_data->menuitem_clipboard = %p", win_data->menuitem_clipboard);
 	g_debug("- win_data->menuitem_primary = %p", win_data->menuitem_primary);
-	g_debug("- win_data->custem_cursor_color = %d", win_data->custem_cursor_color);
+	g_debug("- win_data->custom_cursor_color = %d", win_data->custom_cursor_color);
 	print_color(-1, "win_data->cursor_color", win_data->cursor_color);
 	for (i=0; i<THEME; i++)
 	{
@@ -3373,7 +3373,7 @@ void win_data_dup(struct Window *win_data_orig, struct Window *win_data)
 
 	// win_data->fg_color;
 	// win_data->fg_color_inactive;
-	// win_data->custem_cursor_color;
+	// win_data->custom_cursor_color;
 	// win_data->cursor_color;
 	// win_data->bg_color;
 	// win_data->menuitem_invert_color

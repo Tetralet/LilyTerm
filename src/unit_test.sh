@@ -264,7 +264,7 @@ for DATA in `$CAT $LIB_LISTS | sed '/^\/\*/,/ \*\/$/d' | sed -e 's/[ \t]*\/\*[ \
 						unset FUN_DATA
 						SPACE=$OLD_SPACE
 						;;
-					'gboolean' | 'gchar' | 'guint' | 'GtkScrollType' | 'gint' | 'pid_t' | 'int' | 'gsize' | 'glong' | 'GdkColor' | 'GdkRGBA' | 'Dialog_Button_Type' | 'Dialog_Find_Type' | 'Dialog_Type_Flags' | 'Font_Name_Type' | 'Key_Bindings' | 'Hints_Type' | 'Window_Status' | 'Geometry_Resize_Type' | 'Font_Reset_Type' | 'Switch_Type' | 'Font_Set_Type' | 'Set_ANSI_Theme_Type' | 'GtkFileChooserAction' | 'GIOCondition' | 'Check_Zero' | 'Check_Max' | 'Check_Min' | 'Check_Empty' | 'Menu_Itemn_Type' | 'Apply_Profile_Type' | 'Clipboard_Type' | 'gchar*' | 'char*' | 'StrLists*' | 'StrAddr**' | 'gdouble' | 'struct Dialog*' | 'struct Window*' | 'struct Page*' | 'struct Color_Data*' | 'struct Preview*' | 'GtkButton*' | 'GtkCellRenderer*' | 'GtkRange*' | 'gchar**' | 'char*[]' | 'char**' | 'gsize*' | 'GString*' | 'GtkNotebook*' | 'GdkColor*' | 'GdkRGBA*' | 'VteTerminal*'  | 'gboolean*' | 'gint*' | 'guint*')
+					'gboolean' | 'gchar' | 'guint' | 'GtkScrollType' | 'gint' | 'pid_t' | 'int' | 'gsize' | 'glong' | 'GdkColor' | 'GdkRGBA' | 'Dialog_Button_Type' | 'Dialog_Find_Type' | 'Dialog_Type_Flags' | 'Font_Name_Type' | 'Key_Bindings' | 'Hints_Type' | 'Window_Status' | 'Geometry_Resize_Type' | 'Font_Reset_Type' | 'Switch_Type' | 'Font_Set_Type' | 'Set_ANSI_Theme_Type' | 'GtkFileChooserAction' | 'GIOCondition' | 'Check_Zero' | 'Check_Max' | 'Check_Min' | 'Check_Empty' | 'Menu_Itemn_Type' | 'Apply_Profile_Type' | 'Clipboard_Type' | 'gchar*' | 'char*' | 'StrLists*' | 'StrAddr**' | 'gdouble' | 'struct Dialog*' | 'struct Window*' | 'struct Page*' | 'struct Color_Data*' | 'struct Preview*' | 'GtkButton*' | 'GtkCellRenderer*' | 'GtkRange*' | 'gchar**' | 'char*[]' | 'char**' | 'gsize*' | 'GString*' | 'GtkNotebook*' | 'GdkColor*' | 'GdkRGBA*' | 'VteTerminal*'  | 'gboolean*' | 'gint*' | 'guint*' | 'glong*')
 						SPACE="$SPACE""_SPACE_"
 						VAR=`expr $VAR + 1`
 						if [ $MAX_VAR -le $VAR ]; then
@@ -276,7 +276,7 @@ for DATA in `$CAT $LIB_LISTS | sed '/^\/\*/,/ \*\/$/d' | sed -e 's/[ \t]*\/\*[ \
 								FUNC_STAR="$FUNC_STAR\n$SPACE""_SPACE_""$STR V$VAR = V[$VAR];"
 								FUNCTION="$FUNCTION V$VAR,"
 								;;
-							'gboolean*' | 'gint*' | 'guint*' | 'gsize*')
+							'gboolean*' | 'gint*' | 'guint*' | 'gsize*' | 'glong*')
 								NO_STAR_STR=`$ECHO $STR | sed -e 's/\*$//g'`
 								FUNC_STAR="$FUNC_STAR\n$SPACE""for (V[$VAR]=0; V[$VAR]<2; V[$VAR]++) {"
 								FUNC_STAR="$FUNC_STAR\n$SPACE""_SPACE_""$NO_STAR_STR V$VAR = V[$VAR];"

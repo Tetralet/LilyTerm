@@ -1287,7 +1287,7 @@ void set_ansi_theme(GtkWidget *menuitem, Set_ANSI_Theme_Type type, gboolean use_
 #ifdef SAFEMODE
 			if (page_data)
 #endif
-				set_vte_color(page_data->vte, default_vte_theme, win_data->custem_cursor_color, win_data->cursor_color,
+				set_vte_color(page_data->vte, default_vte_theme, win_data->custom_cursor_color, win_data->cursor_color,
 					      win_data->color, FALSE, (win_data->color_theme_index==(THEME-1)));
 		}
 
@@ -1307,7 +1307,7 @@ void set_ansi_theme(GtkWidget *menuitem, Set_ANSI_Theme_Type type, gboolean use_
 #ifdef SAFEMODE
 			if (page_data)
 #endif
-				set_vte_color(page_data->vte, default_vte_theme, win_data->custem_cursor_color, win_data->cursor_color,
+				set_vte_color(page_data->vte, default_vte_theme, win_data->custom_cursor_color, win_data->cursor_color,
 					      win_data->color, FALSE, (win_data->color_theme_index==(THEME-1)));
 #ifdef SAFEMODE
 		}

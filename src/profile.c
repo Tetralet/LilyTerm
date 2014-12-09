@@ -496,7 +496,7 @@ void init_window_parameters(struct Window *win_data)
 #ifdef ENABLE_GDKCOLOR_TO_STRING
 	// win_data->cursor_color;
 	dirty_gdk_color_parse (DEFAULT_CURSOR_COLOR, &(win_data->cursor_color));
-	// win_data->custem_cursor_color = FALSE;
+	// win_data->custom_cursor_color = FALSE;
 #endif
 	// win_data->bg_color;
 	// win_data->color_theme_str;
@@ -1419,10 +1419,10 @@ void get_user_settings(struct Window *win_data, const gchar *encoding)
 
 			cursor_color_str = check_string_value(keyfile, "main", "cursor_color", DEFAULT_CURSOR_COLOR, FALSE, DISABLE_EMPTY_STR);
 
-			win_data->custem_cursor_color = ! check_boolean_value(keyfile, "main", "disable_custem_cursor_color",
-									      ! win_data->custem_cursor_color);
+			win_data->custom_cursor_color = ! check_boolean_value(keyfile, "main", "disable_custom_cursor_color",
+									      ! win_data->custom_cursor_color);
 
-			if (cursor_color_str == NULL) win_data->custem_cursor_color = FALSE;
+			if (cursor_color_str == NULL) win_data->custom_cursor_color = FALSE;
 
 			win_data->show_resize_menu = check_boolean_value(keyfile, "main", "show_resize_menu",
 									 win_data->show_resize_menu);
@@ -1973,7 +1973,7 @@ void get_user_settings(struct Window *win_data, const gchar *encoding)
 	// check if win_data->cursor_color == win_data->bg_color
 	if ((win_data->invert_color && (compare_color(&(fg_color), &(win_data->cursor_color)) == FALSE)) ||
 	    ((win_data->invert_color == FALSE) && (compare_color(&(bg_color), &(win_data->cursor_color)) == FALSE)))
-		win_data->custem_cursor_color = FALSE;
+		win_data->custom_cursor_color = FALSE;
 #endif
 	generate_all_color_datas(win_data);
 
@@ -2629,7 +2629,7 @@ GString *save_user_settings(GtkWidget *widget, struct Window *win_data)
 		g_string_append(contents,"background_color = \n\n");
 
 	g_string_append_printf(contents,"# Drawn the text under the cursor with foreground and background colors reversed.\n"
-					"disable_custem_cursor_color = %d\n\n", ! win_data->custem_cursor_color);
+					"disable_custom_cursor_color = %d\n\n", ! win_data->custom_cursor_color);
 	g_string_append(contents,"# Sets the background color for text which is under the cursor.\n"
 				 "# You may use black, #000000 or #000000000000 here.\n");
 
@@ -3292,9 +3292,12 @@ void convert_string_to_user_key(gint i, gchar *value, struct Window *win_data)
 void get_row_and_column_from_geometry_str(glong *column, glong *row, glong *default_column, glong *default_row, gchar *geometry_str)
 {
 #ifdef DETAIL
-	g_debug("! Launch get_row_and_column_from_geometry_str() with column = %d, row = %d, "
-		"default_column = %d, default_row = %d, geometry_str = %s",
-		column, row, default_column, default_row, geometry_str);
+	g_debug("! Launch get_row_and_column_from_geometry_str() with column = %ld, row = %ld, "
+		"default_column = %ld, default_row = %ld, geometry_str = %s",
+		*column, *row, *default_column, *default_row, geometry_str);
+#endif
+#ifdef SAFEMODE
+	if ((column==NULL) || (row==NULL) || (default_column==NULL) || (default_row==NULL)) return;
 #endif
 	if (geometry_str && (geometry_str[0]!='\0'))
 	{

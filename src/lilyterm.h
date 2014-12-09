@@ -185,8 +185,8 @@ void init_new_page(struct Window *win_data, struct Page *page_data, glong column
 void set_cursor_blink(struct Window *win_data, struct Page *page_data);
 void set_hyperlink(struct Window *win_data, struct Page *page_data);
 void clean_hyperlink(struct Window *win_data, struct Page *page_data);
-void enable_custem_cursor_color(GtkWidget *vte, gboolean custem_cursor_color, GdkRGBA *cursor_color);
-void set_vte_color(GtkWidget *vte, gboolean default_vte_color, gboolean custem_cursor_color, GdkRGBA cursor_color, GdkRGBA color[COLOR],
+void enable_custom_cursor_color(GtkWidget *vte, gboolean custom_cursor_color, GdkRGBA *cursor_color);
+void set_vte_color(GtkWidget *vte, gboolean default_vte_color, gboolean custom_cursor_color, GdkRGBA cursor_color, GdkRGBA color[COLOR],
 		   gboolean update_fg_only, gboolean over_16_colors);
 gboolean use_default_vte_theme(struct Window *win_data);
 void set_page_width(struct Window *win_data, struct Page *page_data);

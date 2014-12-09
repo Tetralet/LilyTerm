@@ -54,8 +54,8 @@ struct Dialog
 	gdouble original_window_opacity_inactive;
 	gboolean original_dim_window;
 #endif
-	GtkWidget *custem_cursor_color_checkbox;
-	gboolean original_custem_cursor_color;
+	GtkWidget *custom_cursor_color_checkbox;
+	gboolean original_custom_cursor_color;
 	gboolean original_transparent_background;
 	gboolean original_invert_color;
 	gboolean original_have_custom_color;
@@ -101,7 +101,7 @@ void init_dialog_ansi_colors_from_win_data(struct Window *win_data, struct Dialo
 void update_fg_bg_color(struct Window *win_data, GdkRGBA color, gboolean update_fg);
 void clear_custom_colors_data(struct Window *win_data, gboolean update_fg);
 #ifdef USE_OLD_GTK_COLOR_SELECTION
-void update_custem_cursor_color(GtkWidget *menuitem, struct Window *win_data);
+void update_custom_cursor_color(GtkWidget *menuitem, struct Window *win_data);
 #endif
 void dialog_invert_color_theme(GtkWidget *menuitem, struct Window *win_data);
 void update_color_buttons(struct Window *win_data, struct Dialog *dialog_data);
@@ -139,7 +139,7 @@ void adjust_vte_color_sample(GtkColorButton* color_button, gint color_index);
 #endif
 void adjust_vte_color(GtkColorChooser *colorselection, GdkRGBA *color, GtkWidget *vte);
 void set_new_ansi_color(GtkWidget *vte, GdkRGBA color_orig[COLOR], GdkRGBA color[COLOR], gdouble color_brightness, gboolean invert_color,
-			gboolean default_vte_color, gboolean custem_cursor_color, GdkRGBA cursor_color, gboolean dim_fg_color);
+			gboolean default_vte_color, gboolean custom_cursor_color, GdkRGBA cursor_color, gboolean dim_fg_color);
 void hide_combo_box_capital(GtkCellLayout *cell_layout, GtkCellRenderer *cell,
 			    GtkTreeModel *tree_model, GtkTreeIter *iter, gpointer data);
 void update_key_info (GtkTreeSelection *treeselection, struct Dialog *dialog_data);
