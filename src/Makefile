@@ -4,6 +4,7 @@
 #	make clean: delete lilyterm binary files.
 #	make debug: compile lilyeterm_dbg with CLAGS -g.
 #	make dev: compile lilyeterm_dev with CLAGS -g.
+#	make vdev: compile lilyeterm_dev with full compiling command message.
 #	make ddev: compile lilyeterm_dev with -DSAFEMODE compile option.
 #	make ut: run a tiny unit testing script with gdb debug information.
 #	make uto: build *.o binary files for using in the unit testing programs.

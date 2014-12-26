@@ -505,7 +505,7 @@ struct Page *add_page(struct Window *win_data,
 			 G_CALLBACK(vte_size_changed), GINT_TO_POINTER(FONT_ZOOM_OUT));
 	// the close page event
 	if (! (win_data->hold && win_data->command))
-		g_signal_connect(G_OBJECT(page_data->vte), "child_exited", G_CALLBACK(close_page), CLOSE_TAB_NORMAL);
+		g_signal_connect(G_OBJECT(page_data->vte), "child_exited", G_CALLBACK(close_page), GINT_TO_POINTER(CLOSE_TAB_NORMAL));
 
 	// when get focus, update `current_vte', hints, and window title
 	g_signal_connect(G_OBJECT(page_data->vte), "grab-focus", G_CALLBACK(vte_grab_focus), NULL);

@@ -98,7 +98,7 @@ VTE=`$PKGCONFIG --exists 'vte' && $ECHO 'vte'`
 if [ "$VTE" = "vte" ]; then
   GTK=`$PKGCONFIG --exists 'gtk+-2.0' && $ECHO 'gtk+-2.0'`
   if [ "$GTK" != "gtk+-2.0" ]; then
-    $PRINTF "\033[1;31m** ERROR: You need GTK+2 to run this unit test program!\033[0m\n"
+    $PRINTF "\033[1;31m** ERROR: You need to install GTK+2 develop package first to run this unit test program!\033[0m\n"
     exit 1
   fi
 else
@@ -106,12 +106,21 @@ else
   if [ "$VTE" = "vte-2.90" ]; then
     GTK=`$PKGCONFIG --exists 'gtk+-3.0' && $ECHO 'gtk+-3.0'`
     if [ "$GTK" != "gtk+-3.0" ]; then
-      $PRINTF "\033[1;31m** ERROR: You need GTK+3 to run this unit test program!\033[0m\n"
+      $PRINTF "\033[1;31m** ERROR: You need to install GTK+3 develop package first to run this unit test program!\033[0m\n"
       exit 1
     fi
   else
-    $PRINTF "\033[1;31m** ERROR: You need VTE to run this unit test program!\033[0m\n"
-    exit 1
+    VTE=`$PKGCONFIG --exists 'vte-2.91' && $ECHO 'vte-2.91'`
+    if [ "$VTE" = "vte-2.91" ]; then
+      LDFLAGS='-lX11'
+      GTK=`$PKGCONFIG --exists 'gtk+-3.0' && $ECHO 'gtk+-3.0'`
+      if [ "$GTK" != "gtk+-3.0" ]; then
+        $PRINTF "\033[1;31m** ERROR: You need to install GTK+3 develop package first to run this unit test program!\033[0m\n"
+        exit 1
+      fi
+    else
+      exit 1
+    fi
   fi
 fi
 
@@ -465,9 +474,9 @@ EOF
 EOF
 	if [ $TEST_SCRIPT_ONLY -eq 0 ]; then
 		$PRINTF "\033[1;36m$FUNC_NAME(): \033[1;33m** Compiling unit_test.o...\033[0m\n"
-		$CC $CFLAGS $INCLUDES -c unit_test.c `$PKGCONFIG --cflags $GTK $VTE` || exit 1
+		$CC $LDFLAGS $CFLAGS $INCLUDES -c unit_test.c `$PKGCONFIG --cflags $GTK $VTE` || exit 1
 		$PRINTF "\033[1;36m$FUNC_NAME(): \033[1;33m** Compiling unit_test...\033[0m\n"
-		$CC $CFLAGS $INCLUDES -o unit_test $OBJ `$PKGCONFIG --cflags --libs $GTK $VTE` || exit 1
+		$CC $LDFLAGS $CFLAGS $INCLUDES -o unit_test $OBJ `$PKGCONFIG --cflags --libs $GTK $VTE` || exit 1
 		# if [ $? != 0 ]; then exit 1; fi
 
 		if [ $BUILD_ONLY -eq 0 ]; then

@@ -572,7 +572,7 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 			dialog_data->original_color = win_data->cursor_color;
 			create_color_selection_widget(dialog_data, (GSourceFunc)adjust_vte_color, win_data->current_vte);
 			dialog_data->original_custom_cursor_color = win_data->custom_cursor_color;
-#ifdef USE_OLD_GTK_COLOR_SELECTION
+#if defined(USE_OLD_GTK_COLOR_SELECTION) || defined(UNIT_TEST)
 			// ---- Create the [Drawn the text under the cursor with foreground and background colors reversed] check button ----
 			dialog_data->custom_cursor_color_checkbox = gtk_check_button_new_with_label(_("Drawn the text under the cursor with foreground and background colors reversed"));
 			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON(dialog_data->custom_cursor_color_checkbox), ! win_data->custom_cursor_color);
@@ -1981,7 +1981,7 @@ void init_dialog_ansi_colors_from_win_data(struct Window *win_data, struct Dialo
 	// print_color(i, "dialog_data->ansi_colors", dialog_data->ansi_colors_orig[i]);
 }
 
-#ifdef USE_OLD_GTK_COLOR_SELECTION
+#if defined(USE_OLD_GTK_COLOR_SELECTION) || defined(UNIT_TEST)
 void update_custom_cursor_color(GtkWidget *menuitem, struct Window *win_data)
 {
 #ifdef DETAIL

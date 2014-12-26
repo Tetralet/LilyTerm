@@ -73,7 +73,7 @@ void set_ansi_theme(GtkWidget *menuitem, Set_ANSI_Theme_Type type, gboolean use_
 		    gint theme_index, struct Window *win_data);
 void set_auto_save(GtkWidget *menuitem, struct Window *win_data);
 void set_erase_binding (GtkWidget *menuitem, gint value);
-#ifdef ENABLE_CURSOR_SHAPE
+#if defined(ENABLE_CURSOR_SHAPE) || defined(UNIT_TEST)
 void set_cursor_shape (GtkWidget *menuitem, gint value);
 #endif
 GSList *create_theme_menu_items(struct Window *win_data, GtkWidget *sub_menu, GSList *theme_group, gint current_theme, gint custom_theme);
@@ -88,7 +88,7 @@ void set_allow_bold_text(GtkWidget *menuitem_allow_bold_text, struct Window *win
 void set_open_url_with_ctrl_pressed(GtkWidget *menuitem_open_url_with_ctrl_pressed, struct Window *win_data);
 void set_disable_url_when_ctrl_pressed(GtkWidget *menuitem_disable_url_when_ctrl_pressed, struct Window *win_data);
 void set_audible_bell(GtkWidget *widget, struct Window *win_data);
-#ifdef ENABLE_VISIBLE_BELL
+#if defined(ENABLE_VISIBLE_BELL) || defined(UNIT_TEST)
 void set_visible_bell(GtkWidget *widget, struct Window *win_data);
 #endif
 void urgent_beep(GtkWidget *window, struct Page *page_data);

@@ -322,7 +322,7 @@ gboolean create_menu(struct Window *win_data)
 	// Audible bell
 	win_data->menuitem_audible_bell = create_menu_item (CHECK_MENU_ITEM, misc_sub_menu, _("Audible bell"), NULL, NULL,
 								(GSourceFunc)set_audible_bell, win_data);
-#ifdef ENABLE_VISIBLE_BELL
+#if defined(ENABLE_VISIBLE_BELL) || defined(UNIT_TEST)
 	// Visible bell
 	win_data->menuitem_visible_bell = create_menu_item (CHECK_MENU_ITEM, misc_sub_menu, _("Visible bell"), NULL, NULL,
 								(GSourceFunc)set_visible_bell, win_data);
@@ -814,7 +814,7 @@ void set_audible_bell(GtkWidget *menuitem_audible_bell, struct Window *win_data)
 	}
 }
 
-#ifdef ENABLE_VISIBLE_BELL
+#if defined(ENABLE_VISIBLE_BELL) || defined(UNIT_TEST)
 void set_visible_bell(GtkWidget *menuitem_visible_bell, struct Window *win_data)
 {
 #ifdef DETAIL
@@ -839,7 +839,7 @@ void set_visible_bell(GtkWidget *menuitem_visible_bell, struct Window *win_data)
 }
 #endif
 
-#ifdef ENABLE_BEEP_SINGAL
+#if defined(ENABLE_BEEP_SINGAL) || defined(UNIT_TEST)
 void set_urgent_bell(GtkWidget *menuitem_urgent_bell, struct Window *win_data)
 {
 #ifdef DETAIL
@@ -1362,7 +1362,7 @@ void set_erase_binding (GtkWidget *menuitem, gint value)
 	win_data->current_menuitem_erase_binding = menuitem;
 }
 
-#ifdef ENABLE_CURSOR_SHAPE
+#if defined(ENABLE_CURSOR_SHAPE) || defined(UNIT_TEST)
 void set_cursor_shape (GtkWidget *menuitem, gint value)
 {
 #ifdef DETAIL

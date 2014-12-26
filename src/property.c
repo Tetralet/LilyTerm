@@ -695,7 +695,7 @@ void fake_vte_terminal_get_padding(VteTerminal *vte, gint *width, gint *height)
 	g_debug("! Launch fake_vte_terminal_get_padding() with vte = %p", vte);
 #endif
 #ifdef SAFEMODE
-	if (vte==NULL) return;
+	if ((vte==NULL) || (width==NULL) || (height==NULL)) return;
 #endif
 #  ifdef VTE_HAS_INNER_BORDER
 	GtkBorder *inner_border = NULL;

@@ -499,12 +499,13 @@
 #endif
 #if VTE_CHECK_VERSION(0,34,8)
 #  ifdef UNIT_TEST
+	#define USE_FAKE_FUNCTIONS
 	#define vte_terminal_set_opacity(x,y) NULL
 	#define vte_terminal_set_background_transparent(x,y) vte_terminal_set_size(x,1,1)
 	#define vte_terminal_set_background_image_file(x,y) vte_terminal_set_size(x,1,1)
 	#define vte_terminal_set_background_saturation(x,y) vte_terminal_set_size(x,1,1)
 	#define vte_terminal_set_scroll_background(x,y) vte_terminal_set_size(x,1,1)
-	#define vte_terminal_set_background_tint_color vte_terminal_set_color_bold
+	#define vte_terminal_set_background_tint_color(x,y) vte_terminal_set_size(x,1,1)
 #  endif
 #else
 	// END: vte-0.34.8/src/vtedeprecated.h: void vte_terminal_set_opacity(VteTerminal *terminal, guint16 opacity) G_GNUC_DEPRECATED;
@@ -554,6 +555,10 @@
 #if ! VTE_CHECK_VERSION(0,38,0)
 	// END: ./vte-0.37.90/src/vteterminal.h: void vte_terminal_set_visible_bell()
 	#define ENABLE_VISIBLE_BELL
+#else
+#  ifdef UNIT_TEST
+	#define vte_terminal_set_visible_bell(x,y) vte_terminal_set_size(x,1,1)
+#  endif
 #endif
 
 #define ENABLE_RGBA_VER "GTK 2.11"
@@ -869,7 +874,7 @@ struct Erase_Binding
 	gint value;
 };
 
-#ifdef ENABLE_CURSOR_SHAPE
+#if defined(ENABLE_CURSOR_SHAPE) || defined(UNIT_TEST)
 	#define CURSOR_SHAPE 3
 	#define DEFAULT_CURSOR_SHAPE 0
 
@@ -1157,10 +1162,10 @@ struct Window
 	GtkWidget *menuitem_open_url_with_ctrl_pressed;
 	GtkWidget *menuitem_disable_url_when_ctrl_pressed;
 	GtkWidget *menuitem_audible_bell;
-#ifdef ENABLE_VISIBLE_BELL
+#if defined(ENABLE_VISIBLE_BELL) || defined(UNIT_TEST)
 	GtkWidget *menuitem_visible_bell;
 #endif
-#ifdef ENABLE_BEEP_SINGAL
+#if defined(ENABLE_BEEP_SINGAL) || defined(UNIT_TEST)
 	GtkWidget *menuitem_urgent_bell;
 #endif
 	GtkWidget *menuitem_show_tabs_bar;
@@ -1276,10 +1281,10 @@ struct Window
 	gboolean open_url_with_ctrl_pressed;
 	gboolean disable_url_when_ctrl_pressed;
 	gboolean audible_bell;
-#ifdef ENABLE_VISIBLE_BELL
+#if defined(ENABLE_VISIBLE_BELL) || defined(UNIT_TEST)
 	gboolean visible_bell;
 #endif
-#ifdef ENABLE_BEEP_SINGAL
+#if defined(ENABLE_BEEP_SINGAL) || defined(UNIT_TEST)
 	// urgent_bell will stores the currect setting
 	gboolean urgent_bell;
 	// urgent_bell will stores the currect status
@@ -1289,7 +1294,7 @@ struct Window
 	gint erase_binding;
 	GtkWidget *menuitem_erase_binding[ERASE_BINDING];
 	GtkWidget *current_menuitem_erase_binding;
-#ifdef ENABLE_CURSOR_SHAPE
+#if defined(ENABLE_CURSOR_SHAPE) || defined(UNIT_TEST)
 	gint cursor_shape;
 	GtkWidget *menuitem_cursor_shape[CURSOR_SHAPE];
 	GtkWidget *current_menuitem_cursor_shape;

@@ -100,7 +100,7 @@ struct Dialog
 void init_dialog_ansi_colors_from_win_data(struct Window *win_data, struct Dialog *dialog_data);
 void update_fg_bg_color(struct Window *win_data, GdkRGBA color, gboolean update_fg);
 void clear_custom_colors_data(struct Window *win_data, gboolean update_fg);
-#ifdef USE_OLD_GTK_COLOR_SELECTION
+#if defined(USE_OLD_GTK_COLOR_SELECTION) || defined(UNIT_TEST)
 void update_custom_cursor_color(GtkWidget *menuitem, struct Window *win_data);
 #endif
 void dialog_invert_color_theme(GtkWidget *menuitem, struct Window *win_data);

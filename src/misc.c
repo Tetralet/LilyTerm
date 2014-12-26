@@ -858,7 +858,9 @@ void dirty_vte_terminal_set_background_tint_color(VteTerminal *vte, const GdkRGB
 	G_GNUC_BEGIN_IGNORE_DEPRECATIONS;
 #  endif
 #  ifdef USE_GDK_RGBA
+#    ifndef USE_FAKE_FUNCTIONS
 	GdkColor color = convert_rgba_to_color(rgba);
+#    endif
 	vte_terminal_set_background_tint_color(VTE_TERMINAL(vte), &(color));
 #  else
 	vte_terminal_set_background_tint_color(VTE_TERMINAL(vte), &(rgba));
