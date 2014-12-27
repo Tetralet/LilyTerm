@@ -7,14 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LilyTerm 0.9.9~final5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-05-02 10:01+0800\n"
+"POT-Creation-Date: 2014-12-27 11:40+0800\n"
 "PO-Revision-Date: 2012-04-14 18:23+0200\n"
 "Last-Translator: Bogusz Kowalski <boguszkowalski@gmail.com>\n"
 "Language-Team: polski <LANGUAGE <LL@li.org>>\n"
+"Language: pl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: pl\n"
 "Plural-Forms: nplurals=2; plural=(n!=1);\n"
 
 #: console.c:121
@@ -22,7 +22,7 @@ msgstr ""
 msgid "Please report bug at <%s>.\n"
 msgstr "Proszę zgłaszać błędy do <%s>.\n"
 
-#: console.c:122 dialog.c:1069
+#: console.c:122 dialog.c:1078
 #, c-format
 msgid "Thank you for using %s!"
 msgstr "Dziękuję za używanie %s!"
@@ -43,22 +43,28 @@ msgid "Use -T/--title {title} to specify the window title.\n"
 msgstr "Użyj -T/--title {tytuł} aby ustawić tytuł okna.\n"
 
 #: console.c:142
+#, fuzzy
+#| msgid "Use -T/--title {title} to specify the window title.\n"
+msgid "Use -R/--role {role} to specify the WM_WINDOW_ROLE string of window.\n"
+msgstr "Użyj -T/--title {tytuł} aby ustawić tytuł okna.\n"
+
+#: console.c:143
 msgid "Use -t/--tab {number} to open multi tabs when starting up.\n"
 msgstr "Użyj -t/--tab {liczba} aby otworzyć wiele kart przy starcie.\n"
 
-#: console.c:143
+#: console.c:144
 msgid ""
 "Use -n/--tab_names {tab names} to specify tab names, separate with <space>.\n"
 msgstr ""
 
-#: console.c:144
+#: console.c:145
 msgid ""
 "Use -d/--directory {directory} to specify the init directory when starting "
 "up.\n"
 msgstr ""
 "Użyj -d/--directory {katalog} aby ustawić katalog roboczy przy starcie.\n"
 
-#: console.c:145
+#: console.c:146
 #, fuzzy
 #| msgid ""
 #| "Use -g/--geometry {WIDTHxHEIGHT[+-]XOFFSET[+-]YOFFSET} to specify the "
@@ -70,36 +76,36 @@ msgstr ""
 "Użyj -g/--geometry {SZEROKOŚĆXWYSOKOŚĆ[+-]XOFFSET[+-]YOFFSET} aby ustawić "
 "geometrię okna.\n"
 
-#: console.c:146
+#: console.c:147
 msgid "Use -l/-ls/--login to make the shell invoked as a login shell.\n"
 msgstr "Użyj -l/-ls/--login aby wywołać powłokę jako login shell.\n"
 
-#: console.c:147
+#: console.c:148
 msgid "Use -ut to disable recording the session in lastlog, utmp and wtmp.\n"
 msgstr ""
 
-#: console.c:148
+#: console.c:149
 msgid ""
 "Use -H/--hold to hold the terminal window open when -e/-x command "
 "terminated.\n"
 msgstr ""
 
-#: console.c:150
+#: console.c:151
 msgid "Use -s/--separate to run in separate process.\n"
 msgstr "Użyj -s/--separate aby uruchomić osobny proces.\n"
 
-#: console.c:151
+#: console.c:152
 msgid ""
 "Use -j/--join to integrate new created tabs to the last accessed window.\n"
 msgstr ""
 
-#: console.c:152
+#: console.c:153
 #, fuzzy
 #| msgid "Use -p/--profile to got a profile sample.\n"
 msgid "Use -p/--profile to get a profile sample.\n"
 msgstr "Użyj -p/--profile aby zobaczyć przykładową konfigurację profilu.\n"
 
-#: console.c:154
+#: console.c:155
 #, fuzzy, c-format
 #| msgid ""
 #| "Use -u/--user_profile {%s} to use a specified profile.\n"
@@ -109,11 +115,11 @@ msgstr ""
 "Użyj -u/--user_profile {%s} aby użyć własnego profilu.\n"
 "\n"
 
-#: console.c:155
+#: console.c:156
 msgid "Use -v/--version to show the version information.\n"
 msgstr "Użyj -v/--cersion aby zobaczyć informacje o wersji.\n"
 
-#: console.c:156
+#: console.c:157
 #, fuzzy
 #| msgid ""
 #| "Use -e/-x/--execute {Command} to run a command when starting up. (Must be "
@@ -125,24 +131,24 @@ msgstr ""
 "Użyj -e/-x/--execute {Polecenie} aby uruchomić program po starcie. (Musi być "
 "ostatnią podaną opcją).\n"
 
-#: console.c:158
+#: console.c:159
 #, fuzzy, c-format
 #| msgid "The %s system configure file is: %s/%s\n"
 msgid "The %s system configure file is: %s\n"
 msgstr "%s używa pliku z konfiguracją systemową: %s/%s\n"
 
-#: console.c:192
+#: console.c:193
 #, c-format
 msgid "And your %s profile is: "
 msgstr "%s używa twojego własnego profilu: "
 
-#: console.c:223
+#: console.c:224
 msgid "Default key binding:"
 msgstr "Domyślne przypisanie:"
 
 #. TRANSLATE NOTE: Please be care of the spacing when translating the following key binding description.
 #. TRANSLATE NOTE: Please check it in [Right Click Menu] -> [Usage] -> [Key binding] page after translating.
-#: console.c:226
+#: console.c:227
 #, fuzzy
 #| msgid ""
 #| "  * <Ctrl><`>           Disable/Enable hyperlinks, function keys and "
@@ -153,32 +159,32 @@ msgstr ""
 "  * <Ctrl><`>           Wyłącz/Włącz odsyłacze, klawisze funkcyjne i menu "
 "prawego klawisza myszy."
 
-#: console.c:228
+#: console.c:229
 msgid "  * <Ctrl><T>           Add a New tab with current directory.\n"
 msgstr ""
 "  * <Ctrl><T>           Dodaj nową kartę kartę z bieżącym katalogiem.\n"
 
-#: console.c:229
+#: console.c:230
 msgid "  * <Ctrl><PgUp/PgDn>   Switch to Prev/Next tab.\n"
 msgstr "  * <Ctrl><PgUp/PgDn>   Przełącz na Poprzednią/Następną kartę.\n"
 
-#: console.c:230
+#: console.c:231
 msgid "  * <Ctrl><Home/End>    Switch to First/Last tab.\n"
 msgstr "  * <Ctrl><Home/End>    Przełącz na Pierwszą/Ostatnią kartę.\n"
 
-#: console.c:231
+#: console.c:232
 msgid "  * <Ctrl><[/]>         Move current tab Forward/Backward.\n"
 msgstr "  * <Ctrl><[/]>         Przesuń bieżącą kartę Naprzód/Wstecz.\n"
 
-#: console.c:232
+#: console.c:233
 msgid "  * <Ctrl><Up/Down>     Move current tab to First/Last.\n"
 msgstr "  * <Ctrl><Up/Down>     Przesuń bieżącą kartę na Początek/Koniec.\n"
 
-#: console.c:233
+#: console.c:234
 msgid "  * <Ctrl><F1~F12>      Switch to 1st ~ 12th tab.\n"
 msgstr "  * <Ctrl><F1~F12>      Przełącz na 1. ~ 12. kartę.\n"
 
-#: console.c:234
+#: console.c:235
 msgid ""
 "  * <Ctrl><+/-/Enter>   Increase/Decrease/Reset the font size of current "
 "tab.\n"
@@ -186,7 +192,7 @@ msgstr ""
 "  * <Ctrl><+/-/Enter>   Zwiększ/Pomniejsz/Zresetuj rozmiar czcionki w "
 "bieżącej karcie.\n"
 
-#: console.c:235
+#: console.c:236
 #, fuzzy
 #| msgid ""
 #| "  * <Shift><Left/Right> Emulate a mouse Scroll Up/Down event on Vte "
@@ -197,7 +203,7 @@ msgstr ""
 "  * <Shift><Lewo/Prawo> Przewijaj W górę/W dół (jako zdarzenie terminala "
 "Vte).\n"
 
-#: console.c:236
+#: console.c:237
 #, fuzzy
 #| msgid ""
 #| "  * <Shift><Up/Down>    Asks to Scroll Up/Down 1 line on Vte Terminal "
@@ -205,7 +211,7 @@ msgstr ""
 msgid "  * <Shift><Up/Down>    Asks to Scroll Up/Down 1 line on terminal.\n"
 msgstr "  * <Shift><Up/Down>    Przewiń W górę/W dół o 1 linię.\n"
 
-#: console.c:237
+#: console.c:238
 #, fuzzy
 #| msgid ""
 #| "  * <Shift><PgUp/PgDn>  Gtk+ default behavior, Scroll Up/Down on Vte "
@@ -215,7 +221,7 @@ msgid ""
 msgstr ""
 "  * <Shift><PgUp/PgDn>  Domyślne zachowanie Gtk+, przewijanie W górę/W dół.\n"
 
-#: console.c:238
+#: console.c:239
 #, fuzzy
 #| msgid ""
 #| "  * <Shift><Home/End>   Gtk+ default behavior, Scroll the Terminal box to "
@@ -227,7 +233,7 @@ msgstr ""
 "  * <Shift><Home/End>   Domyślne zachowanie Gtk+, przewinięcie Na samą górę/"
 "Na sam dół terminala.\n"
 
-#: console.c:239
+#: console.c:240
 #, fuzzy
 #| msgid ""
 #| "  * <Alt><F11/Enter>    Switch between fullwindow/unfullwindow and "
@@ -239,7 +245,7 @@ msgstr ""
 "  * <Alt><F11/Enter>    Przełącz maksymalizację okna/przywróć rozmiar okna i "
 "włącz pełny ekran/normalne okno.\n"
 
-#: console.c:240
+#: console.c:241
 #, fuzzy
 #| msgid ""
 #| "  * <Ctrl><F>           Find text in the Vte Terminal box. Use <F3>/"
@@ -251,14 +257,14 @@ msgstr ""
 "  * <Ctrl><F>           Znajdź tekst. Użyj <F3>/<Shift><F3> aby znaleźć "
 "Następne/Poprzednie wystąpienie.\n"
 
-#: console.c:242
+#: console.c:243
 #, fuzzy
 #| msgid ""
 #| "  * <Ctrl><O>           Select all the text in the Vte Terminal box.\n"
 msgid "  * <Ctrl><O>           Select all the text in the terminal.\n"
 msgstr "  * <Ctrl><O>           Zaznacz cały tekst w terminalu Vte.\n"
 
-#: console.c:243
+#: console.c:244
 #, fuzzy
 #| msgid ""
 #| "  * <Ctrl><Del/Ins>     Copy the text to clipboard / Paste the text in "
@@ -266,7 +272,7 @@ msgstr "  * <Ctrl><O>           Zaznacz cały tekst w terminalu Vte.\n"
 msgid "  * <Ctrl><Del/Ins>     Copy/Paste the text in clipboard.\n"
 msgstr "  * <Ctrl><Del/Ins>     Kopiuj do schowka / Wklej ze schowka .\n"
 
-#: console.c:244
+#: console.c:245
 #, fuzzy
 #| msgid ""
 #| "  * <Shift><Del/Ins>    Copy the text to primary clipboard / Paste the "
@@ -274,7 +280,7 @@ msgstr "  * <Ctrl><Del/Ins>     Kopiuj do schowka / Wklej ze schowka .\n"
 msgid "  * <Shift><Del/Ins>    Copy/Paste the text in primary clipboard.\n"
 msgstr "  * <Shift><Del/Ins>\tKopiuj do / Wklej ze schowka podstawowego.\n"
 
-#: console.c:245
+#: console.c:246
 #, fuzzy
 #| msgid ""
 #| "                        (i.e. Emulate a middle button mouse click to copy/"
@@ -286,17 +292,17 @@ msgstr ""
 "                        (np. Emuluj środkowy przycisk myszy by skopiować/"
 "wkleić tekst)\n"
 
-#: console.c:247
+#: console.c:248
 msgid "Some key bindings that disabled by default but maybe useful:\n"
 msgstr ""
 "Niektóre z tych domyślnie wyłączonych przypisań klawiszy mogą okazać się "
 "przydatne:\n"
 
-#: console.c:248
+#: console.c:249
 msgid "  * <Ctrl><Q>           Trying to close current tab.\n"
 msgstr "  * <Ctrl><Q>           Spróbuj zamknąć bieżącą zakładkę.\n"
 
-#: console.c:249
+#: console.c:250
 msgid ""
 "                        (Using <Ctrl><D> or 'exit' to close tabs is "
 "recommended)\n"
@@ -304,30 +310,30 @@ msgstr ""
 "                        (Użycie <Ctrl><D> lub 'exit' jest zalecane by "
 "zamknąć zakładkę)\n"
 
-#: console.c:250
+#: console.c:251
 msgid "  * <Ctrl><N>           Open a new window with current directory.\n"
 msgstr "  * <Ctrl><N>           Otwórz nowe okno z bieżącym katalogiem.\n"
 
-#: console.c:251
+#: console.c:252
 msgid "  * <Ctrl><E>           Rename the current tab.\n"
 msgstr "  * <Ctrl><E>           Zmień nazwę bieżącej karty.\n"
 
-#: console.c:258
+#: console.c:259
 #, c-format
 msgid "TIP: These key bindings may custom or disable by right click menu [%s]."
 msgstr ""
 "TIP: Te przypisania klawiszy mogą być zmienione lub wyłączone przez menu pod "
 "prawym klawiszem [%s]."
 
-#: console.c:258 menu.c:419
+#: console.c:259 menu.c:420
 msgid "Set key binding"
 msgstr "Ustaw przypisanie klawiszy"
 
-#: dialog.c:122 dialog.c:3281 menu.c:2907
+#: dialog.c:122 dialog.c:3352 menu.c:2885
 msgid "The following error occurred:"
 msgstr "Wystąpił następujący błąd:"
 
-#: dialog.c:187 menu.c:347
+#: dialog.c:187 menu.c:348
 msgid "Rename this tab"
 msgstr "Zmień nazwę tej karty"
 
@@ -339,7 +345,7 @@ msgstr "Wpisz Etykietę dla tej zakładki:"
 msgid "Label Name:"
 msgstr "Etykieta:"
 
-#: dialog.c:218 profile.c:870
+#: dialog.c:218 profile.c:881
 msgid "Find string"
 msgstr "Znajdź wyrażenie"
 
@@ -391,7 +397,7 @@ msgstr ""
 "Wklej przechwyconą kombinację klwiszy do terminala.\n"
 "Może to być przydatne gdy chcesz wkleić kombinację klawiszym, np. <Ctrl><C>."
 
-#: dialog.c:417 dialog.c:947
+#: dialog.c:417 dialog.c:956
 msgid "Key Value:"
 msgstr "Kombinacja:"
 
@@ -457,48 +463,54 @@ msgstr "Zmień kolor tła terminala"
 msgid "Change the cursor color in terminal"
 msgstr "Zmień kolor kursora"
 
-#: dialog.c:579 dialog.c:2188
+#: dialog.c:577
+msgid ""
+"Drawn the text under the cursor with foreground and background colors "
+"reversed"
+msgstr ""
+
+#: dialog.c:588 dialog.c:2234
 #, fuzzy, c-format
 #| msgid "Change the cursor color in terminal"
 msgid "Change the ansi color [%s] in terminal"
 msgstr "Zmień kolor kursora"
 
-#: dialog.c:608
+#: dialog.c:617
 #, fuzzy
 #| msgid "Adjust the brightness of ANSI colors"
 msgid "The brightness of ANSI colors:"
 msgstr "Dopasuj jasność kolorów ANSI"
 
-#: dialog.c:624
+#: dialog.c:633
 msgid "ANSI Colors:"
 msgstr ""
 
-#: dialog.c:629 menu.c:470
+#: dialog.c:638 menu.c:471
 msgid "Invert color"
 msgstr "Zamień kolory"
 
-#: dialog.c:697 menu.c:125
+#: dialog.c:706 menu.c:125
 #, c-format
 msgid "Change the %s color on tab"
 msgstr "Zmień kolor %sa na karcie"
 
-#: dialog.c:782 dialog.c:3099
+#: dialog.c:791 dialog.c:3170
 msgid "Bold Demo Text"
 msgstr "Pogrubiony tekst demo"
 
-#: dialog.c:836
+#: dialog.c:845
 msgid "Confirm to close multi tabs"
 msgstr "Potwierdź chęć zamknięcia wielu kart"
 
-#: dialog.c:845
+#: dialog.c:854
 msgid "You are about to close multi tabs. Continue anyway?"
 msgstr "Chciałbyś zamknąć wiele kart. Czy mam kontynuować?"
 
-#: dialog.c:852 dialog.c:1337
+#: dialog.c:861 dialog.c:1348
 msgid "those tabs"
 msgstr "te karty"
 
-#: dialog.c:858
+#: dialog.c:867
 msgid ""
 "You may press <Ctrl + Alt + Shift + Win> + <any key> here\n"
 "to get the key value used for the key binding."
@@ -506,44 +518,44 @@ msgstr ""
 "Możesz tu wcisnąć <Ctrl + Alt + Shift + Win> + <jakiś klawisz>\n"
 "aby dostać kod kombinacji klawiszy."
 
-#: dialog.c:860
+#: dialog.c:869
 msgid "Get the key value for function key"
 msgstr "Pobierz kod kombinacji"
 
-#: dialog.c:913
+#: dialog.c:922
 msgid "Function Key Name"
 msgstr "Nazwa kombinacji"
 
-#: dialog.c:917
+#: dialog.c:926
 msgid "Key Bindings"
 msgstr "Przypisanie klawiszy"
 
-#: dialog.c:925
+#: dialog.c:934
 msgid "Key Group: "
 msgstr "Grupa klawiszy: "
 
-#: dialog.c:935
+#: dialog.c:944
 msgid "Note: "
 msgstr "Uwaga: "
 
-#: dialog.c:957
+#: dialog.c:966
 msgid "Disable all the function keys."
 msgstr "Wyłącz wszystkie kombinacje klawiszy."
 
-#: dialog.c:990
+#: dialog.c:999
 #, c-format
 msgid "Usage for %s %s"
 msgstr "Użycie %s %s"
 
-#: dialog.c:1015
+#: dialog.c:1024
 msgid "Don't forget to save your settings after making any change!"
 msgstr "Nie zapomnij zapisać swoich ustawień po dokonaniu zmian!"
 
-#: dialog.c:1018 menu.c:415
+#: dialog.c:1027 menu.c:416
 msgid "Usage"
 msgstr "Użycie"
 
-#: dialog.c:1022
+#: dialog.c:1031
 msgid "Key binding"
 msgstr "Przypisanie klawiszy"
 
@@ -552,7 +564,7 @@ msgstr "Przypisanie klawiszy"
 #. TRANSLATE NOTE: Of corse, Translating the GPLv3 license text won't be a good idea,
 #. TRANSLATE NOTE: But it seems be safe to translate the following license declaration.
 #. TRANSLATE NOTE: Please just skip and leave it alone if you don't wanna translate it.
-#: dialog.c:1030
+#: dialog.c:1039
 #, c-format
 msgid ""
 "Copyright (c) %s-%s  %s.  All rights reserved.\n"
@@ -585,62 +597,62 @@ msgstr ""
 "You should have received a copy of the GNU General Public License\n"
 "along with %s.  If not, see <http://www.gnu.org/licenses/>."
 
-#: dialog.c:1043
+#: dialog.c:1052
 msgid "License"
 msgstr "Licencja"
 
-#: dialog.c:1058
+#: dialog.c:1067
 msgid "Translators"
 msgstr "Tłumacze"
 
 #. TRANSLATE NOTE: Please be care of the spacing when translating the following site informatoins.
 #. TRANSLATE NOTE: Please check it in [Right Click Menu] -> [Usage] -> [About] page after translating.
-#: dialog.c:1063
+#: dialog.c:1072
 #, fuzzy, c-format
 #| msgid "Homepage:"
 msgid "HomePage: %s"
 msgstr "Strona główna:"
 
-#: dialog.c:1064
+#: dialog.c:1073
 #, fuzzy, c-format
 #| msgid "Wiki:   %s"
 msgid "Github:   %s"
 msgstr "Wiki:   %s"
 
-#: dialog.c:1065
+#: dialog.c:1074
 #, fuzzy, c-format
 #| msgid "Blog:   %s"
 msgid "Blog:     %s"
 msgstr "Blog:   %s"
 
-#: dialog.c:1066
+#: dialog.c:1075
 #, fuzzy, c-format
 #| msgid "Wiki:   %s"
 msgid "Wiki:     %s"
 msgstr "Wiki:   %s"
 
-#: dialog.c:1067
+#: dialog.c:1076
 #, fuzzy, c-format
 #| msgid "Issues: %s"
 msgid "Issues:   %s"
 msgstr "Problemy: %s"
 
-#: dialog.c:1068
+#: dialog.c:1077
 #, fuzzy, c-format
 #| msgid "IRC:    %s"
 msgid "IRC:      %s"
 msgstr "IRC:    %s"
 
-#: dialog.c:1075
+#: dialog.c:1084
 msgid "About"
 msgstr "O programie"
 
-#: dialog.c:1092
+#: dialog.c:1101
 #, c-format
 msgid "There is still a running foreground program on #%d tab:"
 msgstr "W #%d karcie wciąż działa program:"
 
-#: dialog.c:1094
+#: dialog.c:1103
 #, fuzzy, c-format
 #| msgid ""
 #| "Terminate it by using `kill -9 %d' is recommend if it is non-response."
@@ -648,113 +660,113 @@ msgid ""
 "Terminate it by using `kill -9 %d' is recommended if it is non-response."
 msgstr "Jeśli nie odpowiada zalecane jest zatrzymanie go poprzez `kill -9 %d`."
 
-#: dialog.c:1100 dialog.c:1250 dialog.c:1282 dialog.c:1318 dialog.c:1351
-#: dialog.c:1376
+#: dialog.c:1109 dialog.c:1261 dialog.c:1293 dialog.c:1329 dialog.c:1362
+#: dialog.c:1387
 msgid "Continue anyway?"
 msgstr "Czy chcesz kontynuować?"
 
-#: dialog.c:1102 dialog.c:1284
+#: dialog.c:1111 dialog.c:1295
 msgid "Tip:"
 msgstr "Wskazówka:"
 
-#: dialog.c:1111
+#: dialog.c:1120
 msgid "Confirm to close running foreground program"
 msgstr "Potwierdź chęć zamknięcia działającego programu"
 
-#: dialog.c:1128 dialog.c:1308
+#: dialog.c:1137 dialog.c:1319
 msgid "this tab"
 msgstr "ta karta"
 
-#: dialog.c:1135
+#: dialog.c:1144
 msgid "Change the opacity of window"
 msgstr "Zmień przezroczystość okna"
 
-#: dialog.c:1137
+#: dialog.c:1146
 msgid "Change the opacity of window:"
 msgstr "Zmień przezroczystość okna:"
 
-#: dialog.c:1147
+#: dialog.c:1156
 msgid "Change the opacity of window when inactive"
 msgstr "Zmień przezroczystość nieaktywnego okna"
 
-#: dialog.c:1149
+#: dialog.c:1158
 msgid "Change the opacity of window when inactive:"
 msgstr "Zmień przezroczystość nieaktywnego okna:"
 
-#: dialog.c:1197
+#: dialog.c:1206
 msgid "Adjust the brightness of ANSI colors used in terminal"
 msgstr "Dopasuj jasność kolorów ANSI użytych w terminalu"
 
-#: dialog.c:1202
+#: dialog.c:1211
 msgid "Adjust the brightness of ANSI colors when inactive"
 msgstr "Dopasuj jasność kolorów ANSI nieaktywnego terminala"
 
-#: dialog.c:1244
+#: dialog.c:1255
 msgid " is trying to execute the following command:"
 msgstr " próbuje wykonać następujące polecenie:"
 
-#: dialog.c:1253
+#: dialog.c:1264
 msgid "Confirm to execute -e/-x/--execute command"
 msgstr "Potwierdz chęć wykonania -e/-x/--execute polecenie"
 
-#: dialog.c:1273
+#: dialog.c:1284
 #, c-format
 msgid "The following programs are still running under #%d tab:"
 msgstr "Następujące programy wciąż działają w #%d karcie:"
 
-#: dialog.c:1275
+#: dialog.c:1286
 msgid "Using <Ctrl><D> or 'exit' to close tabs is recommended"
 msgstr "Aby zamknąć karty zalecane jest użycie <Ctrl><D> lub 'exit'"
 
-#: dialog.c:1290
+#: dialog.c:1301
 msgid "Confirm to close a tab with child process"
 msgstr "Potwierdz chęć zamknięcia karty z procesem potomnym"
 
-#: dialog.c:1314
+#: dialog.c:1325
 msgid "The following programs are still running under this window:"
 msgstr "Następujące programy wciąż działają w tym oknie:"
 
-#: dialog.c:1320
+#: dialog.c:1331
 msgid "Confirm to close a window with child process"
 msgstr "Potwierdz chęć zamknięcia okna z procesem potomnym"
 
-#: dialog.c:1341
+#: dialog.c:1352
 #, c-format
 msgid "Confirm to close %s"
 msgstr "Potwierdz chęć zamknięcia %s"
 
-#: dialog.c:1344
+#: dialog.c:1355
 #, c-format
 msgid "The following programs are still running under %s:"
 msgstr "Następujące programy wciąż działają w %s:"
 
-#: dialog.c:1372
+#: dialog.c:1383
 msgid "Trying to paste the following texts to the Vte Terminal:"
 msgstr "Próbuj wkleić podany tekst do terminala:"
 
-#: dialog.c:1379
+#: dialog.c:1390
 msgid "Confirm to paste texts to the Vte Terminal"
 msgstr "Potwierdź chęć wklejenia tekstu do terminala"
 
-#: dialog.c:1397
+#: dialog.c:1408
 msgid "Join"
 msgstr ""
 
-#: dialog.c:1399
+#: dialog.c:1410
 msgid "Remove '<Return>' in the text"
 msgstr ""
 
-#: dialog.c:1410
+#: dialog.c:1421
 msgid "Strip"
 msgstr ""
 
-#: dialog.c:1412
+#: dialog.c:1423
 msgid ""
 "Remove '<Return>', \"\\<Return>\", and \"\\<Return><<Space>\" in the text, "
 "then join '<Tab>' and '<Space>' into a single '<Space>'"
 msgstr ""
 
-#: dialog.c:2728
+#: dialog.c:2778
 #, c-format
 msgid ""
 "Try to kill %s with SIGKILL() to avoid terminate those programs!\n"
@@ -763,21 +775,21 @@ msgstr ""
 "Spróbuj zabić %s sygnałem SIGKILL() aby zapobiec zakończeniu tych "
 "programów!'n(MOŻE SPOWODOWAĆ UTRATĘ DANYCH!!)"
 
-#: dialog.c:2742
+#: dialog.c:2792
 #, c-format
 msgid "Force to close all the tabs and windows, and exit %s!"
 msgstr "Zamknij siłą wszystkie karty, okna i wyjdź z %s!"
 
-#: dialog.c:2867
+#: dialog.c:2917
 #, c-format
 msgid "(Disabled, duplicated with [%s])"
 msgstr "(Wyłączone, powielone z [%s])"
 
-#: dialog.c:2876 dialog.c:3434 dialog.c:3485
+#: dialog.c:2926 dialog.c:3505 dialog.c:3556
 msgid "(Disabled)"
 msgstr "(Wyłączone)"
 
-#: dialog.c:3218
+#: dialog.c:3289
 #, c-format
 msgid ""
 "The locale \"%s\" seems NOT supported by your system!\n"
@@ -788,25 +800,25 @@ msgstr ""
 "Jeśli właśnie dodałeś obsługę ustawień językowych, \n"
 "proszę o zamknięcie wszystkich okien %s i ponowną próbę."
 
-#: dialog.c:3222
+#: dialog.c:3293
 msgid "Not supported locale!"
 msgstr "Nie obsługiwane ustawienia językowe!"
 
-#: dialog.c:3293
+#: dialog.c:3364
 #, c-format
 msgid "You should upgrade to %s and recompile %s to support this feature."
 msgstr "Powinieneś uaktualnić %s i zrekompilować %s do obsługi tej funkcji."
 
-#: dialog.c:3294
+#: dialog.c:3365
 msgid "Not supported feature!"
 msgstr "Funkcja niedostępna!"
 
-#: dialog.c:3442
+#: dialog.c:3513
 #, c-format
 msgid "Disable all the function keys of [%s] group."
 msgstr "Wyłącz wszystkie kombinacje klawiszy z grupy [%s]."
 
-#: main.c:646
+#: main.c:657
 #, fuzzy, c-format
 #| msgid ""
 #| "The data got from socket seems incorrect.\n"
@@ -832,7 +844,7 @@ msgstr ""
 "Jeśli właśnie zaktualizowałeś %s,\n"
 "Proszę o zamknięcie wszystkich okien %s i ponowną próbę."
 
-#: main.c:654
+#: main.c:665
 msgid "The format of socket data is out of date"
 msgstr "Format danych z socketa jest nieaktualny"
 
@@ -848,7 +860,7 @@ msgstr "Nowa karta"
 msgid "New tab with specified locale"
 msgstr "Nowa karta z ustawionym językiem"
 
-#: menu.c:70 menu.c:2410
+#: menu.c:70 menu.c:2397
 msgid "New window with specified profile"
 msgstr "Nowe okno z wybranymi ustawieniami profilu"
 
@@ -918,7 +930,7 @@ msgstr "Nasycenie tła"
 msgid "Set background image"
 msgstr "Ustaw obrazek tła"
 
-#: menu.c:192 window.c:3781
+#: menu.c:192 window.c:3862
 msgid "Clipboard"
 msgstr "Schowek"
 
@@ -946,11 +958,11 @@ msgstr "Widok schowka podstawowego"
 msgid "Scrollback lines"
 msgstr "Historia scrollback"
 
-#: menu.c:236 profile.c:981
+#: menu.c:236 profile.c:992
 msgid "Clean scrollback lines"
 msgstr "Wyczyść historię scrollback"
 
-#: menu.c:242 profile.c:842
+#: menu.c:242 profile.c:853
 msgid "Misc"
 msgstr "Różne"
 
@@ -1006,123 +1018,123 @@ msgstr "Dzwonek dźwiękowy"
 msgid "Visible bell"
 msgstr "Dzwonek dźwiękowy"
 
-#: menu.c:331
+#: menu.c:332
 msgid "Urgent bell"
 msgstr "Dzwonek ponaglający"
 
-#: menu.c:341
+#: menu.c:342
 msgid "Switch input methods"
 msgstr "Przełącz metodę wprowadzania"
 
-#: menu.c:360
+#: menu.c:361
 msgid "Show the tabs bar"
 msgstr "Pokaż pasek kart"
 
-#: menu.c:366
+#: menu.c:367
 msgid "Hide the tabs bar"
 msgstr "Ukryj pasek kart"
 
-#: menu.c:373
+#: menu.c:374
 msgid "Always show the tabs bar"
 msgstr "Zawsze pokazuj pasek kart"
 
-#: menu.c:380
+#: menu.c:381
 msgid "Always hide the tabs bar"
 msgstr "Zawsze ukrywaj pasek kart"
 
-#: menu.c:390
+#: menu.c:391
 msgid "Increase window size"
 msgstr "Powiększ rozmiar okna"
 
-#: menu.c:393
+#: menu.c:394
 msgid "Decrease window size"
 msgstr "Zmniejsz rozmiar okna"
 
-#: menu.c:400
+#: menu.c:401
 msgid "Reset to user custom font/size"
 msgstr "Zresetuj czcionkę/rozmiar na wybraną przez użytkownika"
 
-#: menu.c:403
+#: menu.c:404
 msgid "Reset to system font/size"
 msgstr "Zresetuj czcionkę/rozmiar na systemową"
 
-#: menu.c:408
+#: menu.c:409
 msgid "Reset the content"
 msgstr "Zresetuj wszystkie ustawienia"
 
-#: menu.c:423
+#: menu.c:424
 msgid "User profile"
 msgstr "Profil użytkownika"
 
-#: menu.c:431
+#: menu.c:432
 #, c-format
 msgid "Quit %s"
 msgstr "Opuść %s"
 
-#: menu.c:501
+#: menu.c:502
 msgid "grayscale"
 msgstr "skala szarości"
 
-#: menu.c:504
+#: menu.c:505
 msgid "(build-in)"
 msgstr ""
 
-#: menu.c:517
+#: menu.c:518
 #, fuzzy, c-format
 #| msgid "User custom"
 msgid "%s + custom"
 msgstr "niestandardowy użytkownika"
 
-#: menu.c:654
+#: menu.c:655
 #, fuzzy
 #| msgid "Move current page forward."
 msgid "View current page information"
 msgstr "Przenieś bieżącą kartę do przodu."
 
-#: menu.c:1096
+#: menu.c:1099
 msgid " (Wide)"
 msgstr " (Szeroki)"
 
-#: menu.c:1551
+#: menu.c:1554
 msgid "Font Selection"
 msgstr "Wybór czcionki"
 
-#: menu.c:1870 menu.c:1877
+#: menu.c:1857 menu.c:1864
 msgid "Add other locales..."
 msgstr "Dodaj inne ustawienia językowe..."
 
-#: menu.c:1961 menu.c:2011
+#: menu.c:1948 menu.c:1998
 msgid "Other settings..."
 msgstr "Inne ustawienia..."
 
-#: menu.c:1976
+#: menu.c:1963
 msgid "Save settings automatically"
 msgstr "Automatycznie zapisz ustawienia"
 
-#: menu.c:1981
+#: menu.c:1968
 msgid "Save settings"
 msgstr "Zapisz ustawienia"
 
-#: menu.c:1984
+#: menu.c:1971
 msgid "Save settings as..."
 msgstr "Zapisz ustawienia jako..."
 
-#: menu.c:1990
+#: menu.c:1977
 msgid "Reload settings"
 msgstr "Przeładuj ustawienia"
 
-#: menu.c:2025
+#: menu.c:2012
 #, c-format
 msgid "%s default"
 msgstr "%s domyślny"
 
-#: menu.c:2047
+#: menu.c:2034
 #, fuzzy
 #| msgid "System default (SCHEME)"
 msgid "System default"
 msgstr "Domyślny systemowy"
 
-#: menu.c:2406
+#: menu.c:2393
 #, c-format
 msgid ""
 "The following settings:\n"
@@ -1137,42 +1149,42 @@ msgstr ""
 "NIE mogą być użyte w obecnym oknie terminala.\n"
 "Zamiast użyj [%s]."
 
-#: menu.c:2412
+#: menu.c:2399
 msgid "The following settings can NOT be applied"
 msgstr "Następujące ustawienia NIE mogą być użyte"
 
-#: menu.c:2540
+#: menu.c:2518
 msgid "Disable: Trying to use [Transparent Background] instead."
 msgstr "Wyłącz: Zamiast próbuję użyć [Przezroczyste tło]."
 
-#: menu.c:2546
+#: menu.c:2524
 msgid "Scroll the background image along with the text"
 msgstr "Przewijaj obraz tła razem z tekstem"
 
-#: menu.c:2741
+#: menu.c:2719
 msgid "Open File"
 msgstr "Otwórz plik"
 
-#: menu.c:2743
+#: menu.c:2721
 msgid "Save File"
 msgstr "Zapisz plik"
 
-#: menu.c:2905
+#: menu.c:2883
 #, c-format
 msgid "The following error occurred: %s"
 msgstr "Wystąpił następujący błąd: %s"
 
 #. TRANSLATE NOTE: The "↲" is a replace character for <Enter> (<CR>, or <New Line>).
 #. TRANSLATE NOTE: You may translate it into something like "¶", "↵" or "↩".
-#: misc.c:690
+#: misc.c:692
 msgid "↲"
 msgstr "↲"
 
-#: notebook.c:717
+#: notebook.c:727
 msgid "Error while creating the child process:"
 msgstr "Błąd podczas tworzenia procesu potomnego:"
 
-#: notebook.c:726
+#: notebook.c:736
 msgid ""
 "Error while creating the child process!\n"
 "Please make sure the /dev/pts is mounted as a devpts file system!"
@@ -1180,440 +1192,440 @@ msgstr ""
 "Błąd podczas tworzenia procesu potomnego!\n"
 "Upewnij się proszę czy /dev/pts jest zamontowane jako system plików devpts!"
 
-#: notebook.c:739
+#: notebook.c:749
 msgid "Error when creating child process"
 msgstr "Błąd podczas tworzenia procesu potomnego"
 
-#: profile.c:843
+#: profile.c:854
 msgid "Tab operation"
 msgstr "Operacje na kartach"
 
-#: profile.c:844
+#: profile.c:855
 msgid "Switch tab"
 msgstr "Przełącz kartę"
 
-#: profile.c:845
+#: profile.c:856
 msgid "Move tab"
 msgstr "Przesuń kartę"
 
-#: profile.c:846
+#: profile.c:857
 msgid "Switch to #? tab"
 msgstr "Przełącz na #? kartę"
 
-#: profile.c:847
+#: profile.c:858
 msgid "Text operation"
 msgstr "Operacje tekstowe"
 
-#: profile.c:848
+#: profile.c:859
 msgid "Scroll up/down"
 msgstr "Przewiń w górę/w dół"
 
-#: profile.c:849
+#: profile.c:860
 msgid "Font"
 msgstr "Czcionka"
 
-#: profile.c:854
+#: profile.c:865
 msgid "Disable/Enable functions"
 msgstr "Wyłącz/Włącz funkcje"
 
-#: profile.c:856
+#: profile.c:867
 msgid "Disable/Enable hyperlinks, function keys and right click menu."
 msgstr ""
 "Wyłącz/Włącz odsyłacze, klawisze funkcyjne i menu prawego klawisza myszy."
 
-#: profile.c:858
+#: profile.c:869
 msgid "Add new tab"
 msgstr "Dodaj nową kartę"
 
-#: profile.c:860
+#: profile.c:871
 msgid "Add a new tab."
 msgstr "Dodaj nową kartę."
 
-#: profile.c:862
+#: profile.c:873
 msgid "Close tab"
 msgstr "Zamknij kartę"
 
-#: profile.c:864
+#: profile.c:875
 msgid "Close current tab."
 msgstr "Zamknij bieżącą kartę."
 
-#: profile.c:866
+#: profile.c:877
 msgid "Rename page name"
 msgstr "Zmień nazwę karty"
 
-#: profile.c:868
+#: profile.c:879
 msgid "Rename the page name of current tab."
 msgstr "Zmień nazwę bieżącej karty."
 
-#: profile.c:872
+#: profile.c:883
 msgid "Find the strings matching the search regex."
 msgstr "Szukaj wystąpień pasujących do kryterium wyszukiwania."
 
-#: profile.c:873
+#: profile.c:884
 msgid "Find previous"
 msgstr "Znajdź poprzednie"
 
-#: profile.c:875
+#: profile.c:886
 msgid "Find the previous string matching the search regex."
 msgstr "Znajdź poprzednie wystąpienie pasujące do kryterium wyszukiwania."
 
-#: profile.c:876
+#: profile.c:887
 msgid "Find next"
 msgstr "Znajdź następne"
 
-#: profile.c:878
+#: profile.c:889
 msgid "Find the next string matching the search regex."
 msgstr "Znajdź następne wystąpienie pasujące do kryterium wyszukiwania."
 
-#: profile.c:880
+#: profile.c:891
 msgid "Switch to prev tab"
 msgstr "Przełącz na poprzednią kartę"
 
-#: profile.c:882
+#: profile.c:893
 msgid "Switch to prev tab."
 msgstr "Przełącz na poprzednią kartę."
 
-#: profile.c:884
+#: profile.c:895
 msgid "Switch to next tab"
 msgstr "Przełącz na następną kartę"
 
-#: profile.c:886
+#: profile.c:897
 msgid "Switch to next tab."
 msgstr "Przełącz na następną kartę."
 
-#: profile.c:888
+#: profile.c:899
 msgid "Switch to first tab"
 msgstr "Przełącz na pierwszą kartę"
 
-#: profile.c:890
+#: profile.c:901
 msgid "Switch to first tab."
 msgstr "Przełącz na pierwszą kartę."
 
-#: profile.c:892
+#: profile.c:903
 msgid "Switch to last tab"
 msgstr "Przełącz na ostatnią kartę"
 
-#: profile.c:894
+#: profile.c:905
 msgid "Switch to last tab."
 msgstr "Przełącz na ostatnią kartę."
 
-#: profile.c:896
+#: profile.c:907
 msgid "Move page forward"
 msgstr "Przenieś kartę do przodu"
 
-#: profile.c:898
+#: profile.c:909
 msgid "Move current page forward."
 msgstr "Przenieś bieżącą kartę do przodu."
 
-#: profile.c:900
+#: profile.c:911
 msgid "Move page backward"
 msgstr "Przenieś kartę wstecz"
 
-#: profile.c:902
+#: profile.c:913
 msgid "Move current page backward."
 msgstr "Przenieś bieżącą kartę wstecz."
 
-#: profile.c:904
+#: profile.c:915
 msgid "Move page to first"
 msgstr "Przenieś kartę na początek"
 
-#: profile.c:906
+#: profile.c:917
 msgid "Move current page to first."
 msgstr "Przenieś bieżącą kartę na początek."
 
-#: profile.c:908
+#: profile.c:919
 msgid "Move page to last"
 msgstr "Przenieś kartę na koniec"
 
-#: profile.c:910
+#: profile.c:921
 msgid "Move current page to last."
 msgstr "Przenieś bieżącą kartę na koniec."
 
-#: profile.c:915
+#: profile.c:926
 #, c-format
 msgid "Switch to #%d tab"
 msgstr "Przełącz na #%d kartę"
 
-#: profile.c:917
+#: profile.c:928
 #, c-format
 msgid "Switch #%d tab directly."
 msgstr "Przełącz bezpośrednio na #%d kartę."
 
-#: profile.c:921
+#: profile.c:932
 msgid "New window"
 msgstr "Nowe okno"
 
-#: profile.c:923
+#: profile.c:934
 msgid "Open a new window with current dir."
 msgstr "Otwórz nowe okno z bieżącym katalogiem."
 
-#: profile.c:925
+#: profile.c:936
 msgid "Select all"
 msgstr "Zaznacz wszystko"
 
-#: profile.c:927
+#: profile.c:938
 msgid "Select all the text in the Vte Terminal box."
 msgstr "Zaznacz cały tekst w oknie terminala."
 
-#: profile.c:929
+#: profile.c:940
 #, fuzzy
 #| msgid "Copy to clipboard."
 msgid "Copy to clipboard"
 msgstr "Kopiuj do schowka."
 
-#: profile.c:931
+#: profile.c:942
 msgid "Copy the text to clipboard."
 msgstr "Kopiuj tekst do schowka."
 
-#: profile.c:933
+#: profile.c:944
 msgid "Paste the text"
 msgstr "Wklej"
 
-#: profile.c:935
+#: profile.c:946
 #, fuzzy
 #| msgid "Select all the text in the Vte Terminal box."
 msgid "Paste the text in clipboard to the Vte Terminal box."
 msgstr "Zaznacz cały tekst w oknie terminala."
 
-#: profile.c:937
+#: profile.c:948
 #, fuzzy
 #| msgid "Copy the text to clipboard."
 msgid "Copy the text to primary clipboard"
 msgstr "Kopiuj tekst do schowka."
 
-#: profile.c:939
+#: profile.c:950
 msgid ""
 "Copy the text to the primary clipboard.\n"
 "Normally it is copied to the primary clipboard already\n"
 "when you selected some text with mouse."
 msgstr ""
 
-#: profile.c:941
+#: profile.c:952
 #, fuzzy
 #| msgid "Paste the text in clipboard."
 msgid "Paste the text in primary clipboard"
 msgstr "Wklej tekst ze schowka."
 
-#: profile.c:943
+#: profile.c:954
 msgid ""
 "Paste the text in the primary clipboard to the Vte Terminal box.\n"
 "The default key binding is <Shift><Insert> in libvte if you disable it here."
 msgstr ""
 
-#: profile.c:945
+#: profile.c:956
 msgid "Increase font size"
 msgstr "Powiększ rozmiar czcionki"
 
-#: profile.c:947
+#: profile.c:958
 msgid "Increase the font size of current tab."
 msgstr "Powiększ rozmiar czcionki w bieżącej karcie."
 
-#: profile.c:949
+#: profile.c:960
 msgid "Decrease font size"
 msgstr "Zmniejsz rozmiar czcionki"
 
-#: profile.c:951
+#: profile.c:962
 msgid "Decrease the font size of current tab."
 msgstr "Zmniejsz rozmiar czcionki w bieżącej karcie."
 
-#: profile.c:953
+#: profile.c:964
 msgid "Reset font size"
 msgstr "Zresetuj rozmiar czcionki"
 
-#: profile.c:955
+#: profile.c:966
 msgid "Reset the font of current tab to original size."
 msgstr "Zresetuj czcionkę do oryginalnego rozmiaru w bieżącej karcie."
 
-#: profile.c:957
+#: profile.c:968
 msgid "Maximize the window"
 msgstr "Maksymalizuj okno"
 
-#: profile.c:959
+#: profile.c:970
 msgid "Try to maximize the window to use all available space on your display."
 msgstr ""
 "Spróbuj zmaksymalizować okno aby zajmowało całe dostępne miejsce na twoim "
 "ekranie."
 
-#: profile.c:961
+#: profile.c:972
 msgid "Full screen"
 msgstr "Pełny ekran"
 
-#: profile.c:963
+#: profile.c:974
 msgid "Asks to place window in the fullscreen/unfullscreen state."
 msgstr "Zmienia stan okna aby zajmowało pełny ekran."
 
-#: profile.c:965
+#: profile.c:976
 msgid "Scroll up"
 msgstr "Przewiń w górę"
 
-#: profile.c:967
+#: profile.c:978
 msgid "Emulate a mouse scroll up event on Vte Terminal box."
 msgstr "Wywołuje zdarzenie przewijania w górę w terminalu."
 
-#: profile.c:969
+#: profile.c:980
 msgid "Scroll down"
 msgstr "Przewiń w dół"
 
-#: profile.c:971
+#: profile.c:982
 msgid "Emulate a mouse scroll down event on Vte Terminal box."
 msgstr "Wywołuje zdarzenie przewijania w dół w terminalu."
 
-#: profile.c:973
+#: profile.c:984
 msgid "Scroll up 1 line"
 msgstr "Przewiń o 1 linię w górę"
 
-#: profile.c:975
+#: profile.c:986
 msgid "Asks to scroll up 1 line on Vte Terminal box."
 msgstr "Przewija terminal o jedną linię w górę."
 
-#: profile.c:977
+#: profile.c:988
 msgid "Scroll down 1 line"
 msgstr "Przewiń o 1 linię w dół"
 
-#: profile.c:979
+#: profile.c:990
 msgid "Asks to scroll down 1 line on Vte Terminal box."
 msgstr "Przewija terminal o jedną linię w dół."
 
-#: profile.c:983
+#: profile.c:994
 #, fuzzy
 #| msgid "Clean scrollback lines"
 msgid "Asks to clean scrollback lines."
 msgstr "Wyczyść historię scrollback"
 
-#: profile.c:992
+#: profile.c:1003
 msgid "Dump runtime debug data"
 msgstr "Zrzuć informacje do debugowania"
 
-#: profile.c:994
+#: profile.c:1005
 msgid "Dump the runtime data of LilyTerm for debug."
 msgstr "Lilyterm zrzuca informacje potrzebne do debugowania."
 
-#: profile.c:1022
+#: profile.c:1033
 msgid "Window Title"
 msgstr "Tytuł okna"
 
-#: profile.c:1023
+#: profile.c:1034
 msgid "Running Command"
 msgstr "Wykonywany program"
 
-#: profile.c:1024
+#: profile.c:1035
 msgid "Current Dir"
 msgstr "Bieżący katalog"
 
-#: profile.c:1025
+#: profile.c:1036
 msgid "Custom Tab Name"
 msgstr "Własna nazwa karty"
 
-#: profile.c:1026
+#: profile.c:1037
 msgid "Root Privileges"
 msgstr "Prawa Roota"
 
-#: profile.c:1027
+#: profile.c:1038
 msgid "Normal Text"
 msgstr "Zwyczajny tekst"
 
-#: profile.c:1061
+#: profile.c:1072
 msgid "Shift"
 msgstr "Shift"
 
-#: profile.c:1065
+#: profile.c:1076
 msgid "Ctrl"
 msgstr "Ctrl"
 
-#: profile.c:1067
+#: profile.c:1078
 msgid "Alt"
 msgstr "Alt"
 
-#: profile.c:1077
+#: profile.c:1088
 msgid "Win"
 msgstr "Win"
 
-#: profile.c:1121
+#: profile.c:1132
 #, fuzzy
 #| msgid "Background"
 msgid "Background Color"
 msgstr "Tło"
 
-#: profile.c:1122
+#: profile.c:1133
 msgid "Dark Red"
 msgstr ""
 
-#: profile.c:1123
+#: profile.c:1134
 msgid "Dark Green"
 msgstr ""
 
-#: profile.c:1124
+#: profile.c:1135
 msgid "Dark Yellow"
 msgstr ""
 
-#: profile.c:1125
+#: profile.c:1136
 msgid "Dark Blue"
 msgstr ""
 
-#: profile.c:1126
+#: profile.c:1137
 msgid "Dark Magenta"
 msgstr ""
 
-#: profile.c:1127
+#: profile.c:1138
 msgid "Dark Cyan"
 msgstr ""
 
-#: profile.c:1128
+#: profile.c:1139
 msgid "Dark White"
 msgstr ""
 
-#: profile.c:1129
+#: profile.c:1140
 msgid "Bright Black"
 msgstr ""
 
-#: profile.c:1130
+#: profile.c:1141
 msgid "Bright Red"
 msgstr ""
 
-#: profile.c:1131
+#: profile.c:1142
 msgid "Bright Green"
 msgstr ""
 
-#: profile.c:1132
+#: profile.c:1143
 msgid "Bright Yellow"
 msgstr ""
 
-#: profile.c:1133
+#: profile.c:1144
 msgid "Bright Blue"
 msgstr ""
 
-#: profile.c:1134
+#: profile.c:1145
 msgid "Bright Magenta"
 msgstr ""
 
-#: profile.c:1135
+#: profile.c:1146
 msgid "Bright Cyan"
 msgstr ""
 
-#: profile.c:1136
+#: profile.c:1147
 #, fuzzy
 #| msgid "Change the foreground color"
 msgid "Foreground Color"
 msgstr "Zmień kolor pierwszego planu"
 
-#: profile.c:2942
+#: profile.c:2985
 msgid "The target file does NOT exist"
 msgstr "Wskazany plik nie istnieje"
 
-#: profile.c:2953
+#: profile.c:2996
 msgid "The target file is a directory"
 msgstr "Wskazany plik jest katalogiem"
 
-#: profile.c:3001
+#: profile.c:3044
 #, c-format
 msgid "Error while writing profile '%s':"
 msgstr "Błąd podczas zapisywania profilu '%s':"
 
-#: profile.c:3006
+#: profile.c:3049
 msgid "Error when writing profile"
 msgstr "Błąd podczas zapisywania profilu"
 
-#: profile.c:3146
+#: profile.c:3189
 msgid ""
 "Some entry in profile is added, removed, or changed in this version.\n"
 "Please use [Save settings] on the right click menu to save your settings,\n"
@@ -1624,7 +1636,7 @@ msgstr ""
 "swoje ustawienia,\n"
 "i jeśli to konieczne edytuj je ręcznie.\n"
 
-#: profile.c:3152
+#: profile.c:3195
 #, c-format
 msgid ""
 "%s\n"
@@ -1633,11 +1645,11 @@ msgstr ""
 "%s\n"
 "Twój profil to %s."
 
-#: profile.c:3155
+#: profile.c:3198
 msgid "The format of your profile is out of date"
 msgstr "Format twoich ustawień profilu jest nieaktualny"
 
-#: profile.c:3183 profile.c:3186
+#: profile.c:3226 profile.c:3229
 #, c-format
 msgid ""
 "The profile \"%s\" is invalid:\n"
@@ -1648,16 +1660,16 @@ msgstr ""
 "\n"
 "\t%s"
 
-#: profile.c:3194
+#: profile.c:3237
 msgid "The profile is invalid!"
 msgstr "Profil jest nieprawidłowy!"
 
-#: window.c:762
+#: window.c:770
 #, c-format
 msgid "\tWindow #%d, Page #%d: (%d) %s\n"
 msgstr "\tOkno #%d, Karta #%d: (%d) %s\n"
 
-#: window.c:766
+#: window.c:774
 #, c-format
 msgid "\tPage #%d: (%d) %s\n"
 msgstr "\tKarta #%d: (%d) %s\n"
