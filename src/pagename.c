@@ -21,6 +21,7 @@
 
 extern gint dialog_activated;
 extern gboolean proc_exist;
+extern gchar *proc_file_system_path;
 
 // cmdline always = "" under *Ubuntu ONLY* if argv = split_string("", " ", -1);
 // Don't ask me why...
@@ -877,16 +878,16 @@ gchar *get_tab_name_with_cmdline(struct Page *page_data)
 		{
 			// g_debug("pid = %d, tpgid = %d, pid_cmdline = %s", pid, tpgid, pid_cmdline);
 #ifdef DEBUG
-			g_message("Got (%s), Trying to reread the /proc/%d/cmdline...",
-				  tpgid_cmdline, (gint)page_data->current_tpgid);
+			g_message("Got (%s), Trying to reread the %s/%d/cmdline...",
+				  proc_file_system_path, tpgid_cmdline, (gint)page_data->current_tpgid);
 #endif
 			g_free(tpgid_cmdline);
 			// Magic number: we wait for 0.15 sec then reread cmdline again.
 			usleep(150000);
 			tpgid_cmdline = get_cmdline(page_data->current_tpgid);
 #ifdef DEBUG
-			g_message("Got (%s) after reread the /proc/%d/cmdline.",
-				tpgid_cmdline, (gint)page_data->current_tpgid);
+			g_message("Got (%s) after reread the %s/%d/cmdline.",
+				  proc_file_system_path, tpgid_cmdline, (gint)page_data->current_tpgid);
 #endif
 			return tpgid_cmdline;
 		}
@@ -906,7 +907,7 @@ gchar *get_tab_name_with_current_dir(pid_t pid)
 
 	if (pid>0)
 	{
-		gchar *cwd_path = g_strdup_printf("/proc/%d/cwd", pid);
+		gchar *cwd_path = g_strdup_printf("%s/%d/cwd", proc_file_system_path, pid);
 #ifdef SAFEMODE
 		if (cwd_path)
 		{
@@ -975,7 +976,7 @@ gboolean check_is_root(pid_t tpgid)
 #ifdef SAFEMODE
 	if (tpgid<1) return FALSE;
 #endif
-	gchar *tpgid_path = g_strdup_printf("/proc/%d", tpgid);
+	gchar *tpgid_path = g_strdup_printf("%s/%d", proc_file_system_path, tpgid);
 #ifdef SAFEMODE
 	if (tpgid_path==NULL) return FALSE;
 #endif
@@ -1096,17 +1097,17 @@ void update_page_window_title (VteTerminal *vte, struct Page *page_data)
 // #endif
 //	if (! proc_exist) return NULL;
 //
-//	gchar *priv_pwd = g_strdup_printf("/proc/%d/cwd", pid);
+//	gchar *priv_pwd = g_strdup_printf("%s/%d/cwd", proc_file_system_path, pid);
 //	gchar *pwd = g_file_read_link(priv_pwd, NULL);
 //	g_free(priv_pwd);
-//	// g_debug("use the directory %s (/proc/%d/cwd)", directory, prev_page->pid);
+//	// g_debug("use the directory %s (%s/%d/cwd)", directory, proc_file_system_path, prev_page->pid);
 //	return pwd;
 //}
 
 //void monitor_cmdline(GFileMonitor *monitor, pid_t pid)
 //{
 //	GError *error = NULL;
-//	gchar *stat_path = g_strdup_printf("/proc/%d/stat", (gint) pid);
+//	gchar *stat_path = g_strdup_printf("%s/%d/stat", proc_file_system_path, (gint) pid);
 //	GFile *file = g_file_new_for_path(stat_path);
 //	monitor = g_file_monitor_file (file, 0, NULL, &error);
 //	if (monitor)

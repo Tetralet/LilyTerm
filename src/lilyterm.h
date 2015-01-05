@@ -33,6 +33,7 @@ typedef gchar StrLists;
 #ifdef USE_GTK_ALT_DIALOG_BUTTON_ORDER
 gboolean gtk_alt_dialog_button_order();
 #endif
+gboolean check_if_default_proc_dir_exist(gchar *proc_dir);
 gchar *convert_array_to_string(gchar **array, gchar separator);
 gchar *convert_str_to_utf8(gchar *string, gchar *encoding_str);
 gchar *convert_escape_sequence_to_string(const gchar *string);

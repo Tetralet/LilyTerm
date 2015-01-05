@@ -45,7 +45,8 @@ const gchar *home = NULL;
 
 GList *window_list = NULL;
 gchar *profile_dir = NULL;
-gboolean proc_exist = TRUE;
+gboolean proc_exist = FALSE;
+gchar *proc_file_system_path = NULL;
 
 extern gboolean force_to_quit;
 extern gchar *restricted_locale_message;
@@ -112,23 +113,8 @@ int main( int   argc,
 #ifdef OUT_OF_MEMORY
 	#define g_strdup_printf(...) NULL
 #endif
-
-	// g_debug("profile_dir = %s", profile_dir);
-	proc_exist = g_file_test("/proc", G_FILE_TEST_EXISTS);
-
-	if (proc_exist)
-	{
-		gboolean proc_is_exist = FALSE;
-		GDir *dir  = g_dir_open ("/proc", 0, NULL);
-		if (dir)
-		{
-			const gchar *entry = g_dir_read_name(dir);
-			if (entry) proc_is_exist = TRUE;
-		}
-		g_dir_close(dir);
-		// g_debug ("Got proc_is_exist = %d", proc_is_exist);
-		proc_exist = proc_is_exist;
-	}
+	proc_exist = check_if_default_proc_dir_exist(NULL);
+	// g_debug ("Get proc_exist = %d, proc_file_system_path = %s", proc_exist, proc_file_system_path);
 
 	shell = g_getenv("SHELL");
 	if (shell==NULL) shell = "";

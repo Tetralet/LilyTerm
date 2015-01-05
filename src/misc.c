@@ -19,15 +19,60 @@
 
 #include "misc.h"
 extern gboolean proc_exist;
+extern gchar *proc_file_system_path;
 
 #ifdef USE_GTK_ALT_DIALOG_BUTTON_ORDER
 gboolean gtk_alt_dialog_button_order()
 {
+#ifdef DETAIL
+	g_debug("! Launch gtk_alt_dialog_button_order()");
+#endif
 	gboolean result;
 	g_object_get (gtk_settings_get_default(), "gtk-alternative-button-order", &result, NULL);
 	return result;
 }
 #endif
+
+gboolean check_if_proc_dir_exist(gchar *proc_dir)
+{
+#ifdef DETAIL
+	g_debug("! Launch check_if_proc_dir_exist() with proc_dir = %s", proc_dir);
+#endif
+	if (proc_dir == NULL) return FALSE;
+
+	if (g_file_test(proc_dir, G_FILE_TEST_EXISTS))
+	{
+		gboolean proc_is_exist = FALSE;
+		GDir *dir = g_dir_open (proc_dir, 0, NULL);
+		if (dir)
+		{
+			const gchar *entry = g_dir_read_name(dir);
+			if (entry)
+			{
+				g_free(proc_file_system_path);
+				proc_file_system_path = g_strdup(proc_dir);
+				proc_is_exist = TRUE;
+			}
+		}
+		g_dir_close(dir);
+		return proc_is_exist;
+	}
+
+	return FALSE;
+}
+
+gboolean check_if_default_proc_dir_exist(gchar *proc_dir)
+{
+#ifdef DETAIL
+	g_debug("! Launch check_if_default_proc_dir_exist() with proc_dir = %s", proc_dir);
+#endif
+	if (check_if_proc_dir_exist(proc_dir)) return TRUE;
+	if (check_if_proc_dir_exist("/proc")) return TRUE;
+#ifdef BSD
+	if (check_if_proc_dir_exist("/compat/linux/proc")) return TRUE;
+#endif
+	return FALSE;
+}
 
 // The returned string should be freed when no longer needed.
 gchar *convert_array_to_string(gchar **array, gchar separator)
@@ -415,7 +460,7 @@ gboolean check_string_in_array(gchar *str, gchar **lists)
 //
 //	*length=0;
 //	gchar *contents=NULL;
-//	gchar *file_path = g_strdup_printf("/proc/%d/%s", (gint)pid, file);
+//	gchar *file_path = g_strdup_printf("%s/%d/%s", proc_file_system_path, (gint)pid, file);
 //	// g_debug("file_path = %s", file_path);
 //
 //	if (file_path && (g_file_test(file_path, G_FILE_TEST_EXISTS)))
@@ -438,7 +483,7 @@ gchar *get_proc_data(pid_t pid, gchar *file, gsize *length)
 #endif
 	gchar *contents=NULL;
 	gint timeout=0;
-	gchar *proc_path = g_strdup_printf("/proc/%d", (gint)pid);
+	gchar *proc_path = g_strdup_printf("%s/%d", proc_file_system_path, (gint)pid);
 	// g_debug("proc_path = %s", proc_path);
 	gchar *file_path = g_strdup_printf("%s/%s", proc_path, file);
 	// g_debug("file_path = %s", file_path);
@@ -455,7 +500,7 @@ gchar *get_proc_data(pid_t pid, gchar *file, gsize *length)
 			{
 				// gsize len = 0;
 				// gchar *stat = NULL;
-				// gchar *stat_path = g_strdup_printf("/proc/%d/stat", (gint)pid);
+				// gchar *stat_path = g_strdup_printf("%s/%d/stat", proc_file_system_path, (gint)pid);
 				// if (g_file_get_contents (stat_path, &contents, &len, NULL))
 				// {
 				//	g_debug("Got len = %d, stat = %s", len, stat);
@@ -477,7 +522,7 @@ gchar *get_proc_data(pid_t pid, gchar *file, gsize *length)
 				//	}
 				// }
 				// g_free(stat);
-				g_message("Waiting for /proc/%d/%s...", (gint)pid, file);
+				g_message("Waiting for %s/%d/%s...", proc_file_system_path, (gint)pid, file);
 				// we should wait until "/proc/%d/file" is not empty
 				usleep(100000);
 				timeout++;
@@ -492,9 +537,9 @@ gchar *get_proc_data(pid_t pid, gchar *file, gsize *length)
 			if (timeout>2)
 			{
 #ifdef FATAL
-				g_message("Failed when waiting for /proc/%d/%s. Abort.", (gint)pid, file);
+				g_message("Failed when waiting for %s/%d/%s. Abort.", proc_file_system_path, (gint)pid, file);
 #else
-				g_warning("Failed when waiting for /proc/%d/%s. Abort.", (gint)pid, file);
+				g_warning("Failed when waiting for %s/%d/%s. Abort.", proc_file_system_path, (gint)pid, file);
 #endif
 				break;
 			}
