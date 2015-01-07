@@ -102,17 +102,17 @@ if [ "$VTE" = "vte" ]; then
     exit 1
   fi
 else
-  VTE=`$PKGCONFIG --exists 'vte-2.90' && $ECHO 'vte-2.90'`
-  if [ "$VTE" = "vte-2.90" ]; then
+  VTE=`$PKGCONFIG --exists 'vte-2.91' && $ECHO 'vte-2.91'`
+  if [ "$VTE" = "vte-2.91" ]; then
+    LDFLAGS='-lX11'
     GTK=`$PKGCONFIG --exists 'gtk+-3.0' && $ECHO 'gtk+-3.0'`
     if [ "$GTK" != "gtk+-3.0" ]; then
       $PRINTF "\033[1;31m** ERROR: You need to install GTK+3 develop package first to run this unit test program!\033[0m\n"
       exit 1
     fi
   else
-    VTE=`$PKGCONFIG --exists 'vte-2.91' && $ECHO 'vte-2.91'`
-    if [ "$VTE" = "vte-2.91" ]; then
-      LDFLAGS='-lX11'
+    VTE=`$PKGCONFIG --exists 'vte-2.90' && $ECHO 'vte-2.90'`
+    if [ "$VTE" = "vte-2.90" ]; then
       GTK=`$PKGCONFIG --exists 'gtk+-3.0' && $ECHO 'gtk+-3.0'`
       if [ "$GTK" != "gtk+-3.0" ]; then
         $PRINTF "\033[1;31m** ERROR: You need to install GTK+3 develop package first to run this unit test program!\033[0m\n"

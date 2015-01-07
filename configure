@@ -272,8 +272,8 @@ if [ "$GTK" = 'gtk+-2.0' ]; then
   CHECK_MESSAGE 'VTE'
   VTE=vte
 else
-  CHECK_MESSAGE 'VTE 0.29'
-  VTE=vte-2.90
+  CHECK_MESSAGE 'VTE 0.38'
+  VTE=vte-2.91
 fi
 
 $PKGCONFIG --cflags $VTE > /dev/null 2>&1
@@ -283,9 +283,9 @@ if [ $? != 0 ]; then
     PACKAGE_MESSAGE "libvte-dev"
     exit 1
   else
-    $ECHO "[NO]. Trying VTE 0.38 ..."
-    VTE=vte-2.91
-    CHECK_MESSAGE 'VTE 0.38'
+    $ECHO "[NO]. Trying VTE 0.29 ..."
+    VTE=vte-2.90
+    CHECK_MESSAGE 'VTE 0.29'
     $PKGCONFIG --cflags $VTE > /dev/null 2>&1
     if [ $? != 0 ]; then
       ERR "[NG]"

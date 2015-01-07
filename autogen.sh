@@ -48,12 +48,12 @@ echo ""
 pkg-config --cflags gtk+-2.0 > /dev/null 2>&1
 if [ $? != 0 ]; then
   sed -i 's/^AM_PATH_GTK_2_0.*/PKG_CHECK_MODULES([GTK], [gtk+-3.0])/g' configure.ac
-  pkg-config --cflags vte-2.90 > /dev/null 2>&1
+  pkg-config --cflags vte-2.91 > /dev/null 2>&1
   if [ $? = 0 ]; then
-    sed -i 's/^PKG_CHECK_MODULES(vte, \[vte >= .*/PKG_CHECK_MODULES(vte, [vte-2.90 >= 0.30.0],, AC_MSG_ERROR([You need libvte-2.90 >= 0.30.0 to build $_PACKAGE]))/g' configure.ac
-  else
     sed -i 's/^PKG_CHECK_MODULES(vte, \[vte >= .*/PKG_CHECK_MODULES(vte, [vte-2.91 >= 0.38.0],, AC_MSG_ERROR([You need libvte-2.91 >= 0.38.0 to build $_PACKAGE]))/g' configure.ac
     sed -i 's/^lilyterm_LDADD\(.*\)$/lilyterm_LDADD\1 -lX11/g' src/Makefile.am
+  else
+    sed -i 's/^PKG_CHECK_MODULES(vte, \[vte >= .*/PKG_CHECK_MODULES(vte, [vte-2.90 >= 0.30.0],, AC_MSG_ERROR([You need libvte-2.90 >= 0.30.0 to build $_PACKAGE]))/g' configure.ac
   fi
 fi
 

@@ -27,31 +27,30 @@ include ../.default
 PKGCONFIG := $(shell whereis "pkg-config" | tr -s ' ' '\n' | grep "bin/""pkg-config""$$" | head -n 1)
 STRIP := $(shell whereis "strip" | tr -s ' ' '\n' | grep "bin/""strip""$$" | head -n 1)
 
-VTE ?= ""
+VTE ?=
 
 ifneq ($(PKGCONFIG), )
 
-ifeq ($(VTE), "vte")
+ifeq ($(VTE), vte)
 GTK := $(shell $(PKGCONFIG) --exists 'gtk+-2.0' && $(ECHO) 'gtk+-2.0')
 endif
-ifeq ($(VTE), "vte-2.90")
+ifeq ($(VTE), vte-2.91)
 GTK := $(shell $(PKGCONFIG) --exists 'gtk+-3.0' && $(ECHO) 'gtk+-3.0')
 endif
-ifeq ($(VTE), "vte-2.91")
+ifeq ($(VTE), vte-2.90)
 GTK := $(shell $(PKGCONFIG) --exists 'gtk+-3.0' && $(ECHO) 'gtk+-3.0')
 endif
-ifeq ($(VTE), "")
+ifeq ($(VTE), )
 VTE := $(shell $(PKGCONFIG) --exists 'vte' && $(ECHO) 'vte')
 GTK := $(shell $(PKGCONFIG) --exists 'gtk+-2.0' && $(ECHO) 'gtk+-2.0')
 endif
 ifeq ($(VTE), )
-VTE := $(shell $(PKGCONFIG) --exists 'vte-2.90' && $(ECHO) 'vte-2.90')
+VTE := $(shell $(PKGCONFIG) --exists 'vte-2.91' && $(ECHO) 'vte-2.91')
 GTK := $(shell $(PKGCONFIG) --exists 'gtk+-3.0' && $(ECHO) 'gtk+-3.0')
 endif
 ifeq ($(VTE), )
-VTE := $(shell $(PKGCONFIG) --exists 'vte-2.91' && $(ECHO) 'vte-2.91')
+VTE := $(shell $(PKGCONFIG) --exists 'vte-2.90' && $(ECHO) 'vte-2.90')
 GTK := $(shell $(PKGCONFIG) --exists 'gtk+-3.0' && $(ECHO) 'gtk+-3.0')
-LDFLAGS += -lX11
 endif
 
 endif
@@ -66,6 +65,9 @@ CFLAGS ?= -Wall -Werror -Os
 #	 -DGDK_DISABLE_SINGLE_INCLUDES -DGTK_DISABLE_DEPRECATED \
 #	 -DGTK_DISABLE_SINGLE_INCLUDES -DGSEAL_ENABLE
 LDFLAGS += -L$(prefix)/local/lib
+ifeq ($(VTE), vte-2.91)
+LDFLAGS += -lX11
+endif
 OBJ_PKG_CMD = $(PKGCONFIG) --cflags $(GTK) $(VTE)
 BINARY_PKG_CMD = $(PKGCONFIG) --cflags --libs $(GTK) $(VTE)
 SOURCE_FILES = menu.c profile.c dialog.c pagename.c notebook.c font.c \
