@@ -136,7 +136,7 @@ struct Page *add_page(struct Window *win_data,
 	}
 
 	// set the environ that user specify in profile
-	if (user_environ)
+	if (user_environ && user_environ[0] != '\0')
 	{
 		g_free(page_data->environ);
 		page_data->environ = g_strdup(user_environ);
