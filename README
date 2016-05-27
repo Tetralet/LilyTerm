@@ -1,5 +1,5 @@
 NAME
-       LilyTerm - A light and eazy-to-use terminal emulator for X.
+       LilyTerm - A light and easy-to-use terminal emulator for X.
 
 SYNOPSIS
        lilyterm [-? | -h | --help] [-T TITLE | --title TITLE] [-t NUMBER |
@@ -70,7 +70,7 @@ KEYBOARD CONTROL
        The following key bindings may custom or disable by the right click
        menu [Set key binding].
 
-       <Ctrl><> 	  Disable/Enable hyperlinks, function keys and right
+       <Ctrl><> 	   Disable/Enable hyperlinks, function keys and right
 			   click menu for temporary.
 
        <Ctrl><T>	   Add a New tab with current directory.
