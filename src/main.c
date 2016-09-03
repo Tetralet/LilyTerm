@@ -610,17 +610,18 @@ gboolean read_socket(GIOChannel *channel, GIOCondition condition, gpointer user_
 	GError *error = NULL;
 	gchar *data = NULL, **datas;
 	gsize len = 0;
-	gsize term;
 
-	if (g_io_channel_read_line (channel, &data, &len, &term, &error) == G_IO_STATUS_ERROR)
+	if (g_io_channel_read_to_end (channel, &data, &len, &error) != G_IO_STATUS_NORMAL)
 		return socket_fault(7, error, channel, TRUE);
+
 	// g_debug("Read %ld bytes from Lilyterm socket: '%s'", len, data);
 	if (len > 0)
 	{
 		//	     0			 1     2	   3	    4		5   6	 7		   8		9	      10      11
 		// get data: SOCKET_DATA_VERSION SHELL LOCALE_LIST ENCODING LC_MESSAGES PWD HOME VTE_CJK_WIDTH_STR wmclass_name wmclass_class ENVIRON ARGV
 		// clear '\n' at the end of data[]
-		data[len-1] = 0;
+		// this is nonsense, when no '\n' was written.
+		// data[len-1] = 0;
 
 		datas = split_string(data, "\x10", 12);
 		// g_debug("The SOCKET_DATA_VERSION = %s ,and the data sent via socket is %s",
