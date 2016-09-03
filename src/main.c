@@ -498,9 +498,23 @@ gboolean send_socket( int   argc,
 		// main_channel is NULL, so that we don't need to launch clear_channel()
 		return socket_fault(11, error, channel, TRUE);
 	// flush writing datas
-	if (g_io_channel_flush(channel, &error) == G_IO_STATUS_ERROR)
+	// there are three results:
+	//   G_IO_STATUS_AGAIN	this means temporarily anvailable, so try again
+	//   G_IO_STATUS_NORMAL
+	//   G_IO_STATUS_ERROR
+	GIOStatus ioStatus;
+	do {
+		ioStatus = g_io_channel_flush(channel, &error);
+	}
+	while (ioStatus == G_IO_STATUS_AGAIN);
+
+	if (ioStatus == G_IO_STATUS_ERROR)
+	{
 		// main_channel is NULL, so that we don't need to launch clear_channel()
 		return socket_fault(13, error, channel, TRUE);
+	}
+
+	// assert ioStatus == G_IO_STATUS_NORMAL
 
 	g_free(arg_str);
 
