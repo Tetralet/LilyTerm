@@ -601,8 +601,8 @@ void init_window_parameters(struct Window *win_data)
 	win_data->background_program_whitelist = g_strdup("bash dash csh ksh tcsh zsh su");
 	// win_data->background_program_whitelists
 	win_data->confirm_to_paste = TRUE;
-	win_data->paste_texts_whitelist	= g_strdup("editor vi vim elvis nano emacs emacs23 nano joe ne mg ssh");
-	// win_data->paste_texts_whitelists
+	win_data->pastable_text_editor_whitelist	= g_strdup("editor vi vim elvis nano emacs emacs23 nano joe ne mg ssh");
+	// win_data->pastable_text_editor_whitelists
 	win_data->find_string = g_strdup("");
 	// win_data->find_case_sensitive;
 	// win_data->find_use_perl_regular_expressions;
@@ -1394,9 +1394,9 @@ void get_user_settings(struct Window *win_data, const gchar *encoding)
 			win_data->confirm_to_paste = check_boolean_value(keyfile, "main",
 									 "confirm_to_paste", win_data->confirm_to_paste);
 
-			win_data->paste_texts_whitelist = check_string_value(keyfile, "main",
-									    "paste_texts_whitelist",
-									    win_data->paste_texts_whitelist,
+			win_data->pastable_text_editor_whitelist = check_string_value(keyfile, "main",
+									    "pastable_text_editor_whitelist",
+									    win_data->pastable_text_editor_whitelist,
 									    TRUE, ENABLE_EMPTY_STR);
 
 			win_data->confirm_to_close_multi_tabs = check_boolean_value(keyfile, "main",
@@ -2021,7 +2021,7 @@ void get_user_settings(struct Window *win_data, const gchar *encoding)
 	}
 	win_data->foreground_program_whitelists = split_string(win_data->foreground_program_whitelist, " ", -1);
 	win_data->background_program_whitelists = split_string(win_data->background_program_whitelist, " ", -1);
-	win_data->paste_texts_whitelists = split_string(win_data->paste_texts_whitelist, " ", -1);
+	win_data->pastable_text_editor_whitelists = split_string(win_data->pastable_text_editor_whitelist, " ", -1);
 
 	if (win_data->font_resize_ratio <=1) win_data->font_resize_ratio = 0;
 	if (win_data->window_resize_ratio <= 1) win_data->window_resize_ratio = 0;
@@ -2591,7 +2591,7 @@ GString *save_user_settings(GtkWidget *widget, struct Window *win_data)
 	g_string_append_printf(contents,"# If the program is running on foreground,,\n"
 					"# Don't need to confirm for pasting texts to it if it's in the whitelist,\n"
 					"# separate with <space>.\n"
-					"paste_texts_whitelist = %s\n\n", win_data->paste_texts_whitelist);
+					"pastable_text_editor_whitelist = %s\n\n", win_data->pastable_text_editor_whitelist);
 	g_string_append_printf(contents,"# Confirm to close multi tabs.\n"
 					"confirm_to_close_multi_tabs = %d\n\n", win_data->confirm_to_close_multi_tabs);
 	g_string_append_printf(contents,"# Confirm to kill running command when exiting.\n"

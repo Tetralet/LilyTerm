@@ -2038,8 +2038,8 @@ void clear_win_data(struct Window *win_data)
 	g_strfreev(win_data->foreground_program_whitelists);
 	g_free(win_data->background_program_whitelist);
 	g_strfreev(win_data->background_program_whitelists);
-	g_free(win_data->paste_texts_whitelist);
-	g_strfreev(win_data->paste_texts_whitelists);
+	g_free(win_data->pastable_text_editor_whitelist);
+	g_strfreev(win_data->pastable_text_editor_whitelists);
 	g_free(win_data->find_string);
 	// win_data->error_data.string
 	// win_data->error_data.encoding
@@ -2995,8 +2995,8 @@ void dump_data (struct Window *win_data, struct Page *page_data)
 	g_debug("- win_data->background_program_whitelist = %s", win_data->background_program_whitelist);
 	print_array("win_data->background_program_whitelists", win_data->background_program_whitelists);
 	g_debug("- win_data->confirm_to_paste = %d", win_data->confirm_to_paste);
-	g_debug("- win_data->paste_texts_whitelist = %s", win_data->paste_texts_whitelist);
-	print_array("win_data->paste_texts_whitelists", win_data->paste_texts_whitelists);
+	g_debug("- win_data->pastable_text_editor_whitelist = %s", win_data->pastable_text_editor_whitelist);
+	print_array("win_data->pastable_text_editor_whitelists", win_data->pastable_text_editor_whitelists);
 
 	g_debug("- win_data->find_string = %s", win_data->find_string);
 	g_debug("- win_data->find_case_sensitive = %d", win_data->find_case_sensitive);
@@ -3486,8 +3486,8 @@ void win_data_dup(struct Window *win_data_orig, struct Window *win_data)
 	win_data->foreground_program_whitelists = split_string(win_data->foreground_program_whitelist, " ", -1);
 	win_data->background_program_whitelist = g_strdup(win_data_orig->background_program_whitelist);
 	win_data->background_program_whitelists = split_string(win_data->background_program_whitelist, " ", -1);
-	win_data->paste_texts_whitelist = g_strdup(win_data_orig->paste_texts_whitelist);
-	win_data->paste_texts_whitelists = split_string(win_data->paste_texts_whitelist, " ", -1);
+	win_data->pastable_text_editor_whitelist = g_strdup(win_data_orig->pastable_text_editor_whitelist);
+	win_data->pastable_text_editor_whitelists = split_string(win_data->pastable_text_editor_whitelist, " ", -1);
 
 	win_data->find_string = g_strdup(win_data_orig->find_string);
 	// win_data->find_case_sensitive;
@@ -3806,7 +3806,7 @@ gboolean confirm_to_paste_form_clipboard(Clipboard_Type type, struct Window *win
 	gchar **stats = get_pid_stat(get_tpgid(page_data->pid), 4);
 	gboolean pasted = FALSE;
 	if ((stats) &&
-	    (check_string_in_array(stats[2], win_data->paste_texts_whitelists) == FALSE))
+	    (check_string_in_array(stats[2], win_data->pastable_text_editor_whitelists) == FALSE))
 		pasted = show_clipboard_dialog(type, win_data, page_data, CONFIRM_TO_PASTE_TEXTS_TO_VTE_TERMINAL);
 
 	g_strfreev(stats);

@@ -1317,8 +1317,8 @@ struct Window
 	gchar *background_program_whitelist;
 	gchar **background_program_whitelists;
 	gboolean confirm_to_paste;
-	gchar *paste_texts_whitelist;
-	gchar **paste_texts_whitelists;
+	gchar *pastable_text_editor_whitelist;
+	gchar **pastable_text_editor_whitelists;
 
 	gchar *find_string;
 	gboolean find_case_sensitive;
