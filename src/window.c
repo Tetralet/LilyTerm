@@ -926,7 +926,7 @@ gboolean window_option(struct Window *win_data, gchar *encoding, int argc, char 
 					g_key_file_free(keyfile);
 				}
 				win_data->executable_command_whitelists = split_string(win_data->executable_command_whitelist,
-							   " ", -1);
+							   "\t", -1);
 				gboolean execute_command = TRUE;
 				if (win_data->confirm_to_execute_command &&
 				    confirm_to_execute &&
