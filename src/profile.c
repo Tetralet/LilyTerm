@@ -593,8 +593,8 @@ void init_window_parameters(struct Window *win_data)
 	win_data->confirm_to_kill_running_command = TRUE;
 	// win_data->confirm_to_execute_command = TRUE;			// inited in init_prime_user_datas()
 	// Don't forget to edit windows.c if you change the default volue here.
-	// win_data->execute_command_whitelist = g_strdup("");		// inited in init_prime_user_datas()
-	// win_data->execute_command_whitelists
+	// win_data->executable_command_whitelist = g_strdup("");		// inited in init_prime_user_datas()
+	// win_data->executable_command_whitelists
 	// win_data->execute_command_in_new_tab = TRUE;			// inited in init_prime_user_datas()
 	win_data->foreground_program_whitelist = g_strdup("bash dash csh ksh tcsh zsh screen");
 	// win_data->foreground_program_whitelists
@@ -2015,9 +2015,9 @@ void get_user_settings(struct Window *win_data, const gchar *encoding)
 //	else
 //		win_data->system_VTE_CJK_WIDTH = get_default_VTE_CJK_WIDTH();
 
-	if (win_data->execute_command_whitelists==NULL)
+	if (win_data->executable_command_whitelists==NULL)
 	{
-		win_data->execute_command_whitelists = split_string(win_data->execute_command_whitelist, " ", -1);
+		win_data->executable_command_whitelists = split_string(win_data->executable_command_whitelist, " ", -1);
 	}
 	win_data->foreground_program_whitelists = split_string(win_data->foreground_program_whitelist, " ", -1);
 	win_data->background_program_whitelists = split_string(win_data->background_program_whitelist, " ", -1);
@@ -2062,9 +2062,9 @@ void init_prime_user_datas(struct Window *win_data)
 	win_data->warned_locale_list = g_string_new(" ");
 	win_data->confirm_to_execute_command = TRUE;
 	win_data->execute_command_in_new_tab = TRUE;
-	// g_debug("init win_data->execute_command_whitelist (%s) for for win_data (%p)!",
-	//	win_data->execute_command_whitelist, win_data);
-	win_data->execute_command_whitelist = g_strdup("");
+	// g_debug("init win_data->executable_command_whitelist (%s) for for win_data (%p)!",
+	//	win_data->executable_command_whitelist, win_data);
+	win_data->executable_command_whitelist = g_strdup("");
 	win_data->default_locale = g_strdup("");
 }
 
@@ -2087,12 +2087,12 @@ void get_prime_user_settings(GKeyFile *keyfile, struct Window *win_data, gchar *
 	win_data->confirm_to_execute_command = check_boolean_value(keyfile, "main", "confirm_to_execute_command",
 								   win_data->confirm_to_execute_command);
 
-	win_data->execute_command_whitelist = check_string_value(keyfile, "main",
-								 "execute_command_whitelist",
-								 win_data->execute_command_whitelist,
+	win_data->executable_command_whitelist = check_string_value(keyfile, "main",
+								 "executable_command_whitelist",
+								 win_data->executable_command_whitelist,
 								 TRUE,
 								 ENABLE_EMPTY_STR);
-	// g_debug("win_data->execute_command_whitelist for win_data (%p) updated!", win_data);
+	// g_debug("win_data->executable_command_whitelist for win_data (%p) updated!", win_data);
 
 	win_data->execute_command_in_new_tab = check_boolean_value(keyfile, "main", "execute_command_in_new_tab",
 								   win_data->execute_command_in_new_tab);
@@ -2575,7 +2575,7 @@ GString *save_user_settings(GtkWidget *widget, struct Window *win_data)
 					"confirm_to_execute_command = %d\n\n", win_data->confirm_to_execute_command);
 	g_string_append_printf(contents,"# Don't need to confirm for executing a program if it's in the whitelist,\n"
 					"# separate with <space>.\n"
-					"execute_command_whitelist = %s\n\n", win_data->execute_command_whitelist);
+					"executable_command_whitelist = %s\n\n", win_data->executable_command_whitelist);
 	g_string_append_printf(contents,"# Launching executed command in a new tab instead of opening a new window.\n"
 					"execute_command_in_new_tab = %d\n\n", win_data->execute_command_in_new_tab);
 	g_string_append_printf(contents,"# If a program is running on foreground,\n"

@@ -1308,8 +1308,8 @@ struct Window
 	gboolean confirm_to_close_multi_tabs;
 	gboolean confirm_to_kill_running_command;
 	gboolean confirm_to_execute_command;
-	gchar *execute_command_whitelist;
-	gchar **execute_command_whitelists;
+	gchar *executable_command_whitelist;
+	gchar **executable_command_whitelists;
 	gboolean execute_command_in_new_tab;
 	gboolean join_as_new_tab;
 	gchar *foreground_program_whitelist;

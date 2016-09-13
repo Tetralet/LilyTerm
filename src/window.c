@@ -925,12 +925,12 @@ gboolean window_option(struct Window *win_data, gchar *encoding, int argc, char 
 					//	win_data->execute_command_in_new_tab);
 					g_key_file_free(keyfile);
 				}
-				win_data->execute_command_whitelists = split_string(win_data->execute_command_whitelist,
+				win_data->executable_command_whitelists = split_string(win_data->executable_command_whitelist,
 							   " ", -1);
 				gboolean execute_command = TRUE;
 				if (win_data->confirm_to_execute_command &&
 				    confirm_to_execute &&
-				    (! check_string_in_array(argv[i], win_data->execute_command_whitelists)))
+				    (! check_string_in_array(argv[i], win_data->executable_command_whitelists)))
 				{
 					gint j;
 					GString *arg_str = g_string_new(NULL);
@@ -964,10 +964,10 @@ gboolean window_option(struct Window *win_data, gchar *encoding, int argc, char 
 				}
 
 				// IMPORTANT!
-				// g_free(win_data->execute_command_whitelist);
-				// win_data->execute_command_whitelist = NULL;
-				// g_strfreev(win_data->execute_command_whitelists);
-				// win_data->execute_command_whitelists = NULL;
+				// g_free(win_data->executable_command_whitelist);
+				// win_data->executable_command_whitelist = NULL;
+				// g_strfreev(win_data->executable_command_whitelists);
+				// win_data->executable_command_whitelists = NULL;
 				// g_free(win_data->default_locale);
 				// win_data->default_locale = NULL;
 
@@ -2031,9 +2031,9 @@ void clear_win_data(struct Window *win_data)
 #if defined(ENABLE_VTE_BACKGROUND) || defined(FORCE_ENABLE_VTE_BACKGROUND)
 	g_free(win_data->background_image);
 #endif
-	g_free(win_data->execute_command_whitelist);
-	// g_debug("win_data->execute_command_whitelist for win_data (%p) freed!", win_data);
-	g_strfreev(win_data->execute_command_whitelists);
+	g_free(win_data->executable_command_whitelist);
+	// g_debug("win_data->executable_command_whitelist for win_data (%p) freed!", win_data);
+	g_strfreev(win_data->executable_command_whitelists);
 	g_free(win_data->foreground_program_whitelist);
 	g_strfreev(win_data->foreground_program_whitelists);
 	g_free(win_data->background_program_whitelist);
@@ -2986,8 +2986,8 @@ void dump_data (struct Window *win_data, struct Page *page_data)
 	g_debug("- win_data->prime_user_settings_inited = %d", win_data->prime_user_settings_inited);
 	g_debug("- win_data->confirm_to_close_multi_tabs = %d", win_data->confirm_to_close_multi_tabs);
 	g_debug("- win_data->confirm_to_execute_command = %d", win_data->confirm_to_execute_command);
-	g_debug("- win_data->execute_command_whitelist = %s", win_data->execute_command_whitelist);
-	print_array("win_data->execute_command_whitelists", win_data->execute_command_whitelists);
+	g_debug("- win_data->executable_command_whitelist = %s", win_data->executable_command_whitelist);
+	print_array("win_data->executable_command_whitelists", win_data->executable_command_whitelists);
 	g_debug("- win_data->execute_command_in_new_tab = %d", win_data->execute_command_in_new_tab);
 	g_debug("- win_data->join_as_new_tab = %d", win_data->join_as_new_tab);
 	g_debug("- win_data->foreground_program_whitelist = %s", win_data->foreground_program_whitelist);
@@ -3476,9 +3476,9 @@ void win_data_dup(struct Window *win_data_orig, struct Window *win_data)
 	// win_data->prime_user_datas_inited;
 	// win_data->prime_user_settings_inited;
 	// win_data->confirm_to_execute_command;
-	win_data->execute_command_whitelist = g_strdup(win_data_orig->execute_command_whitelist);
-	// g_debug("win_data->execute_command_whitelist for win_data (%p) duped!", win_data);
-	win_data->execute_command_whitelists = split_string(win_data->execute_command_whitelist, " ", -1);
+	win_data->executable_command_whitelist = g_strdup(win_data_orig->executable_command_whitelist);
+	// g_debug("win_data->executable_command_whitelist for win_data (%p) duped!", win_data);
+	win_data->executable_command_whitelists = split_string(win_data->executable_command_whitelist, " ", -1);
 
 	// win_data->execute_command_in_new_tab;
 	// win_data->join_as_new_tab;
