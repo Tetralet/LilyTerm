@@ -571,7 +571,7 @@ gchar **split_string(const gchar *str, const gchar *split, gint max_tokens)
 	// g_debug("Got i = %d in split_string()", i);
 	// i = -1;
 #ifdef SAFEMODE
-	if ( datas && (max_tokens>0))
+	if (datas && (max_tokens>0))
 #else
 	if (max_tokens>0)
 #endif
@@ -579,6 +579,7 @@ gchar **split_string(const gchar *str, const gchar *split, gint max_tokens)
 		while (datas[++i]);
 		if (i<max_tokens)
 		{
+			g_warning("split_string(%d) WARNING: can NOT splite \"%s\" into %d string(s) !!", i, str, max_tokens);
 			g_strfreev(datas);
 			datas = NULL;
 		}

@@ -1098,10 +1098,9 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 			temp_str[0] = get_cmdline(tpgid);
 			temp_str[1] = g_strdup_printf("(%d) %s", tpgid, temp_str[0]);
 			temp_str[2] = g_markup_escape_text(temp_str[1], -1);
-			temp_str[3] = g_strdup_printf(_("There is still a running foreground program on #%d tab:"),
-							 page_data->page_no+1);
+			temp_str[3] = g_strdup_printf(_("There is still a running foreground program on this tab:"));
 			temp_str[4] = g_strdup_printf(_("Terminate it by using `kill -9 %d' is recommended "
-							    "if it is non-response."), page_data->pid);
+							"if it is non-response."), page_data->current_tpgid);
 			temp_str[5] = g_strconcat(temp_str[3],
 						  "\n\n\t<b><span foreground=\"blue\">",
 						  temp_str[2],
@@ -3863,7 +3862,11 @@ void create_dialog(gchar *dialog_title_translation, gchar *dialog_title,  Dialog
 	gtk_box_pack_start (GTK_BOX(main_hbox), state_vbox, TRUE, TRUE, 0);
 
 	if (title)
-		dialog_data->title_label = create_label_with_text(state_vbox, TRUE, selectable, max_width_chars, title);
+	{
+		GtkWidget *label_hbox = dirty_gtk_hbox_new (FALSE, 0);
+		dialog_data->title_label = create_label_with_text(label_hbox, TRUE, selectable, max_width_chars, title);
+		gtk_box_pack_start (GTK_BOX(state_vbox), label_hbox, TRUE, TRUE, 0);
+	}
 
 	if (state_bottom)
 	{

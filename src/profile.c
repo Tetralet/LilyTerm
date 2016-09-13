@@ -2080,10 +2080,10 @@ void get_prime_user_settings(GKeyFile *keyfile, struct Window *win_data, gchar *
 								   win_data->confirm_to_execute_command);
 
 	win_data->executable_command_whitelist = check_string_value(keyfile, "main",
-								 "executable_command_whitelist",
-								 win_data->executable_command_whitelist,
-								 TRUE,
-								 ENABLE_EMPTY_STR);
+								    "executable_command_whitelist",
+								    win_data->executable_command_whitelist,
+								    TRUE,
+								    ENABLE_EMPTY_STR);
 	// g_debug("win_data->executable_command_whitelist for win_data (%p) updated!", win_data);
 
 	win_data->execute_command_in_new_tab = check_boolean_value(keyfile, "main", "execute_command_in_new_tab",

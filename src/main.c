@@ -52,7 +52,7 @@ extern gboolean force_to_quit;
 extern gchar *restricted_locale_message;
 
 //
-// single_process ----------------(N)------------------------------------> new_window() ------>	shutdown_socket_serve()
+// single_process ----------------(N)------------------------------------> new_window() ------>	shutdown_socket_server()
 //	|				^					^		  unlink
 // init_socket_data()			|					|		+ clear_channel()
 //   socket_fd -------------------(N)---|					|		    g_io_channel_shutdown
@@ -556,7 +556,7 @@ gboolean init_socket_server()
 
 	// if any request from client, call accept_socket().
 	// the channel will be clean when main_quit()
-	if ( ! g_io_add_watch ( main_channel, G_IO_IN|G_IO_HUP, (GIOFunc)accept_socket, NULL))
+	if ( ! g_io_add_watch(main_channel, G_IO_IN|G_IO_HUP, (GIOFunc)accept_socket, NULL))
 		return socket_fault(5, error, NULL, TRUE);
 
 	return TRUE;
