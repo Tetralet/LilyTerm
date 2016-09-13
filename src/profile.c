@@ -596,12 +596,10 @@ void init_window_parameters(struct Window *win_data)
 	// win_data->executable_command_whitelist = g_strdup("");		// inited in init_prime_user_datas()
 	// win_data->executable_command_whitelists
 	// win_data->execute_command_in_new_tab = TRUE;			// inited in init_prime_user_datas()
-	win_data->foreground_program_whitelist = g_strdup("bash dash csh ksh tcsh zsh screen");
-	// win_data->foreground_program_whitelists
-	win_data->background_program_whitelist = g_strdup("bash dash csh ksh tcsh zsh su");
-	// win_data->background_program_whitelists
+	win_data->running_process_whitelist = g_strdup("bash\tdash\tcsh\tksh\ttcsh\tzsh\tsu\tscreen\ttmux");
+	// win_data->running_process_whitelists
 	win_data->confirm_to_paste = TRUE;
-	win_data->pastable_text_editor_whitelist	= g_strdup("editor vi vim elvis nano emacs emacs23 nano joe ne mg ssh");
+	win_data->pastable_text_editor_whitelist = g_strdup("editor\tvi\tvim\telvis\tnano\temacs\temacs23\tnano\tjoe\tne\tmg\tssh");
 	// win_data->pastable_text_editor_whitelists
 	win_data->find_string = g_strdup("");
 	// win_data->find_case_sensitive;
@@ -1381,14 +1379,9 @@ void get_user_settings(struct Window *win_data, const gchar *encoding)
 			win_data->background_image = check_string_value(keyfile, "main", "background_image",
 									win_data->background_image, TRUE, DISABLE_EMPTY_STR);
 #endif
-			win_data->foreground_program_whitelist = check_string_value(keyfile, "main",
-										    "foreground_program_whitelist",
-										    win_data->foreground_program_whitelist,
-										    TRUE, ENABLE_EMPTY_STR);
-
-			win_data->background_program_whitelist = check_string_value(keyfile, "main",
-										    "background_program_whitelist",
-										    win_data->background_program_whitelist,
+			win_data->running_process_whitelist = check_string_value(keyfile, "main",
+										    "running_process_whitelist",
+										    win_data->running_process_whitelist,
 										    TRUE, ENABLE_EMPTY_STR);
 
 			win_data->confirm_to_paste = check_boolean_value(keyfile, "main",
@@ -2017,11 +2010,10 @@ void get_user_settings(struct Window *win_data, const gchar *encoding)
 
 	if (win_data->executable_command_whitelists==NULL)
 	{
-		win_data->executable_command_whitelists = split_string(win_data->executable_command_whitelist, " ", -1);
+		win_data->executable_command_whitelists = split_string(win_data->executable_command_whitelist, "\t", -1);
 	}
-	win_data->foreground_program_whitelists = split_string(win_data->foreground_program_whitelist, " ", -1);
-	win_data->background_program_whitelists = split_string(win_data->background_program_whitelist, " ", -1);
-	win_data->pastable_text_editor_whitelists = split_string(win_data->pastable_text_editor_whitelist, " ", -1);
+	win_data->running_process_whitelists = split_string(win_data->running_process_whitelist, "\t", -1);
+	win_data->pastable_text_editor_whitelists = split_string(win_data->pastable_text_editor_whitelist, "\t", -1);
 
 	if (win_data->font_resize_ratio <=1) win_data->font_resize_ratio = 0;
 	if (win_data->window_resize_ratio <= 1) win_data->window_resize_ratio = 0;
@@ -2574,23 +2566,19 @@ GString *save_user_settings(GtkWidget *widget, struct Window *win_data)
 	g_string_append_printf(contents,"# Confirm to execute command with -e/-x/--execute option.\n"
 					"confirm_to_execute_command = %d\n\n", win_data->confirm_to_execute_command);
 	g_string_append_printf(contents,"# Don't need to confirm for executing a program if it's in the whitelist,\n"
-					"# separate with <space>.\n"
+					"# separate with <tab>.\n"
 					"executable_command_whitelist = %s\n\n", win_data->executable_command_whitelist);
 	g_string_append_printf(contents,"# Launching executed command in a new tab instead of opening a new window.\n"
 					"execute_command_in_new_tab = %d\n\n", win_data->execute_command_in_new_tab);
-	g_string_append_printf(contents,"# If a program is running on foreground,\n"
+	g_string_append_printf(contents,"# If a program is running on foreground/background,\n"
 					"# Don't need to confirm for terminating it if it's in the whitelist,\n"
-					"# separate with <space>.\n"
-					"foreground_program_whitelist = %s\n\n", win_data->foreground_program_whitelist);
-	g_string_append_printf(contents,"# If a program is running in background,\n"
-					"# Don't need to confirm for terminating it if it's in the whitelist,\n"
-					"# separate with <space>.\n"
-					"background_program_whitelist = %s\n\n", win_data->background_program_whitelist);
+					"# separate with <tab>.\n"
+					"running_process_whitelist = %s\n\n", win_data->running_process_whitelist);
 	g_string_append_printf(contents,"# Confirm before pasting texts to vte terminal.\n"
 					"confirm_to_paste = %d\n\n", win_data->confirm_to_paste);
 	g_string_append_printf(contents,"# If the program is running on foreground,,\n"
 					"# Don't need to confirm for pasting texts to it if it's in the whitelist,\n"
-					"# separate with <space>.\n"
+					"# separate with <tab>.\n"
 					"pastable_text_editor_whitelist = %s\n\n", win_data->pastable_text_editor_whitelist);
 	g_string_append_printf(contents,"# Confirm to close multi tabs.\n"
 					"confirm_to_close_multi_tabs = %d\n\n", win_data->confirm_to_close_multi_tabs);

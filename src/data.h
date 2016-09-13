@@ -1312,10 +1312,8 @@ struct Window
 	gchar **executable_command_whitelists;
 	gboolean execute_command_in_new_tab;
 	gboolean join_as_new_tab;
-	gchar *foreground_program_whitelist;
-	gchar **foreground_program_whitelists;
-	gchar *background_program_whitelist;
-	gchar **background_program_whitelists;
+	gchar *running_process_whitelist;
+	gchar **running_process_whitelists;
 	gboolean confirm_to_paste;
 	gchar *pastable_text_editor_whitelist;
 	gchar **pastable_text_editor_whitelists;

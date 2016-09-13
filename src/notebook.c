@@ -924,8 +924,8 @@ gboolean close_page(GtkWidget *vte, gint close_type)
 		{
 			// g_debug("Got tpgid = %s, cmd = %s", stats[9], stats[2]);
 			// if ((page_data->pid != atoi(stats[9])) &&
-			//    (! check_string_in_array(stats[2], win_data->foreground_program_whitelists)))
-			if (! check_string_in_array(stats[2], win_data->foreground_program_whitelists))
+			//    (! check_string_in_array(stats[2], win_data->running_process_whitelists)))
+			if (! check_string_in_array(stats[2], win_data->running_process_whitelists))
 			{
 				// g_debug("Got page_data->pid = %d, tpgid = %d", page_data->pid, tpgid);
 

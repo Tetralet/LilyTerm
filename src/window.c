@@ -747,9 +747,9 @@ GString *get_child_process_list(GtkWidget *window, gint window_no, gint page_no,
 				//	pid, entry_pid, entry_data.ppid, entry_tpgid, entry_data.cmd,
 				//	show_foreground);
 				if (((pid != entry_pid) && (entry_pid != entry_tpgid) &&
-				     (! check_string_in_array(entry_data.cmd, win_data->background_program_whitelists))) ||
+				     (! check_string_in_array(entry_data.cmd, win_data->running_process_whitelists))) ||
 				    (show_foreground && (pid == entry_pid) && (entry_pid == entry_tpgid) &&
-				     (! check_string_in_array(entry_data.cmd, win_data->foreground_program_whitelists))))
+				     (! check_string_in_array(entry_data.cmd, win_data->running_process_whitelists))))
 				{
 #ifdef SAFEMODE
 					if (entry_pid<PID_MAX_DEFAULT && process_data)
@@ -2034,10 +2034,8 @@ void clear_win_data(struct Window *win_data)
 	g_free(win_data->executable_command_whitelist);
 	// g_debug("win_data->executable_command_whitelist for win_data (%p) freed!", win_data);
 	g_strfreev(win_data->executable_command_whitelists);
-	g_free(win_data->foreground_program_whitelist);
-	g_strfreev(win_data->foreground_program_whitelists);
-	g_free(win_data->background_program_whitelist);
-	g_strfreev(win_data->background_program_whitelists);
+	g_free(win_data->running_process_whitelist);
+	g_strfreev(win_data->running_process_whitelists);
 	g_free(win_data->pastable_text_editor_whitelist);
 	g_strfreev(win_data->pastable_text_editor_whitelists);
 	g_free(win_data->find_string);
@@ -2990,10 +2988,8 @@ void dump_data (struct Window *win_data, struct Page *page_data)
 	print_array("win_data->executable_command_whitelists", win_data->executable_command_whitelists);
 	g_debug("- win_data->execute_command_in_new_tab = %d", win_data->execute_command_in_new_tab);
 	g_debug("- win_data->join_as_new_tab = %d", win_data->join_as_new_tab);
-	g_debug("- win_data->foreground_program_whitelist = %s", win_data->foreground_program_whitelist);
-	print_array("win_data->foreground_program_whitelists", win_data->foreground_program_whitelists);
-	g_debug("- win_data->background_program_whitelist = %s", win_data->background_program_whitelist);
-	print_array("win_data->background_program_whitelists", win_data->background_program_whitelists);
+	g_debug("- win_data->running_process_whitelist = %s", win_data->running_process_whitelist);
+	print_array("win_data->running_process_whitelists", win_data->running_process_whitelists);
 	g_debug("- win_data->confirm_to_paste = %d", win_data->confirm_to_paste);
 	g_debug("- win_data->pastable_text_editor_whitelist = %s", win_data->pastable_text_editor_whitelist);
 	print_array("win_data->pastable_text_editor_whitelists", win_data->pastable_text_editor_whitelists);
@@ -3478,16 +3474,14 @@ void win_data_dup(struct Window *win_data_orig, struct Window *win_data)
 	// win_data->confirm_to_execute_command;
 	win_data->executable_command_whitelist = g_strdup(win_data_orig->executable_command_whitelist);
 	// g_debug("win_data->executable_command_whitelist for win_data (%p) duped!", win_data);
-	win_data->executable_command_whitelists = split_string(win_data->executable_command_whitelist, " ", -1);
+	win_data->executable_command_whitelists = split_string(win_data->executable_command_whitelist, "\t", -1);
 
 	// win_data->execute_command_in_new_tab;
 	// win_data->join_as_new_tab;
-	win_data->foreground_program_whitelist = g_strdup(win_data_orig->foreground_program_whitelist);
-	win_data->foreground_program_whitelists = split_string(win_data->foreground_program_whitelist, " ", -1);
-	win_data->background_program_whitelist = g_strdup(win_data_orig->background_program_whitelist);
-	win_data->background_program_whitelists = split_string(win_data->background_program_whitelist, " ", -1);
+	win_data->running_process_whitelist = g_strdup(win_data_orig->running_process_whitelist);
+	win_data->running_process_whitelists = split_string(win_data->running_process_whitelist, "\t", -1);
 	win_data->pastable_text_editor_whitelist = g_strdup(win_data_orig->pastable_text_editor_whitelist);
-	win_data->pastable_text_editor_whitelists = split_string(win_data->pastable_text_editor_whitelist, " ", -1);
+	win_data->pastable_text_editor_whitelists = split_string(win_data->pastable_text_editor_whitelist, "\t", -1);
 
 	win_data->find_string = g_strdup(win_data_orig->find_string);
 	// win_data->find_case_sensitive;
