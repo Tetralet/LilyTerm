@@ -168,8 +168,7 @@ GtkNotebook *new_window(int argc,
 			if (active_win_data!=NULL)
 			{
 #endif
-				struct Page *page_data = (struct Page *)g_object_get_data(G_OBJECT(
-								active_win_data->current_vte), "Page_Data");
+				struct Page *page_data = get_page_data_from_vte(active_win_data->current_vte, active_win_data, -1);
 #ifdef SAFEMODE
 				if (page_data!=NULL)
 				{
@@ -1147,7 +1146,7 @@ gboolean deal_key_press(GtkWidget *window, Key_Bindings type, struct Window *win
 		if (win_data->notebook)
 #endif
 			total_page = gtk_notebook_get_n_pages(GTK_NOTEBOOK(win_data->notebook));
-	struct Page *page_data = (struct Page *)g_object_get_data(G_OBJECT(win_data->current_vte), "Page_Data");
+	struct Page *page_data = get_page_data_from_vte(win_data->current_vte, win_data, -1);
 
 	// restore match_regex first...
 	if (! page_data->match_regex_setted) set_hyperlink(win_data, page_data);
@@ -1578,7 +1577,7 @@ gboolean window_key_release(GtkWidget *window, GdkEventKey *event, struct Window
 		    ((mods==(win_data->user_keys[KEY_DISABLE_URL_R].mods|GDK_CONTROL_MASK)) && (event->keyval==win_data->user_keys[KEY_DISABLE_URL_R].key)))
 		{
 			// g_debug("window_key_release(): call set_hyperlink()");
-			struct Page *page_data = (struct Page *)g_object_get_data(G_OBJECT(win_data->current_vte), "Page_Data");
+			struct Page *page_data = get_page_data_from_vte(win_data->current_vte, win_data, -1);
 			if (! page_data->match_regex_setted)
 				set_hyperlink(win_data, page_data);
 		}
@@ -1634,7 +1633,7 @@ gboolean window_lost_focus(GtkWidget *window, GdkEventFocus *event, struct Windo
 	if (win_data->page_shows_window_title &&
 	    (vte_terminal_get_window_title(VTE_TERMINAL(win_data->current_vte))!=NULL))
 	{
-		struct Page *page_data = (struct Page *)g_object_get_data(G_OBJECT(win_data->current_vte), "Page_Data");
+		struct Page *page_data = get_page_data_from_vte(win_data->current_vte, win_data, -1);
 #ifdef SAFEMODE
 		if (page_data)
 		{
@@ -2282,8 +2281,7 @@ void remove_notebook_page(GtkNotebook *notebook, GtkWidget *child, guint page_nu
 	if (total_page)
 	{
 		// g_debug("Update the hint data!");
-		struct Page *page_data = (struct Page *)g_object_get_data(G_OBJECT(win_data->current_vte),
-									  "Page_Data");
+		struct Page *page_data = get_page_data_from_vte(win_data->current_vte, win_data, page_num);
 #ifdef SAFEMODE
 		if (page_data==NULL) return;
 #endif
@@ -2375,7 +2373,7 @@ GtkNotebook *create_window (GtkNotebook *notebook, GtkWidget *page, gint x, gint
 #ifdef SAFEMODE
 	if ((win_data==NULL) || (win_data->current_vte==NULL)) return NULL;
 #endif
-	struct Page *page_data = (struct Page *)g_object_get_data(G_OBJECT(win_data->current_vte), "Page_Data");
+	struct Page *page_data = get_page_data_from_vte(win_data->current_vte, win_data, -1);
 #ifdef SAFEMODE
 	if (page_data==NULL) return NULL;
 #endif
@@ -2525,7 +2523,7 @@ void keep_gtk3_window_size(struct Window *win_data, gboolean idle)
 			// find the current vte size
 			GtkAllocation vte_size = {0};
 			gtk_widget_get_allocation(win_data->current_vte, &vte_size);
-			struct Page *page_data = (struct Page *)g_object_get_data(G_OBJECT(win_data->current_vte), "Page_Data");
+			struct Page *page_data = get_page_data_from_vte(win_data->current_vte, win_data, -1);
 #  ifdef GEOMETRY
 			gint ansi_color = ANSI_COLOR_MAGENTA;
 			if ((vte_size.width==0) || (vte_size.height==0) || (vte_size.width< 200) || (vte_size.height<239))
@@ -2586,7 +2584,7 @@ void resize_to_exist_widget(struct Window *win_data)
 #  ifdef SAFEMODE
 		if (win_data->current_vte==NULL) return;
 #  endif
-		struct Page *page_data = (struct Page *)g_object_get_data(G_OBJECT(win_data->current_vte), "Page_Data");
+		struct Page *page_data = get_page_data_from_vte(win_data->current_vte, win_data, -1);
 #  ifdef SAFEMODE
 		if (page_data) return;
 #  endif

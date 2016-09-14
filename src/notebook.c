@@ -1208,7 +1208,7 @@ void dim_vte_text (struct Window *win_data, struct Page *page_data, gint dim_tex
 
 	// if page_data==NULL, using "win_data->current_vte"
 	if (! page_data)
-		page_data = (struct Page *)g_object_get_data(G_OBJECT(win_data->current_vte), "Page_Data");
+		page_data = get_page_data_from_vte(win_data->current_vte, win_data, -1);
 
 	if (dim_text==2)
 	{
@@ -1952,6 +1952,28 @@ struct Page *get_page_data_from_nth_page(struct Window *win_data, guint page_no)
 									 page_no))),
 							"VteBox");
 	return (struct Page *)g_object_get_data(G_OBJECT(vte), "Page_Data");
+}
+
+struct Page *get_page_data_from_vte(GtkWidget *vte, struct Window *win_data, guint page_no)
+{
+#ifdef DETAIL
+	g_debug("! Launch get_page_data_from_vte() with vte = %p, win_data = %p, page_no = %d", vte, win_data, page_no);
+#endif
+#ifdef SAFEMODE
+	if ((win_data==NULL) || (win_data->notebook==NULL)) return NULL;
+#endif
+	struct Page *page_data = NULL;
+	if (vte) page_data = (struct Page *)g_object_get_data(G_OBJECT(vte), "Page_Data");
+
+	if (page_data==NULL)
+	{
+		if (page_no < 0) gtk_notebook_get_current_page(GTK_NOTEBOOK(win_data->notebook));
+
+		page_data = get_page_data_from_nth_page(win_data, page_no);
+		win_data->current_vte = page_data->vte;
+	}
+
+	return page_data;
 }
 
 // Get LANG str from old and new locale data

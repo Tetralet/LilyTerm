@@ -2449,7 +2449,7 @@ GString *save_user_settings(GtkWidget *widget, struct Window *win_data)
 	if (win_data)
 #endif
 	{
-		page_data = (struct Page *)g_object_get_data(G_OBJECT(win_data->current_vte), "Page_Data");
+		page_data = get_page_data_from_vte(win_data->current_vte, win_data, -1);
 #ifdef SAFEMODE
 		if (page_data==NULL) return NULL;
 #endif

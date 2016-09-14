@@ -141,7 +141,7 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 	struct Page *page_data = NULL;
 	if (win_data->current_vte!=NULL)
 	{
-		page_data = (struct Page *)g_object_get_data(G_OBJECT(win_data->current_vte), "Page_Data");
+		page_data = get_page_data_from_vte(win_data->current_vte, win_data, -1);
 #ifdef SAFEMODE
 		if (page_data==NULL) goto FINISH;
 #endif

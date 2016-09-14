@@ -225,6 +225,7 @@ void dim_vte_text (struct Window *win_data, struct Page *page_data, gint dim_tex
 gboolean close_page(GtkWidget *vte, gint close_type);
 gboolean open_url_with_external_command (gchar *url, gint tag, struct Window *win_data, struct Page *page_data);
 struct Page *get_page_data_from_nth_page(struct Window *win_data, guint page_no);
+struct Page *get_page_data_from_vte(GtkWidget *vte, struct Window *win_data, guint page_no);
 
 //
 // **************************** font.c ****************************

@@ -626,7 +626,7 @@ void window_resizable(GtkWidget *window, GtkWidget *vte, Hints_Type hints_type)
 #if defined(USE_GTK3_GEOMETRY_METHOD) || defined(UNIT_TEST)
 		gint min_width = 0, min_height = 0;
 		struct Window *win_data = (struct Window *)g_object_get_data(G_OBJECT(window), "Win_Data");
-		struct Page *page_data = (struct Page *)g_object_get_data(G_OBJECT(vte), "Page_Data");
+		struct Page *page_data = get_page_data_from_vte(vte, win_data, -1);
 		get_hint_min_size(win_data->notebook, page_data->scroll_bar, &min_width, &min_height);
 		hints.min_width = hints.base_width + ((int)(min_width/hints.width_inc)+1)*hints.width_inc;
 		hints.min_height = hints.base_height + ((int)(min_height/hints.height_inc)+1)*hints.height_inc;

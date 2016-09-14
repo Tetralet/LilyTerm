@@ -628,7 +628,7 @@ void open_current_dir_with_file_manager(GtkWidget *widget, struct Window *win_da
 #ifdef SAFEMODE
 	if ((win_data==NULL) || (win_data->current_vte==NULL)) return;
 #endif
-	struct Page *page_data = (struct Page *)g_object_get_data(G_OBJECT(win_data->current_vte), "Page_Data");
+	struct Page *page_data = get_page_data_from_vte(win_data->current_vte, win_data, -1);
 #ifdef SAFEMODE
 	if (page_data==NULL) return;
 #endif
@@ -643,7 +643,7 @@ void view_current_page_info(GtkWidget *widget, struct Window *win_data)
 #ifdef SAFEMODE
 	if ((win_data==NULL) || (win_data->current_vte==NULL)) return;
 #endif
-	struct Page *page_data = (struct Page *)g_object_get_data(G_OBJECT(win_data->current_vte), "Page_Data");
+	struct Page *page_data = get_page_data_from_vte(win_data->current_vte, win_data, -1);
 #ifdef SAFEMODE
 	if (page_data==NULL) return;
 #endif
@@ -1303,7 +1303,7 @@ void set_ansi_theme(GtkWidget *menuitem, Set_ANSI_Theme_Type type, gboolean use_
 		if (win_data->current_vte)
 		{
 #endif
-			struct Page *page_data = (struct Page *)g_object_get_data(G_OBJECT(win_data->current_vte), "Page_Data");
+			struct Page *page_data = page_data = get_page_data_from_vte(win_data->current_vte, win_data, -1);
 #ifdef SAFEMODE
 			if (page_data)
 #endif
@@ -1424,7 +1424,7 @@ void set_encoding(GtkWidget *menuitem, gpointer user_data)
 	// No action when just right click the mouse
 	if (win_data->checking_menu_item) return;
 
-	struct Page *page_data = (struct Page *)g_object_get_data(G_OBJECT(win_data->current_vte), "Page_Data");
+	struct Page *page_data = get_page_data_from_vte(win_data->current_vte, win_data, -1);
 #ifdef SAFEMODE
 	if (page_data==NULL) return;
 #endif
@@ -1472,7 +1472,7 @@ void new_tab_with_locale(GtkWidget *locale_menuitem, gboolean VTE_CJK_WIDTH)
 	if (win_data==NULL) return;
 #endif
 	// g_debug("Got the VTE_CJK_WIDTH = %s", gtk_widget_get_name(locale_menuitem);
-	struct Page *page_data = (struct Page *)g_object_get_data(G_OBJECT(win_data->current_vte), "Page_Data");
+	struct Page *page_data = page_data = get_page_data_from_vte(win_data->current_vte, win_data, -1);
 	// menuitem == NULL: The locales_list in profile is empty. Only VTE_CJK_WIDTH is setted.
 	// if (menuitem)
 	//	g_debug("Add page by %p to locale %s", win_data->current_vte, gtk_widget_get_name(menuitem);
@@ -1547,7 +1547,7 @@ void select_font(GtkWidget *widget, struct Window *win_data)
 #ifdef SAFEMODE
 	if ((win_data==NULL) || (win_data->current_vte==NULL)) return;
 #endif
-	struct Page *page_data = (struct Page *)g_object_get_data(G_OBJECT(win_data->current_vte), "Page_Data");
+	struct Page *page_data = get_page_data_from_vte(win_data->current_vte, win_data, -1);
 #ifdef SAFEMODE
 	if (page_data==NULL) return;
 #endif
@@ -2452,7 +2452,7 @@ void apply_profile_from_file(const gchar *path, Apply_Profile_Type type)
 		win_data->geometry_width = column;
 		win_data->geometry_height = row;
 
-		page_data = (struct Page *)g_object_get_data(G_OBJECT(win_data->current_vte), "Page_Data");
+		page_data = get_page_data_from_vte(win_data->current_vte, win_data, -1);
 #  ifdef SAFEMODE
 		if (page_data!=NULL)
 		{
