@@ -153,7 +153,22 @@ gboolean monitor_cmdline(struct Page *page_data)
 #endif
 	    page_data->custom_page_name ||
 	    dialog_activated)
+	{
+#ifdef PAGENAME
+		fprintf(stderr, "\033[1;%dm!! monitor_cmdline(): Skipping update pagename.", ANSI_COLOR_GREEN);
+		if (lost_focus && (*(page_data->current_vte) != (page_data->vte)))
+			fprintf(stderr, " lost_focus = %d, page_data->current_vte %s= page_data->vte.",
+				lost_focus, (*(page_data->current_vte) == page_data->vte) ? "" : "!");
+		if (*(page_data->keep_vte_size)&0xfffc)
+			fprintf(stderr, " page_data->keep_vte_size = %X.", *(page_data->keep_vte_size)&0xfffc);
+		if (page_data->custom_page_name)
+			fprintf(stderr, " page_data->custom_page_name = \"%s\".", page_data->custom_page_name);
+		if (dialog_activated)
+			fprintf(stderr, " dialog_activated = %d.", dialog_activated);
+		fprintf(stderr, "\033[0m\n");
+#endif
 		return TRUE;
+	}
 	// if we should call get_and_update_page_name or not
 	gboolean page_name_changed = FALSE;
 
@@ -161,9 +176,10 @@ gboolean monitor_cmdline(struct Page *page_data)
 	gint page_update_method = page_data->page_update_method;
 
 	page_data->page_update_method = PAGE_METHOD_AUTOMATIC;
-	// g_debug("INIT: lost_focus = %d", lost_focus);
-	// g_debug("INIT: page_data->window_title_updated = %d", page_data->window_title_updated);
-
+#ifdef PAGENAME
+	fprintf(stderr, "\033[1;%dm!! monitor_cmdline(): INIT: lost_focus = %d, page_data->window_title_updated =%d\033[0m\n",
+			ANSI_COLOR_GREEN, lost_focus, page_data->window_title_updated);
+#endif
 	if (lost_focus)
 		page_name_changed = check_cmdline(page_data, *(page_data->window_title_tpgid));
 	else
@@ -236,7 +252,7 @@ gboolean check_cmdline(struct Page *page_data, pid_t check_tpgid)
 	g_debug("! Launch check_cmdline() with page_data = %p, check_tpgid = %d", page_data, check_tpgid);
 #endif
 #ifdef SAFEMODE
-	if ((page_data==NULL) || (check_tpgid < 1)) return FALSE;
+	if ((page_data==NULL) || ((check_tpgid < 1) && (check_tpgid != -2))) return FALSE;
 #endif
 	// g_debug("check_tpgid = %d", check_tpgid);
 
@@ -247,6 +263,11 @@ gboolean check_cmdline(struct Page *page_data, pid_t check_tpgid)
 		page_data->current_tpgid = get_tpgid(page_data->pid);
 		// g_debug("Get page_data->current_tpgid = %d, check_tpgid = %d",
 		//	page_data->current_tpgid, check_tpgid);
+#ifdef PAGENAME
+		fprintf(stderr, "!! check_cmdline(check_tpgid = %d): "
+				"Set \033[1;%dmpage_data->current_tpgid\033[0m = %d\n",
+				check_tpgid, ANSI_COLOR_CYAN, page_data->current_tpgid);
+#endif
 
 		if (check_tpgid != page_data->current_tpgid)
 		{
@@ -308,12 +329,26 @@ gboolean check_pwd(struct Page *page_data, gchar *pwd, gchar *new_pwd, gint page
 
 	// update the page name with PWD when pid=tpgid
 	// g_debug ("page_name_changed = %d, ", page_name_changed);
+#ifdef PAGENAME
+	if (page_data->current_tpgid == page_data->pid)
+		fprintf(stderr, "!! check_pwd(): "
+				"\033[1;%dmpage_data->current_tpgid\033[0m == page_data->pid = %d\033[0m\n",
+				ANSI_COLOR_CYAN, page_data->current_tpgid);
+#endif
 	if (page_data->page_shows_current_dir &&
 	    (page_data->current_tpgid == page_data->pid) &&
 	    (page_data->window_title_updated == -1))
 	{
 		page_name_changed = compare_strings(pwd, new_pwd, TRUE);
 
+#ifdef PAGENAME
+		if (*(page_data->window_title_tpgid) != page_data->displayed_tpgid)
+			fprintf(stderr, "!! check_pwd(): "
+					"\033[1;%dmpage_data->window_title_tpgid\033[0m = %d, "
+					"\033[1;%dmpage_data->displayed_tpgid\033[0m = %d\n",
+					ANSI_COLOR_GREEN, *(page_data->window_title_tpgid),
+					ANSI_COLOR_MAGENTA, page_data->displayed_tpgid);
+#endif
 		if ((*(page_data->window_title_tpgid) != page_data->displayed_tpgid) &&
 		    (page_update_method == PAGE_METHOD_CMDLINE))
 			page_name_changed = TRUE;
@@ -442,6 +477,11 @@ gboolean get_and_update_page_name(struct Page *page_data, gboolean lost_focus)
 		//	page_data->displayed_tpgid, page_data->current_tpgid);
 		if (! lost_focus)
 		{
+#ifdef PAGENAME
+			fprintf(stderr, "!! get_and_update_page_name(): "
+					"Set \033[1;%dmpage_data->displayed_tpgid\033[0m = %d (\033[1;%dmpage_data->current_tpgid\033[0m)\n",
+					ANSI_COLOR_MAGENTA, page_data->current_tpgid, ANSI_COLOR_CYAN);
+#endif
 			page_data->displayed_tpgid = page_data->current_tpgid;
 			g_free(page_data->window_title_pwd);
 			page_data->window_title_pwd = g_strdup(page_data->pwd);
@@ -452,7 +492,10 @@ gboolean get_and_update_page_name(struct Page *page_data, gboolean lost_focus)
 	{
 		// update_page_name() is failed, but the pagename datas is updated already.
 		// We set page_data->displayed_tpgid = -1 here to mark that the update_page_name() is failed.
-		page_data->displayed_tpgid = -1;
+#ifdef PAGENAME
+		fprintf(stderr, "!! get_and_update_page_name(): Set \033[1;%dmpage_data->displayed_tpgid\033[0m = -1\n", ANSI_COLOR_MAGENTA);
+#endif
+		page_data->displayed_tpgid = -2;
 		if (page_data->page_update_method == PAGE_METHOD_WINDOW_TITLE)
 			page_data->window_title_updated = PAGE_METHOD_CMDLINE;
 	}
@@ -461,7 +504,14 @@ gboolean get_and_update_page_name(struct Page *page_data, gboolean lost_focus)
 	if (page_data->page_update_method == PAGE_METHOD_WINDOW_TITLE)
 	{
 		if (win_data->page_shows_current_cmdline)
+		{
+#ifdef PAGENAME
+			fprintf(stderr, "!! get_and_update_page_name(PAGE_METHOD_WINDOW_TITLE): "
+					"Set \033[1;%dmpage_data->displayed_tpgid\033[0m = %d (\033[1;%dmpage_data->current_tpgid\033[0m)\n",
+					ANSI_COLOR_MAGENTA, page_data->current_tpgid, ANSI_COLOR_CYAN);
+#endif
 			page_data->displayed_tpgid = page_data->current_tpgid;
+		}
 
 		if (win_data->page_shows_current_dir)
 		{
@@ -470,6 +520,11 @@ gboolean get_and_update_page_name(struct Page *page_data, gboolean lost_focus)
 		}
 	}
 
+#ifdef PAGENAME
+	fprintf(stderr, "!! get_and_update_page_name(): "
+			"Set \033[1;%dmwin_data->window_title_tpgid\033[0m = %d (\033[1;%dmpage_data->current_tpgid\033[0m)\n",
+			ANSI_COLOR_YELLOW, page_data->current_tpgid, ANSI_COLOR_CYAN);
+#endif
 	win_data->window_title_tpgid = page_data->current_tpgid;
 	// g_debug("Final: page_data->displayed_tpgid = %d", page_data->displayed_tpgid);
 	// g_debug("Final: page_data->window_title_tpgid = %d", *(page_data->window_title_tpgid));
