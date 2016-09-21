@@ -121,7 +121,7 @@ default: $(BINARY)
 
 .PHONY: debug
 debug: CFLAGS := $(CFLAGS) -g
-debug: INCLUDES := $(INCLUDES) -DAUTHOR=\"$(AUTHOR_CONVERT)\" -DDEBUG -DFATAL -DFORCE_ENABLE_VTE_BACKGROUND -DVERSION=\"$(VERSION)\ Debug\ Version\ \($(date)\)\"
+debug: INCLUDES := $(INCLUDES) -DAUTHOR=\"$(AUTHOR_CONVERT)\" -DREALMODE -DDEBUG -DFATAL -DFORCE_ENABLE_VTE_BACKGROUND -DVERSION=\"$(VERSION)\ Debug\ Version\ \($(date)\)\"
 debug: BINARY := $(BINARY)_dbg
 debug: $(BINARY)
 
@@ -150,27 +150,26 @@ defensive-develop: $(BINARY)
 
 .PHONY: detail
 detail: CFLAGS := $(CFLAGS) -g
-detail: INCLUDES := $(INCLUDES) -DAUTHOR=\"$(AUTHOR_CONVERT)\" -DGEOMETRY -DPAGENAME -DDEBUG -DFATAL -DDEVELOP -DDETAIL -DVERSION=\"$(VERSION)\ Develop\ Version\ \($(date)\)\"
+detail: INCLUDES := $(INCLUDES) -DAUTHOR=\"$(AUTHOR_CONVERT)\" -DGEOMETRY -DPAGENAME -DREALMODE -DDEBUG -DFATAL -DDEVELOP -DDETAIL -DVERSION=\"$(VERSION)\ Develop\ Version\ \($(date)\)\"
 detail: BINARY := $(BINARY)_dev
 detail: $(BINARY)
 
 .PHONY: full
 full: CFLAGS = -Wall -Werror -Wformat -Wformat-security -Werror=format-security -Os -g
-full: INCLUDES := $(INCLUDES) -DAUTHOR=\"$(AUTHOR_CONVERT)\" -DGEOMETRY -DPAGENAME -DDEBUG -DFATAL -DDEVELOP -DDETAIL -DFULL -DVERSION=\"$(VERSION)\ Develop\ Version\ \($(date)\)\"
+full: INCLUDES := $(INCLUDES) -DAUTHOR=\"$(AUTHOR_CONVERT)\" -DGEOMETRY -DPAGENAME -DREALMODE -DDEBUG -DFATAL -DDEVELOP -DDETAIL -DFULL -DVERSION=\"$(VERSION)\ Develop\ Version\ \($(date)\)\"
 full: BINARY := $(BINARY)_dev
 full: $(BINARY)
 
 .PHONY: geometry
 geometry: CFLAGS := $(CFLAGS) -g
-geometry: INCLUDES := $(INCLUDES) -DAUTHOR=\"$(AUTHOR_CONVERT)\" -DGEOMETRY -DDEBUG -DFATAL -DDEVELOP -DVERSION=\"$(VERSION)\ Develop\ Version\ \($(date)\)\"
+geometry: INCLUDES := $(INCLUDES) -DAUTHOR=\"$(AUTHOR_CONVERT)\" -DGEOMETRY -DREALMODE -DDEBUG -DFATAL -DDEVELOP -DVERSION=\"$(VERSION)\ Develop\ Version\ \($(date)\)\"
 geometry: BINARY := $(BINARY)_dev
 geometry: $(BINARY)
 
 .PHONY: pagename
 pagename: CFLAGS := $(CFLAGS) -g
-pagename: INCLUDES := $(INCLUDES) -DAUTHOR=\"$(AUTHOR_CONVERT)\" -DPAGENAME -DDEBUG -DFATAL -DDEVELOP -DVERSION=\"$(VERSION)\ Develop\ Version\ \($(date)\)\"
+pagename: INCLUDES := $(INCLUDES) -DAUTHOR=\"$(AUTHOR_CONVERT)\" -DPAGENAME -DREALMODE -DDEBUG -DFATAL -DDEVELOP -DVERSION=\"$(VERSION)\ Develop\ Version\ \($(date)\)\"
 pagename: BINARY := $(BINARY)_dev
-pagename: VERBOSITY_OUTPUT :=
 pagename: $(BINARY)
 
 .PHONY: ut
@@ -185,14 +184,14 @@ unit_test: $(OBJ)
 uto: unit_test_object
 .PHONY: unit_test_object
 unit_test_object: CFLAGS := $(CFLAGS) -g
-unit_test_object: INCLUDES := $(INCLUDES) -DAUTHOR=\"$(PACKAGE)\" -DSAFEMODE -DGEOMETRY -DPAGENAME -DDEBUG -DFATAL -DDEVELOP -DDETAIL -DFULL -DUNIT_TEST -DVERSION=\"$(VERSION)_UNIT_TEST_$(date)\"
+unit_test_object: INCLUDES := $(INCLUDES) -DAUTHOR=\"$(PACKAGE)\" -DGEOMETRY -DPAGENAME -DSAFEMODE -DDEBUG -DFATAL -DDEVELOP -DDETAIL -DFULL -DUNIT_TEST -DVERSION=\"$(VERSION)_UNIT_TEST_$(date)\"
 unit_test_object: $(OBJ)
 
 .PHONY: utb
 utb: unit_test_build
 .PHONY: unit_test_build
 unit_test_build: CFLAGS := $(CFLAGS) -g
-unit_test_build: INCLUDES := $(INCLUDES) -DAUTHOR=\"$(PACKAGE)\" -DSAFEMODE -DGEOMETRY -DPAGENAME -DDEBUG -DFATAL -DDEVELOP -DDETAIL -DFULL -DUNIT_TEST -DVERSION=\"$(VERSION)_UNIT_TEST_$(date)\"
+unit_test_build: INCLUDES := $(INCLUDES) -DAUTHOR=\"$(PACKAGE)\" -DGEOMETRY -DPAGENAME -DSAFEMODE -DDEBUG -DFATAL -DDEVELOP -DDETAIL -DFULL -DUNIT_TEST -DVERSION=\"$(VERSION)_UNIT_TEST_$(date)\"
 unit_test_build: $(OBJ)
 	@ sh unit_test.sh "$(INCLUDES)" --build_program_only
 
@@ -200,7 +199,7 @@ unit_test_build: $(OBJ)
 utd: unit_test_debug
 .PHONY: unit_test_debug
 unit_test_debug: CFLAGS := $(CFLAGS) -g
-unit_test_debug: INCLUDES := $(INCLUDES) -DAUTHOR=\"$(PACKAGE)\" -DSAFEMODE -DGEOMETRY -DPAGENAME -DDEBUG -DFATAL -DDEVELOP -DDETAIL -DFULL -DUNIT_TEST -DVERSION=\"$(VERSION)_UNIT_TEST_$(date)\"
+unit_test_debug: INCLUDES := $(INCLUDES) -DAUTHOR=\"$(PACKAGE)\" -DGEOMETRY -DPAGENAME -DSAFEMODE -DDEBUG -DFATAL -DDEVELOP -DDETAIL -DFULL -DUNIT_TEST -DVERSION=\"$(VERSION)_UNIT_TEST_$(date)\"
 unit_test_debug: $(OBJ)
 	@ sh unit_test.sh "$(INCLUDES)" --enable-glib-debugger --enable-gtk-debugger --enable-gdb
 
@@ -214,7 +213,7 @@ unit_test_full: $(OBJ)
 
 .PHONY: memory
 memory: CFLAGS = -Wall -Wformat -Wformat-security -Werror=format-security -O2
-memory: INCLUDES := $(INCLUDES) -DAUTHOR=\"$(AUTHOR_CONVERT)\" -DDEBUG -DFATAL -DDEVELOP -DSAFEMODE -DOUT_OF_MEMORY -DVERSION=\"$(VERSION)\ Develop\ Version\ \($(date)\)\"
+memory: INCLUDES := $(INCLUDES) -DAUTHOR=\"$(AUTHOR_CONVERT)\" -DSAFEMODE -DDEBUG -DFATAL -DDEVELOP -DOUT_OF_MEMORY -DVERSION=\"$(VERSION)\ Develop\ Version\ \($(date)\)\"
 memory: BINARY := $(BINARY)_dev
 memory: $(BINARY)
 
