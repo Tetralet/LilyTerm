@@ -252,7 +252,7 @@ gboolean check_cmdline(struct Page *page_data, pid_t check_tpgid)
 	g_debug("! Launch check_cmdline() with page_data = %p, check_tpgid = %d", page_data, check_tpgid);
 #endif
 #ifdef SAFEMODE
-	if ((page_data==NULL) || ((check_tpgid < 1) && (check_tpgid != -2))) return FALSE;
+	if (page_data==NULL) return FALSE;
 #endif
 	// g_debug("check_tpgid = %d", check_tpgid);
 

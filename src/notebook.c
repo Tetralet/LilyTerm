@@ -1954,7 +1954,7 @@ struct Page *get_page_data_from_nth_page(struct Window *win_data, guint page_no)
 	return (struct Page *)g_object_get_data(G_OBJECT(vte), "Page_Data");
 }
 
-struct Page *get_page_data_from_vte(GtkWidget *vte, struct Window *win_data, guint page_no)
+struct Page *get_page_data_from_vte(GtkWidget *vte, struct Window *win_data, gint page_no)
 {
 #ifdef DETAIL
 	g_debug("! Launch get_page_data_from_vte() with vte = %p, win_data = %p, page_no = %d", vte, win_data, page_no);
@@ -1967,7 +1967,8 @@ struct Page *get_page_data_from_vte(GtkWidget *vte, struct Window *win_data, gui
 
 	if (page_data==NULL)
 	{
-		if (page_no < 0) gtk_notebook_get_current_page(GTK_NOTEBOOK(win_data->notebook));
+		if (page_no < 0)
+			page_no = gtk_notebook_get_current_page(GTK_NOTEBOOK(win_data->notebook));
 
 		page_data = get_page_data_from_nth_page(win_data, page_no);
 		win_data->current_vte = page_data->vte;
