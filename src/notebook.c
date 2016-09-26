@@ -1034,8 +1034,7 @@ gboolean close_page(GtkWidget *vte, gint close_type)
 	if (total_page==1)
 	{
 		run_quit_gtk = gtk_widget_get_mapped(win_data->window);
-		gtk_widget_destroy (win_data->window);
-		win_data->window = NULL;
+		clear_window(win_data);
 	}
 	else
 		gtk_notebook_remove_page(GTK_NOTEBOOK(page_data->notebook), page_data->page_no);

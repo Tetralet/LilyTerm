@@ -161,8 +161,7 @@ GtkNotebook *new_window(int argc,
 		{
 			// g_debug ("Run the -e option on the new tab of current window!");
 			gint i, init_tab_number = win_data->init_tab_number;
-			struct Window *active_win_data = (struct Window *)g_object_get_data(G_OBJECT(
-								last_active_window), "Win_Data");
+			struct Window *active_win_data = (struct Window *)g_object_get_data(G_OBJECT(last_active_window), "Win_Data");
 #ifdef SAFEMODE
 			// Treat it as win_data->execute_command_in_new_tab = FALSE
 			if (active_win_data!=NULL)
@@ -1941,6 +1940,25 @@ void dim_window(struct Window *win_data, gint dim_window)
 }
 #endif
 
+void clear_window(struct Window *win_data)
+{
+#ifdef DETAIL
+	g_debug("! Launch clear_window() with win_data = %p!", win_data);
+#endif
+	if (win_data && (win_data->window))
+	{
+		gtk_widget_destroy (win_data->window);
+
+		if (active_window==win_data->window)
+			active_window = NULL;
+		if (menu_active_window==win_data->window)
+			menu_active_window = NULL;
+		if (last_active_window==win_data->window)
+			last_active_window = NULL;
+	}
+	win_data->window = NULL;
+}
+
 // reload=FALSE: free all datas
 void destroy_window(struct Window *win_data)
 {
@@ -1950,14 +1968,8 @@ void destroy_window(struct Window *win_data)
 #ifdef SAFEMODE
 	if (win_data==NULL) return;
 #endif
-	// Clean active_window!
-	if (active_window==win_data->window)
-		active_window = NULL;
-	if (menu_active_window==win_data->window)
-		menu_active_window = NULL;
-	if (last_active_window==win_data->window)
-		last_active_window = NULL;
-	// g_debug("set last_active_window = %p", last_active_window);
+	clear_window(win_data);
+
 #ifdef ENABLE_BEEP_SINGAL
 	if (win_data->urgent_bell_focus_in_event_id)
 		stop_urgency_hint(NULL, NULL, win_data);
