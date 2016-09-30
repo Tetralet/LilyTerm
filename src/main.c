@@ -122,7 +122,7 @@ int main( int   argc,
 	if (single_process)
 	{
 		gchar *socket_str = convert_socket_data_to_string(argv);
-		if (init_gtk_socket(PACKAGE, socket_str, (GSourceFunc)convert_string_to_socket_data) == UNIX_SOCKET_DATA_SENT)
+		if (init_gtk_socket(SOCKET_FILE, socket_str, (GSourceFunc)convert_string_to_socket_data) == UNIX_SOCKET_DATA_SENT)
 		{
 			g_free(profile_dir);
 			exit (0);

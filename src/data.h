@@ -122,12 +122,20 @@
 #define NOTEBOOK_GROUP 8
 #define ICON_PATH ICONDIR G_DIR_SEPARATOR_S BINARY ".png"
 #define NULL_DEVICE "/dev/null"
-#define SYSTEM_FONT_NAME "Monospace 12"
+#define SYSTEM_FONT_NAME "Monospace 16"
 #define SYSTEM_COLUMN 80
 #define SYSTEM_ROW 24
 #define LANGUAGE 255
 #define SEPARATE_CHAR '\xFF'
 #define SEPARATE_STR "\xFF"
+
+#if defined(DEVELOP)
+	#define SOCKET_FILE PACKAGE "+dev"
+#elif defined(DEBUG)
+	#define SOCKET_FILE PACKAGE "+dbg"
+#else
+	#define SOCKET_FILE PACKAGE
+#endif
 
 #if GTK_CHECK_VERSION(2,9,0)
 	// SINCE: gtk+-2.9.0/gtk/gtknotebook.h: gtk_notebook_set_tab_reorderable()
