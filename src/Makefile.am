@@ -4,6 +4,7 @@ bin_PROGRAMS = $_BINARY
 lilyterm_CFLAGS  = $(GTK_CFLAGS) $(vte_CFLAGS)
 lilyterm_LDADD   = $(GTK_LIBS) $(vte_LIBS) $(INTLLIBS)
 lilyterm_SOURCES = data.h lilyterm.h \
+		   socket.h socket.c \
 		   misc.h misc.c \
 		   console.h console.c \
 		   menu.h menu.c \

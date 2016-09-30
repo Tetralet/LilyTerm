@@ -21,10 +21,6 @@
 
 // for using in socket
 gboolean single_process = TRUE;
-gint socket_fd = 0;
-struct sockaddr_un address = {0};
-int address_len = 0;
-GIOChannel *main_channel = NULL;
 GtkClipboard *selection_clipboard = NULL;
 GtkClipboard *selection_primary = NULL;
 
@@ -51,37 +47,6 @@ gchar *proc_file_system_path = NULL;
 extern gboolean force_to_quit;
 extern gchar *restricted_locale_message;
 
-//
-// single_process ----------------(N)------------------------------------> new_window() ------>	shutdown_socket_server()
-//	|				^					^		  unlink
-// init_socket_data()			|					|		+ clear_channel()
-//   socket_fd -------------------(N)---|					|		    g_io_channel_shutdown
-//   set_fd_non_block ------------(N)---/					|		    (g_io_channel_unref)
-//	|									|
-// query_socket()								|
-//   connect ---------------------(N)-------> init_socket_server() -------------|
-//	|				^	unlink				|
-// send_socket()			|	bind -----------------------(N)-|
-// * g_io_channel_unix_new -------(N)---|	listen ---------------------(N)-|
-//   g_io_channel_set_encoding ---(N)---|     * g_io_channel_unix_new ------(N)-|
-//   g_io_channel_set_buffered		|	g_io_channel_set_encoding --(N)-|
-//   g_io_channel_write_chars ----(N)---|	g_io_add_watch -------------(N)-/
-//   g_io_channel_flush ----------(N)---/	  |
-// + clear_channel()				  `---- accept_socket()
-//     g_io_channel_shutdown				  (condition)
-//     (g_io_channel_unref)				  accept
-//	|						  set_fd_non_block
-//   exit()						* g_io_channel_unix_new
-//							  g_io_channel_set_encoding
-//							  g_io_add_watch
-//							    |
-//							    `-- read_socket()
-//								  g_io_channel_read_line
-//								    new_window()
-//								+ clear_channel()
-//								    g_io_channel_shutdown
-//								    (g_io_channel_unref)
-//
 #ifdef UNIT_TEST
 int fake_main(int   argc,
 	      char *argv[])
@@ -113,6 +78,7 @@ int main( int   argc,
 #ifdef OUT_OF_MEMORY
 	#define g_strdup_printf(...) NULL
 #endif
+	// in BSD system, /proc may not exist.
 	proc_exist = check_if_default_proc_dir_exist(NULL);
 	// g_debug ("Get proc_exist = %d, proc_file_system_path = %s", proc_exist, proc_file_system_path);
 
@@ -155,25 +121,13 @@ int main( int   argc,
 	// FIXME: we should get the single_process from profile. Current is command-line option only.
 	if (single_process)
 	{
-		// init socket data
-		if (init_socket_data())
+		gchar *socket_str = convert_socket_data_to_string(argv);
+		if (init_gtk_socket(PACKAGE, socket_str, (GSourceFunc)convert_string_to_socket_data) == UNIX_SOCKET_DATA_SENT)
 		{
-			// trying to connect to an existing LilyTerm
-			if (query_socket())
-			{
-				// success, sent the argc/argv to socket then quit
-				// g_debug("A LilyTerm socket server is exist already. exiting...");
-				if (send_socket(argc, argv, TRUE))
-				{
-					g_free(profile_dir);
-					exit (0);
-				}
-			}
-			// no LilyTerm exist. create a socket server
-			// g_debug("Creating a LilyTerm socket server...");
-			init_socket_server();
-			g_atexit((GVoidFunc)shutdown_socket_server);
+			g_free(profile_dir);
+			exit (0);
 		}
+		g_free(socket_str);
 	}
 
 	// start LilyTerm
@@ -182,7 +136,7 @@ int main( int   argc,
 	extern gchar **environ;
 	// print_array("main(): environ", environ);
 	gchar *environ_str = convert_array_to_string(environ, '\t');
-	window_list = NULL;
+	// if (window_list) g_error("CHECK: window_list = %p !!", window_list);
 	// g_debug("Got environ_str (in main.c) = %s", environ_str);
 	selection_clipboard = gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
 	selection_primary = gtk_clipboard_get(GDK_SELECTION_PRIMARY);
@@ -314,101 +268,12 @@ int main( int   argc,
 	return 0;
 }
 
-
-// it will return TRUE if init socket data successfully
-gboolean init_socket_data()
-{
-#ifdef DETAIL
-	g_debug("! Launch init_socket_data() to init LilyTerm socket!");
-#endif
-	GError *error = NULL;
-
-	// clean data first
-	bzero(&address, sizeof(address));
-	// init the address of socket
-	address.sun_family = AF_UNIX;
-
-	const gchar *tmp_dir = g_get_tmp_dir();
-#ifdef SAFEMODE
-	if (tmp_dir)
-	{
-#endif
-		gchar *display = gdk_get_display();
-#if defined(DEVELOP)
-		g_snprintf(address.sun_path, UNIX_PATH_MAX, "%s/.%s_dev_%s%s",
-			   tmp_dir ,BINARY, g_get_user_name(), display);
-#elif defined(DEBUG)
-		g_snprintf(address.sun_path, UNIX_PATH_MAX, "%s/.%s_dbg_%s%s",
-			   tmp_dir ,BINARY, g_get_user_name(), display);
-#else
-		g_snprintf(address.sun_path, UNIX_PATH_MAX, "%s/.%s_%s%s",
-			   tmp_dir ,BINARY, g_get_user_name(), display);
-#endif
-		g_free(display);
-#ifdef SAFEMODE
-	}
-#endif
-	address.sun_path[UNIX_PATH_MAX-1] = address.sun_path[UNIX_PATH_MAX-2] = '\0';
-	// g_debug("The socket file is %s", address.sun_path);
-	address_len = sizeof(address);
-
-	// init socket
-	socket_fd = socket(AF_UNIX, SOCK_STREAM, 0);
-	if (socket_fd < 0)
-		// main_channel is NULL, so that we don't need to launch clear_channel()
-		return socket_fault(1, error, NULL, FALSE);
-
-	// set this socket is non-block
-	return set_fd_non_block(&socket_fd);
-}
-
 // it will return TRUE if scucceed
-gboolean set_fd_non_block(gint *fd)
+gchar *convert_socket_data_to_string(char *argv[])
 {
 #ifdef DETAIL
-	if (fd)
-		g_debug("! Launch set_fd_non_block() with fd = %d!", *fd);
-	else
-		g_debug("! Launch set_fd_non_block() with fd = (%p)!", fd);
+	print_array("! convert_socket_data_to_string() argv", argv);
 #endif
-#ifdef SAFEMODE
-	if (fd==NULL) return FALSE;
-#endif
-	GError *error = NULL;
-	gint flags = fcntl(*fd, F_GETFL, 0);
-	if (fcntl(*fd, F_SETFL, O_NONBLOCK|flags) < 0)
-		// main_channel is NULL, so that we don't need to launch clear_channel()
-		return socket_fault(8, error, NULL, FALSE);
-	return TRUE;
-}
-
-// it will return TRUE if scucceed
-gboolean query_socket()
-{
-#ifdef DETAIL
-	g_debug("! Launch query_socket() to connect to an existing LilyTerm !");
-#endif
-	GError *error = NULL;
-
-	if (connect(socket_fd, (struct sockaddr *)&address, address_len) < 0)
-		// main_channel is NULL, so that we don't need to launch clear_channel()
-		return socket_fault(2, error, NULL, FALSE);
-	return TRUE;
-}
-
-// it will return TRUE if scucceed
-gboolean send_socket( int   argc,
-		      char *argv[],
-		      gboolean wait)
-{
-#ifdef DETAIL
-	g_debug("! Launch send_socket() to send data to the exiting LilyTerm !");
-	g_debug("! send_socket() argc = %d, wait = %d", argc, wait);
-	print_array("! send_socket() argv", argv);
-#endif
-
-	GError *error = NULL;
-	gsize len;
 	extern gchar **environ;
 
 	gchar *locale_list = get_locale_list();
@@ -430,7 +295,7 @@ gboolean send_socket( int   argc,
 	gchar *environ_str = convert_array_to_string(environ, '\t');
 	// print_array("! send_socket() environ", environ);
 	// g_debug("environ_str = %s", environ_str);
-	gchar *argv_str = convert_array_to_string(argv, '\x10');
+	gchar *argv_str = convert_array_to_string(argv, SEPARATE_CHAR);
 #ifdef SAFEMODE
 	gboolean need_free_argv_str = TRUE;
 	if (argv_str==NULL) argv_str=g_strdup("");
@@ -454,18 +319,29 @@ gboolean send_socket( int   argc,
 	//	      0			  1	2	    3	     4		 5   6	  7		    8		 9	       10      11
 	// send data: SOCKET_DATA_VERSION SHELL LOCALE_LIST ENCODING LC_MESSAGES PWD HOME VTE_CJK_WIDTH_STR wmclass_name wmclass_class ENVIRON ARGV
 	//				  0	1     2	    3	  4	5     6	    7	  8	9     10    11
-	gchar *arg_str = g_strdup_printf("%s\x10%s\x10%s\x10%s\x10%s\x10%s\x10%s\x10%s\x10%s\x10%s\x10%s\x10%s\x10",
+	gchar *arg_str = g_strdup_printf("%s%c%s%c%s%c%s%c%s%c%s%c%s%c%s%c%s%c%s%c%s%c%s",
 					 SOCKET_DATA_VERSION,
+					 SEPARATE_CHAR,
 					 shell,
+					 SEPARATE_CHAR,
 					 locale_list,
+					 SEPARATE_CHAR,
 					 encoding,
+					 SEPARATE_CHAR,
 					 lc_messages,
+					 SEPARATE_CHAR,
 					 pwd,
+					 SEPARATE_CHAR,
 					 home,
+					 SEPARATE_CHAR,
 					 VTE_CJK_WIDTH_STR,
+					 SEPARATE_CHAR,
 					 wmclass_name,
+					 SEPARATE_CHAR,
 					 wmclass_class,
+					 SEPARATE_CHAR,
 					 environ_str,
+					 SEPARATE_CHAR,
 					 argv_str);
 	// g_debug("arg_str = %s", arg_str);
 	g_free(locale_list);
@@ -477,381 +353,129 @@ gboolean send_socket( int   argc,
 #endif
 		g_free(argv_str);
 
-	// write data!
-#ifdef SAFEMODE
-	if (fcntl(socket_fd, F_GETFL) < 0) return FALSE;
-#endif
-	GIOChannel *channel = g_io_channel_unix_new(socket_fd);
-	// main_channel is NULL, so that we don't need to launch clear_channel()
-	if (!channel) return socket_fault(12, NULL, NULL, FALSE);
-	// set the channel to read binary file
-	if (g_io_channel_set_encoding(channel, NULL, &error) == G_IO_STATUS_ERROR)
-		return socket_fault(9, error, channel, TRUE);
-	g_io_channel_set_buffered (channel, FALSE);
+	return arg_str;
+}
 
-#ifdef SAFEMODE
-	if ((arg_str == NULL) ||
-	    (g_io_channel_write_chars(channel, arg_str, -1, &len, &error)==G_IO_STATUS_ERROR))
-#else
-	if (g_io_channel_write_chars(channel, arg_str, -1, &len, &error)==G_IO_STATUS_ERROR)
+// it will return TRUE if succeed
+gboolean convert_string_to_socket_data(gchar *socket_str)
+{
+#ifdef DETAIL
+	g_debug("! Launch convert_string_to_socket_data() with socket_str = %s", socket_str);
 #endif
-		// main_channel is NULL, so that we don't need to launch clear_channel()
-		return socket_fault(11, error, channel, TRUE);
-	// flush writing datas
-	// there are three results:
-	//   G_IO_STATUS_AGAIN	this means temporarily anvailable, so try again
-	//   G_IO_STATUS_NORMAL
-	//   G_IO_STATUS_ERROR
-	GIOStatus ioStatus;
-	do {
-		ioStatus = g_io_channel_flush(channel, &error);
-	}
-	while (ioStatus == G_IO_STATUS_AGAIN);
+	//	     0			 1     2	   3	    4		5   6	 7		   8		9	      10      11
+	// get data: SOCKET_DATA_VERSION SHELL LOCALE_LIST ENCODING LC_MESSAGES PWD HOME VTE_CJK_WIDTH_STR wmclass_name wmclass_class ENVIRON ARGV
 
-	if (ioStatus == G_IO_STATUS_ERROR)
+	gchar **datas = split_string(socket_str, SEPARATE_STR, 12);
+	// g_debug("The SOCKET_DATA_VERSION = %s ,and the data sent via socket is %s",
+	//	   SOCKET_DATA_VERSION, datas[0]);
+
+	if (datas==NULL)
 	{
-		// main_channel is NULL, so that we don't need to launch clear_channel()
-		return socket_fault(13, error, channel, TRUE);
+		// A dirty hack for sometimes the received socket datas is empty.
+		g_warning("Got a NULL string from the socket!");
+		new_window(0,
+			   NULL,
+			   NULL,
+			   NULL,
+			   NULL,
+			   NULL,
+			   NULL,
+			   NULL,
+			   FALSE,
+			   NULL,
+			   NULL,
+			   NULL,
+			   NULL,
+			   FALSE,
+			   NULL,
+			   NULL,
+			   NULL);
 	}
+	else if (compare_strings(SOCKET_DATA_VERSION, datas[0], TRUE))
+	{
+		// The SOCKET_DATA_VERSION != the data sent via socket
+		gchar *received_socket_version = NULL;
+		if (datas) received_socket_version = datas[0];
 
-	// assert ioStatus == G_IO_STATUS_NORMAL
-
-	g_free(arg_str);
-
-	// So far so good. shutdown and clear channel!
-	clear_channel(channel, TRUE);
-
-	// FIXME: sleep for 1 sec to wait the socket server. any better idea?
-	if (wait) sleep(1);
-
-	return TRUE;
-}
-
-// it will return TRUE if succeed
-gboolean init_socket_server()
-{
-#ifdef DETAIL
-	g_debug("! Launch init_socket_server() to init a LilyTerm socket server !");
-#endif
-	GError *error = NULL;
-
-	// clear the prev file
-	if (address.sun_path) unlink(address.sun_path);
-
-	// bind the socket on a file
-	if (bind(socket_fd, (struct sockaddr *)&address, address_len) < 0)
-		// main_channel is NULL, so that we don't need to launch clear_channel()
-		return socket_fault(3, error, NULL, FALSE);
-
-	// create socket queue
-	if (listen(socket_fd, 5) < 0)
-		// main_channel is NULL, so that we don't need to launch clear_channel()
-		return socket_fault(4, error, NULL, FALSE);
-
-	main_channel = g_io_channel_unix_new(socket_fd);
-	if (!main_channel) return socket_fault(12, NULL, NULL, FALSE);
-	// set the channel to read binary file
-	if (g_io_channel_set_encoding(main_channel, NULL, &error) == G_IO_STATUS_ERROR)
-		return socket_fault(9, error, main_channel, TRUE);
-
-	// if any request from client, call accept_socket().
-	// the channel will be clean when main_quit()
-	if ( ! g_io_add_watch(main_channel, G_IO_IN|G_IO_HUP, (GIOFunc)accept_socket, NULL))
-		return socket_fault(5, error, NULL, TRUE);
-
-	return TRUE;
-}
-
-// it will return TRUE if succeed
-gboolean accept_socket(GIOChannel *source, GIOCondition condition, gpointer user_data)
-{
-#ifdef DETAIL
-	g_debug("! Launch accept_socket() to accept the request from client !");
-#endif
-#ifdef SAFEMODE
-	if (source==NULL) return FALSE;
-#endif
-
-	GError *error = NULL;
-
-	if (condition & G_IO_HUP)
-		return socket_fault(6, error, source, FALSE);
+		gchar *message = g_strdup_printf(_("The data got from socket seems incorrect.\n\n"
+						   "\tReceived socket version: %s\n"
+						   "\tExpected socket version: %s\n\n"
+						   "If you just updated %s recently,\n"
+						   "Please close all the windows of %s and try again."),
+						   received_socket_version, SOCKET_DATA_VERSION,
+						   PACKAGE, PACKAGE);
+		error_dialog(NULL,
+			     _("The format of socket data is out of date"),
+			     "The format of socket data is out of date",
+			     GTK_FAKE_STOCK_DIALOG_ERROR,
+			     message,
+			     NULL);
+		g_free(message);
+	}
 	else
 	{
-		gint read_fd = accept(g_io_channel_unix_get_fd(source), NULL, NULL);
-		if (read_fd < 0)
-			return socket_fault(1, error, source, FALSE);
-		if ( ! set_fd_non_block(&read_fd)) return FALSE;
+		// g_debug("datas[11] = %s", datas[11]);
+		gchar **argv = split_string(datas[11], SEPARATE_STR, -1);
+		gint argc = 0;
+		if (argv)
+			while (argv[argc])
+				argc ++;
 
-		GIOChannel* channel = g_io_channel_unix_new(read_fd);
-		// channel is NULL, so that we don't need to launch clear_channel()
-		if (!channel) return socket_fault(12, NULL, channel, FALSE);
-		// set the channel to read binary file
-		if (g_io_channel_set_encoding(channel, NULL, &error) == G_IO_STATUS_ERROR)
-			return socket_fault(9, error, channel, TRUE);
+		// g_debug("Final:");
+		// g_debug("\targc =%d", argc);
+		// print_array("\targv", argv);
+		// g_debug("\tSHELL = %s", datas[1]);
+		// g_debug("\tenvironments = %s", datas[10]);
+		// g_debug("\tlocale_list = %s", datas[2]);
+		// g_debug("\tPWD = %s", datas[5]);
+		// g_debug("\tHOME = %s", datas[6]);
+		// g_debug("\tVTE_CJK_WIDTH_STR = %s", datas[7]);
+		// g_debug("\twmclass_name = %s", datas[8]);
+		// g_debug("\twmclass_class= %s", datas[9]);
+		// g_debug("\tencoding = %s", datas[3]);
+		// g_debug("\tlc_messages = %s", datas[4]);
 
-		// read the data that client sent.
-		if ( ! g_io_add_watch(channel, G_IO_HUP, read_socket, NULL))
-			return socket_fault(5, error, channel, TRUE);
+		//GtkNotebook *new_window(int argc,
+		//			char *argv[],
+		//			gchar *shell,					// 1
+		//			gchar *environment,				// 10
+		//			gchar *locale_list,				// 2
+		//			gchar *PWD,					// 5
+		//			gchar *HOME,					// 6
+		//			gchar *VTE_CJK_WIDTH_STR,			// 7
+		//			gboolean VTE_CJK_WIDTH_STR_overwrite_profile,
+		//			gchar *wmclass_name,				// 8
+		//			gchar *wmclass_class,				// 9
+		//			gchar *user_environ,
+		//			gchar *encoding,				// 3
+		//			gboolean encoding_overwrite_profile,
+		//			gchar *lc_messages,				// 4
+		//			struct Window *win_data_orig,
+		//			struct Page *page_data_orig)
+
+		new_window(argc,
+			   argv,
+			   datas[1],
+			   datas[10],
+			   datas[2],
+			   datas[5],
+			   datas[6],
+			   datas[7],
+			   FALSE,
+			   datas[8],
+			   datas[9],
+			   NULL,
+			   datas[3],
+			   FALSE,
+			   datas[4],
+			   NULL,
+			   NULL);
+		g_strfreev(argv);
 	}
-	return TRUE;
-}
+	g_strfreev(datas);
 
-// it will return TRUE if succeed
-gboolean read_socket(GIOChannel *channel, GIOCondition condition, gpointer user_data)
-{
-#ifdef DETAIL
-	g_debug("! Launch read_socket() to read data !");
-#endif
-#ifdef SAFEMODE
-	if (channel==NULL) return FALSE;
-#endif
-
-	GError *error = NULL;
-	gchar *data = NULL, **datas;
-	gsize len = 0;
-
-	if (g_io_channel_read_to_end (channel, &data, &len, &error) != G_IO_STATUS_NORMAL)
-		return socket_fault(7, error, channel, TRUE);
-
-	// g_debug("Read %ld bytes from Lilyterm socket: '%s'", len, data);
-	if (len > 0)
-	{
-		//	     0			 1     2	   3	    4		5   6	 7		   8		9	      10      11
-		// get data: SOCKET_DATA_VERSION SHELL LOCALE_LIST ENCODING LC_MESSAGES PWD HOME VTE_CJK_WIDTH_STR wmclass_name wmclass_class ENVIRON ARGV
-		// clear '\n' at the end of data[]
-		// this is nonsense, when no '\n' was written.
-		// data[len-1] = 0;
-
-		datas = split_string(data, "\x10", 12);
-		// g_debug("The SOCKET_DATA_VERSION = %s ,and the data sent via socket is %s",
-		//	   SOCKET_DATA_VERSION, datas[0]);
-
-		if (datas==NULL)
-		{
-			// A dirty hack for sometimes the received socket datas is empty.
-			socket_fault(14, NULL, NULL, FALSE);
-			new_window(0,
-				   NULL,
-				   NULL,
-				   NULL,
-				   NULL,
-				   NULL,
-				   NULL,
-				   NULL,
-				   FALSE,
-				   NULL,
-				   NULL,
-				   NULL,
-				   NULL,
-				   FALSE,
-				   NULL,
-				   NULL,
-				   NULL);
-		}
-		else if (compare_strings(SOCKET_DATA_VERSION, datas[0], TRUE))
-		{
-			// The SOCKET_DATA_VERSION != the data sent via socket
-			gchar *received_socket_version = NULL;
-			if (datas) received_socket_version = datas[0];
-
-			gchar *message = g_strdup_printf(_("The data got from socket seems incorrect.\n\n"
-							   "\tReceived socket version: %s\n"
-							   "\tExpected socket version: %s\n\n"
-							   "If you just updated %s recently,\n"
-							   "Please close all the windows of %s and try again."),
-							   received_socket_version, SOCKET_DATA_VERSION,
-							   PACKAGE, PACKAGE);
-			error_dialog(NULL,
-				     _("The format of socket data is out of date"),
-				     "The format of socket data is out of date",
-				     GTK_FAKE_STOCK_DIALOG_ERROR,
-				     message,
-				     NULL);
-			g_free(message);
-		}
-		else
-		{
-			gchar **argv = split_string(datas[11], "\x10", -1);
-			gint argc = 0;
-			if (argv)
-				while (argv[argc])
-					argc ++;
-
-			// g_debug("Final:");
-			// g_debug("\targc =%d", argc);
-			// print_array("\targv", argv);
-			// g_debug("\tSHELL = %s", datas[1]);
-			// g_debug("\tenvironments = %s", datas[10]);
-			// g_debug("\tlocale_list = %s", datas[2]);
-			// g_debug("\tPWD = %s", datas[5]);
-			// g_debug("\tHOME = %s", datas[6]);
-			// g_debug("\tVTE_CJK_WIDTH_STR = %s", datas[7]);
-			// g_debug("\twmclass_name = %s", datas[8]);
-			// g_debug("\twmclass_class= %s", datas[9]);
-			// g_debug("\tencoding = %s", datas[3]);
-			// g_debug("\tlc_messages = %s", datas[4]);
-
-			//GtkNotebook *new_window(int argc,
-			//			char *argv[],
-			//			gchar *shell,					// 1
-			//			gchar *environment,				// 10
-			//			gchar *locale_list,				// 2
-			//			gchar *PWD,					// 5
-			//			gchar *HOME,					// 6
-			//			gchar *VTE_CJK_WIDTH_STR,			// 7
-			//			gboolean VTE_CJK_WIDTH_STR_overwrite_profile,
-			//			gchar *wmclass_name,				// 8
-			//			gchar *wmclass_class,				// 9
-			//			gchar *user_environ,
-			//			gchar *encoding,				// 3
-			//			gboolean encoding_overwrite_profile,
-			//			gchar *lc_messages,				// 4
-			//			struct Window *win_data_orig,
-			//			struct Page *page_data_orig)
-
-			new_window(argc,
-				   argv,
-				   datas[1],
-				   datas[10],
-				   datas[2],
-				   datas[5],
-				   datas[6],
-				   datas[7],
-				   FALSE,
-				   datas[8],
-				   datas[9],
-				   NULL,
-				   datas[3],
-				   FALSE,
-				   datas[4],
-				   NULL,
-				   NULL);
-			g_strfreev(argv);
-		}
-		g_strfreev(datas);
-		data[len-1] = '\n';
-		g_free(data);
-	}
-	clear_channel(channel, TRUE);
 	// return FALSE means this connection is finish.
 	return FALSE;
-}
-
-// it will always return FALSE
-gboolean socket_fault(int type, GError *error, GIOChannel *channel, gboolean unref)
-{
-#ifdef DETAIL
-	g_debug("! Launch socket_fault() to show the error message !");
-#endif
-#ifdef UNIT_TEST
-#  define G_WARNING g_message
-#else
-#  define G_WARNING g_warning
-#endif
-	switch (type)
-	{
-		case 1:
-			G_WARNING("Error when create %s socket(%s): %s",
-				  PACKAGE, address.sun_path, g_strerror (errno));
-			break;
-		case 2:
-			g_message("Can NOT connect to a existing %s socket!", PACKAGE);
-			break;
-		case 3:
-			G_WARNING("Can NOT bind on the socket!");
-			break;
-		case 4:
-			G_WARNING("Can NOT listen on the socket!");
-			break;
-		case 5:
-			G_WARNING("Can not watch on the socket!");
-			break;
-		case 6:
-			G_WARNING("Error when accepting client request via socket!");
-			break;
-		case 7:
-			G_WARNING("Error when reading the data client sent via socket!");
-			break;
-		case 8:
-			G_WARNING("Error when running fcntl command on socket!");
-			break;
-		case 9:
-#ifdef SAFEMODE
-			if (error)
-#endif
-				G_WARNING("Error when setting the encoding of channel: %s", error->message);
-			break;
-		case 10:
-#ifdef SAFEMODE
-			if (error)
-#endif
-				G_WARNING("Error when shutdowning a channel: %s", error->message);
-			break;
-		case 11:
-#ifdef SAFEMODE
-			if (error)
-#endif
-				G_WARNING("Error when writing data to the channel: %s", error->message);
-			break;
-		case 12:
-			G_WARNING("Can NOT create a channel for this socket");
-			break;
-		case 13:
-#ifdef SAFEMODE
-			if (error)
-#endif
-				G_WARNING("Error when flushing the write buffer for the channel: %s", error->message);
-			break;
-		case 14:
-			G_WARNING("Got a NULL string from the socket!");
-			break;
-		default:
-#ifdef FATAL
-			print_switch_out_of_range_error_dialog("socket_fault", "type", type);
-#endif
-			break;
-	}
-	if (error) g_clear_error (&error);
-	clear_channel(channel, unref);
-#ifdef UNIT_TEST
-#  undef G_WARNING
-#endif
-	return FALSE;
-}
-
-// it will return TRUE if scucceed
-gboolean clear_channel(GIOChannel *channel, gboolean unref)
-{
-#ifdef DETAIL
-	g_debug("! Launch clear_channel() to clear channel data !");
-#endif
-	if (channel == NULL) return TRUE;
-
-	gboolean return_value = TRUE;
-	GError *error = NULL;
-
-	if (g_io_channel_shutdown(channel, TRUE, &error) == G_IO_STATUS_ERROR)
-		return_value = socket_fault(10, error, NULL, FALSE);
-
-	if (return_value && unref)
-	{
-		g_io_channel_unref(channel);
-		channel = NULL;
-	}
-
-	return return_value;
-}
-
-// It should always return 0.
-gint shutdown_socket_server(gpointer data)
-{
-#ifdef DETAIL
-	g_debug("! Launch shutdown_socket_server() to shutdown the LilyTerm socket server!");
-#endif
-	if (main_channel) clear_channel(main_channel, TRUE);
-	if (address.sun_path) unlink(address.sun_path);
-	return 0;
 }
 
 void main_quit(GtkWidget *widget, struct Window *win_data)
@@ -943,21 +567,3 @@ gchar *get_locale_list()
 	#define g_getenv(x) NULL
 #endif
 }
-
-//// The returned GString should be freed when no longer needed.
-//GString *convert_string_array_to_0x9_separated_gstring (gchar **string_array)
-//{
-//	gint i = 0;
-//	GString *string = g_string_new("");
-//
-//	if (string_array!=NULL)
-//	{
-//		while (string_array[i]!=NULL)
-//		{
-//			// g_debug("%d: %s", i, string_array[i]);
-//			g_string_append_printf(string, "%s\x10", string_array[i]);
-//			i++;
-//		}
-//	}
-//	return string ;
-//}

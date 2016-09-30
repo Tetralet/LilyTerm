@@ -344,9 +344,9 @@ struct Page *add_page(struct Window *win_data,
 
 		spawn_flags |= G_SPAWN_FILE_AND_ARGV_ZERO;
 
-		gchar *argv_str = convert_array_to_string(argv, '\x10');
-		gchar *final_argv_str = g_strdup_printf("%s\x10%s", win_data->command, argv_str);
-		final_argv = split_string(final_argv_str, "\x10", -1);
+		gchar *argv_str = convert_array_to_string(argv, SEPARATE_CHAR);
+		gchar *final_argv_str = g_strdup_printf("%s%c%s", win_data->command, SEPARATE_CHAR, argv_str);
+		final_argv = split_string(final_argv_str, SEPARATE_STR, -1);
 		final_argv_need_be_free = TRUE;
 #  ifdef SAFEMODE
 		if (final_argv==NULL)
@@ -371,17 +371,17 @@ struct Page *add_page(struct Window *win_data,
 	if (win_data->utmp)
 		pty_flags = (VTE_PTY_NO_LASTLOG | VTE_PTY_NO_UTMP | VTE_PTY_NO_WTMP | VTE_PTY_DEFAULT);
 
-	fork_stats = vte_terminal_spawn_sync (VTE_TERMINAL(page_data->vte),
-						     pty_flags,
-						     page_data->pwd,
-						     final_argv,
-						     new_environs,
-						     spawn_flags,
-						     NULL,
-						     NULL,
-						     &(page_data->pid),
-						     NULL,
-						     &error);
+	fork_stats = vte_terminal_spawn_sync(VTE_TERMINAL(page_data->vte),
+					     pty_flags,
+					     page_data->pwd,
+					     final_argv,
+					     new_environs,
+					     spawn_flags,
+					     NULL,
+					     NULL,
+					     &(page_data->pid),
+					     NULL,
+					     &error);
 	if (final_argv_need_be_free) g_strfreev(final_argv);
 	login_shell_str[0] = NULL;
 #endif

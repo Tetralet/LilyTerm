@@ -126,6 +126,8 @@
 #define SYSTEM_COLUMN 80
 #define SYSTEM_ROW 24
 #define LANGUAGE 255
+#define SEPARATE_CHAR '\xFF'
+#define SEPARATE_STR "\xFF"
 
 #if GTK_CHECK_VERSION(2,9,0)
 	// SINCE: gtk+-2.9.0/gtk/gtknotebook.h: gtk_notebook_set_tab_reorderable()

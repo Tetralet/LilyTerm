@@ -132,7 +132,7 @@ if [ -z "$CFLAGS" ]; then
   CFLAGS="-Wall -Werror -O -g"
 fi
 
-OBJ="menu.o profile.o dialog.o pagename.o notebook.o font.o property.o window.o misc.o console.o main.o unit_test.o"
+OBJ="socket.o menu.o profile.o dialog.o pagename.o notebook.o font.o property.o window.o misc.o console.o main.o unit_test.o"
 
 $CAT > gdb_batch << EOF
 run

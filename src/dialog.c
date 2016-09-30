@@ -1431,7 +1431,7 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 		case GENERAL_INFO:
 		{
 			selectable = TRUE;
-			gchar **strings = split_string(win_data->temp_data, "\x10", 3);
+			gchar **strings = split_string(win_data->temp_data, SEPARATE_STR, 3);
 			if (strings==NULL) goto FINISH;
 			create_dialog(strings[0],
 				      strings[1],

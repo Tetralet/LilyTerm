@@ -22,6 +22,7 @@
 #define LILYTERM_H
 
 #include "data.h"
+#include "socket.h"
 
 typedef gchar StrAddr;
 typedef gchar StrLists;
@@ -78,9 +79,8 @@ gchar *fake_g_strdup_printf(const StrLists *format, ...);
 // **************************** main.c ****************************
 //
 
-gboolean init_socket_data();
-gboolean query_socket();
-gboolean send_socket(int argc, char *argv[], gboolean wait);
+gchar *convert_socket_data_to_string(char *argv[]);
+gboolean convert_string_to_socket_data(gchar *socket_str);
 void main_quit(GtkWidget *widget, struct Window *win_data);
 void quit_gtk();
 

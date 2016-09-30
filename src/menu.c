@@ -648,11 +648,12 @@ void view_current_page_info(GtkWidget *widget, struct Window *win_data)
 	if (page_data==NULL) return;
 #endif
 	gchar *old_temp_data = win_data->temp_data;
-	win_data->temp_data = g_strdup_printf("%s\x10%s\x10"
+	win_data->temp_data = g_strdup_printf("%s%c%s%c"
 					      "Encoding=%s\n"
 					      "VTE_CJK_WIDTH=%s\n"
 					      "WINDOWID=%ld",
-					      _("View current page information"), "View current page information",
+					      _("View current page information"), SEPARATE_CHAR,
+					      "View current page information", SEPARATE_CHAR,
 					      page_data->encoding_str,
 					      page_data->VTE_CJK_WIDTH_STR,
 					      (gtk_widget_get_window (page_data->vte))?GDK_WINDOW_XID (gtk_widget_get_window (page_data->vte)):0);
@@ -2134,7 +2135,6 @@ void apply_profile_from_file(const gchar *path, Apply_Profile_Type type)
 #ifdef SAFEMODE
 	if (path==NULL) return;
 #endif
-	gint argc = 0;
 
 #ifdef FATAL
 	// g_debug("menu_active_window = %p", menu_active_window);
@@ -2159,37 +2159,21 @@ void apply_profile_from_file(const gchar *path, Apply_Profile_Type type)
 #endif
 		{
 			if (type == NEW_WINDOW_FROM_SYSTEM_PROFILE)
-			{
-				argv_str = g_strdup_printf("-u\x10%s\x10--specified_profile\x10%s",
-							   path, win_data->profile);
-				argc = 5;
-			}
+				argv_str = g_strdup_printf("-u%c%s%c--specified_profile%c%s",
+							   SEPARATE_CHAR, path, SEPARATE_CHAR, SEPARATE_CHAR, win_data->profile);
 			else
-			{
-				argv_str = g_strdup_printf("-u\x10%s", path);
-				argc = 3;
-			}
+				argv_str = g_strdup_printf("-u%c%s", SEPARATE_CHAR, path);
 		}
 		else
-		{
-			argv_str = g_strdup_printf("--safe-mode\x10--specified_profile\x10%s", win_data->profile);
-			argc = 4;
-		}
+			argv_str = g_strdup_printf("--safe-mode%c--specified_profile%c%s", SEPARATE_CHAR, SEPARATE_CHAR, win_data->profile);
 		// g_debug("! apply_profile_from_file(): argv_str = %s", argv_str);
 
-		gchar **argv = NULL;
-#ifdef SAFEMODE
-		if (argv_str==NULL)
-			argc = 0;
-		else
-#endif
-			argv = split_string(argv_str, "\x10", -1);
+		gchar **argv = split_string(argv_str, SEPARATE_STR, -1);
 		// print_array("! apply_profile_from_file(): argv", argv);
 
-		init_socket_data();
-		query_socket();
-		send_socket(argc, argv, FALSE);
-
+		gchar *socket_str = convert_socket_data_to_string(argv);
+		init_gtk_socket(PACKAGE, socket_str, (GSourceFunc)convert_string_to_socket_data);
+		g_free (socket_str);
 		g_free (argv_str);
 		g_strfreev(argv);
 	}

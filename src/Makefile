@@ -19,7 +19,7 @@
 #	make data: compile po and $(BINARY).conf files.
 #
 # grep 'g_debug *( *" *[^\!@+\?-]' * | grep -v '\/\/'
-# (\(console\|dialog\|font\|main\|menu\|misc\|notebook\|pagename\|profile\|property\|window\).c:[0-9]*)
+# (\(console\|dialog\|font\|main\|menu\|misc\|notebook\|pagename\|profile\|property\|window\|socket\).c:[0-9]*)
 # MANWIDTH=80 man data/lilyterm.1 | col -b > README
 
 include ../.default
@@ -71,7 +71,7 @@ LDFLAGS += -lX11
 endif
 OBJ_PKG_CMD = $(PKGCONFIG) --cflags $(GTK) $(VTE)
 BINARY_PKG_CMD = $(PKGCONFIG) --cflags --libs $(GTK) $(VTE)
-SOURCE_FILES = menu.c profile.c dialog.c pagename.c notebook.c font.c \
+SOURCE_FILES = socket.c menu.c profile.c dialog.c pagename.c notebook.c font.c \
 	       property.c window.c misc.c console.c main.c
 OBJ = $(SOURCE_FILES:.c=.o)
 

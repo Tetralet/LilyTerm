@@ -181,15 +181,15 @@ GtkNotebook *new_window(int argc,
 					{
 						if (active_win_data->custom_tab_names_str)
 						{
-							g_string_append_printf(active_win_data->custom_tab_names_str, "%c%s", '\x10',
+							g_string_append_printf(active_win_data->custom_tab_names_str, "%c%s", SEPARATE_CHAR,
 									       win_data->custom_tab_names_str->str);
 							g_strfreev(active_win_data->custom_tab_names_strs);
 						}
 						else
 							active_win_data->custom_tab_names_str = g_string_new(win_data->custom_tab_names_str->str);
 
-						active_win_data->custom_tab_names_strs = split_string(active_win_data->custom_tab_names_str->str, "\x10", -1);
-						active_win_data->custom_tab_names_total = count_char_in_string(active_win_data->custom_tab_names_str->str, '\x10') + 1;
+						active_win_data->custom_tab_names_strs = split_string(active_win_data->custom_tab_names_str->str, SEPARATE_STR, -1);
+						active_win_data->custom_tab_names_total = count_char_in_string(active_win_data->custom_tab_names_str->str, SEPARATE_CHAR) + 1;
 						// g_debug("(%p): Got win_data->custom_tab_names_str = %s win_data->custom_tab_names_total = %d "
 						//	"win_data->custom_tab_names_current = %d",
 						//	active_win_data, active_win_data->custom_tab_names_str->str,
@@ -1020,7 +1020,7 @@ gboolean window_option(struct Window *win_data, gchar *encoding, int argc, char 
 		else if (getting_tab_name_argc==i)
 		{
 			if (win_data->custom_tab_names_str)
-				g_string_append_printf(win_data->custom_tab_names_str, "%c%s", '\x10', argv[i]);
+				g_string_append_printf(win_data->custom_tab_names_str, "%c%s", SEPARATE_CHAR, argv[i]);
 			else
 				win_data->custom_tab_names_str = g_string_new(argv[i]);
 			getting_tab_name_argc = i+1;
@@ -1029,8 +1029,8 @@ gboolean window_option(struct Window *win_data, gchar *encoding, int argc, char 
 
 	if (win_data->custom_tab_names_str)
 	{
-		win_data->custom_tab_names_strs = split_string(win_data->custom_tab_names_str->str, "\x10", -1);
-		win_data->custom_tab_names_total = count_char_in_string(win_data->custom_tab_names_str->str, '\x10') + 1;
+		win_data->custom_tab_names_strs = split_string(win_data->custom_tab_names_str->str, SEPARATE_STR, -1);
+		win_data->custom_tab_names_total = count_char_in_string(win_data->custom_tab_names_str->str, SEPARATE_CHAR) + 1;
 		// g_debug("(%p): Got win_data->custom_tab_names_str = %s win_data->custom_tab_names_total = %d",
 		//	win_data, win_data->custom_tab_names_str->str, win_data->custom_tab_names_total);
 		if (win_data->init_tab_number<win_data->custom_tab_names_total)
@@ -3863,7 +3863,8 @@ gboolean show_clipboard_dialog(Clipboard_Type type, struct Window *win_data,
 		{
 			gchar *tmp_str = colorful_max_new_lines(clipboard_str, -1, 7);
 			if (tmp_str)
-				win_data->temp_data = g_strdup_printf("%s\x10%s\x10%s", _("Clipboard"), "Clipboard", tmp_str);
+				win_data->temp_data = g_strdup_printf("%s%c%s%c%s", 
+								      _("Clipboard"), SEPARATE_CHAR, "Clipboard", SEPARATE_CHAR, tmp_str);
 			else
 				win_data->temp_data = NULL;
 			g_free(tmp_str);
