@@ -182,6 +182,7 @@ int main( int   argc,
 	//			struct Window *win_data_orig,
 	//			struct Page *page_data_orig)
 
+	// g_debug("main(1): gtk_main_level = %d, g_list_length(window_list) = %d", gtk_main_level(), g_list_length(window_list));
 	if ((new_window(argc,
 			argv,
 			(gchar *) shell,
@@ -199,7 +200,7 @@ int main( int   argc,
 			init_LC_MESSAGES,
 			NULL,
 			NULL)) ||
-	     window_list)
+	     g_list_length(window_list))
 	{
 		// The argv of "main" LilyTerm can't be free.
 		// Set it to NULL here to avoid double_free().
@@ -207,7 +208,7 @@ int main( int   argc,
 #ifdef ENABLE_X_STARTUP_NOTIFICATION_ID
 		gdk_notify_startup_complete_with_id(PACKAGE);
 #endif
-		// g_debug("gtk_main_level = %d", gtk_main_level());
+		// g_debug("main(2): gtk_main_level = %d, g_list_length(window_list) = %d", gtk_main_level(), g_list_length(window_list));
 		if (! gtk_main_level())
 			gtk_main();
 	}
@@ -453,23 +454,26 @@ gboolean convert_string_to_socket_data(gchar *socket_str)
 		//			struct Window *win_data_orig,
 		//			struct Page *page_data_orig)
 
-		new_window(argc,
-			   argv,
-			   datas[1],
-			   datas[10],
-			   datas[2],
-			   datas[5],
-			   datas[6],
-			   datas[7],
-			   FALSE,
-			   datas[8],
-			   datas[9],
-			   NULL,
-			   datas[3],
-			   FALSE,
-			   datas[4],
-			   NULL,
-			   NULL);
+		if ((new_window(argc,
+				argv,
+				datas[1],
+				datas[10],
+				datas[2],
+				datas[5],
+				datas[6],
+				datas[7],
+				FALSE,
+				datas[8],
+				datas[9],
+				NULL,
+				datas[3],
+				FALSE,
+				datas[4],
+				NULL,
+				NULL) == NULL && (g_list_length(window_list) == 0)))
+			// Sometimes, new_window() will return NULL. Therefore LilyTerm may should quit.
+			quit_gtk();
+		// g_debug("main(3): gtk_main_level = %d, g_list_length(window_list) = %d", gtk_main_level(), g_list_length(window_list));
 		g_strfreev(argv);
 	}
 	g_strfreev(datas);

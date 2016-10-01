@@ -923,6 +923,9 @@ gchar *get_tab_name_with_cmdline(struct Page *page_data)
 	if (page_data->current_tpgid>0)
 	{
 		gchar *tpgid_cmdline = get_cmdline(page_data->current_tpgid);
+
+		// g_debug("get_tab_name_with_cmdline(): tpgid_cmdline = %s", tpgid_cmdline);
+
 		//if ((page_data->pid == page_data->current_tpgid) ||
 		//    (compare_strings(page_data->pid_cmdline, tpgid_cmdline, TRUE)))
 		if ((page_data->pid == page_data->current_tpgid) ||
@@ -934,7 +937,7 @@ gchar *get_tab_name_with_cmdline(struct Page *page_data)
 			// g_debug("pid = %d, tpgid = %d, pid_cmdline = %s", pid, tpgid, pid_cmdline);
 #ifdef DEBUG
 			g_message("Got (%s), Trying to reread the %s/%d/cmdline...",
-				  proc_file_system_path, tpgid_cmdline, (gint)page_data->current_tpgid);
+				  tpgid_cmdline, proc_file_system_path, (gint)page_data->current_tpgid);
 #endif
 			g_free(tpgid_cmdline);
 			// Magic number: we wait for 0.15 sec then reread cmdline again.
@@ -1020,6 +1023,7 @@ gchar *get_cmdline(const pid_t tpgid)
 			if (*(cmdline+i)==0)
 				*(cmdline+i)=' ';
 	}
+	// g_debug("get_cmdline(): cmdline = %s", cmdline);
 	return cmdline;
 }
 

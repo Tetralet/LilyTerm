@@ -958,7 +958,11 @@ gboolean window_option(struct Window *win_data, gchar *encoding, int argc, char 
 					g_string_free(arg_str, TRUE);
 
 					if (! execute_command)
+					{
+						// g_debug("window_option(FALSE): gtk_main_level = %d, g_list_length(window_list) = %d",
+						//	gtk_main_level(), g_list_length(window_list));
 						return FALSE;
+					}
 				}
 
 				// IMPORTANT!
@@ -969,12 +973,12 @@ gboolean window_option(struct Window *win_data, gchar *encoding, int argc, char 
 				// g_free(win_data->default_locale);
 				// win_data->default_locale = NULL;
 
-				if (execute_command)
-				{
-					win_data->command = argv[i];
-					win_data->argv = &(argv[i]);
-					win_data->argc = argc-i;
-				}
+				// g_debug("window_option(TRUE): gtk_main_level = %d, g_list_length(window_list) = %d",
+				//	gtk_main_level(), g_list_length(window_list));
+				// execute_command will always be TRUE here.
+				win_data->command = argv[i];
+				win_data->argv = &(argv[i]);
+				win_data->argc = argc-i;
 
 				// g_debug("Command = %s", win_data->command);
 				// g_debug("argc = %d", win_data->argc);
