@@ -21,7 +21,7 @@ BACKGROUND=N
 STRIP=N
 GNOME_CONTROL_CENTER=Y
 
-GTK_SPC=0
+GTK_SPC=1
 NLS_SPC=0
 GNOME_CONTROL_CENTER_SPC=0
 
@@ -119,9 +119,9 @@ if [ "$1" = "-h" -o "$1" = "--help" -o "$1" = "-help" ]; then
   $ECHO "  `INFO '--prefix=PREFIX'`     : install in PREFIX (e.g. /usr) `NORMAL '[default: /usr/local]'`"
   $ECHO "  `INFO '--sysconfdir=ETCDIR'` : system conf file install dir `NORMAL '[default: $PREFIX/etc/xdg]'`"
   $ECHO ""
-  $ECHO "Optional Packages:"
-  $ECHO "  `INFO '--with-gtk=2.0|3.0'`  : which gtk+ version to compile against `NORMAL '[default: 2.0]'`"
-  $ECHO ""
+#  $ECHO "Optional Packages:"
+#  $ECHO "  `INFO '--with-gtk=2.0|3.0'`  : which gtk+ version to compile against `NORMAL '[default: 2.0]'`"
+#  $ECHO ""
   $ECHO "Optional Features:"
   $ECHO "  `INFO '--enable-verbosity'`  : enable verbosity output `NORMAL '[default: disable]'`"
   $ECHO "  `INFO '--enable-debug'`      : enable debug mode `NORMAL '[default: disable]'`"
@@ -169,10 +169,10 @@ for opt do
     --with-gtk=2.0)
       GTK_SPC=1
       ;;
-    --with-gtk=3.0)
-      GTK=gtk+-3.0
-      GTK_SPC=1
-      ;;
+#    --with-gtk=3.0)
+#      GTK=gtk+-3.0
+#      GTK_SPC=1
+#      ;;
     --enable-nls)
       NLS_SPC=1
       ;;
