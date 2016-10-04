@@ -2713,7 +2713,10 @@ gboolean idle_to_resize_window(struct Window *win_data)
 		gtk_window_resize_to_geometry(GTK_WINDOW(win_data->window), win_data->geometry_width, win_data->geometry_height);
 #  else
 		// FIXME: the GTK3_GEOMETRY_METHOD need rewrite!!
+		// g_debug("! Launch idle_to_resize_window() with win_data->geometry_width = %ld, win_data->geometry_height = %ld",
+		//	win_data->geometry_width, win_data->geometry_height);
 		// gtk_window_resize(GTK_WINDOW(win_data->window), win_data->geometry_width, win_data->geometry_height);
+		return FALSE;
 #  endif
 #  ifdef GEOMETRY
 	fprintf(stderr, "\033[1;%dm** idle_to_resize_window(): resize with hints_type = %d, column = %ld, row = %ld !!\033[0m\n",

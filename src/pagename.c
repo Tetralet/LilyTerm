@@ -945,7 +945,7 @@ gchar *get_tab_name_with_cmdline(struct Page *page_data)
 			tpgid_cmdline = get_cmdline(page_data->current_tpgid);
 #ifdef DEBUG
 			g_message("Got (%s) after reread the %s/%d/cmdline.",
-				  proc_file_system_path, tpgid_cmdline, (gint)page_data->current_tpgid);
+				  tpgid_cmdline, proc_file_system_path, (gint)page_data->current_tpgid);
 #endif
 			return tpgid_cmdline;
 		}
