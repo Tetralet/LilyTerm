@@ -2419,11 +2419,13 @@ void apply_profile_from_file(const gchar *path, Apply_Profile_Type type)
 
 		glong column=0, row=0;
 		get_row_and_column_from_geometry_str(&column, &row, &(win_data->default_column), &(win_data->default_row), win_data->geometry);
+#ifdef HAVE_GTK_WINDOW_PARSE_GEOMETRY
 		if (win_data->geometry && (win_data->geometry[0]!='\0'))
 		{
 			// may not work!!
 			gtk_window_parse_geometry(GTK_WINDOW(win_data->window), win_data->geometry);
 		}
+#endif
 #ifdef USE_GTK2_GEOMETRY_METHOD
 #  ifdef GEOMETRY
 		g_debug("@ apply_profile_from_file (for %p): Trying set the geometry to %ld x %ld",

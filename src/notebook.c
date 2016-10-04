@@ -1852,6 +1852,7 @@ gchar *get_url(GdkEventButton *event, struct Page *page_data, gint *tag)
 #ifdef SAFEMODE
 	if ((page_data==NULL) || (event==NULL)) return NULL;
 #endif
+#ifdef VTE_TERMINAL_MATCH_CHECK
 	gint pad_x=0, pad_y=0;
 	vte_terminal_get_padding(VTE_TERMINAL(page_data->vte), &pad_x, &pad_y);
 	pad_x /= 2;
@@ -1865,6 +1866,9 @@ gchar *get_url(GdkEventButton *event, struct Page *page_data, gint *tag)
 						vte_terminal_get_char_height(
 							VTE_TERMINAL(page_data->vte)),
 					tag);
+#else
+	return vte_terminal_match_check_event (VTE_TERMINAL(page_data->vte), (GdkEvent*)event, tag);
+#endif
 }
 
 void page_data_dup(struct Page *page_data_prev, struct Page *page_data)

@@ -2709,7 +2709,12 @@ gboolean idle_to_resize_window(struct Window *win_data)
 	g_debug("! Launch idle_to_resize_window() with win_data = %p", win_data);
 #  endif
 	if (check_if_win_data_is_still_alive(win_data))
+#  ifdef HAVE_GTK_WINDOW_RESIZE_TO_GEOMETRY
 		gtk_window_resize_to_geometry(GTK_WINDOW(win_data->window), win_data->geometry_width, win_data->geometry_height);
+#  else
+		// FIXME: the GTK3_GEOMETRY_METHOD need rewrite!!
+		// gtk_window_resize(GTK_WINDOW(win_data->window), win_data->geometry_width, win_data->geometry_height);
+#  endif
 #  ifdef GEOMETRY
 	fprintf(stderr, "\033[1;%dm** idle_to_resize_window(): resize with hints_type = %d, column = %ld, row = %ld !!\033[0m\n",
 		ANSI_COLOR_MAGENTA, win_data->hints_type, win_data->geometry_width, win_data->geometry_height);

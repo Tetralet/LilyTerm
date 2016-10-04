@@ -248,11 +248,16 @@ void set_hyperlink(struct Window *win_data, struct Page *page_data)
 			// g_free(regex_str);
 
 #ifdef USE_NEW_VTE_MATCH_ADD_GREGEX
-			GRegex *regex = g_regex_new (match, G_REGEX_CASELESS | G_REGEX_OPTIMIZE,
-						     0, NULL);
-			page_data->tag[i] = vte_terminal_match_add_gregex (VTE_TERMINAL(page_data->vte),
-									   regex, 0);
+#  ifdef HAVE_VTE_TERMINAL_SEARCH_SET_GREGEX
+			GRegex *regex = g_regex_new (match, G_REGEX_CASELESS | G_REGEX_OPTIMIZE, 0, NULL);
+			page_data->tag[i] = vte_terminal_match_add_gregex (VTE_TERMINAL(page_data->vte), regex, 0);
 			g_regex_unref (regex);
+#  else
+			VteRegex *regex = vte_regex_new_for_match (match, -1, 
+								   PCRE2_UTF | PCRE2_NO_UTF_CHECK | PCRE2_MULTILINE | PCRE2_CASELESS, NULL);
+			page_data->tag[i] = vte_terminal_match_add_regex (VTE_TERMINAL(page_data->vte), regex, 0);
+			vte_regex_unref(regex);
+#  endif
 #else
 			page_data->tag[i] = vte_terminal_match_add (VTE_TERMINAL(page_data->vte), match);
 #endif
@@ -966,14 +971,22 @@ void set_widget_thickness(GtkWidget *widget, gint thickness)
 #  endif
 	g_object_unref(rc_style);
 #else
-	GtkCssProvider *css = gtk_css_provider_new ();
+	GtkCssProvider *css = gtk_css_provider_new();
 	GtkStyleContext *context = gtk_widget_get_style_context(widget);
+#  ifdef HAVE_CSS_FOCUS_LINE_WIDTH
 	gchar *modified_style = g_strdup_printf("* {\n"
 						"   -GtkWidget-focus-line-width: 0;\n"
 						"   -GtkWidget-focus-padding: 0;\n"
 						"   padding: %dpx;\n"
 						"}",
 						thickness);
+#  else
+	gchar *modified_style = g_strdup_printf("* {\n"
+						"   outline-width: %dpx;\n"
+						"   padding: %dpx;\n"
+						"}",
+						thickness, thickness);
+#  endif
 	if (gtk_css_provider_load_from_data (css, modified_style, -1, NULL))
 		gtk_style_context_add_provider (context, GTK_STYLE_PROVIDER (css),
 						GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);

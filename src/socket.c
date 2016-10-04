@@ -201,12 +201,9 @@ gboolean init_socket_data(gchar *package_name)
 	const gchar *tmp_dir = g_get_tmp_dir();
 
 	if (tmp_dir)
-	{
-		gchar *display = gdk_get_display();
 		g_snprintf(address.sun_path, UNIX_PATH_MAX, "%s/.%s_%s%s",
-			   tmp_dir ,package_name, g_get_user_name(), display);
-		g_free(display);
-	}
+			   tmp_dir ,package_name, g_get_user_name(),
+			   gdk_display_get_name(gdk_display_get_default()));
 	else
 		return socket_fault(GTK_SOCKET_ERROR_TMP_DIR, error, NULL, FALSE);
 

@@ -240,7 +240,11 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 #ifdef USE_GDK_RGBA
 			GtkStyleContext *rc_style = gtk_widget_get_style_context (dialog_data->operate[0]);
 			// gtk_style_context_add_class(rc_style, GTK_STYLE_CLASS_ENTRY);
+#   ifdef HAVE_GTK_STYLE_CONTEXT_GET_BACKGROUND_COLOR
 			gtk_style_context_get_background_color (rc_style, 0, &(win_data->find_entry_bg_color));
+#   else
+			gtk_style_context_get(rc_style, 0, "background-color", &(win_data->find_entry_bg_color), NULL);
+#   endif
 #else
 			GtkStyle *rc_style = gtk_widget_get_style (dialog_data->operate[0]);
 			win_data->find_entry_bg_color = rc_style->base[GTK_STATE_NORMAL];
@@ -1081,6 +1085,17 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 						   AUTHOR, BUGREPORT, str[9] ,str[10], str[13],
 						   str[14], str[15]);
 			str[17] = convert_text_to_html(&str[16], FALSE, NULL, "tt", NULL);
+#ifdef USE_GTK3_GEOMETRY_METHOD
+			gchar *warn_str = g_strdup_printf (_("Using the GTK3+ version of %s is NOT recommended.\n"
+							     "Please consider to use GTK2+ version instead."),
+							   PACKAGE);
+			gchar *warn_html = convert_text_to_html (&warn_str, FALSE, "darkred", "tt", "b", NULL);
+			gchar *new_str = g_strdup_printf("%s\n\n%s", str[17], warn_html);
+			g_free(str[17]);
+			g_free(warn_str);
+			g_free(warn_html);
+			str[17] = new_str;
+#endif
 			dialog_data->operate[4] = add_text_to_notebook(notebook, _("About"), GTK_FAKE_STOCK_ABOUT, str[17]);
 
 			show_usage_text(notebook, NULL, 0, dialog_data);
@@ -2340,8 +2355,17 @@ void refresh_regex(struct Window *win_data, struct Dialog *dialog_data)
 	if ((win_data==NULL) || (win_data->current_vte==NULL) || (dialog_data == NULL)) return;
 #endif
 #ifdef ENABLE_FIND_STRING
+#  ifdef HAVE_VTE_TERMINAL_SEARCH_SET_GREGEX
 	gint RegexCompileFlags = G_REGEX_OPTIMIZE;
-	if (! win_data->find_case_sensitive) RegexCompileFlags |= G_REGEX_CASELESS;
+#  else
+	guint32 RegexCompileFlags = PCRE2_UTF | PCRE2_NO_UTF_CHECK | PCRE2_MULTILINE;
+#  endif
+	if (! win_data->find_case_sensitive)
+#  ifdef HAVE_VTE_TERMINAL_SEARCH_SET_GREGEX
+		RegexCompileFlags |= G_REGEX_CASELESS;
+#  else
+		RegexCompileFlags |= PCRE2_CASELESS;
+#  endif
 	if ((! win_data->find_use_perl_regular_expressions) &&
 	    (win_data->find_string && (win_data->find_string[0]!='\0')))
 	{
@@ -2356,15 +2380,24 @@ void refresh_regex(struct Window *win_data, struct Dialog *dialog_data)
 	if (find_string[0]!='\0')
 	{
 		vte_terminal_search_find_next(VTE_TERMINAL(win_data->current_vte));
-		GRegex *regex = NULL;
-		regex = g_regex_new (find_string, RegexCompileFlags, 0, NULL);
+#  ifdef HAVE_VTE_TERMINAL_SEARCH_SET_GREGEX
+		GRegex *regex = g_regex_new (find_string, RegexCompileFlags, 0, NULL);
 		vte_terminal_search_set_gregex(VTE_TERMINAL(win_data->current_vte), regex);
-		if (regex) g_regex_unref (regex);
+		if (regex) g_regex_unref(regex);
+#  else
+		VteRegex *regex = vte_regex_new_for_search (find_string, -1, RegexCompileFlags, NULL);
+		vte_terminal_search_set_regex (VTE_TERMINAL(win_data->current_vte), regex, 0);
+		if (regex) vte_regex_unref(regex);
+#  endif
 	}
 	else
 	{
+#  ifdef HAVE_VTE_TERMINAL_SEARCH_SET_GREGEX
 		// FIXME: It don't work!
 		vte_terminal_search_set_gregex(VTE_TERMINAL(win_data->current_vte), NULL);
+#  else
+		vte_terminal_search_set_regex (VTE_TERMINAL(win_data->current_vte), NULL, 0);
+#  endif
 	}
 
 	gboolean update_bg_color = FALSE;
@@ -2401,10 +2434,24 @@ void refresh_regex(struct Window *win_data, struct Dialog *dialog_data)
 			gtk_widget_modify_style (dialog_data->operate[0], rc_style);
 			g_object_unref(rc_style);
 #  else
-			GdkRGBA gdkrgba;
 			gchar *color_string = dirty_gdk_rgba_to_string(&(win_data->find_entry_current_bg_color));
+#    ifdef HAVE_GTK_WIDGET_OVERRIDE_BACKGROUND_COLOR
+			GdkRGBA gdkrgba;
 			gdk_rgba_parse (&gdkrgba, color_string);
 			gtk_widget_override_background_color(dialog_data->operate[0], 0, &gdkrgba);
+#    else
+			GtkCssProvider *css = gtk_css_provider_new ();
+			GtkStyleContext *context = gtk_widget_get_style_context(dialog_data->operate[0]);
+			gchar *modified_style = g_strdup_printf("* {\n"
+								"   -GtkWidget-background-color: %s;\n"
+								"}",
+								color_string);
+			if (gtk_css_provider_load_from_data (css, modified_style, -1, NULL))
+				gtk_style_context_add_provider (context, GTK_STYLE_PROVIDER (css),
+								GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
+			g_object_unref (css);
+			g_free (modified_style);
+#    endif
 			g_free(color_string);
 #  endif
 		}

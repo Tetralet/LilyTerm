@@ -198,10 +198,6 @@
 	// SINCE: gtk+-2.19.5/gtk/gtkwidget.h: gtk_widget_get_mapped()
 	#define gtk_widget_get_mapped(x) GTK_WIDGET_MAPPED(x)
 #endif
-#if ! GTK_CHECK_VERSION(2,90,4)
-	// END: gtk+-2.90.3/gtk/gtknotebook.h: gtk_notebook_set_tab_label_packing()
-	#define USE_OLD_GTK_LABEL_PACKING
-#endif
 #if ! GTK_CHECK_VERSION(2,22,0)
 	// SINCE: gtk+-2.22.0/gdk/gdkkeysyms.h: #define GDK_KEY_VoidSymbol 0xffffff
 	#define GDK_KEY_VoidSymbol	GDK_VoidSymbol
@@ -222,10 +218,9 @@
 	// END: gtk+-2.23.0/gtk/gtkmain.h: gtk_quit_add() GTK_DISABLE_DEPRECATED
 	#define g_atexit(x) gtk_quit_add(0, (GtkFunction)x, NULL)
 #endif
-#if GTK_CHECK_VERSION(2,3,2) && ( ! GTK_CHECK_VERSION(2,91,6))
-	// SINCE: gtk+-2.3.2/gdk/gdkspawn.h: gdk_spawn_on_screen_with_pipes()
-	// END:   gtk+-2.91.6/gdk/gdkspawn.h: gdk_spawn_on_screen_with_pipes()
-	#define g_spawn_async_with_pipes(a,b,c,d,e,f,g,h,i,j,k) gdk_spawn_on_screen_with_pipes(gdk_screen_get_default(),a,b,c,d,e,f,g,h,i,j,k)
+#if ! GTK_CHECK_VERSION(2,90,4)
+	// END: gtk+-2.90.3/gtk/gtknotebook.h: gtk_notebook_set_tab_label_packing()
+	#define USE_OLD_GTK_LABEL_PACKING
 #endif
 #if GTK_CHECK_VERSION(2,91,0)
 	// SINCE: gtk+-2.91.0/gtk/gtkwidget.h GtkAlign gtk_widget_set_halign()
@@ -256,8 +251,8 @@
 #  if ! GTK_CHECK_VERSION(3,13,4)
 		#define NO_RESIZE_GRIP
 #  endif
-	// FIXME: gtk_window_parse_geometry() works well in all GTK+2/3 versions?
-	// #define USE_XPARSEGEOMETRY
+	// gtk_window_parse_geometry() ended at gtk+ 3.19.8
+	#define USE_XPARSEGEOMETRY
 	// END: gtk+-2.91.1/gtk/gtkwidget.h: gtk_widget_hide_all()
 	#define gtk_widget_hide_all(x) gtk_widget_hide(x)
 #endif
@@ -268,6 +263,11 @@
 #  ifdef UNIT_TEST
 	#define gtk_window_resize_to_geometry gtk_window_move
 #  endif
+#endif
+#if GTK_CHECK_VERSION(2,3,2) && ( ! GTK_CHECK_VERSION(2,91,6))
+	// SINCE: gtk+-2.3.2/gdk/gdkspawn.h: gdk_spawn_on_screen_with_pipes()
+	// END:   gtk+-2.91.6/gdk/gdkspawn.h: gdk_spawn_on_screen_with_pipes()
+	#define g_spawn_async_with_pipes(a,b,c,d,e,f,g,h,i,j,k) gdk_spawn_on_screen_with_pipes(gdk_screen_get_default(),a,b,c,d,e,f,g,h,i,j,k)
 #endif
 #if GTK_CHECK_VERSION(2,91,7)
 	#define GTK3_LAME_GDK_SCREEN_IS_COMPOSITED
@@ -421,6 +421,10 @@
 	#define GTK_FAKE_STOCK_ZOOM_IN			GTK_STOCK_ZOOM_IN
 	#define GTK_FAKE_STOCK_ZOOM_OUT			GTK_STOCK_ZOOM_OUT
 #endif
+#if ! GTK_CHECK_VERSION(3,10,6)
+	// END: gtk+-3.10.6/gtk/deprecated/gtkstyle.h: GDK_DEPRECATED_IN_3_0_FOR(gtk_widget_override_background_color)
+	#define HAVE_GTK_WIDGET_OVERRIDE_BACKGROUND_COLOR
+#endif
 #if GTK_CHECK_VERSION(3,11,5)
 	// END: gtk+-3.11.5/gtk/gtkdialog.h: GDK_DEPRECATED_IN_3_10 gtk_alternative_dialog_button_order()
 	#define USE_GTK_ALT_DIALOG_BUTTON_ORDER
@@ -428,6 +432,26 @@
 #else
 	// END: gtk+-3.11.5/gtk/gtkdialog.h: GDK_DEPRECATED_IN_3_10 gtk_dialog_get_action_area()
 	#define HAVE_GTK_DIALOG_GET_ACTION_AREA
+#endif
+#if ! GTK_CHECK_VERSION(3,13,1)
+	// END: gtk+-3.13.1/gtk/gtkwidget.c: gtk_widget_class_install_style_property (G_PARAM_DEPRECATED)
+	#define HAVE_CSS_FOCUS_LINE_WIDTH
+#endif
+#if ! GTK_CHECK_VERSION(3,18,9)
+	// END: gtk+-3.18.9/gtk/gtkstylecontext.h: GDK_DEPRECATED_IN_3_16_FOR(gtk_render_background) void gtk_style_context_get_background_color()
+	#define HAVE_GTK_STYLE_CONTEXT_GET_BACKGROUND_COLOR
+#endif
+#if GTK_CHECK_VERSION(3,19,2)
+	// END: gtk+-3.19.2/gtk/gtkbutton.h: GDK_DEPRECATED_IN_3_20 void gtk_button_set_focus_on_click()
+	#define gtk_button_set_focus_on_click(x,y) gtk_widget_set_focus_on_click(GTK_WIDGET(x),y)
+#endif
+#if ! GTK_CHECK_VERSION(3,19,4)
+	// END: gtk+-3.19.4/gtk/gtkwindow.h-GDK_DEPRECATED_IN_3_20 void gtk_window_resize_to_geometry()
+	#define HAVE_GTK_WINDOW_RESIZE_TO_GEOMETRY
+#endif
+#if ! GTK_CHECK_VERSION(3,19,8)
+	// END: gtk+-3.19.8/gtk/gtkwindow.h: GDK_DEPRECATED_IN_3_20 gboolean gtk_window_parse_geometry()
+	#define HAVE_GTK_WINDOW_PARSE_GEOMETRY
 #endif
 #if ! GLIB_CHECK_VERSION(2,13,0)
 	// SINCE: glib-2.13.0/glib/gmain.h: g_timeout_add_seconds()
@@ -570,6 +594,15 @@
 	#define vte_terminal_set_visible_bell(x,y) vte_terminal_set_size(x,1,1)
 #  endif
 #endif
+#if ! VTE_CHECK_VERSION(0,43,0)
+	// END: vte-0.43.0/src/vte/vtedeprecated.h: VTE_DEPRECATED void vte_terminal_search_set_gregex()
+	#define HAVE_VTE_TERMINAL_SEARCH_SET_GREGEX
+	#define VTE_TERMINAL_MATCH_CHECK
+#else
+	#define PCRE2_CODE_UNIT_WIDTH 0
+	#include <pcre2.h>
+#endif
+
 
 #define ENABLE_RGBA_VER "GTK 2.11"
 #define ENABLE_GDKCOLOR_TO_STRING_VER "GTK 2.11"
