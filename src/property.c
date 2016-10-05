@@ -153,7 +153,7 @@ void init_new_page(struct Window *win_data,
 
 #ifdef GEOMETRY
 #  ifdef USE_GTK2_GEOMETRY_METHOD
-	g_debug("@ init_new_page(for %p, vte = %p): Set win_data->keep_vte_size to %d, and column = %ld, row = %ld",
+	g_debug("@ init_new_page(for %p, vte = %p): Set win_data->keep_vte_size to 0x%X, and column = %ld, row = %ld",
 		win_data->window, page_data->vte, win_data->keep_vte_size, column, row);
 #  else
 	g_debug("@ init_new_page(for %p, vte = %p): Set column = %ld, row = %ld",

@@ -149,7 +149,7 @@ gboolean monitor_cmdline(struct Page *page_data)
 	// 0xfe = 11,111,110
 	if ((lost_focus && (*(page_data->current_vte) != (page_data->vte))) ||
 #ifdef USE_GTK2_GEOMETRY_METHOD
-	    (*(page_data->keep_vte_size)&0xfffc) ||
+	    (*(page_data->keep_vte_size) & GEOMETRY_UPDATE_PAGE_NAME_MASK) ||
 #endif
 	    page_data->custom_page_name ||
 	    dialog_activated)
@@ -159,8 +159,8 @@ gboolean monitor_cmdline(struct Page *page_data)
 		if (lost_focus && (*(page_data->current_vte) != (page_data->vte)))
 			fprintf(stderr, " lost_focus = %d, page_data->current_vte %s= page_data->vte.",
 				lost_focus, (*(page_data->current_vte) == page_data->vte) ? "" : "!");
-		if (*(page_data->keep_vte_size)&0xfffc)
-			fprintf(stderr, " page_data->keep_vte_size = %X.", *(page_data->keep_vte_size)&0xfffc);
+		if (*(page_data->keep_vte_size) & GEOMETRY_UPDATE_PAGE_NAME_MASK)
+			fprintf(stderr, " page_data->keep_vte_size = 0x%X.", *(page_data->keep_vte_size) & GEOMETRY_UPDATE_PAGE_NAME_MASK);
 		if (page_data->custom_page_name)
 			fprintf(stderr, " page_data->custom_page_name = \"%s\".", page_data->custom_page_name);
 		if (dialog_activated)
@@ -176,7 +176,7 @@ gboolean monitor_cmdline(struct Page *page_data)
 	gint page_update_method = page_data->page_update_method;
 
 	page_data->page_update_method = PAGE_METHOD_AUTOMATIC;
-#ifdef PAGENAME
+#if defined(PAGENAME) && ! defined(DETAIL)
 	fprintf(stderr, "\033[1;%dm!! monitor_cmdline(): INIT: lost_focus = %d, page_data->window_title_updated =%d\033[0m\n",
 			ANSI_COLOR_GREEN, lost_focus, page_data->window_title_updated);
 #endif
@@ -263,17 +263,16 @@ gboolean check_cmdline(struct Page *page_data, pid_t check_tpgid)
 		page_data->current_tpgid = get_tpgid(page_data->pid);
 		// g_debug("Get page_data->current_tpgid = %d, check_tpgid = %d",
 		//	page_data->current_tpgid, check_tpgid);
-#ifdef PAGENAME
-		fprintf(stderr, "!! check_cmdline(check_tpgid = %d): "
-				"Set \033[1;%dmpage_data->current_tpgid\033[0m = %d\n",
-				check_tpgid, ANSI_COLOR_CYAN, page_data->current_tpgid);
-#endif
-
 		if (check_tpgid != page_data->current_tpgid)
 		{
 			// g_debug("Trying to update Cmdline!!!");
 			page_name_changed = TRUE;
 			page_data->page_update_method = PAGE_METHOD_CMDLINE;
+#ifdef PAGENAME
+			fprintf(stderr, "!! check_cmdline(check_tpgid = %d): "
+					"Set \033[1;%dmpage_data->current_tpgid\033[0m = %d\n",
+					check_tpgid, ANSI_COLOR_CYAN, page_data->current_tpgid);
+#endif
 		}
 		// else if (page_data->current_tpgid==page_data->pid)
 		else if (page_data->window_title_updated == 0)
@@ -329,7 +328,7 @@ gboolean check_pwd(struct Page *page_data, gchar *pwd, gchar *new_pwd, gint page
 
 	// update the page name with PWD when pid=tpgid
 	// g_debug ("page_name_changed = %d, ", page_name_changed);
-#ifdef PAGENAME
+#if defined(PAGENAME) && ! defined(DETAIL)
 	if (page_data->current_tpgid == page_data->pid)
 		fprintf(stderr, "!! check_pwd(): "
 				"\033[1;%dmpage_data->current_tpgid\033[0m == page_data->pid = %d\033[0m\n",
@@ -341,7 +340,7 @@ gboolean check_pwd(struct Page *page_data, gchar *pwd, gchar *new_pwd, gint page
 	{
 		page_name_changed = compare_strings(pwd, new_pwd, TRUE);
 
-#ifdef PAGENAME
+#if defined(PAGENAME) && ! defined(DETAIL)
 		if (*(page_data->window_title_tpgid) != page_data->displayed_tpgid)
 			fprintf(stderr, "!! check_pwd(): "
 					"\033[1;%dmpage_data->window_title_tpgid\033[0m = %d, "
@@ -700,7 +699,7 @@ gboolean update_page_name(GtkWidget *window, GtkWidget *vte, gchar *page_name, G
 	// 0xfe = 11,111,110
 	// g_debug("win_data->keep_vte_size = %x", win_data->keep_vte_size);
 #ifdef USE_GTK2_GEOMETRY_METHOD
-	if ((!(win_data->keep_vte_size&0xfffc)) || (!gtk_widget_get_mapped(win_data->window)))
+	if ((!(win_data->keep_vte_size & GEOMETRY_UPDATE_PAGE_NAME_MASK)) || (!gtk_widget_get_mapped(win_data->window)))
 	{
 #endif
 		// g_debug("Updating %d page name to %s...", page_no, page_name);
@@ -748,10 +747,10 @@ gboolean update_page_name(GtkWidget *window, GtkWidget *vte, gchar *page_name, G
 			// g_debug("update_page_name(): launch keep_window_size()!");
 #ifdef USE_GTK2_GEOMETRY_METHOD
 #  ifdef GEOMETRY
-			g_debug("@ update_page_name(): Call keep_gtk2_window_size() with keep_vte_size = %x",
+			g_debug("@ update_page_name(): Call keep_gtk2_window_size() with keep_vte_size = 0x%X",
 				win_data->keep_vte_size);
 #  endif
-			keep_gtk2_window_size (win_data, vte, 0x3);
+			keep_gtk2_window_size (win_data, vte, GEOMETRY_UPDATE_PAGE_NAME);
 #endif
 			if (win_data->use_color_page && (tab_color != NULL))
 			{

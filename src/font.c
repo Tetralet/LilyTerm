@@ -416,10 +416,10 @@ void apply_font_to_every_vte(GtkWidget *window, gchar *new_font_name, glong colu
 		case FULLSCREEN_NORMAL:
 		case FULLSCREEN_UNFS_OK:
 #  ifdef GEOMETRY
-			g_debug("@ apply_font_to_every_vte(): Call keep_gtk2_window_size() with keep_vte_size = %x",
+			g_debug("@ apply_font_to_every_vte(): Call keep_gtk2_window_size() with keep_vte_size = 0x%X",
 				win_data->keep_vte_size);
 #  endif
-			keep_gtk2_window_size (win_data, page_data->vte, 0x380);
+			keep_gtk2_window_size (win_data, page_data->vte, GEOMETRY_CHANGING_FONT);
 #endif
 #ifdef USE_GTK3_GEOMETRY_METHOD
 		case WINDOW_NORMAL:

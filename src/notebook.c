@@ -789,10 +789,10 @@ void label_size_request (GtkWidget *label, GtkRequisition *requisition, struct P
 	// g_debug("label_size_request(): launch keep_window_size()!");
 
 #  ifdef GEOMETRY
-	g_debug("@ label_size_request(for %p): Call keep_gtk2_window_size() with keep_vte_size = %x",
+	g_debug("@ label_size_request(for %p): Call keep_gtk2_window_size() with keep_vte_size = 0x%X",
 		win_data->window, win_data->keep_vte_size);
 #  endif
-	keep_gtk2_window_size (win_data, page_data->vte, 0x3);
+	keep_gtk2_window_size (win_data, page_data->vte, GEOMETRY_UPDATE_PAGE_NAME);
 }
 #endif
 
