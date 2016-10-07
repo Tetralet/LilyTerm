@@ -396,6 +396,18 @@ GtkNotebook *new_window(int argc,
 		{
 #endif
 			win_data->current_vte = win_data_orig->current_vte;
+#ifdef USE_GTK2_GEOMETRY_METHOD
+			GtkWidget *notebook_size_orig = (get_hide_or_show_tabs_bar(win_data, win_data->show_tabs_bar)) ? win_data_orig->notebook
+														       : page_data_orig->hbox;
+			GtkRequisition notebook_requisition;
+			gtk_widget_get_child_requisition (notebook_size_orig, &notebook_requisition);
+			gtk_widget_set_size_request(win_data->notebook, notebook_requisition.width, notebook_requisition.height);
+#  ifdef GEOMETRY
+			fprintf(stderr, "@ [DIRTY HACK] new_window(\033[1;%dm%p\033[0m): Set the default size of new Notebook to %d x %d\n",
+					ANSI_COLOR_RED+(GPOINTER_TO_INT(win_data->window)%6), win_data->window,
+					notebook_requisition.width, notebook_requisition.height);
+#  endif
+#endif
 #if defined(USE_GTK3_GEOMETRY_METHOD) || defined(UNIT_TEST)
 			win_data->hints_type = HINTS_SKIP_ONCE;
 #  ifdef GEOMETRY
@@ -468,8 +480,8 @@ GtkNotebook *new_window(int argc,
 #endif
 	{
 #ifdef GEOMETRY
-		fprintf(stderr, "\033[1;%dm!! new_window(win_data %p): calling deal_key_press(KEY_FULL_SCREEN)!!\033[0m\n",
-			ANSI_COLOR_WHITE, win_data);
+		fprintf(stderr, "\033[1;%dm!! new_window(%p): calling deal_key_press(KEY_FULL_SCREEN)!!\033[0m\n",
+			ANSI_COLOR_WHITE, win_data->window);
 #endif
 		GtkWidget *menu_active_windows_orig = menu_active_window;
 		menu_active_window = win_data->window;
@@ -1682,7 +1694,7 @@ void window_style_set(GtkWidget *window, GtkStyle *previous_style, struct Window
 	// g_debug("window_style_set(): launch keep_window_size()!");
 #ifdef USE_GTK2_GEOMETRY_METHOD
 #  ifdef GEOMETRY
-	g_debug("@ window_style_set(for %p): Call keep_gtk2_window_size() with keep_vte_size = 0x%X",
+	g_debug("@ window_style_set(%p): Call keep_gtk2_window_size() with keep_vte_size = 0x%X",
 		window, win_data->keep_vte_size);
 #  endif
 	keep_gtk2_window_size (win_data, win_data->current_vte, GEOMETRY_CHANGING_THEME);
@@ -1723,15 +1735,16 @@ void window_size_request (GtkWidget *window, GtkRequisition *requisition, struct
 #  endif
 
 #  ifdef GEOMETRY
-	g_debug("@ window_size_request(): Got keep_vte_size (before) = 0x%X", win_data->keep_vte_size);
+	fprintf(stderr, "@ window_size_request(\033[1;%dm%p\033[0m): Got keep_vte_size (before) = 0x%X\n",
+			ANSI_COLOR_RED+(GPOINTER_TO_INT(window)%6), window, win_data->keep_vte_size);
 
 	GtkRequisition window_requisition;
 #  ifdef SAFEMODE
 	if (window)
 #  endif
 		gtk_widget_get_child_requisition (window, &window_requisition);
-	g_debug("@ window_size_request(): request_size (before) = %d x %d",
-		window_requisition.width, window_requisition.height);
+	fprintf(stderr, "@ window_size_request(\033[1;%dm%p\033[0m): request_size (before) = %d x %d\n",
+			ANSI_COLOR_RED+(GPOINTER_TO_INT(window)%6), window, window_requisition.width, window_requisition.height);
 #  endif
 	// [Showing/Hiding tabs bar] and [Change the vte font] won't run the following codes.
 	if (win_data->keep_vte_size & GEOMETRY_NEEDS_RUN_SIZE_REQUEST_MASK)
@@ -1749,19 +1762,21 @@ void window_size_request (GtkWidget *window, GtkRequisition *requisition, struct
 					    &current_window_requisition.width,
 					    &current_window_requisition.height);
 #  ifdef GEOMETRY
-			g_debug("@ The current window size (for %p) is %d x %d, request size is %d x %d!!",
-				window,
-				current_window_requisition.width,
-				current_window_requisition.height,
-				window_requisition.width,
-				window_requisition.height);
+			fprintf(stderr, "@ The current window size (\033[1;%dm%p\033[0m) is %d x %d, request size is %d x %d!!\n",
+					ANSI_COLOR_RED+(GPOINTER_TO_INT(window)%6), window, 
+					current_window_requisition.width,
+					current_window_requisition.height,
+					window_requisition.width,
+					window_requisition.height);
 #  endif
 			if ((window_requisition.width != current_window_requisition.width) ||
 			    (window_requisition.height != current_window_requisition.height))
 {
 #  ifdef GEOMETRY
-				g_debug("@ window_size_request(): Call gtk_window_resize() to resize to %d x %d!",
-					window_requisition.width, window_requisition.height);
+				fprintf(stderr, "@ \033[1;%dmwindow_size_request\033[0m(\033[1;%dm%p\033[0m): "
+						"Call gtk_window_resize() to resize to %d x %d!\n",
+						ANSI_COLOR_YELLOW, ANSI_COLOR_RED+(GPOINTER_TO_INT(window)%6),
+						window, window_requisition.width, window_requisition.height);
 #  endif
 				gtk_window_resize(GTK_WINDOW(window),
 						  window_requisition.width,
@@ -1777,7 +1792,8 @@ void window_size_request (GtkWidget *window, GtkRequisition *requisition, struct
 		else
 			win_data->keep_vte_size = 0;
 #  ifdef GEOMETRY
-		g_debug("@ window_size_request: Got keep_vte_size (after) = 0x%X", win_data->keep_vte_size);
+		fprintf(stderr, "@ window_size_request(\033[1;%dm%p\033[0m): Got keep_vte_size (after) = 0x%X\n",
+				ANSI_COLOR_RED+(GPOINTER_TO_INT(window)%6), window, win_data->keep_vte_size);
 #  endif
 	}
 }
@@ -1799,7 +1815,8 @@ void window_size_allocate(GtkWidget *window, GtkAllocation *allocation, struct W
 #  endif
 	// g_debug("window_size-allocate!, and win_data->keep_vte_size = %d", win_data->keep_vte_size);
 #  ifdef GEOMETRY
-	g_debug("@ window_size_allocate(for %p): Got keep_vte_size (finish) = 0x%X", window, win_data->keep_vte_size);
+	fprintf(stderr, "@ window_size_allocate(\033[1;%dm%p\033[0m): Got keep_vte_size (finish) = 0x%X\n",
+			ANSI_COLOR_RED+(GPOINTER_TO_INT(window)%6), window, win_data->keep_vte_size);
 #  endif
 	if (win_data->keep_vte_size & GEOMETRY_HAD_BEEN_RESIZE_ONCE_MASK)
 	{
@@ -1856,11 +1873,13 @@ void window_size_allocate(GtkWidget *window, GtkAllocation *allocation, struct W
 	gtk_window_get_size(GTK_WINDOW(window), &window_requisition.width, &window_requisition.height);
 
 	if ((window_requisition.width <= 200) || (window_requisition.height <= 200))
-		fprintf(stderr, "\033[1;31m!! The final window size (win_data %p) is %d x %d (keep_vte_size = 0x%X)\033[0m\n",
-			win_data, window_requisition.width, window_requisition.height, win_data->keep_vte_size);
+		fprintf(stderr, "\033[1;31m!! The final window size (\033[1;%dm%p\033[0m) is %d x %d (keep_vte_size = 0x%X)\033[0m\n",
+				ANSI_COLOR_RED+(GPOINTER_TO_INT(window)%6), window,
+				window_requisition.width, window_requisition.height, win_data->keep_vte_size);
 	else
-		g_debug("! The final window size (win_data %p) is %d x %d (keep_vte_size = 0x%X)",
-			win_data, window_requisition.width, window_requisition.height, win_data->keep_vte_size);
+		fprintf(stderr, "! The final window size (\033[1;%dm%p\033[0m) is %d x %d (keep_vte_size = 0x%X)\n",
+				ANSI_COLOR_RED+(GPOINTER_TO_INT(window)%6), window,
+				window_requisition.width, window_requisition.height, win_data->keep_vte_size);
 	widget_size_allocate (window, allocation, "window");
 #  endif
 }
@@ -2475,8 +2494,8 @@ void keep_gtk2_window_size (struct Window *win_data, GtkWidget *vte, Geometry_Re
 	// g_debug("compare new_keep_vte_size = %d and win_data->keep_vte_size = %d (keep_vte_size = %d)",
 	//	new_keep_vte_size, win_data->keep_vte_size, keep_vte_size);
 #  ifdef GEOMETRY
-	g_debug("@ keep_gtk2_window_size(): Got keep_vte_size = 0x%X, new_keep_vte_size = 0x%X",
-		win_data->keep_vte_size, new_keep_vte_size);
+	g_debug("@ keep_gtk2_window_size(%p): Got keep_vte_size = 0x%X, new_keep_vte_size = 0x%X",
+		win_data->window, win_data->keep_vte_size, new_keep_vte_size);
 #  endif
 	if (new_keep_vte_size != win_data->keep_vte_size)
 	{
@@ -2492,7 +2511,7 @@ void keep_gtk2_window_size (struct Window *win_data, GtkWidget *vte, Geometry_Re
 		window_resizable(win_data->window, vte, HINTS_NONE);
 	}
 #  ifdef GEOMETRY
-	g_debug("@ keep_gtk2_window_size(): Got keep_vte_size (final) = 0x%X", win_data->keep_vte_size);
+	g_debug("@ keep_gtk2_window_size(%p): Got keep_vte_size (final) = 0x%X", win_data->window, win_data->keep_vte_size);
 #  endif
 }
 #endif
@@ -3579,8 +3598,8 @@ gboolean hide_and_show_tabs_bar(struct Window *win_data , Switch_Type show_tabs_
 	{
 #ifdef USE_GTK2_GEOMETRY_METHOD
 #  ifdef GEOMETRY
-		g_debug("@ hide_and_show_tabs_bar(win_data %p): Call keep_gtk2_window_size() with keep_vte_size = 0x%X",
-			win_data, win_data->keep_vte_size);
+		g_debug("@ hide_and_show_tabs_bar(%p): Call keep_gtk2_window_size() with keep_vte_size = 0x%X",
+			win_data->window, win_data->keep_vte_size);
 #  endif
 		// g_debug("hide_and_show_tabs_bar(): launch keep_gtk2_window_size()!");
 		keep_gtk2_window_size (win_data, win_data->current_vte, GEOMETRY_SHOW_HIDE_TAB_BAR);
