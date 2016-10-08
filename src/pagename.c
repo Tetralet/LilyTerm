@@ -261,6 +261,9 @@ gboolean check_cmdline(struct Page *page_data, pid_t check_tpgid)
 	{
 		// find the current_tpgid
 		page_data->current_tpgid = get_tpgid(page_data->pid);
+
+		if (page_data->current_tpgid == -1) return FALSE;
+
 		// g_debug("Get page_data->current_tpgid = %d, check_tpgid = %d",
 		//	page_data->current_tpgid, check_tpgid);
 		if (check_tpgid != page_data->current_tpgid)
@@ -987,16 +990,64 @@ gint get_tpgid(pid_t pid)
 #endif
 	if (pid<1) return 0;
 
+	guint timeout = 0;
+
 	pid_t tmp_tpgid = 0;
 	pid_t current_tpgid = pid;
 
-	while (tmp_tpgid != current_tpgid)
+	// check if tpgid is in dead loop...
+	gboolean dead_loop = FALSE;
+	gboolean checked_pid[PID_MAX_DEFAULT] = {FALSE};
+
+	while ((tmp_tpgid != current_tpgid) && (timeout <= 3) && (dead_loop == FALSE))
 	{
 		tmp_tpgid = current_tpgid;
 		gchar **stats = get_pid_stat(tmp_tpgid, 11);
-		if (stats) current_tpgid = atoi(stats[9]);
+		if (stats)
+		{
+			current_tpgid = atoi(stats[9]);
+			if ((current_tpgid > 0) && (current_tpgid < PID_MAX_DEFAULT))
+			{
+				if (checked_pid[current_tpgid] == TRUE)
+				{
+					if (tmp_tpgid != current_tpgid)
+#ifdef FATAL
+						g_message("Get into DEAD LOOP when getting the tpgid of pid (%d) = %d. Abort!",
+							  pid, current_tpgid);
+#else
+						g_warning("Get into DEAD LOOP when getting the tpgid of pid (%d) = %d. Abort!",
+							  pid, current_tpgid);
+#endif
+					dead_loop = TRUE;
+				}
+				else
+				{
+					// g_debug("Setting checked_pid[%d] = TRUE ...", current_tpgid);
+					checked_pid[current_tpgid] = TRUE;
+				}
+			}
+			else
+				// Out of PID_MAX_DEFAULT?
+				timeout++;
+		}
+		else
+		{
+			timeout++;
+			// g_debug("get_tpgid(): get_tpgid(): Set timeout = %d", timeout);
+		}
 		g_strfreev(stats);
 	}
+
+	if (timeout > 3)
+	{
+#ifdef FATAL
+		g_message("Failed when getting the tpgid of %d. Abort!", pid);
+#else
+		g_warning("Failed when getting the tpgid of %d. Abort!", pid);
+#endif
+		current_tpgid = -1;
+	}
+
 	// g_debug("The pid =%d, tpgid=%d", pid, current_tpgid);
 	return current_tpgid;
 }

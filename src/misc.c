@@ -537,9 +537,9 @@ gchar *get_proc_data(pid_t pid, gchar *file, gsize *length)
 			if (timeout>2)
 			{
 #ifdef FATAL
-				g_message("Failed when waiting for %s/%d/%s. Abort.", proc_file_system_path, (gint)pid, file);
+				g_message("Failed when waiting for %s/%d/%s. Abort!", proc_file_system_path, (gint)pid, file);
 #else
-				g_warning("Failed when waiting for %s/%d/%s. Abort.", proc_file_system_path, (gint)pid, file);
+				g_warning("Failed when waiting for %s/%d/%s. Abort!", proc_file_system_path, (gint)pid, file);
 #endif
 				break;
 			}
