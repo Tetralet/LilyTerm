@@ -397,6 +397,7 @@ GtkNotebook *new_window(int argc,
 #endif
 			win_data->current_vte = win_data_orig->current_vte;
 #ifdef USE_GTK2_GEOMETRY_METHOD
+			// DIRTY HACK: Specify a befit size to Notebook to keep from window using 200x200 as an init size.
 			GtkWidget *notebook_size_orig = (get_hide_or_show_tabs_bar(win_data, win_data->show_tabs_bar)) ? win_data_orig->notebook
 														       : page_data_orig->hbox;
 			GtkRequisition notebook_requisition;
@@ -1735,8 +1736,8 @@ void window_size_request (GtkWidget *window, GtkRequisition *requisition, struct
 #  endif
 
 #  ifdef GEOMETRY
-	fprintf(stderr, "@ window_size_request(\033[1;%dm%p\033[0m): Got keep_vte_size (before) = 0x%X\n",
-			ANSI_COLOR_RED+(GPOINTER_TO_INT(window)%6), window, win_data->keep_vte_size);
+	fprintf(stderr, "@ window_size_request(\033[1;%dm%p\033[0m): Got keep_vte_size (\033[1;%dmBEFORE\033[0m) = 0x%X\n",
+			ANSI_COLOR_RED+(GPOINTER_TO_INT(window)%6), window, ANSI_COLOR_YELLOW, win_data->keep_vte_size);
 
 	GtkRequisition window_requisition;
 #  ifdef SAFEMODE
@@ -1769,33 +1770,41 @@ void window_size_request (GtkWidget *window, GtkRequisition *requisition, struct
 					window_requisition.width,
 					window_requisition.height);
 #  endif
+			// clean y
+			win_data->keep_vte_size &= GEOMETRY_HAD_BEEN_RESIZED_ONCE_MASK;
+
 			if ((window_requisition.width != current_window_requisition.width) ||
 			    (window_requisition.height != current_window_requisition.height))
-{
+			{
 #  ifdef GEOMETRY
 				fprintf(stderr, "@ \033[1;%dmwindow_size_request\033[0m(\033[1;%dm%p\033[0m): "
-						"Call gtk_window_resize() to resize to %d x %d!\n",
+						"Call \033[1;%dmgtk_window_resize()\033[0m to resize to %d x %d!\n",
 						ANSI_COLOR_YELLOW, ANSI_COLOR_RED+(GPOINTER_TO_INT(window)%6),
-						window, window_requisition.width, window_requisition.height);
+						window, ANSI_COLOR_MAGENTA, window_requisition.width, window_requisition.height);
 #  endif
-				gtk_window_resize(GTK_WINDOW(window),
-						  window_requisition.width,
-						  window_requisition.height);
-}
-			// else
-			//	g_debug("Skip to call gtk_window_resize for %p ()!!", window);
-
-			// 0xed = 11,101,101
-			// 'Showing/Hiding tab bar' and 'Change vte font' should call gtk_window_resize() once
-			win_data->keep_vte_size &= GEOMETRY_HAD_BEEN_RESIZE_ONCE_MASK;
+				gtk_window_resize(GTK_WINDOW(window), window_requisition.width, window_requisition.height);
+			}
 		}
 		else
-			win_data->keep_vte_size = 0;
+		{
 #  ifdef GEOMETRY
-		fprintf(stderr, "@ window_size_request(\033[1;%dm%p\033[0m): Got keep_vte_size (after) = 0x%X\n",
-				ANSI_COLOR_RED+(GPOINTER_TO_INT(window)%6), window, win_data->keep_vte_size);
+			fprintf(stderr, "@ window_size_request(\033[1;%dm%p\033[0m): \033[1;%dmINFO\033[0m: "
+					"window_requisition.width = %d, window_requisition.height = %d. Don't do anything!!\n",
+					ANSI_COLOR_RED+(GPOINTER_TO_INT(window)%6), window, ANSI_COLOR_RED,
+					window_requisition.width, window_requisition.height);
+#  endif
+			win_data->keep_vte_size = 0;
+		}
+#  ifdef GEOMETRY
+		fprintf(stderr, "@ window_size_request(\033[1;%dm%p\033[0m): Got keep_vte_size (\033[1;%dmAFTER\033[0m) = 0x%X\n",
+				ANSI_COLOR_RED+(GPOINTER_TO_INT(window)%6), window, ANSI_COLOR_YELLOW, win_data->keep_vte_size);
 #  endif
 	}
+#  ifdef GEOMETRY
+	else
+		fprintf(stderr, "@ window_size_request(\033[1;%dm%p\033[0m): \033[1;%dmINFO\033[0m: keep_vte_size = %X. Don't do anything!!\n",
+				ANSI_COLOR_RED+(GPOINTER_TO_INT(window)%6), window, ANSI_COLOR_RED, win_data->keep_vte_size);
+#  endif
 }
 #endif
 
@@ -1815,20 +1824,30 @@ void window_size_allocate(GtkWidget *window, GtkAllocation *allocation, struct W
 #  endif
 	// g_debug("window_size-allocate!, and win_data->keep_vte_size = %d", win_data->keep_vte_size);
 #  ifdef GEOMETRY
-	fprintf(stderr, "@ window_size_allocate(\033[1;%dm%p\033[0m): Got keep_vte_size (finish) = 0x%X\n",
-			ANSI_COLOR_RED+(GPOINTER_TO_INT(window)%6), window, win_data->keep_vte_size);
+	fprintf(stderr, "@ window_size_allocate(\033[1;%dm%p\033[0m): Got keep_vte_size (\033[1;%dmFINISH\033[0m) = 0x%X\n",
+			ANSI_COLOR_RED+(GPOINTER_TO_INT(window)%6), window, ANSI_COLOR_YELLOW, win_data->keep_vte_size);
 #  endif
-	if (win_data->keep_vte_size & GEOMETRY_HAD_BEEN_RESIZE_ONCE_MASK)
+	// check y
+	if (win_data->keep_vte_size && ((win_data->keep_vte_size & GEOMETRY_NEEDS_RUN_SIZE_REQUEST_AGAIN_MASK) == 0))
 	{
 		win_data->keep_vte_size = 0;
 		// g_debug("window_size_allocate(): call window_resizable() with run_once = %d", win_data->hints_type);
 		// g_debug("window_size_allocate(): (1) launch window_resizable() with window = %p!", window);
 
 		if (! win_data->window_status)
+		{
+#  ifdef GEOMETRY
+			fprintf(stderr, "@ \033[1;%dmwindow_size_allocate\033[0m(\033[1;%dm%p\033[0m): "
+					"Call \033[1;%dmwindow_resizable\033[0m(\033[1;%dm%d\033[0m)!\n",
+					ANSI_COLOR_YELLOW, ANSI_COLOR_RED+(GPOINTER_TO_INT(win_data->window)%6),
+					win_data->window, ANSI_COLOR_MAGENTA, ANSI_COLOR_CYAN, win_data->hints_type);
+#  endif
 			window_resizable(window, win_data->current_vte, win_data->hints_type);
+		}
 	}
 #  ifdef GEOMETRY
-	g_debug("@ window_size_allocate(for %p): Got keep_vte_size (final) = 0x%X", window, win_data->keep_vte_size);
+	fprintf(stderr, "@ window_size_allocate(\033[1;%dm%p\033[0m): Got keep_vte_size (\033[1;%dmFINAL\033[0m) = 0x%X\n",
+			ANSI_COLOR_RED+(GPOINTER_TO_INT(window)%6), window, ANSI_COLOR_YELLOW, win_data->keep_vte_size);
 #  endif
 
 	if ((win_data->keep_vte_size==0) && (win_data->window_status>FULLSCREEN_NORMAL))
@@ -1840,6 +1859,12 @@ void window_size_allocate(GtkWidget *window, GtkAllocation *allocation, struct W
 		{
 			// g_debug("window_size_allocate(): (2) launch window_resizable()! with window = %p!",
 			//	window);
+#  ifdef GEOMETRY
+			fprintf(stderr, "@ \033[1;%dmwindow_size_allocate\033[0m(\033[1;%dm%p\033[0m): "
+					"Call \033[1;%dmwindow_resizable\033[0m([1]\033[1;%dmHINTS_NONE\033[0m)!\n",
+					ANSI_COLOR_YELLOW, ANSI_COLOR_RED+(GPOINTER_TO_INT(win_data->window)%6),
+					win_data->window, ANSI_COLOR_MAGENTA, ANSI_COLOR_CYAN);
+#  endif
 			window_resizable(window, win_data->current_vte, HINTS_NONE);
 			// g_debug("window_size_allocate(): win_data->show_tabs_bar = %d",
 			//	win_data->show_tabs_bar);
@@ -1860,7 +1885,15 @@ void window_size_allocate(GtkWidget *window, GtkAllocation *allocation, struct W
 		win_data->window_status++;
 
 		if (win_data->window_status)
+		{
+#  ifdef GEOMETRY
+			fprintf(stderr, "@ \033[1;%dmwindow_size_allocate\033[0m(\033[1;%dm%p\033[0m): "
+					"Call \033[1;%dmwindow_resizable\033[0m([2]\033[1;%dmHINTS_NONE\033[0m)!\n",
+					ANSI_COLOR_YELLOW, ANSI_COLOR_RED+(GPOINTER_TO_INT(win_data->window)%6),
+					win_data->window, ANSI_COLOR_MAGENTA, ANSI_COLOR_CYAN);
+#  endif
 			window_resizable(window, win_data->current_vte, HINTS_NONE);
+		}
 		else
 			gtk_window_fullscreen(GTK_WINDOW(win_data->window));
 	}
@@ -2490,26 +2523,14 @@ void keep_gtk2_window_size (struct Window *win_data, GtkWidget *vte, Geometry_Re
 #  ifdef SAFEMODE
 	if (win_data==NULL) return;
 #  endif
-	gint new_keep_vte_size = win_data->keep_vte_size | keep_vte_size;
-	// g_debug("compare new_keep_vte_size = %d and win_data->keep_vte_size = %d (keep_vte_size = %d)",
-	//	new_keep_vte_size, win_data->keep_vte_size, keep_vte_size);
+	win_data->keep_vte_size |= keep_vte_size;
 #  ifdef GEOMETRY
-	g_debug("@ keep_gtk2_window_size(%p): Got keep_vte_size = 0x%X, new_keep_vte_size = 0x%X",
-		win_data->window, win_data->keep_vte_size, new_keep_vte_size);
+	fprintf(stderr, "@ \033[1;%dmkeep_gtk2_window_size\033[0m(\033[1;%dm%p\033[0m): "
+			"Call \033[1;%dmwindow_resizable\033[0m(\033[1;%dmHINTS_NONE\033[0m)!\n",
+			ANSI_COLOR_YELLOW, ANSI_COLOR_RED+(GPOINTER_TO_INT(win_data->window)%6),
+			win_data->window, ANSI_COLOR_MAGENTA, ANSI_COLOR_CYAN);
 #  endif
-	if (new_keep_vte_size != win_data->keep_vte_size)
-	{
-		if (new_keep_vte_size != GEOMETRY_UPDATE_PAGE_NAME)
-			new_keep_vte_size = (new_keep_vte_size & GEOMETRY_NEEDS_RUN_SIZE_REQUEST_MASK) ? GEOMETRY_RESIZE_TWICE_EXCEPT_PAGE_NAME
-												       : GEOMETRY_RESIZE_ONCE_EXCEPT_PAGE_NAME;
-		// g_debug("win_data->keep_vte_size = %d, and keep_vte_size = %d, new_keep_vte_size = %d",
-		//	win_data->keep_vte_size, keep_vte_size, new_keep_vte_size);
-
-		win_data->keep_vte_size = new_keep_vte_size;
-
-		// g_debug("keep_gtk2_window_size(): launch window_resizable()! with window = %p!", win_data->window);
-		window_resizable(win_data->window, vte, HINTS_NONE);
-	}
+	window_resizable(win_data->window, vte, HINTS_NONE);
 #  ifdef GEOMETRY
 	g_debug("@ keep_gtk2_window_size(%p): Got keep_vte_size (final) = 0x%X", win_data->window, win_data->keep_vte_size);
 #  endif
@@ -3569,8 +3590,10 @@ void update_window_hint(struct Window *win_data,
 
 	// g_debug("window_resizable in change current font!");
 #ifdef GEOMETRY
-	fprintf(stderr, "\033[1;37m!! update_window_hint(win_data %p): call window_resizable() for vte = %p with hints_type = %d\033[0m\n",
-		win_data, page_data->vte, win_data->hints_type);
+	fprintf(stderr, "@ \033[1;%dmupdate_window_hint\033[0m(\033[1;%dm%p\033[0m): "
+			"Call \033[1;%dmwindow_resizable\033[0m(\033[1;%dm%d\033[0m)!\n",
+			ANSI_COLOR_YELLOW, ANSI_COLOR_RED+(GPOINTER_TO_INT(win_data->window)%6),
+			win_data->window, ANSI_COLOR_MAGENTA, ANSI_COLOR_CYAN, win_data->hints_type);
 #endif
 	window_resizable(page_data->window, page_data->vte, win_data->hints_type);
 }

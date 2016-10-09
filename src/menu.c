@@ -876,7 +876,7 @@ void set_urgent_bell(GtkWidget *menuitem_urgent_bell, struct Window *win_data)
 void set_vte_urgent_bell(struct Window *win_data, struct Page *page_data)
 {
 #ifdef DETAIL
-	g_debug("! Launch set_urgent_bell() with win_data = %p, page_data = %p", win_data, page_data);
+	g_debug("! Launch set_vte_urgent_bell() with win_data = %p, page_data = %p", win_data, page_data);
 #endif
 #ifdef SAFEMODE
 	if ((win_data==NULL) || (page_data==NULL)) return;

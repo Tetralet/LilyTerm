@@ -802,6 +802,16 @@ void vte_size_allocate (GtkWidget *vte, GtkAllocation *allocation, struct Page *
 #  ifdef DETAIL
 	g_debug("! Launch vte_size_allocate() with vte = %p, page_data = %p", vte, page_data);
 #  endif
+#if defined (USE_GTK2_GEOMETRY_METHOD) && defined (GEOMETRY)
+	glong column = vte_terminal_get_column_count(VTE_TERMINAL(vte));
+	glong row = vte_terminal_get_row_count(VTE_TERMINAL(vte));
+	if ((column < 80) || (row < 24))
+	{
+		struct Window *win_data = (struct Window *)g_object_get_data(G_OBJECT(page_data->window), "Win_Data");
+		fprintf(stderr, "\033[1;31m!! vte_size_allocate(window %p)(vte %p): the allocated size is %ld x %ld\033[0m\n",
+			win_data->window, vte, column, row);
+	}
+#endif
 #ifdef USE_GTK3_GEOMETRY_METHOD
 	// fprintf(stderr, "\033[1;36m** vte_size_allocate(): the allocated size is %d x %d (%ldx%ld)\033[0m\n",
 	//	allocation->width, allocation->height,
