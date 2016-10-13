@@ -58,12 +58,16 @@ void command_option(int   argc,
 		}
 		else if ((!strcmp(argv[i], "-p")) || (!strcmp(argv[i], "--profile")))
 		{
+#ifdef ENABLE_PROFILE
 			GString *settings = save_user_settings(NULL, NULL);
-#ifdef SAFEMODE
+#  ifdef SAFEMODE
 			if (settings)
-#endif
+#  endif
 				g_print("%s", settings->str);
 			g_string_free(settings, TRUE);
+#else
+			g_critical(_("You should upgrade to %s and recompile %s to support this feature."), ENABLE_PROFILE_VER, PACKAGE);
+#endif
 			exit (0);
 		}
 		else if ((!strcmp(argv[i], "-s")) || (!strcmp(argv[i], "--separate")))

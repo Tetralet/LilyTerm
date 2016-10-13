@@ -12,9 +12,9 @@ AC_PROG_CC
 AM_PROG_CC_C_O
 
 # Checks for libraries.
-AM_PATH_GTK_2_0(2.8.0,,AC_MSG_ERROR([You need Gtk+ >= 2.8.0 to build $_PACKAGE]))
-AM_PATH_GLIB_2_0(2.12.0,,AC_MSG_ERROR([You need Glib >= 2.12.0 to build $_PACKAGE]))
-PKG_CHECK_MODULES(vte, [vte >= 0.12.0],, AC_MSG_ERROR([You need libvte >= 0.12.0 to build $_PACKAGE]))
+AM_PATH_GLIB_2_0(2.5.4,,AC_MSG_ERROR([You need Glib >= 2.5.4 to build $_PACKAGE]))
+AM_PATH_GTK_2_0(2.4.10,,AC_MSG_ERROR([You need Gtk+ >= 2.4.10 to build $_PACKAGE]))
+PKG_CHECK_MODULES(vte, [vte >= 0.11.11],, AC_MSG_ERROR([You need libvte >= 0.11.11 to build $_PACKAGE]))
 
 AC_ARG_ENABLE(debug, AC_HELP_STRING([--enable-debug], [enable debug mode]),
 	      CFLAGS="$CFLAGS -g"
@@ -24,8 +24,8 @@ AC_ARG_ENABLE(safe-mode, AC_HELP_STRING([--disable-safe-mode], [disable run in s
 	      CFLAGS="$CFLAGS -g"
 	      AC_DEFINE(REALMODE,, [disable run in safe mode]))
 
-PKG_CHECK_EXISTS(gtk+-2.0 < 2.12,
-		 AC_MSG_WARN([Using Gtk+ >= 2.12.0 to build $_PACKAGE is recommended]))
+PKG_CHECK_EXISTS(gtk+-2.0 < 2.11,
+		 AC_MSG_WARN([Using Gtk+ >= 2.11.0 to build $_PACKAGE is recommended]))
 
 AC_MSG_CHECKING([whether to install GNOME control-center default application definition])
 if $PKG_CONFIG --variable=keysdir gnome-default-applications >/dev/null ; then

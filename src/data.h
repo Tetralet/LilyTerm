@@ -42,12 +42,12 @@
 #ifdef OUT_OF_MEMORY
 // GString *g_string_append()
 // GString *g_string_prepend()
-// 	#define g_dir_read_name(x) NULL
+//	#define g_dir_read_name(x) NULL
 	#define g_get_tmp_dir() NULL
-// 	#define g_get_user_config_dir() NULL
+//	#define g_get_user_config_dir() NULL
 	#define g_get_user_name() NULL
 	#define g_getenv(x) NULL
-/* 	#define g_new0(x,y) NULL */
+/*	#define g_new0(x,y) NULL */
 	#define g_strerror(x) NULL
 	#define gtk_entry_get_text(x) NULL
 	#define gtk_widget_get_name(x) NULL
@@ -56,7 +56,7 @@
 	#define vte_terminal_match_check(a,b,c,d) NULL
 	#define vte_terminal_get_encoding(x) NULL
 	#define vte_terminal_get_window_title(x) NULL
-/* 	#define g_strsplit(x,y,z) NULL */
+/*	#define g_strsplit(x,y,z) NULL */
 	#define g_strsplit fake_g_strsplit
 	#define g_strsplit_set(x,y,z) NULL
 	#define g_convert_with_fallback(a,b,c,d,e,f,g,h) NULL
@@ -67,9 +67,9 @@
 	#define g_path_get_basename(x) NULL
 	#define g_path_get_dirname(x) NULL
 	#define g_strconcat(...) NULL
-/* 	#define g_strdup(x) NULL */
+/*	#define g_strdup(x) NULL */
 	#define g_strdup fake_g_strdup
-/* 	#define g_strdup_printf fake_g_strdup_printf */
+/*	#define g_strdup_printf fake_g_strdup_printf */
 	#define g_strdup_printf(...) NULL
 	#define gdk_color_to_string(x) NULL
 	#define gdk_keyval_name(x) NULL
@@ -137,6 +137,32 @@
 	#define SOCKET_FILE PACKAGE
 #endif
 
+#if GTK_CHECK_VERSION(2,5,1)
+	// SINCE: gtk+-2.05.01/gtk/gtklabel.h:void gtk_label_set_ellipsize()
+	#define HAVE_GTK_LABEL_SET_ELLIPSIZE
+#endif
+#if GTK_CHECK_VERSION(2,5,3)
+	// SINCE gtk+-2.5.3/gtk/gtkrange.c: * GtkRange::change-value
+	#define HAVE_GTKRANGE_CHANGE_VALUE
+#endif
+#if GTK_CHECK_VERSION(2,5,4)
+	// SINCE: gtk+-2.5.4/gtk/gtkdialog.h:gboolean gtk_alternative_dialog_button_order()
+	#define HAVE_GTK_ALTERNATIVE_DIALOG_BUTTON_ORDER
+	// SINCE: gtk+-2.5.4/gtk/gtklabel.h:void gtk_label_set_width_chars()
+	#define HAVE_GTK_LABEL_SET_WIDTH_CHARS
+#endif
+#if GTK_CHECK_VERSION(2,5,6)
+	// SINCE: gtk+-2.5.6/gtk/gtkbutton.h:void gtk_button_set_image()
+	#define HAVE_GTK_BUTTON_SET_IMAGE
+#endif
+#if GTK_CHECK_VERSION(2,6,0)
+	// SINCE: gtk+-2.6.0/gtk/gtklabel.h:gint gtk_label_get_max_width_chars()
+	#define HAVE_GTK_LABEL_GET_MAX_WIDTH_CHARS
+#endif
+#if GTK_CHECK_VERSION(2,7,3)
+	// SINCE: gtk+-2.7.3/gtk/gtkfilechooser.h:void gtk_file_chooser_set_do_overwrite_confirmation()
+	#define HAVE_GTK_FILE_CHOOSER_SET_DO_OVERWRITE_CONFIRMATION
+#endif
 #if GTK_CHECK_VERSION(2,9,0)
 	// SINCE: gtk+-2.9.0/gtk/gtknotebook.h: gtk_notebook_set_tab_reorderable()
 	#define ENABLE_TAB_REORDER
@@ -375,6 +401,12 @@
 	#define	 GTK_FAKE_STOCK_ZOOM_IN			"gtk-zoom-in"
 	#define	 GTK_FAKE_STOCK_ZOOM_OUT		"gtk-zoom-out"
 #else
+#  if ! GTK_CHECK_VERSION(2,5,0)
+	// SINCE: gtk+-2.05.00/gtk/gtkstock.h:#define GTK_STOCK_ABOUT	    "gtk-about"
+	#define	GTK_STOCK_ABOUT				"gtk-about"
+	#define	GTK_STOCK_EDIT				"gtk-edit"
+	#define GTK_STOCK_FILE				"gtk-file"
+#  endif
 	#define GTK_FAKE_STOCK_ABOUT			GTK_STOCK_ABOUT
 	#define GTK_FAKE_STOCK_ADD			GTK_STOCK_ADD
 	#define GTK_FAKE_STOCK_APPLY			GTK_STOCK_APPLY
@@ -452,6 +484,17 @@
 #if ! GTK_CHECK_VERSION(3,19,8)
 	// END: gtk+-3.19.8/gtk/gtkwindow.h: GDK_DEPRECATED_IN_3_20 gboolean gtk_window_parse_geometry()
 	#define HAVE_GTK_WINDOW_PARSE_GEOMETRY
+#endif
+
+#if ! GLIB_CHECK_VERSION(2,5,0)
+	// SICNE glib-2.5.0/glib/gmessages.h:g_debug()
+	#define g_debug(...) g_log (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG, __VA_ARGS__)
+#endif
+#if GLIB_CHECK_VERSION(2,5,4)
+	// SINCE: glib-2.5.4/glib/gkeyfile.h:typedef struct _GKeyFile GKeyFile;
+	#define ENABLE_PROFILE
+	// SINCE: glib-2.5.4/glib/gstdio.h
+	#define HAVE_GSTDIO_H
 #endif
 #if ! GLIB_CHECK_VERSION(2,13,0)
 	// SINCE: glib-2.13.0/glib/gmain.h: g_timeout_add_seconds()
@@ -603,12 +646,12 @@
 	#include <pcre2.h>
 #endif
 
-
 #define ENABLE_RGBA_VER "GTK 2.11"
 #define ENABLE_GDKCOLOR_TO_STRING_VER "GTK 2.11"
 #define ENABLE_MOUSE_SCROLL_VER "GTK 2.13"
 #define ENABLE_VTE_SELECT_ALL_VER "VTE 0.15.3"
 #define ENABLE_FIND_STRING_VER "VTE 0.25.1"
+#define ENABLE_PROFILE_VER "GLIB 2.5.4"
 
 #define ALL_ACCELS_MASK (GDK_CONTROL_MASK | GDK_SHIFT_MASK | GDK_MOD1_MASK | GDK_MOD4_MASK | GDK_SUPER_MASK)
 #define SHIFT_ONLY_MASK (GDK_CONTROL_MASK | GDK_MOD1_MASK | GDK_MOD4_MASK | GDK_SUPER_MASK)
@@ -787,40 +830,40 @@ typedef enum {
 	GEOMETRY_UPDATE_PAGE_NAME			= GEOMETRY_UPDATE_PAGE_NAME_RESIZING | GEOMETRY_UPDATE_PAGE_NAME_ONCE |
 							  GEOMETRY_UPDATE_PAGE_NAME_TWICE,
 	GEOMETRY_UPDATE_PAGE_NAME_MASK			= 0xFFFF ^ GEOMETRY_UPDATE_PAGE_NAME,
- 
+
 	// 0000 0000 0yx1 0000 (0x0070): Changing Themes. It should run window_size_request() twice.
 	GEOMETRY_CHANGING_THEME_RESIZING		=   0x10,
 	GEOMETRY_CHANGING_THEME_ONCE			=   0x20,
 	GEOMETRY_CHANGING_THEME_TWICE			=   0x40,
 	GEOMETRY_CHANGING_THEME				= GEOMETRY_CHANGING_THEME_RESIZING | GEOMETRY_CHANGING_THEME_ONCE |
 							  GEOMETRY_CHANGING_THEME_TWICE,
- 
+
 	// 0000 0yx1 0000 0000 (0x0700): Hide/Show scroll_bar It should run window_size_request() twice.
 	GEOMETRY_SHOW_HIDE_SCROLL_BAR_RESIZING		=  0x100,
 	GEOMETRY_SHOW_HIDE_SCROLL_BAR_ONCE		=  0x200,
 	GEOMETRY_SHOW_HIDE_SCROLL_BAR_TWICE		=  0x400,
 	GEOMETRY_SHOW_HIDE_SCROLL_BAR			= GEOMETRY_SHOW_HIDE_SCROLL_BAR_RESIZING | GEOMETRY_SHOW_HIDE_SCROLL_BAR_ONCE |
 							  GEOMETRY_SHOW_HIDE_SCROLL_BAR_TWICE,
- 
+
 	// 00x1 0000 0000 0000 (0x3000): Showing/Hiding tabs bar, It should only run window_size_request() once.
 	GEOMETRY_SHOW_HIDE_TAB_BAR_RESIZING		= 0x1000,
 	GEOMETRY_SHOW_HIDE_TAB_BAR_ONCE			= 0x2000,
 	GEOMETRY_SHOW_HIDE_TAB_BAR			= GEOMETRY_SHOW_HIDE_TAB_BAR_RESIZING | GEOMETRY_SHOW_HIDE_TAB_BAR_ONCE,
- 
+
 	// x100 0000 0000 0000 (0xC000): Change the vte font, It should only run window_size_request() once.
 	GEOMETRY_CHANGING_FONT_RESIZING			= 0x4000,
 	GEOMETRY_CHANGING_FONT_ONCE			= 0x8000,
 	GEOMETRY_CHANGING_FONT				= GEOMETRY_CHANGING_FONT_RESIZING | GEOMETRY_CHANGING_FONT_ONCE,
- 
+
 	// 1010 0010 0010 0010 (0xA222): Only check x, Means that it needs resize.
 	GEOMETRY_NEEDS_RUN_SIZE_REQUEST_MASK		= GEOMETRY_UPDATE_PAGE_NAME_ONCE | GEOMETRY_CHANGING_THEME_ONCE |
 							  GEOMETRY_SHOW_HIDE_SCROLL_BAR_ONCE |
 							  GEOMETRY_SHOW_HIDE_TAB_BAR_ONCE | GEOMETRY_CHANGING_FONT_ONCE,
- 
+
 	// 0000 0100 0100 0100 (0x0444): Only check y, Means that it needs resize twice.
 	GEOMETRY_NEEDS_RUN_SIZE_REQUEST_AGAIN_MASK	= GEOMETRY_UPDATE_PAGE_NAME_TWICE | GEOMETRY_CHANGING_THEME_TWICE |
 							  GEOMETRY_SHOW_HIDE_SCROLL_BAR_TWICE,
- 
+
 	// 1111 0011 0011 0011 (0xF333): Clean y, Means that it is resized once.
 	GEOMETRY_HAD_BEEN_RESIZED_ONCE_MASK		= GEOMETRY_UPDATE_PAGE_NAME_RESIZING | GEOMETRY_UPDATE_PAGE_NAME_ONCE |
 							  GEOMETRY_CHANGING_THEME_RESIZING | GEOMETRY_CHANGING_THEME_ONCE |

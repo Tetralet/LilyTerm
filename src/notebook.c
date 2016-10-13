@@ -420,7 +420,9 @@ struct Page *add_page(struct Window *win_data,
 	page_data->label_text = gtk_label_new(win_data->page_name);
 	gtk_box_pack_start(GTK_BOX(page_data->label), page_data->label_text, TRUE, TRUE, 0);
 	set_page_width(win_data, page_data);
+#ifdef HAVE_GTK_LABEL_SET_ELLIPSIZE
 	gtk_label_set_ellipsize(GTK_LABEL(page_data->label_text), PANGO_ELLIPSIZE_MIDDLE);
+#endif
 #ifdef USE_GTK2_GEOMETRY_METHOD
 	// when dragging the tab on a vte, or dragging a vte to itself, may change the size of vte.
 	g_signal_connect(G_OBJECT(page_data->label_text), "size_request",
@@ -982,9 +984,11 @@ gboolean close_page(GtkWidget *vte, gint close_type)
 		win_data->current_vte = oldvte;
 	}
 
+#ifdef ENABLE_PROFILE
 	if (win_data->auto_save &&
 	    (gtk_notebook_get_n_pages(GTK_NOTEBOOK(win_data->notebook))==1))
 		save_user_settings(NULL, win_data);
+#endif
 
 	// remove timeout event for page_shows_current_cmdline
 	// if (page_data->page_shows_current_cmdline ||
@@ -1352,10 +1356,10 @@ gboolean vte_button_press(GtkWidget *vte, GdkEventButton *event, struct Page *pa
 			// query done
 			win_data->checking_menu_item = FALSE;
 		}
-
+#ifdef ENABLE_PROFILE
 		// Update the profile list
 		refresh_profile_list(win_data);
-
+#endif
 		win_data->checking_menu_item = TRUE;
 #ifdef SAFEMODE
 		if (win_data->current_menuitem_theme)
@@ -1376,10 +1380,12 @@ gboolean vte_button_press(GtkWidget *vte, GdkEventButton *event, struct Page *pa
 #endif
 			gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM(win_data->menuitem_invert_color), win_data->invert_color);
 		// g_debug("vte_button_press(): set win_data->menuitem_invert_color(%p) to %d", win_data->menuitem_invert_color, win_data->invert_color);
-#ifdef SAFEMODE
+#ifdef ENABLE_PROFILE
+#  ifdef SAFEMODE
 		if (win_data->menuitem_auto_save)
-#endif
+#  endif
 			gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM(win_data->menuitem_auto_save), win_data->auto_save);
+#endif
 		win_data->checking_menu_item = FALSE;
 
 		if (win_data->show_background_menu)

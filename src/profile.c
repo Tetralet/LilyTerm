@@ -1269,19 +1269,19 @@ gchar *load_profile_from_dir(const gchar *dir, const gchar* profile)
 // encoding is used for display error message if the profile is invalid.
 void get_user_settings(struct Window *win_data, const gchar *encoding)
 {
-#ifdef DETAIL
+#  ifdef DETAIL
 	g_debug("! Launch get_user_settings() with win_data = %p, encoding = %s",
 		win_data, encoding);
-#endif
-#ifdef SAFEMODE
+#  endif
+#  ifdef SAFEMODE
 	if (win_data==NULL) return;
-#endif
-#ifdef OUT_OF_MEMORY
-#  undef g_strdup
-#  undef g_strdup_printf
-#  undef g_strsplit
-#  undef g_strsplit_set
-#endif
+#  endif
+#  ifdef OUT_OF_MEMORY
+#    undef g_strdup
+#    undef g_strdup_printf
+#    undef g_strsplit
+#    undef g_strsplit_set
+#  endif
 
 	// g_debug("Get win_data = %d when get user settings!", win_data);
 
@@ -1302,17 +1302,17 @@ void get_user_settings(struct Window *win_data, const gchar *encoding)
 	}
 
 	gint i;
-	GError *error = NULL;
-
+	gchar *fg_color_str = NULL, *bg_color_str = NULL, *color_theme_str = NULL, *cursor_color_str = NULL;
+#ifdef ENABLE_PROFILE
 	// got the rc file
 	GKeyFile *keyfile = g_key_file_new();
 	// g_debug ("Using the profile: %s ", profile);
-
-	gchar *fg_color_str = NULL, *bg_color_str = NULL, *color_theme_str = NULL, *cursor_color_str = NULL;
-
+	GError *error = NULL;
+#endif
 	// g_debug("safe_mode = %d", safe_mode);
 	if (win_data->profile != NULL && (! safe_mode))
 	{
+#ifdef ENABLE_PROFILE
 		if (g_key_file_load_from_file(keyfile, win_data->profile, G_KEY_FILE_NONE, &error))
 		{
 			get_prime_user_settings(keyfile, win_data, (gchar *)encoding);
@@ -1335,12 +1335,12 @@ void get_user_settings(struct Window *win_data, const gchar *encoding)
 
 			win_data->default_row = check_integer_value(keyfile, "main", "row", win_data->default_row,
 								    DISABLE_EMPTY_STR, SYSTEM_ROW, DISABLE_ZERO, CHECK_MIN, 1, NO_CHECK_MAX, 0);
-#ifdef USE_GTK3_GEOMETRY_METHOD
+#  ifdef USE_GTK3_GEOMETRY_METHOD
 			win_data->geometry_width = win_data->default_column;
 			win_data->geometry_height = win_data->default_row;
-#endif
+#  endif
 
-#ifdef ENABLE_RGBA
+#  ifdef ENABLE_RGBA
 			win_data->transparent_window = check_integer_value(keyfile, "main", "transparent_window",
 							 win_data->transparent_window, DISABLE_EMPTY_STR, 0, ENABLE_ZERO, CHECK_MIN, 0, CHECK_MAX, 2);
 
@@ -1355,16 +1355,16 @@ void get_user_settings(struct Window *win_data, const gchar *encoding)
 									ENABLE_EMPTY_STR, -2,
 									CHECK_MIN, 0, CHECK_MAX, 1);
 			// g_debug("Got win_data->window_opacity_inactive = %1.3f", win_data->window_opacity_inactive);
-#endif
-#ifdef USE_GTK2_GEOMETRY_METHOD
+#  endif
+#  ifdef USE_GTK2_GEOMETRY_METHOD
 			win_data->startup_fullscreen = check_boolean_value(keyfile, "main", "fullscreen",
 									   win_data->fullscreen);
-#endif
-#ifdef USE_GTK3_GEOMETRY_METHOD
+#  endif
+#  ifdef USE_GTK3_GEOMETRY_METHOD
 			gboolean fullscreen = check_boolean_value(keyfile, "main", "fullscreen", win_data->window_status);
 			if (fullscreen) win_data->window_status = WINDOW_START_WITH_FULL_SCREEN;
-#endif
-#if defined(ENABLE_VTE_BACKGROUND) || defined(FORCE_ENABLE_VTE_BACKGROUND)
+#  endif
+#  if defined(ENABLE_VTE_BACKGROUND) || defined(FORCE_ENABLE_VTE_BACKGROUND)
 			win_data->transparent_background = check_integer_value(keyfile, "main", "transparent_background",
 							win_data->transparent_background, DISABLE_EMPTY_STR, 0, ENABLE_ZERO, CHECK_MIN, 0, CHECK_MAX, 2);
 
@@ -1378,7 +1378,7 @@ void get_user_settings(struct Window *win_data, const gchar *encoding)
 
 			win_data->background_image = check_string_value(keyfile, "main", "background_image",
 									win_data->background_image, TRUE, DISABLE_EMPTY_STR);
-#endif
+#  endif
 			win_data->running_process_whitelist = check_string_value(keyfile, "main",
 										    "running_process_whitelist",
 										    win_data->running_process_whitelist,
@@ -1420,10 +1420,10 @@ void get_user_settings(struct Window *win_data, const gchar *encoding)
 			win_data->show_resize_menu = check_boolean_value(keyfile, "main", "show_resize_menu",
 									 win_data->show_resize_menu);
 
-#ifndef vte_terminal_set_font_from_string_full
+#  ifndef vte_terminal_set_font_from_string_full
 			win_data->font_anti_alias = check_integer_value( keyfile, "main", "font_anti_alias",
 					 win_data->font_anti_alias, DISABLE_EMPTY_STR, 0, ENABLE_ZERO, CHECK_MIN, 0, CHECK_MAX, 2);
-#endif
+#  endif
 			win_data->font_resize_ratio = check_double_value(keyfile, "main", "font_resize_ratio",
 									 win_data->font_resize_ratio, DISABLE_EMPTY_STR, 0,
 									 CHECK_MIN, 0, NO_CHECK_MAX, 0);
@@ -1432,10 +1432,10 @@ void get_user_settings(struct Window *win_data, const gchar *encoding)
 									   win_data->window_resize_ratio,
 									   DISABLE_EMPTY_STR, 0,
 									   CHECK_MIN, 0, NO_CHECK_MAX, 0);
-#ifdef ENABLE_SET_WORD_CHARS
+#  ifdef ENABLE_SET_WORD_CHARS
 			win_data->word_chars = check_string_value(keyfile, "main", "word_chars", win_data->word_chars,
 								  TRUE, ENABLE_EMPTY_STR);
-#endif
+#  endif
 			win_data->scrollback_lines = check_integer_value(keyfile,
 									  "main",
 									  "scrollback_lines",
@@ -1471,10 +1471,10 @@ void get_user_settings(struct Window *win_data, const gchar *encoding)
 			win_data->scroll_bar_position = check_boolean_value(keyfile, "main",
 						       "scroll_bar_position", win_data->scroll_bar_position);
 
-#ifdef ENABLE_IM_APPEND_MENUITEMS
+#  ifdef ENABLE_IM_APPEND_MENUITEMS
 			win_data->show_input_method_menu = check_boolean_value(keyfile, "main", "show_input_method_menu",
 								     win_data->show_input_method_menu);
-#endif
+#  endif
 			win_data->show_change_page_name_menu = check_boolean_value(keyfile, "main",
 					"show_change_page_name_menu", win_data->show_change_page_name_menu);
 
@@ -1483,7 +1483,7 @@ void get_user_settings(struct Window *win_data, const gchar *encoding)
 
 			win_data->enable_hyperlink = check_boolean_value(keyfile, "main",
 							"enable_hyperlink", win_data->enable_hyperlink);
-#ifdef USE_NEW_VTE_CURSOR_BLINKS_MODE
+#  ifdef USE_NEW_VTE_CURSOR_BLINKS_MODE
 			win_data->cursor_blinks = check_integer_value(keyfile,
 								      "main",
 								      "cursor_blinks",
@@ -1492,10 +1492,10 @@ void get_user_settings(struct Window *win_data, const gchar *encoding)
 								      ENABLE_ZERO,
 								      CHECK_MIN, 0,
 								      CHECK_MAX, 2);
-#else
+#  else
 			win_data->cursor_blinks = check_boolean_value(keyfile, "main", "cursor_blinks",
 								      win_data->cursor_blinks);
-#endif
+#  endif
 			win_data->allow_bold_text = check_boolean_value(keyfile, "main", "allow_bold_text",
 								  win_data->allow_bold_text);
 
@@ -1522,18 +1522,18 @@ void get_user_settings(struct Window *win_data, const gchar *encoding)
 								     "main",
 								     "audible_bell",
 								     win_data->audible_bell);
-#ifdef ENABLE_VISIBLE_BELL
+#  ifdef ENABLE_VISIBLE_BELL
 			win_data->visible_bell = check_boolean_value(keyfile,
 								     "main",
 								     "visible_bell",
 								      win_data->visible_bell);
-#endif
-#ifdef ENABLE_BEEP_SINGAL
+#  endif
+#  ifdef ENABLE_BEEP_SINGAL
 			win_data->urgent_bell = check_boolean_value(keyfile,
 								    "main",
 								    "urgent_bell",
 								    win_data->urgent_bell);
-#endif
+#  endif
 			// g_debug("VTE_ERASE_AUTO = %d, VTE_ERASE_ASCII_BACKSPACE = %d, "
 			//	"VTE_ERASE_ASCII_DELETE = %d, VTE_ERASE_DELETE_SEQUENCE %d",
 			//	VTE_ERASE_AUTO, VTE_ERASE_ASCII_BACKSPACE,
@@ -1545,7 +1545,7 @@ void get_user_settings(struct Window *win_data, const gchar *encoding)
 								      ENABLE_ZERO,
 								      CHECK_MIN, 0,
 								      CHECK_MAX, ERASE_BINDING);
-#ifdef ENABLE_CURSOR_SHAPE
+#  ifdef ENABLE_CURSOR_SHAPE
 			win_data->cursor_shape = check_integer_value(keyfile, "main",
 								     "cursor_shape",
 								     win_data->cursor_shape,
@@ -1553,7 +1553,7 @@ void get_user_settings(struct Window *win_data, const gchar *encoding)
 								     ENABLE_ZERO,
 								     CHECK_MIN, 0,
 								     CHECK_MAX, CURSOR_SHAPE);
-#endif
+#  endif
 			win_data->locales_list = check_string_value( keyfile, "main", "locales_list",
 								     win_data->locales_list, TRUE, ENABLE_EMPTY_STR);
 			// g_debug("Got locales_list = %s from user's profile!", value);
@@ -1565,10 +1565,10 @@ void get_user_settings(struct Window *win_data, const gchar *encoding)
 				g_free(win_data->shell);
 				win_data->shell = g_strdup(win_data->default_shell);
 			}
-#ifdef ENABLE_SET_EMULATION
+#  ifdef ENABLE_SET_EMULATION
 			win_data->emulate_term = check_string_value( keyfile, "main", "emulate_term",
 								     win_data->emulate_term, TRUE, DISABLE_EMPTY_STR);
-#endif
+#  endif
 			win_data->VTE_CJK_WIDTH = check_integer_value( keyfile, "main", "VTE_CJK_WIDTH",
 								       win_data->VTE_CJK_WIDTH,
 								       DISABLE_EMPTY_STR, 0,
@@ -1780,7 +1780,7 @@ void get_user_settings(struct Window *win_data, const gchar *encoding)
 			win_data->invert_color = check_boolean_value(keyfile, "color", "invert_color", win_data->invert_color);
 			win_data->use_custom_theme = check_boolean_value(keyfile, "color", "custom_theme", win_data->use_custom_theme);
 
-#ifdef ENABLE_GDKCOLOR_TO_STRING
+#  ifdef ENABLE_GDKCOLOR_TO_STRING
 			gchar *color_value;
 			for (i=1; i<COLOR-1; i++)
 			{
@@ -1808,7 +1808,7 @@ void get_user_settings(struct Window *win_data, const gchar *encoding)
 				}
 				g_free(color_value);
 			}
-#endif
+#  endif
 			win_data->color_brightness = check_double_value(keyfile,
 									"color",
 									"brightness",
@@ -1828,6 +1828,7 @@ void get_user_settings(struct Window *win_data, const gchar *encoding)
 			profile_is_invalid_dialog(error, win_data);
 			init_user_color(win_data, color_theme_str);
 		}
+#endif
 	}
 	else
 	{
@@ -1845,18 +1846,18 @@ void get_user_settings(struct Window *win_data, const gchar *encoding)
 	setlocale(LC_MESSAGES, win_data->runtime_LC_MESSAGES);
 	init_locale_restrict_data(win_data->runtime_LC_MESSAGES);
 
- 	for (i=0; i<KEYS; i++)
- 	{
+	for (i=0; i<KEYS; i++)
+	{
 		if ( ! win_data->user_keys[i].key)
 		{
 			accelerator_parse(system_keys[i].name, win_data->user_keys[i].value,
 					  &(win_data->user_keys[i].key), &(win_data->user_keys[i].mods));
- 			// g_debug("Use default key %s, %x(%s), mods = %x.", pagekeys[i].name,
+			// g_debug("Use default key %s, %x(%s), mods = %x.", pagekeys[i].name,
 			//		pagekeys[i].key, gdk_keyval_name(pagekeys[i].key), pagekeys[i].mods);
 		}
 		// g_debug("* We'll use the key for %s: %x(%s), mods = %x.", pagekeys[i].name,
 		//		pagekeys[i].key, gdk_keyval_name(pagekeys[i].key), pagekeys[i].mods);
- 	}
+	}
 	// win_data->fullscreen_show_scroll_bar = win_data->show_scroll_bar;
 
 	for (i=0; i<COMMAND; i++)
@@ -1988,7 +1989,7 @@ void get_user_settings(struct Window *win_data, const gchar *encoding)
 	}
 	if (win_data->transparent_window==2)
 		win_data->transparent_window = (win_data->use_rgba==-1)? 1: 0;
-#if defined(ENABLE_VTE_BACKGROUND) || defined(FORCE_ENABLE_VTE_BACKGROUND)
+#  if defined(ENABLE_VTE_BACKGROUND) || defined(FORCE_ENABLE_VTE_BACKGROUND)
 	if (win_data->transparent_background==2)
 		win_data->transparent_background = (win_data->use_rgba==-1)? 1 :0;
 	// g_debug("win_data->transparent_window = %d", win_data->transparent_window);
@@ -2017,11 +2018,11 @@ void get_user_settings(struct Window *win_data, const gchar *encoding)
 
 	if (win_data->font_resize_ratio <=1) win_data->font_resize_ratio = 0;
 	if (win_data->window_resize_ratio <= 1) win_data->window_resize_ratio = 0;
-
+#ifdef ENABLE_PROFILE
 	g_key_file_free(keyfile);
 	// the win_data->profile will be free when close window
 	// g_free(win_data->profile);
-
+#endif
 	if (win_data->specified_profile)
 	{
 		g_free(win_data->profile);
@@ -2060,15 +2061,16 @@ void init_prime_user_datas(struct Window *win_data)
 	win_data->default_locale = g_strdup("");
 }
 
+#ifdef ENABLE_PROFILE
 void get_prime_user_settings(GKeyFile *keyfile, struct Window *win_data, gchar *encoding)
 {
-#ifdef DETAIL
+#  ifdef DETAIL
 	g_debug("! Launch get_prime_user_settings() with keyfile = %p, win_data = %p, encoding = %s!",
 		keyfile, win_data, encoding);
-#endif
-#ifdef SAFEMODE
+#  endif
+#  ifdef SAFEMODE
 	if ((keyfile==NULL) || (win_data==NULL)) return;
-#endif
+#  endif
 	if (win_data->prime_user_settings_inited) return;
 	win_data->prime_user_settings_inited = TRUE;
 
@@ -2093,11 +2095,11 @@ void get_prime_user_settings(GKeyFile *keyfile, struct Window *win_data, gchar *
 	win_data->default_locale = check_string_value(keyfile, "main", "default_locale",
 						      win_data->default_locale, TRUE, DISABLE_EMPTY_STR);
 	// g_debug("win_data->default_locale = %s", win_data->default_locale);
-#ifdef SAFEMODE
+#  ifdef SAFEMODE
 	if ( win_data->default_locale && (win_data->default_locale[0]!='\0'))
-#else
+#  else
 	if (win_data->default_locale[0]!='\0')
-#endif
+#  endif
 	{
 		gchar *encoding = get_encoding_from_locale(win_data->default_locale);
 		if (encoding)
@@ -2119,13 +2121,13 @@ void get_prime_user_settings(GKeyFile *keyfile, struct Window *win_data, gchar *
 
 gboolean check_boolean_value(GKeyFile *keyfile, const gchar *group_name, const gchar *key, const gboolean default_value)
 {
-#ifdef DETAIL
+#  ifdef DETAIL
 	g_debug("! Launch check_boolean_value() with keyfile = %p, group_name = %s, key = %s, default_value = %d",
 		keyfile, group_name, key ,default_value);
-#endif
-#ifdef SAFEMODE
+#  endif
+#  ifdef SAFEMODE
 	if ((keyfile==NULL) || (group_name==NULL) || (key==NULL)) return FALSE;
-#endif
+#  endif
 	gchar *value = g_key_file_get_value(keyfile, group_name, key, NULL);
 	gboolean setting;
 
@@ -2149,13 +2151,13 @@ gdouble check_double_value(GKeyFile *keyfile, const gchar *group_name, const gch
 			   Check_Min check_min, gdouble min,
 			   Check_Max check_max, gdouble max)
 {
-#ifdef DETAIL
+#  ifdef DETAIL
 	g_debug("! Launch check_double_value() with keyfile = %p, group_name = %s, key = %s, default_value = %f",
 		keyfile, group_name, key, default_value);
-#endif
-#ifdef SAFEMODE
+#  endif
+#  ifdef SAFEMODE
 	if ((keyfile==NULL) || (group_name==NULL) || (key==NULL)) return 0;
-#endif
+#  endif
 	gchar *value = g_key_file_get_value(keyfile, group_name, key, NULL);
 	gdouble setting;
 
@@ -2199,16 +2201,16 @@ glong check_integer_value(GKeyFile *keyfile, const gchar *group_name, const gcha
 			  Check_Zero enable_zero, Check_Min check_min, glong min,
 			  Check_Max check_max, glong max)
 {
-#ifdef DETAIL
+#  ifdef DETAIL
 	g_debug("! Launch check_integer_value() with keyfile = %p, group_name = %s, key = %s, "
 		"default_value = %ld, enable_empty = %d, enable_zero = %d, "
 		"check_min = %d, min = %ld, check_max = %d, max = %ld",
 		keyfile, group_name, key, default_value, enable_empty, enable_zero,
 		check_min, min, check_max, max);
-#endif
-#ifdef SAFEMODE
+#  endif
+#  ifdef SAFEMODE
 	if ((keyfile==NULL) || (group_name==NULL) || (key==NULL)) return 0;
-#endif
+#  endif
 	gchar *value = g_key_file_get_value(keyfile, group_name, key, NULL);
 	gint setting;
 
@@ -2252,14 +2254,14 @@ FINISH:
 gchar *check_string_value(GKeyFile *keyfile, const gchar *group_name, const gchar *key, gchar *original_value,
 			  gboolean free_original_value, Check_Empty enable_empty)
 {
-#ifdef DETAIL
+#  ifdef DETAIL
 	g_debug("! Launch check_string_value() with keyfile = %p, group_name = %s, "
 		"key = %s, original_value = %s (%p), enable_empty = %d",
 		keyfile, group_name, key, original_value, original_value, enable_empty);
-#endif
-#ifdef SAFEMODE
+#  endif
+#  ifdef SAFEMODE
 	if ((keyfile==NULL) || (group_name==NULL) || (key==NULL)) return NULL;
-#endif
+#  endif
 	gchar *setting = g_key_file_get_value(keyfile, group_name, key, NULL);
 	// g_debug("check_string_value() with setting = %s (%p)", setting, setting);
 	if (setting && (setting[0] == '\0') && (enable_empty==DISABLE_EMPTY_STR))
@@ -2271,13 +2273,14 @@ gchar *check_string_value(GKeyFile *keyfile, const gchar *group_name, const gcha
 	if ((setting == NULL) && (original_value))
 		setting = g_strdup(original_value);
 
-#ifndef UNIT_TEST
+#  ifndef UNIT_TEST
 	if (free_original_value) g_free(original_value);
-#endif
+#  endif
 
 	// g_debug("Got key value \"%s = %s\"", key, setting);
 	return setting;
 }
+#endif
 
 #ifdef ENABLE_GDKCOLOR_TO_STRING
 gboolean check_color_value(const gchar *key_name, const gchar *color_name, GdkRGBA *color, const GdkRGBA *default_color)
@@ -2434,42 +2437,43 @@ FINISH:
 	return response;
 }
 
+#ifdef ENABLE_PROFILE
 // It is OK if widget=NULL and win_data=NULL here.
 GString *save_user_settings(GtkWidget *widget, struct Window *win_data)
 {
-#ifdef DETAIL
+#  ifdef DETAIL
 	g_debug("! Launch save_user_settings()");
-#endif
+#  endif
 	struct Page *page_data = NULL;
 	gint i;
 
-#ifdef SAFEMODE
+#  ifdef SAFEMODE
 	if (win_data && (win_data->current_vte))
-#else
+#  else
 	if (win_data)
-#endif
+#  endif
 	{
 		page_data = get_page_data_from_vte(win_data->current_vte, win_data, -1);
-#ifdef SAFEMODE
+#  ifdef SAFEMODE
 		if (page_data==NULL) return NULL;
-#endif
+#  endif
 	}
 	else
 	{
 		// For -p command line option
 		win_data = g_new0(struct Window, 1);
-#ifdef SAFEMODE
+#  ifdef SAFEMODE
 		if (win_data==NULL) return NULL;
-#endif
+#  endif
 		page_data = g_new0(struct Page, 1);
-#ifdef SAFEMODE
+#  ifdef SAFEMODE
 		if (page_data==NULL)
 		{
 			// g_debug("save_user_settings(): Trying to free win_data (%p)", win_data);
 			g_free(win_data);
 			return NULL;
 		}
-#endif
+#  endif
 		// g_debug("Got win_data = %p, page_data = %p", win_data, page_data);
 		init_window_parameters(win_data);
 		init_user_keys(win_data);
@@ -2528,15 +2532,15 @@ GString *save_user_settings(GtkWidget *widget, struct Window *win_data)
 						"# Disable it will disable transparent_window, too.\n"
 						"use_rgba = \n\n");
 	}
-#ifdef USE_GTK2_GEOMETRY_METHOD
+#  ifdef USE_GTK2_GEOMETRY_METHOD
 	g_string_append_printf(contents,"# Start up with fullscreen.\n"
 					"fullscreen = %d\n\n", win_data->true_fullscreen);
-#endif
-#ifdef USE_GTK3_GEOMETRY_METHOD
+#  endif
+#  ifdef USE_GTK3_GEOMETRY_METHOD
 	g_string_append_printf(contents,"# Start up with fullscreen.\n"
 					"fullscreen = %d\n\n", (win_data->window_status==WINDOW_FULL_SCREEN));
-#endif
-#ifdef ENABLE_RGBA
+#  endif
+#  ifdef ENABLE_RGBA
 	g_string_append_printf(contents,"# Transparent window. Only enabled when the window manager were composited.\n"
 					"transparent_window = %d\n\n", (win_data->transparent_window==1));
 	g_string_append_printf(contents,"# The opacity of transparent window.\n"
@@ -2547,8 +2551,8 @@ GString *save_user_settings(GtkWidget *widget, struct Window *win_data)
 		g_string_append_printf( contents,"window_opacity_inactive = %1.3f\n\n", win_data->window_opacity_inactive);
 	else
 		g_string_append(contents,"window_opacity_inactive = \n\n");
-#endif
-#if defined(ENABLE_VTE_BACKGROUND) || defined(FORCE_ENABLE_VTE_BACKGROUND)
+#  endif
+#  if defined(ENABLE_VTE_BACKGROUND) || defined(FORCE_ENABLE_VTE_BACKGROUND)
 	g_string_append_printf(contents,"# Use transparent background.\n"
 					"# It will use true transparent if the window manager were composited.\n"
 					"transparent_background = %d\n\n", (win_data->transparent_background==1));
@@ -2562,7 +2566,7 @@ GString *save_user_settings(GtkWidget *widget, struct Window *win_data)
 	else
 		g_string_append(contents,"# Sets a background image.\n"
 					 "background_image = \n\n");
-#endif
+#  endif
 	g_string_append_printf(contents,"# Confirm to execute command with -e/-x/--execute option.\n"
 					"confirm_to_execute_command = %d\n\n", win_data->confirm_to_execute_command);
 	g_string_append_printf(contents,"# Don't need to confirm for executing a program if it's in the whitelist,\n"
@@ -2590,7 +2594,7 @@ GString *save_user_settings(GtkWidget *widget, struct Window *win_data)
 	g_string_append_printf(contents,"# Shows [Change the foreground color]\n"
 					"# and [Change the background color] on right click menu.\n"
 					"show_color_selection_menu = %d\n\n", win_data->show_color_selection_menu);
-#ifdef ENABLE_GDKCOLOR_TO_STRING
+#  ifdef ENABLE_GDKCOLOR_TO_STRING
 	g_string_append_printf(contents,"# The normal text color used in vte terminal.\n"
 					"# You may use black, #000000 or #000000000000 here.\n");
 
@@ -2624,26 +2628,26 @@ GString *save_user_settings(GtkWidget *widget, struct Window *win_data)
 	gchar *color_str = dirty_gdk_rgba_to_string(&(win_data->cursor_color));
 	g_string_append_printf(contents,"cursor_color = %s\n\n", color_str);
 	g_free (color_str);
-#endif
+#  endif
 	g_string_append_printf(contents,"# Shows [Increase window size], [Decrease window size],\n"
 					"# [Reset to default font/size] and [Reset to system font/size]\n"
 					"# on right click menu.\n"
 					"show_resize_menu = %d\n\n", win_data->show_resize_menu);
-#ifndef vte_terminal_set_font_from_string_full
+#  ifndef vte_terminal_set_font_from_string_full
 	g_string_append_printf(contents,"# Using antialias when showing fonts.\n"
 					"# 0: default. 1: force enable. 2: force disable.\n"
 					"font_anti_alias = %d\n\n", win_data->font_anti_alias);
-#endif
+#  endif
 	g_string_append_printf(contents,"# The ratio when resizing font via function key <Ctrl><+> and <Ctrl><->.\n"
 					"# 0: the font size is +/- 1 when resizing.\n"
 					"font_resize_ratio = %1.3f\n\n", win_data->font_resize_ratio);
 	g_string_append_printf(contents,"# The ratio when resizing window via right click menu.\n"
 					"# 0: the font size is +/- 1 when resizing window.\n"
 					"window_resize_ratio = %1.3f\n\n", win_data->window_resize_ratio);
-#ifdef ENABLE_SET_WORD_CHARS
+#  ifdef ENABLE_SET_WORD_CHARS
 	g_string_append_printf(contents,"# When user double clicks on a text, which character will be selected.\n"
 					"word_chars = %s\n\n", win_data->word_chars);
-#endif
+#  endif
 	g_string_append_printf(contents,"# The lines of scrollback history. -1 means unlimited (vte >= 0.22.3).\n"
 					"scrollback_lines = %d\n\n", win_data->scrollback_lines);
 	g_string_append(contents,"# Shows scroll_bar or not.\n"
@@ -2665,10 +2669,10 @@ GString *save_user_settings(GtkWidget *widget, struct Window *win_data)
 	g_string_append_printf(contents,"# The position of scroll_bar.\n"
 					"# 0: scroll_bar is on left; 1: scroll_bar is on right.\n"
 					"scroll_bar_position = %d\n\n", win_data->scroll_bar_position);
-#ifdef ENABLE_IM_APPEND_MENUITEMS
+#  ifdef ENABLE_IM_APPEND_MENUITEMS
 	g_string_append_printf(contents,"# Shows input method menu on right click menu.\n"
 					"show_input_method_menu = %d\n\n", win_data->show_input_method_menu);
-#endif
+#  endif
 	g_string_append_printf(contents,"# Shows change page name menu on right click menu.\n"
 					"show_change_page_name_menu = %d\n\n", win_data->show_change_page_name_menu);
 	g_string_append_printf(contents,"# Shows exit menu on right click menu.\n"
@@ -2676,11 +2680,11 @@ GString *save_user_settings(GtkWidget *widget, struct Window *win_data)
 	g_string_append_printf(contents,"# Enable hyperlink in vte terminal.\n"
 					"enable_hyperlink = %d\n\n", win_data->enable_hyperlink);
 	g_string_append_printf(contents,"# Sets whether or not the cursor will blink in vte terminal.\n"
-#ifdef USE_NEW_VTE_CURSOR_BLINKS_MODE
+#  ifdef USE_NEW_VTE_CURSOR_BLINKS_MODE
 					"# 0: Follow GTK+ settings for cursor blinking.\n"
 					"# 1: Cursor blinks.\n"
 					"# 2: Cursor does not blink.\n"
-#endif
+#  endif
 					"cursor_blinks = %d\n\n", win_data->cursor_blinks);
 	g_string_append_printf(contents,"# Allow bold text in the terminal.\n"
 					"allow_bold_text = %d\n\n", win_data->allow_bold_text);
@@ -2697,33 +2701,33 @@ GString *save_user_settings(GtkWidget *widget, struct Window *win_data)
 	g_string_append_printf(contents,"# Sets whether or not the terminal will beep\n"
 					"# when the child outputs the \"bl\" sequence.\n"
 					"audible_bell = %d\n\n", win_data->audible_bell);
-#ifdef ENABLE_VISIBLE_BELL
+#  ifdef ENABLE_VISIBLE_BELL
 	g_string_append_printf(contents,"# Sets whether or not the terminal will flash\n"
 					"# when the child outputs the \"bl\" sequence.\n"
 					"visible_bell = %d\n\n", win_data->visible_bell);
-#endif
-#ifdef ENABLE_BEEP_SINGAL
+#  endif
+#  ifdef ENABLE_BEEP_SINGAL
 	g_string_append_printf(contents,"# Sets whether or not the window's urgent tag will be set\n"
 					"# when the child outputs the \"bl\" sequence.\n"
 					"urgent_bell = %d\n\n", win_data->urgent_bell);
-#endif
+#  endif
 	g_string_append_printf(contents,"# Which string the terminal should send to an application\n"
 					"# when the user presses the Delete or Backspace keys.\n"
 					"# 0: VTE_ERASE_AUTO\n"
 					"# 1: VTE_ERASE_ASCII_BACKSPACE\n"
 					"# 2: VTE_ERASE_ASCII_DELETE\n"
 					"# 3: VTE_ERASE_DELETE_SEQUENCE\n"
-#ifdef ENABLE_VTE_ERASE_TTY
+#  ifdef ENABLE_VTE_ERASE_TTY
 					"# 4: VTE_ERASE_TTY\n"
-#endif
+#  endif
 					"erase_binding = %d\n\n", win_data->erase_binding);
-#ifdef ENABLE_CURSOR_SHAPE
+#  ifdef ENABLE_CURSOR_SHAPE
 	g_string_append_printf(contents,"# Sets the shape of the cursor drawn.\n"
 					"# 0: VTE_CURSOR_SHAPE_BLOCK\n"
 					"# 1: VTE_CURSOR_SHAPE_IBEAM\n"
 					"# 2: VTE_CURSOR_SHAPE_UNDERLINE\n"
 					"cursor_shape = %d\n\n", win_data->cursor_shape);
-#endif
+#  endif
 	g_string_append_printf(contents,"# The default locale used when initing a vte terminal.\n"
 					"# You may use \"zh_TW\", \"zh_TW.Big5\", or \"zh_TW.UTF-8\" here.\n");
 	g_string_append_printf(contents,"default_locale = %s\n\n", win_data->default_locale);
@@ -2740,12 +2744,12 @@ GString *save_user_settings(GtkWidget *widget, struct Window *win_data)
 	else
 		g_string_append(contents,
 					"default_shell = \n\n");
-#ifdef ENABLE_SET_EMULATION
+#  ifdef ENABLE_SET_EMULATION
 	g_string_append_printf(contents,"# Sets what type of terminal attempts to emulate.\n"
 					"# It will also set the TERM environment.\n"
 					"# Unless you are interested in this feature, always use \"xterm\".\n"
 					"emulate_term = %s\n\n", win_data->emulate_term);
-#endif
+#  endif
 	g_string_append_printf(contents,"# The environment 'VTE_CJK_WIDTH' used when initing a vte terminal.\n"
 					"# 0: get via environment; 1: use narrow ideograph; 2: use wide ideograph.\n"
 					"VTE_CJK_WIDTH = %d\n\n", win_data->VTE_CJK_WIDTH);
@@ -2860,7 +2864,7 @@ GString *save_user_settings(GtkWidget *widget, struct Window *win_data)
 	else
 		g_string_append(contents, "inactive_brightness = \n\n");
 
-#ifdef ENABLE_GDKCOLOR_TO_STRING
+#  ifdef ENABLE_GDKCOLOR_TO_STRING
 	for (i=1; i<COLOR-1; i++)
 	{
 		g_string_append_printf( contents,"%s\n"
@@ -2876,7 +2880,7 @@ GString *save_user_settings(GtkWidget *widget, struct Window *win_data)
 		else
 			g_string_append_printf(contents,"%s = \n\n",  color[i].name);
 	}
-#endif
+#  endif
 	g_string_append_printf(contents,"\n");
 
 	g_string_append_printf(contents,"[command]\n\n"
@@ -2959,12 +2963,12 @@ GString *save_user_settings(GtkWidget *widget, struct Window *win_data)
 	// g_debug("save_user_settings(): profile = %s", profile);
 
 	// g_debug("\n%s", contents->str);
-#ifdef BSD
+#  ifdef BSD
 	gchar resolved_patch[PATH_MAX+1];
 	gchar *real_file_name = g_strdup(realpath((const gchar *)profile, resolved_patch));
-#else
+#  else
 	gchar *real_file_name = canonicalize_file_name((const gchar *)profile);
-#endif
+#  endif
 	if (real_file_name==NULL)
 	{
 		//if (access(profile, F_OK))
@@ -2986,17 +2990,17 @@ GString *save_user_settings(GtkWidget *widget, struct Window *win_data)
 	else
 	{
 		// g_debug("G_FILE_TEST_IS_REGULAR = TRUE");
-#ifdef SAFEMODE
+#  ifdef SAFEMODE
 		if ( contents &&
 		     (! g_file_set_contents(real_file_name, contents->str, -1, &error)))
-#else
+#  else
 		if ( ! g_file_set_contents(real_file_name, contents->str, -1, &error))
-#endif
+#  endif
 		{
 			// g_debug("Error while writing profile '%s': %s", real_file_name, error->message);
-#ifdef SAFEMODE
+#  ifdef SAFEMODE
 			if (error)
-#endif
+#  endif
 				create_save_failed_dialog(win_data, error->message);
 		}
 		// else
@@ -3015,6 +3019,7 @@ FINISH:
 
 	return NULL;
 }
+#endif
 
 void create_save_failed_dialog(struct Window *win_data, gchar *message)
 {
@@ -3044,29 +3049,31 @@ void create_save_failed_dialog(struct Window *win_data, gchar *message)
 		g_free(temp_str[i]);
 }
 
+#ifdef ENABLE_PROFILE
 gchar *get_profile()
 {
-#ifdef DETAIL
+#  ifdef DETAIL
 	g_debug("! Launch get_profile()");
-#endif
+#  endif
 	gchar *profile = g_strdup_printf("%s/%s", profile_dir, USER_PROFILE);
-#ifdef SAFEMODE
+#  ifdef SAFEMODE
 	if (profile && (g_mkdir_with_parents(profile_dir, 0700) < 0))
-#else
+#  else
 	if (g_mkdir_with_parents(profile_dir, 0700))
-#endif
+#  endif
 	{
-#ifdef SAFEMODE
+#  ifdef SAFEMODE
 		g_message("Can NOT create the directory: %s", profile_dir);
-#else
+#  else
 		g_critical("Can NOT create the directory: %s", profile_dir);
-#endif
+#  endif
 		g_free(profile);
 		profile = NULL;
 	}
 	// g_debug("get_profile: got the final profile = %s", profile);
 	return profile;
 }
+#endif
 
 #if defined(ENABLE_RGBA) || defined(UNIT_TEST)
 // init rgba to enable true transparent.
@@ -3146,14 +3153,15 @@ FINISH:
 }
 #endif
 
+#ifdef ENABLE_PROFILE
 void check_profile_version (GKeyFile *keyfile, struct Window *win_data)
 {
-#ifdef DETAIL
+#  ifdef DETAIL
 	g_debug("! Launch check_profile_version() with win_data = %p", win_data);
-#endif
-#ifdef SAFEMODE
+#  endif
+#  ifdef SAFEMODE
 	if ((keyfile==NULL) || (win_data==NULL)) return;
-#endif
+#  endif
 	GtkWidget *window = NULL;
 	if (win_data) window = win_data->window;
 
@@ -3165,13 +3173,13 @@ void check_profile_version (GKeyFile *keyfile, struct Window *win_data)
 	//	PROFILE_FORMAT_VERSION,
 	//	profile_version);
 
-#ifdef SAFEMODE
+#  ifdef SAFEMODE
 	if (profile_version && (profile_version[0] != '\0') &&
 	    (compare_strings(PROFILE_FORMAT_VERSION, profile_version, TRUE)))
-#else
+#  else
 	if ((profile_version[0] != '\0') &&
 	    (compare_strings(PROFILE_FORMAT_VERSION, profile_version, TRUE)))
-#endif
+#  endif
 	{
 		gchar *temp_str[3] = {NULL};
 		temp_str[0] = g_strdup(_("Some entry in profile is added, removed, "
@@ -3191,12 +3199,13 @@ void check_profile_version (GKeyFile *keyfile, struct Window *win_data)
 		gint i;
 		for (i=0; i<3; i++)
 			g_free(temp_str[i]);
-#if !defined(DEBUG) && !defined(DETAIL) && !defined(FULL)
+#  if !defined(DEBUG) && !defined(DETAIL) && !defined(FULL)
 		checked_profile_version = TRUE;
-#endif
+#  endif
 	}
 	g_free(profile_version);
 }
+#endif
 
 void profile_is_invalid_dialog(GError *error, struct Window *win_data)
 {

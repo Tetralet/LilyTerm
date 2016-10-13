@@ -320,6 +320,7 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 			g_free(clipboard_str);
 #else
 			upgrade_dialog(ENABLE_FIND_STRING_VER);
+			goto FINISH;
 #endif
 			break;
 		}
@@ -360,6 +361,7 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 			// <Paste> and <Esc> Button
 #ifdef HAVE_GTK_DIALOG_GET_ACTION_AREA
 			GtkWidget *paste_button = gtk_button_new_from_stock (GTK_FAKE_STOCK_PASTE);
+#  ifdef HAVE_GTK_ALTERNATIVE_DIALOG_BUTTON_ORDER
 			if (gtk_alternative_dialog_button_order(NULL))
 			{
 				gtk_box_pack_end (GTK_BOX(gtk_dialog_get_action_area(GTK_DIALOG(dialog_data->window))),
@@ -367,6 +369,7 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 				gtk_dialog_add_button (GTK_DIALOG(dialog_data->window), GTK_FAKE_STOCK_QUIT, GTK_RESPONSE_CANCEL);
 			}
 			else
+#  endif
 			{
 				gtk_dialog_add_button (GTK_DIALOG(dialog_data->window), GTK_FAKE_STOCK_QUIT, GTK_RESPONSE_CANCEL);
 				gtk_box_pack_end (GTK_BOX(gtk_dialog_get_action_area(GTK_DIALOG(dialog_data->window))),
@@ -499,7 +502,6 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 				win_data->transparent_background = TRUE;
 			set_background_saturation(NULL, 0, win_data->background_saturation,
 						  win_data->current_vte);
-
 			break;
 		}
 #endif
@@ -1423,8 +1425,10 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 #ifdef ENABLE_SET_TOOLTIP_TEXT
 			gtk_widget_set_tooltip_text(join_button, _("Remove '<Return>' in the text"));
 #endif
+#ifdef HAVE_GTK_BUTTON_SET_IMAGE
 			gtk_button_set_image (GTK_BUTTON(join_button),
 					      gtk_image_new_from_stock(GTK_FAKE_STOCK_PASTE, GTK_ICON_SIZE_BUTTON));
+#endif
 #ifdef HAVE_GTK_DIALOG_GET_ACTION_AREA
 			gtk_button_box_set_child_secondary (GTK_BUTTON_BOX(gtk_dialog_get_action_area(GTK_DIALOG(dialog_data->window))),
 							    join_button, TRUE);
@@ -1436,8 +1440,10 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 #ifdef ENABLE_SET_TOOLTIP_TEXT
 			gtk_widget_set_tooltip_text(strip_button, _("Remove '<Return>', \"\\<Return>\", and \"\\<Return><<Space>\" in the text, then join '<Tab>' and '<Space>' into a single '<Space>'"));
 #endif
+#ifdef HAVE_GTK_BUTTON_SET_IMAGE
 			gtk_button_set_image (GTK_BUTTON(strip_button),
 					      gtk_image_new_from_stock(GTK_FAKE_STOCK_PASTE, GTK_ICON_SIZE_BUTTON));
+#endif
 #ifdef HAVE_GTK_DIALOG_GET_ACTION_AREA
 			gtk_button_box_set_child_secondary (GTK_BUTTON_BOX(gtk_dialog_get_action_area(GTK_DIALOG(dialog_data->window))),
 							    strip_button, TRUE);
@@ -1484,11 +1490,12 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 	// g_debug("! The final window size is %d x %d",
 	//	requisition.width, requisition.height);
 
+#ifdef HAVE_GTK_LABEL_GET_MAX_WIDTH_CHARS
 	// FIXME: Due to a bug in the GTK+2(?), we should set the ellipsize after the dialog is shown.
 	// Or, the vertical size of title label may be cut, and some text may not shown.
 	if ((dialog_data->title_label) && (gtk_label_get_max_width_chars(GTK_LABEL(dialog_data->title_label)) > 0))
 		gtk_label_set_ellipsize(GTK_LABEL(dialog_data->title_label), PANGO_ELLIPSIZE_MIDDLE);
-
+#endif
 #ifdef UNIT_TEST
 	for (dialog_response=GTK_RESPONSE_HELP; dialog_response<=GTK_RESPONSE_NONE; dialog_response++)
 	{
@@ -1519,7 +1526,7 @@ GtkResponseType dialog(GtkWidget *widget, gsize style)
 						page_data->custom_page_name = NULL;
 
 					// g_debug("Get the page name = %s, color = %s",
-					// 	page_data->custom_page_name, page_data->tab_color);
+					//	page_data->custom_page_name, page_data->tab_color);
 					if (page_data->page_update_method == PAGE_METHOD_WINDOW_TITLE)
 						page_data->window_title_updated = 1;
 					get_and_update_page_name(page_data, FALSE);
@@ -2094,11 +2101,13 @@ void update_color_buttons(struct Window *win_data, struct Dialog *dialog_data)
 					   (temp_color[color_index].blue  >> 8) << 8);
 #  endif
 
+#  ifdef HAVE_GTK_BUTTON_SET_IMAGE
 		GtkWidget *image = gtk_image_new_from_pixbuf (pixbuf);
-#  ifdef SAFEMODE
+#    ifdef SAFEMODE
 		if (dialog_data->color_button[i])
-#  endif
+#    endif
 			gtk_button_set_image(GTK_BUTTON(dialog_data->color_button[i]), image);
+#  endif
 #else
 #  ifdef SAFEMODE
 		if (dialog_data->color_button[i])
@@ -2285,8 +2294,9 @@ GtkWidget *create_label_with_text(GtkWidget *box, gboolean set_markup, gboolean 
 	else
 		gtk_label_set_text(GTK_LABEL (label), text);
 	if (selectable) gtk_label_set_selectable(GTK_LABEL(label), TRUE);
+#ifdef HAVE_GTK_LABEL_GET_MAX_WIDTH_CHARS
 	if (max_width_chars) gtk_label_set_max_width_chars (GTK_LABEL(label), max_width_chars);
-
+#endif
 	if (box) gtk_box_pack_start (GTK_BOX(box), label, FALSE, FALSE, 0);
 	return label;
 }
@@ -2301,9 +2311,11 @@ GtkWidget *add_secondary_button(GtkWidget *dialog, const gchar *text, gint respo
 	if ((text==NULL) || (dialog==NULL)) return NULL;
 #endif
 	GtkWidget *button = gtk_dialog_add_button (GTK_DIALOG(dialog), text, response_id);
+#ifdef HAVE_GTK_BUTTON_SET_IMAGE
 	if (stock_id)
 		gtk_button_set_image (GTK_BUTTON(button),
 				      gtk_image_new_from_stock(stock_id, GTK_ICON_SIZE_BUTTON));
+#endif
 #ifdef HAVE_GTK_DIALOG_GET_ACTION_AREA
 	gtk_button_box_set_child_secondary (GTK_BUTTON_BOX(gtk_dialog_get_action_area(GTK_DIALOG(dialog))), button, TRUE);
 #endif
@@ -2670,9 +2682,10 @@ GtkWidget *create_button_with_image(gchar *label_text, const gchar *stock_id, gb
 	else
 #endif
 		label = gtk_button_new_with_label(label_text);
-
+#ifdef HAVE_GTK_BUTTON_SET_IMAGE
 	gtk_button_set_image (GTK_BUTTON(label),
 			      gtk_image_new_from_stock(stock_id, GTK_ICON_SIZE_MENU));
+#endif
 	gtk_button_set_relief(GTK_BUTTON(label), GTK_RELIEF_NONE);
 	gtk_button_set_focus_on_click(GTK_BUTTON(label), FALSE);
 #ifdef USE_GTK_WIDGET_SET_HALIGN
@@ -2793,10 +2806,12 @@ void create_scale_widget(struct Dialog *dialog_data, gdouble min, gdouble max, g
 	dialog_data->operate[0] = gtk_hscale_new_with_range(min, max, step);
 	gtk_widget_set_size_request(dialog_data->operate[0], 210, -1);
 	gtk_range_set_value(GTK_RANGE(dialog_data->operate[0]), value);
-#ifdef SAFEMODE
+#ifdef HAVE_GTKRANGE_CHANGE_VALUE
+#  ifdef SAFEMODE
 	if (func)
-#endif
+#  endif
 		g_signal_connect_after(dialog_data->operate[0], "change-value", G_CALLBACK(func), func_data);
+#endif
 #ifdef SAFEMODE
 	if (dialog_data->box!=NULL)
 #endif
@@ -3789,7 +3804,11 @@ void create_dialog(gchar *dialog_title_translation, gchar *dialog_title,  Dialog
 			return;
 	}
 #endif
+#ifdef HAVE_GTK_ALTERNATIVE_DIALOG_BUTTON_ORDER
 	gboolean BOTTON_ORDER = gtk_alternative_dialog_button_order(NULL);
+#else
+	gboolean BOTTON_ORDER = TRUE;
+#endif
 	// g_debug("gtk_alternative_dialog_button_order = %d" ,gtk_alternative_dialog_button_order (NULL));
 
 	// Strange behavior, If the locale is empty, or setted to 'C' or 'POSIX',

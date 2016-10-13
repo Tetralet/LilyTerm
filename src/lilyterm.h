@@ -163,9 +163,11 @@ GString *save_user_settings(GtkWidget *widget, struct Window *win_data);
 gchar *get_user_profile_path(struct Window *win_data, int argc, char *argv[]);
 void get_user_settings(struct Window *win_data, const gchar *encoding);
 void init_prime_user_datas(struct Window *win_data);
+#ifdef ENABLE_PROFILE
 void get_prime_user_settings(GKeyFile *keyfile, struct Window *win_data, gchar *encoding);
 gboolean check_boolean_value(GKeyFile *keyfile, const gchar *group_name, const gchar *key, const gboolean default_value);
 void check_profile_version (GKeyFile *keyfile, struct Window *win_data);
+#endif
 void profile_is_invalid_dialog(GError *error, struct Window *win_data);
 void convert_string_to_user_key(gint i, gchar *value, struct Window *win_data);
 gchar *get_profile();

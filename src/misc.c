@@ -579,7 +579,11 @@ gchar **split_string(const gchar *str, const gchar *split, gint max_tokens)
 		while (datas[++i]);
 		if (i<max_tokens)
 		{
+#ifdef DEBUG
+			g_debug("split_string(%d) WARNING: can NOT splite \"%s\" into %d string(s) !!", i, str, max_tokens);
+#else
 			g_warning("split_string(%d) WARNING: can NOT splite \"%s\" into %d string(s) !!", i, str, max_tokens);
+#endif
 			g_strfreev(datas);
 			datas = NULL;
 		}

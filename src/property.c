@@ -253,7 +253,7 @@ void set_hyperlink(struct Window *win_data, struct Page *page_data)
 			page_data->tag[i] = vte_terminal_match_add_gregex (VTE_TERMINAL(page_data->vte), regex, 0);
 			g_regex_unref (regex);
 #  else
-			VteRegex *regex = vte_regex_new_for_match (match, -1, 
+			VteRegex *regex = vte_regex_new_for_match (match, -1,
 								   PCRE2_UTF | PCRE2_NO_UTF_CHECK | PCRE2_MULTILINE | PCRE2_CASELESS, NULL);
 			page_data->tag[i] = vte_terminal_match_add_regex (VTE_TERMINAL(page_data->vte), regex, 0);
 			vte_regex_unref(regex);
@@ -365,7 +365,9 @@ void set_page_width(struct Window *win_data, struct Page *page_data)
 #ifdef SAFEMODE
 	if ((win_data==NULL) || (page_data==NULL) || (page_data->label_text==NULL)) return;
 #endif
+#ifdef HAVE_GTK_LABEL_SET_WIDTH_CHARS
 	gtk_label_set_width_chars(GTK_LABEL(page_data->label_text), win_data->page_width);
+#endif
 }
 
 void pack_vte_and_scroll_bar_to_hbox(struct Window *win_data, struct Page *page_data)
@@ -742,7 +744,7 @@ void apply_new_win_data_to_page (struct Window *win_data_orig,
 	// if (win_data_orig->use_rgba != win_data->use_rgba)
 	//	init_rgba(win_data);
 #ifdef ENABLE_RGBA
-    	set_window_opacity (NULL, 0, win_data->window_opacity, win_data);
+	set_window_opacity (NULL, 0, win_data->window_opacity, win_data);
 #endif
 
 	init_monitor_cmdline_datas(win_data, page_data);

@@ -1,5 +1,10 @@
 #!/bin/sh
 
+GLIB_MIN_VERSION="2.4.7"
+GTK_MIN_VERSION="2.4.10"
+GTK_COMMEND_VERSION="2.11"
+VTE_MIN_VERSION="0.11.11"
+
 PACKAGE=`grep "^PACKAGE = " .default | awk -F ' = ' '{print $2}'`
 PREFIX=`grep "^PREFIX = " .default | awk -F ' = ' '{print $2}'`
 DATADIR=`grep "^DATADIR = " .default | awk -F ' = ' '{print $2}'`
@@ -206,9 +211,9 @@ $ECHO ""
 
 # ---- Build Requirement ---- #
 
-$PKGCONFIG --exists 'glib-2.0 >= 2.12' > /dev/null 2>&1
+$PKGCONFIG --exists "glib-2.0 >= $GLIB_MIN_VERSION" > /dev/null 2>&1
 if [ $? != 0 ]; then
-  VERSION_MESSAGE "" "Glib" "2.12"
+  VERSION_MESSAGE "" "Glib" "$GLIB_MIN_VERSION"
   exit 1
 fi
 
@@ -247,18 +252,18 @@ if [ $? != 0 ]; then
   fi
 else
   if [ "$GTK" = gtk+-2.0 ]; then
-    $PKGCONFIG --exists 'gtk+-2.0 >= 2.8' > /dev/null 2>&1
+    $PKGCONFIG --exists "gtk+-2.0 >= $GTK_MIN_VERSION" > /dev/null 2>&1
     if [ $? != 0 ]; then
       ERR "[NG]"
-      VERSION_MESSAGE "\n\n" "Gtk+2" "2.8"
+      VERSION_MESSAGE "\n\n" "Gtk+2" "$GTK_MIN_VERSION"
       exit 1
     fi
 
-    $PKGCONFIG --exists 'gtk+-2.0 < 2.12' > /dev/null 2>&1
+    $PKGCONFIG --exists "gtk+-2.0 < $GTK_COMMEND_VERSION" > /dev/null 2>&1
     if [ $? != 0 ]; then
       INFO "[OK]\n"
     else
-      WARN "[OK]. But using Gtk+2 > 2.12 is recommended to build $PACKAGE.\n"
+      WARN "[OK]. But using Gtk+2 > $GTK_COMMEND_VERSION is recommended to build $PACKAGE.\n"
     fi
   else
     INFO "[OK].\n"
@@ -297,10 +302,10 @@ if [ $? != 0 ]; then
   fi
 else
   if [ "$VTE" = 'vte' ]; then
-    $PKGCONFIG --exists 'vte >= 0.12' > /dev/null 2>&1
+    $PKGCONFIG --exists "vte >= $VTE_MIN_VERSION" > /dev/null 2>&1
     if [ $? != 0 ]; then
       ERR "[NG]"
-      VERSION_MESSAGE "\n\n" "VTE" "0.12"
+      VERSION_MESSAGE "\n\n" "VTE" "$VTE_MIN_VERSION"
       exit 1
     fi
   fi

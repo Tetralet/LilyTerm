@@ -362,7 +362,7 @@ GtkNotebook *new_window(int argc,
 		for (i=0; i<win_data->init_tab_number; i++)
 		{
 			// g_debug("send win_data->VTE_CJK_WIDTH_STR = %s to add_page()",
-			// 	win_data->VTE_CJK_WIDTH_STR);
+			//	win_data->VTE_CJK_WIDTH_STR);
 			// g_debug("win_data->init_tab_number = %d, i = %d", win_data->init_tab_number, i);
 
 			// add_page(struct Window *win_data,
@@ -921,6 +921,7 @@ gboolean window_option(struct Window *win_data, gchar *encoding, int argc, char 
 			{
 				// g_debug ("window_option(): call init_prime_user_datas() for win_data %p!", win_data);
 				init_prime_user_datas(win_data);
+#ifdef ENABLE_PROFILE
 				if (win_data->profile)
 				{
 					GKeyFile *keyfile = g_key_file_new();
@@ -936,6 +937,7 @@ gboolean window_option(struct Window *win_data, gchar *encoding, int argc, char 
 					//	win_data->execute_command_in_new_tab);
 					g_key_file_free(keyfile);
 				}
+#endif
 				win_data->executable_command_whitelists = split_string(win_data->executable_command_whitelist,
 							   "\t", -1);
 				gboolean execute_command = TRUE;
@@ -1759,12 +1761,14 @@ void window_size_request (GtkWidget *window, GtkRequisition *requisition, struct
 		if ( window_requisition.width>0 && window_requisition.height>0 )
 		{
 			GtkRequisition current_window_requisition;
-			gtk_window_get_size(GTK_WINDOW(window),
-					    &current_window_requisition.width,
-					    &current_window_requisition.height);
+			// FIXME: Due to a bug in the old GTK+2(?), we should get the requisition after the window is shown, or it will get segfault.
+			if (gtk_widget_get_mapped(win_data->window))
+				gtk_window_get_size(GTK_WINDOW(window),
+						    &current_window_requisition.width,
+						    &current_window_requisition.height);
 #  ifdef GEOMETRY
 			fprintf(stderr, "@ The current window size (\033[1;%dm%p\033[0m) is %d x %d, request size is %d x %d!!\n",
-					ANSI_COLOR_RED+(GPOINTER_TO_INT(window)%6), window, 
+					ANSI_COLOR_RED+(GPOINTER_TO_INT(window)%6), window,
 					current_window_requisition.width,
 					current_window_requisition.height,
 					window_requisition.width,
@@ -3918,7 +3922,7 @@ gboolean show_clipboard_dialog(Clipboard_Type type, struct Window *win_data,
 		{
 			gchar *tmp_str = colorful_max_new_lines(clipboard_str, -1, 7);
 			if (tmp_str)
-				win_data->temp_data = g_strdup_printf("%s%c%s%c%s", 
+				win_data->temp_data = g_strdup_printf("%s%c%s%c%s",
 								      _("Clipboard"), SEPARATE_CHAR, "Clipboard", SEPARATE_CHAR, tmp_str);
 			else
 				win_data->temp_data = NULL;

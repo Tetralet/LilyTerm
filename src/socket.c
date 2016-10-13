@@ -19,8 +19,8 @@
 //
 // Unix_Socket_States init_gtk_socket(gchar *package_name, gchar *socket_str, GSourceFunc read_function)
 //
-// package_name:  The uniq name of package.
-// 		  The socket server will create an unix soket file at /tmp/.PACKAGENAME_USERNAME:DISPLAY
+// package_name: The uniq name of package.
+//		 The socket server will create an unix soket file at /tmp/.PACKAGENAME_USERNAME:DISPLAY
 // socket_str: A string will be sent to the socket server, if it exist.
 // read_function: A function that will headle the socket_str as it's the socket server.
 //		  gboolean read_function(gchar *socket_str)
@@ -124,20 +124,24 @@ struct sockaddr_un address = {0};
 int address_len = -1;
 GIOChannel *main_channel = NULL;
 
+#if ! GLIB_CHECK_VERSION(2,5,0)
+	// SICNE glib-2.5.0/glib/gmessages.h:g_debug()
+	#define g_debug(...) g_log (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG, __VA_ARGS__)
+#endif
 #if ! GTK_CHECK_VERSION(2,23,0)
-        // END: gtk+-2.23.0/gtk/gtkmain.h: gtk_quit_add() GTK_DISABLE_DEPRECATED
-        #define g_atexit(x) gtk_quit_add(0, (GtkFunction)x, NULL)
+	// END: gtk+-2.23.0/gtk/gtkmain.h: gtk_quit_add() GTK_DISABLE_DEPRECATED
+	#define g_atexit(x) gtk_quit_add(0, (GtkFunction)x, NULL)
 #endif
 #if GLIB_CHECK_VERSION(2,31,2)
-        // END: glib-2.31.2/glib/gutils.h: g_atexit () GLIB_DEPRECATED
-        #define g_atexit atexit
+	// END: glib-2.31.2/glib/gutils.h: g_atexit () GLIB_DEPRECATED
+	#define g_atexit atexit
 #endif
 
 // it will return UNIX_SOCKET_SERVER_INITED if succeed
 Unix_Socket_States init_gtk_socket(gchar *package_name, gchar *socket_str, GSourceFunc read_function)
 {
 #ifdef DETAIL
-        g_debug("! Launch init_gtk_socket() with package_name = %s, socket_str = %s", package_name, socket_str);
+	g_debug("! Launch init_gtk_socket() with package_name = %s, socket_str = %s", package_name, socket_str);
 #endif
 	// if Socket Server call init_gtk_socket() again...
 	if (address_len > 0)
@@ -174,7 +178,7 @@ Unix_Socket_States init_gtk_socket(gchar *package_name, gchar *socket_str, GSour
 gboolean init_socket_fd()
 {
 #ifdef DETAIL
-        g_debug("! Launch init_socket_fd()");
+	g_debug("! Launch init_socket_fd()");
 #endif
 	GError *error = NULL;
 	// init socket
@@ -189,7 +193,7 @@ gboolean init_socket_fd()
 gboolean init_socket_data(gchar *package_name)
 {
 #ifdef DETAIL
-        g_debug("! Launch init_socket_data() to init %s socket!", PACKAGE);
+	g_debug("! Launch init_socket_data() to init %s socket!", PACKAGE);
 #endif
 	GError *error = NULL;
 
@@ -222,13 +226,13 @@ gboolean init_socket_data(gchar *package_name)
 gboolean set_fd_non_block(gint *fd)
 {
 #ifdef DETAIL
-        if (fd)
-                g_debug("! Launch set_fd_non_block() with fd = %d!", *fd);
-        else
-                g_debug("! Launch set_fd_non_block() with fd = (%p)!", fd);
+	if (fd)
+		g_debug("! Launch set_fd_non_block() with fd = %d!", *fd);
+	else
+		g_debug("! Launch set_fd_non_block() with fd = (%p)!", fd);
 #endif
 #ifdef SAFEMODE
-        if (fd==NULL) return FALSE;
+	if (fd==NULL) return FALSE;
 #endif
 	GError *error = NULL;
 	gint flags = fcntl(*fd, F_GETFL, 0);
@@ -243,7 +247,7 @@ gboolean set_fd_non_block(gint *fd)
 gboolean query_socket()
 {
 #ifdef DETAIL
-        g_debug("! Launch query_socket() to connect to an existing %s !", PACKAGE);
+	g_debug("! Launch query_socket() to connect to an existing %s !", PACKAGE);
 #endif
 	GError *error = NULL;
 
@@ -258,11 +262,11 @@ gboolean query_socket()
 gboolean send_socket(gchar *socket_str)
 {
 #ifdef DETAIL
-        g_debug("! Launch send_socket() to send data to the exiting %s with socket_str = \"%s\"!", PACKAGE, socket_str);
+	g_debug("! Launch send_socket() to send data to the exiting %s with socket_str = \"%s\"!", PACKAGE, socket_str);
 #endif
-        // write data!                                                                                                                                
+	// write data!
 #ifdef SAFEMODE
-        if (fcntl(socket_fd, F_GETFL) < 0) return FALSE;
+	if (fcntl(socket_fd, F_GETFL) < 0) return FALSE;
 #endif
 	GError *error = NULL;
 	GIOChannel *channel = g_io_channel_unix_new(socket_fd);
@@ -282,10 +286,10 @@ gboolean send_socket(gchar *socket_str)
 		return socket_fault(GTK_SOCKET_ERROR_WRITE_CHANNEL, error, channel, TRUE);
 
 	// flush writing datas
-        // there are three results:
-        //   G_IO_STATUS_AGAIN  this means temporarily anvailable, so try again
-        //   G_IO_STATUS_NORMAL
-        //   G_IO_STATUS_ERROR
+	// there are three results:
+	//   G_IO_STATUS_AGAIN  this means temporarily anvailable, so try again
+	//   G_IO_STATUS_NORMAL
+	//   G_IO_STATUS_ERROR
 	GIOStatus ioStatus;
 	do ioStatus = g_io_channel_flush(channel, &error);
 	while (ioStatus == G_IO_STATUS_AGAIN);
@@ -308,7 +312,7 @@ gboolean send_socket(gchar *socket_str)
 gboolean clear_channel(GIOChannel *channel, gboolean unref)
 {
 #ifdef DETAIL
-        g_debug("! Launch clear_channel() to clear channel data !");
+	g_debug("! Launch clear_channel() to clear channel data !");
 #endif
 	if (channel == NULL) return TRUE;
 
@@ -332,7 +336,7 @@ gboolean clear_channel(GIOChannel *channel, gboolean unref)
 gboolean init_socket_server(GSourceFunc read_function)
 {
 #ifdef DETAIL
-        g_debug("! Launch init_socket_server() to init a %s socket server !", PACKAGE);
+	g_debug("! Launch init_socket_server() to init a %s socket server !", PACKAGE);
 #endif
 	GError *error = NULL;
 
@@ -371,10 +375,10 @@ gboolean init_socket_server(GSourceFunc read_function)
 gboolean accept_socket(GIOChannel *source, GIOCondition condition, GSourceFunc read_function)
 {
 #ifdef DETAIL
-        g_debug("! Launch accept_socket() to accept the request from client !");
+	g_debug("! Launch accept_socket() to accept the request from client !");
 #endif
 #ifdef SAFEMODE
-        if (source==NULL) return FALSE;
+	if (source==NULL) return FALSE;
 #endif
 	GError *error = NULL;
 
@@ -406,10 +410,10 @@ gboolean accept_socket(GIOChannel *source, GIOCondition condition, GSourceFunc r
 gboolean read_socket(GIOChannel *channel, GIOCondition condition, GSourceFunc read_function)
 {
 #ifdef DETAIL
-        g_debug("! Launch read_socket() to read data !");
+	g_debug("! Launch read_socket() to read data !");
 #endif
 #ifdef SAFEMODE
-        if (channel==NULL) return FALSE;
+	if (channel==NULL) return FALSE;
 #endif
 	GError *error = NULL;
 	gchar *str = NULL;
@@ -438,7 +442,7 @@ gboolean read_socket(GIOChannel *channel, GIOCondition condition, GSourceFunc re
 gint shutdown_socket_server(gpointer data)
 {
 #ifdef DETAIL
-        g_debug("! Launch shutdown_socket_server() to shutdown the %s socket server!", PACKAGE);
+	g_debug("! Launch shutdown_socket_server() to shutdown the %s socket server!", PACKAGE);
 #endif
 	if (main_channel) clear_channel(main_channel, TRUE);
 	if (address.sun_path[0]) unlink(address.sun_path);
@@ -450,7 +454,7 @@ gint shutdown_socket_server(gpointer data)
 gboolean socket_fault(Unix_Socket_Error type, GError *error, GIOChannel *channel, gboolean unref)
 {
 #ifdef DETAIL
-        g_debug("! Launch socket_fault(%d) to show the error message !", type);
+	g_debug("! Launch socket_fault(%d) to show the error message !", type);
 #endif
 #ifdef UNIT_TEST
 #  define G_WARNING g_message
@@ -519,7 +523,7 @@ gboolean socket_fault(Unix_Socket_Error type, GError *error, GIOChannel *channel
 			break;
 		default:
 #ifdef FATAL
-                        G_WARNING("The inputed %d for socket_fault() is Out of Range !!", type);
+			G_WARNING("The inputed %d for socket_fault() is Out of Range !!", type);
 #endif
 			break;
 	}

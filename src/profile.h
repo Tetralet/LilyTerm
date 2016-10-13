@@ -76,6 +76,7 @@ void init_page_color_data_comment();
 void init_mod_keys();
 void init_colors();
 gchar *load_profile_from_dir(const gchar *dir, const gchar* profile);
+#ifdef ENABLE_PROFILE
 gdouble check_double_value(GKeyFile *keyfile, const gchar *group_name, const gchar *key, const gdouble default_value,
 			   Check_Empty enable_empty, gdouble empty_value,
 			   Check_Min check_min, gdouble min,
@@ -86,6 +87,7 @@ glong check_integer_value(GKeyFile *keyfile, const gchar *group_name, const gcha
 			  Check_Max check_max, glong max);
 gchar *check_string_value(GKeyFile *keyfile, const gchar *group_name,
 			  const gchar *key, gchar *original_value, gboolean free_original_value, Check_Empty enable_empty);
+#endif
 gboolean check_color_value (const gchar *key_name, const gchar *color_name, GdkRGBA *color, const GdkRGBA *default_color);
 gboolean accelerator_parse(const gchar *key_name, const gchar *key_value, guint *key, guint *mods);
 void create_save_failed_dialog(struct Window *win_data, gchar *message);

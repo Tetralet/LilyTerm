@@ -32,8 +32,12 @@
 #include <dirent.h>
 // for getpwuid()
 #include <pwd.h>
+#ifdef HAVE_GSTDIO_H
 // for g_chdir()
-#include <glib/gstdio.h>
+#  include <glib/gstdio.h>
+#else
+#  define g_chdir chdir
+#endif
 // for GDK_WINDOW_XID
 // #include <gdk/gdkx.h>
 

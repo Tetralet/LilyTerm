@@ -74,11 +74,9 @@ int main( int   argc,
 	// print_array ("argv", argv);
 	// i18n support. We need to support i18n under console, too.
 	setlocale(LC_ALL, "");
-	bindtextdomain (BINARY, LOCALEDIR);
-	bind_textdomain_codeset (BINARY, "UTF-8");
-	textdomain (BINARY);
-
-	const gchar *user_config_dir = g_get_user_config_dir();
+	bindtextdomain(BINARY, LOCALEDIR);
+	bind_textdomain_codeset(BINARY, "UTF-8");
+	textdomain(BINARY);
 
 #if ! defined(SAFEMODE) && defined(DEVELOP)
 	g_message("Running %s without SAFE MODE!", PACKAGE);
@@ -87,7 +85,10 @@ int main( int   argc,
 #ifdef OUT_OF_MEMORY
 #  undef g_strdup_printf
 #endif
+#ifdef ENABLE_PROFILE
+	const gchar *user_config_dir = g_get_user_config_dir();
 	if (user_config_dir) profile_dir = g_strdup_printf("%s/%s", user_config_dir, BINARY);
+#endif
 #ifdef OUT_OF_MEMORY
 	#define g_strdup_printf(...) NULL
 #endif
