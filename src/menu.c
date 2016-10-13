@@ -1562,8 +1562,6 @@ void select_font(GtkWidget *widget, struct Window *win_data)
 		page_data->font_name = gtk_font_chooser_get_font(GTK_FONT_CHOOSER(dialog));
 #ifdef USE_GTK2_GEOMETRY_METHOD
 		set_vte_font(NULL, FONT_SET_TO_SELECTED);
-#else
-		g_idle_add((GSourceFunc)idle_set_vte_font_to_selected, win_data);
 #endif
 	}
 	gtk_widget_destroy(dialog);
@@ -2250,9 +2248,6 @@ void apply_profile_from_file(const gchar *path, Apply_Profile_Type type)
 		// win_data->hints_type will setted to 1 in apply_font_to_every_vte()
 		// win_data->hints_type = win_data_backup->hints_type;
 		// win_data->resize_type = win_data_backup->resize_type;
-#  ifdef USE_GTK3_GEOMETRY_METHOD
-		win_data->resize_type = GEOMETRY_CUSTOM;
-#  endif
 		// win_data->geometry_width = win_data_backup->geometry_width;
 		// win_data->geometry_height = win_data_backup->geometry_height;
 		// win_data->keep_vte_size = win_data_backup->keep_vte_size;
@@ -2268,12 +2263,6 @@ void apply_profile_from_file(const gchar *path, Apply_Profile_Type type)
 		if (win_data->tabs_bar_position)
 			gtk_notebook_set_tab_pos(GTK_NOTEBOOK(win_data->notebook), GTK_POS_BOTTOM);
 		win_data->profile_dir_modtime = -1;
-
-#  ifdef USE_GTK3_GEOMETRY_METHOD
-		// g_debug("win_data_backup->window_status = %d", win_data_backup->window_status);
-		if (win_data->window_status == WINDOW_NORMAL) win_data->window_status = WINDOW_APPLY_PROFILE_NORMAL;
-		if (win_data->window_status == WINDOW_START_WITH_FULL_SCREEN) win_data->window_status = WINDOW_APPLY_PROFILE_FULL_SCREEN;
-#  endif
 
 		create_menu(win_data);
 
@@ -2299,43 +2288,6 @@ void apply_profile_from_file(const gchar *path, Apply_Profile_Type type)
 		//	win_data->startup_fullscreen, win_data_backup->startup_fullscreen);
 		if (win_data->startup_fullscreen != win_data_backup->startup_fullscreen)
 			deal_key_press(win_data->window, KEY_FULL_SCREEN, win_data);
-#  endif
-#  ifdef USE_GTK3_GEOMETRY_METHOD
-		// g_debug("win_data->window_status = %d, win_data_backup->window_status = %d",
-		//	win_data->window_status, win_data_backup->window_status);
-		switch (win_data->window_status)
-		{
-			case WINDOW_APPLY_PROFILE_NORMAL:
-				switch (win_data_backup->window_status)
-				{
-					case WINDOW_MAX_WINDOW:
-						deal_key_press(win_data->window, KEY_MAX_WINDOW, win_data);
-						break;
-					case WINDOW_MAX_WINDOW_TO_FULL_SCREEN:
-					case WINDOW_FULL_SCREEN:
-						deal_key_press(win_data->window, KEY_FULL_SCREEN, win_data);
-						break;
-					default:
-						break;
-				}
-				win_data->resize_type = GEOMETRY_CUSTOM;
-				keep_gtk3_window_size(win_data, FALSE);
-				break;
-			case WINDOW_APPLY_PROFILE_FULL_SCREEN:
-				switch (win_data_backup->window_status)
-				{
-					case WINDOW_NORMAL:
-					case WINDOW_MAX_WINDOW_TO_FULL_SCREEN:
-					case WINDOW_MAX_WINDOW:
-						deal_key_press(win_data->window, KEY_FULL_SCREEN, win_data);
-						break;
-					default:
-						break;
-				}
-				break;
-			default:
-				break;
-		}
 #  endif
 #  ifdef SAFEMODE
 		if (win_data->default_locale && (win_data->default_locale[0] != '\0') &&
@@ -2430,22 +2382,6 @@ void apply_profile_from_file(const gchar *path, Apply_Profile_Type type)
 		apply_font_to_every_vte(win_data->window, win_data->default_font_name,
 					column, row);
 #  endif
-#  ifdef USE_GTK3_GEOMETRY_METHOD
-		win_data->geometry_width = column;
-		win_data->geometry_height = row;
-
-		page_data = get_page_data_from_vte(win_data->current_vte, win_data, -1);
-#    ifdef SAFEMODE
-		if (page_data!=NULL)
-		{
-#    endif
-			g_free(page_data->font_name);
-			page_data->font_name = g_strdup(win_data->default_font_name);
-#    ifdef SAFEMODE
-		}
-#    endif
-		g_idle_add((GSourceFunc)idle_set_vte_font_to_selected, win_data);
-#  endif
 		// g_debug("apply_profile_from_file(): Remove win_data(%p) from window_list!", win_data);
 		window_list = g_list_remove (window_list, win_data_backup);
 		clear_win_data(win_data_backup);
@@ -2453,21 +2389,6 @@ void apply_profile_from_file(const gchar *path, Apply_Profile_Type type)
 		win_data_backup = NULL;
 #  endif
 		// gtk_widget_show_all(win_data->window);
-#  ifdef USE_GTK3_GEOMETRY_METHOD
-		// g_debug("win_data->window_status = %d, win_data_backup->window_status = %d",
-		//	win_data->window_status, win_data_backup->window_status);
-		switch (win_data->window_status)
-		{
-			case WINDOW_APPLY_PROFILE_NORMAL:
-				win_data->window_status = WINDOW_NORMAL;
-				break;
-			case WINDOW_APPLY_PROFILE_FULL_SCREEN:
-				win_data->window_status = WINDOW_FULL_SCREEN;
-				break;
-			default:
-				break;
-		}
-#  endif
 	}
 }
 #endif

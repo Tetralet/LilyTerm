@@ -408,19 +408,6 @@ gboolean check_show_or_hide_scroll_bar(struct Window *win_data)
 #ifdef USE_GTK2_GEOMETRY_METHOD
 			show = ! win_data->true_fullscreen;
 #endif
-#ifdef USE_GTK3_GEOMETRY_METHOD
-			switch (win_data->window_status)
-			{
-				case WINDOW_NORMAL:
-				case WINDOW_RESIZING_TO_NORMAL:
-				case WINDOW_MAX_WINDOW:
-				case WINDOW_APPLY_PROFILE_NORMAL:
-					show = TRUE;
-					break;
-				default:
-					break;
-			}
-#endif
 			break;
 		case ON:
 		case FORCE_ON:
@@ -613,10 +600,6 @@ void window_resizable(GtkWidget *window, GtkWidget *vte, Hints_Type hints_type)
 			hints.width_inc = 1;
 			hints.height_inc = 1;
 			break;
-#if defined(USE_GTK3_GEOMETRY_METHOD) || defined(UNIT_TEST)
-		case HINTS_SKIP_ONCE:
-			return;
-#endif
 	}
 
 	// g_debug("hints.width_inc = %d, hints.height_inc = %d",
@@ -630,18 +613,6 @@ void window_resizable(GtkWidget *window, GtkWidget *vte, Hints_Type hints_type)
 	// }
 	// else
 	// {
-#if defined(USE_GTK3_GEOMETRY_METHOD) || defined(UNIT_TEST)
-		gint min_width = 0, min_height = 0;
-		struct Window *win_data = (struct Window *)g_object_get_data(G_OBJECT(window), "Win_Data");
-		struct Page *page_data = get_page_data_from_vte(vte, win_data, -1);
-		get_hint_min_size(win_data->notebook, page_data->scroll_bar, &min_width, &min_height);
-		hints.min_width = hints.base_width + ((int)(min_width/hints.width_inc)+1)*hints.width_inc;
-		hints.min_height = hints.base_height + ((int)(min_height/hints.height_inc)+1)*hints.height_inc;
-#  ifdef GEOMETRY
-		fprintf(stderr, "\033[1;37m** window_resizable(win_data %p): window = %p, vte = %p, hints_type = %d\033[0m\n",
-			win_data, window, vte, hints_type);
-#  endif
-#endif
 #ifdef USE_GTK2_GEOMETRY_METHOD
 		hints.min_width = hints.base_width + hints.width_inc;
 		hints.min_height = hints.base_height + hints.height_inc;
@@ -662,37 +633,6 @@ void window_resizable(GtkWidget *window, GtkWidget *vte, Hints_Type hints_type)
 	//			vte_terminal_get_column_count(VTE_TERMINAL(vte)),
 	//			vte_terminal_get_row_count(VTE_TERMINAL(vte)));
 }
-
-#if defined(USE_GTK3_GEOMETRY_METHOD) || defined(UNIT_TEST)
-void get_hint_min_size(GtkWidget *notebook, GtkWidget *scrollbar, gint *min_width, gint *min_height)
-{
-#ifdef DETAIL
-	g_debug("! Launch get_hint_min_size() with notebook = %p, scrollbar = %p", notebook, scrollbar);
-#endif
-#ifdef SAFEMODE
-	if ((scrollbar==NULL) || (scrollbar==NULL) || (min_width==NULL) || (min_height==NULL)) return;
-#endif
-#ifdef USE_GTK3_GEOMETRY_METHOD
-	gtk_widget_get_preferred_width(GTK_WIDGET(notebook), min_width, NULL);
-	gtk_widget_get_preferred_height(GTK_WIDGET(notebook), min_height, NULL);
-#  ifdef GEOMETRY
-	g_debug("@ get_hint_min_size(): Get the preferred size of notebook = %d x %d", *min_width, *min_height);
-#  endif
-#endif
-	gint stepper_size, stepper_spacing, trough_border, min_slider_length;
-	gtk_widget_style_get(GTK_WIDGET(scrollbar), "stepper-size", &stepper_size, NULL);
-	gtk_widget_style_get(GTK_WIDGET(scrollbar), "stepper-spacing", &stepper_spacing, NULL);
-	gtk_widget_style_get(GTK_WIDGET(scrollbar), "trough-border", &trough_border, NULL);
-	gtk_widget_style_get(GTK_WIDGET(scrollbar), "min-slider-length", &min_slider_length, NULL);
-	*min_height = *min_height + stepper_size*2 + stepper_spacing*2 + trough_border*2 + min_slider_length;
-
-#  ifdef GEOMETRY
-	g_debug("@ get_hint_min_size(): stepper_size = %d, stepper_spacing = %d, trough_border = %d, min_slider_length = %d",
-		 stepper_size, stepper_spacing, trough_border, min_slider_length);
-	g_debug("@ get_hint_min_size(): ** FINAL: min_width = %d, min_height = %d", *min_width, *min_height);
-#  endif
-}
-#endif
 
 #if defined(vte_terminal_get_padding) || defined(UNIT_TEST)
 // This function is for replce the removed vte_terminal_get_padding()

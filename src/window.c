@@ -295,10 +295,8 @@ GtkNotebook *new_window(int argc,
 #ifdef USE_GTK2_GEOMETRY_METHOD
 	g_signal_connect(G_OBJECT(win_data->window), "size_request",
 			 G_CALLBACK(window_size_request), win_data);
-#endif
 	g_signal_connect(G_OBJECT(win_data->window), "size-allocate",
 			 G_CALLBACK(window_size_allocate), win_data);
-#ifdef USE_GTK2_GEOMETRY_METHOD
 	// fullscreen/unfullscreen
 	g_signal_connect(G_OBJECT(win_data->window), "window-state-event",
 			 G_CALLBACK(window_state_event), win_data);
@@ -409,14 +407,6 @@ GtkNotebook *new_window(int argc,
 					notebook_requisition.width, notebook_requisition.height);
 #  endif
 #endif
-#if defined(USE_GTK3_GEOMETRY_METHOD) || defined(UNIT_TEST)
-			win_data->hints_type = HINTS_SKIP_ONCE;
-#  ifdef GEOMETRY
-			fprintf(stderr, "\033[1;%dm!! new_window(win_data %p): set win_data->hints_type = %d !!\033[0m\n",
-				ANSI_COLOR_BLUE, win_data, win_data->hints_type);
-#  endif
-			resize_to_exist_widget(win_data);
-#endif
 #ifdef SAFEMODE
 		}
 #endif
@@ -476,8 +466,6 @@ GtkNotebook *new_window(int argc,
 	// fullscreen!
 #ifdef USE_GTK2_GEOMETRY_METHOD
 	if (win_data->startup_fullscreen)
-#else
-	if (win_data->window_status==WINDOW_START_WITH_FULL_SCREEN)
 #endif
 	{
 #ifdef GEOMETRY
@@ -1362,34 +1350,6 @@ gboolean deal_key_press(GtkWidget *window, Key_Bindings type, struct Window *win
 				gtk_window_unfullscreen(GTK_WINDOW(win_data->window));
 			else
 				gtk_window_fullscreen(GTK_WINDOW(win_data->window));
-			break;
-#endif
-#ifdef USE_GTK3_GEOMETRY_METHOD
-			// g_debug("deal_key_press (KEY_MAX_WINDOW): win_data->window_status = %d", win_data->window_status);
-			switch (win_data->window_status)
-			{
-				case WINDOW_NORMAL:
-					win_data->window_status = WINDOW_MAX_WINDOW;
-					gtk_window_fullscreen(GTK_WINDOW(win_data->window));
-					break;
-				case WINDOW_MAX_WINDOW:
-					win_data->window_status = WINDOW_NORMAL;
-					gtk_window_unfullscreen(GTK_WINDOW(win_data->window));
-					break;
-				case WINDOW_MAX_WINDOW_TO_FULL_SCREEN:
-				case WINDOW_FULL_SCREEN:
-					win_data->window_status = WINDOW_MAX_WINDOW;
-					show_or_hide_tabs_bar_and_scroll_bar(win_data);
-					break;
-				case WINDOW_RESIZING_TO_NORMAL:
-					break;
-				default:
-#ifdef FATAL
-					print_switch_out_of_range_error_dialog("deal_key_press", "win_data->window_status", win_data->window_status);
-#endif
-					break;
-
-			}
 #endif
 			break;
 		}
@@ -1420,47 +1380,6 @@ gboolean deal_key_press(GtkWidget *window, Key_Bindings type, struct Window *win
 
 				win_data->window_status = FULLSCREEN_FS_OK;
 				// g_debug("deal_key_press (fullscreen): win_data->true_fullscreen = %d", win_data->true_fullscreen);
-			}
-#endif
-#if defined(USE_GTK3_GEOMETRY_METHOD) || defined(UNIT_TEST)
-			// g_debug("deal_key_press: win_data->window_status = %d", win_data->window_status);
-			switch (win_data->window_status)
-			{
-				case WINDOW_NORMAL:
-					save_vte_geometry(win_data);
-				case WINDOW_START_WITH_FULL_SCREEN:
-				case WINDOW_APPLY_PROFILE_FULL_SCREEN:
-				{
-					gboolean idle = (win_data->window_status==WINDOW_APPLY_PROFILE_FULL_SCREEN);
-					if ((win_data->window_status==WINDOW_NORMAL) ||
-					    (win_data->window_status==WINDOW_START_WITH_FULL_SCREEN))
-						win_data->window_status = WINDOW_FULL_SCREEN;
-					// g_debug("deal_key_press(WINDOW_START_WITH_FULL_SCREEN): win_data->window_status = %d",
-					//	win_data->window_status);
-					show_or_hide_tabs_bar_and_scroll_bar(win_data);
-					if (idle)
-						g_idle_add((GSourceFunc)idle_gtk_window_fullscreen, win_data);
-					else
-						gtk_window_fullscreen(GTK_WINDOW(win_data->window));
-					break;
-				}
-				case WINDOW_MAX_WINDOW:
-					win_data->window_status = WINDOW_MAX_WINDOW_TO_FULL_SCREEN;
-					show_or_hide_tabs_bar_and_scroll_bar(win_data);
-					break;
-				case WINDOW_MAX_WINDOW_TO_FULL_SCREEN:
-					win_data->window_status = WINDOW_MAX_WINDOW;
-					show_or_hide_tabs_bar_and_scroll_bar(win_data);
-					break;
-				case WINDOW_FULL_SCREEN:
-				case WINDOW_APPLY_PROFILE_NORMAL:
-					gtk_window_unfullscreen(GTK_WINDOW(win_data->window));
-					if (win_data->window_status==WINDOW_FULL_SCREEN)
-						win_data->window_status = WINDOW_RESIZING_TO_NORMAL;
-					g_idle_add((GSourceFunc)idle_show_or_hide_tabs_bar_and_scroll_bar, win_data);
-					break;
-				default:
-					break;
 			}
 #endif
 			break;
@@ -1702,24 +1621,6 @@ void window_style_set(GtkWidget *window, GtkStyle *previous_style, struct Window
 #  endif
 	keep_gtk2_window_size (win_data, win_data->current_vte, GEOMETRY_CHANGING_THEME);
 #endif
-#ifdef USE_GTK3_GEOMETRY_METHOD
-	if (win_data->hints_type != HINTS_SKIP_ONCE)
-	{
-#  ifdef GEOMETRY
-		fprintf(stderr, "\033[1;%dm!! window_style_set(win_data %p): Calling keep_gtk3_window_size() with hints_type = %d\n",
-			ANSI_COLOR_MAGENTA, win_data, win_data->hints_type);
-#  endif
-		win_data->resize_type = GEOMETRY_AUTOMATIC;
-		keep_gtk3_window_size(win_data, FALSE);
-	}
-	else
-	{
-#  ifdef GEOMETRY
-		fprintf(stderr, "\033[1;%dm!! window_style_set(win_data %p): Calling keep_gtk3_window_size() with hints_type = %d: DON'T WORK!!\n",
-			ANSI_COLOR_RED, win_data, win_data->hints_type);
-#  endif
-	}
-#endif
 }
 
 #if defined(USE_GTK2_GEOMETRY_METHOD) || defined(UNIT_TEST)
@@ -1917,27 +1818,6 @@ void window_size_allocate(GtkWidget *window, GtkAllocation *allocation, struct W
 		fprintf(stderr, "! The final window size (\033[1;%dm%p\033[0m) is %d x %d (keep_vte_size = 0x%X)\n",
 				ANSI_COLOR_RED+(GPOINTER_TO_INT(window)%6), window,
 				window_requisition.width, window_requisition.height, win_data->keep_vte_size);
-	widget_size_allocate (window, allocation, "window");
-#  endif
-}
-#endif
-
-#ifdef USE_GTK3_GEOMETRY_METHOD
-void window_size_allocate(GtkWidget *window, GtkAllocation *allocation, struct Window *win_data)
-{
-#  ifdef DETAIL
-	g_debug("! Launch window_size_allocate() with window =%p, win_data = %p", window, win_data);
-#  endif
-#  ifdef GEOMETRY
-	GtkRequisition window_requisition;
-	gtk_window_get_size(GTK_WINDOW(window), &window_requisition.width, &window_requisition.height);
-	gint ansi_color = ANSI_COLOR_CYAN;
-	if ((window_requisition.width < 408) || (window_requisition.height < 239))
-		ansi_color = ANSI_COLOR_RED;
-
-	fprintf(stderr, "\033[1;%dm!! window_size_allocate(win_data %p): "
-			"The final window size (for %p) is Requisition: %d x %d (Allocation: %d x %d)\033[0m\n",
-		ansi_color, win_data, window, window_requisition.width, window_requisition.height, allocation->width, allocation->height);
 	widget_size_allocate (window, allocation, "window");
 #  endif
 }
@@ -2259,10 +2139,6 @@ void notebook_page_added(GtkNotebook *notebook, GtkWidget *child, guint page_num
 #  endif
 		update_window_hint(win_data, page_data);
 	}
-#  ifdef USE_GTK3_GEOMETRY_METHOD
-	else
-		update_window_hint(win_data, page_data);
-#  endif
 }
 
 
@@ -2380,9 +2256,6 @@ void remove_notebook_page(GtkNotebook *notebook, GtkWidget *child, guint page_nu
 			// window_resizable(page_data->window, page_data->vte, 2, -1);
 #ifdef USE_GTK2_GEOMETRY_METHOD
 			hide_and_show_tabs_bar(win_data , win_data->show_tabs_bar);
-#endif
-#if defined(USE_GTK3_GEOMETRY_METHOD) || defined(UNIT_TEST)
-			g_idle_add((GSourceFunc)idle_hide_and_show_tabs_bar, win_data);
 #endif
 			// g_debug("remove_notebook_page(): page_data->font_name = %s, win_data->restore_font_name = %s",
 			//	page_data->font_name, win_data->restore_font_name);
@@ -2541,255 +2414,6 @@ void keep_gtk2_window_size (struct Window *win_data, GtkWidget *vte, Geometry_Re
 }
 #endif
 
-#if defined(USE_GTK3_GEOMETRY_METHOD) || defined(UNIT_TEST)
-void keep_gtk3_window_size(struct Window *win_data, gboolean idle)
-{
-#  ifdef DETAIL
-	g_debug("! Launch keep_gtk3_window_size() with win_data = %p", win_data);
-#  endif
-#  ifdef SAFEMODE
-	if (win_data==NULL) return;
-#  endif
-#  ifdef GEOMETRY
-	// g_debug("keep_gtk3_window_size(): win_data->fullscreen = %d, win_data->window_status = %d, win_data->current_vte = %p",
-	//	win_data->fullscreen, win_data->window_status, win_data->current_vte);
-	fprintf(stderr, "\033[1;%dm** keep_gtk3_window_size(): win_data->window_status = %d, win_data->hints_type = %d\033[0m\n",
-		ANSI_COLOR_MAGENTA, win_data->window_status, win_data->hints_type);
-#  endif
-	if ((win_data->window_status != WINDOW_NORMAL) || (win_data->current_vte==NULL)) return;
-
-	switch (win_data->hints_type)
-	{
-		case HINTS_FONT_BASE:
-		{
-			if (win_data->resize_type == GEOMETRY_AUTOMATIC)
-			{
-				win_data->geometry_width = vte_terminal_get_column_count(VTE_TERMINAL(win_data->current_vte));
-				win_data->geometry_height = vte_terminal_get_row_count(VTE_TERMINAL(win_data->current_vte));
-			}
-#  ifdef GEOMETRY
-			gint ansi_color = ANSI_COLOR_MAGENTA;
-			if ((win_data->geometry_width<40) || (win_data->geometry_height<12))
-				ansi_color = ANSI_COLOR_RED;
-			fprintf(stderr, "\033[1;%dm** keep_gtk3_window_size(HINTS_FONT_BASE)(win_data %p, resize_type = %d): "
-				"final vte size = %ld x %ld (font: %ld x %ld)\033[0m\n",
-				ansi_color, win_data, win_data->resize_type, win_data->geometry_width, win_data->geometry_height,
-				vte_terminal_get_char_width(VTE_TERMINAL(win_data->current_vte)),
-				vte_terminal_get_char_height(VTE_TERMINAL(win_data->current_vte)));
-#  endif
-			break;
-		}
-		case HINTS_NONE:
-		{
-			// find the current vte size
-			GtkAllocation vte_size = {0};
-			gtk_widget_get_allocation(win_data->current_vte, &vte_size);
-			struct Page *page_data = get_page_data_from_vte(win_data->current_vte, win_data, -1);
-#  ifdef GEOMETRY
-			gint ansi_color = ANSI_COLOR_MAGENTA;
-			if ((vte_size.width==0) || (vte_size.height==0) || (vte_size.width< 200) || (vte_size.height<239))
-				ansi_color = ANSI_COLOR_RED;
-			fprintf(stderr, "\033[1;%dm** keep_gtk3_window_size(HINTS_NONE)(win_data %p, current_vte %p, resize_type = %d):  "
-				"final vte size = %ld x %ld (%d x %d) (%ld x %ld) "
-				"(font: %ld x %ld) (border: L %d, R %d, T %d, B %d)\033[0m\n",
-				ansi_color, win_data, win_data->current_vte, win_data->resize_type,
-				win_data->geometry_width, win_data->geometry_height, vte_size.width, vte_size.height,
-				vte_terminal_get_column_count(VTE_TERMINAL(win_data->current_vte)),
-				vte_terminal_get_row_count(VTE_TERMINAL(win_data->current_vte)),
-				vte_terminal_get_char_width(VTE_TERMINAL(win_data->current_vte)),
-				vte_terminal_get_char_height(VTE_TERMINAL(win_data->current_vte)),
-				page_data->border->left, page_data->border->right, page_data->border->top, page_data->border->bottom);
-#  endif
-			if (win_data->resize_type == GEOMETRY_AUTOMATIC)
-			{
-				win_data->geometry_width = vte_size.width - page_data->border->left - page_data->border->right;
-				win_data->geometry_height = vte_size.height - page_data->border->top - page_data->border->bottom;
-			}
-			break;
-		}
-		case HINTS_SKIP_ONCE:
-			return;
-	}
-	// g_debug("keep_gtk3_window_size(): FINAL: hints_type = %d, column = %ld, row = %ld",
-	//	win_data->hints_type, win_data->geometry_width, win_data->geometry_height);
-	// Dirty Hack: column=1 and row=1 when vte is initing...
-	if (!((win_data->geometry_width < 0) && (win_data->geometry_height < 0)))
-	{
-		if (idle)
-			g_idle_add((GSourceFunc)idle_to_resize_window, win_data);
-		else
-			idle_to_resize_window(win_data);
-	}
-#  ifdef GEOMETRY
-	else
-		fprintf(stderr, "\033[1;31m** keep_gtk3_window_size(): resize failed with win_data->hints_type = %d, column = %ld, row = %ld !!\033[0m\n",
-			win_data->hints_type, win_data->geometry_width, win_data->geometry_height);
-#  endif
-}
-#endif
-
-#if defined(USE_GTK3_GEOMETRY_METHOD) || defined(UNIT_TEST)
-void resize_to_exist_widget(struct Window *win_data)
-{
-#  ifdef DETAIL
-	g_debug("! Launch resize_to_exist_widget() with win_data = %p", win_data);
-#  endif
-#  ifdef SAFEMODE
-	if (win_data==NULL) return;
-#  endif
-	GtkWidget *widget = win_data->notebook;
-	gboolean show_tabs_bar = get_hide_or_show_tabs_bar(win_data, win_data->show_tabs_bar);
-	if (show_tabs_bar == FALSE)
-	{
-		// find the current vte size
-#  ifdef SAFEMODE
-		if (win_data->current_vte==NULL) return;
-#  endif
-		struct Page *page_data = get_page_data_from_vte(win_data->current_vte, win_data, -1);
-#  ifdef SAFEMODE
-		if (page_data) return;
-#  endif
-			widget = page_data->hbox;
-	}
-
-	GtkAllocation allocation = {0};
-	gtk_widget_get_allocation(widget, &allocation);
-
-	gtk_window_resize (GTK_WINDOW(win_data->window), allocation.width, allocation.height);
-#  ifdef GEOMETRY
-	fprintf(stderr, "\033[1;%dm!! resize_to_exist_widget(win_data %p, show_tabs_bar = %d): resize window size to %d x %d!!\033[0m\n",
-		ANSI_COLOR_YELLOW, win_data, show_tabs_bar, allocation.width, allocation.height);
-#  endif
-}
-#endif
-
-#if defined(USE_GTK3_GEOMETRY_METHOD) || defined(UNIT_TEST)
-void save_vte_geometry(struct Window *win_data)
-{
-#  ifdef DETAIL
-	g_debug("! Launch save_vte_geometry() with win_data = %p", win_data);
-#  endif
-#  ifdef SAFEMODE
-	if ((win_data==NULL) || (win_data->notebook==NULL)) return;
-#  endif
-
-	if (win_data->hints_type==HINTS_NONE)
-	{
-		GtkAllocation allocation = {0};
-		gtk_widget_get_allocation(win_data->current_vte, &allocation);
-		win_data->geometry_width = allocation.width;
-		win_data->geometry_height = allocation.height;
-	}
-	else
-	{
-		win_data->geometry_width = vte_terminal_get_column_count(VTE_TERMINAL(win_data->current_vte));
-		win_data->geometry_height = vte_terminal_get_row_count(VTE_TERMINAL(win_data->current_vte));
-	}
-#  ifdef GEOMETRY
-	fprintf(stderr, "\033[1;35m!! save_vte_geometry(): set win_data->geometry_width = %ld, win_data->geometry_height = %ld\033[0m\n",
-		win_data->geometry_width, win_data->geometry_height);
-#  endif
-}
-#endif
-
-#if defined(USE_GTK3_GEOMETRY_METHOD) || defined(UNIT_TEST)
-gboolean idle_show_or_hide_tabs_bar_and_scroll_bar(struct Window *win_data)
-{
-	if (check_if_win_data_is_still_alive(win_data)) show_or_hide_tabs_bar_and_scroll_bar(win_data);
-	return FALSE;
-}
-#endif
-
-#if defined(USE_GTK3_GEOMETRY_METHOD) || defined(UNIT_TEST)
-gboolean idle_gtk_window_fullscreen(struct Window *win_data)
-{
-	if (check_if_win_data_is_still_alive(win_data)) gtk_window_fullscreen(GTK_WINDOW(win_data->window));
-	return FALSE;
-}
-#endif
-
-#if defined(USE_GTK3_GEOMETRY_METHOD) || defined(UNIT_TEST)
-gboolean show_or_hide_tabs_bar_and_scroll_bar(struct Window *win_data)
-{
-#  ifdef DETAIL
-	g_debug("! Launch show_or_hide_tabs_bar_and_scroll_bar() with  win_data = %p", win_data);
-#  endif
-#  ifdef SAFEMODE
-	if (win_data==NULL) return FALSE;
-#  endif
-	// g_debug("show_or_hide_tabs_bar_and_scroll_bar(): win_data->window_status = %d", win_data->window_status);
-	hide_and_show_tabs_bar(win_data, win_data->show_tabs_bar);
-	fullscreen_show_hide_scroll_bar(win_data);
-
-	switch (win_data->window_status)
-	{
-		case WINDOW_NORMAL:
-		case WINDOW_MAX_WINDOW:
-			window_resizable(win_data->window, win_data->current_vte, win_data->hints_type);
-			break;
-		case WINDOW_RESIZING_TO_NORMAL:
-			window_resizable(win_data->window, win_data->current_vte, win_data->hints_type);
-			win_data->window_status = WINDOW_NORMAL;
-			break;
-		case WINDOW_MAX_WINDOW_TO_FULL_SCREEN:
-		case WINDOW_FULL_SCREEN:
-		case WINDOW_APPLY_PROFILE_NORMAL:
-		case WINDOW_APPLY_PROFILE_FULL_SCREEN:
-			break;
-		default:
-#  ifdef FATAL
-			print_switch_out_of_range_error_dialog("show_or_hide_tabs_bar_and_scroll_bar",
-							       "win_data->window_status", win_data->window_status);
-#  endif
-			break;
-	}
-	return FALSE;
-}
-#endif
-
-#if defined(USE_GTK3_GEOMETRY_METHOD) || defined(UNIT_TEST)
-gboolean idle_to_resize_window(struct Window *win_data)
-{
-#  ifdef DETAIL
-	g_debug("! Launch idle_to_resize_window() with win_data = %p", win_data);
-#  endif
-	if (check_if_win_data_is_still_alive(win_data))
-#  ifdef HAVE_GTK_WINDOW_RESIZE_TO_GEOMETRY
-		gtk_window_resize_to_geometry(GTK_WINDOW(win_data->window), win_data->geometry_width, win_data->geometry_height);
-#  else
-		// FIXME: the GTK3_GEOMETRY_METHOD need rewrite!!
-		// g_debug("! Launch idle_to_resize_window() with win_data->geometry_width = %ld, win_data->geometry_height = %ld",
-		//	win_data->geometry_width, win_data->geometry_height);
-		// gtk_window_resize(GTK_WINDOW(win_data->window), win_data->geometry_width, win_data->geometry_height);
-		return FALSE;
-#  endif
-#  ifdef GEOMETRY
-	fprintf(stderr, "\033[1;%dm** idle_to_resize_window(): resize with hints_type = %d, column = %ld, row = %ld !!\033[0m\n",
-		ANSI_COLOR_MAGENTA, win_data->hints_type, win_data->geometry_width, win_data->geometry_height);
-#  endif
-	return FALSE;
-}
-#endif
-
-#if defined(USE_GTK3_GEOMETRY_METHOD) || defined(UNIT_TEST)
-gboolean idle_set_vte_font_to_selected(struct Window *win_data)
-{
-	if (check_if_win_data_is_still_alive(win_data)) set_vte_font(NULL, FONT_SET_TO_SELECTED);
-	return FALSE;
-}
-#endif
-
-#if defined(USE_GTK3_GEOMETRY_METHOD) || defined(UNIT_TEST)
-gboolean idle_hide_and_show_tabs_bar(struct Window *win_data)
-{
-#ifdef DETAIL
-	g_debug("! Launch idle_hide_and_show_tabs_bar() with win_data = %p", win_data);
-#endif
-	if (check_if_win_data_is_still_alive(win_data)) hide_and_show_tabs_bar(win_data, win_data->show_tabs_bar);
-	return FALSE;
-}
-#endif
-
 #ifdef FATAL
 void dump_data (struct Window *win_data, struct Page *page_data)
 {
@@ -2845,7 +2469,9 @@ void dump_data (struct Window *win_data, struct Page *page_data)
 #endif
 	g_debug("- win_data->show_tabs_bar = %d", win_data->show_tabs_bar);
 	// g_debug("- win_data->fullscreen_show_scroll_bar = %d", win_data->fullscreen_show_scroll_bar);
+#ifdef USE_GTK2_GEOMETRY_METHOD
 	g_debug("- win_data->window_status = %d", win_data->window_status);
+#endif
 	g_debug("- win_data->window = %p", win_data->window);
 	g_debug("- win_data->notebook = %p", win_data->notebook);
 	g_debug("- win_data->show_close_button_on_tab = %d", win_data->show_close_button_on_tab);
@@ -2879,11 +2505,6 @@ void dump_data (struct Window *win_data, struct Page *page_data)
 		g_debug("- win_data->user_keys[%d].mods = 0x%x", i, win_data->user_keys[i].mods);
 	}
 	g_debug("- win_data->hints_type = %d", win_data->hints_type);
-#ifdef USE_GTK3_GEOMETRY_METHOD
-	g_debug("- win_data->resize_type = %d", win_data->resize_type);
-	g_debug("- win_data->geometry_width = %ld", win_data->geometry_width);
-	g_debug("- win_data->geometry_height = %ld", win_data->geometry_height);
-#endif
 	g_debug("- win_data->lost_focus = %d", win_data->lost_focus);
 #ifdef USE_GTK2_GEOMETRY_METHOD
 	g_debug("- win_data->keep_vte_size = 0x%X", win_data->keep_vte_size);
@@ -3578,13 +3199,10 @@ void update_window_hint(struct Window *win_data,
 	if (gtk_notebook_get_n_pages(GTK_NOTEBOOK(page_data->notebook)) == 1 &&
 	    page_data->font_size == 0)
 		win_data->hints_type = HINTS_FONT_BASE;
-	else if ((check_if_every_vte_is_using_restore_font_name(win_data)) ||
 #ifdef USE_GTK2_GEOMETRY_METHOD
-		  win_data->fullscreen)
-#else
-		  win_data->window_status)
-#endif
+	else if ((check_if_every_vte_is_using_restore_font_name(win_data)) ||  win_data->fullscreen)
 		win_data->hints_type = HINTS_FONT_BASE;
+#endif
 	else
 		win_data->hints_type = HINTS_NONE;
 #  ifdef GEOMETRY
@@ -3619,38 +3237,13 @@ gboolean hide_and_show_tabs_bar(struct Window *win_data , Switch_Type show_tabs_
 	// window_resizable(win_data->window, win_data->current_vte, 2, 1);
 #ifdef USE_GTK2_GEOMETRY_METHOD
 	if (! (win_data->fullscreen || win_data->window_status))
-#else
-	if (win_data->window_status == WINDOW_NORMAL)
-#endif
 	{
-#ifdef USE_GTK2_GEOMETRY_METHOD
 #  ifdef GEOMETRY
 		g_debug("@ hide_and_show_tabs_bar(%p): Call keep_gtk2_window_size() with keep_vte_size = 0x%X",
 			win_data->window, win_data->keep_vte_size);
 #  endif
 		// g_debug("hide_and_show_tabs_bar(): launch keep_gtk2_window_size()!");
 		keep_gtk2_window_size (win_data, win_data->current_vte, GEOMETRY_SHOW_HIDE_TAB_BAR);
-#endif
-#ifdef USE_GTK3_GEOMETRY_METHOD
-#  ifdef GEOMETRY
-		fprintf(stderr, "\033[1;%dm!! hide_and_show_tabs_bar(win_data %p)(GEOMETRY_AUTOMATIC): "
-				"Calling keep_gtk3_window_size() with hints_type = %d\n",
-			ANSI_COLOR_MAGENTA, win_data, win_data->hints_type);
-#  endif
-		win_data->resize_type = GEOMETRY_AUTOMATIC;
-		keep_gtk3_window_size(win_data, FALSE);
-#endif
-	}
-#ifdef USE_GTK3_GEOMETRY_METHOD
-	if (win_data->window_status == WINDOW_RESIZING_TO_NORMAL)
-	{
-#  ifdef GEOMETRY
-		fprintf(stderr, "\033[1;%dm!! hide_and_show_tabs_bar(win_data %p)(GEOMETRY_CUSTOM): "
-				"Calling keep_gtk3_window_size() with hints_type = %d\n",
-			ANSI_COLOR_MAGENTA, win_data, win_data->hints_type);
-#  endif
-		win_data->resize_type = GEOMETRY_CUSTOM;
-		keep_gtk3_window_size(win_data, FALSE);
 	}
 #endif
 
@@ -3686,14 +3279,10 @@ gboolean get_hide_or_show_tabs_bar(struct Window *win_data, Switch_Type show_tab
 	switch (show_tabs_bar)
 	{
 		case AUTOMATIC:
-			if ((gtk_notebook_get_n_pages(GTK_NOTEBOOK(win_data->notebook)) > 1) &&
 #ifdef USE_GTK2_GEOMETRY_METHOD
-			     (win_data->true_fullscreen==FALSE))
+			if ((gtk_notebook_get_n_pages(GTK_NOTEBOOK(win_data->notebook)) > 1) && (win_data->true_fullscreen==FALSE))
 #else
-			     ((win_data->window_status==WINDOW_NORMAL) ||
-			      (win_data->window_status==WINDOW_RESIZING_TO_NORMAL) ||
-			      (win_data->window_status==WINDOW_APPLY_PROFILE_NORMAL) ||
-			      (win_data->window_status==WINDOW_MAX_WINDOW)))
+			if (gtk_notebook_get_n_pages(GTK_NOTEBOOK(win_data->notebook)) > 1)
 #endif
 				show = TRUE;
 			else
@@ -3754,28 +3343,6 @@ gboolean hide_scrollback_lines(GtkWidget *menu_item, struct Window *win_data)
 		win_data->show_scroll_bar = FORCE_ON;
 	else if ((show == FALSE) && (win_data->true_fullscreen == FALSE))
 		win_data->show_scroll_bar = FORCE_OFF;
-#else
-	switch (win_data->window_status)
-	{
-		case WINDOW_NORMAL:
-		case WINDOW_RESIZING_TO_NORMAL:
-		case WINDOW_MAX_WINDOW:
-		case WINDOW_APPLY_PROFILE_NORMAL:
-			if (show==FALSE) win_data->show_scroll_bar = FORCE_OFF;
-			break;
-		case WINDOW_MAX_WINDOW_TO_FULL_SCREEN:
-		case WINDOW_FULL_SCREEN:
-		case WINDOW_START_WITH_FULL_SCREEN:
-		case WINDOW_APPLY_PROFILE_FULL_SCREEN:
-			if (show) win_data->show_scroll_bar = FORCE_ON;
-			break;
-		default:
-#ifdef FATAL
-			print_switch_out_of_range_error_dialog("hide_scrollback_lines", "win_data->window_status", win_data->window_status);
-#endif
-			break;
-
-	}
 #endif
 	// g_debug("hide_scrollback_lines(): show = %d, win_data->show_scroll_bar = %d",
 	//	show, win_data->show_scroll_bar);
@@ -3808,30 +3375,6 @@ gboolean hide_scrollback_lines(GtkWidget *menu_item, struct Window *win_data)
 #  endif
 		// g_debug("hide_scrollback_lines(): launch keep_gtk2_window_size()!");
 		keep_gtk2_window_size (win_data, win_data->current_vte, GEOMETRY_SHOW_HIDE_SCROLL_BAR);
-	}
-#endif
-#ifdef USE_GTK3_GEOMETRY_METHOD
-	if (win_data->window_status == WINDOW_NORMAL)
-	{
-#  ifdef GEOMETRY
-		fprintf(stderr, "\033[1;%dm!! hide_scrollback_lines(win_data %p)(GEOMETRY_AUTOMATIC): "
-				"Calling keep_gtk3_window_size() with hints_type = %d\033[0m\n",
-			ANSI_COLOR_MAGENTA, win_data, win_data->hints_type);
-#  endif
-		win_data->resize_type = GEOMETRY_AUTOMATIC;
-		keep_gtk3_window_size(win_data, FALSE);
-	}
-#endif
-#ifdef USE_GTK3_GEOMETRY_METHOD
-	if (win_data->window_status == WINDOW_RESIZING_TO_NORMAL)
-	{
-#  ifdef GEOMETRY
-		fprintf(stderr, "\033[1;%dm!! hide_scrollback_lines(win_data %p)(GEOMETRY_CUSTOM): "
-				"Calling keep_gtk3_window_size() with hints_type = %d\033[0m\n",
-			ANSI_COLOR_MAGENTA, win_data, win_data->hints_type);
-#  endif
-		win_data->resize_type = GEOMETRY_CUSTOM;
-		keep_gtk3_window_size(win_data, FALSE);
 	}
 #endif
 	return TRUE;
