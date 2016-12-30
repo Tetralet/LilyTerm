@@ -1515,7 +1515,7 @@ void new_tab_with_locale(GtkWidget *locale_menuitem, gboolean VTE_CJK_WIDTH)
 			 NULL,
 			 NULL,
 			 get_VTE_CJK_WIDTH_str(VTE_CJK_WIDTH+1),
-			 TRUE);
+			 win_data->new_tab_next_to_current);
 #ifdef SAFEMODE
 	else
 		add_page(win_data,
@@ -1527,7 +1527,7 @@ void new_tab_with_locale(GtkWidget *locale_menuitem, gboolean VTE_CJK_WIDTH)
 			 NULL,
 			 NULL,
 			 get_VTE_CJK_WIDTH_str(VTE_CJK_WIDTH+1),
-			 TRUE);
+			 win_data->new_tab_next_to_current);
 
 #endif
 FINISH:

@@ -414,6 +414,7 @@ void init_window_parameters(struct Window *win_data)
 	// win_data->fullscreen;
 	// win_data->true_fullscreen;
 	win_data->show_tabs_bar = AUTOMATIC;
+	win_data->new_tab_next_to_current = TRUE;
 	// win_data->fullscreen_show_scroll_bar = 1;
 	// win_data->window_status;
 	// win_data->window;
@@ -1593,6 +1594,9 @@ void get_user_settings(struct Window *win_data, const gchar *encoding)
 			// g_debug("Get show_tabs_bar = %d, win_data->show_tabs_bar = %d",
 			//	show_tabs_bar, win_data->show_tabs_bar);
 
+			win_data->new_tab_next_to_current = check_boolean_value(keyfile, "page", "new_tab_next_to_current",
+									 win_data->new_tab_next_to_current),
+
 			win_data->tabs_bar_position = check_boolean_value(keyfile, "page", "tabs_bar_position",
 								     win_data->tabs_bar_position);
 
@@ -2769,6 +2773,10 @@ GString *save_user_settings(GtkWidget *widget, struct Window *win_data)
 			g_string_append(contents, "show_tabs_bar =\n\n");
 			break;
 	}
+	g_string_append_printf(contents, "# Placement of new tabs on the tab bar.\n"
+					"# 0: New tabs are placed as the last tab on the tab bar.\n"
+					"# 1: New tabs are placed next to the current tab.\n"
+					"new_tab_next_to_current = %d\n\n", win_data->new_tab_next_to_current);
 	g_string_append_printf(contents,"# The position of tabs bar.\n"
 					"# 0: Top, 1: bottom.\n"
 					"tabs_bar_position = %d\n\n", win_data->tabs_bar_position);

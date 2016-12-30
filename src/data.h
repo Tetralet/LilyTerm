@@ -1147,6 +1147,7 @@ struct Window
 	FullScreen_Type window_status;
 #endif
 	Switch_Type show_tabs_bar;
+	gboolean new_tab_next_to_current;
 	// the component of a single window
 	GtkWidget *window;
 	GtkWidget *notebook;

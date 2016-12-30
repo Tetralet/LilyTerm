@@ -560,7 +560,7 @@ struct Page *add_page(struct Window *win_data,
 #endif
 		// g_debug("The new page no is %d", page_data->page_no);
 		// move the page to next to original page
-		if (page_data_prev && (add_to_next))
+		if (page_data_prev && add_to_next)
 		{
 			gtk_notebook_reorder_child(GTK_NOTEBOOK(page_data->notebook), page_data->hbox,
 								page_data_prev->page_no + 1);
@@ -1633,7 +1633,7 @@ gboolean open_url_with_external_command (gchar *url, gint tag, struct Window *wi
 				 NULL,
 				 win_data->user_command[tag].environ,
 				 get_VTE_CJK_WIDTH_str(win_data->user_command[tag].VTE_CJK_WIDTH),
-				 TRUE);
+				 win_data->new_tab_next_to_current);
 			g_free(encoding);
 			break;
 		}
