@@ -381,7 +381,7 @@ GtkNotebook *new_window(int argc,
 					NULL,
 					user_environ,
 					FINAL_VTE_CJK_WIDTH,
-					TRUE))
+					win_data->new_tab_next_to_current))
 				return NULL;
 		}
 	}
@@ -1192,7 +1192,7 @@ gboolean deal_key_press(GtkWidget *window, Key_Bindings type, struct Window *win
 				 NULL,
 				 page_data->environ,
 				 page_data->VTE_CJK_WIDTH_STR,
-				 TRUE);
+				 win_data->new_tab_next_to_current);
 			break;
 		case KEY_CLOSE_TAB:
 			// close page
