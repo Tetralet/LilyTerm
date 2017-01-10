@@ -460,6 +460,7 @@ $ECHO "LDFLAGS = $LDFLAGS" >> .config
 $ECHO "MAKE = $MAKE" >> .config
 $ECHO "GTK = $GTK" >> .config
 $ECHO "VTE = $VTE" >> .config
+$ECHO "PRINTF = $PRINTF" >> .config
 $ECHO "GNOME_CONTROL_CENTER = $GNOME_CONTROL_CENTER" >> .config
 $ECHO "GNOME_CONTROL_CENTER_DIR = $GNOME_CONTROL_CENTER_DIR" >> .config
 
