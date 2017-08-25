@@ -672,10 +672,10 @@ typedef enum {
 } Key_Binding_Groups;
 
 #ifdef FATAL
-	#define KEYS 46
+	#define KEYS 48
 	#define FIXED_KEYS 3
 #else
-	#define KEYS 45
+	#define KEYS 47
 	#define FIXED_KEYS 2
 #endif
 
@@ -725,6 +725,8 @@ typedef enum {
 	KEY_CLEAN_SCROLLBACK_LINES,				// NEW
 	KEY_DISABLE_URL_L,					// NEW
 	KEY_DISABLE_URL_R,					// NEW
+    KEY_WINDOW_OPACITY_INC,
+    KEY_WINDOW_OPACITY_DEC,
 #ifdef FATAL
 	KEY_DUMP_DATA,						// 40
 #endif
