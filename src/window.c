@@ -915,10 +915,14 @@ gboolean window_option(struct Window *win_data, gchar *encoding, int argc, char 
 			// g_debug("Set win_data->hold to TRUE!!");
 			win_data->hold = TRUE;
 		}
-		else if ((!strcmp(argv[i], "-e")) || (!strcmp(argv[i], "-x")) || (!strcmp(argv[i], "--execute")))
+		else if ((!strcmp(argv[i], "-e")) || (!strcmp(argv[i], "-x")) ||
+			 (!strcmp(argv[i], "-E")) || (!strcmp(argv[i], "-X")) ||
+		         (!strcmp(argv[i], "--execute")))
 		{
+			gboolean confirm_to_execute_command = ! ((!strcmp(argv[i], "-E")) || (!strcmp(argv[i], "-X")));
+
 			if (++i==argc)
-				g_critical("missing command after -e/-x/--execute option!\n");
+				g_critical("missing command after -e/-x/-E/-X/--execute option!\n");
 			else
 			{
 				// g_debug ("window_option(): call init_prime_user_datas() for win_data %p!", win_data);
@@ -944,6 +948,7 @@ gboolean window_option(struct Window *win_data, gchar *encoding, int argc, char 
 							   "\t", -1);
 				gboolean execute_command = TRUE;
 				if (win_data->confirm_to_execute_command &&
+				    confirm_to_execute_command &&
 				    confirm_to_execute &&
 				    (! check_string_in_array(argv[i], win_data->executable_command_whitelists)))
 				{

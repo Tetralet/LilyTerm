@@ -74,7 +74,8 @@ void command_option(int   argc,
 		{
 			single_process = FALSE;
 		}
-		else if ((!strcmp(argv[i], "-e")) || (!strcmp(argv[i], "-x")) || (!strcmp(argv[i], "--execute")))
+		else if ((!strcmp(argv[i], "-e")) || (!strcmp(argv[i], "-x")) ||
+			 (!strcmp(argv[i], "-E")) || (!strcmp(argv[i], "-X")) || (!strcmp(argv[i], "--execute")))
 		{
 			// If -e or -x options specified then ignore anything beyond them
 			break;
@@ -159,7 +160,8 @@ gchar *get_help_message_usage(gchar *profile, gboolean convert_to_html)
 	g_string_append_printf(help_message,
 					_("Use -u/--user_profile {%s} to use a specified profile.\n"), PROFILE);
 	g_string_append(help_message,   _("Use -v/--version to show the version information.\n"));
-	g_string_append(help_message,   _("Use -e/-x/--execute {Command} to run a command. (Must be the final option).\n\n"));
+	g_string_append(help_message,   _("Use -e/-x/--execute {Command} to run a command. (Must be the final option).\n"));
+	g_string_append(help_message,   _("Use -E/-X {Command} to run a command without showing a comfirm dialog window.\n\n"));
 	g_string_append_printf(help_message,
 					_("The %s system configure file is: %s\n"), PACKAGE, SYS_PROFILE);
 

@@ -1225,6 +1225,8 @@ gchar *get_user_profile_path(struct Window *win_data, int argc, char *argv[])
 			}
 			else if ((!strcmp(argv[i], "-e")) ||
 				 (!strcmp(argv[i], "-x")) ||
+				 (!strcmp(argv[i], "-E")) ||
+				 (!strcmp(argv[i], "-X")) ||
 				 (!strcmp(argv[i], "--execute")))
 				break;
 		}
