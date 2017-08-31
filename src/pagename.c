@@ -773,6 +773,18 @@ gboolean update_page_name(GtkWidget *window, GtkWidget *vte, gchar *page_name, G
 				gtk_label_set_text(GTK_LABEL(label), label_name);
 			// g_debug("Updated the tab name to %s!", page_name);
 			page_name_updated = TRUE;
+#ifdef USE_GTK3_GEOMETRY_METHOD
+			if (win_data->window_status != WINDOW_APPLY_PROFILE_NORMAL)
+			{
+#  ifdef GEOMETRY
+				fprintf(stderr, "\033[1;%dm!! update_page_name(%s)(win_data %p): "
+						"Calling keep_gtk3_window_size() with hints_type = %d, win_data->window_status = %d\033[0m\n",
+				ANSI_COLOR_MAGENTA, label_name, win_data, win_data->hints_type, win_data->window_status);
+#  endif
+				win_data->resize_type = GEOMETRY_AUTOMATIC;
+				keep_gtk3_window_size(win_data, FALSE);
+			}
+#endif
 		}
 #ifdef DEBUG
 		// else

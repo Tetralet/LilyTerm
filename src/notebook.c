@@ -215,6 +215,10 @@ struct Page *add_page(struct Window *win_data,
 	//g_debug("The default encoding of vte is %s",
 	//	vte_terminal_get_encoding(VTE_TERMINAL(page_data->vte)));
 
+#if (defined (VTE_HAS_INNER_BORDER) && defined(USE_GTK3_GEOMETRY_METHOD)) || defined(UNIT_TEST)
+	gtk_widget_style_get(GTK_WIDGET(page_data->vte), "inner-border", &(page_data->border), NULL);
+#endif
+
 	// save the data first
 	// g_debug("Save the data with page_data->vte = %p, page_data = %p", page_data->vte, page_data);
 	g_object_set_data(G_OBJECT(page_data->vte), "Page_Data", page_data);
@@ -810,6 +814,35 @@ void vte_size_allocate (GtkWidget *vte, GtkAllocation *allocation, struct Page *
 			win_data->window, vte, column, row);
 	}
 #endif
+#ifdef USE_GTK3_GEOMETRY_METHOD
+	// fprintf(stderr, "\033[1;36m** vte_size_allocate(): the allocated size is %d x %d (%ldx%ld)\033[0m\n",
+	//	allocation->width, allocation->height,
+	//	vte_terminal_get_column_count(VTE_TERMINAL(vte)),
+	//	vte_terminal_get_row_count(VTE_TERMINAL(vte)));
+#  ifdef SAFEMODE
+	if ((page_data==NULL) || (page_data->window==NULL)) return;
+#  endif
+	struct Window *win_data = (struct Window *)g_object_get_data(G_OBJECT(page_data->window), "Win_Data");
+
+	glong column = vte_terminal_get_column_count(VTE_TERMINAL(vte));
+	glong row = vte_terminal_get_row_count(VTE_TERMINAL(vte));
+	gboolean check_col_row = (column < 80) || (row < 24);
+
+	if (win_data->hints_type==HINTS_NONE)
+	{
+		column = vte_terminal_get_char_width(VTE_TERMINAL(vte))*column + page_data->border->left + page_data->border->right;
+		row = vte_terminal_get_char_height(VTE_TERMINAL(vte))*row + page_data->border->top + page_data->border->bottom;
+	}
+	check_col_row |= (column != win_data->geometry_width);
+	check_col_row |= (row != win_data->geometry_height);
+
+	if (((win_data->window_status!=WINDOW_NORMAL) && (win_data->window_status!=WINDOW_RESIZING_TO_NORMAL)) && check_col_row)
+	{
+		fprintf(stderr, "\033[1;31m!! vte_size_allocate(win_data %p)(vte %p): the allocated size is %d x %d (%ldx%ld) (saved: %ld x %ld)\033[0m\n",
+			win_data, vte, allocation->width, allocation->height, column, row, win_data->geometry_width, win_data->geometry_height);
+	}
+	else
+#endif
 		widget_size_allocate (vte, allocation, "vte");
 }
 #endif
@@ -994,6 +1027,9 @@ gboolean close_page(GtkWidget *vte, gint close_type)
 			gtk_notebook_set_current_page(GTK_NOTEBOOK(page_data->notebook), page_data->page_no+1);
 	}
 
+#if defined(USE_GTK3_GEOMETRY_METHOD) || defined(UNIT_TEST)
+	gtk_border_free(page_data->border);
+#endif
 	g_free(page_data->page_name);
 
 	// Note that due to historical reasons,

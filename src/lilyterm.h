@@ -117,6 +117,11 @@ gchar *get_init_dir(pid_t pid, gchar *pwd, gchar *home);
 #if defined(USE_GTK2_GEOMETRY_METHOD) || defined(UNIT_TEST)
 void keep_gtk2_window_size (struct Window *win_data, GtkWidget *vte, Geometry_Resize_Type keep_vte_size);
 #endif
+#if defined(USE_GTK3_GEOMETRY_METHOD) || defined(UNIT_TEST)
+void keep_gtk3_window_size(struct Window *win_data, gboolean idle);
+gboolean show_or_hide_tabs_bar_and_scroll_bar();
+gboolean idle_set_vte_font_to_selected(struct Window *win_data);
+#endif
 void dim_window(struct Window *win_data, gint dim_window);
 void clear_window(struct Window *win_data);
 void set_window_icon(GtkWidget *window);

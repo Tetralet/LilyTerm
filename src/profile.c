@@ -447,6 +447,10 @@ void init_window_parameters(struct Window *win_data)
 	// win_data->User_KeyValue user_keys[KEYS];
 	// win_data->hints_type;
 	// win_data->resize_type;
+#ifdef USE_GTK3_GEOMETRY_METHOD
+	win_data->geometry_width = SYSTEM_COLUMN;
+	win_data->geometry_height = SYSTEM_ROW;
+#endif
 	win_data->lost_focus = FALSE;
 	// win_data->keep_vte_size;
 	// win_data->menu;
@@ -1332,6 +1336,11 @@ void get_user_settings(struct Window *win_data, const gchar *encoding)
 
 			win_data->default_row = check_integer_value(keyfile, "main", "row", win_data->default_row,
 								    DISABLE_EMPTY_STR, SYSTEM_ROW, DISABLE_ZERO, CHECK_MIN, 1, NO_CHECK_MAX, 0);
+#  ifdef USE_GTK3_GEOMETRY_METHOD
+			win_data->geometry_width = win_data->default_column;
+			win_data->geometry_height = win_data->default_row;
+#  endif
+
 #  ifdef ENABLE_RGBA
 			win_data->transparent_window = check_integer_value(keyfile, "main", "transparent_window",
 							 win_data->transparent_window, DISABLE_EMPTY_STR, 0, ENABLE_ZERO, CHECK_MIN, 0, CHECK_MAX, 2);
@@ -1351,6 +1360,10 @@ void get_user_settings(struct Window *win_data, const gchar *encoding)
 #  ifdef USE_GTK2_GEOMETRY_METHOD
 			win_data->startup_fullscreen = check_boolean_value(keyfile, "main", "fullscreen",
 									   win_data->fullscreen);
+#  endif
+#  ifdef USE_GTK3_GEOMETRY_METHOD
+			gboolean fullscreen = check_boolean_value(keyfile, "main", "fullscreen", win_data->window_status);
+			if (fullscreen) win_data->window_status = WINDOW_START_WITH_FULL_SCREEN;
 #  endif
 #  if defined(ENABLE_VTE_BACKGROUND) || defined(FORCE_ENABLE_VTE_BACKGROUND)
 			win_data->transparent_background = check_integer_value(keyfile, "main", "transparent_background",
@@ -2526,6 +2539,10 @@ GString *save_user_settings(GtkWidget *widget, struct Window *win_data)
 #  ifdef USE_GTK2_GEOMETRY_METHOD
 	g_string_append_printf(contents,"# Start up with fullscreen.\n"
 					"fullscreen = %d\n\n", win_data->true_fullscreen);
+#  endif
+#  ifdef USE_GTK3_GEOMETRY_METHOD
+	g_string_append_printf(contents,"# Start up with fullscreen.\n"
+					"fullscreen = %d\n\n", (win_data->window_status==WINDOW_FULL_SCREEN));
 #  endif
 #  ifdef ENABLE_RGBA
 	g_string_append_printf(contents,"# Transparent window. Only enabled when the window manager were composited.\n"

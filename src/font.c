@@ -340,6 +340,9 @@ void reset_vte_size(GtkWidget *vte, gchar *new_font_name, Font_Reset_Type type)
 						vte_terminal_get_column_count(VTE_TERMINAL(win_data->current_vte)),
 						vte_terminal_get_row_count(VTE_TERMINAL(win_data->current_vte)));
 #endif
+#ifdef USE_GTK3_GEOMETRY_METHOD
+			apply_font_to_every_vte( page_data->window, new_font_name, win_data->geometry_width, win_data->geometry_height);
+#endif
 			break;
 		case RESET_ALL_TO_DEFAULT:
 			// reset window size & font size for every vte
@@ -406,10 +409,10 @@ void apply_font_to_every_vte(GtkWidget *window, gchar *new_font_name, glong colu
 	// window_resizable(window, page_data->vte, 2, 1);
 	// g_debug("apply_font_to_every_vte(): launch keep_window_size()!");
 
-#ifdef USE_GTK2_GEOMETRY_METHOD
 	// Don't need to call keep_gtk2_window_size() when fullscreen
 	switch (win_data->window_status)
 	{
+#ifdef USE_GTK2_GEOMETRY_METHOD
 		case FULLSCREEN_NORMAL:
 		case FULLSCREEN_UNFS_OK:
 #  ifdef GEOMETRY
@@ -417,11 +420,27 @@ void apply_font_to_every_vte(GtkWidget *window, gchar *new_font_name, glong colu
 				win_data->keep_vte_size);
 #  endif
 			keep_gtk2_window_size (win_data, page_data->vte, GEOMETRY_CHANGING_FONT);
+#endif
+#ifdef USE_GTK3_GEOMETRY_METHOD
+		case WINDOW_NORMAL:
+		case WINDOW_APPLY_PROFILE_NORMAL:
+#  ifdef GEOMETRY
+			fprintf(stderr, "\033[1;%dm!! apply_font_to_every_vte(win_data %p): Calling keep_gtk3_window_size() with hints_type = %d\n",
+				ANSI_COLOR_MAGENTA, win_data, win_data->hints_type);
+#  endif
+			window_resizable(win_data->window, win_data->current_vte, win_data->hints_type);
+			if (win_data->window_status==WINDOW_NORMAL)
+				win_data->resize_type = GEOMETRY_AUTOMATIC;
+			else
+				win_data->resize_type = GEOMETRY_CUSTOM;
+			win_data->geometry_width = column;
+			win_data->geometry_height = row;
+			keep_gtk3_window_size(win_data, TRUE);
+#endif
 			break;
 		default:
 			break;
 	}
-#endif
 }
 
 gboolean check_if_every_vte_is_using_restore_font_name(struct Window *win_data)

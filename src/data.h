@@ -876,7 +876,28 @@ typedef enum {
 typedef enum {
 	HINTS_FONT_BASE,
 	HINTS_NONE,
+#if defined(USE_GTK3_GEOMETRY_METHOD) || defined(UNIT_TEST)
+	HINTS_SKIP_ONCE,
+#endif
 } Hints_Type;
+
+#if defined(USE_GTK3_GEOMETRY_METHOD) || defined(UNIT_TEST)
+typedef enum {
+	WINDOW_NORMAL,				// 0
+	WINDOW_RESIZING_TO_NORMAL,		// 1
+	WINDOW_MAX_WINDOW,			// 2
+	WINDOW_MAX_WINDOW_TO_FULL_SCREEN,	// 3
+	WINDOW_FULL_SCREEN,			// 4
+	WINDOW_START_WITH_FULL_SCREEN,		// 5
+	WINDOW_APPLY_PROFILE_NORMAL,		// 6
+	WINDOW_APPLY_PROFILE_FULL_SCREEN,	// 7
+} Window_Status;
+
+typedef enum {
+	GEOMETRY_AUTOMATIC,
+	GEOMETRY_CUSTOM,
+} Geometry_Resize_Type;
+#endif
 
 #if defined(GEOMETRY) || defined(UNIT_TEST) || defined(DEBUG) || defined(PAGENAME)
 typedef enum {
@@ -1146,6 +1167,9 @@ struct Window
 #ifdef USE_GTK2_GEOMETRY_METHOD
 	FullScreen_Type window_status;
 #endif
+#ifdef USE_GTK3_GEOMETRY_METHOD
+	Window_Status window_status;
+#endif
 	Switch_Type show_tabs_bar;
 	gboolean new_tab_next_to_current;
 	// the component of a single window
@@ -1197,6 +1221,16 @@ struct Window
 	// 0: Update the hints with base size = 1
 	// 1: Update the hints with base size = font char size
 	Hints_Type hints_type;
+
+#if defined(USE_GTK3_GEOMETRY_METHOD) || defined(UNIT_TEST)
+	// Geometry_Resize_Type = GEOMETRY_AUTOMATIC, resize form current_vte
+	// Geometry_Resize_Type = GEOMETRY_CUSTOM, resize from geometry_width and geometry_height
+	Geometry_Resize_Type resize_type;
+	// geometry_width, geometry_height = column * row when hints_type=HINTS_NONE
+	// geometry_width, geometry_height = width * height (in pixel) when hints_type=HINTS_FONT_BASE
+	glong geometry_width;
+	glong geometry_height;
+#endif
 
 	gboolean lost_focus;
 
@@ -1459,6 +1493,9 @@ struct Page
 	GtkWidget *label_button;
 	GtkWidget *hbox;
 	GtkWidget *vte;
+#if defined(USE_GTK3_GEOMETRY_METHOD) || defined(UNIT_TEST)
+	GtkBorder *border;
+#endif
 	GtkAdjustment *adjustment;
 	GtkWidget *scroll_bar;
 
