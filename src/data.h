@@ -1453,7 +1453,13 @@ struct Window
 	gchar *executable_command_whitelist;
 	gchar **executable_command_whitelists;
 	gboolean execute_command_in_new_tab;
-	gboolean join_as_new_tab;
+	// default: join_as_new_tab = 0; execute_command_in_new_tab = 1
+	// join_as_new_tab =  0, execute_command_in_new_tab = 0: (0)
+	// join_as_new_tab =  1, execute_command_in_new_tab = 0: (1)
+	// join_as_new_tab =  0, execute_command_in_new_tab = 1: (1)
+	// join_as_new_tab =  1, execute_command_in_new_tab = 1: (1)
+	// join_as_new_tab = -1, execute_command_in_new_tab = 1: (0)
+	gint join_as_new_tab;
 	gchar *running_process_whitelist;
 	gchar **running_process_whitelists;
 	gboolean confirm_to_paste;

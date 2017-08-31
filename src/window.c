@@ -157,7 +157,9 @@ GtkNotebook *new_window(int argc,
 		// if (-e option) and (win_data->execute_command_in_new_tab)...
 		// g_debug("last_active_window = %p, win_data->argc = %d, win_data->execute_command_in_new_tab = %d",
 		//	last_active_window, win_data->argc, win_data->execute_command_in_new_tab);
-		if ((last_active_window) && (((win_data->argc) && (win_data->execute_command_in_new_tab)) || win_data->join_as_new_tab))
+		if ((last_active_window) &&
+		    (((win_data->argc) && (win_data->execute_command_in_new_tab)) || win_data->join_as_new_tab) &&
+		    win_data->join_as_new_tab != -1)
 		{
 			// g_debug ("Run the -e option on the new tab of current window!");
 			gint i, init_tab_number = win_data->init_tab_number;
@@ -1029,7 +1031,9 @@ gboolean window_option(struct Window *win_data, gchar *encoding, int argc, char 
 		else if (!strcmp(argv[i], "--safe-mode"))
 			safe_mode=TRUE;
 		else if ((!strcmp(argv[i], "-j")) || (!strcmp(argv[i], "--join")))
-			win_data->join_as_new_tab = TRUE;
+			win_data->join_as_new_tab = 1;
+		else if (!strcmp(argv[i], "-J"))
+			win_data->join_as_new_tab = -1;
 		else if ((!strcmp(argv[i], "-n")) || (!strcmp(argv[i], "--tab_names")))
 		{
 			if (i==(argc-1))

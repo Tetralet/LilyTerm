@@ -154,6 +154,7 @@ gchar *get_help_message_usage(gchar *profile, gboolean convert_to_html)
 //	g_string_append(help_message,   _("\t\t\tThis option will be ignored when using with -e/-x/--execute option.\n"));
 	g_string_append(help_message,   _("Use -s/--separate to run in separate process.\n"));
 	g_string_append(help_message,   _("Use -j/--join to integrate new created tabs to the last accessed window.\n"));
+	g_string_append(help_message,   _("Use -J to disable integrating new created tabs to the last accessed window.\n"));
 	g_string_append(help_message,   _("Use -p/--profile to get a profile sample.\n"));
 	g_string_append_printf(help_message,
 					_("Use -u/--user_profile {%s} to use a specified profile.\n"), PROFILE);
