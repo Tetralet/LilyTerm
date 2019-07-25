@@ -658,6 +658,7 @@ void init_page_parameters(struct Window *win_data, struct Page *page_data)
 
 //	page_data->timeout_id = 0;
 //	page_data->urgent_bell_handler_id = 0;
+//	page_data->child_exited_handler_id = 0;
 
 	page_data->font_name = g_strdup(win_data->default_font_name);
 //	page_data->font_size = 0;

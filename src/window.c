@@ -3124,6 +3124,7 @@ void dump_data (struct Window *win_data, struct Page *page_data)
 	g_debug("- page_data->window_title_signal = %ld", page_data->window_title_signal);
 	g_debug("- page_data->timeout_id = %d", page_data->timeout_id);
 	g_debug("- page_data->urgent_bell_handler_id = %ld", page_data->urgent_bell_handler_id);
+	g_debug("- page_data->child_exited_handler_id = %ld", page_data->child_exited_handler_id);
 	g_debug("- page_data->font_name = %s", page_data->font_name);
 	g_debug("- page_data->font_size = %d", page_data->font_size);
 	g_debug("- page_data->check_root_privileges = %d", page_data->check_root_privileges);

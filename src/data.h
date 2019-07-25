@@ -1613,6 +1613,8 @@ struct Page
 	guint timeout_id;
 	// the id of urgent_bell g_signal
 	gulong urgent_bell_handler_id;
+	// the id of child_exited g_signal
+	gulong child_exited_handler_id;
 
 // ---- font ---- //
 

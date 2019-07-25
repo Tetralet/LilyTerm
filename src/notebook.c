@@ -507,7 +507,7 @@ struct Page *add_page(struct Window *win_data,
 			 G_CALLBACK(vte_size_changed), GINT_TO_POINTER(FONT_ZOOM_OUT));
 	// the close page event
 	if (! (win_data->hold && win_data->command))
-		g_signal_connect(G_OBJECT(page_data->vte), "child_exited", G_CALLBACK(close_page), GINT_TO_POINTER(CLOSE_TAB_NORMAL));
+		page_data->child_exited_handler_id = g_signal_connect(G_OBJECT(page_data->vte), "child_exited", G_CALLBACK(close_page), GINT_TO_POINTER(CLOSE_TAB_NORMAL));
 
 	// when get focus, update `current_vte', hints, and window title
 	g_signal_connect(G_OBJECT(page_data->vte), "grab-focus", G_CALLBACK(vte_grab_focus), NULL);
@@ -998,6 +998,8 @@ gboolean close_page(GtkWidget *vte, gint close_type)
 		g_source_remove (page_data->timeout_id);
 	if (page_data->urgent_bell_handler_id)
 		g_signal_handler_disconnect(G_OBJECT(page_data->vte), page_data->urgent_bell_handler_id);
+	if (page_data->child_exited_handler_id)
+		g_signal_handler_disconnect(G_OBJECT(page_data->vte), page_data->child_exited_handler_id);
 
 	// kill running shell
 #ifdef SAFEMODE
@@ -1935,6 +1937,7 @@ void page_data_dup(struct Page *page_data_prev, struct Page *page_data)
 
 	page_data->timeout_id = 0;
 	page_data->urgent_bell_handler_id = 0;
+	page_data->child_exited_handler_id = 0;
 
 	page_data->font_name = g_strdup(page_data_prev->font_name);
 	// page_data->font_size = 0;
