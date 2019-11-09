@@ -1540,6 +1540,14 @@ gboolean deal_key_press(GtkWidget *window, Key_Bindings type, struct Window *win
 			if (win_data->disable_url_when_ctrl_pressed)
 				clean_hyperlink(win_data, page_data);
 			break;
+        case KEY_WINDOW_OPACITY_INC:
+            win_data->window_opacity += 0.05;
+            set_window_opacity( NULL, 0, win_data->window_opacity, win_data);
+            break;
+        case KEY_WINDOW_OPACITY_DEC:
+            win_data->window_opacity -= 0.05;
+            set_window_opacity( NULL, 0, win_data->window_opacity, win_data);
+            break;
 #ifdef FATAL
 		case KEY_DUMP_DATA:
 #ifdef SAFEMODE

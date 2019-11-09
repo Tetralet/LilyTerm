@@ -755,6 +755,9 @@ void init_user_keys(struct Window *win_data)
 	win_data->user_keys[KEY_CLEAN_SCROLLBACK_LINES].value = g_strdup("Ctrl H");
 	win_data->user_keys[KEY_DISABLE_URL_L].value = g_strdup("Control_L");
 	win_data->user_keys[KEY_DISABLE_URL_R].value = g_strdup("Control_R");
+
+    win_data->user_keys[KEY_WINDOW_OPACITY_INC].value = g_strdup("Ctrl+Shift Up");
+    win_data->user_keys[KEY_WINDOW_OPACITY_DEC].value = g_strdup("Ctrl+Shift Down");
 #ifdef FATAL
 	// dump_data
 	win_data->user_keys[KEY_DUMP_DATA].value = g_strdup("Ctrl Print");
@@ -838,6 +841,11 @@ void init_key_bindings_name_and_group()
 	system_keys[KEY_DISABLE_URL_L].group = KEY_GROUP_NONE;
 	system_keys[KEY_DISABLE_URL_R].name = "disable_url_for_temporary_R";
 	system_keys[KEY_DISABLE_URL_R].group = KEY_GROUP_NONE;
+
+	system_keys[KEY_WINDOW_OPACITY_INC].name = "window_opacity_inc";
+	system_keys[KEY_WINDOW_OPACITY_INC].group = KEY_GROUP_MISC;
+	system_keys[KEY_WINDOW_OPACITY_DEC].name = "window_opacity_dec";
+	system_keys[KEY_WINDOW_OPACITY_DEC].group = KEY_GROUP_MISC;
 #ifdef FATAL
 	system_keys[KEY_DUMP_DATA].name = "dump_data";
 	system_keys[KEY_DUMP_DATA].group = KEY_GROUP_MISC;
@@ -999,6 +1007,13 @@ void init_key_bindings()
 	system_keys[KEY_DISABLE_URL_R].topic = "Disable URL for temporary";
 	system_keys[KEY_DISABLE_URL_R].comment = "# Disable URL for temporary.";
 	system_keys[KEY_DISABLE_URL_R].translation = "Disable URL for temporary.";
+
+    system_keys[KEY_WINDOW_OPACITY_INC].topic = "Window opacity inc";
+	system_keys[KEY_WINDOW_OPACITY_INC].comment = "# Window opacity increase.";
+	system_keys[KEY_WINDOW_OPACITY_INC].translation = "Window opacity increase.";
+    system_keys[KEY_WINDOW_OPACITY_DEC].topic = "Window opacity dec";
+	system_keys[KEY_WINDOW_OPACITY_DEC].comment = "# Window opacity decrease.";
+	system_keys[KEY_WINDOW_OPACITY_DEC].translation = "Window opacity decrease.";
 #ifdef FATAL
 	system_keys[KEY_DUMP_DATA].topic = _("Dump runtime debug data");
 	system_keys[KEY_DUMP_DATA].comment = "# Dump the runtime data of LilyTerm for debug.";
