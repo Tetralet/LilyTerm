@@ -275,7 +275,7 @@ msgstr "  * <Ctrl><O>\t\t全选 Vte 终端窗口里的文字。\n"
 #| "  * <Ctrl><X/V>\t\tCopy the text to clipboard / Paste the text in "
 #| "clipboard.\n"
 msgid "  * <Ctrl><Del/Ins>     Copy/Paste the text in clipboard.\n"
-msgstr "  * <Ctrl><X/V>\t\t将文字复制至剪贴板/贴上剪贴板中的文字。\n"
+msgstr "  * <Ctrl><X/V>\t\t将文字复制至剪贴板/粘贴剪贴板中的文字。\n"
 
 #: console.c:245
 #, fuzzy
@@ -283,7 +283,7 @@ msgstr "  * <Ctrl><X/V>\t\t将文字复制至剪贴板/贴上剪贴板中的文�
 #| "  * <Ctrl><X/V>\t\tCopy the text to clipboard / Paste the text in "
 #| "clipboard.\n"
 msgid "  * <Shift><Del/Ins>    Copy/Paste the text in primary clipboard.\n"
-msgstr "  * <Ctrl><X/V>\t\t将文字复制至剪贴板/贴上剪贴板中的文字。\n"
+msgstr "  * <Ctrl><X/V>\t\t将文字复制至剪贴板/粘贴主要剪贴板中的文字。\n"
 
 #: console.c:246
 #, fuzzy
@@ -291,7 +291,7 @@ msgstr "  * <Ctrl><X/V>\t\t将文字复制至剪贴板/贴上剪贴板中的文�
 msgid ""
 "                        (i.e. Emulate middle button mouse click to Copy/"
 "Paste)\n"
-msgstr "\t\t\t（即：模拟按下了鼠标中键贴上文字）"
+msgstr "\t\t\t（即：模拟按下鼠标中键粘贴文字）"
 
 #: console.c:248
 msgid "Some key bindings that disabled by default but maybe useful:\n"
@@ -492,7 +492,7 @@ msgstr ""
 #, fuzzy
 #| msgid "Change colors"
 msgid "Invert color"
-msgstr "改变颜色"
+msgstr "颜色反转"
 
 #: dialog.c:706 menu.c:125
 #, c-format
@@ -501,7 +501,7 @@ msgstr "改变分页上的 %s 颜色"
 
 #: dialog.c:791 dialog.c:3170
 msgid "Bold Demo Text"
-msgstr "粗体文字范例"
+msgstr "粗体文字示例"
 
 #: dialog.c:845
 msgid "Confirm to close multi tabs"
@@ -815,7 +815,7 @@ msgstr ""
 
 #: dialog.c:3293
 msgid "Not supported locale!"
-msgstr "不被支持的 locale！"
+msgstr "不支持的 locale！"
 
 #: dialog.c:3364
 #, fuzzy, c-format
@@ -825,7 +825,7 @@ msgstr "您应当升级至 %s 以支持这个功能。"
 
 #: dialog.c:3365
 msgid "Not supported feature!"
-msgstr "不被支持的功能！"
+msgstr "不支持的功能！"
 
 #: dialog.c:3513
 #, fuzzy, c-format
@@ -966,13 +966,13 @@ msgstr "粘贴"
 #, fuzzy
 #| msgid "Copy to clipboard."
 msgid "View clipboard"
-msgstr "复制至剪贴板。"
+msgstr "查看剪贴板。"
 
 #: menu.c:216
 #, fuzzy
 #| msgid "Copy to clipboard."
 msgid "View primary clipboard"
-msgstr "复制至剪贴板。"
+msgstr "查看主要剪贴板。"
 
 #: menu.c:227
 msgid "Scrollback lines"
@@ -1413,7 +1413,7 @@ msgstr "将文字复制至剪贴板。"
 
 #: profile.c:944
 msgid "Paste the text"
-msgstr "贴上文字"
+msgstr "粘贴文字"
 
 #: profile.c:946
 #, fuzzy
@@ -1425,7 +1425,7 @@ msgstr "全选 Vte 终端窗口里的文字。"
 #, fuzzy
 #| msgid "Copy the text to clipboard."
 msgid "Copy the text to primary clipboard"
-msgstr "将文字复制至剪贴板。"
+msgstr "将文字复制至主要剪贴板。"
 
 #: profile.c:950
 msgid ""
@@ -1438,7 +1438,7 @@ msgstr ""
 #, fuzzy
 #| msgid "Paste the text in clipboard."
 msgid "Paste the text in primary clipboard"
-msgstr "贴上剪贴板中的文字。"
+msgstr "粘贴主要剪贴板中的文字。"
 
 #: profile.c:954
 msgid ""
@@ -1725,7 +1725,7 @@ msgstr "\t第 #%d 分页: (%d) %s\n"
 #~ msgid ""
 #~ "  * <Shift><Insert>\tVte default behavior, Paste the text in primary "
 #~ "clipboard.\n"
-#~ msgstr "  * <Shift><Insert>\tVte 默认功能，贴上主剪贴板中的文字。\n"
+#~ msgstr "  * <Shift><Insert>\tVte 默认功能，粘贴主剪贴板中的文字。\n"
 
 #, fuzzy
 #~| msgid "Continue anyway?"
@@ -1754,7 +1754,7 @@ msgstr "\t第 #%d 分页: (%d) %s\n"
 #, fuzzy
 #~| msgid "Paste the text"
 #~ msgid "Paste to every vte"
-#~ msgstr "贴上文字"
+#~ msgstr "粘贴文字"
 
 #~ msgid "Change the Opacity of window:"
 #~ msgstr "改变窗口透明度："
